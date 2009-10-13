@@ -1,0 +1,2560 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+  <assembly>
+    <name>AK.F1.Timing</name>
+  </assembly>
+  <members>
+    <member name="T:AK.F1.Timing.DefaultMessagePublisher">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.DefaultMessagePublisher]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.DefaultMessagePublisher.#ctor(AK.F1.Timing.IMessageReader)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.DefaultMessagePublisher" /> class and
+            specifies the underlying <see cref="T:AK.F1.Timing.IMessageReader" /> from which
+            <see cref="T:AK.F1.Timing.Message" /> are read.
+            </summary>
+      <param name="reader">The underlying <see cref="T:AK.F1.Timing.IMessageReader" /> from
+            which <see cref="T:AK.F1.Timing.Message" /> are read.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="reader" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.DefaultMessagePublisher.Log">
+      <summary>
+            Gets the <see cref="T:log4net.ILog" /> for this instance.
+            </summary>
+    </member>
+    <member name="E:AK.F1.Timing.DefaultMessagePublisher.MessagePublished">
+      <summary>
+            Occurs when a <see cref="T:AK.F1.Timing.Message" /> is published.
+            </summary>
+    </member>
+    <member name="P:AK.F1.Timing.DefaultMessagePublisher.MessageReader">
+      <summary>
+            Gets the underlying <see cref="T:AK.F1.Timing.IMessageReader" /> from which
+            <see cref="T:AK.F1.Timing.Message" /> are read.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.DefaultMessagePublisher.ProcessMessage(AK.F1.Timing.Message)">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for M:AK.F1.Timing.DefaultMessagePublisher.ProcessMessage(AK.F1.Timing.Message)]</p>
+      </summary>
+      <param name="message">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="message"/&gt; documentation for "M:AK.F1.Timing.DefaultMessagePublisher.ProcessMessage(AK.F1.Timing.Message)"]</p>
+      </param>
+    </member>
+    <member name="M:AK.F1.Timing.DefaultMessagePublisher.ProcessMessages">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for M:AK.F1.Timing.DefaultMessagePublisher.ProcessMessages]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.DefaultMessagePublisher.Start">
+      <summary>
+            Starts the publising messages.
+            </summary>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when the reader has been disposed of.
+            </exception>
+      <exception cref="T:System.InvalidOperationException">
+            Thrown when this publisher has already been started.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.DefaultMessagePublisher.Stop">
+      <summary>
+            Stops publising messages.
+            </summary>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when the reader has been disposed of.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Disposable">
+      <summary>
+            Defines a base for a class which implements the Disposable pattern. This class
+            is <see langword="abstract" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Disposable.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Disposable" /> class</summary>
+    </member>
+    <member name="M:AK.F1.Timing.Disposable.CheckDisposed">
+      <summary>
+            Helper method to throw a <see cref="T:System.ObjectDisposedException" /> if this instance
+            has been disposed of.
+            </summary>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when this instance has been disposed of.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Disposable.Dispose(System.Boolean)">
+      <summary>
+            Disposes of this instance.
+            </summary>
+      <param name="disposing">
+        <see langword="true" /> if being called explicitly, otherwise;
+            <see langword="false" /> to indicate being called implicitly by the GC.</param>
+    </member>
+    <member name="P:AK.F1.Timing.Disposable.IsDisposed">
+      <summary>
+            Gets a value indicating if this instance has been disposed of.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.DriverStatus">
+      <summary>
+            Defines the various statuses of a driver during a session.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.DriverStatus.OnTrack">
+      <summary>
+            Indicates that the driver is currently out on track.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.DriverStatus.InPits">
+      <summary>
+            Indicates that the drivers is currently in the pits.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.DriverStatus.Out">
+      <summary>
+            Indicates that the driver is out of session session.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.IMessagePublisher">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.IMessagePublisher]</p>
+      </summary>
+    </member>
+    <member name="E:AK.F1.Timing.IMessagePublisher.MessagePublished">
+      <summary>
+            Occurs when a <see cref="T:AK.F1.Timing.Message" /> is published.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.IMessagePublisher.Start">
+      <summary>
+            Starts the publising messages.
+            </summary>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when the reader has been disposed of.
+            </exception>
+      <exception cref="T:System.InvalidOperationException">
+            Thrown when this publisher has already been started.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessagePublisher.Stop">
+      <summary>
+            Stops publising messages.
+            </summary>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when the reader has been disposed of.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.IMessageReader">
+      <summary>
+            Allows <see cref="T:AK.F1.Timing.Message" />s to be read from an underlying data stream.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageReader.Read">
+      <summary>
+            Reads the next <see cref="T:AK.F1.Timing.Message" /> from the underlying data stream.
+            </summary>
+      <returns>The next <see cref="T:AK.F1.Timing.Message" /></returns>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when the reader has been disposed of.
+            </exception>
+      <exception cref="T:System.IO.EndOfStreamException">
+            Thrown when the end of the message stream has been reached.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when an IO error occurs reading the next message from the stream.
+            </exception>
+      <exception cref="T:System.FormatException">
+            Thrown when the format of the next message of the stream is invalid or the message
+            itself is not recognised.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.IMessageVisitor">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.IMessageVisitor]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.AdjustSessionTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateAirTemperatureMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateCommentaryMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateCopyrightMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverBestTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverCarNumberMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverCompletedLapsMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverGapTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverIntervalTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverLapNumberMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverNameMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverPositionMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverStatusMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateHumidityMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateKeyframeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateRaceLapNumberMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateRaceStatusMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateRefreshRateMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateSessionTypeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateStreamValidityMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateSystemMessageMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateTrackTemperatureMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateWetDryMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateWindAngleMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.IMessageVisitor.Visit(AK.F1.Timing.Messages.UpdateWindSpeedMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Message">
+      <summary>
+            Defines the base class for live timing messages. This class is <see langword="abstract" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Message.#ctor">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Message" /> class.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Message.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="F:AK.F1.Timing.Message.Empty">
+      <summary>
+            Defines an empty message. This field is <see langword="readonly" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Message.ToString(System.String,System.Object[])">
+      <summary>
+            Returns a <see cref="T:System.String" /> representation of this instance using the
+            specified format <see cref="T:System.String" /> and format arguments.
+            </summary>
+      <param name="format">The format.</param>
+      <param name="args">The format arguments.</param>
+      <returns>A <see cref="T:System.String" /> representation of this instance using the
+            specified format <see cref="T:System.String" /> and format arguments.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="format" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.FormatException">
+            Thrown when the format of <paramref name="format" /> is invalid.
+            </exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="format" /> references an argument not contained within
+            <paramref name="args" />.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.MessagePublishedEventArgs">
+      <summary>
+            Contains the <see cref="T:AK.F1.Timing.Message" /> published by a source.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.MessagePublishedEventArgs.#ctor(AK.F1.Timing.Message)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.MessagePublishedEventArgs" />
+            class and specifies the published <see cref="T:AK.F1.Timing.Message" />.
+            </summary>
+      <param name="message">The published <see cref="T:AK.F1.Timing.Message" />.</param>
+    </member>
+    <member name="P:AK.F1.Timing.MessagePublishedEventArgs.Message">
+      <summary>
+            Gets the published <see cref="T:AK.F1.Timing.Message" />.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.MessageReaderBase">
+      <summary>
+            Defines a useful base class for <see cref="T:AK.F1.Timing.IMessageReader" /> implementations.
+            This class is <see langword="abstract" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.MessageReaderBase.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.MessageReaderBase" /> class</summary>
+    </member>
+    <member name="P:AK.F1.Timing.MessageReaderBase.Log">
+      <summary>
+            Gets the <see cref="T:log4net.ILog" /> for this type.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.MessageReaderBase.Read">
+      <summary>
+            Reads the next <see cref="T:AK.F1.Timing.Message" /> from the underlying data stream.
+            </summary>
+      <returns>The next <see cref="T:AK.F1.Timing.Message" />.</returns>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when this reader has been disposed of.
+            </exception>
+      <exception cref="T:System.IO.EndOfStreamException">
+            Thrown when the end of the message stream has been reached.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when an IO error occurs reading the next message from the stream.
+            </exception>
+      <exception cref="T:System.FormatException">
+            Thrown when the format of the next message of the stream is invalid or the message
+            itself is not recognised.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.MessageReaderBase.ReadException">
+      <summary>
+            Gets or sets the last exception thrown in the read method. Further calls to read will
+            result in this exception being rethrown (after the disposed state of this instance is
+            checked).
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.MessageReaderBase.ReadImpl">
+      <summary>
+            When overriden in a derived class; reads the next <see cref="T:AK.F1.Timing.Message" />
+            from the underlying data stream.
+            </summary>
+      <returns>The next <see cref="T:AK.F1.Timing.Message" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.MessageVisitor">
+      <summary>
+            Defines a base class for <see cref="T:AK.F1.Timing.IMessageVisitor" /> implementations. This
+            class is <see langword="abstract" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.#ctor">
+      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.MessageVisitor" /> class</summary>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.AdjustSessionTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateAirTemperatureMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateCommentaryMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateCopyrightMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverBestTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverCarNumberMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverCompletedLapsMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverGapTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverIntervalTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverLapNumberMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverNameMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverPositionMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateDriverStatusMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateHumidityMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateKeyframeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateRaceLapNumberMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateRaceStatusMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateRefreshRateMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateSessionTypeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateStreamValidityMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateSystemMessageMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateTrackTemperatureMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateWetDryMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateWindAngleMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.MessageVisitor.Visit(AK.F1.Timing.Messages.UpdateWindSpeedMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.PostedTimeType">
+      <summary>
+            Defines the type of time posted by a driver.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.PostedTimeType.Normal">
+      <summary>
+            A normal time.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.PostedTimeType.PersonalBest">
+      <summary>
+            A personal best time. The time is only relevant in the current session.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.PostedTimeType.SessionBest">
+      <summary>
+            A session best time. The time is only relevant in the current session.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.RaceStatus">
+      <summary>
+            Defines the various statuses of an F1 live timing race.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.RaceStatus.Green">
+      <summary>
+            The race is running with no current incident.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.RaceStatus.Yellow">
+      <summary>
+            There is an incident somewhere on the circuit. Yellow flags are being used to warn
+            the drivers.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.RaceStatus.SystemCarOnStandBy">
+      <summary>
+            Yellow flags are out following an incident and the safety car is on standby.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.RaceStatus.SystemCarDeployed">
+      <summary>
+            Yellow flags and the safety car has been deployed due to a serious incident.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.RaceStatus.Red">
+      <summary>
+            The practice session has been aborted or the race suspended due to a serious incident.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.SessionType">
+      <summary>
+            Defines the various types of F1 live timing sessions.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.SessionType.Practice">
+      <summary>
+            Indicates the session is the practice session.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.SessionType.Q1">
+      <summary>
+            Indicates the session is the first qualification run.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.SessionType.Q2">
+      <summary>
+            Indicates the session is the second qualification run.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.SessionType.Q3">
+      <summary>
+            Indicates the session is the third and final qualification run.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.SessionType.Race">
+      <summary>
+            Indicates the race session.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Live.DecryptorFactoryBase">
+      <summary>
+            Defines a base class for <see cref="T:AK.F1.Timing.Live.IDecryptorFactory" /> implementations
+            which provides seed caching capabilities. This class is <see langword="abstract" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.DecryptorFactoryBase.#ctor">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Live.DecryptorFactoryBase" /> class.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.DecryptorFactoryBase.Create">
+      <summary>
+            Creates a new <see cref="T:AK.F1.Timing.Live.IDecryptor" />.
+            </summary>
+      <returns>A new <see cref="T:AK.F1.Timing.Live.IDecryptor" />.</returns>
+    </member>
+    <member name="M:AK.F1.Timing.Live.DecryptorFactoryBase.Create(System.String)">
+      <summary>
+            Creates a new <see cref="T:AK.F1.Timing.Live.IDecryptor" />.
+            </summary>
+      <param name="sessionId">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="sessionId"/&gt; documentation for "M:AK.F1.Timing.Live.DecryptorFactoryBase.Create(System.String)"]</p>
+      </param>
+      <returns>A new <see cref="T:AK.F1.Timing.Live.IDecryptor" />.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="sessionId" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="sessionId" /> is empty.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Live.DecryptorFactoryBase.CreateWithSeed(System.Int32)">
+      <summary>
+            When overriden in a derived class; creates a new
+            <see cref="T:AK.F1.Timing.Live.IDecryptor" /> using the specified <paramref name="seed" />.
+            </summary>
+      <param name="seed">The decryption seed.</param>
+      <returns>A new <see cref="T:AK.F1.Timing.Live.IDecryptor" /> using the specified
+            <paramref name="seed" />.</returns>
+    </member>
+    <member name="F:AK.F1.Timing.Live.DecryptorFactoryBase.DefaultSeed">
+      <summary>
+            Defines the default seed. This field is constant.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.DecryptorFactoryBase.GetSeedForSession(System.String)">
+      <summary>
+            When overriden in a derived class, gets the decryption seed for the session with
+            the specified identifier.
+            </summary>
+      <param name="sessionId">The identifier of the session to return the decryption seed
+            for.</param>
+      <returns>The decryption seed for the session with the specified identifier.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="sessionId" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="sessionId" /> is empty.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Live.DecryptorFactoryBase.Log">
+      <summary>
+            Gets the <see cref="T:log4net.ILog" /> for this type.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Live.IDecryptor">
+      <summary>
+            Defines a decryptor.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.IDecryptor.Decrypt(System.Byte[],System.Int32,System.Int32)">
+      <summary>
+            Decrypts the the specified buffer in place.
+            </summary>
+      <param name="buffer">The buffer from which the encrypted data is read and the decrypted
+            data is written..</param>
+      <param name="offset">The offset in <paramref name="buffer" /> at which decryption
+            begins.</param>
+      <param name="count">The exact number of bytes to decrypt.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="buffer" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Live.IDecryptor.Reset">
+      <summary>
+            Resets the state of the decryptor.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Live.IDecryptorFactory">
+      <summary>
+            Defines the means of creating <see cref="T:AK.F1.Timing.Live.IDecryptor" /> instances.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.IDecryptorFactory.Create">
+      <summary>
+            Creates a new <see cref="T:AK.F1.Timing.Live.IDecryptor" />.
+            </summary>
+      <returns>A new <see cref="T:AK.F1.Timing.Live.IDecryptor" />.</returns>
+    </member>
+    <member name="M:AK.F1.Timing.Live.IDecryptorFactory.Create(System.String)">
+      <summary>
+            Creates a new <see cref="T:AK.F1.Timing.Live.IDecryptor" />.
+            </summary>
+      <param name="sessionId">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="sessionId"/&gt; documentation for "M:AK.F1.Timing.Live.IDecryptorFactory.Create(System.String)"]</p>
+      </param>
+      <returns>A new <see cref="T:AK.F1.Timing.Live.IDecryptor" />.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="sessionId" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="sessionId" /> is empty.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Live.IKeyframeStreamEndpoint">
+      <summary>
+            Defines the means of opening keyframe <see cref="T:System.IO.Stream" />s.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.IKeyframeStreamEndpoint.Open(System.Int32)">
+      <summary>
+            Opens a new keyframe <see cref="T:System.IO.Stream" /> for the keyframe with the
+            specified <paramref name="keyframe" /> number.
+            </summary>
+      <param name="keyframe">The keyframe number.</param>
+      <returns>A new keyframe <see cref="T:System.IO.Stream" /> for the keyframe with the
+            specified <paramref name="keyframe" /> number.</returns>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="keyframe" /> is negative.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when the keyframe stream could not be opened.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Live.IMessageStreamEndpoint">
+      <summary>
+            Defines the means of opening raw message <see cref="T:System.IO.Stream" />s.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.IMessageStreamEndpoint.Open">
+      <summary>
+            Opens a new message <see cref="T:System.IO.Stream" />.
+            </summary>
+      <returns>An opened message <see cref="T:System.IO.Stream" />.</returns>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="keyframe" /> is negative.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when the message stream could not be opened.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Live.LiveDecryptor">
+      <summary>
+            An <see cref="T:AK.F1.Timing.Live.IDecryptor" /> implementation which implements the 2009
+            decryption algorithm. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveDecryptor.#ctor(System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Live.LiveDecryptor" /> class and specifies the
+            initial hash <paramref name="seed" /></summary>
+      <param name="seed">The initial hash seed.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveDecryptor.Decrypt(System.Byte[],System.Int32,System.Int32)">
+      <summary>
+            Decrypts the the specified buffer in place.
+            </summary>
+      <param name="buffer">The buffer from which the encrypted data is read and the decrypted
+            data is written..</param>
+      <param name="offset">The offset in <paramref name="buffer" /> at which decryption
+            begins.</param>
+      <param name="count">The exact number of bytes to decrypt.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="buffer" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveDecryptor.Reset">
+      <summary>
+            Resets the state of the decryptor.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Live.LiveDecryptorFactory">
+      <summary>
+            An <see cref="T:AK.F1.Timing.Live.IDecryptorFactory" /> implementation which creates
+            decryptors seeded using a user's credentials for the F1 live timing site. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveDecryptorFactory.#ctor(System.String,System.String)">
+      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Live.LiveDecryptorFactory" /> class</summary>
+      <param name="email">The user's email address.</param>
+      <param name="password">The user's password.</param>
+      <returns>
+      </returns>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveDecryptorFactory.CreateWithSeed(System.Int32)">
+      <summary>
+            When overriden in a derived class; creates a new
+            <see cref="T:AK.F1.Timing.Live.IDecryptor" /> using the specified <paramref name="seed" />.
+            </summary>
+      <param name="seed">The decryption seed.</param>
+      <returns>A new <see cref="T:AK.F1.Timing.Live.IDecryptor" /> using the specified
+            <paramref name="seed" />.</returns>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveDecryptorFactory.GetSeedForSession(System.String)">
+      <summary>
+            When overriden in a derived class, gets the decryption seed for the session with
+            the specified identifier.
+            </summary>
+      <param name="sessionId">The identifier of the session to return the decryption seed
+            for.</param>
+      <returns>The decryption seed for the session with the specified identifier.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="sessionId" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="sessionId" /> is empty.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Live.LiveKeyframeStreamEndpoint">
+      <summary>
+            An <see cref="T:AK.F1.Timing.Live.IKeyframeStreamEndpoint" /> implementation that opens
+            keyframes streams provided by the F1 live timing site. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveKeyframeStreamEndpoint.#ctor">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Live.LiveKeyframeStreamEndpoint" /> class.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveKeyframeStreamEndpoint.Open(System.Int32)">
+      <summary>
+            Opens a new keyframe <see cref="T:System.IO.Stream" /> for the keyframe with the
+            specified <paramref name="keyframe" /> number.
+            </summary>
+      <param name="keyframe">The keyframe number.</param>
+      <returns>A new keyframe <see cref="T:System.IO.Stream" /> for the keyframe with the
+            specified <paramref name="keyframe" /> number.</returns>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="keyframe" /> is negative.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when the keyframe stream could not be opened.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Live.LiveMessageReader">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Live.LiveMessageReader]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveMessageReader.#ctor(AK.F1.Timing.Live.IKeyframeStreamEndpoint,AK.F1.Timing.Live.IMessageStreamEndpoint,AK.F1.Timing.Live.IDecryptorFactory)">
+      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Live.LiveMessageReader" /> class</summary>
+      <param name="keyframeStreamEndpoint">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="keyframeStreamEndpoint"/&gt; documentation for "M:AK.F1.Timing.Live.LiveMessageReader.#ctor(AK.F1.Timing.Live.IKeyframeStreamEndpoint,AK.F1.Timing.Live.IMessageStreamEndpoint,AK.F1.Timing.Live.IDecryptorFactory)"]</p>
+      </param>
+      <param name="messageStreamEndpoint">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="messageStreamEndpoint"/&gt; documentation for "M:AK.F1.Timing.Live.LiveMessageReader.#ctor(AK.F1.Timing.Live.IKeyframeStreamEndpoint,AK.F1.Timing.Live.IMessageStreamEndpoint,AK.F1.Timing.Live.IDecryptorFactory)"]</p>
+      </param>
+      <param name="decryptorFactory">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="decryptorFactory"/&gt; documentation for "M:AK.F1.Timing.Live.LiveMessageReader.#ctor(AK.F1.Timing.Live.IKeyframeStreamEndpoint,AK.F1.Timing.Live.IMessageStreamEndpoint,AK.F1.Timing.Live.IDecryptorFactory)"]</p>
+      </param>
+    </member>
+    <member name="T:AK.F1.Timing.Live.LiveMessageStreamEndpoint">
+      <summary>
+            An <see cref="T:AK.F1.Timing.Live.IMessageStreamEndpoint" /> implementation that opens
+            message streams provided by the F1 live timing site. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveMessageStreamEndpoint.#ctor">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Live.LiveMessageStreamEndpoint" /> class.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.LiveMessageStreamEndpoint.Open">
+      <summary>
+            Opens a new message <see cref="T:System.IO.Stream" />.
+            </summary>
+      <returns>An opened message <see cref="T:System.IO.Stream" />.</returns>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="keyframe" /> is negative.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when the message stream could not be opened.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Live.Sandbox.SandboxDecryptorFactory">
+      <summary>
+            An <see cref="T:AK.F1.Timing.Live.IDecryptorFactory" /> implementation that creates
+            decryptors with seeds that have been persisted on the file system. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.Sandbox.SandboxDecryptorFactory.#ctor(System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Live.Sandbox.SandboxDecryptorFactory" /> class and
+            specifies the directory which contains the persisted keyframe streams.
+            </summary>
+      <param name="directory">The directory which contains the persisted keyframe streams.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="directory" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.IO.DirectoryNotFoundException">
+            Thrown when <paramref name="directory" /> does not exist.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Live.Sandbox.SandboxKeyframeStreamEndpoint">
+      <summary>
+            An <see cref="T:AK.F1.Timing.Live.IKeyframeStreamEndpoint" /> implementation that opens
+            keyframes streams that have been persisted on the file system. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.Sandbox.SandboxKeyframeStreamEndpoint.#ctor(System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Live.Sandbox.SandboxKeyframeStreamEndpoint" /> class and
+            specifies the directory which contains the persisted keyframe streams.
+            </summary>
+      <param name="directory">The directory which contains the persisted keyframe streams.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="directory" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.IO.DirectoryNotFoundException">
+            Thrown when <paramref name="directory" /> does not exist.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Live.Sandbox.SandboxKeyframeStreamEndpoint.Open(System.Int32)">
+      <summary>
+            Opens a new keyframe <see cref="T:System.IO.Stream" /> for the keyframe with the
+            specified <paramref name="keyframe" /> number.
+            </summary>
+      <param name="keyframe">The keyframe number.</param>
+      <returns>A new keyframe <see cref="T:System.IO.Stream" /> for the keyframe with the
+            specified <paramref name="keyframe" /> number.</returns>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="keyframe" /> is negative.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when the keyframe stream could not be opened.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Live.Sandbox.SandboxMessageStreamEndpoint">
+      <summary>
+            An <see cref="T:AK.F1.Timing.Live.IMessageStreamEndpoint" /> implementation that opens
+            messages streams that have been persisted on the file system. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Live.Sandbox.SandboxMessageStreamEndpoint.#ctor(System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Live.Sandbox.SandboxMessageStreamEndpoint" /> class and
+            specifies the directory which contains the persisted message streams.
+            </summary>
+      <param name="directory">The directory which contains the persisted message streams.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="directory" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.IO.DirectoryNotFoundException">
+            Thrown when <paramref name="directory" /> does not exist.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Live.Sandbox.SandboxMessageStreamEndpoint.Open">
+      <summary>
+            Opens a new message <see cref="T:System.IO.Stream" />.
+            </summary>
+      <returns>An opened message <see cref="T:System.IO.Stream" />.</returns>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="keyframe" /> is negative.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when the message stream could not be opened.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.AdjustSessionTimeMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.AdjustSessionTimeMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.AdjustSessionTimeMessage.#ctor(System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.AdjustSessionTimeMessage" /> class and
+            specifies the adjustment.
+            </summary>
+      <param name="adjustment">The adjustment.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="adjustment" /> is negative.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.AdjustSessionTimeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.AdjustSessionTimeMessage.Adjustment">
+      <summary>
+            Gets the session time adjustment.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.AdjustSessionTimeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.CompositeMessage">
+      <summary>
+            Defines a <see cref="T:AK.F1.Timing.Message" /> which is composed of one or more
+            <see cref="T:AK.F1.Timing.Message" />s. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.CompositeMessage.#ctor(AK.F1.Timing.Message[])">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.CompositeMessage" /> class and specifies
+            the composite messages.
+            </summary>
+      <param name="messages">The messages.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="messages" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="messages" /> is empty.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.CompositeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.CompositeMessage.Messages">
+      <summary>
+            Gets the collection of <see cref="T:AK.F1.Timing.Message" />s contains by the composite
+            message.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.CompositeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.DriverMessageBase">
+      <summary>
+            Defines the base class for driver related messages. This class is
+            <see langword="abstract" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.DriverMessageBase.#ctor(System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.DriverMessageBase" /> class and specifies
+            the Id of the driver the message relates to.
+            </summary>
+      <param name="driverId">The Id of the driver the message is related to.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> is not positive.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.DriverMessageBase.DriverId">
+      <summary>
+            Gets the Id of the driver this message relates to.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateAirTemperatureMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateAirTemperatureMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateAirTemperatureMessage.#ctor(System.Double)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateAirTemperatureMessage" /> class and
+            specifies the new air temperature, in degrees celsius.
+            </summary>
+      <param name="temperature">The air temperature, in degrees celsius.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateAirTemperatureMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateAirTemperatureMessage.Temperature">
+      <summary>
+            Gets the current air temperature, in degrees celsius.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateAirTemperatureMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage.#ctor(System.Double)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage" /> class
+            and specifies the new atmospheric pressure, in millibars.
+            </summary>
+      <param name="pressure">The atmospheric pressure, in millibars.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="pressure" /> is negative.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage.Pressure">
+      <summary>
+            Gets the current atmospheric pressure, in millibars.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateAtmosphericPressureMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateCommentaryMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateCommentaryMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateCommentaryMessage.#ctor(System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateCommentaryMessage" /> class and specifies
+            the new <paramref name="commentary" /> text.
+            </summary>
+      <param name="commentary">The new commentary text.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="commentary" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateCommentaryMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateCommentaryMessage.Commentary">
+      <summary>
+            Gets the new commentary text.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateCommentaryMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateCopyrightMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateCopyrightMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateCopyrightMessage.#ctor(System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateCopyrightMessage" /> class and
+            specifies the new copyright text.
+            </summary>
+      <param name="copyright">The new copyright text.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="copyright" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateCopyrightMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateCopyrightMessage.Copyright">
+      <summary>
+            Gets the new copyright text.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateCopyrightMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverBestTimeMessage">
+      <summary>
+            A message which updates a driver's best time. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverBestTimeMessage.#ctor(System.Int32,System.Nullable{System.TimeSpan})">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverBestTimeMessage" /> class and
+            specifies if the Id of the driver and the best time set by the driver.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="bestTime">The best time. A <see langword="null" /> best time indicates
+            that the best time for the driver has been cleared.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> or <paramref name="bestTime" /> is not
+            <see langword="null" /> and is not positive.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverBestTimeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverBestTimeMessage.BestTime">
+      <summary>
+            Gets the best time. A <see langword="null" /> best time indicates that the best
+            time for the driver has been cleared.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverBestTimeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverCarNumberMessage">
+      <summary>
+            A message which updates a driver's car number. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverCarNumberMessage.#ctor(System.Int32,System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverCarNumberMessage" /> class and
+            specifies if the Id of the driver and the driver's car number.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="carNumber">The driver's new car number.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> or <paramref name="carNumber" /> is not positive.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverCarNumberMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverCarNumberMessage.CarNumber">
+      <summary>
+            Gets the driver's new car number.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverCarNumberMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverCompletedLapsMessage">
+      <summary>
+            A message which updates the number of laps completed by a driver. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverCompletedLapsMessage.#ctor(System.Int32,System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverCompletedLapsMessage" /> class
+            and specifies if the Id of the driver and the number of completed laps.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="completedLaps">The number of completed laps.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverCompletedLapsMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverCompletedLapsMessage.CompletedLaps">
+      <summary>
+            Gets the number of completed laps.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverCompletedLapsMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverGapTimeMessage">
+      <summary>
+            A message which updates a driver's gap time. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverGapTimeMessage.#ctor(System.Int32,System.Nullable{System.TimeSpan})">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverGapTimeMessage" /> class and
+            specifies if the Id of the driver and the gap time.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="gapTime">The gap time. A <see langword="null" /> gap time indicates
+            that the gap time for the driver has been cleared.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> or <paramref name="gapTime" /> is not
+            <see langword="null" /> and is not positive.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverGapTimeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverGapTimeMessage.GapTime">
+      <summary>
+            Gets the gap time. A <see langword="null" /> gap time indicates that the gap
+            time for the driver has been cleared.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverGapTimeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverIntervalTimeMessage">
+      <summary>
+            A message which updates a driver's interval time. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverIntervalTimeMessage.#ctor(System.Int32,System.Nullable{System.TimeSpan})">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverIntervalTimeMessage" /> class
+            and specifies if the Id of the driver and the interval time.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="intervalTime">The interval time. A <see langword="null" /> interval time
+            indicates that the interval time for the driver has been cleared.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> or <paramref name="intervalTime" /> is not
+            <see langword="null" /> and is not positive.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverIntervalTimeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverIntervalTimeMessage.IntervalTime">
+      <summary>
+            Gets the interval time. A <see langword="null" /> interval time indicates that the interval
+            time for the driver has been cleared.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverIntervalTimeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverLapNumberMessage">
+      <summary>
+            A message which updates a driver's current lap number. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverLapNumberMessage.#ctor(System.Int32,System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverLapNumberMessage" /> class and
+            specifies if the Id of the driver and the lap number.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="lapNumber">The driver's new lap number.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverLapNumberMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverLapNumberMessage.LapNumber">
+      <summary>
+            Gets the lap number.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverLapNumberMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverNameMessage">
+      <summary>
+            A message which updates a driver's name. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverNameMessage.#ctor(System.Int32,System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverNameMessage" /> class
+            and specifies if the Id of the driver and the driver's name.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="driverName">The driver's name.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> is not positive.
+            </exception>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="driverName" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverNameMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverNameMessage.DriverName">
+      <summary>
+            Gets the driver's new name.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverNameMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverPositionMessage">
+      <summary>
+            A message which updates a driver's track position. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverPositionMessage.#ctor(System.Int32,System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverPositionMessage" /> class and
+            specifies if the Id of the driver and the driver's new position.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="position">The driver's new position.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> or <paramref name="position" /> is negative.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverPositionMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverPositionMessage.Position">
+      <summary>
+            Gets the driver's new position.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverPositionMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage">
+      <summary>
+            A message which updates a driver's qually time. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage.#ctor(System.Int32,System.Int32,System.Nullable{System.TimeSpan})">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage" /> class and
+            specifies if the Id of the driver, the qually number and qually time.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="quallyNumber">The qually number.</param>
+      <param name="quallyTime">The qually time. A <see langword="null" /> qually time indicates
+            that the qually time for the driver has been cleared.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> or <paramref name="quallyNumber" /> is not positive
+            or <paramref name="quallyTime" /> is not <see langword="null" /> and is not positive.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage.QuallyNumber">
+      <summary>
+            Gets the qually number of the posted time.
+            </summary>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage.QuallyTime">
+      <summary>
+            Gets the qually time. A <see langword="null" /> qually time indicates that the qually
+            time for the driver has been cleared.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverQuallyTimeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage">
+      <summary>
+            A message which updates a driver's sector time. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage.#ctor(System.Int32,System.Int32,System.Nullable{System.TimeSpan},AK.F1.Timing.PostedTimeType)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage" /> class and
+            specifies if the Id of the driver, the sector number, and sector time and the sector
+            time type.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="sectorNumber">The sector number.</param>
+      <param name="sectorTime">The sector time. A <see langword="null" /> sector time indicates
+            that the sector time for the driver has been cleared.</param>
+      <param name="sectorTimeType">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="sectorTimeType"/&gt; documentation for "M:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage.#ctor(System.Int32,System.Int32,System.Nullable{System.TimeSpan},AK.F1.Timing.PostedTimeType)"]</p>
+      </param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+        <param name="sectorTimeType">The sector time type.</param>
+            Thrown when <paramref name="driverId" /> or <paramref name="sectorNumber" /> is not positive
+            or <paramref name="sectorTime" /> is not <see langword="null" /> and is not positive.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage.SectorNumber">
+      <summary>
+            Gets the sector number of the posted time.
+            </summary>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage.SectorTime">
+      <summary>
+            Gets the sector time. A <see langword="null" /> sector time indicates that the sector
+            time for the driver has been cleared.
+            </summary>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage.SectorTimeType">
+      <summary>
+            Gets the sector <see cref="T:AK.F1.Timing.PostedTimeType" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverSectorTimeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateDriverStatusMessage">
+      <summary>
+            A message which updates a driver's <see cref="T:AK.F1.Timing.DriverStatus" />. This class
+            is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverStatusMessage.#ctor(System.Int32,AK.F1.Timing.DriverStatus)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateDriverStatusMessage" /> class and
+            specifies if the Id of the driver and the driver's status.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="driverStatus">The driver's new status.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> is not positive.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverStatusMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateDriverStatusMessage.DriverStatus">
+      <summary>
+            Gets the driver's new status.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateDriverStatusMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateHumidityMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateHumidityMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateHumidityMessage.#ctor(System.Double)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateHumidityMessage" /> class and
+            specifies the new humidity, as a percentage.
+            </summary>
+      <param name="humidity">The humidity, as a percentage.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="humidity" /> is negative or greater than one hundred.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateHumidityMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateHumidityMessage.Humidity">
+      <summary>
+            Gets the current humidity, as a percentage.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateHumidityMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateKeyframeMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateKeyframeMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateKeyframeMessage.#ctor(System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateKeyframeMessage" /> class and specifies
+            the new keyframe number.
+            </summary>
+      <param name="keyframe">The keyframe number.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="keyframe" /> is negative.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateKeyframeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateKeyframeMessage.Keyframe">
+      <summary>
+            Gets the keyframe.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateKeyframeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateRaceLapNumberMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateRaceLapNumberMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRaceLapNumberMessage.#ctor(System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateRaceLapNumberMessage" /> class and
+            specifies the lap number.
+            </summary>
+      <param name="lapNumber">The lap number.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="lapNumber" /> is negative.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRaceLapNumberMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateRaceLapNumberMessage.LapNumber">
+      <summary>
+            Gets the current race lap number.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRaceLapNumberMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateRaceStatusMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateRaceStatusMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRaceStatusMessage.#ctor(AK.F1.Timing.RaceStatus)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateRaceStatusMessage" /> class and
+            specifies the <see cref="T:AK.F1.Timing.RaceStatus" />.
+            </summary>
+      <param name="raceStatus">The <see cref="T:AK.F1.Timing.RaceStatus" />.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRaceStatusMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateRaceStatusMessage.RaceStatus">
+      <summary>
+            Gets the current <see cref="T:AK.F1.Timing.RaceStatus" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRaceStatusMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateRefreshRateMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateRefreshRateMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRefreshRateMessage.#ctor(System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateRefreshRateMessage" /> class and
+            specifies the refresh rate.
+            </summary>
+      <param name="refreshRate">The refresh rate.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="refreshRate" /> is negative.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRefreshRateMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateRefreshRateMessage.RefreshRate">
+      <summary>
+            Gets the refresh rate.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateRefreshRateMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateSessionTypeMessage">
+      <summary>
+            A message which updates the <see cref="T:AK.F1.Timing.SessionType" /> and session
+            identifier. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateSessionTypeMessage.#ctor(AK.F1.Timing.SessionType,System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateSessionTypeMessage" /> class and
+            specifies the <see cref="T:AK.F1.Timing.SessionType" /> and the session
+            identifier.
+            </summary>
+      <param name="sessionType">The <see cref="T:AK.F1.Timing.SessionType" />.</param>
+      <param name="sessionId">The session identifier.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateSessionTypeMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateSessionTypeMessage.SessionId">
+      <summary>
+            Gets the current session identifier.
+            </summary>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateSessionTypeMessage.SessionType">
+      <summary>
+            Gets the current <see cref="T:AK.F1.Timing.SessionType" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateSessionTypeMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateStreamValidityMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateStreamValidityMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateStreamValidityMessage.#ctor(System.Boolean)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateStreamValidityMessage" /> class and
+            specifies if the application is valid.
+            </summary>
+      <param name="isValid">
+        <see langword="true" /> if the stream is valid, otherwise;
+            <see langword="false" />.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateStreamValidityMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateStreamValidityMessage.IsValid">
+      <summary>
+            Gets a valid indicating if the application is valid.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateStreamValidityMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateSystemMessageMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateSystemMessageMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateSystemMessageMessage.#ctor(System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateSystemMessageMessage" /> class and
+            specifies the new system message text.
+            </summary>
+      <param name="message">The new system message text.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateSystemMessageMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateSystemMessageMessage.Message">
+      <summary>
+            Gets the new system message text.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateSystemMessageMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateTrackTemperatureMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateTrackTemperatureMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateTrackTemperatureMessage.#ctor(System.Double)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateTrackTemperatureMessage" /> class and
+            specifies the new track temperature, in degrees celsius.
+            </summary>
+      <param name="temperature">The track temperature, in degrees celsius.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateTrackTemperatureMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateTrackTemperatureMessage.Temperature">
+      <summary>
+            Gets the current track temperature, in degrees celsius.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateTrackTemperatureMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateWetDryMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateWetDryMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWetDryMessage.#ctor(System.Int32)">
+      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateWetDryMessage" /> class</summary>
+      <param name="wetDry">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="wetDry"/&gt; documentation for "M:AK.F1.Timing.Messages.UpdateWetDryMessage.#ctor(System.Int32)"]</p>
+      </param>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWetDryMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWetDryMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateWetDryMessage.WetDry">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for P:AK.F1.Timing.Messages.UpdateWetDryMessage.WetDry]</p>
+      </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateWindAngleMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateWindAngleMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWindAngleMessage.#ctor(System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateWindAngleMessage" /> class and
+            specifies the wind angle, in degrees.
+            </summary>
+      <param name="angle">The wind angle, in degrees.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="angle" /> is negative or greater than 360.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWindAngleMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateWindAngleMessage.Angle">
+      <summary>
+            Gets the current wind angle, in degrees.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWindAngleMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messages.UpdateWindSpeedMessage">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messages.UpdateWindSpeedMessage]</p>
+      </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWindSpeedMessage.#ctor(System.Double)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messages.UpdateWindSpeedMessage" /> class and
+            specifies the new wind speed, in meters per second.
+            </summary>
+      <param name="speed">The wind speed, in meters per second.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="speed" /> is negative.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWindSpeedMessage.Accept(AK.F1.Timing.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messages.UpdateWindSpeedMessage.Speed">
+      <summary>
+            Gets the current wind speed, in meters per second.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messages.UpdateWindSpeedMessage.ToString">
+      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
+      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Recording.BinaryFileMessageReader">
+      <summary>
+            Reads binary serialized <see cref="T:AK.F1.Timing.Message" />s from a file. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Recording.BinaryFileMessageReader.#ctor(System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Recording.BinaryFileMessageRecorder" /> class and
+            specifies the <paramref name="path" /> of the file to read from.
+            </summary>
+      <param name="path">The path of the file to write to.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="path" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Recording.BinaryFileMessageReader.Dispose(System.Boolean)">
+      <summary>
+            Disposes of this instance.
+            </summary>
+      <param name="disposing">
+        <see langword="true" /> if being called explicitly, otherwise;
+            <see langword="false" /> to indicate being called implicitly by the GC.</param>
+    </member>
+    <member name="M:AK.F1.Timing.Recording.BinaryFileMessageReader.ReadImpl">
+      <summary>
+            When overriden in a derived class; reads the next <see cref="T:AK.F1.Timing.Message" />
+            from the underlying data stream.
+            </summary>
+      <returns>The next <see cref="T:AK.F1.Timing.Message" />.</returns>
+    </member>
+    <member name="T:AK.F1.Timing.Recording.BinaryFileMessageRecorder">
+      <summary>
+            Records binary serialized <see cref="T:AK.F1.Timing.Message" />s to a file. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Recording.BinaryFileMessageRecorder.#ctor(System.String)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Recording.BinaryFileMessageRecorder" /> class and
+            specifies the <paramref name="path" /> of the file to write to. If the file exists,
+            it is overwritten.
+            </summary>
+      <param name="path">The path of the file to write to.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="path" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Recording.BinaryFileMessageRecorder.Record(AK.F1.Timing.Message)">
+      <summary>
+            Records the specified <see cref="T:AK.F1.Timing.Message" /> to the underlying data stream.
+            </summary>
+      <param name="message">The message to record.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when this recorder has been disposed of.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when an IO error occurs recording the specified <paramref name="message" />.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Recording.IMessageRecorder">
+      <summary>
+            Allows <see cref="T:AK.F1.Timing.Message" />s to be recorded to an underlying data stream.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Recording.IMessageRecorder.Record(AK.F1.Timing.Message)">
+      <summary>
+            Records the specified <see cref="T:AK.F1.Timing.Message" /> to the underlying data stream.
+            </summary>
+      <param name="message">The message to record.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when this recorder has been disposed of.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            Thrown when an IO error occurs recording the specified <paramref name="message" />.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Utility.EventExtensions">
+      <summary>
+            Provides utility methods for safely raising events. This class is <see langword="static" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.EventExtensions.Raise(System.EventHandler,System.Object)">
+      <summary>
+            Raises the specified <see cref="T:System.EventHandler" /> if there are any subsribers.
+            </summary>
+      <param name="event">The event to raise.</param>
+      <param name="sender">The object raising the event.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="sender" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.EventExtensions.Raise``1(System.EventHandler{``0},System.Object,``0)">
+      <summary>
+            Raises the specified <see cref="T:System.EventHandler`1" />, if there are any subsribers.
+            </summary>
+      <param name="event">The event to raise.</param>
+      <param name="sender">The object raising the event.</param>
+      <param name="e">The event arguments.</param>
+      <typeparam name="T">The <see cref="T:System.EventArgs" /><see cref="T:System.Type" /></typeparam>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="sender" /> or <paramref name="e" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.EventExtensions.RaiseAsync(System.EventHandler,System.Object)">
+      <summary>
+            Asynchronously raises the specified <see cref="T:System.EventHandler" /> if there are any
+            subsribers.
+            </summary>
+      <param name="event">The event to raise.</param>
+      <param name="sender">The object raising the event.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="sender" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.EventExtensions.RaiseAsync``1(System.EventHandler{``0},System.Object,``0)">
+      <summary>
+            Asynchronously raises the specified <see cref="T:System.EventHandler`1" />, if there
+            are any subsribers.
+            </summary>
+      <param name="event">The event to raise.</param>
+      <param name="sender">The object raising the event.</param>
+      <param name="e">The event arguments.</param>
+      <typeparam name="T">The <see cref="T:System.EventArgs" /><see cref="T:System.Type" /></typeparam>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="sender" /> or <paramref name="e" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Utility.HttpMethod">
+      <summary>
+            Defines the most basic of HTTP method.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Utility.HttpMethod.Get">
+      <summary>
+            The HTTP GET method.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Utility.HttpMethod.Post">
+      <summary>
+            The HTTP POST method.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Utility.StreamExtensions">
+      <summary>
+        <see cref="T:System.IO.Stream" /> extension class. This class is <see langword="static" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.StreamExtensions.FullyRead(System.IO.Stream,System.Byte[],System.Int32,System.Int32)">
+      <summary>
+            Reads a sequences of bytes the stream and advances the position within the stream by
+            the number read. If the end of the stream is reached before <paramref name="count" />
+            bytes are read, this method will return <see langword="false" />, otherwise it will
+            return <see langword="true" /> which indicates that exactly <paramref name="count" /> bytes
+            have been written to the specified <paramref name="buffer" />.
+            </summary>
+      <param name="stream">The stream to read from.</param>
+      <param name="buffer">The buffer into which the read data is written.</param>
+      <param name="offset">The offset in <paramref name="buffer" /> at which writing begins.</param>
+      <param name="count">The exact number of bytes to read.</param>
+      <returns>
+        <see langword="true" /> if the specified number of bytes were read into
+            <paramref name="buffer" />, otherwise; <see langword="false" /> to indicate that the end
+            of the stream was reached.</returns>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.StreamExtensions.IsEof(System.IO.Stream)">
+      <summary>
+            Returns a value indicating if the specified stream is at the end of its input.
+            </summary>
+      <param name="stream">The stream to test.</param>
+      <returns>
+        <see langword="true" /> if the specified stream is and the end of its
+            input, otherwise; <see langword="false" />.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="stream" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Utility.UriExtensions">
+      <summary>
+        <see cref="T:System.Uri" /> extension class. This class is <see langword="static" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.UriExtensions.GetResponseCookies(System.Uri,AK.F1.Timing.Utility.HttpMethod)">
+      <summary>
+            Gets the cookies that were set whilst requesting the specified resource.
+            </summary>
+      <param name="uri">The resource location.</param>
+      <param name="method">The method to use when requesting the resource.</param>
+      <returns>The collection of cookies set.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="uri" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.UriExtensions.GetResponseCookies(System.Uri,AK.F1.Timing.Utility.HttpMethod,System.Action{System.Net.HttpWebRequest})">
+      <summary>
+            Gets the cookies that were set whilst requesting the specified resource.
+            </summary>
+      <param name="uri">The resource location.</param>
+      <param name="method">The method to use when requesting the resource.</param>
+      <param name="configurator">The request configurator.</param>
+      <returns>The collection of cookies set.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="uri" /> or <paramref name="configurator" /> is
+            <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.UriExtensions.GetResponseStream(System.Uri,AK.F1.Timing.Utility.HttpMethod)">
+      <summary>
+            Gets response stream for the specified resource.
+            </summary>
+      <param name="uri">The resource location.</param>
+      <param name="method">The method to use when requesting the resource.</param>
+      <returns>The response stream.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="uri" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.UriExtensions.GetResponseStream(System.Uri,AK.F1.Timing.Utility.HttpMethod,System.Action{System.Net.HttpWebRequest})">
+      <summary>
+            Gets response stream for the specified resource.
+            </summary>
+      <param name="uri">The resource location.</param>
+      <param name="method">The method to use when requesting the resource.</param>
+      <param name="configurator">The request configurator.</param>
+      <returns>The response stream.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="uri" /> or <paramref name="configurator" /> is
+            <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.UriExtensions.GetResponseString(System.Uri,AK.F1.Timing.Utility.HttpMethod)">
+      <summary>
+            Gets response string for the specified resource.
+            </summary>
+      <param name="uri">The resource location.</param>
+      <param name="method">The method to use when requesting the resource.</param>
+      <returns>The response string.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="uri" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.UriExtensions.GetResponseString(System.Uri,AK.F1.Timing.Utility.HttpMethod,System.Action{System.Net.HttpWebRequest})">
+      <summary>
+            Gets response string for the specified resource.
+            </summary>
+      <param name="uri">The resource location.</param>
+      <param name="method">The method to use when requesting the resource.</param>
+      <param name="configurator">The request configurator.</param>
+      <returns>The response string.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="uri" /> or <paramref name="configurator" /> is
+            <see langword="null" />.
+            </exception>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+    </member>
+  </members>
+</doc>

@@ -1,0 +1,53 @@
+﻿<project schemaVersion="1.6.0.7">
+    <assemblies>
+        <assembly assemblyPath="..\src\AK.F1.Timing\bin\Debug\AK.F1.Timing.dll" xmlCommentsPath="..\src\AK.F1.Timing\bin\Debug\AK.F1.Timing.xml" commentsOnly="False" />
+    </assemblies>
+    <namespaceSummaries>
+        <namespaceSummaryItem name="" isDocumented="False" />
+        <namespaceSummaryItem name="AK.Net.IO.Sampling" isDocumented="True" />
+    </namespaceSummaries>
+    <componentConfigurations>
+        <component id="IntelliSense Component" enabled="True" configuration="&lt;component id=&quot;IntelliSense Component&quot; type=&quot;SandcastleBuilder.Components.IntelliSenseComponent&quot; assembly=&quot;{@SHFBFolder}SandcastleBuilder.Components.dll&quot;&gt;&lt;!-- Output options (optional)&#xD;&#xA;                 Attributes:&#xD;&#xA;                    Include Namespaces (false by default)&#xD;&#xA;                    Namespaces filename (&quot;Namespaces&quot; if not specified or empty)&#xD;&#xA;                    Directory (current folder if not specified or empty) --&gt;&lt;output includeNamespaces=&quot;false&quot; namespacesFile=&quot;Namespaces&quot; folder=&quot;{@OutputFolder}&quot; /&gt;&lt;/component&gt;" />
+    </componentConfigurations>
+    <ProjectSummary />
+    <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, Namespace, TypeParameter</MissingTags>
+    <VisibleItems>Attributes, InheritedMembers, Protected, SealedProtected</VisibleItems>
+    <HtmlHelp1xCompilerPath path="" />
+    <HtmlHelp2xCompilerPath path="" />
+    <OutputPath>.\</OutputPath>
+    <SandcastlePath path="" />
+    <WorkingPath path="" />
+    <CleanIntermediates>True</CleanIntermediates>
+    <KeepLogFile>False</KeepLogFile>
+    <BuildLogFile path="" />
+    <HelpFileFormat>HtmlHelp1x</HelpFileFormat>
+    <CppCommentsFixup>False</CppCommentsFixup>
+    <FrameworkVersion>2.0.50727</FrameworkVersion>
+    <IndentHtml>False</IndentHtml>
+    <Preliminary>False</Preliminary>
+    <RootNamespaceContainer>False</RootNamespaceContainer>
+    <RootNamespaceTitle />
+    <HelpTitle>F1 Timing Library for .NET 2.0 Documentation</HelpTitle>
+    <HtmlHelpName>AK.F1.Timing</HtmlHelpName>
+    <Language>en-US</Language>
+    <CopyrightHref />
+    <CopyrightText>Copyright © Andy Kernahan 2009</CopyrightText>
+    <FeedbackEMailAddress>andrew.kernahan@gmail.com</FeedbackEMailAddress>
+    <FeedbackEMailLinkText>Andy Kernahan</FeedbackEMailLinkText>
+    <HeaderText />
+    <FooterText />
+    <ProjectLinkType>Local</ProjectLinkType>
+    <SdkLinkType>Msdn</SdkLinkType>
+    <SdkLinkTarget>Blank</SdkLinkTarget>
+    <PresentationStyle>vs2005</PresentationStyle>
+    <NamingMethod>MemberName</NamingMethod>
+    <SyntaxFilters>Standard</SyntaxFilters>
+    <ShowFeedbackControl>False</ShowFeedbackControl>
+    <BinaryTOC>True</BinaryTOC>
+    <IncludeFavorites>False</IncludeFavorites>
+    <CollectionTocStyle>Hierarchical</CollectionTocStyle>
+    <IncludeStopWordList>True</IncludeStopWordList>
+    <PlugInNamespaces>ms.vsipcc+, ms.vsexpresscc+</PlugInNamespaces>
+    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <ContentPlacement>AboveNamespaces</ContentPlacement>
+</project>
