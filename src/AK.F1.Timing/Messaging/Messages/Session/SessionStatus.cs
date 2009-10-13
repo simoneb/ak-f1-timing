@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messaging.Messages.Session
     /// <summary>
     /// Defines the various statuses of an F1 live timing session.
     /// </summary>
-    [Serializable]
-    [TypeId(88544499)]
+    [Serializable]    
     public enum SessionStatus
     {
         /// <summary>

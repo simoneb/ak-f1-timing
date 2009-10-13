@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     /// <summary>
     /// Defines the various statuses of a driver during a this.
     /// </summary>
-    [Serializable]
-    [TypeId(-27329491)]
+    [Serializable]    
     public enum DriverStatus
     {
         /// <summary>

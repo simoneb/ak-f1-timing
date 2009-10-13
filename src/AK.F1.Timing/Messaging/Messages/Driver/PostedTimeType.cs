@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     /// <summary>
     /// Defines the type of time posted by a driver.
     /// </summary>
-    [Serializable]
-    [TypeId(38196137)]
+    [Serializable]    
     public enum PostedTimeType
     {
         /// <summary>

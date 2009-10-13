@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     /// <summary>
     /// Defines the columns found on an F1 timing grid.
     /// </summary>
-    [Serializable]
-    [TypeId(69822624)]
+    [Serializable]    
     public enum GridColumn
     {        
         /// <summary>

@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     /// Defines the various colours of an F1 timing grid
     /// <see cref="AK.F1.Timing.Messaging.Messages.Driver.GridColumn"/>.
     /// </summary>
-    [Serializable]
-    [TypeId(61144806)]
+    [Serializable]    
     public enum GridColumnColour
     {
         /// <summary>
