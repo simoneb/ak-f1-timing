@@ -1,0 +1,93 @@
+#vbOverlay { 
+	position:absolute; 
+	background-position:center;   
+	left:0; 
+	top:0; 
+	height:auto; 
+	width:100%; 
+	background-color:#000;
+	cursor:pointer;
+	z-index:1000;
+	}
+
+#vbCenter, #vbBottomContainer {
+	position: absolute;
+	left: 50%;
+	overflow: hidden;
+	background-color: transparent !important; 
+	text-align: center; 
+	z-index:1100;
+}
+
+#vbBottomContainer {
+	top: 0 !important;
+	padding-bottom: 0 !important;
+	margin-bottom: 0 !important;
+	border-bottom: 1px solid #1a1a1a !important;
+	}
+
+	
+#vbCenter {
+	top: 26px !important; /* 26px?? */
+	}
+
+.vbLoading {
+	background: #fff url(/img/loading.gif) no-repeat center;
+}
+
+#vbImage {
+	border: 10px solid #fff;
+}
+
+#vbPrevLink, #vbNextLink {
+	display: block;
+	position: absolute;
+	top: 0;
+	width: 50%;
+	outline: none;
+}
+
+#vbPrevLink {
+	left: 0;
+}
+
+#vbPrevLink:hover {
+	background: transparent url(/img/prevlabel.gif) no-repeat 0% 15%;
+}
+
+#vbNextLink {
+	right: 0;
+}
+
+#vbNextLink:hover {
+	background: transparent url(/img/nextlabel.gif) no-repeat 100% 15%;
+}
+
+#vbBottom {
+	font-family: Verdana, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666;
+	line-height: 1.4em;
+	text-align: left;
+	/* border: 5px solid #fff; */
+	border-top-style: none;
+	background-color: #000 !important;
+}
+
+#vbCloseLink {
+	display: block;
+	float: right;
+	width: 59px;
+	height: 20px;
+	background: transparent url(/img/closelabel.gif) no-repeat center;
+	margin: 5px 0 5px 10px;
+}
+
+#vbCaption, #vbNumber {
+	margin-right: 71px;
+}
+
+#vbCaption {
+	font-weight: bold;
+	display: none;
+}
