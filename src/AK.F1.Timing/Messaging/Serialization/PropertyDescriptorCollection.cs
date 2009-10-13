@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace AK.F1.Timing.Messaging.Serialization
@@ -22,7 +23,7 @@ namespace AK.F1.Timing.Messaging.Serialization
     /// <see langword="sealed"/>.
     /// </summary>
     [Serializable]
-    public sealed class PropertyDescriptorCollection : KeyedCollection<int, PropertyDescriptor>
+    public sealed class PropertyDescriptorCollection : Collection<PropertyDescriptor>
     {
         #region Public Interface.
 
@@ -31,6 +32,26 @@ namespace AK.F1.Timing.Messaging.Serialization
         /// </summary>
         public PropertyDescriptorCollection() { }
 
+        /// <summary>
+        /// Returns the property with the specified <paramref name="id"/>, or <see langword="null"/>
+        /// if no property is matched.
+        /// </summary>
+        /// <param name="id">The identifier of the property to match.</param>
+        /// <returns>The property with the specified <paramref name="id"/>, or <see langword="null"/>
+        /// if no property is matched.</returns>
+        public PropertyDescriptor GetById(int id) {
+
+            var items = this.Items;
+
+            for(int i = 0; i < items.Count; ++i) {
+                if(items[i].PropertyId == id) {
+                    return items[i];
+                }
+            }
+
+            return null;
+        }
+        
         /// <summary>
         /// Seals this collection.
         /// </summary>
@@ -62,12 +83,6 @@ namespace AK.F1.Timing.Messaging.Serialization
             CheckSealed();
             ValidateItem(item);
             base.SetItem(index, item);
-        }
-
-        /// <inheritdoc/>
-        protected override int GetKeyForItem(PropertyDescriptor item) {
-
-            return item.PropertyId;
         }
 
         #endregion
