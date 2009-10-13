@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messaging.Serialization
     /// Specifies the identifier of the decorated type. This class is <see langword="sealed"/>.
     /// </summary>
     [Serializable]
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Struct,
-        AllowMultiple = false, Inherited = false)]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
     public sealed class TypeIdAttribute : Attribute, IEquatable<TypeIdAttribute>
     {
         #region Private Impl.
