@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ArgEmptyString" xml:space="preserve">
+    <value>Expected non-empty string.</value>
+  </data>
+  <data name="ArgNonEmptyCollection" xml:space="preserve">
+    <value>Expected non-empty collection.</value>
+  </data>
+  <data name="CredentialsRejectedException_Ctor" xml:space="preserve">
+    <value>The supplied credentials have been rejected.</value>
+  </data>
+  <data name="LapGap_InvalidCompareToArgument" xml:space="preserve">
+    <value>"Cannot compare a {0} instance to an instance of {1}."</value>
+  </data>
+  <data name="LiveData_UnableToConvertToDriverStatus" xml:space="preserve">
+    <value>Unable parse the next driver status message as the driver status value specified in the message ('{0}') is invalid.</value>
+  </data>
+  <data name="LiveData_UnableToConvertToGridColumn" xml:space="preserve">
+    <value>Unable to parse the next message as the grid column index '{0}' could not be converted to a GridColumn given the current session ('{1}').</value>
+  </data>
+  <data name="LiveData_UnableToConvertToPostedTimeType" xml:space="preserve">
+    <value>Unable to parse the next message as the posted time type value specified in the message ('{0}') is invalid.</value>
+  </data>
+  <data name="LiveData_UnableToConvertToSessionStatus" xml:space="preserve">
+    <value>Unable parse the next race status message as the race status value specified in the message ('{0}') is invalid.</value>
+  </data>
+  <data name="LiveData_UnableToConvertToSessionType" xml:space="preserve">
+    <value>Unable to parse the next this type message as the session type value specified in the message ('{0}') is invalid.</value>
+  </data>
+  <data name="LiveData_UnableToParseDouble" xml:space="preserve">
+    <value>Unable to parse the next message as it contains an incorrectly formatted Double string ('{0}').</value>
+  </data>
+  <data name="LiveData_UnableToParseInt32" xml:space="preserve">
+    <value>Unable to parse the next message as it contains an incorrectly formatted Int32 string ('{0}').</value>
+  </data>
+  <data name="LiveData_UnableToParseTime" xml:space="preserve">
+    <value>Unable to parse the next message as the time value specified in the message ('{0}') is invalid.</value>
+  </data>
+  <data name="LiveDecryptorFactory_UnableToParseSeed" xml:space="preserve">
+    <value>Unable to parse decryption seed from '{0}'.</value>
+  </data>
+  <data name="LiveMessageReader_InvalidMessageType" xml:space="preserve">
+    <value>The type of the next timing message ('{0}') is not supported.</value>
+  </data>
+  <data name="LiveMessageReader_UnexpectedFirstMessage" xml:space="preserve">
+    <value>Unable to read any messages from the stream as the first expected message was not an update keyframe message. The first message encountered was '{0}'.</value>
+  </data>
+  <data name="MessageReader_InvalidMessage" xml:space="preserve">
+    <value>The format of the next timing message is invalid.</value>
+  </data>
+  <data name="TimeGap_InvalidCompareToArgument" xml:space="preserve">
+    <value>Cannot compare a {0} instance to an instance of {1}.</value>
+  </data>
+  <data name="UnexpectedEndOfStreamException_Ctor" xml:space="preserve">
+    <value>The end of the message stream was unexpectedly reached.</value>
+  </data>
+</root>

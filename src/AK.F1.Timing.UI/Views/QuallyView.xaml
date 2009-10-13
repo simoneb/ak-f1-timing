@@ -1,0 +1,423 @@
+﻿<Window
+    x:Class="AK.F1.Timing.UI.Views.QuallyView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"   
+    xmlns:converters="clr-namespace:AK.F1.Timing.UI.Converters"
+    xmlns:controls="clr-namespace:AK.F1.Timing.UI.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    Width="1102"
+    Height="630"
+    Title="Main Window"
+    WindowStartupLocation="CenterScreen"
+    HorizontalAlignment="Left" WindowStyle="ToolWindow"
+    Background="{StaticResource ControlBackgroundBrush}">
+    <Window.Resources>
+
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Padding" Value="6,3,6,3"/>
+        </Style>
+
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
+            <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
+            <Setter Property="HorizontalContentAlignment" Value="Right"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                        <Grid>
+                            <ContentPresenter
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LeftAlignedHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="6,0,0,4"/>
+        </Style>
+
+        <Style x:Key="PitLapHeader" BasedOn="{StaticResource LeftAlignedHeader}" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Width" Value="18"/>
+        </Style>
+
+        <Style x:Key="SectorHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Width" Value="31"/>
+        </Style>
+
+        <Style TargetType="{x:Type ListViewItem}">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ListViewItemFocusVisual}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <ControlTemplate.Resources>
+                            <Storyboard x:Key="HoverOn">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="HoverOff">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="HoverRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="SelectedOn">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SelectedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="SelectedOff">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="SelectedRectangle" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.4000000" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="FocussedOn">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.1000000" Value="1"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                            <Storyboard x:Key="FocussedOff">
+                                <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                    <SplineDoubleKeyFrame KeyTime="00:00:00.3000000" Value="0"/>
+                                </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                        </ControlTemplate.Resources>
+                        <Border SnapsToDevicePixels="true" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="2" x:Name="border">
+                            <Grid>
+                                <Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1"/>
+                                <Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1"/>
+                                <GridViewRowPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Stretch" />
+                            </Grid>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="true">
+                                <Trigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource SelectedOff}" x:Name="SelectedOff_BeginStoryboard"/>
+                                </Trigger.ExitActions>
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource SelectedOn}" x:Name="SelectedOn_BeginStoryboard"/>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                            <MultiTrigger>
+                                <MultiTrigger.ExitActions>
+                                    <BeginStoryboard Storyboard="{StaticResource HoverOff}" x:Name="HoverOff_BeginStoryboard"/>
+                                </MultiTrigger.ExitActions>
+                                <MultiTrigger.EnterActions>
+                                    <BeginStoryboard Storyboard="{StaticResource HoverOn}"/>
+                                </MultiTrigger.EnterActions>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                    <Condition Property="Selector.IsSelected" Value="False" />
+                                </MultiTrigger.Conditions>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="Selector.IsSelected" Value="True" />
+                                    <Condition Property="IsMouseOver" Value="True" />
+                                </MultiTrigger.Conditions>
+                            </MultiTrigger>
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsSelected" Value="true" />
+                                    <Condition Property="Selector.IsSelectionActive" Value="false" />
+                                </MultiTrigger.Conditions>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="Selector.IsSelected" Value="True">
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <SolidColorBrush Color="{DynamicResource BlackColor}" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <converters:GridColumnColourConverter x:Key="ColourConverter"/>        
+        <converters:LapTimeConverter x:Key="LapTimeConverter"/>
+        <converters:SectorTimeConverter x:Key="SectorTimeConverter"/>
+        <converters:LapNumberConverter x:Key="LapNumberConverter"/>        
+
+        <Style x:Key="StandardColumn" TargetType="{x:Type Control}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control}">
+                        <TextBlock                                     
+                            Margin="-5,0,-6,0"
+                            Foreground="{Binding Path=TextColour, Converter={StaticResource ColourConverter}}"
+                            Text="{Binding Path=Text}"
+                            TextAlignment="Right"/>
+               </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="LeftAlignedColumn" TargetType="{x:Type Control}">
+            <Setter Property="Margin" Value="0,0,-6,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Control}">
+                        <TextBlock                                     
+                            Margin="{TemplateBinding Margin}"
+                            Foreground="{Binding Path=TextColour, Converter={StaticResource ColourConverter}}"
+                            Text="{Binding Path=Text}"
+                            TextAlignment="Left"/>
+               </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PitLapColumn" TargetType="{x:Type Control}" BasedOn="{StaticResource LeftAlignedColumn}">
+            <Setter Property="Margin" Value="-2,0,-6,0"/>
+        </Style>
+
+        <Style x:Key="GridSessionText" TargetType="{x:Type TextBlock}">
+            <Setter Property="Foreground" Value="Yellow"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        
+        <Style x:Key="Border" TargetType="{x:Type Border}">
+            <Setter Property="CornerRadius" Value="3"/>
+            <Setter Property="BorderBrush" Value="{StaticResource NormalBrush}"/>
+            <Setter Property="Padding" Value="4"/>
+            <Setter Property="BorderThickness" Value="3"/>            
+        </Style>
+
+    </Window.Resources>
+    <StackPanel Margin="4">
+        <StackPanel Orientation="Horizontal">
+            <Border Style="{StaticResource Border}" HorizontalAlignment="Left" x:Name="GridBorder">
+                <StackPanel Orientation="Vertical">
+                    <ListView ItemsSource="{Binding Path=Session.Grid.Rows}" HorizontalAlignment="Left" BorderThickness="0" MinHeight="350" SelectionMode="Single" SelectedItem="{Binding SelectedGridRow}">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="False">
+                                <GridViewColumn Header="P" Width="15">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding Position}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="C" Width="25" >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding CarNumber}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Driver" HeaderContainerStyle="{StaticResource LeftAlignedHeader}" Width="100">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding DriverName}" Style="{StaticResource LeftAlignedColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Q1" Width="60">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding Q1}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Q2" Width="60">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding Q2}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Q2" Width="60">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding Q3}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="S1" HeaderContainerStyle="{StaticResource SectorHeader}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding S1}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="S2" HeaderContainerStyle="{StaticResource SectorHeader}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding S2}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="S3" HeaderContainerStyle="{StaticResource SectorHeader}">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding S3}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="L" Width="25">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Control DataContext="{Binding Laps}" Style="{StaticResource StandardColumn}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    <Grid Margin="3,3,3,3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Session.ElapsedSessionTime}" HorizontalAlignment="Left" Style="{StaticResource GridSessionText}" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Session.SessionStatus}" HorizontalAlignment="Center" Style="{StaticResource GridSessionText}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Session.RemainingSessionTime}" HorizontalAlignment="Right" Style="{StaticResource GridSessionText}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource Border}" Margin="6,0,0,0" Width="300" Height="{Binding ElementName=GridBorder, Path=ActualHeight}">
+                <ScrollViewer>
+                    <TextBlock Text="{Binding Session.Messages.Commentary}" Foreground="{StaticResource TextBrush}" TextWrapping="Wrap"/>
+                </ScrollViewer>
+            </Border>
+            <StackPanel Width="307" HorizontalAlignment="left" Margin="3,0,0,0">
+                <controls:DoubleCollectionModelControl Title="Air Temperature" DataContext="{Binding Session.Weather.AirTemperature}" StringFormat="{}{0:0.0}°C"/>
+                <controls:DoubleCollectionModelControl Title="Track Temperature" DataContext="{Binding Session.Weather.TrackTemperature}" StringFormat="{}{0:0.0}°C"/>
+                <controls:DoubleCollectionModelControl Title="Wind Speed" DataContext="{Binding Session.Weather.WindSpeed}" StringFormat="{}{0:0.00}m/s"/>
+                <controls:DoubleCollectionModelControl Title="Wind Angle" DataContext="{Binding Session.Weather.WindAngle}" StringFormat="{}{0:#}°"/>
+                <controls:DoubleCollectionModelControl Title="Pressure" DataContext="{Binding Session.Weather.Pressure}" StringFormat="{}{0:0.0}mb"/>
+                <controls:DoubleCollectionModelControl Title="Humidity" DataContext="{Binding Session.Weather.Humidity}" StringFormat="{}{0:0}%"/>
+                <Expander>
+                    <Expander.Header>
+                        <TextBlock Text="Debug"/>
+                    </Expander.Header>
+                    <Expander.Content>
+                        <Grid Margin="4,2,4,3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Grid.Column="0" Text="Type:"/>
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Session.SessionType}"/>
+                            <TextBlock Grid.Row="1" Grid.Column="0" Text="Lap No.:"/>
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Session.RaceLapNumber}"/>
+                            <TextBlock Grid.Row="2" Grid.Column="0" Text="Messages:"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Session.Feed.MessageCount}"/>            
+                            <TextBlock Grid.Row="3" Grid.Column="0" Text="Data Path:"/>
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DataPath}"/>
+                            <TextBlock Grid.Row="4" Grid.Column="0" Text="Sys Message:"/>
+                            <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Session.Messages.System}"/>
+                            <TextBlock Grid.Row="5" Grid.Column="0" Text="Ping Interval:"/>
+                            <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Session.Feed.PingInterval}"/>
+                            <TextBlock Grid.Row="6" Grid.Column="0" Text="Keyframe No.:"/>
+                            <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Session.Feed.KeyframeNumber}"/>
+                        </Grid>
+                    </Expander.Content>
+                </Expander>
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <Border Style="{StaticResource Border}" HorizontalAlignment="Left" Margin="0,6,0,0" DataContext="{Binding SelectedDriver}">
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="75"/>
+                        <ColumnDefinition Width="150"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Name:"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Position:"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Position}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Status:"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Status}"/>            
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Best Lap:"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=LapTimes.Minimum, Converter={StaticResource LapTimeConverter}}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Best S1:"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding Path=SectorTimes.S1.Minimum, Converter={StaticResource SectorTimeConverter}}"/>
+                    <TextBlock Grid.Row="5" Grid.Column="0" Text="Best S2:"/>
+                    <TextBlock Grid.Row="5" Grid.Column="1" Text="{Binding Path=SectorTimes.S2.Minimum, Converter={StaticResource SectorTimeConverter}}"/>
+                    <TextBlock Grid.Row="6" Grid.Column="0" Text="Best S3:"/>
+                    <TextBlock Grid.Row="6" Grid.Column="1" Text="{Binding Path=SectorTimes.S3.Minimum, Converter={StaticResource SectorTimeConverter}}"/>
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource Border}" HorizontalAlignment="Left" Margin="6,6,0,0" DataContext="{Binding Session.FastestTimes}">
+                <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="25"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Fastest Lap:"/>
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Path=Lap.Time, Converter={StaticResource LapTimeConverter}}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding Path=Lap.Driver.Name}"/>
+                    <TextBlock Grid.Row="0" Grid.Column="3" Text="{Binding Path=Lap.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Fastest S1:"/>
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Path=S1.Time, Converter={StaticResource SectorTimeConverter}}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="2" Text="{Binding Path=S1.Driver.Name}"/>
+                    <TextBlock Grid.Row="1" Grid.Column="3" Text="{Binding Path=S1.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Fastest S2:"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Path=S2.Time, Converter={StaticResource SectorTimeConverter}}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding Path=S2.Driver.Name}"/>
+                    <TextBlock Grid.Row="2" Grid.Column="3" Text="{Binding Path=S2.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Fastest S3:"/>
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Path=S3.Time, Converter={StaticResource SectorTimeConverter}}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Path=S3.Driver.Name}"/>
+                    <TextBlock Grid.Row="3" Grid.Column="3" Text="{Binding Path=S3.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Possible:"/>
+                    <TextBlock Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding Path=Possible, Converter={StaticResource LapTimeConverter}}"/>                    
+                </Grid>
+            </Border>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+            <Button Command="{Binding WatchLiveCommand}">Watch Live</Button>
+            <Button Command="{Binding StartPlaybackCommand}">Watch Playback</Button>
+        </StackPanel>
+    </StackPanel>
+</Window>
