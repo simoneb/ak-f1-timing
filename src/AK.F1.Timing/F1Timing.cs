@@ -13,11 +13,9 @@
 // limitations under the License.
 
 using System;
-using System.IO;
 
 using AK.F1.Timing.Messaging;
 using AK.F1.Timing.Messaging.Live;
-using AK.F1.Timing.Messaging.Live.Recording;
 using AK.F1.Timing.Messaging.Live.Encryption;
 using AK.F1.Timing.Messaging.Live.IO;
 using AK.F1.Timing.Messaging.Playback;
@@ -25,7 +23,7 @@ using AK.F1.Timing.Messaging.Playback;
 namespace AK.F1.Timing
 {
     /// <summary>
-    /// Provides a facade interface to the entire <see cref="AK.F1.Timing"/> library. This class is
+    /// Provides a simple interface to the entire <see cref="AK.F1.Timing"/> library. This class is
     /// <see langword="static"/>.
     /// </summary>
     public static class F1Timing
@@ -33,22 +31,29 @@ namespace AK.F1.Timing
         #region Public Interface.
 
         /// <summary>
-        /// 
+        /// Provides methods for creating <see cref="AK.F1.Timing.Messaging.IMessageReader"/>s which
+        /// read from the live message stream.
         /// </summary>
         public static class Live
         {
             /// <summary>
-            /// 
+            /// Creates a live message reader using the specified credentials.
             /// </summary>
-            /// <param name="username">A user's F1 live timing username.</param>
+            /// <param name="username">The user's F1 live timing username.</param>
             /// <param name="password">The user's F1 live timing password.</param>
-            /// <returns></returns>
+            /// <returns>A message reader which reads live messages.</returns>
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="username"/> or <paramref name="password"/> is 
             /// <see langword="null"/>.
             /// </exception>
             /// <exception cref="System.ArgumentException">
             /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
+            /// </exception>
+            /// <exception cref="System.IO.IOException">
+            /// Thrown when an IO error whilst connecting to the live messages stream.
+            /// </exception>
+            /// <exception cref="AK.F1.Timing.Messaging.CredentialsRejectedException">
+            /// Thrown when the supplied credentials were rejected by the live timing site.
             /// </exception>
             public static IMessageReader CreateReader(string username, string password) {
 
@@ -57,39 +62,44 @@ namespace AK.F1.Timing
                     new LiveDecryptorFactory(username, password));
             }
 
-            public static IMessageReader CreateRecordingReader(string username, string password,
-                string path, FileMode mode) {
+            /// <summary>
+            /// Creates a live message reader using the specified credentials and records the
+            /// messages to the <paramref name="path"/>.
+            /// </summary>
+            /// <param name="username">The user's F1 live timing username.</param>
+            /// <param name="password">The user's F1 live timing password.</param>            
+            /// <param name="path">The path to save the messages to.</param>
+            /// <returns>A message reader which reads and records live messages.</returns>
+            /// <exception cref="System.ArgumentNullException">
+            /// Thrown when <paramref name="username"/> or <paramref name="password"/> or
+            /// <paramref name="path"/> is  <see langword="null"/>.
+            /// </exception>
+            /// <exception cref="System.ArgumentException">
+            /// Thrown when <paramref name="username"/> or <paramref name="password"/> or
+            /// <paramref name="path"/> is empty.
+            /// </exception>
+            /// <exception cref="System.IO.IOException">
+            /// Thrown when an IO error occurs whilst creating the output file or connecting to the live
+            /// messages stream.
+            /// </exception>
+            /// <exception cref="AK.F1.Timing.Messaging.CredentialsRejectedException">
+            /// Thrown when the supplied credentials were rejected by the live timing site.
+            /// </exception>
+            public static IMessageReader CreateRecordingReader(string username, string password, string path) {
 
-                return new RecordingMessageReader(CreateReader(username, password), path, mode);
+                return new RecordingMessageReader(CreateReader(username, password), path);
             }
         }
 
         /// <summary>
-        /// 
+        /// Provides methods for creating <see cref="AK.F1.Timing.Messaging.Playback.IRecordedMessageReader"/>s
+        /// which read from a persisted live message stream.
         /// </summary>
         public static class Playback
         {
             /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="directory">The directory which contains the persisted message streams and
-            /// encryption seeds.</param>
-            /// <returns></returns>
-            /// <exception cref="System.ArgumentNullException">
-            /// Thrown when <paramref name="directory"/> is <see langword="null"/>.
-            /// </exception>
-            /// <exception cref="System.IO.DirectoryNotFoundException">
-            /// Thrown when <paramref name="directory"/> does not exist.
-            /// </exception>
-            public static IMessageReader CreateReader(string directory) {
-
-                return new LiveMessageReader(
-                    new RecordedMessageStreamEndpoint(directory),
-                    new RecordedDecryptorFactory(directory));
-            }
-
-            /// <summary>
-            /// 
+            /// Creates a playback messages reader which reads the persisted messages from the specified
+            /// file <paramref name="path"/>.
             /// </summary>
             /// <param name="path">The path of the recorded message stream.</param>
             /// <returns></returns>
@@ -99,9 +109,12 @@ namespace AK.F1.Timing
             /// <exception cref="System.IO.FileNotFoundException">
             /// Thrown when <paramref name="path"/> does not exist.
             /// </exception>
-            public static IRecordedMessageReader CreateReader2(string path) {                
+            /// <exception cref="System.IO.IOException">
+            /// Thrown when an IO error occurs whilst opening the specified <paramref name="path"/>.
+            /// </exception>
+            public static IRecordedMessageReader CreateReader(string path) {
 
-                return new AK.F1.Timing.Messaging.Playback.RecordedMessageReader(path);
+                return new RecordedMessageReader(path);
             }
         }
 
