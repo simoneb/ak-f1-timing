@@ -55,7 +55,7 @@ namespace AK.F1.Timing.Messaging.Serialization
         /// Thrown when this instance has been disposed of.
         /// </exception>
         public void Write(object graph) {
-            
+
             CheckDisposed();
 
             var context = CreateContext(graph);
@@ -73,7 +73,7 @@ namespace AK.F1.Timing.Messaging.Serialization
 
         private void WriteObject(ref GraphContext context) {
 
-            this.Output.Write((byte)context.TypeCode);
+            WriteObjectTypeCode(context.TypeCode);
             this.Output.Write(context.Descriptor.TypeId);
             this.Output.Write((byte)context.Descriptor.Properties.Count);
             foreach(var property in context.Descriptor.Properties) {
@@ -82,70 +82,154 @@ namespace AK.F1.Timing.Messaging.Serialization
             }
         }
 
-        private void WritePrimitive(ref GraphContext context) {
-
-            this.Output.Write((byte)context.TypeCode);
+        private void WritePrimitive(ref GraphContext context) {            
 
             switch(context.TypeCode) {
                 case ObjectTypeCode.Empty:
-                    // Null has no members, obviously.
+                case ObjectTypeCode.DBNull:
                     break;
                 case ObjectTypeCode.Object:
                     Guard.Fail("WritePrimitive should not have been called for an Object.");
                     break;
-                case ObjectTypeCode.DBNull:
-                    // Null has no members and it is a singleton.
-                    break;
                 case ObjectTypeCode.Boolean:
-                    this.Output.Write(Convert.ToBoolean(context.Graph));
+                    WriteBoolean(Convert.ToBoolean(context.Graph));
                     break;
                 case ObjectTypeCode.Char:
-                    this.Output.Write(Convert.ToChar(context.Graph));
+                    WriteChar(Convert.ToChar(context.Graph));
                     break;
                 case ObjectTypeCode.SByte:
-                    this.Output.Write(Convert.ToSByte(context.Graph));
+                    WriteSByte(Convert.ToSByte(context.Graph));
                     break;
                 case ObjectTypeCode.Byte:
-                    this.Output.Write(Convert.ToByte(context.Graph));
+                    WriteByte(Convert.ToByte(context.Graph));
                     break;
                 case ObjectTypeCode.Int16:
-                    this.Output.Write(Convert.ToInt16(context.Graph));
+                case ObjectTypeCode.Int32:
+                case ObjectTypeCode.Int64:
+                    WriteInt64(Convert.ToInt64(context.Graph));
                     break;
                 case ObjectTypeCode.UInt16:
-                    this.Output.Write(Convert.ToUInt16(context.Graph));
-                    break;
-                case ObjectTypeCode.Int32:
-                    this.Output.Write(Convert.ToInt32(context.Graph));
-                    break;
                 case ObjectTypeCode.UInt32:
-                    this.Output.Write(Convert.ToUInt32(context.Graph));
-                    break;
-                case ObjectTypeCode.Int64:
-                    this.Output.Write(Convert.ToInt64(context.Graph));
-                    break;
                 case ObjectTypeCode.UInt64:
-                    this.Output.Write(Convert.ToUInt64(context.Graph));
+                    WriteUInt64(Convert.ToUInt64(context.Graph));
                     break;
                 case ObjectTypeCode.Single:
-                    this.Output.Write(Convert.ToSingle(context.Graph));
+                    WriteSingle(Convert.ToSingle(context.Graph));
                     break;
                 case ObjectTypeCode.Double:
-                    this.Output.Write(Convert.ToDouble(context.Graph));
+                    WriteDouble(Convert.ToDouble(context.Graph));
                     break;
                 case ObjectTypeCode.Decimal:
-                    this.Output.Write(Convert.ToDecimal(context.Graph));
+                    WriteDecimal(Convert.ToDecimal(context.Graph));
                     break;
                 case ObjectTypeCode.DateTime:
-                    this.Output.Write(Convert.ToDateTime(context.Graph).ToBinary());
+                    WriteDateTime(Convert.ToDateTime(context.Graph));
                     break;
                 case ObjectTypeCode.String:
-                    this.Output.Write(Convert.ToString(context.Graph));
+                    WriteString(Convert.ToString(context.Graph));
                     break;
                 case ObjectTypeCode.TimeSpan:
-                    this.Output.Write(((TimeSpan)context.Graph).Ticks);
+                    WriteTimeSpan((TimeSpan)context.Graph);
                     break;
                 default:
                     throw Guard.ArgumentOutOfRange("GraphContext.ObjectTypeCode");
+            }
+        }
+
+        private void WriteObjectTypeCode(ObjectTypeCode value) {
+
+            this.Output.Write((byte)value);
+        }
+
+        private void WriteBoolean(bool value) {
+
+            WriteObjectTypeCode(ObjectTypeCode.Boolean);
+            this.Output.Write(value);
+        }
+
+        private void WriteChar(char value) {
+
+            WriteObjectTypeCode(ObjectTypeCode.Char);
+            this.Output.Write(value);
+        }
+
+        private void WriteSByte(sbyte value) {
+
+            WriteObjectTypeCode(ObjectTypeCode.SByte);
+            this.Output.Write(value);
+        }
+
+        private void WriteByte(byte value) {
+
+            WriteObjectTypeCode(ObjectTypeCode.Byte);
+            this.Output.Write(value);
+        }
+
+        private void WriteSingle(float value) {
+
+            WriteObjectTypeCode(ObjectTypeCode.Single);
+            this.Output.Write(value);
+        }
+
+        private void WriteTimeSpan(TimeSpan value) {
+
+            WriteInt64(value.Ticks);
+        }
+
+        private void WriteString(string value) {
+
+            WriteObjectTypeCode(ObjectTypeCode.String);
+            this.Output.Write(value);
+        }
+
+        private void WriteDateTime(DateTime value) {
+
+            WriteInt64(value.ToBinary());
+        }
+
+        private void WriteDecimal(decimal value) {
+
+            WriteObjectTypeCode(ObjectTypeCode.Decimal);
+            this.Output.Write(value);
+        }
+
+        private void WriteDouble(double value) {
+            
+            WriteObjectTypeCode(ObjectTypeCode.Double);
+            this.Output.Write(value);
+        }
+
+        private void WriteInt64(long value) {
+
+            if(value >= byte.MinValue && value <= byte.MaxValue) {
+                WriteObjectTypeCode(ObjectTypeCode.Byte);
+                this.Output.Write(checked((byte)value));
+            } else if(value >= short.MinValue && value <= short.MaxValue) {
+                WriteObjectTypeCode(ObjectTypeCode.Int16);
+                this.Output.Write(checked((short)value));
+            } else if(value >= int.MinValue && value <= int.MaxValue) {
+                WriteObjectTypeCode(ObjectTypeCode.Int32);
+                this.Output.Write(checked((int)value));
+            } else {
+                WriteObjectTypeCode(ObjectTypeCode.Int64);
+                this.Output.Write(value);
+            }
+        }
+
+        private void WriteUInt64(ulong value) {
+
+            if(value <= byte.MaxValue) {
+                WriteObjectTypeCode(ObjectTypeCode.Byte);
+                this.Output.Write(checked((byte)value));
+            } else if(value <= ushort.MaxValue) {
+                WriteObjectTypeCode(ObjectTypeCode.UInt16);
+                this.Output.Write(checked((ushort)value));
+            } else if(value <= uint.MaxValue) {
+                WriteObjectTypeCode(ObjectTypeCode.UInt32);
+                this.Output.Write(checked((uint)value));
+            } else {
+                WriteObjectTypeCode(ObjectTypeCode.UInt64);
+                this.Output.Write(value);
             }
         }
 
@@ -167,7 +251,7 @@ namespace AK.F1.Timing.Messaging.Serialization
                 Graph = graph,
                 TypeCode = typeCode
             };
-        }        
+        }
 
         private BinaryWriter Output { get; set; }
 
