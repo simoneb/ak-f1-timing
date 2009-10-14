@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Runtime.Serialization;
 using AK.F1.Timing.Messaging.Serialization;
 
 namespace AK.F1.Timing.Messaging.Messages.Feed
@@ -23,7 +24,7 @@ namespace AK.F1.Timing.Messaging.Messages.Feed
     /// </summary>
     [Serializable]
     [TypeId(-873216)]
-    public sealed class EndOfSessionMessage : Message
+    public sealed class EndOfSessionMessage : Message, IObjectReference
     {
         #region Public Interface.
 
@@ -45,6 +46,15 @@ namespace AK.F1.Timing.Messaging.Messages.Feed
         public override string ToString() {
 
             return Repr("");
+        }
+
+        #endregion
+
+        #region Explicit Interface.
+
+        object IObjectReference.GetRealObject(StreamingContext context) {
+
+            return EndOfSessionMessage.Instance;
         }
 
         #endregion
