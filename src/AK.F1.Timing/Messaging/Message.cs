@@ -85,6 +85,7 @@ namespace AK.F1.Timing.Messaging
 
         #region Private Impl.
 
+        // This type should not serialized hence it has no TypeId.
         [Serializable]
         private sealed class EmptyMessage : Message
         {
