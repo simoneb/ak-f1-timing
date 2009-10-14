@@ -215,37 +215,47 @@ namespace AK.F1.Timing.Messaging.Serialization
         }
 
         private void WriteInt64(long value) {
-
-            if(value >= byte.MinValue && value <= byte.MaxValue) {
-                WriteObjectTypeCode(ObjectTypeCode.Byte);
-                this.Output.Write(checked((byte)value));
-            } else if(value >= short.MinValue && value <= short.MaxValue) {
-                WriteObjectTypeCode(ObjectTypeCode.Int16);
-                this.Output.Write(checked((short)value));
-            } else if(value >= int.MinValue && value <= int.MaxValue) {
-                WriteObjectTypeCode(ObjectTypeCode.Int32);
-                this.Output.Write(checked((int)value));
-            } else {
-                WriteObjectTypeCode(ObjectTypeCode.Int64);
-                this.Output.Write(value);
+#if DEBUG
+            checked {
+#endif
+                if(value >= byte.MinValue && value <= byte.MaxValue) {
+                    WriteObjectTypeCode(ObjectTypeCode.Byte);
+                    this.Output.Write((byte)value);
+                } else if(value >= short.MinValue && value <= short.MaxValue) {
+                    WriteObjectTypeCode(ObjectTypeCode.Int16);
+                    this.Output.Write((short)value);
+                } else if(value >= int.MinValue && value <= int.MaxValue) {
+                    WriteObjectTypeCode(ObjectTypeCode.Int32);
+                    this.Output.Write((int)value);
+                } else {
+                    WriteObjectTypeCode(ObjectTypeCode.Int64);
+                    this.Output.Write(value);
+                }
+#if DEBUG
             }
+#endif
         }
 
         private void WriteUInt64(ulong value) {
-
-            if(value <= byte.MaxValue) {
-                WriteObjectTypeCode(ObjectTypeCode.Byte);
-                this.Output.Write(checked((byte)value));
-            } else if(value <= ushort.MaxValue) {
-                WriteObjectTypeCode(ObjectTypeCode.UInt16);
-                this.Output.Write(checked((ushort)value));
-            } else if(value <= uint.MaxValue) {
-                WriteObjectTypeCode(ObjectTypeCode.UInt32);
-                this.Output.Write(checked((uint)value));
-            } else {
-                WriteObjectTypeCode(ObjectTypeCode.UInt64);
-                this.Output.Write(value);
+#if DEBUG
+            checked {
+#endif
+                if(value <= byte.MaxValue) {
+                    WriteObjectTypeCode(ObjectTypeCode.Byte);
+                    this.Output.Write((byte)value);
+                } else if(value <= ushort.MaxValue) {
+                    WriteObjectTypeCode(ObjectTypeCode.UInt16);
+                    this.Output.Write((ushort)value);
+                } else if(value <= uint.MaxValue) {
+                    WriteObjectTypeCode(ObjectTypeCode.UInt32);
+                    this.Output.Write((uint)value);
+                } else {
+                    WriteObjectTypeCode(ObjectTypeCode.UInt64);
+                    this.Output.Write(value);
+                }
+#if DEBUG
             }
+#endif
         }
 
         private static GraphContext CreateContext(object graph) {
