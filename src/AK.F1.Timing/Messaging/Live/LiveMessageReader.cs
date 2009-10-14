@@ -246,7 +246,7 @@ namespace AK.F1.Timing.Messaging.Live
                     return ReadSetElapsedSessionTimeMessage(header);
                 case 9:
                     if(header.DataLength >= 15) {
-                        return new StartSessionTimeCountdownMessage();
+                        return StartSessionTimeCountdownMessage.Instance;
                     }
                     if(header.Colour > 0) {
                         return this.ReadWeatherMessage(header);
@@ -394,7 +394,7 @@ namespace AK.F1.Timing.Messaging.Live
             TimeSpan remaining = LiveData.ParseTime(GetLatin1(0, header.DataLength));
 
             return new CompositeMessage(
-                new StopSessionTimeCountdownMessage(),
+                StopSessionTimeCountdownMessage.Instance,
                 new SetRemainingSessionTimeMessage(remaining));
         }
 
