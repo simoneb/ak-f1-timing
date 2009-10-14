@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Runtime.InteropServices;
 using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Messaging.Serialization
@@ -261,7 +262,7 @@ namespace AK.F1.Timing.Messaging.Serialization
         private static GraphContext CreateContext(object graph) {
 
             if(graph == null) {
-                return new GraphContext() { TypeCode = ObjectTypeCode.Empty };
+                return GraphContext.Empty;
             }
 
             TypeDescriptor descriptor = null;
@@ -280,8 +281,13 @@ namespace AK.F1.Timing.Messaging.Serialization
 
         private BinaryWriter Output { get; set; }
 
+        [StructLayout(LayoutKind.Auto)]
         private struct GraphContext
         {
+            public static readonly GraphContext Empty = new GraphContext() { 
+                TypeCode = ObjectTypeCode.Empty 
+            };
+
             public object Graph { get; set; }
 
             public TypeDescriptor Descriptor { get; set; }
