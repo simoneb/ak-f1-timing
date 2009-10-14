@@ -58,7 +58,7 @@ namespace AK.F1.Timing.Messaging.Playback
         /// Thrown when an IO error occurs whilst creating the internal
         /// <see cref="System.IO.FileStream"/> using the supplied arguments.
         /// </exception>
-        public RecordingMessageReader(IMessageReader inner, string path, FileMode mode) {
+        public RecordingMessageReader(IMessageReader inner, string path) {
 
             Guard.NotNull(inner, "inner");
 
