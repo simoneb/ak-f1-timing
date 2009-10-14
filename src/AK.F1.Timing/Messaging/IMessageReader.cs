@@ -31,9 +31,6 @@ namespace AK.F1.Timing.Messaging
         /// <exception cref="System.ObjectDisposedException">
         /// Thrown when the reader has been disposed of.
         /// </exception>
-        /// <exception cref="AK.F1.Timing.Messaging.UnexpectedEndOfStreamException">
-        /// Thrown when the end of the message stream has was unexpectedly reached.
-        /// </exception>
         /// <exception cref="System.IO.IOException">
         /// Thrown when an IO error occurs reading the next message from the stream.
         /// </exception>

@@ -69,7 +69,6 @@
     <Compile Include="Messaging\Serialization\SerializationHelper.cs" />
     <Compile Include="Messaging\Serialization\TypeDescriptor.cs" />
     <Compile Include="Messaging\Serialization\TypeIdAttribute.cs" />
-    <Compile Include="Messaging\UnexpectedEndOfStreamException.cs" />
     <Compile Include="Messaging\Live\LiveMessageTranslatorStateEngine.cs" />
     <Compile Include="Messaging\Live\LiveMessageTranslator.cs" />
     <Compile Include="Messaging\Live\LiveMessageReaderState.cs" />

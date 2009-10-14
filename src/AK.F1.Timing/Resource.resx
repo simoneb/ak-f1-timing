@@ -168,7 +168,7 @@
   <data name="TimeGap_InvalidCompareToArgument" xml:space="preserve">
     <value>Cannot compare a {0} instance to an instance of {1}.</value>
   </data>
-  <data name="UnexpectedEndOfStreamException_Ctor" xml:space="preserve">
+  <data name="UnexpectedEndOfStreamException" xml:space="preserve">
     <value>The end of the message stream was unexpectedly reached.</value>
   </data>
 </root>

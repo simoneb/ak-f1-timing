@@ -62,9 +62,6 @@ namespace AK.F1.Timing.Messaging
                 while((message = ReadImpl()) == Message.Empty) {
                     // Void.
                 }
-            } catch(UnexpectedEndOfStreamException exc) {
-                ProcessExceptionInRead(exc, false);
-                throw;
             } catch(IOException exc) {
                 ProcessExceptionInRead(exc);
                 throw;

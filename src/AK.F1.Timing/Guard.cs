@@ -91,9 +91,9 @@ namespace AK.F1.Timing
             return new DirectoryNotFoundException(path);
         }
 
-        internal static UnexpectedEndOfStreamException UnexpectedEndOfStream() {
+        internal static EndOfStreamException UnexpectedEndOfStream() {
 
-            return new UnexpectedEndOfStreamException();
+            return new EndOfStreamException(Resource.UnexpectedEndOfStreamException);
         }
 
         internal static ObjectDisposedException ObjectDisposed(object instance) {
