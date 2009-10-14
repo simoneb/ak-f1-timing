@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.Serialization;
 using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Messaging.Serialization
@@ -39,7 +40,8 @@ namespace AK.F1.Timing.Messaging.Serialization
 
             Guard.NotNull(input, "input");
 
-            this.Input = new BinaryReader(input, ObjectWriter.TEXT_ENCODING);
+            this.Context = new StreamingContext(StreamingContextStates.All);
+            this.Input = new BinaryReader(input, ObjectWriter.TEXT_ENCODING);            
         }
 
         /// <summary>
@@ -90,7 +92,14 @@ namespace AK.F1.Timing.Messaging.Serialization
                 }
             }
 
-            return instance;
+            return GetRealObject(instance);
+        }
+
+        private object GetRealObject(object instance) {
+
+            IObjectReference reference = instance as IObjectReference;
+
+            return reference != null ? reference.GetRealObject(this.Context) : instance;
         }
 
         private object ReadPrimitive(ObjectTypeCode typeCode) {
@@ -141,6 +150,8 @@ namespace AK.F1.Timing.Messaging.Serialization
         }
 
         private BinaryReader Input { get; set; }
+
+        private StreamingContext Context { get; set; }
 
         #endregion
     }
