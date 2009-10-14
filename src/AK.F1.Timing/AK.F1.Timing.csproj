@@ -60,9 +60,9 @@
     <Compile Include="Messaging\Playback\RecordingMessageReader.cs" />
     <Compile Include="Messaging\Messages\Feed\SetNextMessageDelayMessage.cs" />
     <Compile Include="Messaging\Serialization\IgnorePropertyAttribute.cs" />
-    <Compile Include="Messaging\Serialization\ObjectReader.cs" />
+    <Compile Include="Messaging\Serialization\DecoratedObjectReader.cs" />
     <Compile Include="Messaging\Serialization\ObjectTypeCode.cs" />
-    <Compile Include="Messaging\Serialization\ObjectWriter.cs" />
+    <Compile Include="Messaging\Serialization\DecoratedObjectWriter.cs" />
     <Compile Include="Messaging\Serialization\PropertyDescriptor.cs" />
     <Compile Include="Messaging\Serialization\PropertyDescriptorCollection.cs" />
     <Compile Include="Messaging\Serialization\PropertyIdAttribute.cs" />

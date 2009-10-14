@@ -21,27 +21,27 @@ using AK.F1.Timing.Utility;
 namespace AK.F1.Timing.Messaging.Serialization
 {
     /// <summary>
-    /// Reads objects that have been serialized by an <see cref="ObjectWriter"/>. This class
-    /// is <see langword="sealed"/>.
+    /// Reads objects that have been serialized by an <see cref="DecoratedObjectWriter"/>. This
+    /// class is <see langword="sealed"/>.
     /// </summary>
-    public sealed class ObjectReader : Disposable
+    public sealed class DecoratedObjectReader : Disposable
     {
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ObjectReader"/> class and specifies the
-        /// underlying <paramref name="input"/> stream.
+        /// Initialises a new instance of the <see cref="DecoratedObjectReader"/> class and
+        /// specifies the underlying <paramref name="input"/> stream.
         /// </summary>
         /// <param name="input">The input stream.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="input"/> is <see langword="null"/>.
         /// </exception>
-        public ObjectReader(Stream input) {
+        public DecoratedObjectReader(Stream input) {
 
             Guard.NotNull(input, "input");
 
             this.Context = new StreamingContext(StreamingContextStates.All);
-            this.Input = new BinaryReader(input, ObjectWriter.TEXT_ENCODING);            
+            this.Input = new BinaryReader(input, DecoratedObjectWriter.TEXT_ENCODING);            
         }
 
         /// <summary>

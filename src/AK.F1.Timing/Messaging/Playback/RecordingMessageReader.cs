@@ -136,7 +136,7 @@ namespace AK.F1.Timing.Messaging.Playback
             this.Inner = inner;
             this.Output = output;
             this.OwnsOutput = ownsOutput;
-            this.Writer = new ObjectWriter(output);
+            this.Writer = new DecoratedObjectWriter(output);
             this.Stopwatch = new Stopwatch();            
         }
 
@@ -161,7 +161,7 @@ namespace AK.F1.Timing.Messaging.Playback
 
         private Stream Output { get; set; }
 
-        private ObjectWriter Writer { get; set; }
+        private DecoratedObjectWriter Writer { get; set; }
 
         private Stopwatch Stopwatch { get; set; }
 

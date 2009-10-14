@@ -14,16 +14,17 @@
 
 using System;
 using System.IO;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
 using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Messaging.Serialization
 {
     /// <summary>
-    /// 
+    /// Writes objects to an underlying output stream that have been decorated with a
+    /// <see cref="TypeIdAttribute"/>. This class is <see langword="sealed"/>.
     /// </summary>
-    public sealed class ObjectWriter : Disposable
+    public sealed class DecoratedObjectWriter : Disposable
     {
         #region Fields.
 
@@ -34,14 +35,14 @@ namespace AK.F1.Timing.Messaging.Serialization
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ObjectWriter"/> class and specifies the
+        /// Initialises a new instance of the <see cref="DecoratedObjectWriter"/> class and specifies the
         /// underlying <paramref name="output"/> stream.
         /// </summary>
         /// <param name="output">The output stream.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="output"/> is <see langword="null"/>.
         /// </exception>
-        public ObjectWriter(Stream output) {
+        public DecoratedObjectWriter(Stream output) {
 
             Guard.NotNull(output, "output");
 

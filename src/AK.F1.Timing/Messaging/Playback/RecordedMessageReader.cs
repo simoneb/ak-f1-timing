@@ -116,7 +116,7 @@ namespace AK.F1.Timing.Messaging.Playback
 
             this.Input = input;
             this.OwnsInput = ownsInput;
-            this.Reader = new ObjectReader(input);
+            this.Reader = new DecoratedObjectReader(input);
             this.DelayEngine = new RecordedMessageDelayEngine(this);
         }
 
@@ -132,7 +132,7 @@ namespace AK.F1.Timing.Messaging.Playback
 
         private Stream Input { get; set; }
 
-        private ObjectReader Reader { get; set; }
+        private DecoratedObjectReader Reader { get; set; }
 
         private bool OwnsInput { get; set; }
 
