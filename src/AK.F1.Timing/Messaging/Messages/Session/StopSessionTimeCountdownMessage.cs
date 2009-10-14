@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Runtime.Serialization;
 using AK.F1.Timing.Messaging.Serialization;
 
 namespace AK.F1.Timing.Messaging.Messages.Session
@@ -23,14 +24,16 @@ namespace AK.F1.Timing.Messaging.Messages.Session
     /// </summary>
     [Serializable]
     [TypeId(-22765526)]
-    public sealed class StopSessionTimeCountdownMessage : Message
+    public sealed class StopSessionTimeCountdownMessage : Message, IObjectReference
     {
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="StopSessionTimeCountdownMessage"/> class.
+        /// Defines the only <see cref="StopSessionTimeCountdownMessage"/> instance. This field is
+        /// <see langword="readonly"/>.
         /// </summary>
-        public StopSessionTimeCountdownMessage() { }
+        public static readonly StopSessionTimeCountdownMessage Instance =
+            new StopSessionTimeCountdownMessage();
 
         /// <inheritdoc />
         public override void Accept(IMessageVisitor visitor) {
@@ -45,6 +48,21 @@ namespace AK.F1.Timing.Messaging.Messages.Session
 
             return Repr("");
         }
+
+        #endregion
+
+        #region Explicit Interface.
+
+        object IObjectReference.GetRealObject(StreamingContext context) {
+
+            return StopSessionTimeCountdownMessage.Instance;
+        }
+
+        #endregion
+
+        #region Private Impl.
+
+        private StopSessionTimeCountdownMessage() { }
 
         #endregion
     }
