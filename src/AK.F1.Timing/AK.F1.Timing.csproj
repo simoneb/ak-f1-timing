@@ -59,6 +59,16 @@
     <Compile Include="Messaging\Playback\RecordedMessageReader.cs" />
     <Compile Include="Messaging\Playback\RecordingMessageReader.cs" />
     <Compile Include="Messaging\Messages\Feed\SetNextMessageDelayMessage.cs" />
+    <Compile Include="Messaging\Playback\Serialization\IgnorePropertyAttribute.cs" />
+    <Compile Include="Messaging\Playback\Serialization\ObjectReader.cs" />
+    <Compile Include="Messaging\Playback\Serialization\ObjectTypeCode.cs" />
+    <Compile Include="Messaging\Playback\Serialization\ObjectWriter.cs" />
+    <Compile Include="Messaging\Playback\Serialization\PropertyDescriptor.cs" />
+    <Compile Include="Messaging\Playback\Serialization\PropertyDescriptorCollection.cs" />
+    <Compile Include="Messaging\Playback\Serialization\PropertyIdAttribute.cs" />
+    <Compile Include="Messaging\Playback\Serialization\SerializationHelper.cs" />
+    <Compile Include="Messaging\Playback\Serialization\TypeDescriptor.cs" />
+    <Compile Include="Messaging\Playback\Serialization\TypeIdAttribute.cs" />
     <Compile Include="Messaging\Serialization\IgnorePropertyAttribute.cs" />
     <Compile Include="Messaging\Serialization\ObjectReader.cs" />
     <Compile Include="Messaging\Serialization\ObjectTypeCode.cs" />
