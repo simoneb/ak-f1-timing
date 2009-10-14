@@ -48,9 +48,6 @@ namespace AK.F1.Timing.Messaging.Serialization
         /// Reads a serialized object from the underlying stream.
         /// </summary>
         /// <returns>The serialized object from the underlying stream.</returns>
-        /// <exception cref="System.IO.EndOfStreamException">
-        /// Thrown when the end of the underlying stream has been reached.
-        /// </exception>
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when an error occurs during deserialization.
         /// </exception>
