@@ -14,12 +14,10 @@
 
 using System;
 using System.IO;
-using System.IO.Compression;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-using System.Runtime.Serialization.Formatters.Binary;
 
 using AK.F1.Timing.Extensions;
+using AK.F1.Timing.Messaging.Serialization;
 
 namespace AK.F1.Timing.Messaging.Playback
 {
@@ -39,15 +37,17 @@ namespace AK.F1.Timing.Messaging.Playback
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="path"></param>
+        /// <param name="path">The input file path.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="path"/> is <see langword="null"/>.
         /// </exception>
+        /// <exception cref="System.IO.IOException">
+        /// Thrown when an IO error occurs whilst creating the internal
+        /// <see cref="System.IO.FileStream"/> using the supplied arguments.
+        /// </exception>
         public RecordedMessageReader(string path) {
 
-            Guard.NotNull(path, "path");
-
-            Initialise(File.OpenRead(path), true);
+            Initialise(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read), true);
         }
 
         /// <summary>
@@ -77,19 +77,19 @@ namespace AK.F1.Timing.Messaging.Playback
         /// <inheritdoc />
         protected override Message ReadImpl() {
 
-            if(this.Inflater == null) {
+            if(this.Reader == null) {
                 return null;
             }
-            
+
             Message message;
 
             try {
-                message = (Message)this.Formatter.Deserialize(this.Inflater);
-                //if(this.DelayEngine.Process(message)) {
-                //    // The engine processed a delay message, let our base class handle the re-read.
-                //    // see MessageReaderBase#Read.
-                //    message = Message.Empty;
-                //}
+                message = (Message)this.Reader.Read();
+                if(this.DelayEngine.Process(message)) {
+                    // The engine processed a delay message, let our base class handle the re-read.
+                    // See MessageReaderBase#Read.
+                    message = Message.Empty;
+                }
             } catch(SerializationException exc) {
                 DisposeOfResources();
                 throw Guard.RecordedMessageReader_DeserializationFailed(exc);
@@ -114,40 +114,25 @@ namespace AK.F1.Timing.Messaging.Playback
 
         private void Initialise(Stream input, bool ownsInput) {
 
-            InitialiseInput(input, ownsInput);            
-            this.Formatter = new BinaryFormatter();
-            this.Formatter.TypeFormat = FormatterTypeStyle.TypesWhenNeeded;
-            this.Formatter.AssemblyFormat = FormatterAssemblyStyle.Simple;
-            this.DelayEngine = new RecordedMessageDelayEngine(this);
-        }
-
-        private void InitialiseInput(Stream input, bool ownsInput) {
-
             this.Input = input;
             this.OwnsInput = ownsInput;
-            this.Inflater = new GZipStream(input, CompressionMode.Decompress, true);            
-        }
-
-        private void Serialize(Message message) {
-
-            this.Formatter.Serialize(this.Inflater, message);
+            this.Reader = new ObjectReader(input);
+            this.DelayEngine = new RecordedMessageDelayEngine(this);
         }
 
         private void DisposeOfResources() {
 
-            DisposeOf(this.Inflater);
-            this.Inflater = null;
+            DisposeOf(this.Reader);
+            this.Reader = null;
             if(this.OwnsInput) {                
                 DisposeOf(this.Input);
             }            
             this.Input = null;
-        }        
-
-        private Stream Inflater { get; set; }
+        }
 
         private Stream Input { get; set; }
 
-        private BinaryFormatter Formatter { get; set; }
+        private ObjectReader Reader { get; set; }
 
         private bool OwnsInput { get; set; }
 

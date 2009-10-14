@@ -15,12 +15,10 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
-using System.Runtime.Serialization.Formatters.Binary;
 
 using AK.F1.Timing.Messaging.Messages.Feed;
+using AK.F1.Timing.Messaging.Serialization;
 
 namespace AK.F1.Timing.Messaging.Playback
 {
@@ -48,11 +46,10 @@ namespace AK.F1.Timing.Messaging.Playback
 
         /// <summary>
         /// Initialises a new instance of the <see cref="RecordingMessageReader"/> class and
-        /// specified the inner message reader, the output file path and the output file mode.
+        /// specified the inner message reader and the output file path.
         /// </summary>
         /// <param name="inner">The inner message reader.</param>
         /// <param name="path">The output file path.</param>
-        /// <param name="mode">The output file mode.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="inner"/> or <paramref name="path"/> is
         /// <see langword="null"/>.
@@ -61,10 +58,11 @@ namespace AK.F1.Timing.Messaging.Playback
         /// Thrown when an IO error occurs whilst creating the internal
         /// <see cref="System.IO.FileStream"/> using the supplied arguments.
         /// </exception>
-        public RecordingMessageReader(IMessageReader inner, string path, FileMode mode)
-            : this(inner) {
+        public RecordingMessageReader(IMessageReader inner, string path, FileMode mode) {
 
-            InitialiseOutput(new FileStream(path, mode, FileAccess.Write, FileShare.None), true);
+            Guard.NotNull(inner, "inner");
+
+            Initialise(inner, new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None), true);
         }
 
         /// <summary>
@@ -80,12 +78,12 @@ namespace AK.F1.Timing.Messaging.Playback
         /// Thrown when <paramref name="inner"/> or <paramref name="output"/> is
         /// <see langword="null"/>.
         /// </exception>
-        public RecordingMessageReader(IMessageReader inner, Stream output, bool ownsOutput)
-            : this(inner) {
+        public RecordingMessageReader(IMessageReader inner, Stream output, bool ownsOutput) {
 
+            Guard.NotNull(inner, "inner");
             Guard.NotNull(output, "output");
 
-            InitialiseOutput(output, ownsOutput);
+            Initialise(inner, output, ownsOutput);
         }
 
         #endregion
@@ -120,7 +118,7 @@ namespace AK.F1.Timing.Messaging.Playback
             }
 
             return message;
-        }        
+        }     
 
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
@@ -133,47 +131,37 @@ namespace AK.F1.Timing.Messaging.Playback
 
         #region Private Impl.
 
-        private RecordingMessageReader(IMessageReader inner) {
-
-            Guard.NotNull(inner, "inner");
+        private void Initialise(IMessageReader inner, Stream output, bool ownsOutput) {
 
             this.Inner = inner;
-            this.Formatter = new BinaryFormatter();
-            this.Formatter.TypeFormat = FormatterTypeStyle.TypesWhenNeeded;
-            this.Stopwatch = new Stopwatch();
-        }
-
-        private void InitialiseOutput(Stream output, bool ownsOutput) {
-
             this.Output = output;
-            this.OwnsOutput = ownsOutput;            
-            this.Deflater = new GZipStream(output, CompressionMode.Compress, true);
-        }
-
-        private void Serialize(Message message) {
-
-            this.Formatter.Serialize(this.Deflater, message);
+            this.OwnsOutput = ownsOutput;
+            this.Writer = new ObjectWriter(output);
+            this.Stopwatch = new Stopwatch();            
         }
 
         private void DisposeOfResources() {            
 
             DisposeOf(this.Inner);
             this.Inner = null;            
-            DisposeOf(this.Deflater);
-            this.Deflater = null;
+            DisposeOf(this.Writer);
+            this.Writer = null;
             if(this.OwnsOutput) {                
                 DisposeOf(this.Output);
             }
             this.Output = null;
         }
 
-        private IMessageReader Inner { get; set; }
+        private void Serialize(Message message) {
 
-        private Stream Deflater { get; set; }
+            this.Writer.Write(message);
+        }   
+
+        private IMessageReader Inner { get; set; }
 
         private Stream Output { get; set; }
 
-        private BinaryFormatter Formatter { get; set; }
+        private ObjectWriter Writer { get; set; }
 
         private Stopwatch Stopwatch { get; set; }
 
