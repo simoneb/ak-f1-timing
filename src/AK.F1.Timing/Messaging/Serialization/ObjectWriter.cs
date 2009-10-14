@@ -86,7 +86,10 @@ namespace AK.F1.Timing.Messaging.Serialization
 
             switch(context.TypeCode) {
                 case ObjectTypeCode.Empty:
+                    WriteEmpty();
+                    break;
                 case ObjectTypeCode.DBNull:
+                    WriteDBNull();
                     break;
                 case ObjectTypeCode.Object:
                     Guard.Fail("WritePrimitive should not have been called for an Object.");
@@ -136,6 +139,16 @@ namespace AK.F1.Timing.Messaging.Serialization
             }
         }
 
+        private void WriteEmpty() {
+
+            WriteObjectTypeCode(ObjectTypeCode.Empty);
+        }
+
+        private void WriteDBNull() {
+
+            WriteObjectTypeCode(ObjectTypeCode.DBNull);
+        }
+
         private void WriteObjectTypeCode(ObjectTypeCode value) {
 
             this.Output.Write((byte)value);
@@ -173,7 +186,8 @@ namespace AK.F1.Timing.Messaging.Serialization
 
         private void WriteTimeSpan(TimeSpan value) {
 
-            WriteInt64(value.Ticks);
+            WriteObjectTypeCode(ObjectTypeCode.TimeSpan);
+            this.Output.Write(value.Ticks);
         }
 
         private void WriteString(string value) {
@@ -184,7 +198,8 @@ namespace AK.F1.Timing.Messaging.Serialization
 
         private void WriteDateTime(DateTime value) {
 
-            WriteInt64(value.ToBinary());
+            WriteObjectTypeCode(ObjectTypeCode.DateTime);
+            this.Output.Write(value.ToBinary());
         }
 
         private void WriteDecimal(decimal value) {
