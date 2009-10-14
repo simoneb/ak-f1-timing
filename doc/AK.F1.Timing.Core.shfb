@@ -1,16 +1,29 @@
 ﻿<project schemaVersion="1.6.0.7">
     <assemblies>
-        <assembly assemblyPath="..\src\AK.F1.Timing\bin\Debug\AK.F1.Timing.dll" xmlCommentsPath="..\src\AK.F1.Timing\bin\Debug\AK.F1.Timing.xml" commentsOnly="False" />
+        <assembly assemblyPath="..\src\AK.F1.Timing\bin\Release\AK.F1.Timing.Core.dll" xmlCommentsPath="..\src\AK.F1.Timing\bin\Release\AK.F1.Timing.Core.xml" commentsOnly="False" />
     </assemblies>
     <namespaceSummaries>
         <namespaceSummaryItem name="" isDocumented="False" />
-        <namespaceSummaryItem name="AK.Net.IO.Sampling" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Extensions" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Live" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Live.Encryption" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Live.IO" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Live.Recording" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Messages.Driver" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Messages.Feed" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Messages.Session" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Messages.Weather" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Playback" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Messaging.Serialization" isDocumented="True" />
+        <namespaceSummaryItem name="AK.F1.Timing.Utility" isDocumented="True" />
     </namespaceSummaries>
     <componentConfigurations>
         <component id="IntelliSense Component" enabled="True" configuration="&lt;component id=&quot;IntelliSense Component&quot; type=&quot;SandcastleBuilder.Components.IntelliSenseComponent&quot; assembly=&quot;{@SHFBFolder}SandcastleBuilder.Components.dll&quot;&gt;&lt;!-- Output options (optional)&#xD;&#xA;                 Attributes:&#xD;&#xA;                    Include Namespaces (false by default)&#xD;&#xA;                    Namespaces filename (&quot;Namespaces&quot; if not specified or empty)&#xD;&#xA;                    Directory (current folder if not specified or empty) --&gt;&lt;output includeNamespaces=&quot;false&quot; namespacesFile=&quot;Namespaces&quot; folder=&quot;{@OutputFolder}&quot; /&gt;&lt;/component&gt;" />
     </componentConfigurations>
-    <ProjectSummary />
-    <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, Namespace, TypeParameter</MissingTags>
+    <ProjectSummary>F1 Timing Library for .NET 3.5</ProjectSummary>
+    <MissingTags>Summary, Parameter, Returns, AutoDocumentCtors, TypeParameter</MissingTags>
     <VisibleItems>Attributes, InheritedMembers, Protected, SealedProtected</VisibleItems>
     <HtmlHelp1xCompilerPath path="" />
     <HtmlHelp2xCompilerPath path="" />
@@ -22,13 +35,13 @@
     <BuildLogFile path="" />
     <HelpFileFormat>HtmlHelp1x</HelpFileFormat>
     <CppCommentsFixup>False</CppCommentsFixup>
-    <FrameworkVersion>2.0.50727</FrameworkVersion>
+    <FrameworkVersion>3.5</FrameworkVersion>
     <IndentHtml>False</IndentHtml>
     <Preliminary>False</Preliminary>
     <RootNamespaceContainer>False</RootNamespaceContainer>
     <RootNamespaceTitle />
-    <HelpTitle>F1 Timing Library for .NET 2.0 Documentation</HelpTitle>
-    <HtmlHelpName>AK.F1.Timing</HtmlHelpName>
+    <HelpTitle>F1 Timing Library for .NET 3.5 Documentation</HelpTitle>
+    <HtmlHelpName>AK.F1.Timing.Core</HtmlHelpName>
     <Language>en-US</Language>
     <CopyrightHref />
     <CopyrightText>Copyright © Andy Kernahan 2009</CopyrightText>
