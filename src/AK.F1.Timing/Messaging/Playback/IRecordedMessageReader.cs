@@ -18,6 +18,10 @@ using AK.F1.Timing.Messaging;
 
 namespace AK.F1.Timing.Messaging.Playback
 {
+    /// <summary>
+    /// Allows recorded <see cref="AK.F1.Timing.Messaging.Message"/>s to be read from an underlying
+    /// data stream and played back at a certain speed.
+    /// </summary>
     public interface IRecordedMessageReader : IMessageReader
     {
         /// <summary>
