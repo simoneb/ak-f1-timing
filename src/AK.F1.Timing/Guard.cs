@@ -16,6 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -91,9 +93,9 @@ namespace AK.F1.Timing
             return new DirectoryNotFoundException(path);
         }
 
-        internal static EndOfStreamException UnexpectedEndOfStream() {
+        internal static EndOfStreamException LiveMessageReader_UnexpectedEndOfStream() {
 
-            return new EndOfStreamException(Resource.UnexpectedEndOfStreamException);
+            return new EndOfStreamException(Resource.LiveMessageReader_UnexpectedEndOfStream);
         }
 
         internal static ObjectDisposedException ObjectDisposed(object instance) {
@@ -217,10 +219,10 @@ namespace AK.F1.Timing
             return new CredentialsRejectedException();
         }
 
-        internal static IOException RecordedMessageReader_DeserializationFailed(SerializationException exc) {
+        internal static FormatException RecordedMessageReader_DeserializationFailed(SerializationException exc) {
 
             // TODO maybe we should provide a custom exception message?
-            return new IOException(exc.Message, exc);
+            return new FormatException(exc.Message, exc);
         }
 
         internal static SerializationException PropertyDescriptor_PropertyIsNotDecorated(PropertyInfo property) {
@@ -256,6 +258,31 @@ namespace AK.F1.Timing
             return new SerializationException(Resource.DecoratedObjectReader_UnexpectedEndOfStream, exc);
         }
 
-        #endregion        
+        internal static SerializationException DecoratedObjectReader_InvalidObjectTypeCode(ObjectTypeCode typeCode) {
+
+            return new SerializationException(Format(Resource.DecoratedObjectReader_InvalidObjectTypeCode, (int)typeCode));
+        }
+
+        internal static IOException LiveMessageStreamEndpoint_FailedToResolveStreamHost(string hostname) {
+
+            return new IOException(Format(Resource.LiveMessageStreamEndpoint_FailedToResolveStreamHost, hostname));
+        }
+
+        internal static IOException LiveMessageStreamEndpoint_FailedToResolveStreamHost(SocketException exc) {
+
+            return new IOException(exc.Message, exc);
+        }
+
+        internal static IOException LiveMessageStreamEndpoint_FailedToOpenStream(SocketException exc) {
+
+            return new IOException(exc.Message, exc);
+        }
+
+        internal static IOException LiveMessageStreamEndpoint_FailedToOpenKeyframe(WebException exc) {
+
+            return new IOException(exc.Message, exc);
+        }
+
+        #endregion
     }
 }
