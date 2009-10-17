@@ -77,18 +77,17 @@ namespace AK.F1.Timing.Messaging.Playback
         /// <inheritdoc />
         protected override Message ReadImpl() {
 
-            if(this.Reader == null) {
-                return null;
-            }
-
             Message message;
 
             try {
-                message = (Message)this.Reader.Read();
-                if(this.DelayEngine.Process(message)) {
-                    // The engine processed a delay message, let our base class handle the re-read.
-                    // See MessageReaderBase#Read.
-                    message = Message.Empty;
+                if((message = (Message)this.Reader.Read()) != null) {
+                    if(this.DelayEngine.Process(message)) {
+                        // The engine processed a delay message, let our base class handle the re-read.
+                        // See MessageReaderBase#Read.
+                        message = Message.Empty;
+                    }
+                } else {
+                    DisposeOfResources();
                 }
             } catch(SerializationException exc) {
                 DisposeOfResources();
@@ -132,7 +131,7 @@ namespace AK.F1.Timing.Messaging.Playback
 
         private Stream Input { get; set; }
 
-        private DecoratedObjectReader Reader { get; set; }
+        private IObjectReader Reader { get; set; }
 
         private bool OwnsInput { get; set; }
 
