@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Messaging.Serialization
     /// Writes objects to an underlying output stream that have been decorated with a
     /// <see cref="TypeIdAttribute"/>. This class is <see langword="sealed"/>.
     /// </summary>
-    public sealed class DecoratedObjectWriter : Disposable
+    public sealed class DecoratedObjectWriter : Disposable, IObjectWriter
     {
         #region Fields.
 
@@ -49,13 +49,7 @@ namespace AK.F1.Timing.Messaging.Serialization
             this.Output = new BinaryWriter(output, TEXT_ENCODING);
         }
 
-        /// <summary>
-        /// Writes the specified graph to the underlying stream.
-        /// </summary>
-        /// <param name="graph">The graph.</param>
-        /// <exception cref="System.ObjectDisposedException">
-        /// Thrown when this instance has been disposed of.
-        /// </exception>
+        /// <inheritdoc/>        
         public void Write(object graph) {
 
             CheckDisposed();
