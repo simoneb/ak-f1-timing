@@ -49,10 +49,10 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <summary>
-        /// Sets the specified sector time.
+        /// Sets the specified fastest sector <paramref name="time"/> model.
         /// </summary>
         /// <param name="sectorNumber">The one-based sector time to set.</param>
-        /// <param name="time">The new sector time value.</param>
+        /// <param name="time">The new sector time model.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="sectorNumber"/> is less than one or greater than three.
         /// </exception>
