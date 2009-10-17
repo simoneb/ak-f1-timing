@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Messaging.Serialization
     /// Reads objects that have been serialized by an <see cref="DecoratedObjectWriter"/>. This
     /// class is <see langword="sealed"/>.
     /// </summary>
-    public sealed class DecoratedObjectReader : Disposable
+    public sealed class DecoratedObjectReader : Disposable, IObjectReader
     {
         #region Public Interface.
 
@@ -44,26 +44,21 @@ namespace AK.F1.Timing.Messaging.Serialization
             this.Input = new BinaryReader(input, DecoratedObjectWriter.TEXT_ENCODING);            
         }
 
-        /// <summary>
-        /// Reads a serialized object from the underlying stream.
-        /// </summary>
-        /// <returns>The serialized object from the underlying stream.</returns>
-        /// <exception cref="System.Runtime.Serialization.SerializationException">
-        /// Thrown when an error occurs during deserialization.
-        /// </exception>
+        /// <inheritcdoc/>        
         public object Read() {
 
             CheckDisposed();
 
-            var typeCode = ReadObjectTypeCode();
+            ObjectTypeCode typeCode;
 
             try {
+                typeCode = ReadObjectTypeCode();
                 if(typeCode == ObjectTypeCode.Object) {
                     return ReadObject();
                 }
                 return ReadPrimitive(typeCode);
-            } catch(EndOfStreamException) {
-                throw Guard.ObjectReader_UnexpectedEndOfStream();
+            } catch(EndOfStreamException exc) {
+                throw Guard.DecoratedObjectReader_UnexpectedEndOfStream(exc);
             }
         }
 
