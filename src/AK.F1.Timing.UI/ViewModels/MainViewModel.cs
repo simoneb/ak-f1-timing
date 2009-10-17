@@ -38,7 +38,7 @@ namespace AK.F1.Timing.UI.ViewModels
         #region Private Fields.
 
         private ICommand _exitCommand;
-        private ICommand _watchLiveCommand;        
+        private ICommand _watchLiveCommand;
         private ICommand _startPlaybackCommand;        
         private DriverModel _selectedDriver;
         private GridRowModelBase _selectedGridRow;
@@ -75,9 +75,13 @@ namespace AK.F1.Timing.UI.ViewModels
         public ICommand WatchLiveCommand {
 
             get {
-                if(_watchLiveCommand == null) {
+                if(_watchLiveCommand == null) {                    
                     _watchLiveCommand = new DelegateCommand(() => {
-                        ReadMessagesAsync(F1Timing.Live.CreateReader("andrew.kernahan@gmail.com", "cy3ko2px7iv7"));
+                        try {
+                            ReadMessagesAsync(F1Timing.Live.CreateReader("andrew.kernahan@gmail.com", "cy3ko2px7iv7"));
+                        } catch(Exception exc) {
+                            ShowException(exc);
+                        }
                     });
                 }
                 return _watchLiveCommand;
@@ -94,15 +98,15 @@ namespace AK.F1.Timing.UI.ViewModels
                     _startPlaybackCommand = new DelegateCommand(() => {                        
                         OpenFileDialog fd = new OpenFileDialog();
 
-                        fd.Filter = "*.bin|*.bin";
+                        fd.Filter = "Timing Message Store|*.tms";
                         fd.InitialDirectory = Environment.CurrentDirectory;
                         if(fd.ShowDialog(Application.Current.MainWindow) != true) {
                             return;
                         }                        
 
-                        var reader = F1Timing.Playback.CreateReader2(fd.SafeFileName);
+                        var reader = F1Timing.Playback.CreateReader(fd.SafeFileName);
 
-                        reader.PlaybackSpeed = 2.5;
+                        reader.PlaybackSpeed = 50;
                         ReadMessagesAsync(reader);
                     });
                 }
@@ -163,9 +167,14 @@ namespace AK.F1.Timing.UI.ViewModels
                     }
                 }
             } catch(Exception exc) {
-                MessageBox.Show(exc.ToString(), "Error!", MessageBoxButton.OK, MessageBoxImage.Error);
+                ShowException(exc);
             }
             this.Dispatcher.BeginInvoke((Action)ReadMessageComplete, null);
+        }
+
+        private static void ShowException(Exception exc) {
+
+            MessageBox.Show(exc.Message, exc.GetType().Name, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         private void MessageReadCallback(Message message) {
