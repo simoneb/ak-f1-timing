@@ -283,6 +283,11 @@ namespace AK.F1.Timing
             return new IOException(exc.Message, exc);
         }
 
+        internal static IOException LiveDecryptorFactory_FailedToFetchAuthToken(WebException exc) {
+
+            return new IOException(exc.Message, exc);
+        }
+
         #endregion
     }
 }
