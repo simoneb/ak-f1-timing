@@ -225,38 +225,35 @@ namespace AK.F1.Timing
 
         internal static SerializationException PropertyDescriptor_PropertyIsNotDecorated(PropertyInfo property) {
 
-            return new SerializationException(Format(
-                "The '{0}' type cannot be serialized as the '{1}' property is not decorated with the '{2}' attribute.",
+            return new SerializationException(Format(Resource.PropertyDescriptor_PropertyIsNotDecorated,                
                 property.DeclaringType, property.Name, typeof(PropertyIdAttribute)));
         }
 
         internal static SerializationException TypeDescriptor_TypeIsNotDecorated(Type type) {
 
-            return new SerializationException(Format(
-                "The '{0}' type cannot be serialized as it is not decorated with the '{1}' attribute.",
+            return new SerializationException(Format(Resource.TypeDescriptor_TypeIsNotDecorated,
                 type, typeof(TypeIdAttribute)));
         }
 
         internal static InvalidOperationException PropertyDescriptorCollection_DuplicatePropertyDescriptor(PropertyDescriptor item) {
 
-            return new InvalidOperationException(Format(
-                "The '{0}' type already has a property with an identifier of '{1}'.",
+            return new InvalidOperationException(Format(Resource.PropertyDescriptorCollection_DuplicatePropertyDescriptor,                
                 item.Info.DeclaringType, item.PropertyId));
         }
 
         internal static NotSupportedException PropertyDescriptorCollection_CollectionIsSealed() {
 
-            return new NotSupportedException();
+            return new NotSupportedException(Resource.PropertyDescriptorCollection_CollectionIsSealed);
         }
 
         internal static SerializationException TypeDescriptor_NoDescriptorWithTypeId(int typeId) {
 
-            return new SerializationException();
+            return new SerializationException(Format(Resource.TypeDescriptor_NoDescriptorWithTypeId, typeId));
         }
 
-        internal static SerializationException ObjectReader_UnexpectedEndOfStream() {
+        internal static SerializationException DecoratedObjectReader_UnexpectedEndOfStream(EndOfStreamException exc) {
 
-            return new SerializationException();
+            return new SerializationException(Resource.DecoratedObjectReader_UnexpectedEndOfStream, exc);
         }
 
         #endregion        
