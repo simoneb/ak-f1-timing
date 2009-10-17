@@ -505,7 +505,7 @@ namespace AK.F1.Timing.Messaging.Live
         private void ReadBytes(int count) {
 
             if(!this.MessageStream.FullyRead(this.Buffer, 0, count)) {
-                throw Guard.UnexpectedEndOfStream();
+                throw Guard.LiveMessageReader_UnexpectedEndOfStream();
             }
         }
 
