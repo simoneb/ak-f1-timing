@@ -126,8 +126,11 @@
   <data name="CredentialsRejectedException_Ctor" xml:space="preserve">
     <value>The supplied credentials have been rejected.</value>
   </data>
+  <data name="DecoratedObjectReader_InvalidObjectTypeCode" xml:space="preserve">
+    <value>Unable to deserialize the next object as the object type code is invalid ('{0}').</value>
+  </data>
   <data name="DecoratedObjectReader_UnexpectedEndOfStream" xml:space="preserve">
-    <value>The end of the serialization stream was unexpectedly reached.</value>
+    <value>Unable to deserialize the next object as the end of the serialization stream was unexpectedly reached.</value>
   </data>
   <data name="LapGap_InvalidCompareToArgument" xml:space="preserve">
     <value>Cannot compare a '{0}' instance to an instance of '{1}'.</value>
@@ -162,8 +165,14 @@
   <data name="LiveMessageReader_InvalidMessageType" xml:space="preserve">
     <value>The type of the next timing message ('{0}') is not supported.</value>
   </data>
+  <data name="LiveMessageReader_UnexpectedEndOfStream" xml:space="preserve">
+    <value>Unable to read the next message as the end of the message stream was unexpectedly reached.</value>
+  </data>
   <data name="LiveMessageReader_UnexpectedFirstMessage" xml:space="preserve">
     <value>Unable to read any messages from the stream as the first expected message was not an update keyframe message. The first message encountered was '{0}'.</value>
+  </data>
+  <data name="LiveMessageStreamEndpoint_FailedToResolveStreamHost" xml:space="preserve">
+    <value>Unable to open a connection with the live timing servers as the '{0}' hostname failed to resolve.</value>
   </data>
   <data name="MessageReader_InvalidMessage" xml:space="preserve">
     <value>The format of the next timing message is invalid.</value>
@@ -181,12 +190,9 @@
     <value>Cannot compare a {0} instance to an instance of {1}.</value>
   </data>
   <data name="TypeDescriptor_NoDescriptorWithTypeId" xml:space="preserve">
-    <value>Failed to locate the type descriptor for type '{0}'.</value>
+    <value>Unable to deserialize the next object as no type descriptor could be located for type '{0}'.</value>
   </data>
   <data name="TypeDescriptor_TypeIsNotDecorated" xml:space="preserve">
     <value>The '{0}' type cannot be serialized as it is not decorated with the '{1}' attribute.</value>
-  </data>
-  <data name="UnexpectedEndOfStreamException" xml:space="preserve">
-    <value>The end of the message stream was unexpectedly reached.</value>
   </data>
 </root>

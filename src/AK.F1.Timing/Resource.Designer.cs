@@ -88,7 +88,16 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The end of the serialization stream was unexpectedly reached..
+        ///   Looks up a localized string similar to Unable to deserialize the next object as the object type code is invalid (&apos;{0}&apos;)..
+        /// </summary>
+        internal static string DecoratedObjectReader_InvalidObjectTypeCode {
+            get {
+                return ResourceManager.GetString("DecoratedObjectReader_InvalidObjectTypeCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to deserialize the next object as the end of the serialization stream was unexpectedly reached..
         /// </summary>
         internal static string DecoratedObjectReader_UnexpectedEndOfStream {
             get {
@@ -196,11 +205,29 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to read the next message as the end of the message stream was unexpectedly reached..
+        /// </summary>
+        internal static string LiveMessageReader_UnexpectedEndOfStream {
+            get {
+                return ResourceManager.GetString("LiveMessageReader_UnexpectedEndOfStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to read any messages from the stream as the first expected message was not an update keyframe message. The first message encountered was &apos;{0}&apos;..
         /// </summary>
         internal static string LiveMessageReader_UnexpectedFirstMessage {
             get {
                 return ResourceManager.GetString("LiveMessageReader_UnexpectedFirstMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to open a connection with the live timing servers as the &apos;{0}&apos; hostname failed to resolve..
+        /// </summary>
+        internal static string LiveMessageStreamEndpoint_FailedToResolveStreamHost {
+            get {
+                return ResourceManager.GetString("LiveMessageStreamEndpoint_FailedToResolveStreamHost", resourceCulture);
             }
         }
         
@@ -250,7 +277,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to locate the type descriptor for type &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Unable to deserialize the next object as no type descriptor could be located for type &apos;{0}&apos;..
         /// </summary>
         internal static string TypeDescriptor_NoDescriptorWithTypeId {
             get {
@@ -264,15 +291,6 @@ namespace AK.F1.Timing {
         internal static string TypeDescriptor_TypeIsNotDecorated {
             get {
                 return ResourceManager.GetString("TypeDescriptor_TypeIsNotDecorated", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The end of the message stream was unexpectedly reached..
-        /// </summary>
-        internal static string UnexpectedEndOfStreamException {
-            get {
-                return ResourceManager.GetString("UnexpectedEndOfStreamException", resourceCulture);
             }
         }
     }
