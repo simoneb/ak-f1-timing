@@ -29,7 +29,7 @@ namespace AK.F1.Timing.LiveRecorder
     /// </summary>
     public static class Program
     {
-        private static string _path;        
+        #region Public Interface.
 
         /// <summary>
         /// The main entry point for the application.
@@ -39,32 +39,30 @@ namespace AK.F1.Timing.LiveRecorder
 
             log4net.Config.XmlConfigurator.Configure();
 
+            string path;
+
             if(args.Length == 0) {
                 Console.Write("session: ");
-                _path = Console.ReadLine().Trim();
+                path = Console.ReadLine().Trim();
             } else {
-                _path = args[0];
+                path = args[0];
             }
-            _path = Path.Combine(Environment.CurrentDirectory, _path) + ".bin";
-            Directory.CreateDirectory(Path.GetDirectoryName(_path));
-            CaptureStream();
+            path = Path.Combine(Environment.CurrentDirectory, path) + ".tms";
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            CaptureStream(path);            
         }
 
-        private static void WriteLine(string format, params object[] args) {
+        #endregion
 
-            Console.Write(DateTime.Now.ToLongTimeString());
-            Console.Write(": ");
-            Console.WriteLine(format, args);
-        }
+        #region Private Impl.
 
-        private static void CaptureStream() {
+        private static void CaptureStream(string path) {
 
             Message message;
 
             try {
                 using(var reader = F1Timing.Live.CreateRecordingReader(
-                    "andrew.kernahan@gmail.com", "cy3ko2px7iv7",
-                    GetBinPath(), FileMode.Create)) {
+                    "andrew.kernahan@gmail.com", "cy3ko2px7iv7", path)) {
                     while((message = reader.Read()) != null) {
                         WriteLine(message.ToString());
                     }
@@ -77,9 +75,13 @@ namespace AK.F1.Timing.LiveRecorder
             Console.ReadLine();
         }
 
-        private static string GetBinPath() {
+        private static void WriteLine(string format, params object[] args) {
 
-            return _path;
+            Console.Write(DateTime.Now.ToLongTimeString());
+            Console.Write(": ");
+            Console.WriteLine(format, args);
         }
+
+        #endregion
     }
 }
