@@ -13,13 +13,9 @@
 // limitations under the License.
 
 using System;
-using System.IO;
 using System.Windows;
-
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Model.Collections;
-using AK.F1.Timing.UI.Views;
 using AK.F1.Timing.UI.ViewModels;
+using AK.F1.Timing.UI.Views;
 
 namespace AK.F1.Timing.UI
 {
