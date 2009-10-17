@@ -59,6 +59,8 @@
     <Compile Include="Messaging\Playback\RecordedMessageReader.cs" />
     <Compile Include="Messaging\Playback\RecordingMessageReader.cs" />
     <Compile Include="Messaging\Messages\Feed\SetNextMessageDelayMessage.cs" />
+    <Compile Include="Messaging\Serialization\IObjectWriter.cs" />
+    <Compile Include="Messaging\Serialization\IObjectReader.cs" />
     <Compile Include="Messaging\Serialization\IgnorePropertyAttribute.cs" />
     <Compile Include="Messaging\Serialization\DecoratedObjectReader.cs" />
     <Compile Include="Messaging\Serialization\ObjectTypeCode.cs" />
