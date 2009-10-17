@@ -13,16 +13,11 @@
 // limitations under the License.
 
 using System;
-using System.IO;
-using System.Text;
 using System.Threading;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.Win32;
-
 using AK.F1.Timing.Messaging;
-using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Model.Grid;
 using AK.F1.Timing.Model.Session;
@@ -37,9 +32,9 @@ namespace AK.F1.Timing.UI.ViewModels
     {
         #region Private Fields.
 
-        private ICommand _exitCommand;
-        private ICommand _watchLiveCommand;
-        private ICommand _startPlaybackCommand;        
+        private DelegateCommand _exitCommand;
+        private DelegateCommand _watchLiveCommand;
+        private DelegateCommand _startPlaybackCommand;        
         private DriverModel _selectedDriver;
         private GridRowModelBase _selectedGridRow;
 
@@ -59,7 +54,7 @@ namespace AK.F1.Timing.UI.ViewModels
         /// <summary>
         /// Gets the application Exit command.
         /// </summary>
-        public ICommand ExitCommand {
+        public DelegateCommand ExitCommand {
 
             get {
                 if(_exitCommand == null) {
@@ -72,17 +67,11 @@ namespace AK.F1.Timing.UI.ViewModels
         /// <summary>
         /// Gets the command that watches the live feed.
         /// </summary>
-        public ICommand WatchLiveCommand {
+        public DelegateCommand WatchLiveCommand {
 
             get {
-                if(_watchLiveCommand == null) {                    
-                    _watchLiveCommand = new DelegateCommand(() => {
-                        try {
-                            ReadMessagesAsync(F1Timing.Live.CreateReader("andrew.kernahan@gmail.com", "cy3ko2px7iv7"));
-                        } catch(Exception exc) {
-                            ShowException(exc);
-                        }
-                    });
+                if(_watchLiveCommand == null) {
+                    _watchLiveCommand = new DelegateCommand(WatchLive);
                 }
                 return _watchLiveCommand;
             }
@@ -91,24 +80,11 @@ namespace AK.F1.Timing.UI.ViewModels
         /// <summary>
         /// Gets the command that plays back a persisted session.
         /// </summary>
-        public ICommand StartPlaybackCommand {
+        public DelegateCommand StartPlaybackCommand {
 
             get {
                 if(_startPlaybackCommand == null) {
-                    _startPlaybackCommand = new DelegateCommand(() => {                        
-                        OpenFileDialog fd = new OpenFileDialog();
-
-                        fd.Filter = "Timing Message Store|*.tms";
-                        fd.InitialDirectory = Environment.CurrentDirectory;
-                        if(fd.ShowDialog(Application.Current.MainWindow) != true) {
-                            return;
-                        }                        
-
-                        var reader = F1Timing.Playback.CreateReader(fd.SafeFileName);
-
-                        reader.PlaybackSpeed = 50;
-                        ReadMessagesAsync(reader);
-                    });
+                    _startPlaybackCommand = new DelegateCommand(StartPlayback);
                 }
                 return _startPlaybackCommand;
             }
@@ -149,19 +125,41 @@ namespace AK.F1.Timing.UI.ViewModels
 
         #region Private Impl.
 
-        private void ReadMessagesAsync(IMessageReader reader) {
+        private void WatchLive() {
 
-            this.Session.Reset();
-            ThreadPool.QueueUserWorkItem(state => ReadMessages((IMessageReader)state), reader);
+            ReadMessagesAsync(() => {
+                return F1Timing.Live.CreateReader("andrew.kernahan@gmail.com", "cy3ko2px7iv7");
+            });
         }
 
-        private void ReadMessages(IMessageReader reader) {
+        private void StartPlayback() {
+
+            OpenFileDialog fd = new OpenFileDialog();
+
+            fd.Filter = "Timing Message Store|*.tms";
+            fd.InitialDirectory = Environment.CurrentDirectory;
+            if(fd.ShowDialog(Application.Current.MainWindow) != true) {
+                return;
+            }
+
+            string path = fd.SafeFileName;
+
+            ReadMessagesAsync(() => F1Timing.Playback.CreateReader(path));
+        }
+
+        private void ReadMessagesAsync(Func<IMessageReader> readerFactory) {
+
+            this.Session.Reset();
+            ThreadPool.QueueUserWorkItem(s => ReadMessages(readerFactory));
+        }
+
+        private void ReadMessages(Func<IMessageReader> readerFactory) {
             
             Message message;
             Action<Message> callback = MessageReadCallback;
 
             try {
-                using(reader) {
+                using(var reader = readerFactory()) {
                     while((message = reader.Read()) != null) {
                         this.Dispatcher.BeginInvoke(callback, message);                        
                     }
@@ -182,8 +180,7 @@ namespace AK.F1.Timing.UI.ViewModels
             this.Session.Process(message);            
         }
 
-        private void ReadMessageComplete() {            
-        }
+        private void ReadMessageComplete() { }
 
         private Dispatcher Dispatcher { get; set; }
 
