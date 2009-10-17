@@ -119,8 +119,8 @@ namespace AK.F1.Timing.Model.Session
 
             var driver = GetDriver(message.DriverId);
 
-            driver.LapTimes.Values.Add(message.LapTime);            
-            TrySetFastestLap(driver, message.LapTime);
+            driver.LapTimes.Values.Add(message.LapTime);
+            TrySetFastestLap(message.LapTime, driver);
         }
 
         /// <inheritdoc />
@@ -130,7 +130,7 @@ namespace AK.F1.Timing.Model.Session
             var times = driver.LapTimes.Values;
 
             times[times.Count - 1] = message.Replacement;
-            TrySetFastestLap(driver, message.Replacement);
+            TrySetFastestLap(message.Replacement, driver);
         }
 
         /// <inheritdoc />
@@ -315,7 +315,7 @@ namespace AK.F1.Timing.Model.Session
 
         #region Private Impl.
 
-        private void TrySetFastestLap(DriverModel driver, PostedTime time) {
+        private void TrySetFastestLap(PostedTime time, DriverModel driver) {
 
             if(time.Type == PostedTimeType.SessionBest) {
                 this.Session.FastestTimes.Lap = new FastestTimeModel(driver, time.Time, time.Lap);
