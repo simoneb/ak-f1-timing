@@ -91,25 +91,15 @@ namespace AK.F1.Timing.Messaging.Playback
         /// <inheritdoc />
         protected override Message ReadImpl() {
 
-            TimeSpan delay;
-            TimeSpan elapsed;
+
             Message message;
 
             try {
                 if((message = this.Inner.Read()) != null) {
-                    if(this.Stopwatch.IsRunning) {
-                        elapsed = this.Stopwatch.Elapsed;
-                        delay = elapsed - this.LastElapsed;
-                        this.LastElapsed = elapsed;
-                        if(delay >= MIN_MESSAGE_DELAY) {
-                            _log.DebugFormat("inserting delay of {0}", delay);
-                            Serialize(new SetNextMessageDelayMessage(delay));                            
-                        }
-                    } else {
-                        this.Stopwatch.Start();
-                    }
+                    InsertDelay();
                     Serialize(message);
                 } else {
+                    Serialize(null, false);
                     DisposeOfResources();
                 }
             } catch {
@@ -118,7 +108,7 @@ namespace AK.F1.Timing.Messaging.Playback
             }
 
             return message;
-        }     
+        }
 
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
@@ -152,16 +142,49 @@ namespace AK.F1.Timing.Messaging.Playback
             this.Output = null;
         }
 
+        private void InsertDelay() {
+
+            TimeSpan delay;
+            TimeSpan elapsed;
+
+            if(this.Stopwatch.IsRunning) {
+                elapsed = this.Stopwatch.Elapsed;
+                delay = elapsed - this.LastElapsed;
+                this.LastElapsed = elapsed;
+                if(delay >= MIN_MESSAGE_DELAY) {
+                    Serialize(new SetNextMessageDelayMessage(delay), false);
+                }
+            } else {
+                this.Stopwatch.Start();
+            }
+        }
+
         private void Serialize(Message message) {
 
+            Serialize(message, true);
+        }
+
+        private void Serialize(Message message, bool expand) {
+
+            if(expand) {
+                CompositeMessage composite = message as CompositeMessage;
+
+                if(composite != null) {
+                    foreach(Message component in composite.Messages) {
+                        this.Writer.Write(component);
+                    }
+                    return;
+                }
+            }
+
             this.Writer.Write(message);
-        }   
+        }
 
         private IMessageReader Inner { get; set; }
 
         private Stream Output { get; set; }
 
-        private DecoratedObjectWriter Writer { get; set; }
+        private IObjectWriter Writer { get; set; }
 
         private Stopwatch Stopwatch { get; set; }
 
