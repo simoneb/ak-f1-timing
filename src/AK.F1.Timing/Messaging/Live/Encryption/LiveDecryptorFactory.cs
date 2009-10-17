@@ -104,23 +104,25 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
 
         #region Private Impl.
 
-        private void FetchAuthToken(string email, string password) {
-
-            // TODO need to handle web exception.
+        private void FetchAuthToken(string email, string password) {            
             
             Cookie cookie;
             CookieCollection cookies;
 
             this.Log.InfoFormat("fetching auth token from {0} for user {1}", LOGIN_URI, email);
 
-            cookies = LOGIN_URI.GetResponseCookies(HttpMethod.Post, request => {
-                byte[] bytes = GetAuthRequestContent(email, password);
-                request.ContentType = AUTH_CONTENT_TYPE;
-                request.ContentLength = bytes.Length;
-                using(Stream stream = request.GetRequestStream()) {
-                    stream.Write(bytes, 0, bytes.Length);
-                }
-            });
+            try {
+                cookies = LOGIN_URI.GetResponseCookies(HttpMethod.Post, request => {
+                    byte[] bytes = GetAuthRequestContent(email, password);
+                    request.ContentType = AUTH_CONTENT_TYPE;
+                    request.ContentLength = bytes.Length;
+                    using(Stream stream = request.GetRequestStream()) {
+                        stream.Write(bytes, 0, bytes.Length);
+                    }
+                });
+            } catch(WebException exc) {
+                throw Guard.LiveDecryptorFactory_FailedToFetchAuthToken(exc);
+            }
             if((cookie = cookies[AUTH_COOKIE_NAME]) == null) {
                 this.Log.ErrorFormat("failed to fetch the auth token as no cookie named {0} was found" +
                     " in the response to the login request, assuming the credentials have been rejected",
