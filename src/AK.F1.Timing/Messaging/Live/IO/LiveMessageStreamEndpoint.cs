@@ -63,11 +63,10 @@ namespace AK.F1.Timing.Messaging.Live.IO
             try {
                 socket.Connect(endpoint);
                 _log.Info("connected");
-            } catch(SocketException exc) {
-                // TODO map exception.
+            } catch(SocketException exc) {                
                 _log.ErrorFormat("unable to connect to {0}: {1}", endpoint, exc.Message);
                 ((IDisposable)socket).Dispose();
-                throw;
+                throw Guard.LiveMessageStreamEndpoint_FailedToOpenStream(exc);
             }
 
             return new LiveSocketMessageStream(socket);
@@ -88,8 +87,7 @@ namespace AK.F1.Timing.Messaging.Live.IO
                 return new MessageStreamDelegate(stream);
             } catch(WebException exc) {
                 _log.Error(exc);
-                // TODO do something more useful.
-                throw;
+                throw Guard.LiveMessageStreamEndpoint_FailedToOpenKeyframe(exc);
             }
         }
 
@@ -99,15 +97,17 @@ namespace AK.F1.Timing.Messaging.Live.IO
 
         private static IPEndPoint ResolveStreamEndpoint() {
 
-            // TODO this throws a socket exception, not an IO exception as expected.
-            IPHostEntry entry = Dns.GetHostEntry(STREAM_HOST);
+            IPHostEntry entry;
 
-            if(entry.AddressList.Length > 0) {
-                return new IPEndPoint(entry.AddressList[0], STREAM_PORT);
+            try {
+                entry = Dns.GetHostEntry(STREAM_HOST);
+                if(entry.AddressList.Length > 0) {
+                    return new IPEndPoint(entry.AddressList[0], STREAM_PORT);
+                }
+                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(STREAM_HOST);
+            } catch(SocketException exc) {
+                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(exc);
             }
-
-            // TODO sort this out.
-            throw Guard.MessageReader_InvalidMessage();
         }
 
         private static Socket CreateStreamSocket() {
