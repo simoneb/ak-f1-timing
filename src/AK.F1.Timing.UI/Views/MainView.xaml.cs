@@ -33,5 +33,21 @@ namespace AK.F1.Timing.UI.Views
         }
 
         #endregion
+
+        #region Private Impl.
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
+
+            Size size = e.NewSize;
+
+            if(this.MinHeight < size.Height) {
+                this.MinHeight = size.Height;                
+            }
+            if(this.MinWidth < size.Width) {
+                this.MinWidth = size.Width;
+            }
+        }
+
+        #endregion
     }
 }
