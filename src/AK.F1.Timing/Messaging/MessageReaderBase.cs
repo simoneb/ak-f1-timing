@@ -56,19 +56,25 @@ namespace AK.F1.Timing.Messaging
             CheckDisposed();
             ThrowReadException();
 
+            if(this.EndOfStreamReached) {
+                return null;
+            }
+
             Message message;            
 
             try {
                 while((message = ReadImpl()) == Message.Empty) {
                     // Void.
-                }
+                }                
             } catch(IOException exc) {
                 ProcessExceptionInRead(exc);
                 throw;
             } catch(FormatException exc) {
                 ProcessExceptionInRead(exc);
                 throw;
-            }            
+            }
+
+            this.EndOfStreamReached = message == null;
 
             return message;
         }        
@@ -83,8 +89,9 @@ namespace AK.F1.Timing.Messaging
         /// </summary>
         /// <returns>The next <see cref="AK.F1.Timing.Messaging.Message"/>.</returns>
         /// <remarks>
-        /// This method is only invoked when this instance has not been disposed of and the
-        /// <see cref="MessageReaderBase.ReadException"/> is <see langword="null"/>.
+        /// This method is only invoked when this instance has not been disposed of and
+        /// <see cref="MessageReaderBase.ReadException"/> is <see langword="null"/> and a previous
+        /// invocation did not return <see langword="null"/>.
         /// </remarks>
         protected abstract Message ReadImpl();
 
@@ -133,7 +140,9 @@ namespace AK.F1.Timing.Messaging
                 this.Log.Error(exc);
             }
             this.ReadException = exc;            
-        }       
+        }
+
+        private bool EndOfStreamReached { get; set; }
 
         #endregion
     }    
