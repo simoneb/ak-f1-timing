@@ -137,7 +137,7 @@ namespace AK.F1.Timing.Messaging.Serialization
                 case ObjectTypeCode.TimeSpan:
                     return TimeSpan.FromTicks(this.Input.ReadInt64());
                 default:
-                    throw Guard.ArgumentOutOfRange("typeCode");
+                    throw Guard.DecoratedObjectReader_InvalidObjectTypeCode(typeCode);
             }
         }
 
