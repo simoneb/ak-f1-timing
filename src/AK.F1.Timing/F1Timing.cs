@@ -64,7 +64,7 @@ namespace AK.F1.Timing
 
             /// <summary>
             /// Creates a live message reader using the specified credentials and records the
-            /// messages to the <paramref name="path"/>.
+            /// messages to the specified <paramref name="path"/>.
             /// </summary>
             /// <param name="username">The user's F1 live timing username.</param>
             /// <param name="password">The user's F1 live timing password.</param>            
