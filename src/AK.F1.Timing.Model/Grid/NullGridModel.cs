@@ -44,7 +44,7 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         /// <param name="driverId"></param>
         /// <returns><see langword="null"/>.</returns>
-        public override NullGridRowModel GetRowModel(int driverId) {
+        public override NullGridRowModel GetGridRow(int driverId) {
 
             return null;
         }

@@ -67,7 +67,7 @@ namespace AK.F1.Timing.Model.Grid
         public override void Visit(SetDriverPositionMessage message) {
 
             var index = Math.Max(0, message.Position - 1);
-            var row = this.Grid.GetRowModel(message.DriverId);
+            var row = this.Grid.GetGridRow(message.DriverId);
 
             if(row.RowIndex != index) {
                 row.RowIndex = index;
@@ -81,7 +81,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <inheritdoc />
         public override void Visit(ClearGridRowMessage message) {
 
-            this.Grid.GetRowModel(message.DriverId).Reset();
+            this.Grid.GetGridRow(message.DriverId).Reset();
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <inheritdoc />
         public override void Visit(SetGridColumnColourMessage message) {
 
-            this.Grid.GetRowModel(message.DriverId).Update(message.Column, message.Colour);
+            this.Grid.GetGridRow(message.DriverId).Update(message.Column, message.Colour);
         }
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <inheritdoc />
         public override void Visit(SetGridColumnValueMessage message) {
 
-            this.Grid.GetRowModel(message.DriverId).Update(message.Column, message.Colour, message.Value);
+            this.Grid.GetGridRow(message.DriverId).Update(message.Column, message.Colour, message.Value);
         }
 
         #endregion

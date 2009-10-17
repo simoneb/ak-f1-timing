@@ -47,7 +47,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Throw when <paramref name="driverId"/> is not positive.
         /// </exception>
-        public virtual TGridRow GetRowModel(int driverId) {
+        public virtual TGridRow GetGridRow(int driverId) {
 
             foreach(var row in this.Rows) {
                 if(row.DriverId == driverId) {
