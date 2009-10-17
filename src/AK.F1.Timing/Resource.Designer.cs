@@ -88,7 +88,16 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &quot;Cannot compare a {0} instance to an instance of {1}.&quot;.
+        ///   Looks up a localized string similar to The end of the serialization stream was unexpectedly reached..
+        /// </summary>
+        internal static string DecoratedObjectReader_UnexpectedEndOfStream {
+            get {
+                return ResourceManager.GetString("DecoratedObjectReader_UnexpectedEndOfStream", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot compare a &apos;{0}&apos; instance to an instance of &apos;{1}&apos;..
         /// </summary>
         internal static string LapGap_InvalidCompareToArgument {
             get {
@@ -205,11 +214,56 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; type cannot be serialized as the &apos;{1}&apos; property is not decorated with the &apos;{2}&apos; attribute..
+        /// </summary>
+        internal static string PropertyDescriptor_PropertyIsNotDecorated {
+            get {
+                return ResourceManager.GetString("PropertyDescriptor_PropertyIsNotDecorated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This collection cannot be modified as it is sealed..
+        /// </summary>
+        internal static string PropertyDescriptorCollection_CollectionIsSealed {
+            get {
+                return ResourceManager.GetString("PropertyDescriptorCollection_CollectionIsSealed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; type already has a property with an identifier of &apos;{1}&apos;..
+        /// </summary>
+        internal static string PropertyDescriptorCollection_DuplicatePropertyDescriptor {
+            get {
+                return ResourceManager.GetString("PropertyDescriptorCollection_DuplicatePropertyDescriptor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot compare a {0} instance to an instance of {1}..
         /// </summary>
         internal static string TimeGap_InvalidCompareToArgument {
             get {
                 return ResourceManager.GetString("TimeGap_InvalidCompareToArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to locate the type descriptor for type &apos;{0}&apos;..
+        /// </summary>
+        internal static string TypeDescriptor_NoDescriptorWithTypeId {
+            get {
+                return ResourceManager.GetString("TypeDescriptor_NoDescriptorWithTypeId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; type cannot be serialized as it is not decorated with the &apos;{1}&apos; attribute..
+        /// </summary>
+        internal static string TypeDescriptor_TypeIsNotDecorated {
+            get {
+                return ResourceManager.GetString("TypeDescriptor_TypeIsNotDecorated", resourceCulture);
             }
         }
         

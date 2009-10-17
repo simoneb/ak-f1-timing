@@ -126,8 +126,11 @@
   <data name="CredentialsRejectedException_Ctor" xml:space="preserve">
     <value>The supplied credentials have been rejected.</value>
   </data>
+  <data name="DecoratedObjectReader_UnexpectedEndOfStream" xml:space="preserve">
+    <value>The end of the serialization stream was unexpectedly reached.</value>
+  </data>
   <data name="LapGap_InvalidCompareToArgument" xml:space="preserve">
-    <value>"Cannot compare a {0} instance to an instance of {1}."</value>
+    <value>Cannot compare a '{0}' instance to an instance of '{1}'.</value>
   </data>
   <data name="LiveData_UnableToConvertToDriverStatus" xml:space="preserve">
     <value>Unable parse the next driver status message as the driver status value specified in the message ('{0}') is invalid.</value>
@@ -165,8 +168,23 @@
   <data name="MessageReader_InvalidMessage" xml:space="preserve">
     <value>The format of the next timing message is invalid.</value>
   </data>
+  <data name="PropertyDescriptorCollection_CollectionIsSealed" xml:space="preserve">
+    <value>This collection cannot be modified as it is sealed.</value>
+  </data>
+  <data name="PropertyDescriptorCollection_DuplicatePropertyDescriptor" xml:space="preserve">
+    <value>The '{0}' type already has a property with an identifier of '{1}'.</value>
+  </data>
+  <data name="PropertyDescriptor_PropertyIsNotDecorated" xml:space="preserve">
+    <value>The '{0}' type cannot be serialized as the '{1}' property is not decorated with the '{2}' attribute.</value>
+  </data>
   <data name="TimeGap_InvalidCompareToArgument" xml:space="preserve">
     <value>Cannot compare a {0} instance to an instance of {1}.</value>
+  </data>
+  <data name="TypeDescriptor_NoDescriptorWithTypeId" xml:space="preserve">
+    <value>Failed to locate the type descriptor for type '{0}'.</value>
+  </data>
+  <data name="TypeDescriptor_TypeIsNotDecorated" xml:space="preserve">
+    <value>The '{0}' type cannot be serialized as it is not decorated with the '{1}' attribute.</value>
   </data>
   <data name="UnexpectedEndOfStreamException" xml:space="preserve">
     <value>The end of the message stream was unexpectedly reached.</value>
