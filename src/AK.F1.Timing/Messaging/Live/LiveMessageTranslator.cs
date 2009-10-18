@@ -216,6 +216,7 @@ namespace AK.F1.Timing.Messaging.Live
                     new SetRaceLapNumberMessage(LiveData.ParseInt32(message.Value)),
                     new SetDriverIntervalMessage(message.DriverId, TimeGap.Zero));
             }
+
             if(message.Value.OrdinalEndsWith("L")) {
                 string s = message.Value.Substring(0, message.Value.Length - 1);
                 return new SetDriverIntervalMessage(message.DriverId, new LapGap(LiveData.ParseInt32(s)));
@@ -241,6 +242,7 @@ namespace AK.F1.Timing.Messaging.Live
             if(message.Value.OrdinalEquals("LAP")) {
                 return new SetDriverGapMessage(message.DriverId, TimeGap.Zero);
             }
+
             if(message.Value.OrdinalEndsWith("L")) {
                 string s = message.Value.Substring(0, message.Value.Length - 1);
                 return new SetDriverGapMessage(message.DriverId, new LapGap(LiveData.ParseInt32(s)));
@@ -259,9 +261,11 @@ namespace AK.F1.Timing.Messaging.Live
             if(!this.HasSessionStarted) {
                 return Ignored("session has not started", message);
             }
+
             if(message.Value.OrdinalEquals("OUT") || message.Value.OrdinalEquals("IN PIT")) {
                 return Ignored("state transition captured elewhere", message);
             }
+
             if(message.Value.OrdinalEquals("RETIRED")) {
                 return new SetDriverStatusMessage(message.DriverId, DriverStatus.Retired);
             }
@@ -314,15 +318,17 @@ namespace AK.F1.Timing.Messaging.Live
                 if(sectorNumber != 3) {
                     return Ignored("irrelevant pit time sector update", message);
                 }
-                // After a driver pits, the pit times are displayed. The S3 column always displays the
+                // After a driver pits, the pit times are displayed and the S3 column always displays the
                 // length of the last pit stop.
                 return new SetDriverPitTimeMessage(message.DriverId,
                     LiveData.ParseTime(message.Value),
                     driver.LapNumber);
             }
+
             if(message.Value.OrdinalEquals("OUT")) {
                 return new SetDriverStatusMessage(message.DriverId, DriverStatus.Out);
             }
+
             if(message.Value.OrdinalEquals("STOP")) {
                 return new SetDriverStatusMessage(message.DriverId, DriverStatus.Stopped);
             }
@@ -357,6 +363,7 @@ namespace AK.F1.Timing.Messaging.Live
                 return new ReplaceDriverSectorTimeMessage(message.DriverId, sectorNumber,
                     new PostedTime(lastSectorTime.Time, newTimeType, lastSectorTime.Lap));
             }
+
             _log.DebugFormat("using previous sector time with new colour: {0}", message);
 
             return Translate(new SetDriverSectorTimeMessage(message.DriverId, sectorNumber,
