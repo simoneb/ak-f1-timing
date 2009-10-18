@@ -19,7 +19,8 @@ using AK.F1.Timing.Messaging.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
-    /// 
+    /// Contains the time, type and lap number of a time posted during a timing session. This class
+    /// <see langword="sealed"/>.
     /// </summary>
     [Serializable]
     [TypeId(71532444)]
@@ -30,11 +31,11 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// <summary>
         /// Initialises a new instance of the <see cref="PostedTime"/> class.
         /// </summary>
-        /// <param name="lap">The lap number.</param>
         /// <param name="time">The posted time value.</param>
         /// <param name="type">The <see cref="AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType"/> of
         /// the posted time.</param>
-        public PostedTime(int lap, TimeSpan time, PostedTimeType type) {
+        /// <param name="lap">The lap number.</param>
+        public PostedTime(TimeSpan time, PostedTimeType type, int lap) {
 
             this.Lap = lap;
             this.Time = time;
