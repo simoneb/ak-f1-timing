@@ -51,6 +51,15 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
+        /// Adds the specified item to this collection.
+        /// </summary>
+        /// <param name="item">The item to add to this collection.</param>
+        public void Add(double item) {
+
+            this.Values.Add(item);
+        }
+
+        /// <summary>
         /// Resets this collection model.
         /// </summary>
         public void Reset() {

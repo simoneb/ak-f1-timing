@@ -56,6 +56,20 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
+        /// Adds the specified item to this collection.
+        /// </summary>
+        /// <param name="item">The item to add to this collection.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="item"/> is <see langword="null"/>.
+        /// </exception>
+        public void Add(PostedTime item) {
+
+            Guard.NotNull(item, "item");
+
+            this.Values.Add(item);
+        }
+
+        /// <summary>
         /// Resets this collection model.
         /// </summary>
         public void Reset() {
