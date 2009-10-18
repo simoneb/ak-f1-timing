@@ -144,7 +144,13 @@ namespace AK.F1.Timing.UI.ViewModels
 
             string path = fd.SafeFileName;
 
-            ReadMessagesAsync(() => F1Timing.Playback.CreateReader(path));
+            ReadMessagesAsync(() => {
+                var reader = F1Timing.Playback.CreateReader(path);
+
+                reader.PlaybackSpeed = 25;
+
+                return reader;
+            });
         }
 
         private void ReadMessagesAsync(Func<IMessageReader> readerFactory) {
