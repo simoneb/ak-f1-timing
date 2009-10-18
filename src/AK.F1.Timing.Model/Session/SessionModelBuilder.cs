@@ -90,7 +90,7 @@ namespace AK.F1.Timing.Model.Session
 
             var driver = GetDriver(message.DriverId);            
 
-            driver.SectorTimes.Get(message.SectorNumber).Values.Add(message.SectorTime);
+            driver.SectorTimes.Get(message.SectorNumber).Add(message.SectorTime);
             TrySetFastestSector(message.SectorNumber, message.SectorTime, driver);
         }
 
@@ -110,7 +110,7 @@ namespace AK.F1.Timing.Model.Session
             var driver = GetDriver(message.DriverId);
 
             driver.QuallyTimes.Set(message.QuallyNumber, message.QuallyTime);
-            driver.LapTimes.Values.Add(new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted));
+            driver.LapTimes.Add(new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted));
         }
 
         /// <inheritdoc />
@@ -118,7 +118,7 @@ namespace AK.F1.Timing.Model.Session
 
             var driver = GetDriver(message.DriverId);
 
-            driver.LapTimes.Values.Add(message.LapTime);
+            driver.LapTimes.Add(message.LapTime);
             TrySetFastestLap(message.LapTime, driver);
         }
 
@@ -175,37 +175,37 @@ namespace AK.F1.Timing.Model.Session
         /// <inheritdoc />
         public override void Visit(SetAirTemperatureMessage message) {
 
-            this.Session.Weather.AirTemperature.Values.Add(message.Temperature);
+            this.Session.Weather.AirTemperature.Add(message.Temperature);
         }
 
         /// <inheritdoc />
         public override void Visit(SetTrackTemperatureMessage message) {
 
-            this.Session.Weather.TrackTemperature.Values.Add(message.Temperature);
+            this.Session.Weather.TrackTemperature.Add(message.Temperature);
         }
 
         /// <inheritdoc />
         public override void Visit(SetWindSpeedMessage message) {
 
-            this.Session.Weather.WindSpeed.Values.Add(message.Speed);
+            this.Session.Weather.WindSpeed.Add(message.Speed);
         }
 
         /// <inheritdoc />
         public override void Visit(SetAtmosphericPressureMessage message) {
 
-            this.Session.Weather.Pressure.Values.Add(message.Pressure);
+            this.Session.Weather.Pressure.Add(message.Pressure);
         }
 
         /// <inheritdoc />
         public override void Visit(SetHumidityMessage message) {
 
-            this.Session.Weather.Humidity.Values.Add(message.Humidity);
+            this.Session.Weather.Humidity.Add(message.Humidity);
         }
 
         /// <inheritdoc />
         public override void Visit(SetWindAngleMessage message) {
 
-            this.Session.Weather.WindAngle.Values.Add(message.Angle);
+            this.Session.Weather.WindAngle.Add(message.Angle);
         }
 
         /// <inheritdoc />
