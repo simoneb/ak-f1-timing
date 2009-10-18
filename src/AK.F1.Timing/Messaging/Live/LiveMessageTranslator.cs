@@ -205,8 +205,7 @@ namespace AK.F1.Timing.Messaging.Live
 
         private Message TranslateSetPitCountValue(SetGridColumnValueMessage message) {
 
-            return new SetDriverPitCountMessage(message.DriverId,
-                LiveData.ParseInt32(message.Value));
+            return new SetDriverPitCountMessage(message.DriverId, LiveData.ParseInt32(message.Value));
         }
 
         private Message TranslateSetIntervalTimeValue(SetGridColumnValueMessage message) {
@@ -218,8 +217,8 @@ namespace AK.F1.Timing.Messaging.Live
                     new SetDriverIntervalMessage(message.DriverId, TimeGap.Zero));
             }
             if(message.Value.OrdinalEndsWith("L")) {
-                return new SetDriverIntervalMessage(message.DriverId,
-                    new LapGap(LiveData.ParseInt32(message.Value.Substring(0, message.Value.Length - 1))));
+                string s = message.Value.Substring(0, message.Value.Length - 1);
+                return new SetDriverIntervalMessage(message.DriverId, new LapGap(LiveData.ParseInt32(s)));
             }
 
             return new SetDriverIntervalMessage(message.DriverId,
@@ -247,8 +246,7 @@ namespace AK.F1.Timing.Messaging.Live
                 return new SetDriverGapMessage(message.DriverId, new LapGap(LiveData.ParseInt32(s)));
             }
 
-            return new SetDriverGapMessage(message.DriverId,
-                new TimeGap(LiveData.ParseTime(message.Value)));
+            return new SetDriverGapMessage(message.DriverId, new TimeGap(LiveData.ParseTime(message.Value)));
         }
 
         private Message TranslateSetGapTimeColour(SetGridColumnColourMessage message) {
@@ -270,7 +268,10 @@ namespace AK.F1.Timing.Messaging.Live
 
             LiveDriver driver = GetDriver(message);
 
-            return new SetDriverLapTimeMessage(message.DriverId, new PostedTime(LiveData.ParseTime(message.Value), LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
+            return new SetDriverLapTimeMessage(message.DriverId, new PostedTime(
+                LiveData.ParseTime(message.Value),
+                LiveData.ToPostedTimeType(message.Colour),
+                driver.LapNumber));
         }
 
         private Message TranslateSetLapTimeColour(SetGridColumnColourMessage message) {
@@ -280,33 +281,44 @@ namespace AK.F1.Timing.Messaging.Live
             switch(message.Colour) {
                 case GridColumnColour.White:
                     _log.DebugFormat("using previous lap time: {0}", message);
-                    return new SetDriverLapTimeMessage(message.DriverId,
-                        new PostedTime(driver.LastLapTime.Time, LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
+                    return new SetDriverLapTimeMessage(message.DriverId, new PostedTime(
+                        driver.LastLapTime.Time,
+                        LiveData.ToPostedTimeType(message.Colour),
+                        driver.LapNumber));
                 case GridColumnColour.Green:
                 case GridColumnColour.Magenta:
                     // The feed often sends a colour update for the previous lap time to indicate
                     // that it was a PB or SB. To hack this we publish a replacement when we receive
                     // such a message.
                     _log.DebugFormat("received out of order lap time colour update: {0}", message);
-                    return new ReplaceDriverLapTimeMessage(message.DriverId,
-                        new PostedTime(driver.LastLapTime.Time, LiveData.ToPostedTimeType(message.Colour), driver.LastLapTime.Lap));
+                    return new ReplaceDriverLapTimeMessage(message.DriverId, new PostedTime(
+                        driver.LastLapTime.Time,
+                        LiveData.ToPostedTimeType(message.Colour),
+                        driver.LastLapTime.Lap));
                 default:
                     return null;
             }
         }
 
-        private Message TranslateSetQuallyTimeValue(SetGridColumnValueMessage message,
-            int quallyNumber) {
+        private Message TranslateSetQuallyTimeValue(SetGridColumnValueMessage message, int quallyNumber) {
 
             return new SetDriverQuallyTimeMessage(message.DriverId, quallyNumber,
                 LiveData.ParseTime(message.Value));
         }
 
-        private Message TranslateSetSectorTimeValue(SetGridColumnValueMessage message,
-            int sectorNumber) {
+        private Message TranslateSetSectorTimeValue(SetGridColumnValueMessage message, int sectorNumber) {
 
-            if(GetDriver(message).IgnoreNextSector(this.SessionType)) {
-                return Ignored("pit time sector update", message);
+            LiveDriver driver = GetDriver(message);
+
+            if(driver.IsPitTimeSector(this.SessionType)) {
+                if(sectorNumber != 3) {
+                    return Ignored("irrelevant pit time sector update", message);
+                }
+                // After a driver pits, the pit times are displayed. The S3 column always displays the
+                // length of the last pit stop.
+                return new SetDriverPitTimeMessage(message.DriverId,
+                    LiveData.ParseTime(message.Value),
+                    driver.LapNumber);
             }
             if(message.Value.OrdinalEquals("OUT")) {
                 return new SetDriverStatusMessage(message.DriverId, DriverStatus.Out);
@@ -315,18 +327,17 @@ namespace AK.F1.Timing.Messaging.Live
                 return new SetDriverStatusMessage(message.DriverId, DriverStatus.Stopped);
             }
 
-            LiveDriver driver = GetDriver(message);
-
-            return Translate(new SetDriverSectorTimeMessage(message.DriverId, sectorNumber,
-                new PostedTime(LiveData.ParseTime(message.Value), LiveData.ToPostedTimeType(message.Colour), driver.LapNumber)));
+            return Translate(new SetDriverSectorTimeMessage(message.DriverId, sectorNumber, new PostedTime(
+                LiveData.ParseTime(message.Value),
+                LiveData.ToPostedTimeType(message.Colour),
+                driver.LapNumber)));
         }
 
-        private Message TranslateSetSectorTimeColour(SetGridColumnColourMessage message,
-            int sectorNumber) {
+        private Message TranslateSetSectorTimeColour(SetGridColumnColourMessage message, int sectorNumber) {
             
             LiveDriver driver = GetDriver(message);
 
-            if(driver.IgnoreNextSector(this.SessionType)) {
+            if(driver.IsPitTimeSector(this.SessionType)) {
                 return null;
             }
 
@@ -335,8 +346,7 @@ namespace AK.F1.Timing.Messaging.Live
             // The feed often sends a colour update for the previous sector time to indicate that
             // it was a PB or SB. To hack this we publish a replacement when we receive such a
             // message.
-            if(sectorNumber != driver.NextSectorNumber) {
-                // Check that we only receive a colour update for the previous sector.                    
+            if(sectorNumber != driver.NextSectorNumber) {                
                 if(!driver.IsPreviousSectorNumber(sectorNumber)) {
                     _log.WarnFormat("received completely out of order S{0} update when an S{1} update" +
                         " was expected, cannot translate this message: {2}", sectorNumber,
@@ -361,7 +371,7 @@ namespace AK.F1.Timing.Messaging.Live
             // can detect this when the S2 time is cleared and we are expecting an S1 update. Note
             // that an S2 clear can be received when we do not have a previous S1 time, usually
             // at the start of a session.
-            if(sectorNumber == 2 && GetDriver(message).NextSectorNumber == 1 &&
+            if(sectorNumber == 2 && driver.NextSectorNumber == 1 &&
                 (lastS1Time = driver.LastSectors[0]) != null) {
                 _log.Debug("received clear S2 before S1 set, using previous posted time");
                 return Translate(new SetDriverSectorTimeMessage(message.DriverId, 1,

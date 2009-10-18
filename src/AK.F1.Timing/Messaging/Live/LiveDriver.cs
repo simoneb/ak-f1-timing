@@ -52,14 +52,14 @@ namespace AK.F1.Timing.Messaging.Live
         public void Reset() {
 
             this.CarNumber = 0;
-            _columnsWithValue = new BitVector32();
-            this.IgnoreSectorCount = 0;
+            _columnsWithValue = new BitVector32();            
             this.LastGapMessage = null;
             this.LastIntervalMessage = null;
             this.LastLapTime = null;
             this.LastSectors = new PostedTime[3];
             this.Name = null;
             this.NextSectorNumber = 0;
+            this.PitTimeSectorCount = 0;
             this.Position = 0;
             this.Status = DriverStatus.InPits;
         }
@@ -70,10 +70,10 @@ namespace AK.F1.Timing.Messaging.Live
         /// <param name="currentSessionType">The current session.</param>
         /// <returns><see langword="true"/> if the next sector update should be ignored, otherwise;
         /// <see langword="false"/>.</returns>
-        public bool IgnoreNextSector(SessionType currentSessionType) {
+        public bool IsPitTimeSector(SessionType currentSessionType) {
 
             return currentSessionType == SessionType.Race &&
-                (this.Status != DriverStatus.OnTrack || this.IgnoreSectorCount-- > 0);
+                (this.Status != DriverStatus.OnTrack || this.PitTimeSectorCount-- > 0);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// <summary>
         /// Gets the list of the last sector times posted by this driver.
         /// </summary>
-        public IList<PostedTime> LastSectors { get; private set; }
+        public PostedTime[] LastSectors { get; private set; }
 
         /// <summary>
         /// Gets the last lap time posted by the driver.
@@ -149,9 +149,9 @@ namespace AK.F1.Timing.Messaging.Live
         public PostedTime LastLapTime { get; set; }
 
         /// <summary>
-        /// Gets or set the number of sector updates that shold be ignored for this driver.
+        /// Gets or set the number of pit time sector updates that are expected for the driver.
         /// </summary>
-        public int IgnoreSectorCount { get; set; }
+        public int PitTimeSectorCount { get; set; }
 
         /// <summary>
         /// Gets or sets the next expected sector number to be updated for this driver.
