@@ -29,7 +29,7 @@ namespace AK.F1.Timing.Model.Collections
     {
         #region Private Fields.
 
-        private int? _count;
+        private int _count;
         private double? _current;
         private double? _minimum;
         private double? _maximum;
@@ -120,7 +120,7 @@ namespace AK.F1.Timing.Model.Collections
         /// <summary>
         /// Gets the number of elements in the collection.
         /// </summary>
-        public int? Count {
+        public int Count {
 
             get { return _count; }
             protected set { SetProperty("Count", ref _count, value); }
@@ -241,6 +241,7 @@ namespace AK.F1.Timing.Model.Collections
 
         private void ResetStatistics() {
 
+            this.Count = 0;
             this.Current = null;
             this.Minimum = null;
             this.Maximum = null;
