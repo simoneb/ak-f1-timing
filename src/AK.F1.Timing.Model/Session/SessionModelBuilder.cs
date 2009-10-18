@@ -110,8 +110,7 @@ namespace AK.F1.Timing.Model.Session
             var driver = GetDriver(message.DriverId);
 
             driver.QuallyTimes.Set(message.QuallyNumber, message.QuallyTime);
-            driver.LapTimes.Values.Add(new PostedTime(driver.LapsCompleted,
-                message.QuallyTime, PostedTimeType.Normal));
+            driver.LapTimes.Values.Add(new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted));
         }
 
         /// <inheritdoc />
