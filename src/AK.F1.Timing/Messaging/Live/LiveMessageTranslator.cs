@@ -268,12 +268,9 @@ namespace AK.F1.Timing.Messaging.Live
                 return new SetDriverStatusMessage(message.DriverId, DriverStatus.Retired);
             }
 
-            LiveDriver driver = GetDriver(message);            
+            LiveDriver driver = GetDriver(message);
 
-            return new SetDriverLapTimeMessage(message.DriverId, new PostedTime(
-                    driver.LapNumber,
-                    LiveData.ParseTime(message.Value),
-                    LiveData.ToPostedTimeType(message.Colour)));
+            return new SetDriverLapTimeMessage(message.DriverId, new PostedTime(LiveData.ParseTime(message.Value), LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
         }
 
         private Message TranslateSetLapTimeColour(SetGridColumnColourMessage message) {
@@ -284,8 +281,7 @@ namespace AK.F1.Timing.Messaging.Live
                 case GridColumnColour.White:
                     _log.DebugFormat("using previous lap time: {0}", message);
                     return new SetDriverLapTimeMessage(message.DriverId,
-                        new PostedTime(driver.LapNumber, driver.LastLapTime.Time,
-                            LiveData.ToPostedTimeType(message.Colour)));
+                        new PostedTime(driver.LastLapTime.Time, LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
                 case GridColumnColour.Green:
                 case GridColumnColour.Magenta:
                     // The feed often sends a colour update for the previous lap time to indicate
@@ -293,8 +289,7 @@ namespace AK.F1.Timing.Messaging.Live
                     // such a message.
                     _log.DebugFormat("received out of order lap time colour update: {0}", message);
                     return new ReplaceDriverLapTimeMessage(message.DriverId,
-                        new PostedTime(driver.LastLapTime.Lap, driver.LastLapTime.Time,
-                            LiveData.ToPostedTimeType(message.Colour)));
+                        new PostedTime(driver.LastLapTime.Time, LiveData.ToPostedTimeType(message.Colour), driver.LastLapTime.Lap));
                 default:
                     return null;
             }
@@ -323,8 +318,7 @@ namespace AK.F1.Timing.Messaging.Live
             LiveDriver driver = GetDriver(message);
 
             return Translate(new SetDriverSectorTimeMessage(message.DriverId, sectorNumber,
-                new PostedTime(driver.LapNumber, LiveData.ParseTime(message.Value),
-                    LiveData.ToPostedTimeType(message.Colour))));
+                new PostedTime(LiveData.ParseTime(message.Value), LiveData.ToPostedTimeType(message.Colour), driver.LapNumber)));
         }
 
         private Message TranslateSetSectorTimeColour(SetGridColumnColourMessage message,
@@ -351,12 +345,12 @@ namespace AK.F1.Timing.Messaging.Live
                 }
                 _log.DebugFormat("received out of order sector update: {0}", message);
                 return new ReplaceDriverSectorTimeMessage(message.DriverId, sectorNumber,
-                    new PostedTime(lastSectorTime.Lap, lastSectorTime.Time, newTimeType));
+                    new PostedTime(lastSectorTime.Time, newTimeType, lastSectorTime.Lap));
             }
             _log.DebugFormat("using previous sector time with new colour: {0}", message);
 
             return Translate(new SetDriverSectorTimeMessage(message.DriverId, sectorNumber,
-                new PostedTime(driver.LapNumber, lastSectorTime.Time, newTimeType)));
+                new PostedTime(lastSectorTime.Time, newTimeType, driver.LapNumber)));
         }
 
         private Message TranslateSetSectorClear(SetGridColumnValueMessage message, int sectorNumber) {
@@ -371,7 +365,7 @@ namespace AK.F1.Timing.Messaging.Live
                 (lastS1Time = driver.LastSectors[0]) != null) {
                 _log.Debug("received clear S2 before S1 set, using previous posted time");
                 return Translate(new SetDriverSectorTimeMessage(message.DriverId, 1,
-                    new PostedTime(driver.LapNumber, lastS1Time.Time, lastS1Time.Type)));
+                    new PostedTime(lastS1Time.Time, lastS1Time.Type, driver.LapNumber)));
             }
 
             return null;
