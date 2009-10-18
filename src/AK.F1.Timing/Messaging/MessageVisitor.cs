@@ -152,14 +152,15 @@ namespace AK.F1.Timing.Messaging
         /// <inheritdoc />
         public virtual void Visit(SetNextMessageDelayMessage message) { }
 
+        /// <inheritdoc />
+        public virtual void Visit(SetDriverPitTimeMessage message) { }
+
         #endregion
 
         #region Private Impl.
 
         [Serializable]
-        private sealed class NullMessageVisitor : MessageVisitor
-        {
-        }
+        private sealed class NullMessageVisitor : MessageVisitor { }
 
         #endregion
     }
