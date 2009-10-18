@@ -228,8 +228,6 @@ namespace AK.F1.Timing.Messaging.Live
         private Message ReadSystemMessage(LiveMessageHeader header) {
 
             switch(header.MessageType) {
-                case 0:
-                    return ReadSetNextMessageDelayMessage();
                 case 1:
                     return ReadSetSessionTypeMessage(header);
                 case 2:
@@ -265,13 +263,6 @@ namespace AK.F1.Timing.Messaging.Live
                     this.Log.ErrorFormat("unknown system message: {0}", header);
                     throw Guard.LiveMessageReader_InvalidMessageType(header.MessageType);
             }
-        }
-
-        private Message ReadSetNextMessageDelayMessage() {
-
-            ReadBytes(16);
-
-            return new SetNextMessageDelayMessage(TimeSpan.Parse(GetLatin1(0, 16).Trim()));
         }
 
         private Message ReadDriverMessage(LiveMessageHeader header) {
