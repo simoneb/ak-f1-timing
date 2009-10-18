@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{835763CB-B1F4-4351-A414-25F2368D7493}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Collections\PostedTimeCollectionModel.cs" />
     <Compile Include="Collections\DelegateComparer.cs" />
+    <Compile Include="Driver\PitStopModel.cs" />
     <Compile Include="Driver\IDriverModelProvider.cs" />
     <Compile Include="Driver\LapTimesModel.cs" />
     <Compile Include="Driver\QuallyTimesModel.cs" />
