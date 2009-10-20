@@ -262,15 +262,25 @@ namespace AK.F1.Timing.Messaging.Live
                 return Ignored("session has not started", message);
             }
 
-            if(message.Value.OrdinalEquals("OUT") || message.Value.OrdinalEquals("IN PIT")) {
-                return Ignored("state transition captured elewhere", message);
+            LiveDriver driver = GetDriver(message);
+
+            if(message.Value.OrdinalEquals("OUT")) {
+                if(driver.Status == DriverStatus.OnTrack) {
+                    return null;
+                }
+                return new SetDriverStatusMessage(message.DriverId, DriverStatus.OnTrack);
+            }
+
+            if(message.Value.OrdinalEquals("IN PIT")) {
+                if(driver.Status == DriverStatus.InPits) {
+                    return null;
+                }
+                return new SetDriverStatusMessage(message.DriverId, DriverStatus.InPits);
             }
 
             if(message.Value.OrdinalEquals("RETIRED")) {
                 return new SetDriverStatusMessage(message.DriverId, DriverStatus.Retired);
             }
-
-            LiveDriver driver = GetDriver(message);
 
             return new SetDriverLapTimeMessage(message.DriverId, new PostedTime(
                 LiveData.ParseTime(message.Value),
@@ -424,9 +434,15 @@ namespace AK.F1.Timing.Messaging.Live
             return translated;
         }
 
-        private static Message TranslateSetCarNumberColour(SetGridColumnColourMessage message) {
+        private Message TranslateSetCarNumberColour(SetGridColumnColourMessage message) {
 
-            return new SetDriverStatusMessage(message.DriverId, LiveData.ToDriverStatus(message.Colour));
+            DriverStatus status = LiveData.ToDriverStatus(message.Colour);
+
+            if(GetDriver(message).Status == status) {
+                return null;
+            }
+
+            return new SetDriverStatusMessage(message.DriverId, status);
         }
 
         private static Message Ignored(string reason, Message message) {
