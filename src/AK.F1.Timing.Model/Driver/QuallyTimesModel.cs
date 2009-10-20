@@ -54,6 +54,16 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         /// <summary>
+        /// Resets this model.
+        /// </summary>
+        public void Reset() {
+
+            this.Q1 = null;
+            this.Q2 = null;
+            this.Q3 = null;
+        }
+
+        /// <summary>
         /// Gets or sets the qually one time.
         /// </summary>
         public TimeSpan? Q1 {
