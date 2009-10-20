@@ -27,13 +27,6 @@ namespace AK.F1.Timing.Messaging.Playback
     [Serializable]
     internal sealed class RecordedMessageDelayEngine : MessageVisitor
     {
-        #region Private Fields.
-
-        private static readonly log4net.ILog _log = 
-            log4net.LogManager.GetLogger(typeof(RecordedMessageDelayEngine));
-
-        #endregion
-
         #region Public Interface.
 
         /// <summary>
@@ -75,8 +68,7 @@ namespace AK.F1.Timing.Messaging.Playback
             
             TimeSpan delay = ScaleDelay(message.Delay);
 
-            if(delay >= TimeSpan.Zero) {
-                _log.DebugFormat("delaying for {0}", delay);
+            if(delay >= TimeSpan.Zero) {                
                 Thread.Sleep(delay);                
             }
 
