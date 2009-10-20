@@ -215,6 +215,12 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <inheritdoc />
+        public override void Visit(SetDriverPitTimeMessage message) {
+
+            GetDriver(message.DriverId).PitTimes.Add(new PitTimeModel(message.Time, message.LapNumber));
+        }
+
+        /// <inheritdoc />
         public override void Visit(SetElapsedSessionTimeMessage message) {
 
             this.Session.ElapsedSessionTime = message.Elapsed;
