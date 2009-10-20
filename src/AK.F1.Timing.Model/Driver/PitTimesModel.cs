@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace AK.F1.Timing.Model.Driver
 {
@@ -21,6 +22,7 @@ namespace AK.F1.Timing.Model.Driver
     /// Contains information relating to a pit time.
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("Count = {Values.Count}")]
     public class PitTimesModel
     {       
         #region Public Interface.
