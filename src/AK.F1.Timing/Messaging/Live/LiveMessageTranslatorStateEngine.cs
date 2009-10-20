@@ -97,9 +97,8 @@ namespace AK.F1.Timing.Messaging.Live
 
             ++driver.LapNumber;
             driver.NextSectorNumber = 1;
-            // Ensure we ignore the pit lap updated.
-            // NOTE we should really capture this information.
-            driver.PitTimeSectorCount = driver.Status == DriverStatus.InPits ? Math.Min(message.PitCount, 3) : 0;            
+            // Ensure we can identify when a sector update is actually a pit lap time update.
+            driver.PitTimeSectorCount = driver.Status == DriverStatus.InPits ? message.PitCount : 0;            
         }
 
         /// <inheritdoc />
