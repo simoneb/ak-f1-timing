@@ -73,7 +73,7 @@ namespace AK.F1.Timing.Messaging.Live
         public bool IsPitTimeSector(SessionType currentSessionType) {
 
             return currentSessionType == SessionType.Race &&
-                (this.Status != DriverStatus.OnTrack || this.PitTimeSectorCount-- > 0);
+                (this.PitTimeSectorCount-- > 0 || this.Status != DriverStatus.OnTrack);
         }
 
         /// <summary>
