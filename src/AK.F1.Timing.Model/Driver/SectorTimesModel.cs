@@ -16,13 +16,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 using AK.F1.Timing.Model.Collections;
 using AK.F1.Timing.Messaging.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Driver
 {
+    /// <summary>
+    /// Contains sector time related information.
+    /// </summary>
     [Serializable]
+    [DebuggerDisplay("S1 = {S1.Count}, S2 = {S2.Count}, S3 = {S3.Count}")]
     public class SectorTimesModel : ModelBase
     {
         #region Public Interface.
