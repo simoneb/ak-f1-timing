@@ -27,11 +27,11 @@ namespace AK.F1.Timing.Model.Driver
 
         /// <summary>
         /// Initialises a new instance of the <see cref="PitTimesModel"/> class.
-        /// </summary>
-        /// <param name="time">The pit time. Note: this time includes the time taken to travel
-        /// the pit lane.</param>
-        /// <param name="lapNumber">The lap number on which the pit time was set.</param>
-        public PitTimesModel() { }
+        /// </summary>        
+        public PitTimesModel() {
+
+            this.Values = new ObservableCollection<PitTimeModel>();
+        }
 
         /// <summary>
         /// Adds the specified item to this collection.
