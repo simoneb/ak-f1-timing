@@ -28,9 +28,17 @@ namespace AK.F1.Timing.Fixup
         public bool IsTranslated(Message message) {
 
             this.Result = false;
+
             message.Accept(this);
 
             return this.Result;
+        }
+
+        public override void Visit(SetSessionStatusMessage message) {
+
+            // The live message reader does not receive a Finished status, the ping interval message
+            // is translated when appropiate.
+            this.Result = message.SessionStatus == SessionStatus.Finished;
         }
 
         public override void Visit(ReplaceDriverLapTimeMessage message) {
