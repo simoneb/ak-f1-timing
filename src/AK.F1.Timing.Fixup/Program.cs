@@ -134,8 +134,8 @@ namespace AK.F1.Timing.Fixup
             Console.WriteLine(message);
             Console.WriteLine();
             Console.WriteLine("directory [/r]");
-            Console.WriteLine("\tdirectory: directory to fixup");
-            Console.WriteLine("\t/r: recurse directory");
+            Console.WriteLine("     directory:  directory to fixup");
+            Console.WriteLine("     /r:         recurse directory");
         }
 
         #endregion
