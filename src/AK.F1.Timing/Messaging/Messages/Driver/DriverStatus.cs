@@ -18,7 +18,7 @@ using AK.F1.Timing.Messaging.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
-    /// Defines the various statuses of a driver during a this.
+    /// Defines the various statuses of a driver during a session.
     /// </summary>
     [Serializable]    
     public enum DriverStatus
