@@ -11,7 +11,8 @@
     <converters:LapNumberConverter x:Key="LapNumberConverter"/>
     <converters:PositionConverter x:Key="PositionConverter"/>
     <converters:PostedTimeTypeToColourConverter x:Key="PostedTimeTypeToColourConverter"/>
-    <converters:SessionStatusToColourConverter x:Key="SessionStatusToColourConverter"/>
+    <converters:SessionStatusConverter x:Key="SessionStatusConverter"/>
+    <converters:SessionStatusToColourConverter x:Key="SessionStatusToColourConverter"/>    
 
     <Style BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
         <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
