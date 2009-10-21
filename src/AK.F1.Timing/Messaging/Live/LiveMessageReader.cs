@@ -77,8 +77,7 @@ namespace AK.F1.Timing.Messaging.Live
                     case LiveMessageReaderState.Initial:
                         InitialiseOnFirstRead();                        
                         break;
-                    case LiveMessageReaderState.Reading:                        
-                        break;
+                    case LiveMessageReaderState.Reading:
                     case LiveMessageReaderState.Closing:                        
                         break;
                     case LiveMessageReaderState.Closed:
