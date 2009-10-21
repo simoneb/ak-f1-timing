@@ -50,6 +50,7 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public SessionModel() {
 
+            this.Builder = new SessionModelBuilder(this);
             this.Drivers = new SortableObservableCollection<DriverModel>((x, y) => {
                 return x.Position.CompareTo(y.Position);
             });
@@ -57,12 +58,12 @@ namespace AK.F1.Timing.Model.Session
             this.Feed = new FeedModel();
             this.Grid = GridModelBase.Create(SessionType.None);
             this.FastestTimes = new FastestTimesModel();
-            this.Messages = new MessageModel();        
-            this.Weather = new WeatherModel();            
+            this.Messages = new MessageModel();
             this.OneSecondTimer = new DispatcherTimer(DispatcherPriority.Normal);
             this.OneSecondTimer.Interval = ONE_SECOND;
             this.OneSecondTimer.Tick += OnOneSecondElapsed;
-            this.Builder = new SessionModelBuilder(this);
+            this.SessionStatus = SessionStatus.Finished;
+            this.Weather = new WeatherModel();
         }
 
         /// <summary>
@@ -93,7 +94,7 @@ namespace AK.F1.Timing.Model.Session
             this.Messages.Reset();
             this.RaceLapNumber = 0;
             this.RemainingSessionTime = TimeSpan.Zero;
-            this.SessionStatus = SessionStatus.Green;
+            this.SessionStatus = SessionStatus.Finished;
             this.SessionType = SessionType.None;            
             this.Weather.Reset();
         }
