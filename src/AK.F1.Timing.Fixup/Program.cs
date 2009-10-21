@@ -71,11 +71,15 @@ namespace AK.F1.Timing.Fixup
 
         private static void FixupDirectory(string directory, bool recurse) {
 
+            int fixedUp = 0;
             var searchOption = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
             foreach(var path in Directory.GetFiles(directory, TMS_SEARCH_PATTERN, searchOption)) {
                 FixupFile(path, path.Substring(directory.Length + 1));
+                ++fixedUp;
             }
+
+            Console.WriteLine("fixup: fixed {0} file{1}", fixedUp, fixedUp >= 0 ? "s" : string.Empty);
         }
 
         private static void FixupFile(string path, string name) {
@@ -116,14 +120,19 @@ namespace AK.F1.Timing.Fixup
                             ++written;
                         }
                     }
-                }                
-                ++written;
+                }
                 writer.Write(null);
             }
 
             File.Delete(temp);
 
-            Console.WriteLine("fixed: read={0}, written={1}, diff={2}", read, written, read - written);
+            int diff = written - read;
+
+            Console.WriteLine("fixed: read={0}, written={1}, {2}={3}",
+                read,
+                written,
+                diff < 0 ? "removed" : "added",
+                Math.Abs(diff));
         }
 
         private static void Usage(string message) {
