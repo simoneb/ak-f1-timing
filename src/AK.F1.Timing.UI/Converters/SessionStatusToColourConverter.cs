@@ -31,6 +31,8 @@ namespace AK.F1.Timing.UI.Converters
             }
 
             switch((SessionStatus)value) {
+                case SessionStatus.Finished:
+                    return Brushes.White;
                 case SessionStatus.Green:
                     return Brushes.LimeGreen;
                 case SessionStatus.Yellow:                    
@@ -40,7 +42,7 @@ namespace AK.F1.Timing.UI.Converters
                 case SessionStatus.Red:
                     return Brushes.Red;
                 default:
-                    throw new ArgumentOutOfRangeException("value");
+                    throw Guard.ArgumentOutOfRange("value");
             }
         }
 
