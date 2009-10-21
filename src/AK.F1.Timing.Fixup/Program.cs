@@ -116,8 +116,7 @@ namespace AK.F1.Timing.Fixup
                             ++written;
                         }
                     }
-                }
-                writer.Write(EndOfSessionMessage.Instance);
+                }                
                 ++written;
                 writer.Write(null);
             }
