@@ -332,7 +332,7 @@ namespace AK.F1.Timing.Messaging.Live
                     return new ReplaceDriverLapTimeMessage(message.DriverId, new PostedTime(
                         driver.LastLapTime.Time,
                         LiveData.ToPostedTimeType(message.Colour),
-                        driver.LastLapTime.Lap));
+                        driver.LastLapTime.LapNumber));
                 default:
                     return null;
             }
@@ -395,7 +395,7 @@ namespace AK.F1.Timing.Messaging.Live
                 }
                 _log.DebugFormat("received out of order sector update: {0}", message);
                 return new ReplaceDriverSectorTimeMessage(message.DriverId, sectorNumber,
-                    new PostedTime(lastSectorTime.Time, newTimeType, lastSectorTime.Lap));
+                    new PostedTime(lastSectorTime.Time, newTimeType, lastSectorTime.LapNumber));
             }
 
             _log.DebugFormat("using previous sector time with new colour: {0}", message);
