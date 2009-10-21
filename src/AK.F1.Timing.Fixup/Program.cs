@@ -16,7 +16,7 @@ using System;
 using System.IO;
 using AK.F1.Timing.Messaging;
 using AK.F1.Timing.Messaging.Live;
-using AK.F1.Timing.Messaging.Messages.Feed;
+using AK.F1.Timing.Messaging.Messages.Session;
 using AK.F1.Timing.Messaging.Serialization;
 
 namespace AK.F1.Timing.Fixup
