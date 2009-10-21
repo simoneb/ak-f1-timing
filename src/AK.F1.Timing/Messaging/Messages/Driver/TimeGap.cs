@@ -25,12 +25,6 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     [TypeId(78111225)]
     public sealed class TimeGap : Gap
     {
-        #region Private Fields.
-
-        private static readonly Type MY_TYPE = typeof(TimeGap);
-
-        #endregion
-
         #region Public Interface.
 
         /// <summary>
@@ -90,7 +84,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
 
             int hash = 7;
 
-            hash = 31 * hash + MY_TYPE.GetHashCode();
+            hash = 31 * hash + GetType().GetHashCode();
             hash = 31 * hash + this.Time.GetHashCode();
 
             return hash;
