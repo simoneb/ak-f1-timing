@@ -73,8 +73,8 @@ namespace AK.F1.Timing.Fixup
 
             var searchOption = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
-            foreach(var path in Directory.GetDirectories(directory, TMS_SEARCH_PATTERN, searchOption)) {
-                FixupFile(path, path.Substring(directory.Length));
+            foreach(var path in Directory.GetFiles(directory, TMS_SEARCH_PATTERN, searchOption)) {
+                FixupFile(path, path.Substring(directory.Length + 1));
             }
         }
 
