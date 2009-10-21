@@ -22,7 +22,7 @@ using AK.F1.Timing.Messaging.Messages.Session;
 namespace AK.F1.Timing.UI.Converters
 {
     [ValueConversion(typeof(SessionStatus), typeof(string))]
-    public class SessionStatusToColourConverter : IValueConverter
+    public class SessionStatusConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
