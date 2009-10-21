@@ -43,6 +43,10 @@ namespace AK.F1.Timing.Messaging.Messages.Session
         /// <summary>
         /// The practice this has been aborted or the race suspended due to a serious incident.
         /// </summary>
-        Red
+        Red,
+        /// <summary>
+        /// The session has finished.
+        /// </summary>
+        Finished
     }
 }
