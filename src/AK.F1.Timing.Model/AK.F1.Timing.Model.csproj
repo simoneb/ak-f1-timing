@@ -64,7 +64,6 @@
     <Compile Include="Session\MessageModel.cs" />
     <Compile Include="Session\WeatherModel.cs" />
     <Compile Include="Session\FastestTimesModel.cs" />
-    <Compile Include="Format.cs" />
     <Compile Include="Grid\GridModelBase.cs" />
     <Compile Include="Grid\GridModelBase`1.cs" />
     <Compile Include="Grid\GridModelBuilder.cs" />
