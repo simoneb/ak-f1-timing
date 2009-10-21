@@ -7,7 +7,7 @@
     SizeToContent="WidthAndHeight"    
     Background="{StaticResource ControlBackgroundBrush}"
     SizeChanged="Window_SizeChanged"
-    Title="AK.F1.Timing.UI"
+    Title="F1-Timing"
     WindowStartupLocation="CenterScreen"
     WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
     <Window.Resources>
@@ -176,8 +176,8 @@
                                 <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=Possible, Converter={StaticResource LapTimeConverter}}"/>
                             </Grid>
                         </Border>
-                        <Border Height="340" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,6,0,0" DataContext="{Binding SelectedDriver}" Style="{StaticResource Border}">
-                            <StackPanel>
+                        <Border Height="340" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,6,0,0" Style="{StaticResource Border}">
+                            <StackPanel DataContext="{Binding SelectedDriver}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="20"/>
@@ -248,6 +248,21 @@
                                     <TextBlock Grid.Column="5" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=LapTimes.PersonalBestCount}"/>
                                     <TextBlock Grid.Column="6" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=LapTimes.SessionBestCount}"/>
                                 </Grid>
+                                <TabControl Margin="0,10,0,0">
+                                    <TabItem Header="Laps">
+                                        
+                                    </TabItem>
+                                    <TabItem Header="Pits">
+                                        <ListView BorderThickness="0" ItemsSource="{Binding PitTimes.Values}">
+                                            <ListView.View>
+                                                <GridView>
+                                                    <GridViewColumn Header="Lap" DisplayMemberBinding="{Binding Path=LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                                                    <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Path=Time, Converter={StaticResource SectorTimeConverter}}"/>
+                                                </GridView>
+                                            </ListView.View>
+                                        </ListView>
+                                    </TabItem>
+                                </TabControl>                                
                             </StackPanel>
                         </Border>
                     </StackPanel>
