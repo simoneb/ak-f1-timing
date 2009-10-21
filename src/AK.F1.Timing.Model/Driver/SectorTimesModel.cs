@@ -52,16 +52,15 @@ namespace AK.F1.Timing.Model.Driver
         /// </exception>
         public PostedTimeCollectionModel Get(int sectorNumber) {
 
-            switch(sectorNumber) {
-                case 1:
-                    return this.S1;
-                case 2:
-                    return this.S2;
-                case 3:
-                    return this.S3;
-                default:
-                    throw Guard.ArgumentOutOfRange("sectorNumber");
+            if(sectorNumber == 1) {
+                return this.S1;
+            } else if(sectorNumber == 2) {
+                return this.S2;
+            } else if(sectorNumber == 3) {
+                return this.S3;
             }
+
+            throw Guard.ArgumentOutOfRange("sectorNumber");
         }
 
         /// <summary>
