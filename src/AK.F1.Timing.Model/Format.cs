@@ -19,10 +19,24 @@ using AK.F1.Timing.Messaging.Messages.Driver;
 
 namespace AK.F1.Timing.Model
 {
+    /// <summary>
+    /// Contains methods for formatting timing primitives. This class is <see langword="static"/>.
+    /// </summary>
     public static class Format
     {
+        #region Fields.
+
         private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;
 
+        #endregion
+
+        #region Public Interface.
+
+        /// <summary>
+        /// Formats the specified sector time.
+        /// </summary>
+        /// <param name="value">The sector time to format.</param>
+        /// <returns>The formatted sector time in #.# format.</returns>
         public static string SectorTime(TimeSpan? value) {
 
             if(value == null) {
@@ -45,17 +59,8 @@ namespace AK.F1.Timing.Model
             if(time != null) {
                 return GapTime(time);
             }
+
             return GapTime((LapGap)value);
-        }
-
-        public static string GapTime(LapGap value) {
-
-            return value.Laps > 0 ? value.Laps.ToString(INV_CULTURE) + "L" : String.Empty;
-        }
-
-        public static string GapTime(TimeGap value) {
-
-            return value.Time > TimeSpan.Zero ? SectorTime(value.Time) : String.Empty;
         }
 
         public static string LapTime(TimeSpan? value) {
@@ -116,22 +121,17 @@ namespace AK.F1.Timing.Model
             return F("{0:#}°", value.Value);
         }
 
-        internal static string Laps(int value) {
+        public static string Laps(int value) {
 
             return value.ToString(INV_CULTURE);
         }
 
-        internal static string PitCount(int value) {
+        public static string PitCount(int value) {
 
             return value.ToString(INV_CULTURE);
         }
 
-        private static string F(string format, params object[] args) {            
-
-            return string.Format(INV_CULTURE, format, args);
-        }
-
-        internal static object Humidity(double? value) {
+        public static object Humidity(double? value) {
 
             if(value == null) {
                 return String.Empty;
@@ -139,5 +139,26 @@ namespace AK.F1.Timing.Model
 
             return F("{0:0.00}%", value.Value);
         }
+
+        #endregion
+
+        #region Private Impl.
+
+        private static string GapTime(LapGap value) {
+
+            return value.Laps > 0 ? value.Laps.ToString(INV_CULTURE) + "L" : String.Empty;
+        }
+
+        private static string GapTime(TimeGap value) {
+
+            return value.Time > TimeSpan.Zero ? SectorTime(value.Time) : String.Empty;
+        }
+
+        private static string F(string format, params object[] args) {
+
+            return string.Format(INV_CULTURE, format, args);
+        }
+
+        #endregion
     }
 }
