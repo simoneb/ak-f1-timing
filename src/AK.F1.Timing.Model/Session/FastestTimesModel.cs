@@ -30,7 +30,7 @@ namespace AK.F1.Timing.Model.Session
         private FastestTimeModel _s1;
         private FastestTimeModel _s2;
         private FastestTimeModel _s3;
-        private TimeSpan? _possible;
+        private FastestTimeModel _possible;
         private TimeSpan? _possibleDelta;
 
         #endregion
@@ -49,51 +49,69 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <summary>
-        /// Sets the specified fastest sector <paramref name="time"/> model.
+        /// Sets the new fastest sector time for the one-based specified sector number.
         /// </summary>
         /// <param name="sectorNumber">The one-based sector time to set.</param>
-        /// <param name="time">The new sector time model.</param>
+        /// <param name="time">The time.</param>        
+        /// <param name="driver">The driver which posted the time.</param>
+        /// <param name="lapNumber">The lap number on which the time was set.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throw when <paramref name="driver"/> is <see langword="null"/>.
+        /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="sectorNumber"/> is less than one or greater than three.
         /// </exception>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="time"/> is <see langword="null"/>.
-        /// </exception>
-        public void SetSector(int sectorNumber, FastestTimeModel time) {
+        public void SetSector(int sectorNumber, TimeSpan time, DriverModel driver, int lapNumber) {
 
-            Guard.NotNull(time, "time");
+            Guard.NotNull(driver, "driver");
 
             if(sectorNumber == 1) {
-                this.S1 = time;
+                this.S1 = CreateFastestTime(time, driver, lapNumber, this.S1);
             } else if(sectorNumber == 2) {
-                this.S2 = time;
+                this.S2 = this.S1 = CreateFastestTime(time, driver, lapNumber, this.S2);
             } else if(sectorNumber == 3) {
-                this.S3 = time;
+                this.S3 = this.S1 = CreateFastestTime(time, driver, lapNumber, this.S3);
             } else {
                 throw Guard.ArgumentOutOfRange("sectorNumber");
             }
         }
 
         /// <summary>
-        /// Gets or sets the fastest lap time set.
+        /// Sets the new fastest lap time.
+        /// </summary>
+        /// <param name="time">The time.</param>        
+        /// <param name="driver">The driver which posted the time.</param>
+        /// <param name="lapNumber">The lap number on which the time was set.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Throw when <paramref name="driver"/> is <see langword="null"/>.
+        /// </exception>
+        public void SetLap(TimeSpan time, DriverModel driver, int lapNumber) {
+
+            Guard.NotNull(driver, "driver");
+
+            this.Lap = CreateFastestTime(time, driver, lapNumber, this.Lap);
+        }
+
+        /// <summary>
+        /// Gets the fastest lap time set.
         /// </summary>
         public FastestTimeModel Lap {
 
             get { return _lap; }
-            set {
+            private set {
                 if(SetProperty("Lap", ref _lap, value)) {
-                    ComputePossibleDelta();
+                    ComputePossible();
                 }
             }
         }
 
         /// <summary>
-        /// Gets or sets the fastest S1 time set.
+        /// Gets the fastest S1 time set.
         /// </summary>
         public FastestTimeModel S1 {
 
             get { return _s1; }
-            set {
+            private set {
                 if(SetProperty("S1", ref _s1, value)) {
                     ComputePossible();
                 }
@@ -101,12 +119,12 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <summary>
-        /// Gets or sets the fastest S2 time set.
+        /// Gets the fastest S2 time set.
         /// </summary>
         public FastestTimeModel S2 {
 
             get { return _s2; }
-            set {
+            private set {
                 if(SetProperty("S2", ref _s2, value)) {
                     ComputePossible();
                 }
@@ -114,12 +132,12 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <summary>
-        /// Gets or sets the fastest S3 time set.
+        /// Gets the fastest S3 time set.
         /// </summary>
         public FastestTimeModel S3 {
 
             get { return _s3; }
-            set {
+            private set {
                 if(SetProperty("S3", ref _s3, value)) {
                     ComputePossible();
                 }
@@ -127,45 +145,47 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <summary>
-        /// Gets the fastest possible lap given the S1-S3 times.
+        /// Gets the fastest possible lap given the S1-S3 times. In this case the
+        /// <see cref="FastestTimeModel.Delta"/> property represents the difference between the sum
+        /// of the S1-S3 times and the the current fastest lap.
         /// </summary>
-        public TimeSpan? Possible {
+        public FastestTimeModel Possible {
 
             get { return _possible; }
-            protected set { SetProperty("Possible", ref _possible, value); }
-        }
-
-        /// <summary>
-        /// Gets the delta between the fastest lap set so far and the fastest possible lap given the
-        /// S1-S3 times.
-        /// </summary>
-        public TimeSpan? PossibleDelta {
-
-            get { return _possibleDelta; }
-            protected set { SetProperty("PossibleDelta", ref _possibleDelta, value); }
+            private set { SetProperty("Possible", ref _possible, value); }
         }
 
         #endregion
 
         #region Private Impl.
 
+        private static FastestTimeModel CreateFastestTime(TimeSpan time, DriverModel driver,
+            int lapNumber, FastestTimeModel previous) {
+
+            return new FastestTimeModel(time,
+                previous != null ? new Nullable<TimeSpan>(time - previous.Time) : null,
+                driver, lapNumber);
+        }
+
         private void ComputePossible() {
 
             if(this.S1 == null || this.S2 == null || this.S3 == null) {
                 this.Possible = null;                
             } else {
-                this.Possible = this.S1.Time + this.S2.Time + this.S3.Time;
-            }
-            ComputePossibleDelta();
+                var newPossibleTime = this.S1.Time + this.S2.Time + this.S3.Time;
+                // TODO this is a bit hackish. Need a better was of expressing this.
+                this.Possible = new FastestTimeModel(newPossibleTime,
+                    ComputeDiffFromLap(newPossibleTime), null, 0);
+            }            
         }
 
-        private void ComputePossibleDelta() {
+        private TimeSpan? ComputeDiffFromLap(TimeSpan value) {
 
-            if(this.Possible != null && this.Lap != null) {
-                this.PossibleDelta = this.Lap.Time - this.Possible;
-            } else {
-                this.PossibleDelta = null;
+            if(this.Lap == null) {
+                return null;
             }
+
+            return this.Lap.Time - value;
         }
 
         #endregion
