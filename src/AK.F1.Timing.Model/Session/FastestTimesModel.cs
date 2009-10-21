@@ -68,9 +68,9 @@ namespace AK.F1.Timing.Model.Session
             if(sectorNumber == 1) {
                 this.S1 = CreateFastestTime(time, driver, lapNumber, this.S1);
             } else if(sectorNumber == 2) {
-                this.S2 = this.S1 = CreateFastestTime(time, driver, lapNumber, this.S2);
+                this.S2 = CreateFastestTime(time, driver, lapNumber, this.S2);
             } else if(sectorNumber == 3) {
-                this.S3 = this.S1 = CreateFastestTime(time, driver, lapNumber, this.S3);
+                this.S3 = CreateFastestTime(time, driver, lapNumber, this.S3);
             } else {
                 throw Guard.ArgumentOutOfRange("sectorNumber");
             }
