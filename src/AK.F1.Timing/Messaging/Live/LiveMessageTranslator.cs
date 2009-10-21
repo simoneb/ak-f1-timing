@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Text;
 
 using AK.F1.Timing.Extensions;
-using AK.F1.Timing.Messaging;
 using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Messaging.Messages.Feed;
 using AK.F1.Timing.Messaging.Messages.Session;
@@ -34,6 +33,12 @@ namespace AK.F1.Timing.Messaging.Live
 
         private static readonly log4net.ILog _log =
             log4net.LogManager.GetLogger(typeof(LiveMessageTranslator));
+
+        /// <summary>
+        /// The maximum ping inteval before we interpret it as being the end of the session. This
+        /// field is <see langword="readonly"/>.
+        /// </summary>
+        private static readonly TimeSpan MAX_PING_INTERVAL = TimeSpan.FromSeconds(30);
 
         #endregion
 
@@ -66,6 +71,12 @@ namespace AK.F1.Timing.Messaging.Live
 
             return this.Translated;
         }
+
+        /// <inheritdoc />
+        public override void Visit(SetPingIntervalMessage message) {
+
+            this.Translated = Translate(message);         
+        }        
 
         /// <inheritdoc />
         public override void Visit(SetGridColumnColourMessage message) {
@@ -126,6 +137,19 @@ namespace AK.F1.Timing.Messaging.Live
         #endregion
 
         #region Private Impl.
+
+        private Message Translate(SetPingIntervalMessage message) {
+
+            if(!(message.PingInterval == TimeSpan.Zero || message.PingInterval >= MAX_PING_INTERVAL)) {
+                return null;
+            }
+
+            _log.InfoFormat("read terminal message {0}", message);
+
+            return new CompositeMessage(
+                new SetSessionStatusMessage(SessionStatus.Finished),
+                EndOfSessionMessage.Instance);
+        }
 
         private Message Translate(SetGridColumnValueMessage message) {
 
