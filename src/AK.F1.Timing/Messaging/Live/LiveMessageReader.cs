@@ -14,10 +14,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Text;
 
-using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Messaging.Live.Encryption;
 using AK.F1.Timing.Messaging.Live.IO;
 using AK.F1.Timing.Messaging.Messages.Driver;
@@ -77,8 +75,7 @@ namespace AK.F1.Timing.Messaging.Live
                     case LiveMessageReaderState.Initial:
                         InitialiseOnFirstRead();                        
                         break;
-                    case LiveMessageReaderState.Reading:
-                    case LiveMessageReaderState.Closing:                        
+                    case LiveMessageReaderState.Reading:                                            
                         break;
                     case LiveMessageReaderState.Closed:
                         return null;
@@ -118,22 +115,38 @@ namespace AK.F1.Timing.Messaging.Live
 
         #region Internal Interface.
 
+        /// <summary>
+        /// Disposes of the current message stream.
+        /// </summary>
         internal void DisposeOfMessageStream() {
 
             DisposeOf(this.MessageStream);
             this.MessageStream = null;
         }
 
-        internal IMessageStream MessageStream { get; set; }
+        /// <summary>
+        /// Gets the current message stream being read by the reader.
+        /// </summary>
+        internal IMessageStream MessageStream { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the current session type.
+        /// </summary>
         internal SessionType SessionType { get; set; }
 
-        internal IDecryptorFactory DecryptorFactory { get; set; }
+        /// <summary>
+        /// Gets the current decryptor factory being used by the reader.
+        /// </summary>
+        internal IDecryptorFactory DecryptorFactory { get; private set; }
 
-        internal Queue<Message> QueuedMessages { get; set; }
-
+        /// <summary>
+        /// Gets or sets the current decryptor being used by the reader.
+        /// </summary>
         internal IDecryptor Decryptor { get; set; }
 
+        /// <summary>
+        /// Gets or sets the state of the reader.
+        /// </summary>
         internal LiveMessageReaderState State { get; set; }
 
         #endregion
@@ -521,6 +534,8 @@ namespace AK.F1.Timing.Messaging.Live
         }        
 
         private byte[] Buffer { get; set; }
+
+        private Queue<Message> QueuedMessages { get; set; }
 
         private IMessageStreamEndpoint MessageStreamEndpoint { get; set; }        
 
