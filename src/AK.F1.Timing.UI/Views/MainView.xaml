@@ -26,9 +26,9 @@
         <TabControl TabStripPlacement="Left" Margin="0,4,0,0">
             <TabItem Header="Grid">
                 <StackPanel Orientation="Horizontal" Margin="4,0,4,4">
-                    <Border HorizontalAlignment="Left" Style="{StaticResource Border}">
-                        <StackPanel Orientation="Vertical">
-                            <ListView MinHeight="400" HorizontalAlignment="Left" BorderThickness="0" ItemsSource="{Binding Path=Session.Grid.Rows}" SelectedItem="{Binding SelectedGridRow}" SelectionMode="Single">
+                    <Border Style="{StaticResource Border}">
+                        <DockPanel VerticalAlignment="Stretch">
+                            <ListView MinHeight="400" DockPanel.Dock="Top" BorderThickness="0" ItemsSource="{Binding Path=Session.Grid.Rows}" SelectedItem="{Binding SelectedGridRow}" SelectionMode="Single">
                                 <ListView.View>
                                     <GridView AllowsColumnReorder="False">
                                         <GridViewColumn Width="15" Header="P">
@@ -125,7 +125,7 @@
                                     </GridView>
                                 </ListView.View>
                             </ListView>
-                            <Grid Margin="3,3,3,3">
+                            <Grid Margin="3,3,3,3" DockPanel.Dock="Bottom">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition/>
@@ -135,19 +135,20 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Style="{StaticResource GridSessionText}" Text="{Binding Session.ElapsedSessionTime}"/>
-                                <TextBlock Grid.Column="1" Grid.Row="0" Foreground="{Binding Path=Session.SessionStatus, Converter={StaticResource SessionStatusToColourConverter}}" HorizontalAlignment="Center" Style="{StaticResource GridSessionText}" Text="{Binding Session.SessionStatus}"/>
+                                <TextBlock Grid.Column="1" Grid.Row="0" Foreground="{Binding Path=Session.SessionStatus, Converter={StaticResource SessionStatusToColourConverter}}" HorizontalAlignment="Center" Style="{StaticResource GridSessionText}" Text="{Binding Path=Session.SessionStatus, Converter={StaticResource SessionStatusConverter}}"/>
                                 <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Style="{StaticResource GridSessionText}" Text="{Binding Session.RemainingSessionTime}"/>
                             </Grid>
-                        </StackPanel>
-                    </Border>
-                    <StackPanel Orientation="Vertical">
-                        <Border HorizontalAlignment="Stretch" Margin="6,0,0,0" Style="{StaticResource Border}">
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top" DataContext="{Binding Session.FastestTimes}">
+                        </DockPanel>
+                    </Border>                    
+                    <DockPanel>
+                        <Border DockPanel.Dock="Top" Margin="6,0,0,0" Style="{StaticResource Border}">
+                            <Grid DataContext="{Binding Session.FastestTimes}">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="60"/>                                    
-                                    <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="45"/>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
@@ -155,30 +156,41 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <TextBlock Grid.Column="0" Grid.Row="0" Text="S1:"/>
-                                <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Text="{Binding Path=S1.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                                <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Path=S1.Driver.Name}"/>
-                                <TextBlock Grid.Column="3" Grid.Row="0" HorizontalAlignment="Right" Text="{Binding Path=S1.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="1" Text="S2:"/>
-                                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding Path=S2.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                                <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Path=S2.Driver.Name}"/>
-                                <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding Path=S2.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="2" Text="S3:"/>
-                                <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding Path=S3.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                                <TextBlock Grid.Column="2" Grid.Row="2" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Path=S3.Driver.Name}"/>
-                                <TextBlock Grid.Column="3" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding Path=S3.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Lap:"/>
-                                <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding Path=Lap.Time, Converter={StaticResource LapTimeConverter}}"/>
-                                <TextBlock Grid.Column="2" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Path=Lap.Driver.Name}"/>
-                                <TextBlock Grid.Column="3" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding Path=Lap.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Possible:"/>
-                                <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=Possible, Converter={StaticResource LapTimeConverter}}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text=""/>
+                                <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Text="Time"/>
+                                <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Text="Delta"/>
+                                <TextBlock Grid.Column="3" Grid.Row="0" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Driver"/>
+                                <TextBlock Grid.Column="4" Grid.Row="0" HorizontalAlignment="Right" Text="Lap"/>                                
+                                <TextBlock Grid.Column="0" Grid.Row="1" Text="S1"/>
+                                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding Path=S1.Time, Converter={StaticResource SectorTimeConverter}}"/>
+                                <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding Path=S1.Delta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
+                                <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Path=S1.Driver.Name}"/>
+                                <TextBlock Grid.Column="4" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding Path=S1.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="2" Text="S2"/>
+                                <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding Path=S2.Time, Converter={StaticResource SectorTimeConverter}}"/>
+                                <TextBlock Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding Path=S2.Delta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
+                                <TextBlock Grid.Column="3" Grid.Row="2" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Path=S2.Driver.Name}"/>
+                                <TextBlock Grid.Column="4" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding Path=S2.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="S3"/>
+                                <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding Path=S3.Time, Converter={StaticResource SectorTimeConverter}}"/>
+                                <TextBlock Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding Path=S3.Delta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
+                                <TextBlock Grid.Column="3" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Path=S3.Driver.Name}"/>
+                                <TextBlock Grid.Column="4" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding Path=S3.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Lap"/>
+                                <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=Lap.Time, Converter={StaticResource LapTimeConverter}}"/>
+                                <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=Lap.Delta, Converter={StaticResource LapTimeDeltaConverter}}"/>
+                                <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Path=Lap.Driver.Name}"/>
+                                <TextBlock Grid.Column="4" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=Lap.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="5" Text="Poss"/>
+                                <TextBlock Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right" Text="{Binding Path=Possible.Time, Converter={StaticResource LapTimeConverter}}"/>
+                                <TextBlock Grid.Column="2" Grid.Row="5" HorizontalAlignment="Right" Text="{Binding Path=Possible.Delta, Converter={StaticResource LapTimeDeltaConverter}}"/>                                
                             </Grid>
                         </Border>
-                        <Border Height="340" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="6,6,0,0" Style="{StaticResource Border}">
+                        <Border Margin="6,6,0,0" Style="{StaticResource Border}">
                             <StackPanel DataContext="{Binding SelectedDriver}">
-                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <Grid HorizontalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="20"/>
                                         <ColumnDefinition Width="100"/>
@@ -191,11 +203,11 @@
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Text="{Binding CarNumber}"/>
                                     <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Text="{Binding Name}"/>
-                                    <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Text="{Binding Status}"/>
+                                    <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Left" Text="{Binding Path=Status, Converter={StaticResource DriverStatusConverter}}"/>
                                     <TextBlock Grid.Column="3" Grid.Row="0" HorizontalAlignment="Center" Text="{Binding Path=Position, Converter={StaticResource PositionConverter}}"/>
                                     <TextBlock Grid.Column="4" Grid.Row="0" HorizontalAlignment="Right" Text="{Binding Path=LapsCompleted, Converter={StaticResource LapNumberConverter}}"/>
                                 </Grid>
-                                <Grid HorizontalAlignment="Stretch" Margin="0,6,0,0" VerticalAlignment="Stretch">
+                                <Grid Margin="0,6,0,0" VerticalAlignment="Stretch">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="30"/>
                                         <ColumnDefinition Width="60"/>
@@ -223,28 +235,28 @@
                                     <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S1.Current.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S1.Current.Time, Converter={StaticResource SectorTimeConverter}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S1.Previous.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S1.Previous.Time, Converter={StaticResource SectorTimeConverter}}"/>
                                     <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S1.Minimum.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S1.Minimum.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                                    <TextBlock Grid.Column="4" Grid.Row="1" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding Path=SectorTimes.S1.Minimum.Lap, Converter={StaticResource LapNumberConverter}}"/>
+                                    <TextBlock Grid.Column="4" Grid.Row="1" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding Path=SectorTimes.S1.Minimum.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
                                     <TextBlock Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding Path=SectorTimes.S1.PersonalBestCount}"/>
                                     <TextBlock Grid.Column="6" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding Path=SectorTimes.S1.SessionBestCount}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="2" Text="S2"/>
                                     <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S2.Current.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S2.Current.Time, Converter={StaticResource SectorTimeConverter}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S2.Previous.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S2.Previous.Time, Converter={StaticResource SectorTimeConverter}}"/>
                                     <TextBlock Grid.Column="3" Grid.Row="2" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S2.Minimum.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S2.Minimum.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                                    <TextBlock Grid.Column="4" Grid.Row="2" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding Path=SectorTimes.S2.Minimum.Lap, Converter={StaticResource LapNumberConverter}}"/>
+                                    <TextBlock Grid.Column="4" Grid.Row="2" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding Path=SectorTimes.S2.Minimum.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
                                     <TextBlock Grid.Column="5" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding Path=SectorTimes.S2.PersonalBestCount}"/>
                                     <TextBlock Grid.Column="6" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding Path=SectorTimes.S2.SessionBestCount}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="3" Text="S3"/>
                                     <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S3.Current.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S3.Current.Time, Converter={StaticResource SectorTimeConverter}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S3.Previous.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S3.Previous.Time, Converter={StaticResource SectorTimeConverter}}"/>
                                     <TextBlock Grid.Column="3" Grid.Row="3" HorizontalAlignment="Right" Foreground="{Binding Path=SectorTimes.S3.Minimum.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=SectorTimes.S3.Minimum.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                                    <TextBlock Grid.Column="4" Grid.Row="3" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding Path=SectorTimes.S3.Minimum.Lap, Converter={StaticResource LapNumberConverter}}"/>
+                                    <TextBlock Grid.Column="4" Grid.Row="3" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding Path=SectorTimes.S3.Minimum.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
                                     <TextBlock Grid.Column="5" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding Path=SectorTimes.S3.PersonalBestCount}"/>
                                     <TextBlock Grid.Column="6" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding Path=SectorTimes.S3.SessionBestCount}"/>
                                     <TextBlock Grid.Column="0" Grid.Row="4" Text="Lap"/>
                                     <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Foreground="{Binding Path=LapTimes.Current.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=LapTimes.Current.Time, Converter={StaticResource LapTimeConverter}}"/>
                                     <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Right" Foreground="{Binding Path=LapTimes.Previous.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=LapTimes.Previous.Time, Converter={StaticResource LapTimeConverter}}"/>
                                     <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Right" Foreground="{Binding Path=LapTimes.Minimum.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Path=LapTimes.Minimum.Time, Converter={StaticResource LapTimeConverter}}"/>
-                                    <TextBlock Grid.Column="4" Grid.Row="4" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding Path=LapTimes.Minimum.Lap, Converter={StaticResource LapNumberConverter}}"/>
+                                    <TextBlock Grid.Column="4" Grid.Row="4" HorizontalAlignment="Left" Margin="6,0,0,0" Text="{Binding Path=LapTimes.Minimum.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
                                     <TextBlock Grid.Column="5" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=LapTimes.PersonalBestCount}"/>
                                     <TextBlock Grid.Column="6" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Path=LapTimes.SessionBestCount}"/>
                                 </Grid>
@@ -252,12 +264,12 @@
                                     <TabItem Header="Laps">
                                         
                                     </TabItem>
-                                    <TabItem Header="Pits">
+                                    <TabItem Header="Pits" IsSelected="True">
                                         <ListView BorderThickness="0" ItemsSource="{Binding PitTimes.Values}">
                                             <ListView.View>
                                                 <GridView>
-                                                    <GridViewColumn Header="Lap" DisplayMemberBinding="{Binding Path=LapNumber, Converter={StaticResource LapNumberConverter}}"/>
-                                                    <GridViewColumn Header="Time" DisplayMemberBinding="{Binding Path=Time, Converter={StaticResource SectorTimeConverter}}"/>
+                                                    <GridViewColumn Header="Lap" Width="40" DisplayMemberBinding="{Binding Path=LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                                                    <GridViewColumn Header="Time" Width="60" DisplayMemberBinding="{Binding Path=Time, Converter={StaticResource SectorTimeConverter}}"/>
                                                 </GridView>
                                             </ListView.View>
                                         </ListView>
@@ -265,7 +277,7 @@
                                 </TabControl>                                
                             </StackPanel>
                         </Border>
-                    </StackPanel>
+                    </DockPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Weather">

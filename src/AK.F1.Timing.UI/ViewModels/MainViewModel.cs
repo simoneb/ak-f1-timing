@@ -147,7 +147,7 @@ namespace AK.F1.Timing.UI.ViewModels
             ReadMessagesAsync(() => {
                 var reader = F1Timing.Playback.CreateReader(path);
 
-                reader.PlaybackSpeed = 25;
+                reader.PlaybackSpeed = 5;
 
                 return reader;
             });
