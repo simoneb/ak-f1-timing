@@ -16,7 +16,7 @@ using System;
 using System.Runtime.Serialization;
 using AK.F1.Timing.Messaging.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Feed
+namespace AK.F1.Timing.Messaging.Messages.Session
 {
     /// <summary>
     /// A message which indicates that the session has ended. This class is
