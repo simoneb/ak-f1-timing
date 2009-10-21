@@ -5,7 +5,9 @@
     
     <converters:GridColumnColourConverter x:Key="GridColumnColourConverter"/>
     <converters:LapTimeConverter x:Key="LapTimeConverter"/>
+    <converters:LapTimeDeltaConverter x:Key="LapTimeDeltaConverter"/>
     <converters:SectorTimeConverter x:Key="SectorTimeConverter"/>
+    <converters:SectorTimeDeltaConverter x:Key="SectorTimeDeltaConverter"/>
     <converters:LapNumberConverter x:Key="LapNumberConverter"/>
     <converters:PositionConverter x:Key="PositionConverter"/>
     <converters:PostedTimeTypeToColourConverter x:Key="PostedTimeTypeToColourConverter"/>
