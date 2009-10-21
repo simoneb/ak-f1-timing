@@ -323,15 +323,14 @@ namespace AK.F1.Timing.Model.Session
         private void TrySetFastestLap(PostedTime time, DriverModel driver) {
 
             if(time.Type == PostedTimeType.SessionBest) {
-                this.Session.FastestTimes.Lap = new FastestTimeModel(driver, time.Time, time.Lap);
+                this.Session.FastestTimes.SetLap(time.Time, driver, time.LapNumber);
             }
         }
 
         private void TrySetFastestSector(int sectorNumber, PostedTime time, DriverModel driver) {
 
             if(time.Type == PostedTimeType.SessionBest) {
-                this.Session.FastestTimes.SetSector(sectorNumber,
-                    new FastestTimeModel(driver, time.Time, time.Lap));
+                this.Session.FastestTimes.SetSector(sectorNumber, time.Time, driver, time.LapNumber);
             }
         }
 
