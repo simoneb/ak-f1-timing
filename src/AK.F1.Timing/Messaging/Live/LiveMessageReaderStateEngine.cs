@@ -69,6 +69,8 @@ namespace AK.F1.Timing.Messaging.Live
             if(message.PingInterval == TimeSpan.Zero || message.PingInterval > MAX_PING_INTERVAL) {
                 _log.InfoFormat("read terminal message {0}", message);
                 _reader.State = LiveMessageReaderState.Closing;
+                // TODO this seems dirty, think of a cleaner way.
+                _reader.QueuedMessages.Enqueue(new SetSessionStatusMessage(SessionStatus.Finished));
                 _reader.QueuedMessages.Enqueue(EndOfSessionMessage.Instance);
                 _reader.DisposeOfMessageStream();
             }
