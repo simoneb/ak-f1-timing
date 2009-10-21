@@ -24,12 +24,6 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     [TypeId(-54815557)]
     public sealed class LapGap : Gap
     {
-        #region Private Fields.
-
-        private static readonly Type MY_TYPE = typeof(LapGap);
-
-        #endregion
-
         #region Public Interface.
 
         /// <summary>
@@ -89,7 +83,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
 
             int hash = 7;
 
-            hash = 31 * hash + MY_TYPE.GetHashCode();
+            hash = 31 * hash + GetType().GetHashCode();
             hash = 31 * hash + this.Laps.GetHashCode();
 
             return hash;
