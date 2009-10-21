@@ -30,12 +30,6 @@ namespace AK.F1.Timing.Messaging.Live
 
         private readonly LiveMessageReader _reader;
 
-        /// <summary>
-        /// The maximum ping inteval before we interpret it as being the end of the session. This
-        /// field is <see langword="readonly"/>.
-        /// </summary>
-        private static readonly TimeSpan MAX_PING_INTERVAL = TimeSpan.FromSeconds(30);
-
         private static readonly log4net.ILog _log =
             log4net.LogManager.GetLogger(typeof(LiveMessageReaderStateEngine));
 
@@ -66,14 +60,6 @@ namespace AK.F1.Timing.Messaging.Live
         public override void Visit(SetPingIntervalMessage message) {
 
             _reader.MessageStream.PingInterval = message.PingInterval;
-            if(message.PingInterval == TimeSpan.Zero || message.PingInterval > MAX_PING_INTERVAL) {
-                _log.InfoFormat("read terminal message {0}", message);
-                _reader.State = LiveMessageReaderState.Closing;
-                // TODO this seems dirty, think of a cleaner way.
-                _reader.QueuedMessages.Enqueue(new SetSessionStatusMessage(SessionStatus.Finished));
-                _reader.QueuedMessages.Enqueue(EndOfSessionMessage.Instance);
-                _reader.DisposeOfMessageStream();
-            }
         }
 
         /// <summary>
@@ -82,6 +68,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// <param name="message">The message.</param>
         public override void Visit(EndOfSessionMessage message) {
 
+            _reader.DisposeOfMessageStream();
             _reader.State = LiveMessageReaderState.Closed;
         }
 
