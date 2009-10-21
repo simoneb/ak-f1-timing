@@ -40,7 +40,7 @@ namespace AK.F1.Timing.UI.Utility
             
             TimeSpan time = value.Value;
 
-            return F("{0}.{1:00}", time.Minutes * 60 + time.Seconds, time.Milliseconds / 100);
+            return F("{0}.{1:0}", time.Minutes * 60 + time.Seconds, time.Milliseconds / 100);
         }
 
         public static string SectorTimeDelta(TimeSpan? value) {
@@ -59,7 +59,7 @@ namespace AK.F1.Timing.UI.Utility
                 signSymbol = "+";
             }
 
-            return F("{0}{1}.{2:000}", signSymbol, time.Minutes * 60 + time.Seconds, time.Milliseconds);
+            return F("{0}{1}.{2:00}", signSymbol, time.Minutes * 60 + time.Seconds, time.Milliseconds / 10);
         }
 
         public static string GapTime(Gap value) {
@@ -90,7 +90,21 @@ namespace AK.F1.Timing.UI.Utility
 
         public static string LapTimeDelta(TimeSpan? value) {
 
-            return SectorTimeDelta(value);
+            if(value == null) {
+                return String.Empty;
+            }
+
+            string signSymbol;
+            TimeSpan time = value.Value;
+
+            if(time <= TimeSpan.Zero) {
+                signSymbol = "-";
+                time = TimeSpan.FromTicks(Math.Abs(time.Ticks));
+            } else {
+                signSymbol = "+";
+            }
+
+            return F("{0}{1}.{2:000}", signSymbol, time.Minutes * 60 + time.Seconds, time.Milliseconds);
         }
 
         public static string LapTime(PostedTime value) {
