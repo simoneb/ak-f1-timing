@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:AK.F1.Timing.UI.Converters">
     
+    <converters:DriverStatusConverter x:Key="DriverStatusConverter"/>
     <converters:GridColumnColourConverter x:Key="GridColumnColourConverter"/>
     <converters:LapTimeConverter x:Key="LapTimeConverter"/>
     <converters:LapTimeDeltaConverter x:Key="LapTimeDeltaConverter"/>
