@@ -34,12 +34,12 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// <param name="time">The posted time value.</param>
         /// <param name="type">The <see cref="AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType"/> of
         /// the posted time.</param>
-        /// <param name="lap">The lap number.</param>
-        public PostedTime(TimeSpan time, PostedTimeType type, int lap) {
+        /// <param name="lapNumber">The lap number.</param>
+        public PostedTime(TimeSpan time, PostedTimeType type, int lapNumber) {
 
-            this.Lap = lap;
             this.Time = time;
             this.Type = type;
+            this.LapNumber = lapNumber;            
         }
 
         /// <inheritdoc />
@@ -77,7 +77,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
             if(other == null)
                 return false;
 
-            return this.Lap == other.Lap && this.Time == other.Time && this.Type == other.Type;
+            return this.LapNumber == other.LapNumber && this.Time == other.Time && this.Type == other.Type;
         }
 
         /// <inheritdoc />
@@ -85,7 +85,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
 
             int hash = 7;
 
-            hash = 31 * hash + this.Lap.GetHashCode();
+            hash = 31 * hash + this.LapNumber.GetHashCode();
             hash = 31 * hash + this.Time.GetHashCode();
             hash = 31 * hash + this.Type.GetHashCode();
 
@@ -95,15 +95,15 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return string.Format("{0}(Lap='{1}', Time='{2}', Type='{3}')", GetType().Name,
-                this.Lap, this.Time, this.Type);
+            return string.Format("{0}(Time='{1}', Type='{2}', LapNumber='{3}')", GetType().Name,
+                this.Time, this.Type, this.LapNumber);
         }        
 
         /// <summary>
         /// Gets the lap number on which the time was posted.
         /// </summary>        
         [PropertyId(0)]
-        public int Lap { get; set; }
+        public int LapNumber { get; set; }
 
         /// <summary>
         /// Gets the value of this posted time.
