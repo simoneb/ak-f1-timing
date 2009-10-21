@@ -31,11 +31,6 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         Reading,
         /// <summary>
-        /// The reader has read a terminal message and is closing. The invocations of
-        /// <see cref="M:LiveMessageReader.Read"/> will return an end of feed message.
-        /// </summary>
-        Closing,
-        /// <summary>
         /// The reader has read a terminal message and is closed. Any further invocations of
         /// <see cref="M:LiveMessageReader.Read"/> will return <see langword="null"/>.
         /// </summary>
