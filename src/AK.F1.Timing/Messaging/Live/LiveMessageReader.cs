@@ -364,7 +364,7 @@ namespace AK.F1.Timing.Messaging.Live
                 case 2:
                     return new SetAirTemperatureMessage(LiveData.ParseDouble(s));
                 case 3:
-                    return new SetWetDryMessage(LiveData.ParseInt32(s));
+                    return new SetIsWetMessage(s[0] == '1');
                 case 4:
                     return new SetWindSpeedMessage(LiveData.ParseDouble(s));
                 case 5:
