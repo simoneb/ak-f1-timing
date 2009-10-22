@@ -357,7 +357,7 @@ namespace AK.F1.Timing.Messaging
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="message"/> is <see langword="null"/>.
         /// </exception>
-        void Visit(SetWetDryMessage message);
+        void Visit(SetIsWetMessage message);
 
         /// <summary>
         /// Visits the specified <paramref name="message"/>.

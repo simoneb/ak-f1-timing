@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{52334AE8-7F11-404B-AD45-4519F9229F4A}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -100,7 +100,7 @@
     <Compile Include="Messaging\Live\Encryption\DecryptorFactoryBase.cs" />
     <Compile Include="Messaging\Messages\CompositeMessage.cs" />
     <Compile Include="Messaging\Messages\Session\SetElapsedSessionTimeMessage.cs" />
-    <Compile Include="Messaging\Messages\Weather\SetWetDryMessage.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetIsWetMessage.cs" />
     <Compile Include="Messaging\Messages\Weather\SetWindDirectionMessage.cs" />
     <Compile Include="Messaging\Messages\Weather\SetHumidityMessage.cs" />
     <Compile Include="Messaging\Messages\Weather\SetAtmosphericPressureMessage.cs" />

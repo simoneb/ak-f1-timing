@@ -138,7 +138,7 @@ namespace AK.F1.Timing.Messaging
         public virtual void Visit(SetTrackTemperatureMessage message) { }
 
         /// <inheritdoc />
-        public virtual void Visit(SetWetDryMessage message) { }
+        public virtual void Visit(SetIsWetMessage message) { }
 
         /// <inheritdoc />
         public virtual void Visit(SetWindAngleMessage message) { }
