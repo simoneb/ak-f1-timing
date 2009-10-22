@@ -26,7 +26,7 @@ namespace AK.F1.Timing.Model.Session
     {
         #region Private Fields.
 
-        private int _wetDry;
+        private bool _isWet;
 
         #endregion
 
@@ -46,7 +46,7 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <summary>
-        /// Resets this weather model(!).
+        /// Resets this weather model.
         /// </summary>
         public void Reset() {
             
@@ -56,7 +56,7 @@ namespace AK.F1.Timing.Model.Session
             this.TrackTemperature.Reset();
             this.WindAngle.Reset();
             this.WindSpeed.Reset();
-            this.WetDry = 0;
+            this.IsWet = false;
         }
 
         /// <summary>
@@ -90,13 +90,12 @@ namespace AK.F1.Timing.Model.Session
         public DoubleCollectionModel WindAngle { get; set; }
 
         /// <summary>
-        /// Gets the wet/dry value.
-        /// </summary>        
-        public int WetDry {
+        /// Gets a value indicating if the track is wet.
+        /// </summary>      
+        public bool IsWet {
 
-            // TODO how is this to be interpreted?
-            get { return _wetDry; }
-            protected internal set { SetProperty("WetDry", ref _wetDry, value); }
+            get { return _isWet; }
+            protected internal set { SetProperty("IsWet", ref _isWet, value); }
         }
 
         #endregion

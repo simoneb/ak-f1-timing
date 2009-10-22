@@ -288,7 +288,7 @@ namespace AK.F1.Timing.Model.Session
         /// <inheritdoc />
         public override void Visit(SetWetDryMessage message) {
 
-            this.Session.Weather.WetDry = message.WetDry;
+            this.Session.Weather.IsWet = message.IsWet;
         }
 
         /// <inheritdoc />
