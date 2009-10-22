@@ -28,7 +28,7 @@ namespace AK.F1.Timing.Messaging.Messages.Weather
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="SetWetDryMessage"/> class and specifies
+        /// Initialises a new instance of the <see cref="SetIsWetMessage"/> class and specifies
         /// whether the track is wet or dry.
         /// </summary>
         /// <param name="isWet"></param>
