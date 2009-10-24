@@ -269,24 +269,29 @@ namespace AK.F1.Timing
             return new IOException(Format(Resource.LiveMessageStreamEndpoint_FailedToResolveStreamHost, hostname));
         }
 
-        internal static IOException LiveMessageStreamEndpoint_FailedToResolveStreamHost(SocketException exc) {
+        internal static IOException LiveMessageStreamEndpoint_FailedToResolveStreamHost(string hostname, SocketException exc) {
 
-            return new IOException(exc.Message, exc);
+            return new IOException(Format(Resource.LiveMessageStreamEndpoint_FailedToResolveStreamHost, hostname), exc);
         }
 
         internal static IOException LiveMessageStreamEndpoint_FailedToOpenStream(SocketException exc) {
 
-            return new IOException(exc.Message, exc);
+            return new IOException(Format(Resource.LiveMessageStreamEndpoint_FailedToOpenStream, exc.Message), exc);
         }
 
-        internal static IOException LiveMessageStreamEndpoint_FailedToOpenKeyframe(WebException exc) {
+        internal static IOException LiveMessageStreamEndpoint_FailedToOpenKeyframe(IOException exc) {
 
-            return new IOException(exc.Message, exc);
+            return new IOException(Format(Resource.LiveMessageStreamEndpoint_FailedToOpenKeyframe, exc.Message), exc);
         }
 
-        internal static IOException LiveDecryptorFactory_FailedToFetchAuthToken(WebException exc) {
+        internal static IOException LiveDecryptorFactory_FailedToFetchAuthToken(IOException exc) {
 
-            return new IOException(exc.Message, exc);
+            return new IOException(Format(Resource.LiveDecryptorFactory_FailedToFetchAuthToken, exc.Message), exc);
+        }
+
+        internal static IOException LiveDecryptorFactory_FailedToFetchSessionSeed(IOException exc) {
+
+            return new IOException(Format(Resource.LiveDecryptorFactory_FailedToFetchSessionSeed, exc.Message), exc);
         }
 
         #endregion
