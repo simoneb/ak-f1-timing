@@ -30,8 +30,7 @@ namespace AK.F1.Timing.Model.Session
         private FastestTimeModel _s1;
         private FastestTimeModel _s2;
         private FastestTimeModel _s3;
-        private FastestTimeModel _possible;
-        private TimeSpan? _possibleDelta;
+        private FastestTimeModel _possible;        
 
         #endregion
 
@@ -45,7 +44,8 @@ namespace AK.F1.Timing.Model.Session
             this.Lap = null;
             this.S1 = null;
             this.S2 = null;
-            this.S3 = null;            
+            this.S3 = null;
+            this.Possible = null;
         }
 
         /// <summary>
