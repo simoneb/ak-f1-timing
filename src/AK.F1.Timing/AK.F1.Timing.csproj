@@ -50,7 +50,6 @@
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="F1Timing.cs" />
     <Compile Include="Messaging\IMessageProcessor.cs" />
-    <Compile Include="Messaging\CredentialsRejectedException.cs" />
     <Compile Include="Messaging\Live\IO\LiveSocketMessageStream.cs" />
     <Compile Include="Messaging\Live\IO\MessageStreamDelegate.cs" />
     <Compile Include="Messaging\Messages\Driver\SetDriverPitTimeMessage.cs" />
@@ -180,7 +179,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
