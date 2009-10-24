@@ -123,9 +123,6 @@
   <data name="ArgNonEmptyCollection" xml:space="preserve">
     <value>Expected non-empty collection.</value>
   </data>
-  <data name="CredentialsRejectedException_Ctor" xml:space="preserve">
-    <value>The supplied credentials have been rejected.</value>
-  </data>
   <data name="DecoratedObjectReader_InvalidObjectTypeCode" xml:space="preserve">
     <value>Unable to deserialize the next object as the object type code is invalid ('{0}').</value>
   </data>
@@ -158,6 +155,9 @@
   </data>
   <data name="LiveData_UnableToParseTime" xml:space="preserve">
     <value>Unable to parse the next message as the time value specified in the message ('{0}') is invalid.</value>
+  </data>
+  <data name="LiveDecryptorFactory_CredentialsRejected" xml:space="preserve">
+    <value>The supplied credentials have been rejected by the live timing server.</value>
   </data>
   <data name="LiveDecryptorFactory_UnableToParseSeed" xml:space="preserve">
     <value>Unable to parse decryption seed from '{0}'.</value>

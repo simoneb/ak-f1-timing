@@ -79,15 +79,6 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The supplied credentials have been rejected..
-        /// </summary>
-        internal static string CredentialsRejectedException_Ctor {
-            get {
-                return ResourceManager.GetString("CredentialsRejectedException_Ctor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to deserialize the next object as the object type code is invalid (&apos;{0}&apos;)..
         /// </summary>
         internal static string DecoratedObjectReader_InvalidObjectTypeCode {
@@ -183,6 +174,15 @@ namespace AK.F1.Timing {
         internal static string LiveData_UnableToParseTime {
             get {
                 return ResourceManager.GetString("LiveData_UnableToParseTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The supplied credentials have been rejected by the live timing server..
+        /// </summary>
+        internal static string LiveDecryptorFactory_CredentialsRejected {
+            get {
+                return ResourceManager.GetString("LiveDecryptorFactory_CredentialsRejected", resourceCulture);
             }
         }
         
