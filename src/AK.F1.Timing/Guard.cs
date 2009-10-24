@@ -20,6 +20,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Security.Authentication;
 
 using AK.F1.Timing.Messaging;
 using AK.F1.Timing.Messaging.Messages.Driver;
@@ -214,9 +215,9 @@ namespace AK.F1.Timing
             return new FormatException(Format(Resource.LiveDecryptorFactory_UnableToParseSeed, s));
         }
 
-        internal static CredentialsRejectedException LiveDecryptorFactory_CredentialsRejected() {
+        internal static AuthenticationException LiveDecryptorFactory_CredentialsRejected() {
 
-            return new CredentialsRejectedException();
+            return new AuthenticationException(Resource.LiveDecryptorFactory_CredentialsRejected);
         }
 
         internal static FormatException RecordedMessageReader_DeserializationFailed(SerializationException exc) {
