@@ -106,7 +106,7 @@ namespace AK.F1.Timing.Messaging.Live.IO
                 }
                 throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(STREAM_HOST);
             } catch(SocketException exc) {
-                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(exc);
+                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(STREAM_HOST, exc);
             }
         }
 
