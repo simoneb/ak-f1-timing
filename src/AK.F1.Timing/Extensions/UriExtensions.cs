@@ -46,6 +46,9 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="method"/> is not a valid enumeration member.
         /// </exception>
+        /// <exception cref="System.IO.IOException">
+        /// An IO exception occurred whilst fetching the cookies.
+        /// </exception>
         public static CookieCollection GetResponseCookies(this Uri uri, HttpMethod method) {
 
             return GetResponseCookies(uri, method, UriExtensions.EmptyConfigurator);
@@ -65,19 +68,26 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="method"/> is not a valid enumeration member.
         /// </exception>
+        /// <exception cref="System.IO.IOException">
+        /// An IO exception occurred whilst fetching the cookies.
+        /// </exception>
         public static CookieCollection GetResponseCookies(this Uri uri, HttpMethod method,
-            Action<HttpWebRequest> configurator) {
+            Action<HttpWebRequest> configurator) {            
 
             Guard.NotNull(uri, "uri");
-            Guard.NotNull(configurator, "configurator");           
-            
-            HttpWebRequest request = CreateRequest(uri, method);
+            Guard.NotNull(configurator, "configurator");
 
-            request.CookieContainer = new CookieContainer();
-            configurator(request);
-            using(HttpWebResponse response = GetResponse(request)) {
-                return request.CookieContainer.GetCookies(uri);
-            }
+            return WrapCommonWebExceptions(() => {
+
+                HttpWebRequest request = CreateRequest(uri, method);
+
+                request.CookieContainer = new CookieContainer();
+                configurator(request);
+                using(HttpWebResponse response = GetResponse(request)) {
+                    return request.CookieContainer.GetCookies(uri);
+                }
+
+            });
         }
 
         /// <summary>
@@ -91,6 +101,9 @@ namespace AK.F1.Timing.Extensions
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="method"/> is not a valid enumeration member.
+        /// </exception>
+        /// <exception cref="System.IO.IOException">
+        /// An IO exception occurred whilst fetching the response string.
         /// </exception>
         public static string GetResponseString(this Uri uri, HttpMethod method) {
 
@@ -111,25 +124,32 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="method"/> is not a valid enumeration member.
         /// </exception>
+        /// <exception cref="System.IO.IOException">
+        /// An IO exception occurred whilst fetching the response string.
+        /// </exception>
         public static string GetResponseString(this Uri uri, HttpMethod method,
             Action<HttpWebRequest> configurator) {
 
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
 
-            int read;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            HttpWebRequest request = CreateRequest(uri, method);
+            return WrapCommonWebExceptions(() => {
 
-            configurator(request);
-            using(HttpWebResponse response = GetResponse(request))
-            using(Stream stream = response.GetResponseStream())
-            using(MemoryStream ms = new MemoryStream()) {
-                while((read = stream.Read(buffer, 0, buffer.Length)) > 0) {
-                    ms.Write(buffer, 0, read);
+                int read;
+                byte[] buffer = new byte[BUFFER_SIZE];
+                HttpWebRequest request = CreateRequest(uri, method);
+
+                configurator(request);
+                using(HttpWebResponse response = GetResponse(request))
+                using(Stream stream = response.GetResponseStream())
+                using(MemoryStream ms = new MemoryStream()) {
+                    while((read = stream.Read(buffer, 0, buffer.Length)) > 0) {
+                        ms.Write(buffer, 0, read);
+                    }
+                    return GetEncoding(response).GetString(ms.GetBuffer(), 0, (int)ms.Length);
                 }
-                return GetEncoding(response).GetString(ms.GetBuffer(), 0, (int)ms.Length);
-            }
+
+            });
         }
 
         /// <summary>
@@ -143,6 +163,9 @@ namespace AK.F1.Timing.Extensions
         /// </exception>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="method"/> is not a valid enumeration member.
+        /// </exception>
+        /// <exception cref="System.IO.IOException">
+        /// An IO exception occurred whilst fetching the response stream.
         /// </exception>
         public static Stream GetResponseStream(this Uri uri, HttpMethod method) {
 
@@ -163,32 +186,55 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="method"/> is not a valid enumeration member.
         /// </exception>
+        /// <exception cref="System.IO.IOException">
+        /// An IO exception occurred whilst fetching the response stream.
+        /// </exception>
         public static Stream GetResponseStream(this Uri uri, HttpMethod method,
             Action<HttpWebRequest> configurator) {
 
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
 
-            int read;
-            byte[] buffer = new byte[BUFFER_SIZE];
-            MemoryStream ms = new MemoryStream();
-            HttpWebRequest request = CreateRequest(uri, method);
+            return WrapCommonWebExceptions(() => {
 
-            configurator(request);
-            using(HttpWebResponse response = GetResponse(request))
-            using(Stream stream = response.GetResponseStream()) {
-                while((read = stream.Read(buffer, 0, buffer.Length)) > 0) {
-                    ms.Write(buffer, 0, read);
+                int read;
+                byte[] buffer = new byte[BUFFER_SIZE];
+                MemoryStream ms = new MemoryStream();
+                HttpWebRequest request = CreateRequest(uri, method);
+
+                configurator(request);
+                using(HttpWebResponse response = GetResponse(request))
+                using(Stream stream = response.GetResponseStream()) {
+                    while((read = stream.Read(buffer, 0, buffer.Length)) > 0) {
+                        ms.Write(buffer, 0, read);
+                    }
                 }
-            }
-            ms.Position = 0;
+                ms.Position = 0;
 
-            return ms;
+                return ms;
+
+            });
         }
 
         #endregion
 
         #region Private Impl.
+
+        private static T WrapCommonWebExceptions<T>(Func<T> body) {
+
+            try {
+                return body();
+            } catch(WebException exc) {
+                throw WrapException(exc);
+            } catch(ProtocolViolationException exc) {
+                throw WrapException(exc);
+            }
+        }
+
+        private static IOException WrapException(Exception exc) {
+
+            return new IOException(exc.Message, exc);
+        }
 
         private static HttpWebRequest CreateRequest(Uri uri, HttpMethod method) {
 
