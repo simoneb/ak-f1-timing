@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
@@ -36,7 +35,7 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
         private const string AUTH_CONTENT_TYPE = "application/x-www-form-urlencoded; charset=utf-8";
         private static readonly Uri LOGIN_URI = new Uri("https://secure.formula1.com/reg/login.asp");
         private const string SEED_URL_FORMAT = "http://live-timing.formula1.com/reg/getkey/{0}.asp?auth={1}";
-        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;        
+        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;          
 
         #endregion
 
@@ -55,7 +54,7 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
         /// <exception cref="System.ArgumentException">
         /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
         /// </exception>
-        /// <exception cref="AK.F1.Timing.Messaging.CredentialsRejectedException">
+        /// <exception cref="System.Security.Authentication.AuthenticationException">
         /// Thrown when the supplied credentials have been rejected by the live timing site.
         /// </exception>
         public LiveDecryptorFactory(string username, string password) {
@@ -77,11 +76,15 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
 
             string s;
             int seed;
-            Uri uri = GetSeedUri(sessionId);
+            Uri uri = MakeSeedUri(sessionId);
 
             this.Log.InfoFormat("fetching seed from {0}", uri);
-            // TODO need to handle web exception.
-            s = uri.GetResponseString(HttpMethod.Get);            
+            try {
+                s = uri.GetResponseString(HttpMethod.Get);
+            } catch(IOException exc) {
+                this.Log.Error(exc);
+                throw Guard.LiveDecryptorFactory_FailedToFetchSessionSeed(exc);
+            }
             if(s.Equals("invalid", StringComparison.OrdinalIgnoreCase)) {
                 this.Log.Error("failed to fetch the seed as the user's credentials have been rejected");
                 throw Guard.LiveDecryptorFactory_CredentialsRejected();
@@ -120,7 +123,8 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
                         stream.Write(bytes, 0, bytes.Length);
                     }
                 });
-            } catch(WebException exc) {
+            } catch(IOException exc) {
+                this.Log.Error(exc);
                 throw Guard.LiveDecryptorFactory_FailedToFetchAuthToken(exc);
             }
             if((cookie = cookies[AUTH_COOKIE_NAME]) == null) {
@@ -134,7 +138,7 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
             this.Log.InfoFormat("fetched auth token {0}", this.AuthToken);
         }
 
-        private Uri GetSeedUri(string sessionId) {
+        private Uri MakeSeedUri(string sessionId) {
 
             return new Uri(string.Format(SEED_URL_FORMAT, sessionId, this.AuthToken),
                 UriKind.Absolute);
