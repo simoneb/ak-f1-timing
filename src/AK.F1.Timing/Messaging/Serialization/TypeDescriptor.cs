@@ -163,11 +163,10 @@ namespace AK.F1.Timing.Messaging.Serialization
 
         private static void ScanAssemblies() {
 
-            if(Interlocked.CompareExchange(ref _scannedAssemblies, 1, 0) != 0) {
-                return;
-            }
-            lock(_cacheSyncRoot) {
-                ScanAssembly(Assembly.GetExecutingAssembly());
+            if(Interlocked.CompareExchange(ref _scannedAssemblies, 1, 0) == 0) {
+                lock(_cacheSyncRoot) {
+                    ScanAssembly(Assembly.GetExecutingAssembly());
+                }
             }
         }
 
