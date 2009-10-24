@@ -52,7 +52,7 @@ namespace AK.F1.Timing
             /// <exception cref="System.IO.IOException">
             /// Thrown when an IO error whilst connecting to the live messages stream.
             /// </exception>
-            /// <exception cref="AK.F1.Timing.Messaging.CredentialsRejectedException">
+            /// <exception cref="System.Security.Authentication.AuthenticationException">
             /// Thrown when the supplied credentials were rejected by the live timing site.
             /// </exception>
             public static IMessageReader CreateReader(string username, string password) {
@@ -82,7 +82,7 @@ namespace AK.F1.Timing
             /// Thrown when an IO error occurs whilst creating the output file or connecting to the live
             /// messages stream.
             /// </exception>
-            /// <exception cref="AK.F1.Timing.Messaging.CredentialsRejectedException">
+            /// <exception cref="System.Security.Authentication.AuthenticationException">
             /// Thrown when the supplied credentials were rejected by the live timing site.
             /// </exception>
             public static IMessageReader CreateRecordingReader(string username, string password, string path) {
