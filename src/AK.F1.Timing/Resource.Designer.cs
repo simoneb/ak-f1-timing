@@ -187,6 +187,24 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to fetch the initial authentication token from the live timing servers: &apos;{0}&apos;.
+        /// </summary>
+        internal static string LiveDecryptorFactory_FailedToFetchAuthToken {
+            get {
+                return ResourceManager.GetString("LiveDecryptorFactory_FailedToFetchAuthToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to fetch the session decryption seed from the live timing servers: &apos;{0}&apos;.
+        /// </summary>
+        internal static string LiveDecryptorFactory_FailedToFetchSessionSeed {
+            get {
+                return ResourceManager.GetString("LiveDecryptorFactory_FailedToFetchSessionSeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to parse decryption seed from &apos;{0}&apos;..
         /// </summary>
         internal static string LiveDecryptorFactory_UnableToParseSeed {
@@ -219,6 +237,24 @@ namespace AK.F1.Timing {
         internal static string LiveMessageReader_UnexpectedFirstMessage {
             get {
                 return ResourceManager.GetString("LiveMessageReader_UnexpectedFirstMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to download a keyframe from the live timing servers: &apos;{0}&apos;.
+        /// </summary>
+        internal static string LiveMessageStreamEndpoint_FailedToOpenKeyframe {
+            get {
+                return ResourceManager.GetString("LiveMessageStreamEndpoint_FailedToOpenKeyframe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to open a connection with the live timing servers: &apos;{0}&apos;.
+        /// </summary>
+        internal static string LiveMessageStreamEndpoint_FailedToOpenStream {
+            get {
+                return ResourceManager.GetString("LiveMessageStreamEndpoint_FailedToOpenStream", resourceCulture);
             }
         }
         

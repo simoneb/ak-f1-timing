@@ -159,6 +159,12 @@
   <data name="LiveDecryptorFactory_CredentialsRejected" xml:space="preserve">
     <value>The supplied credentials have been rejected by the live timing server.</value>
   </data>
+  <data name="LiveDecryptorFactory_FailedToFetchAuthToken" xml:space="preserve">
+    <value>Failed to fetch the initial authentication token from the live timing servers: '{0}'</value>
+  </data>
+  <data name="LiveDecryptorFactory_FailedToFetchSessionSeed" xml:space="preserve">
+    <value>Failed to fetch the session decryption seed from the live timing servers: '{0}'</value>
+  </data>
   <data name="LiveDecryptorFactory_UnableToParseSeed" xml:space="preserve">
     <value>Unable to parse decryption seed from '{0}'.</value>
   </data>
@@ -170,6 +176,12 @@
   </data>
   <data name="LiveMessageReader_UnexpectedFirstMessage" xml:space="preserve">
     <value>Unable to read any messages from the stream as the first expected message was not an update keyframe message. The first message encountered was '{0}'.</value>
+  </data>
+  <data name="LiveMessageStreamEndpoint_FailedToOpenKeyframe" xml:space="preserve">
+    <value>Failed to download a keyframe from the live timing servers: '{0}'</value>
+  </data>
+  <data name="LiveMessageStreamEndpoint_FailedToOpenStream" xml:space="preserve">
+    <value>Failed to open a connection with the live timing servers: '{0}'</value>
   </data>
   <data name="LiveMessageStreamEndpoint_FailedToResolveStreamHost" xml:space="preserve">
     <value>Unable to open a connection with the live timing servers as the '{0}' hostname failed to resolve.</value>
