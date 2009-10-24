@@ -85,7 +85,7 @@ namespace AK.F1.Timing.Messaging.Live.IO
                 stream = uri.GetResponseStream(HttpMethod.Get);
                 _log.InfoFormat("opened keyframe, length: {0}", stream.Length);
                 return new MessageStreamDelegate(stream);
-            } catch(WebException exc) {
+            } catch(IOException exc) {
                 _log.Error(exc);
                 throw Guard.LiveMessageStreamEndpoint_FailedToOpenKeyframe(exc);
             }
