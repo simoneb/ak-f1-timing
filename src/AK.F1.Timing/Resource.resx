@@ -126,6 +126,9 @@
   <data name="DecoratedObjectReader_InvalidObjectTypeCode" xml:space="preserve">
     <value>Unable to deserialize the next object as the object type code is invalid ('{0}').</value>
   </data>
+  <data name="DecoratedObjectReader_PropertyMissing" xml:space="preserve">
+    <value>Unable to deserailize the next object as no property with an identifier of '{0}' was found on type '{1}'.</value>
+  </data>
   <data name="DecoratedObjectReader_UnexpectedEndOfStream" xml:space="preserve">
     <value>Unable to deserialize the next object as the end of the serialization stream was unexpectedly reached.</value>
   </data>
