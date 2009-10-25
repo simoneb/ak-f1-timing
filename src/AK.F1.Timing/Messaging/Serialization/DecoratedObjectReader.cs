@@ -73,15 +73,18 @@ namespace AK.F1.Timing.Messaging.Serialization
 
         private object ReadObject() {
 
+            byte propertyId;
             PropertyDescriptor property;
             TypeDescriptor descriptor = TypeDescriptor.For(this.Input.ReadInt32());
             object instance = SerializationHelper.GetUninitializedObject(descriptor.Type);
             byte propertyCount = this.Input.ReadByte();
 
-            while(propertyCount-- > 0) {                
-                if((property = descriptor.Properties.GetById(this.Input.ReadByte())) != null) {
-                    property.SetValue(instance, Read());
+            while(propertyCount-- > 0) {
+                propertyId = this.Input.ReadByte();
+                if((property = descriptor.Properties.GetById(propertyId)) == null) {
+                    throw Guard.DecoratedObjectReader_PropertyMissing(propertyId, descriptor);
                 }
+                property.SetValue(instance, Read());
             }
 
             return GetRealObject(instance);
