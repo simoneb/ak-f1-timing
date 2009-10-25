@@ -39,6 +39,7 @@ namespace AK.F1.Timing.Model.Collections
         private PostedTime _maximum;
         private TimeSpan? _mean;
         private TimeSpan? _range;
+        private TimeSpan? _currentDelta;
         private int _personBestCount;
         private int _sessionBestCount;
 
@@ -98,6 +99,15 @@ namespace AK.F1.Timing.Model.Collections
 
             get { return _previous; }
             protected set { SetProperty("Previous", ref _previous, value); }
+        }
+
+        /// <summary>
+        /// Gets the delta between the current and previous value.
+        /// </summary>
+        public TimeSpan? CurrentDelta {
+
+            get { return _currentDelta; }
+            protected set { SetProperty("CurrentDelta", ref _currentDelta, value); }
         }
 
         /// <summary>
@@ -190,7 +200,7 @@ namespace AK.F1.Timing.Model.Collections
 
             if(this.Values.Count > 0) {
                 ComputeCount();
-                ComputeCurrentAndPrevious();
+                ComputeCurrentPreviousAndDelta();
                 ComputeMinimum();
                 ComputeMaximum();
                 ComputeRange();
@@ -216,13 +226,16 @@ namespace AK.F1.Timing.Model.Collections
             this.Mean = this.Values.Average(t => t.Time);
         }
 
-        private void ComputeCurrentAndPrevious() {
+        private void ComputeCurrentPreviousAndDelta() {
 
             int count = this.Values.Count;
 
             this.Current = this.Values[count - 1];
             if(count > 1) {
                 this.Previous = this.Values[count - 2];
+                this.CurrentDelta = this.Current.Time - this.Previous.Time;
+            } else {
+                this.CurrentDelta = null;
             }
         }
 
@@ -256,7 +269,7 @@ namespace AK.F1.Timing.Model.Collections
         private void UpdateStatistics(PostedTime value) {
 
             ComputeCount();
-            ComputeCurrentAndPrevious();
+            ComputeCurrentPreviousAndDelta();
             UpdateMinimum(value);
             UpdateMaximum(value);
             ComputeRange();
@@ -298,6 +311,7 @@ namespace AK.F1.Timing.Model.Collections
             this.Count = 0;
             this.Current = null;
             this.Previous = null;
+            this.CurrentDelta = null;
             this.Minimum = null;
             this.Maximum = null;
             this.Range = null;
