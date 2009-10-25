@@ -294,6 +294,11 @@ namespace AK.F1.Timing
             return new IOException(Format(Resource.LiveDecryptorFactory_FailedToFetchSessionSeed, exc.Message), exc);
         }
 
+        internal static SerializationException DecoratedObjectReader_PropertyMissing(byte propertyId, TypeDescriptor descriptor) {
+
+            return new SerializationException(Format(Resource.DecoratedObjectReader_PropertyMissing, propertyId, descriptor.Type.FullName));
+        }
+
         #endregion
     }
 }
