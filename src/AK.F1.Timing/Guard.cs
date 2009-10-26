@@ -210,6 +210,12 @@ namespace AK.F1.Timing
                 typeof(LapGap).FullName, obj.GetType().FullName), "obj");
         }
 
+        internal static ArgumentException PostedTime_InvalidCompareToArgument(object obj) {
+
+            return new ArgumentException(Format(Resource.PostedTime_InvalidCompareToArgument,
+                typeof(PostedTime).FullName, obj.GetType().FullName), "obj");
+        }
+
         internal static FormatException LiveDecryptorFactory_UnableToParseSeed(string s) {
 
             return new FormatException(Format(Resource.LiveDecryptorFactory_UnableToParseSeed, s));
