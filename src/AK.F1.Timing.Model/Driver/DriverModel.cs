@@ -47,10 +47,9 @@ namespace AK.F1.Timing.Model.Driver
         public DriverModel(int id) {
 
             this.Id = id;
-            this.LapTimes = new LapTimesModel();
-            this.PitTimes = new PitTimesModel();
-            this.SectorTimes = new SectorTimesModel();                        
-            this.QuallyTimes = new QuallyTimesModel();
+            this.LapTimes = new LapTimesModel(this);
+            this.PitTimes = new PitTimesModel(this);            
+            this.QuallyTimes = new QuallyTimesModel(this);
             this.Status = DriverStatus.InPits;            
         }
 
@@ -132,11 +131,6 @@ namespace AK.F1.Timing.Model.Driver
         /// Gets the lap times model.
         /// </summary>
         public LapTimesModel LapTimes { get; private set; }
-
-        /// <summary>
-        /// Gets the sector times model.
-        /// </summary>
-        public SectorTimesModel SectorTimes { get; private set; }
 
         /// <summary>
         /// Gets the qually time model.
