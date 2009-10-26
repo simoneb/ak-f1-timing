@@ -23,15 +23,22 @@ namespace AK.F1.Timing.Model.Driver
     /// </summary>
     [Serializable]
     [DebuggerDisplay("Count = {Values.Count}")]
-    public class PitTimesModel
+    public class PitTimesModel : ModelBase
     {       
         #region Public Interface.
 
         /// <summary>
         /// Initialises a new instance of the <see cref="PitTimesModel"/> class.
-        /// </summary>        
-        public PitTimesModel() {
+        /// </summary>
+        /// <param name="driver">The driver model which owns this model.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="driver"/> is <see langword="null"/>.
+        /// </exception>
+        public PitTimesModel(DriverModel driver) {
 
+            Guard.NotNull(driver, "driver");
+
+            this.Driver = driver;
             this.Values = new ObservableCollection<PitTimeModel>();
         }
 
@@ -52,7 +59,12 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets the collection of <see cref="PitTimeModel"/>s.
         /// </summary>
-        public ObservableCollection<PitTimeModel> Values { get; private set; }        
+        public ObservableCollection<PitTimeModel> Values { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="DriverModel"/> which owns this model.
+        /// </summary>
+        public DriverModel Driver { get; private set; }
 
         #endregion
     }
