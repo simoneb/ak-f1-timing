@@ -19,7 +19,6 @@ using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Messaging.Messages.Feed;
 using AK.F1.Timing.Messaging.Messages.Session;
 using AK.F1.Timing.Messaging.Messages.Weather;
-using AK.F1.Timing.Model.Collections;
 using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Model.Grid;
 
@@ -90,7 +89,7 @@ namespace AK.F1.Timing.Model.Session
 
             var driver = GetDriver(message.DriverId);            
 
-            driver.SectorTimes.Get(message.SectorNumber).Add(message.SectorTime);
+            driver.LapTimes.GetSector(message.SectorNumber).Add(message.SectorTime);
             TrySetFastestSector(message.SectorNumber, message.SectorTime, driver);
         }
 
@@ -98,7 +97,7 @@ namespace AK.F1.Timing.Model.Session
         public override void Visit(ReplaceDriverSectorTimeMessage message) {
 
             var driver = GetDriver(message.DriverId);
-            var values = driver.SectorTimes.Get(message.SectorNumber).Values;
+            var values = driver.LapTimes.GetSector(message.SectorNumber).Values;
 
             values[values.Count - 1] = message.Replacement;
             TrySetFastestSector(message.SectorNumber, message.Replacement, driver);
@@ -108,9 +107,9 @@ namespace AK.F1.Timing.Model.Session
         public override void Visit(SetDriverQuallyTimeMessage message) {
 
             var driver = GetDriver(message.DriverId);
-
+            
             driver.QuallyTimes.Set(message.QuallyNumber, message.QuallyTime);
-            driver.LapTimes.Add(new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted));
+            driver.LapTimes.Laps.Add(new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted));
         }
 
         /// <inheritdoc />
@@ -118,7 +117,7 @@ namespace AK.F1.Timing.Model.Session
 
             var driver = GetDriver(message.DriverId);
 
-            driver.LapTimes.Add(message.LapTime);
+            driver.LapTimes.Laps.Add(message.LapTime);
             TrySetFastestLap(message.LapTime, driver);
         }
 
@@ -126,7 +125,7 @@ namespace AK.F1.Timing.Model.Session
         public override void Visit(ReplaceDriverLapTimeMessage message) {
 
             var driver = GetDriver(message.DriverId);
-            var times = driver.LapTimes.Values;
+            var times = driver.LapTimes.Laps.Values;
 
             times[times.Count - 1] = message.Replacement;
             TrySetFastestLap(message.Replacement, driver);
