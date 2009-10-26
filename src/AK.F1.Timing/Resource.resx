@@ -192,6 +192,9 @@
   <data name="MessageReader_InvalidMessage" xml:space="preserve">
     <value>The format of the next timing message is invalid.</value>
   </data>
+  <data name="PostedTime_InvalidCompareToArgument" xml:space="preserve">
+    <value>Cannot compare a '{0}' instance to an instance of '{1}'.</value>
+  </data>
   <data name="PropertyDescriptorCollection_CollectionIsSealed" xml:space="preserve">
     <value>This collection cannot be modified as it is sealed.</value>
   </data>

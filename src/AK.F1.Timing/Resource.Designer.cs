@@ -286,6 +286,15 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot compare a &apos;{0}&apos; instance to an instance of &apos;{1}&apos;..
+        /// </summary>
+        internal static string PostedTime_InvalidCompareToArgument {
+            get {
+                return ResourceManager.GetString("PostedTime_InvalidCompareToArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The &apos;{0}&apos; type cannot be serialized as the &apos;{1}&apos; property is not decorated with the &apos;{2}&apos; attribute..
         /// </summary>
         internal static string PropertyDescriptor_PropertyIsNotDecorated {
