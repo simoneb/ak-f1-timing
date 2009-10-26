@@ -45,22 +45,38 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// <inheritdoc />
         public int CompareTo(object obj) {
 
-            return CompareTo(obj as PostedTime);
+            if(obj == null) {
+                return 1;
+            }
+
+            PostedTime other = obj as PostedTime;
+
+            if(other == null) {
+                throw Guard.PostedTime_InvalidCompareToArgument(obj);
+            }
+
+            return CompareTo(other);
         }
 
         /// <inheritdoc />
         public int CompareTo(PostedTime other) {
 
-            if(other == this)
-                return 0;
-            if(other == null)
+            int relationship;
+
+            if(other == null) {
                 return 1;
+            }
+            if(other == this) {
+                return 0;
+            }
+            if((relationship = this.Time.CompareTo(other.Time)) != 0) {
+                return relationship;
+            }
+            if((relationship = ((int)this.Type).CompareTo((int)other.Type)) != 0) {
+                return relationship;
+            }
 
-            // TODO needs to take Lap into account.
-
-            int relationship = this.Time.CompareTo(other.Time);            
-
-            return relationship != 0 ? relationship : other.Type.CompareTo(this.Type);
+            return this.LapNumber.CompareTo(other.LapNumber);
         }
 
         /// <inheritdoc />
@@ -77,7 +93,9 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
             if(other == null)
                 return false;
 
-            return this.LapNumber == other.LapNumber && this.Time == other.Time && this.Type == other.Type;
+            return this.LapNumber == other.LapNumber &&
+                this.Time == other.Time &&
+                this.Type == other.Type;
         }
 
         /// <inheritdoc />
