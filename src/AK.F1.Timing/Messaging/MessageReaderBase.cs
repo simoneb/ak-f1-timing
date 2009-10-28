@@ -14,8 +14,8 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 
+using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Messaging
@@ -34,23 +34,7 @@ namespace AK.F1.Timing.Messaging
 
         #region Public Interface.
 
-        /// <summary>
-        /// Reads the next <see cref="AK.F1.Timing.Messaging.Message"/> from the underlying data stream.
-        /// </summary>
-        /// <returns>The next <see cref="AK.F1.Timing.Messaging.Message"/>.</returns>
-        /// <exception cref="System.ObjectDisposedException">
-        /// Thrown when this reader has been disposed of.
-        /// </exception>
-        /// <exception cref="System.IO.EndOfStreamException">
-        /// Thrown when the end of the message stream has been reached.
-        /// </exception>
-        /// <exception cref="System.IO.IOException">
-        /// Thrown when an IO error occurs reading the next message from the stream.
-        /// </exception>
-        /// <exception cref="System.FormatException">
-        /// Thrown when the format of the next message of the stream is invalid or the message
-        /// itself is not recognised.
-        /// </exception>
+        /// <inheritdoc/>        
         public Message Read() {
 
             CheckDisposed();
@@ -60,24 +44,23 @@ namespace AK.F1.Timing.Messaging
                 return null;
             }
 
-            Message message;            
+            Message message;
 
             try {
                 while((message = ReadImpl()) == Message.Empty) {
                     // Void.
-                }                
-            } catch(IOException exc) {
-                ProcessExceptionInRead(exc);
-                throw;
-            } catch(FormatException exc) {
-                ProcessExceptionInRead(exc);
+                }
+            } catch(Exception exc) {
+                if(!exc.IsFatal()) {
+                    ProcessReadException(exc);
+                }
                 throw;
             }
 
             this.EndOfStreamReached = message == null;
 
             return message;
-        }        
+        }
 
         #endregion  
       
@@ -127,19 +110,12 @@ namespace AK.F1.Timing.Messaging
             }
         }
 
-        private void ProcessExceptionInRead(Exception exc) {
-
-            ProcessExceptionInRead(exc, true);
-        } 
-
-        private void ProcessExceptionInRead(Exception exc, bool logException) {
+        private void ProcessReadException(Exception exc) {
 
             Debug.Assert(this.ReadException == null);
 
-            if(logException) {
-                this.Log.Error(exc);
-            }
-            this.ReadException = exc;            
+            this.Log.Error(exc);
+            this.ReadException = exc;
         }
 
         private bool EndOfStreamReached { get; set; }
