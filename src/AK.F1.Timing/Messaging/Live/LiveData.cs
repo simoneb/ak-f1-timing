@@ -14,6 +14,7 @@
 
 using System;
 using System.Globalization;
+using System.Runtime.Serialization;
 
 using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Messaging.Messages.Session;
@@ -97,7 +98,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="s">The string to parse.</param>
         /// <returns>The parsed <see cref="System.TimeSpan"/>.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="s"/> is incorrectly formatted.
         /// </exception>
         /// <remarks>
@@ -128,7 +129,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="s">The string to parse.</param>
         /// <returns>The parsed <see cref="System.Int32"/>.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="s"/> is incorrectly formatted.
         /// </exception>
         public static int ParseInt32(string s) {
@@ -147,7 +148,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="s">The string to parse.</param>
         /// <returns>The parsed <see cref="System.Double"/>.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="s"/> is incorrectly formatted.
         /// </exception>
         public static double ParseDouble(string s) {
@@ -167,7 +168,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="colour">The value to convert.</param>
         /// <returns>The converted value.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
         public static PostedTimeType ToPostedTimeType(GridColumnColour colour) {
@@ -191,7 +192,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="value"/> could not be converted.
         /// </exception>
         public static SessionType ToSessionType(int value) {
@@ -218,7 +219,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="s">The value to convert.</param>
         /// <returns>The converted value.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="s"/> could not be converted.
         /// </exception>
         public static SessionStatus ToSessionStatus(string s) {            
@@ -247,7 +248,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="colour">The value to convert.</param>
         /// <returns>The converted value.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
         public static DriverStatus ToDriverStatus(int colour) {
@@ -261,7 +262,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="colour">The value to convert.</param>
         /// <returns>The converted value.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
         public static DriverStatus ToDriverStatus(GridColumnColour colour) {
@@ -300,7 +301,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// </summary>
         /// <param name="colour">The value to convert.</param>
         /// <returns>The converted value.</returns>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
         public static GridColumnColour ToGridColumnColour(byte colour) {
