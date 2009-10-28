@@ -119,9 +119,9 @@ namespace AK.F1.Timing
             return string.Format(Resource.Culture, format, args);
         }
 
-        internal static FormatException LiveMessageReader_InvalidMessageType(int messageType) {
+        internal static SerializationException LiveMessageReader_InvalidMessageType(int messageType) {
 
-            return new FormatException(Format(Resource.LiveMessageReader_InvalidMessageType, messageType));
+            return new SerializationException(Format(Resource.LiveMessageReader_InvalidMessageType, messageType));
         }
 
         internal static void Fail(string message) {
@@ -143,59 +143,54 @@ namespace AK.F1.Timing
             }
         }
 
-        internal static FormatException LiveData_UnableToConvertToSessionStatus(string s) {
+        internal static SerializationException LiveData_UnableToConvertToSessionStatus(string s) {
 
-            return new FormatException(Format(Resource.LiveData_UnableToConvertToSessionStatus, s));
+            return new SerializationException(Format(Resource.LiveData_UnableToConvertToSessionStatus, s));
         }
 
-        internal static FormatException LiveData_UnableToConvertToDriverStatus(int value) {
+        internal static SerializationException LiveData_UnableToConvertToDriverStatus(int value) {
 
-            return new FormatException(Format(Resource.LiveData_UnableToConvertToDriverStatus, value));
+            return new SerializationException(Format(Resource.LiveData_UnableToConvertToDriverStatus, value));
         }
 
-        internal static FormatException LiveData_UnableToConvertToSessionType(int value) {
+        internal static SerializationException LiveData_UnableToConvertToSessionType(int value) {
 
-            return new FormatException(Format(Resource.LiveData_UnableToConvertToSessionType, value));
+            return new SerializationException(Format(Resource.LiveData_UnableToConvertToSessionType, value));
         }
 
-        internal static FormatException LiveData_UnableToConvertToPostedTimeType(int value) {
+        internal static SerializationException LiveData_UnableToConvertToPostedTimeType(int value) {
 
-            return new FormatException(Format(Resource.LiveData_UnableToConvertToPostedTimeType, value));
+            return new SerializationException(Format(Resource.LiveData_UnableToConvertToPostedTimeType, value));
         }
 
-        internal static FormatException LiveData_UnableToConvertToGridColumn(byte column, SessionType currentSessionType) {
+        internal static SerializationException LiveData_UnableToConvertToGridColumn(byte column, SessionType currentSessionType) {
 
-            return new FormatException(Format(Resource.LiveData_UnableToConvertToGridColumn, column, currentSessionType));
+            return new SerializationException(Format(Resource.LiveData_UnableToConvertToGridColumn, column, currentSessionType));
         }
 
-        internal static FormatException LiveData_UnableToParseTime(string value) {
+        internal static SerializationException LiveData_UnableToParseTime(string value) {
 
-            return new FormatException(Format(Resource.LiveData_UnableToParseTime, value));
+            return new SerializationException(Format(Resource.LiveData_UnableToParseTime, value));
         }
 
-        internal static FormatException LiveData_UnableToParseInt32(string s) {
+        internal static SerializationException LiveData_UnableToParseInt32(string s) {
 
-            return new FormatException(Format(Resource.LiveData_UnableToParseInt32, s));
+            return new SerializationException(Format(Resource.LiveData_UnableToParseInt32, s));
         }
 
-        internal static FormatException LiveData_UnableToParseDouble(string s) {
+        internal static SerializationException LiveData_UnableToParseDouble(string s) {
 
-            return new FormatException(Format(Resource.LiveData_UnableToParseDouble, s));
+            return new SerializationException(Format(Resource.LiveData_UnableToParseDouble, s));
         }
 
-        internal static FormatException LiveMessageReader_UnexpectedFirstMessage(Message message) {
+        internal static SerializationException LiveMessageReader_UnexpectedFirstMessage(Message message) {
 
-            return new FormatException(Format(Resource.LiveMessageReader_UnexpectedFirstMessage, message));
+            return new SerializationException(Format(Resource.LiveMessageReader_UnexpectedFirstMessage, message));
         }
 
-        internal static FormatException MessageReader_InvalidMessage() {
+        internal static SerializationException MessageReader_InvalidMessage() {
 
-            return new FormatException(Resource.MessageReader_InvalidMessage);
-        }
-
-        internal static FormatException MessageReader_InvalidMessage(Exception exc) {
-
-            return new FormatException(Resource.MessageReader_InvalidMessage, exc);
+            return new SerializationException(Resource.MessageReader_InvalidMessage);
         }
 
         internal static ArgumentException TimeGap_InvalidCompareToArgument(object obj) {
@@ -216,20 +211,14 @@ namespace AK.F1.Timing
                 typeof(PostedTime).FullName, obj.GetType().FullName), "obj");
         }
 
-        internal static FormatException LiveDecryptorFactory_UnableToParseSeed(string s) {
+        internal static SerializationException LiveDecryptorFactory_UnableToParseSeed(string s) {
 
-            return new FormatException(Format(Resource.LiveDecryptorFactory_UnableToParseSeed, s));
+            return new SerializationException(Format(Resource.LiveDecryptorFactory_UnableToParseSeed, s));
         }
 
         internal static AuthenticationException LiveDecryptorFactory_CredentialsRejected() {
 
             return new AuthenticationException(Resource.LiveDecryptorFactory_CredentialsRejected);
-        }
-
-        internal static FormatException RecordedMessageReader_DeserializationFailed(SerializationException exc) {
-
-            // TODO maybe we should provide a custom exception message?
-            return new FormatException(exc.Message, exc);
         }
 
         internal static SerializationException PropertyDescriptor_PropertyIsNotDecorated(PropertyInfo property) {
