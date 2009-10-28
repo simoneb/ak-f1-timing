@@ -170,20 +170,6 @@ namespace AK.F1.Timing.Messaging.Live
         /// <exception cref="System.FormatException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
-        public static PostedTimeType ToPostedTimeType(int colour) {
-
-            return ToPostedTimeType((GridColumnColour)colour);
-        }
-
-        /// <summary>
-        /// Converts the specified timing colour into a
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType"/>.
-        /// </summary>
-        /// <param name="colour">The value to convert.</param>
-        /// <returns>The converted value.</returns>
-        /// <exception cref="System.FormatException">
-        /// Thrown when <paramref name="colour"/> could not be converted.
-        /// </exception>
         public static PostedTimeType ToPostedTimeType(GridColumnColour colour) {
 
             switch((GridColumnColour)colour) {
@@ -237,20 +223,22 @@ namespace AK.F1.Timing.Messaging.Live
         /// </exception>
         public static SessionStatus ToSessionStatus(string s) {            
 
-            switch(s) {
-                case "1":
-                    return SessionStatus.Green;
-                case "2":
-                    return SessionStatus.Yellow;
-                case "3":
-                    return SessionStatus.SafetyCarOnStandBy;
-                case "4":
-                    return SessionStatus.SafetyCarDeployed;
-                case "5":
-                    return SessionStatus.Red;
-                default:
-                    throw Guard.LiveData_UnableToConvertToSessionStatus(s);
+            if(s != null && s.Length == 1) {
+                switch(s[0]) {
+                    case '1':
+                        return SessionStatus.Green;
+                    case '2':
+                        return SessionStatus.Yellow;
+                    case '3':
+                        return SessionStatus.SafetyCarOnStandBy;
+                    case '4':
+                        return SessionStatus.SafetyCarDeployed;
+                    case '5':
+                        return SessionStatus.Red;
+                }
             }
+            
+            throw Guard.LiveData_UnableToConvertToSessionStatus(s);
         }
 
         /// <summary>
