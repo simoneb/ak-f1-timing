@@ -34,10 +34,10 @@ namespace AK.F1.Timing.Messaging
         /// <exception cref="System.IO.IOException">
         /// Thrown when an IO error occurs reading the next message from the stream.
         /// </exception>
-        /// <exception cref="System.FormatException">
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when the format of the next message of the stream is invalid or the message
         /// itself is not recognised.
         /// </exception>
-        Message Read();
+        Message Read();        
     }
 }
