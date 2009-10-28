@@ -14,9 +14,7 @@
 
 using System;
 using System.IO;
-using System.Runtime.Serialization;
 
-using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Messaging.Serialization;
 
 namespace AK.F1.Timing.Messaging.Playback
@@ -89,9 +87,6 @@ namespace AK.F1.Timing.Messaging.Playback
                 } else {
                     DisposeOfResources();
                 }
-            } catch(SerializationException exc) {
-                DisposeOfResources();
-                throw Guard.RecordedMessageReader_DeserializationFailed(exc);
             } catch {
                 DisposeOfResources();
                 throw;
