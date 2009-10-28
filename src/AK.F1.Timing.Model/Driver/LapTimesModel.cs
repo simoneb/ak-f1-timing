@@ -18,15 +18,77 @@ using AK.F1.Timing.Model.Collections;
 
 namespace AK.F1.Timing.Model.Driver
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Serializable]
-    public class LapTimesModel : PostedTimeCollectionModel
+    public class LapTimesModel : ModelBase
     {       
         #region Public Interface.
 
         /// <summary>
         /// Initialises a new instance of the <see cref="LapTimesModel"/> class.
         /// </summary>
-        public LapTimesModel() { }
+        /// <param name="driver">The driver model which owns this model.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="driver"/> is <see langword="null"/>.
+        /// </exception>
+        public LapTimesModel(DriverModel driver) {            
+
+            Guard.NotNull(driver, "driver");            
+
+            this.Driver = driver;
+            this.S1 = new PostedTimeCollectionModel();
+            this.S2 = new PostedTimeCollectionModel();
+            this.S3 = new PostedTimeCollectionModel();
+            this.Laps = new PostedTimeCollectionModel();
+        }
+
+        /// <summary>
+        /// Gets the sector time collection for the specified one-based sector number.
+        /// </summary>
+        /// <param name="sectorNumber">The one-based sector number.</param>
+        /// <returns>The sector time collection for the specified sector number.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="sectorNumber"/> is not positive or is greater than three.
+        /// </exception>
+        public PostedTimeCollectionModel GetSector(int sectorNumber) {
+
+            if(sectorNumber == 1) {
+                return this.S1;
+            } else if(sectorNumber == 2) {
+                return this.S2;
+            } else if(sectorNumber == 3) {
+                return this.S3;
+            }
+
+            throw Guard.ArgumentOutOfRange("sectorNumber");
+        }
+
+        /// <summary>
+        /// Gets the overall lap times.
+        /// </summary>
+        public PostedTimeCollectionModel Laps { get; private set; }
+
+        /// <summary>
+        /// Gets the sector one times.
+        /// </summary>
+        public PostedTimeCollectionModel S1 { get; private set; }
+
+        /// <summary>
+        /// Gets the sector two times.
+        /// </summary>
+        public PostedTimeCollectionModel S2 { get; private set; }
+
+        /// <summary>
+        /// Gets the sector three times.
+        /// </summary>
+        public PostedTimeCollectionModel S3 { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="DriverModel"/> which owns this model.
+        /// </summary>
+        public DriverModel Driver { get; private set; }
 
         #endregion
     }
