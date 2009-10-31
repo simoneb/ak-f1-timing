@@ -20,7 +20,7 @@ using AK.F1.Timing.Messaging.Messages.Session;
 namespace AK.F1.Timing.Messaging.Live
 {
     /// <summary>
-    /// The engine which updates the state information maintained by a
+    /// An engine which updates the state information maintained by a
     /// <see cref="LiveMessageReader"/>. This class is <see langword="sealed"/>.
     /// </summary>
     [Serializable]
@@ -29,9 +29,6 @@ namespace AK.F1.Timing.Messaging.Live
         #region Private Fields.
 
         private readonly LiveMessageReader _reader;
-
-        private static readonly log4net.ILog _log =
-            log4net.LogManager.GetLogger(typeof(LiveMessageReaderStateEngine));
 
         #endregion
 
