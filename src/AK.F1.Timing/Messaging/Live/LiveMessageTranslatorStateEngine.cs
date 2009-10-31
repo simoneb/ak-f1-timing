@@ -20,7 +20,7 @@ using AK.F1.Timing.Messaging.Messages.Driver;
 namespace AK.F1.Timing.Messaging.Live
 {
     /// <summary>
-    /// The engine which updates the state information maintained by a
+    /// An engine which updates the state information maintained by a
     /// <see cref="LiveMessageTranslator"/>. This class is <see langword="sealed"/>.
     /// </summary>
     [Serializable]
