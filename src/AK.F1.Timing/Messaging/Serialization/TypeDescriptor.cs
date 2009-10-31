@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 
 namespace AK.F1.Timing.Messaging.Serialization
 {
@@ -27,7 +26,7 @@ namespace AK.F1.Timing.Messaging.Serialization
     {
         #region Private Impl.
 
-        private static int _scannedAssemblies;
+        private static bool _scannedAssemblies;
         private static readonly object _cacheSyncRoot = new object();
         private static readonly IDictionary<Type, TypeDescriptor> _typeToDescriptor =
             new Dictionary<Type, TypeDescriptor>();
@@ -38,11 +37,26 @@ namespace AK.F1.Timing.Messaging.Serialization
 
         #region Public Interface.
         
+        /// <summary>
+        /// Returns the <see cref="TypeDescriptor"/> for the type with the specified identifier.
+        /// </summary>
+        /// <param name="typeId">The identifier of the type descriptor to return.</param>
+        /// <returns>The <see cref="TypeDescriptor"/> for the type with the specified
+        /// identifier.</returns>
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
+        /// Thrown when the <see cref="TypeDescriptor"/> could not be located.
+        /// </exception>
         public static TypeDescriptor For(int typeId) {
 
             ScanAssemblies();
 
             TypeDescriptor descriptor;
+
+            if(_typeIdToDescriptor.TryGetValue(typeId, out descriptor)) {
+                return descriptor;
+            }
+
+            ScanAssemblies();
 
             if(_typeIdToDescriptor.TryGetValue(typeId, out descriptor)) {
                 return descriptor;
@@ -163,11 +177,12 @@ namespace AK.F1.Timing.Messaging.Serialization
 
         private static void ScanAssemblies() {
 
-            if(Interlocked.CompareExchange(ref _scannedAssemblies, 1, 0) == 0) {
-                lock(_cacheSyncRoot) {
+            lock(_cacheSyncRoot) {
+                if(!_scannedAssemblies) {
                     ScanAssembly(Assembly.GetExecutingAssembly());
+                    _scannedAssemblies = true;
                 }
-            }
+            }            
         }
 
         private static void ScanAssembly(Assembly assembly) {
