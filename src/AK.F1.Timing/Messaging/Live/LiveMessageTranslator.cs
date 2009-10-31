@@ -24,7 +24,8 @@ using AK.F1.Timing.Messaging.Messages.Session;
 namespace AK.F1.Timing.Messaging.Live
 {
     /// <summary>
-    /// This class is <see langword="sealed"/>.
+    /// Translates the messages read from a <see cref="LiveMessageReader"/> into more meaningful
+    /// messages. This class is <see langword="sealed"/>.
     /// </summary>
     [Serializable]
     public sealed class LiveMessageTranslator : MessageVisitor
@@ -102,7 +103,7 @@ namespace AK.F1.Timing.Messaging.Live
         internal LiveDriver GetDriver(DriverMessageBase message) {            
 
             while(this.Drivers.Count < message.DriverId) {
-                this.Drivers.Add(new LiveDriver());
+                this.Drivers.Add(new LiveDriver(message.DriverId));
             }
             
             return this.Drivers[message.DriverId - 1];
@@ -269,10 +270,12 @@ namespace AK.F1.Timing.Messaging.Live
 
             if(message.Value.OrdinalEndsWith("L")) {
                 string s = message.Value.Substring(0, message.Value.Length - 1);
-                return new SetDriverGapMessage(message.DriverId, new LapGap(LiveData.ParseInt32(s)));
+                return new SetDriverGapMessage(message.DriverId,
+                    new LapGap(LiveData.ParseInt32(s)));
             }
 
-            return new SetDriverGapMessage(message.DriverId, new TimeGap(LiveData.ParseTime(message.Value)));
+            return new SetDriverGapMessage(message.DriverId,
+                new TimeGap(LiveData.ParseTime(message.Value)));
         }
 
         private Message TranslateSetGapTimeColour(SetGridColumnColourMessage message) {
@@ -289,24 +292,18 @@ namespace AK.F1.Timing.Messaging.Live
             LiveDriver driver = GetDriver(message);
 
             if(message.Value.OrdinalEquals("OUT")) {
-                if(driver.Status == DriverStatus.OnTrack) {
-                    return null;
-                }
-                return new SetDriverStatusMessage(message.DriverId, DriverStatus.OnTrack);
+                return CreateStatusMessageIfStatusChanged(driver, DriverStatus.OnTrack);
             }
 
             if(message.Value.OrdinalEquals("IN PIT")) {
-                if(driver.Status == DriverStatus.InPits) {
-                    return null;
-                }
-                return new SetDriverStatusMessage(message.DriverId, DriverStatus.InPits);
+                return CreateStatusMessageIfStatusChanged(driver, DriverStatus.InPits);
             }
 
             if(message.Value.OrdinalEquals("RETIRED")) {
-                return new SetDriverStatusMessage(message.DriverId, DriverStatus.Retired);
+                return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Retired);
             }
 
-            return new SetDriverLapTimeMessage(message.DriverId, new PostedTime(
+            return new SetDriverLapTimeMessage(driver.Id, new PostedTime(
                 LiveData.ParseTime(message.Value),
                 LiveData.ToPostedTimeType(message.Colour),
                 driver.LapNumber));
@@ -319,7 +316,7 @@ namespace AK.F1.Timing.Messaging.Live
             switch(message.Colour) {
                 case GridColumnColour.White:
                     _log.DebugFormat("using previous lap time: {0}", message);
-                    return new SetDriverLapTimeMessage(message.DriverId, new PostedTime(
+                    return new SetDriverLapTimeMessage(driver.Id, new PostedTime(
                         driver.LastLapTime.Time,
                         LiveData.ToPostedTimeType(message.Colour),
                         driver.LapNumber));
@@ -329,7 +326,7 @@ namespace AK.F1.Timing.Messaging.Live
                     // that it was a PB or SB. To hack this we publish a replacement when we receive
                     // such a message.
                     _log.DebugFormat("received out of order lap time colour update: {0}", message);
-                    return new ReplaceDriverLapTimeMessage(message.DriverId, new PostedTime(
+                    return new ReplaceDriverLapTimeMessage(driver.Id, new PostedTime(
                         driver.LastLapTime.Time,
                         LiveData.ToPostedTimeType(message.Colour),
                         driver.LastLapTime.LapNumber));
@@ -354,20 +351,20 @@ namespace AK.F1.Timing.Messaging.Live
                 }
                 // After a driver pits, the pit times are displayed and the S3 column always displays the
                 // length of the last pit stop.
-                return new SetDriverPitTimeMessage(message.DriverId,
+                return new SetDriverPitTimeMessage(driver.Id,
                     LiveData.ParseTime(message.Value),
                     driver.LapNumber);
             }
 
             if(message.Value.OrdinalEquals("OUT")) {
-                return new SetDriverStatusMessage(message.DriverId, DriverStatus.Out);
+                return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Out);
             }
 
             if(message.Value.OrdinalEquals("STOP")) {
-                return new SetDriverStatusMessage(message.DriverId, DriverStatus.Stopped);
+                return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Stopped);
             }
 
-            return Translate(new SetDriverSectorTimeMessage(message.DriverId, sectorNumber, new PostedTime(
+            return Translate(new SetDriverSectorTimeMessage(driver.Id, sectorNumber, new PostedTime(
                 LiveData.ParseTime(message.Value),
                 LiveData.ToPostedTimeType(message.Colour),
                 driver.LapNumber)));
@@ -394,13 +391,13 @@ namespace AK.F1.Timing.Messaging.Live
                     return null;
                 }
                 _log.DebugFormat("received out of order sector update: {0}", message);
-                return new ReplaceDriverSectorTimeMessage(message.DriverId, sectorNumber,
+                return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
                     new PostedTime(lastSectorTime.Time, newTimeType, lastSectorTime.LapNumber));
             }
 
             _log.DebugFormat("using previous sector time with new colour: {0}", message);
 
-            return Translate(new SetDriverSectorTimeMessage(message.DriverId, sectorNumber,
+            return Translate(new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
                 new PostedTime(lastSectorTime.Time, newTimeType, driver.LapNumber)));
         }
 
@@ -415,7 +412,7 @@ namespace AK.F1.Timing.Messaging.Live
             if(sectorNumber == 2 && driver.NextSectorNumber == 1 &&
                 (lastS1Time = driver.LastSectors[0]) != null) {
                 _log.Debug("received clear S2 before S1 set, using previous posted time");
-                return Translate(new SetDriverSectorTimeMessage(message.DriverId, 1,
+                return Translate(new SetDriverSectorTimeMessage(driver.Id, 1,
                     new PostedTime(lastS1Time.Time, lastS1Time.Type, driver.LapNumber)));
             }
 
@@ -448,10 +445,10 @@ namespace AK.F1.Timing.Messaging.Live
             DriverStatus status = LiveData.ToDriverStatus(message.Colour);
             
             if(driver.CarNumber != carNumber) {
-                translated = new SetDriverCarNumberMessage(message.DriverId, carNumber);
+                translated = new SetDriverCarNumberMessage(driver.Id, carNumber);
             }
             if(driver.Status != status) {
-                temp = new SetDriverStatusMessage(message.DriverId, status);
+                temp = new SetDriverStatusMessage(driver.Id, status);
                 translated = translated == null ? temp : new CompositeMessage(translated, temp);
             }
 
@@ -460,13 +457,19 @@ namespace AK.F1.Timing.Messaging.Live
 
         private Message TranslateSetCarNumberColour(SetGridColumnColourMessage message) {
 
+            LiveDriver driver = GetDriver(message);
             DriverStatus status = LiveData.ToDriverStatus(message.Colour);
 
-            if(GetDriver(message).Status == status) {
-                return null;
+            return CreateStatusMessageIfStatusChanged(driver, status);
+        }
+
+        private static Message CreateStatusMessageIfStatusChanged(LiveDriver driver, DriverStatus status) {
+
+            if(driver.Status != status) {
+                return new SetDriverStatusMessage(driver.Id, status);
             }
 
-            return new SetDriverStatusMessage(message.DriverId, status);
+            return null;
         }
 
         private static Message Ignored(string reason, Message message) {
