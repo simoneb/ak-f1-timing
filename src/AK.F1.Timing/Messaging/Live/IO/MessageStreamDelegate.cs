@@ -21,7 +21,9 @@ using AK.F1.Timing.Utility;
 namespace AK.F1.Timing.Messaging.Live.IO
 {
     /// <summary>
-    /// 
+    /// A <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStream"/> implementation which
+    /// delegates to an underlying <see cref="System.IO.Stream"/>. This implementation does
+    /// not support pinging. This class is <see langword="sealed"/>.
     /// </summary>
     public sealed class MessageStreamDelegate : Disposable, IMessageStream
     {
@@ -31,6 +33,9 @@ namespace AK.F1.Timing.Messaging.Live.IO
         /// Initialises a new instance of the <see cref="MessageStreamDelegate"/> class.
         /// </summary>
         /// <param name="inner">The inner message stream.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="inner"/> is <see langword="null"/>.
+        /// </exception>
         public MessageStreamDelegate(Stream inner) {
 
             Guard.NotNull(inner, "inner");
@@ -58,6 +63,7 @@ namespace AK.F1.Timing.Messaging.Live.IO
 
             if(disposing && !this.IsDisposed) {                
                 DisposeOf(this.Inner);
+                this.Inner = null;
             }
         }
 
