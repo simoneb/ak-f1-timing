@@ -68,7 +68,7 @@ namespace AK.F1.Timing.Messaging.Playback
             
             TimeSpan delay = ScaleDelay(message.Delay);
 
-            if(delay >= TimeSpan.Zero) {                
+            if(delay > TimeSpan.Zero) {                
                 Thread.Sleep(delay);                
             }
 
