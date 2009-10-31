@@ -92,16 +92,12 @@ namespace AK.F1.Timing.Messaging.Live
             }
 
             Message message = DequeueOrReadNextMessage();
-
+            
             PostProcessMessage(message, true);
 
             return message;
         }
-
-        #endregion
-
-        #region Protected Interface.
-
+        
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
 
@@ -196,8 +192,8 @@ namespace AK.F1.Timing.Messaging.Live
             this.Log.InfoFormat("enqueuing messages from keyframe {0}", keyframe);
 
             using(StreamAndBufferBackup()) {
-                this.MessageStream = this.MessageStreamEndpoint.OpenKeyframe(keyframe);
                 this.Decryptor.Reset();
+                this.MessageStream = this.MessageStreamEndpoint.OpenKeyframe(keyframe);                
                 try {
                     do {
                         if((message = ReadMessage()) != Message.Empty) {
