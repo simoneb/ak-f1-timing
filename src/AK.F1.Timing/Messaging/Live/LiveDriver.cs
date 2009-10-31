@@ -41,9 +41,10 @@ namespace AK.F1.Timing.Messaging.Live
         /// <summary>
         /// Initialises a new instance of the <see cref="LiveDriver"/> class.
         /// </summary>        
-        public LiveDriver() {
+        public LiveDriver(int id) {
             
             Reset();
+            this.Id = id;
         }
 
         /// <summary>
@@ -127,6 +128,11 @@ namespace AK.F1.Timing.Messaging.Live
 
             return gap != null ? raceLapNumber - gap.Laps : raceLapNumber;
         }
+
+        /// <summary>
+        /// Gets the Id of this driver.
+        /// </summary>
+        public int Id { get; private set; }
 
         /// <summary>
         /// Gets or sets the current status of this driver.
