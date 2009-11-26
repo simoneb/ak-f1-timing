@@ -15,6 +15,8 @@
 using System;
 using System.Reflection;
 
+using AK.F1.Timing.Utility;
+
 namespace AK.F1.Timing.Messaging.Serialization
 {
     /// <summary>
@@ -88,13 +90,9 @@ namespace AK.F1.Timing.Messaging.Serialization
         /// <inheritdoc/>
         public override int GetHashCode() {
 
-            int hash = 7;
-
-            hash = 31 * hash + this.PropertyId.GetHashCode();            
-            hash = 31 * hash + this.Info.DeclaringType.GetHashCode();
-
-            return hash;
-
+            return HashCodeBuilder.New()
+                .Add(this.PropertyId)
+                .Add(this.Info.DeclaringType);
         }
 
         /// <inheritdoc/>
