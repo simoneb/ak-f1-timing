@@ -92,7 +92,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Laps='{0}'", this.Laps);
+            return Repr("Laps={0}", this.Laps);
         }
 
         /// <summary>

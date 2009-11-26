@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Messaging.Messages.Weather
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Pressure='{0}'", this.Pressure);
+            return Repr("Pressure={0}", this.Pressure);
         }
 
         /// <summary>

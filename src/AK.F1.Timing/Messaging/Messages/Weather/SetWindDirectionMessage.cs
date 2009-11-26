@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Messaging.Messages.Weather
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Angle='{0}'", this.Angle);
+            return Repr("Angle={0}", this.Angle);
         }
 
         /// <summary>

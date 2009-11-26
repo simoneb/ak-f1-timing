@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Messaging.Messages.Session
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("LapNumber='{0}'", this.LapNumber);
+            return Repr("LapNumber={0}", this.LapNumber);
         }
 
         /// <summary>

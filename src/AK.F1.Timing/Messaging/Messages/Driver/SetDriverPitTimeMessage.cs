@@ -58,7 +58,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId='{0}', Time='{1}', LapNumber='{2}'", this.DriverId,
+            return Repr("DriverId={0}, Time='{1}', LapNumber={2}", this.DriverId,
                 this.Time, this.LapNumber);
         }
 

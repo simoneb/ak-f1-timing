@@ -113,7 +113,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return string.Format("{0}(Time='{1}', Type='{2}', LapNumber='{3}')", GetType().Name,
+            return string.Format("{0}(Time='{1}', Type='{2}', LapNumber={3})", GetType().Name,
                 this.Time, this.Type, this.LapNumber);
         }        
 
