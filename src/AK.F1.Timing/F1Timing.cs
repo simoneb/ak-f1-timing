@@ -93,13 +93,12 @@ namespace AK.F1.Timing
 
         /// <summary>
         /// Provides methods for creating <see cref="AK.F1.Timing.Messaging.Playback.IRecordedMessageReader"/>s
-        /// which read from a persisted live message stream.
+        /// which read from persisted live message streams.
         /// </summary>
         public static class Playback
         {
             /// <summary>
-            /// Creates a playback messages reader which reads the persisted messages from the specified
-            /// file <paramref name="path"/>.
+            /// Creates a playback reader which reads the messages persisted from the specified file <paramref name="path"/>.
             /// </summary>
             /// <param name="path">The path of the recorded message stream.</param>
             /// <returns></returns>
