@@ -24,8 +24,7 @@ namespace AK.F1.Timing.Messaging.Live
     /// <summary>
     /// Provides statis utility methods for parsing F1 timing primitives. This class is
     /// <see langword="static"/>.
-    /// </summary>
-    [Serializable]
+    /// </summary>    
     internal static class LiveData
     {
         #region Private Fields.
