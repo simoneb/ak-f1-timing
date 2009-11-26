@@ -13,14 +13,9 @@
 // limitations under the License.
 
 using System;
-using System.Globalization;
 using System.IO;
-using System.Text;
-using System.Timers;
-using System.Threading;
 
 using AK.F1.Timing.Messaging;
-using AK.F1.Timing.Messaging.Live.IO;
 
 namespace AK.F1.Timing.LiveRecorder
 {
