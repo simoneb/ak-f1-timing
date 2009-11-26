@@ -21,14 +21,8 @@ namespace AK.F1.Timing.Messaging.Serialization
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = false)]
-    public sealed class PropertyIdAttribute : Attribute, IEquatable<PropertyIdAttribute>
+    public sealed class PropertyIdAttribute : Attribute
     {
-        #region Private Impl.
-
-        private readonly object _boxedId;
-
-        #endregion
-
         #region Public Interface.
 
         /// <summary>
@@ -38,41 +32,13 @@ namespace AK.F1.Timing.Messaging.Serialization
         /// <param name="id">The identifier of the decorated property.</param>
         public PropertyIdAttribute(byte id) {
 
-            this.Id = id;
-            _boxedId = id;
-        }
-
-        /// <inheritdoc/>
-        public override bool Equals(object obj) {
-
-            if(obj == null || obj.GetType() != GetType()) {
-                return false;
-            }
-            return Equals((PropertyIdAttribute)obj);
-        }
-
-        /// <inheritdoc/>
-        public bool Equals(PropertyIdAttribute other) {
-
-            return other != null && other.Id == this.Id;
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode() {
-
-            return this.Id.GetHashCode();
+            this.Id = id;            
         }
 
         /// <summary>
         /// Gets identifier of the decorated property.
         /// </summary>
         public byte Id { get; private set; }
-
-        /// <inheritdoc/>
-        public override object TypeId {
-
-            get { return _boxedId; }
-        }
 
         #endregion
     }

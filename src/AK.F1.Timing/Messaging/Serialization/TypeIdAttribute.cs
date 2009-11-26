@@ -21,14 +21,8 @@ namespace AK.F1.Timing.Messaging.Serialization
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
-    public sealed class TypeIdAttribute : Attribute, IEquatable<TypeIdAttribute>
+    public sealed class TypeIdAttribute : Attribute
     {
-        #region Private Impl.
-
-        private readonly object _boxedId;
-
-        #endregion
-
         #region Public Interface.
 
         /// <summary>
@@ -38,8 +32,7 @@ namespace AK.F1.Timing.Messaging.Serialization
         /// <param name="id">The identifier of the decorated type.</param>
         public TypeIdAttribute(int id) {
 
-            this.Id = id;
-            _boxedId = id;            
+            this.Id = id;      
         }
 
         /// <summary>
@@ -59,37 +52,10 @@ namespace AK.F1.Timing.Messaging.Serialization
             return Attribute.IsDefined(type, typeof(TypeIdAttribute), false);
         }
 
-        /// <inheritdoc/>
-        public override bool Equals(object obj) {
-
-            if(obj == null || obj.GetType() != GetType()) {
-                return false;
-            }
-            return Equals((TypeIdAttribute)obj);
-        }
-
-        /// <inheritdoc/>
-        public bool Equals(TypeIdAttribute other) {
-
-            return other != null && other.Id == this.Id;
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode() {
-
-            return this.Id.GetHashCode();
-        }
-
         /// <summary>
         /// Gets identifier of the decorated type.
         /// </summary>
         public int Id { get; private set; }
-
-        /// <inheritdoc/>
-        public override object TypeId {
-
-            get { return _boxedId; }
-        }
 
         #endregion
     }
