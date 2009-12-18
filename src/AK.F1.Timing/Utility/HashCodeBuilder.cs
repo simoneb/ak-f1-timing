@@ -19,7 +19,7 @@ namespace AK.F1.Timing.Utility
     /// <summary>
     /// Allows hash code to be easily built.
     /// </summary>
-    public struct HashCodeBuilder
+    public struct HashCodeBuilder : IEquatable<HashCodeBuilder>
     {
         #region Fields.
 
@@ -60,7 +60,13 @@ namespace AK.F1.Timing.Utility
             if(obj == null || obj.GetType() != GetType()) {
                 return false;
             }
-            return ((HashCodeBuilder)obj)._hashCode == _hashCode;
+            return Equals((HashCodeBuilder)obj);
+        }
+
+        /// <inhetitdoc/>
+        public override bool Equals(HashCodeBuilder other) {
+            
+            return other._hashCode == _hashCode;
         }
 
         /// <inhetitdoc/>        
