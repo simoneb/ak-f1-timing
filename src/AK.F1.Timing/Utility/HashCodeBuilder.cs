@@ -17,7 +17,7 @@ using System;
 namespace AK.F1.Timing.Utility
 {
     /// <summary>
-    /// Allows hash code to be easily built.
+    /// Provides a handy hash code builder.
     /// </summary>
     public struct HashCodeBuilder : IEquatable<HashCodeBuilder>
     {
@@ -64,7 +64,7 @@ namespace AK.F1.Timing.Utility
         }
 
         /// <inhetitdoc/>
-        public override bool Equals(HashCodeBuilder other) {
+        public bool Equals(HashCodeBuilder other) {
             
             return other._hashCode == _hashCode;
         }
