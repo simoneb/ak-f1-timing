@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messaging.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="type"/> is <see langword="null"/>.
         /// </exception>
-        public static ObjectTypeCode GetObjectTypeCode(Type type) {
+        public static ObjectTypeCode GetObjectTypeCode(this Type type) {
 
             Guard.NotNull(type, "type");
 
@@ -61,7 +61,7 @@ namespace AK.F1.Timing.Messaging.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="type"/> is <see langword="null"/>.
         /// </exception>
-        public static object GetUninitializedObject(Type type) {
+        public static object GetUninitializedInstance(this Type type) {
 
             Guard.NotNull(type, "type");
 
