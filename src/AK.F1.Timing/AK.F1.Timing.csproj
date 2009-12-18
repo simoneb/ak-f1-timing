@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.21022</ProductVersion>
+    <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{52334AE8-7F11-404B-AD45-4519F9229F4A}</ProjectGuid>
     <OutputType>Library</OutputType>
@@ -61,18 +61,18 @@
     <Compile Include="Messaging\Playback\RecordedMessageReader.cs" />
     <Compile Include="Messaging\Playback\RecordingMessageReader.cs" />
     <Compile Include="Messaging\Messages\Feed\SetNextMessageDelayMessage.cs" />
-    <Compile Include="Messaging\Serialization\IObjectWriter.cs" />
-    <Compile Include="Messaging\Serialization\IObjectReader.cs" />
-    <Compile Include="Messaging\Serialization\IgnorePropertyAttribute.cs" />
-    <Compile Include="Messaging\Serialization\DecoratedObjectReader.cs" />
-    <Compile Include="Messaging\Serialization\ObjectTypeCode.cs" />
-    <Compile Include="Messaging\Serialization\DecoratedObjectWriter.cs" />
-    <Compile Include="Messaging\Serialization\PropertyDescriptor.cs" />
-    <Compile Include="Messaging\Serialization\PropertyDescriptorCollection.cs" />
-    <Compile Include="Messaging\Serialization\PropertyIdAttribute.cs" />
-    <Compile Include="Messaging\Serialization\SerializationHelper.cs" />
-    <Compile Include="Messaging\Serialization\TypeDescriptor.cs" />
-    <Compile Include="Messaging\Serialization\TypeIdAttribute.cs" />
+    <Compile Include="Serialization\IObjectWriter.cs" />
+    <Compile Include="Serialization\IObjectReader.cs" />
+    <Compile Include="Serialization\IgnorePropertyAttribute.cs" />
+    <Compile Include="Serialization\DecoratedObjectReader.cs" />
+    <Compile Include="Serialization\ObjectTypeCode.cs" />
+    <Compile Include="Serialization\DecoratedObjectWriter.cs" />
+    <Compile Include="Serialization\PropertyDescriptor.cs" />
+    <Compile Include="Serialization\PropertyDescriptorCollection.cs" />
+    <Compile Include="Serialization\PropertyIdAttribute.cs" />
+    <Compile Include="Serialization\SerializationHelper.cs" />
+    <Compile Include="Serialization\TypeDescriptor.cs" />
+    <Compile Include="Serialization\TypeIdAttribute.cs" />
     <Compile Include="Messaging\Live\LiveMessageTranslatorStateEngine.cs" />
     <Compile Include="Messaging\Live\LiveMessageTranslator.cs" />
     <Compile Include="Messaging\Live\LiveMessageReaderState.cs" />
@@ -180,7 +180,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" />
+      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

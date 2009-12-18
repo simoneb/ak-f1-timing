@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System;
-using AK.F1.Timing.Messaging.Serialization;
+using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {

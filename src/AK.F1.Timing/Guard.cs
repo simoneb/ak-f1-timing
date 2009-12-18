@@ -25,7 +25,7 @@ using System.Security.Authentication;
 using AK.F1.Timing.Messaging;
 using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Messaging.Messages.Session;
-using AK.F1.Timing.Messaging.Serialization;
+using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing
 {

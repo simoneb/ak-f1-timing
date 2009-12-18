@@ -18,7 +18,7 @@ using System.IO;
 using System.Runtime.Serialization;
 
 using AK.F1.Timing.Messaging.Messages.Feed;
-using AK.F1.Timing.Messaging.Serialization;
+using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Messaging.Playback
 {

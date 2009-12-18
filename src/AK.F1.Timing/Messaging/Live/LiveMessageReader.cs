@@ -58,7 +58,7 @@ namespace AK.F1.Timing.Messaging.Live
             this.DecryptorFactory = decryptorFactory;
             this.QueuedMessages = new Queue<Message>();            
             this.SessionType = SessionType.None;
-            this.State = LiveMessageReaderState.Initial;
+            this.State = LiveMessageReaderState.Uninitialised;
             this.StateEngine = new LiveMessageReaderStateEngine(this);
             this.MessageTranslator = new LiveMessageTranslator();
         }
