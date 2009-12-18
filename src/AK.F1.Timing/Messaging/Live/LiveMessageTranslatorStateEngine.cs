@@ -144,7 +144,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// <inheritdoc />
         public override void Visit(SetGridColumnValueMessage message) {
 
-            GetDriver(message).SetHasColumnValue(message.Column, !message.ClearColumn);
+            GetDriver(message).SetColumnHasValue(message.Column, !message.ClearColumn);
         }
 
         /// <inheritdoc />

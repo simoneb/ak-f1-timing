@@ -217,7 +217,7 @@ namespace AK.F1.Timing.Messaging.Live
                 return null;
             }
             // The feed often seeds colour updates to columns which have no value.
-            if(!GetDriver(message).HasColumnValue(message.Column)) {
+            if(!GetDriver(message).ColumnHasValue(message.Column)) {
                 return Ignored("column has no value", message);
             }
             switch(message.Column) {
