@@ -16,6 +16,9 @@ using System;
 
 namespace AK.F1.Timing.Model.Grid
 {
+    /// <summary>
+    /// Defines the practice grid model. This class is <see langword="sealed"/>.
+    /// </summary>
     [Serializable]
     public sealed class PracticeGridModel : GridModelBase<PracticeGridRowModel>
     {

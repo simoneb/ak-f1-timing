@@ -20,6 +20,11 @@ using AK.F1.Timing.Model.Collections;
 
 namespace AK.F1.Timing.Model.Grid
 {
+    /// <summary>
+    /// Defines the base class for a grid model. This class is <see langword="abstract"/>.
+    /// </summary>
+    /// <typeparam name="TGridRow">The type of <see cref="GridRowModelBase"/> that the grid is
+    /// composed of.</typeparam>
     [Serializable]    
     public abstract class GridModelBase<TGridRow> : GridModelBase where TGridRow: GridRowModelBase
     {
