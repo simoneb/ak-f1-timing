@@ -261,7 +261,7 @@ namespace AK.F1.Timing.Messaging.Serialization
             }
 
             TypeDescriptor descriptor = null;
-            ObjectTypeCode typeCode = SerializationHelper.GetObjectTypeCode(graph.GetType());
+            ObjectTypeCode typeCode = graph.GetType().GetObjectTypeCode();
 
             if(typeCode == ObjectTypeCode.Object) {
                 descriptor = TypeDescriptor.For(graph.GetType());

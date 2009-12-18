@@ -76,7 +76,7 @@ namespace AK.F1.Timing.Messaging.Serialization
             byte propertyId;
             PropertyDescriptor property;
             TypeDescriptor descriptor = TypeDescriptor.For(this.Input.ReadInt32());
-            object instance = SerializationHelper.GetUninitializedObject(descriptor.Type);
+            object instance = descriptor.Type.GetUninitializedInstance();
             byte propertyCount = this.Input.ReadByte();
 
             while(propertyCount-- > 0) {
