@@ -26,6 +26,13 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     {
         #region Public Interface.
 
+        /// <summary>
+        /// Initialises a new instance of the <see cref="SetGridColumnValueMessage"/> class.
+        /// </summary>
+        /// <param name="driverId">The Id of the driver the message is related to.</param>
+        /// <param name="column">The column whose value is to be set.</param>
+        /// <param name="colour">The column colour value.</param>
+        /// <param name="value">The column value.</param>
         public SetGridColumnValueMessage(int driverId, GridColumn column,
             GridColumnColour colour, string value) : base(driverId) {
 
