@@ -83,7 +83,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// <param name="column">The column to test.</param>
         /// <returns><see langword="true"/> if the specified column has a value, otherwise;
         /// <see langword="false"/>.</returns>
-        public bool HasColumnValue(GridColumn column) {
+        public bool ColumnHasValue(GridColumn column) {
 
             return _columnsWithValue[GetBit(column)];
         }
@@ -94,7 +94,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// <param name="column">The column to set.</param>
         /// <param name="value">><see langword="true"/> if the specified column has a value,
         /// otherwise; <see langword="false"/></param>
-        public void SetHasColumnValue(GridColumn column, bool value) {
+        public void SetColumnHasValue(GridColumn column, bool value) {
 
             _columnsWithValue[GetBit(column)] = value;
         }
