@@ -31,7 +31,7 @@ namespace AK.F1.Timing.Model.Session
         /// Initialises a new instance of the <see cref="FastestTimeModel"/> class.
         /// </summary>
         /// <param name="time">The time.</param>
-        /// <param name="delta">The delta from the last fastest time.</param>
+        /// <param name="delta">The delta from the previous fastest time.</param>
         /// <param name="driver">The driver which posted the time. Can be <see langword="null"/>.</param>
         /// <param name="lapNumber">The lap number on which the time was set.</param>
         public FastestTimeModel(TimeSpan time, TimeSpan? delta, DriverModel driver, int lapNumber) {
@@ -48,7 +48,7 @@ namespace AK.F1.Timing.Model.Session
         public TimeSpan Time { get; private set; }
 
         /// <summary>
-        /// Gets the delta from the last fastest time.
+        /// Gets the delta from the previous fastest time.
         /// </summary>
         public TimeSpan? Delta { get; private set; }
 
