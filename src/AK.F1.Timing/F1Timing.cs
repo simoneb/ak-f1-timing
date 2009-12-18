@@ -55,7 +55,7 @@ namespace AK.F1.Timing
             /// <exception cref="System.Security.Authentication.AuthenticationException">
             /// Thrown when the supplied credentials were rejected by the live timing site.
             /// </exception>
-            public static IMessageReader CreateReader(string username, string password) {
+            public static IMessageReader Read(string username, string password) {
 
                 return new LiveMessageReader(
                     new LiveMessageStreamEndpoint(),
@@ -72,7 +72,7 @@ namespace AK.F1.Timing
             /// <returns>A message reader which reads and records live messages.</returns>
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="username"/> or <paramref name="password"/> or
-            /// <paramref name="path"/> is  <see langword="null"/>.
+            /// <paramref name="path"/> is <see langword="null"/>.
             /// </exception>
             /// <exception cref="System.ArgumentException">
             /// Thrown when <paramref name="username"/> or <paramref name="password"/> or
@@ -85,9 +85,9 @@ namespace AK.F1.Timing
             /// <exception cref="System.Security.Authentication.AuthenticationException">
             /// Thrown when the supplied credentials were rejected by the live timing site.
             /// </exception>
-            public static IMessageReader CreateRecordingReader(string username, string password, string path) {
+            public static IMessageReader ReadAndRecord(string username, string password, string path) {
 
-                return new RecordingMessageReader(CreateReader(username, password), path);
+                return new RecordingMessageReader(Read(username, password), path);
             }
         }
 
@@ -98,7 +98,7 @@ namespace AK.F1.Timing
         public static class Playback
         {
             /// <summary>
-            /// Creates a playback reader which reads the messages persisted from the specified file <paramref name="path"/>.
+            /// Creates a playback reader which reads the messages persisted in the specified file <paramref name="path"/>.
             /// </summary>
             /// <param name="path">The path of the recorded message stream.</param>
             /// <returns></returns>
@@ -111,7 +111,7 @@ namespace AK.F1.Timing
             /// <exception cref="System.IO.IOException">
             /// Thrown when an IO error occurs whilst opening the specified <paramref name="path"/>.
             /// </exception>
-            public static IRecordedMessageReader CreateReader(string path) {
+            public static IRecordedMessageReader Read(string path) {
 
                 return new RecordedMessageReader(path);
             }
