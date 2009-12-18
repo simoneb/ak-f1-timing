@@ -130,11 +130,8 @@ namespace AK.F1.Timing.Messaging.Live
 
             if(this.Translator.SessionType != message.SessionType) {
                 _log.InfoFormat("session type changing to {0}, resetting", message.SessionType);
-                this.Translator.SessionType = message.SessionType;                
-                this.Translator.RaceLapNumber = 0;                
-                foreach(var driver in this.Translator.Drivers) {
-                    driver.Reset();
-                }
+                this.Translator.Reset();
+                this.Translator.SessionType = message.SessionType;
             }
         }
 
