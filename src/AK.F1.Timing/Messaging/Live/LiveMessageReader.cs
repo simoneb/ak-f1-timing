@@ -205,9 +205,9 @@ namespace AK.F1.Timing.Messaging.Live
                         this.Log.InfoFormat("keyframe contained a set keyframe message " +
                             "with a higher keyframe number ({0}) than the one currently " +
                             "being read ({1}), reloading.", keyframeMessage.Keyframe, keyframe);
-                        // Clear all messages contained within the keyframe as they will be
-                        // superceeded in the new keyframe.
-                        this.QueuedMessages.Clear();
+                        // All queued messages will be superceeded in the new keyframe.
+                        this.QueuedMessages.Clear();                        
+                        this.MessageTranslator.Reset();
                         EnqueueMessagesFromKeyframe(keyframeMessage.Keyframe);
                         return;
                     }
