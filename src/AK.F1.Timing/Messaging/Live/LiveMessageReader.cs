@@ -72,8 +72,8 @@ namespace AK.F1.Timing.Messaging.Live
 
             try {
                 switch(this.State) {
-                    case LiveMessageReaderState.Initial:
-                        InitialiseOnFirstRead();                        
+                    case LiveMessageReaderState.Uninitialised:
+                        Initialise();                        
                         break;
                     case LiveMessageReaderState.Reading:                                            
                         break;
@@ -93,6 +93,7 @@ namespace AK.F1.Timing.Messaging.Live
 
             Message message = DequeueOrReadNextMessage();
             
+            // TODO message enqueued from a keyframe should not be subject to post processing.
             PostProcessMessage(message, true);
 
             return message;
@@ -165,12 +166,12 @@ namespace AK.F1.Timing.Messaging.Live
             }
         }
 
-        private void InitialiseOnFirstRead() {
+        private void Initialise() {
 
             Message message;
             SetKeyframeMessage keyframeMessage;
 
-            this.Log.Info("initialising on first read");
+            this.Log.Info("initialising");
 
             this.Buffer = CreateBuffer();
             this.Decryptor = this.DecryptorFactory.Create();
@@ -196,7 +197,7 @@ namespace AK.F1.Timing.Messaging.Live
                 this.MessageStream = this.MessageStreamEndpoint.OpenKeyframe(keyframe);                
                 try {
                     do {
-                        if((message = ReadMessage()) != Message.Empty) {
+                        if((message = ReadMessage()) != Message.Empty) {                            
                             this.QueuedMessages.Enqueue(message);
                             PostProcessMessage(message, false);
                         }
