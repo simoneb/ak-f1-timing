@@ -56,6 +56,18 @@ namespace AK.F1.Timing.Messaging.Live
         }
 
         /// <summary>
+        /// Resets all state information associated with this translator.
+        /// </summary>
+        public void Reset() {
+            
+            this.RaceLapNumber = 0;
+            this.SessionType = SessionType.None;
+            foreach(var driver in this.Drivers) {
+                driver.Reset();
+            }
+        }
+
+        /// <summary>
         /// Attempts to translate the specified <paramref name="message"/>.
         /// </summary>
         /// <param name="message">The message to translate.</param>
