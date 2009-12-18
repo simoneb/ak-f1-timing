@@ -23,9 +23,9 @@ namespace AK.F1.Timing.Messaging.Live
     internal enum LiveMessageReaderState
     {
         /// <summary>
-        /// The reader is in the initial state and has yet to perform a read.
+        /// The reader is an uninitialised state and has yet to perform a read.
         /// </summary>
-        Initial,
+        Uninitialised,
         /// <summary>
         /// The reader is initialised and is currently dequeuing / reading messages.
         /// </summary>
