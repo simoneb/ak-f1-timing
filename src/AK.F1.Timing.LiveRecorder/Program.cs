@@ -56,7 +56,7 @@ namespace AK.F1.Timing.LiveRecorder
             Message message;
 
             try {
-                using(var reader = F1Timing.Live.CreateRecordingReader(
+                using(var reader = F1Timing.Live.ReadAndRecord(
                     "andrew.kernahan@gmail.com", "cy3ko2px7iv7", path)) {
                     while((message = reader.Read()) != null) {
                         WriteLine(message.ToString());
