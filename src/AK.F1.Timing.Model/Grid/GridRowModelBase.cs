@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Model.Grid
             var model = GetColumnModel(column);
 
             if(model != null) {
-                model.TextColour = colour
+                model.TextColour = colour;
             }
         }
 
