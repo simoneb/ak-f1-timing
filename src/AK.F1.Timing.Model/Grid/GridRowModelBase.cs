@@ -19,7 +19,7 @@ using AK.F1.Timing.Messaging.Messages.Driver;
 namespace AK.F1.Timing.Model.Grid
 {
     /// <summary>
-    /// 
+    /// Defines the base class for a grid row model. This class is <see langword="abstract"/>.
     /// </summary>
     [Serializable]
     public abstract class GridRowModelBase : ModelBase
@@ -39,7 +39,11 @@ namespace AK.F1.Timing.Model.Grid
         /// <param name="colour">The new column colour.</param>
         public void Update(GridColumn column, GridColumnColour colour) {
 
-            WithColumnModel(column, model => model.TextColour = colour);
+            var model = GetColumnModel(column);
+
+            if(model != null) {
+                model.TextColour = colour
+            }
         }
 
         /// <summary>
@@ -50,10 +54,12 @@ namespace AK.F1.Timing.Model.Grid
         /// <param name="text">The new column text.</param>
         public void Update(GridColumn column, GridColumnColour colour, string text) {
 
-            WithColumnModel(column, model => {
+            var model = GetColumnModel(column);
+
+            if(model != null) {
                 model.Text = text;
                 model.TextColour = colour;
-            });
+            }
         }
 
         /// <summary>
@@ -171,19 +177,6 @@ namespace AK.F1.Timing.Model.Grid
                     return this.S3;
                 default:
                     return null;
-            }
-        }
-
-        #endregion
-
-        #region Private Impl.
-
-        private void WithColumnModel(GridColumn column, Action<GridColumnModel> action) {
-
-            var model = GetColumnModel(column);
-
-            if(model != null) {
-                action(model);
             }
         }
 
