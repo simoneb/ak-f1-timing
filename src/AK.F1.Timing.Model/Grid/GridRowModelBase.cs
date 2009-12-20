@@ -160,6 +160,9 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         /// <param name="column">The column.</param>
         /// <returns>The column model if found, otherwise; <see langword="null"/>.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when the specified <paramref name="column"/> is not contained by the row.
+        /// </exception>
         protected virtual GridColumnModel GetColumnModel(GridColumn column) {
 
             switch(column) {
@@ -176,7 +179,7 @@ namespace AK.F1.Timing.Model.Grid
                 case GridColumn.S3:
                     return this.S3;
                 default:
-                    return null;
+                    throw Guard.ArgumentOutOfRange("column");
             }
         }
 
