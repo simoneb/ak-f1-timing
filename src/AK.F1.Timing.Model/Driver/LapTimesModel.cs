@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics;
 
 using AK.F1.Timing.Model.Collections;
 
@@ -22,6 +23,7 @@ namespace AK.F1.Timing.Model.Driver
     /// 
     /// </summary>
     [Serializable]
+    [DebuggerDisplay("Count = {Laps.Count}")]
     public class LapTimesModel : ModelBase
     {       
         #region Public Interface.
