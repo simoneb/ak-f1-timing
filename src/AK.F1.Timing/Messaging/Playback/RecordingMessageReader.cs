@@ -91,7 +91,6 @@ namespace AK.F1.Timing.Messaging.Playback
         /// <inheritdoc />
         protected override Message ReadImpl() {
 
-
             Message message;
 
             try {
