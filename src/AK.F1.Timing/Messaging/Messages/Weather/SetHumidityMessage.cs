@@ -18,7 +18,8 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Weather
 {
     /// <summary>
-    /// 
+    /// A message which sets the current humidity, as a percentage. This class is
+    /// <see langword="sealed"/>.
     /// </summary>
     [Serializable]
     [TypeId(-81152176)]

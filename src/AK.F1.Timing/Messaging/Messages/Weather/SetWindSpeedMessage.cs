@@ -18,7 +18,8 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Weather
 {
     /// <summary>
-    /// 
+    /// A message which sets the current wind speed, in metres per second. This class is
+    /// <see langword="sealed"/>.
     /// </summary>
     [Serializable]
     [TypeId(-50574713)]
@@ -28,9 +29,9 @@ namespace AK.F1.Timing.Messaging.Messages.Weather
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SetWindSpeedMessage"/> class and
-        /// specifies the new wind speed, in meters per second.
+        /// specifies the new wind speed, in metres per second.
         /// </summary>
-        /// <param name="speed">The wind speed, in meters per second.</param>
+        /// <param name="speed">The wind speed, in metres per second.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="speed"/> is negative.
         /// </exception>
@@ -56,7 +57,7 @@ namespace AK.F1.Timing.Messaging.Messages.Weather
         }
 
         /// <summary>
-        /// Gets the current wind speed, in meters per second.
+        /// Gets the current wind speed, in metres per second.
         /// </summary>
         [PropertyId(0)]
         public double Speed { get; private set; }

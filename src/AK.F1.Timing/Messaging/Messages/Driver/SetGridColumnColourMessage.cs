@@ -18,7 +18,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
-    /// 
+    /// A message which sets the colour of a driver's grid row. This class is <see langword="sealed"/>.
     /// </summary>
     [Serializable]
     [TypeId(51550369)]

@@ -18,7 +18,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Session
 {
     /// <summary>
-    /// 
+    /// A message which sets the current race lap number. This class is <see langword="sealed"/>.
     /// </summary>
     [Serializable]
     [TypeId(-57818482)]

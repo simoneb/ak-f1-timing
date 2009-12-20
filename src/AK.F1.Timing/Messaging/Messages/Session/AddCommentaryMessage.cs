@@ -18,7 +18,8 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Session
 {
     /// <summary>
-    /// 
+    /// A message which adds a block commentary related to the current session. This class is
+    /// <see langword="sealed"/>.
     /// </summary>
     [Serializable]
     [TypeId(-90763615)]
