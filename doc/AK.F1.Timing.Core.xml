@@ -16,7 +16,7 @@
             read from the live message stream.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.F1Timing.Live.CreateReader(System.String,System.String)">
+    <member name="M:AK.F1.Timing.F1Timing.Live.Read(System.String,System.String)">
       <summary>
             Creates a live message reader using the specified credentials.
             </summary>
@@ -33,14 +33,14 @@
       <exception cref="T:System.IO.IOException">
             Thrown when an IO error whilst connecting to the live messages stream.
             </exception>
-      <exception cref="T:AK.F1.Timing.Messaging.CredentialsRejectedException">
+      <exception cref="T:System.Security.Authentication.AuthenticationException">
             Thrown when the supplied credentials were rejected by the live timing site.
             </exception>
     </member>
-    <member name="M:AK.F1.Timing.F1Timing.Live.CreateRecordingReader(System.String,System.String,System.String)">
+    <member name="M:AK.F1.Timing.F1Timing.Live.ReadAndRecord(System.String,System.String,System.String)">
       <summary>
             Creates a live message reader using the specified credentials and records the
-            messages to the <paramref name="path" />.
+            messages to the specified <paramref name="path" />.
             </summary>
       <param name="username">The user's F1 live timing username.</param>
       <param name="password">The user's F1 live timing password.</param>
@@ -48,7 +48,7 @@
       <returns>A message reader which reads and records live messages.</returns>
       <exception cref="T:System.ArgumentNullException">
             Thrown when <paramref name="username" /> or <paramref name="password" /> or
-            <paramref name="path" /> is  <see langword="null" />.
+            <paramref name="path" /> is <see langword="null" />.
             </exception>
       <exception cref="T:System.ArgumentException">
             Thrown when <paramref name="username" /> or <paramref name="password" /> or
@@ -58,24 +58,23 @@
             Thrown when an IO error occurs whilst creating the output file or connecting to the live
             messages stream.
             </exception>
-      <exception cref="T:AK.F1.Timing.Messaging.CredentialsRejectedException">
+      <exception cref="T:System.Security.Authentication.AuthenticationException">
             Thrown when the supplied credentials were rejected by the live timing site.
             </exception>
     </member>
     <member name="T:AK.F1.Timing.F1Timing.Playback">
       <summary>
             Provides methods for creating <see cref="T:AK.F1.Timing.Messaging.Playback.IRecordedMessageReader" />s
-            which read from a persisted live message stream.
+            which read from persisted live message streams.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.F1Timing.Playback.CreateReader(System.String)">
+    <member name="M:AK.F1.Timing.F1Timing.Playback.Read(System.String)">
       <summary>
-            Creates a playback messages reader which reads the persisted messages from the specified
-            file <paramref name="path" />.
+            Creates a playback reader which reads the messages persisted in the specified file <paramref name="path" />.
             </summary>
       <param name="path">The path of the recorded message stream.</param>
       <returns>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;returns&gt; documentation for M:AK.F1.Timing.F1Timing.Playback.CreateReader(System.String)]</p>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;returns&gt; documentation for "M:AK.F1.Timing.F1Timing.Playback.Read(System.String)"]</p>
       </returns>
       <exception cref="T:System.ArgumentNullException">
             Thrown when <paramref name="path" /> is <see langword="null" />.
@@ -253,6 +252,9 @@
       <exception cref="T:System.ArgumentOutOfRangeException">
             Thrown when <paramref name="method" /> is not a valid enumeration member.
             </exception>
+      <exception cref="T:System.IO.IOException">
+            An IO exception occurred whilst fetching the cookies.
+            </exception>
     </member>
     <member name="M:AK.F1.Timing.Extensions.UriExtensions.GetResponseCookies(System.Uri,AK.F1.Timing.Extensions.HttpMethod,System.Action{System.Net.HttpWebRequest})">
       <summary>
@@ -269,6 +271,9 @@
       <exception cref="T:System.ArgumentOutOfRangeException">
             Thrown when <paramref name="method" /> is not a valid enumeration member.
             </exception>
+      <exception cref="T:System.IO.IOException">
+            An IO exception occurred whilst fetching the cookies.
+            </exception>
     </member>
     <member name="M:AK.F1.Timing.Extensions.UriExtensions.GetResponseStream(System.Uri,AK.F1.Timing.Extensions.HttpMethod)">
       <summary>
@@ -282,6 +287,9 @@
             </exception>
       <exception cref="T:System.ArgumentOutOfRangeException">
             Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            An IO exception occurred whilst fetching the response stream.
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Extensions.UriExtensions.GetResponseStream(System.Uri,AK.F1.Timing.Extensions.HttpMethod,System.Action{System.Net.HttpWebRequest})">
@@ -299,6 +307,9 @@
       <exception cref="T:System.ArgumentOutOfRangeException">
             Thrown when <paramref name="method" /> is not a valid enumeration member.
             </exception>
+      <exception cref="T:System.IO.IOException">
+            An IO exception occurred whilst fetching the response stream.
+            </exception>
     </member>
     <member name="M:AK.F1.Timing.Extensions.UriExtensions.GetResponseString(System.Uri,AK.F1.Timing.Extensions.HttpMethod)">
       <summary>
@@ -312,6 +323,9 @@
             </exception>
       <exception cref="T:System.ArgumentOutOfRangeException">
             Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            An IO exception occurred whilst fetching the response string.
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Extensions.UriExtensions.GetResponseString(System.Uri,AK.F1.Timing.Extensions.HttpMethod,System.Action{System.Net.HttpWebRequest})">
@@ -328,6 +342,9 @@
             </exception>
       <exception cref="T:System.ArgumentOutOfRangeException">
             Thrown when <paramref name="method" /> is not a valid enumeration member.
+            </exception>
+      <exception cref="T:System.IO.IOException">
+            An IO exception occurred whilst fetching the response string.
             </exception>
     </member>
     <member name="T:AK.F1.Timing.Messaging.CompositeMessage">
@@ -365,41 +382,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.CompositeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
-    </member>
-    <member name="T:AK.F1.Timing.Messaging.CredentialsRejectedException">
       <summary>
-            The exception that is thrown when a user's credentials are rejected.
-            </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.CredentialsRejectedException.#ctor">
-      <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.CredentialsRejectedException" /> class.
-            </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.CredentialsRejectedException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-      <summary>
-            De-serialization constructor.
-            </summary>
-      <param name="info">The serialization info.</param>
-      <param name="context">The serialization context.</param>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.CredentialsRejectedException.#ctor(System.String)">
-      <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.CredentialsRejectedException" /> class and
-            specifies a message describing the error.
-            </summary>
-      <param name="message">A message describing the error.</param>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.CredentialsRejectedException.#ctor(System.String,System.Exception)">
-      <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.CredentialsRejectedException" /> class and
-            specifies a message describing the error and an inner exception which is the cause of this
-            exception.
-            </summary>
-      <param name="message">A message describing the error.</param>
-      <param name="innerException">The inner exception which is the cause of this exception.</param>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.IMessageProcessor">
       <summary>
@@ -431,20 +419,17 @@
       <exception cref="T:System.ObjectDisposedException">
             Thrown when the reader has been disposed of.
             </exception>
-      <exception cref="T:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException">
-            Thrown when the end of the message stream has was unexpectedly reached.
-            </exception>
       <exception cref="T:System.IO.IOException">
             Thrown when an IO error occurs reading the next message from the stream.
             </exception>
-      <exception cref="T:System.FormatException">
+      <exception cref="T:System.Runtime.Serialization.SerializationException">
             Thrown when the format of the next message of the stream is invalid or the message
             itself is not recognised.
             </exception>
     </member>
     <member name="T:AK.F1.Timing.Messaging.IMessageVisitor">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.IMessageVisitor]</p>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "T:AK.F1.Timing.Messaging.IMessageVisitor"]</p>
       </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Driver.ClearGridRowMessage)">
@@ -546,6 +531,15 @@
             Thrown when <paramref name="message" /> is <see langword="null" />.
             </exception>
     </member>
+    <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
     <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Driver.SetDriverPositionMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
@@ -592,15 +586,6 @@
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage)">
-      <summary>
-            Visits the specified <paramref name="message" />.
-            </summary>
-      <param name="message">The message to visit.</param>
-      <exception cref="T:System.ArgumentNullException">
-            Thrown when <paramref name="message" /> is <see langword="null" />.
-            </exception>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Feed.EndOfSessionMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -664,6 +649,15 @@
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Session.AddCommentaryMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -762,7 +756,7 @@
             Thrown when <paramref name="message" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage)">
+    <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -771,7 +765,7 @@
             Thrown when <paramref name="message" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage)">
+    <member name="M:AK.F1.Timing.Messaging.IMessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -858,19 +852,18 @@
     </member>
     <member name="M:AK.F1.Timing.Messaging.MessageReaderBase.Read">
       <summary>
-            Reads the next <see cref="T:AK.F1.Timing.Messaging.Message" /> from the underlying data stream.
+            Reads the next <see cref="T:AK.F1.Timing.Messaging.Message" /> from the underlying data
+            stream.
             </summary>
-      <returns>The next <see cref="T:AK.F1.Timing.Messaging.Message" />.</returns>
+      <returns>The next <see cref="T:AK.F1.Timing.Messaging.Message" />, or <see langword="null" />
+            if the last message has been read.</returns>
       <exception cref="T:System.ObjectDisposedException">
-            Thrown when this reader has been disposed of.
-            </exception>
-      <exception cref="T:System.IO.EndOfStreamException">
-            Thrown when the end of the message stream has been reached.
+            Thrown when the reader has been disposed of.
             </exception>
       <exception cref="T:System.IO.IOException">
             Thrown when an IO error occurs reading the next message from the stream.
             </exception>
-      <exception cref="T:System.FormatException">
+      <exception cref="T:System.Runtime.Serialization.SerializationException">
             Thrown when the format of the next message of the stream is invalid or the message
             itself is not recognised.
             </exception>
@@ -1002,6 +995,15 @@
             Thrown when <paramref name="message" /> is <see langword="null" />.
             </exception>
     </member>
+    <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
     <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Driver.SetDriverPositionMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
@@ -1048,15 +1050,6 @@
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage)">
-      <summary>
-            Visits the specified <paramref name="message" />.
-            </summary>
-      <param name="message">The message to visit.</param>
-      <exception cref="T:System.ArgumentNullException">
-            Thrown when <paramref name="message" /> is <see langword="null" />.
-            </exception>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Feed.EndOfSessionMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -1120,6 +1113,15 @@
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Session.AddCommentaryMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -1218,7 +1220,7 @@
             Thrown when <paramref name="message" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage)">
+    <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -1227,7 +1229,7 @@
             Thrown when <paramref name="message" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage)">
+    <member name="M:AK.F1.Timing.Messaging.MessageVisitor.Visit(AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -1254,42 +1256,9 @@
             Thrown when <paramref name="message" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException">
-      <summary>
-            The exception that is thrown when the end of a message stream was unexpectedly reached.
-            </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException.#ctor">
-      <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException" /> class.
-            </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
-      <summary>
-            De-serialization constructor.
-            </summary>
-      <param name="info">The serialization info.</param>
-      <param name="context">The serialization context.</param>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException.#ctor(System.String)">
-      <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException" /> class and
-            specifies a message describing the error.
-            </summary>
-      <param name="message">A message describing the error.</param>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException.#ctor(System.String,System.Exception)">
-      <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.UnexpectedEndOfStreamException" /> class and
-            specifies a message describing the error and an inner exception which is the cause of this
-            exception.
-            </summary>
-      <param name="message">A message describing the error.</param>
-      <param name="innerException">The inner exception which is the cause of this exception.</param>
-    </member>
     <member name="T:AK.F1.Timing.Messaging.Live.LiveMessageReader">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Live.LiveMessageReader]</p>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "T:AK.F1.Timing.Messaging.Live.LiveMessageReader"]</p>
       </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.LiveMessageReader.#ctor(AK.F1.Timing.Messaging.Live.IO.IMessageStreamEndpoint,AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory)">
@@ -1303,12 +1272,18 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Live.LiveMessageTranslator">
       <summary>
-            This class is <see langword="sealed" />.
+            Translates the messages read from a <see cref="T:AK.F1.Timing.Messaging.Live.LiveMessageReader" /> into more meaningful
+            messages. This class is <see langword="sealed" />.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.LiveMessageTranslator.#ctor">
       <summary>
             Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Live.LiveMessageTranslator" /> class.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Live.LiveMessageTranslator.Reset">
+      <summary>
+            Resets all state information associated with this translator.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.LiveMessageTranslator.Translate(AK.F1.Timing.Messaging.Message)">
@@ -1328,6 +1303,15 @@
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.LiveMessageTranslator.Visit(AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage)">
+      <summary>
+            Visits the specified <paramref name="message" />.
+            </summary>
+      <param name="message">The message to visit.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="message" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Live.LiveMessageTranslator.Visit(AK.F1.Timing.Messaging.Messages.Feed.SetPingIntervalMessage)">
       <summary>
             Visits the specified <paramref name="message" />.
             </summary>
@@ -1504,7 +1488,7 @@
       <exception cref="T:System.ArgumentException">
             Thrown when <paramref name="username" /> or <paramref name="password" /> is empty.
             </exception>
-      <exception cref="T:AK.F1.Timing.Messaging.CredentialsRejectedException">
+      <exception cref="T:System.Security.Authentication.AuthenticationException">
             Thrown when the supplied credentials have been rejected by the live timing site.
             </exception>
     </member>
@@ -1638,7 +1622,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Live.IO.LiveSocketMessageStream">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Live.IO.LiveSocketMessageStream]</p>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "T:AK.F1.Timing.Messaging.Live.IO.LiveSocketMessageStream"]</p>
       </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.IO.LiveSocketMessageStream.#ctor(System.Net.Sockets.Socket)">
@@ -1676,14 +1660,19 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Live.IO.MessageStreamDelegate">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Live.IO.MessageStreamDelegate]</p>
-      </summary>
+            A <see cref="T:AK.F1.Timing.Messaging.Live.IO.IMessageStream" /> implementation which
+            delegates to an underlying <see cref="T:System.IO.Stream" />. This implementation does
+            not support pinging. This class is <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.IO.MessageStreamDelegate.#ctor(System.IO.Stream)">
       <summary>
             Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Live.IO.MessageStreamDelegate" /> class.
             </summary>
       <param name="inner">The inner message stream.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="inner" /> is <see langword="null" />.
+            </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.IO.MessageStreamDelegate.FullyRead(System.Byte[],System.Int32,System.Int32)">
       <summary>
@@ -1802,8 +1791,12 @@
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.ClearGridRowMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.DriverMessageBase">
       <summary>
@@ -1828,7 +1821,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.DriverStatus">
       <summary>
-            Defines the various statuses of a driver during a this.
+            Defines the various statuses of a driver during a session.
             </summary>
     </member>
     <member name="F:AK.F1.Timing.Messaging.Messages.Driver.DriverStatus.OnTrack">
@@ -1858,15 +1851,38 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.Gap">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Driver.Gap]</p>
-      </summary>
+            Represents a gap. This class is <see langword="abstract" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.Gap.CompareTo(System.Object)">
-      <summary>Compares the current instance with another object of the same type.</summary>
-      <param name="obj">An object to compare with this instance. </param>
-      <returns>A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj" />. Zero This instance is equal to <paramref name="obj" />. Greater than zero This instance is greater than <paramref name="obj" />. </returns>
+      <summary>
+                    Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+                </summary>
+      <param name="obj">
+                    An object to compare with this instance. 
+                </param>
+      <returns>
+                    A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: 
+                
+                    Value 
+                
+                    Meaning 
+                
+                    Less than zero 
+                
+                    This instance is less than <paramref name="obj" />. 
+                
+                    Zero 
+                
+                    This instance is equal to <paramref name="obj" />. 
+                
+                    Greater than zero 
+                
+                    This instance is greater than <paramref name="obj" />. 
+                </returns>
       <exception cref="T:System.ArgumentException">
-        <paramref name="obj" /> is not the same type as this instance. </exception>
+        <paramref name="obj" /> is not the same type as this instance. 
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.Gap.Repr(System.String,System.Object[])">
       <summary>
@@ -2045,21 +2061,55 @@
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.LapGap.CompareTo(System.Object)">
-      <summary>Compares the current instance with another object of the same type.</summary>
-      <param name="obj">An object to compare with this instance. </param>
-      <returns>A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj" />. Zero This instance is equal to <paramref name="obj" />. Greater than zero This instance is greater than <paramref name="obj" />. </returns>
+      <summary>
+                    Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+                </summary>
+      <param name="obj">
+                    An object to compare with this instance. 
+                </param>
+      <returns>
+                    A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: 
+                
+                    Value 
+                
+                    Meaning 
+                
+                    Less than zero 
+                
+                    This instance is less than <paramref name="obj" />. 
+                
+                    Zero 
+                
+                    This instance is equal to <paramref name="obj" />. 
+                
+                    Greater than zero 
+                
+                    This instance is greater than <paramref name="obj" />. 
+                </returns>
       <exception cref="T:System.ArgumentException">
-        <paramref name="obj" /> is not the same type as this instance. </exception>
+        <paramref name="obj" /> is not the same type as this instance. 
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.LapGap.Equals(System.Object)">
-      <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
-      <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
-      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
-      <exception cref="T:System.NullReferenceException">The <paramref name="obj" /> parameter is null.</exception>
+      <summary>
+                    Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
+                </summary>
+      <param name="obj">
+                    The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. 
+                </param>
+      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.
+                </returns>
+      <exception cref="T:System.NullReferenceException">
+                    The <paramref name="obj" /> parameter is null.
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.LapGap.GetHashCode">
-      <summary>Serves as a hash function for a particular type. </summary>
-      <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Serves as a hash function for a particular type. 
+                </summary>
+      <returns>
+                    A hash code for the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="P:AK.F1.Timing.Messaging.Messages.Driver.LapGap.Laps">
       <summary>
@@ -2067,8 +2117,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.LapGap.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="F:AK.F1.Timing.Messaging.Messages.Driver.LapGap.Zero">
       <summary>
@@ -2077,46 +2131,108 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.PostedTime">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Driver.PostedTime]</p>
-      </summary>
+            Contains the time, type and lap number of a time posted during a timing session. This class
+            <see langword="sealed" />.
+            </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.#ctor(System.Int32,System.TimeSpan,AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType)">
+    <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.#ctor(System.TimeSpan,AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType,System.Int32)">
       <summary>
             Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Driver.PostedTime" /> class.
             </summary>
-      <param name="lap">The lap number.</param>
       <param name="time">The posted time value.</param>
       <param name="type">The <see cref="T:AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType" /> of
             the posted time.</param>
+      <param name="lapNumber">The lap number.</param>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.CompareTo(AK.F1.Timing.Messaging.Messages.Driver.PostedTime)">
-      <summary>Compares the current object with another object of the same type.</summary>
-      <param name="other">An object to compare with this object.</param>
-      <returns>A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has the following meanings: Value Meaning Less than zero This object is less than the <paramref name="other" /> parameter.Zero This object is equal to <paramref name="other" />. Greater than zero This object is greater than <paramref name="other" />. </returns>
+      <summary>
+                    Compares the current object with another object of the same type.
+                </summary>
+      <param name="other">
+                    An object to compare with this object.
+                </param>
+      <returns>
+                    A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has the following meanings: 
+                
+                    Value 
+                
+                    Meaning 
+                
+                    Less than zero 
+                
+                    This object is less than the <paramref name="other" /> parameter.
+                
+                    Zero 
+                
+                    This object is equal to <paramref name="other" />. 
+                
+                    Greater than zero 
+                
+                    This object is greater than <paramref name="other" />. 
+                </returns>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.CompareTo(System.Object)">
-      <summary>Compares the current instance with another object of the same type.</summary>
-      <param name="obj">An object to compare with this instance. </param>
-      <returns>A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj" />. Zero This instance is equal to <paramref name="obj" />. Greater than zero This instance is greater than <paramref name="obj" />. </returns>
+      <summary>
+                    Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+                </summary>
+      <param name="obj">
+                    An object to compare with this instance. 
+                </param>
+      <returns>
+                    A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: 
+                
+                    Value 
+                
+                    Meaning 
+                
+                    Less than zero 
+                
+                    This instance is less than <paramref name="obj" />. 
+                
+                    Zero 
+                
+                    This instance is equal to <paramref name="obj" />. 
+                
+                    Greater than zero 
+                
+                    This instance is greater than <paramref name="obj" />. 
+                </returns>
       <exception cref="T:System.ArgumentException">
-        <paramref name="obj" /> is not the same type as this instance. </exception>
+        <paramref name="obj" /> is not the same type as this instance. 
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.Equals(AK.F1.Timing.Messaging.Messages.Driver.PostedTime)">
-      <summary>Indicates whether the current object is equal to another object of the same type.</summary>
-      <param name="other">An object to compare with this object.</param>
-      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
+      <summary>
+                    Indicates whether the current object is equal to another object of the same type.
+                </summary>
+      <param name="other">
+                    An object to compare with this object.
+                </param>
+      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+                </returns>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.Equals(System.Object)">
-      <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
-      <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
-      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
-      <exception cref="T:System.NullReferenceException">The <paramref name="obj" /> parameter is null.</exception>
+      <summary>
+                    Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
+                </summary>
+      <param name="obj">
+                    The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. 
+                </param>
+      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.
+                </returns>
+      <exception cref="T:System.NullReferenceException">
+                    The <paramref name="obj" /> parameter is null.
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.GetHashCode">
-      <summary>Serves as a hash function for a particular type. </summary>
-      <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Serves as a hash function for a particular type. 
+                </summary>
+      <returns>
+                    A hash code for the current <see cref="T:System.Object" />.
+                </returns>
     </member>
-    <member name="P:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.Lap">
+    <member name="P:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.LapNumber">
       <summary>
             Gets the lap number on which the time was posted.
             </summary>
@@ -2127,8 +2243,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="P:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.Type">
       <summary>
@@ -2190,8 +2310,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.ReplaceDriverLapTimeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.ReplaceDriverSectorTimeMessage">
       <summary>
@@ -2235,8 +2359,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.ReplaceDriverSectorTimeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverCarNumberMessage">
       <summary>
@@ -2269,8 +2397,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverCarNumberMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverCompletedLapsMessage">
       <summary>
@@ -2301,8 +2433,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverCompletedLapsMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverGapMessage">
       <summary>
@@ -2338,8 +2474,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverGapMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverIntervalMessage">
       <summary>
@@ -2375,8 +2515,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverIntervalMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverLapNumberMessage">
       <summary>
@@ -2407,8 +2551,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverLapNumberMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverLapTimeMessage">
       <summary>
@@ -2444,8 +2592,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverLapTimeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverNameMessage">
       <summary>
@@ -2481,8 +2633,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverNameMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitCountMessage">
       <summary>
@@ -2513,8 +2669,58 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitCountMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage">
+      <summary>
+            A message which sets the length of a driver's pit stop. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage.#ctor(System.Int32,System.TimeSpan,System.Int32)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage" /> class and
+            specifies if the Id of the driver, the pit time and the lap number on which the
+            driver pitted.
+            </summary>
+      <param name="driverId">The Id of the driver.</param>
+      <param name="time">The pit time, inclusive of the time taken to travel the pit lane.</param>
+      <param name="lapNumber">The lap number on which the driver pitted.</param>
+      <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="driverId" /> or <paramref name="lapNumber" /> is not positive.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.Messaging.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage.LapNumber">
+      <summary>
+            Gets the lap number on which the driver pitted.
+            </summary>
+    </member>
+    <member name="P:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage.Time">
+      <summary>
+            Gets the pit time. This time includes the time taken to travel the length of the pit.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage.ToString">
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPositionMessage">
       <summary>
@@ -2547,8 +2753,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPositionMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverQuallyTimeMessage">
       <summary>
@@ -2588,8 +2798,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverQuallyTimeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverSectorTimeMessage">
       <summary>
@@ -2631,8 +2845,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverSectorTimeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverStatusMessage">
       <summary>
@@ -2666,25 +2884,25 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverStatusMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage]</p>
-      </summary>
+            A message which sets the colour of a driver's grid row. This class is <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour)">
-      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage" /> class</summary>
-      <param name="driverId">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="driverId"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour)"]</p>
-      </param>
-      <param name="column">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="column"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour)"]</p>
-      </param>
-      <param name="colour">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="colour"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour)"]</p>
-      </param>
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage" /> class.
+            </summary>
+      <param name="driverId">The Id of the driver the message is related to.</param>
+      <param name="column">The column whose value is to be set.</param>
+      <param name="colour">The column colour value.</param>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
       <summary>
@@ -2706,28 +2924,27 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage]</p>
-      </summary>
+            A message which sets the colour and value of a driver's grid row. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour,System.String)">
-      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage" /> class</summary>
-      <param name="driverId">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="driverId"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour,System.String)"]</p>
-      </param>
-      <param name="column">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="column"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour,System.String)"]</p>
-      </param>
-      <param name="colour">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="colour"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour,System.String)"]</p>
-      </param>
-      <param name="value">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="value"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour,System.String)"]</p>
-      </param>
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage" /> class.
+            </summary>
+      <param name="driverId">The Id of the driver the message is related to.</param>
+      <param name="column">The column whose value is to be set.</param>
+      <param name="colour">The column colour value.</param>
+      <param name="value">The column value.</param>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
       <summary>
@@ -2754,8 +2971,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="P:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.Value">
       <summary>
@@ -2779,21 +3000,55 @@
             </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.TimeGap.CompareTo(System.Object)">
-      <summary>Compares the current instance with another object of the same type.</summary>
-      <param name="obj">An object to compare with this instance. </param>
-      <returns>A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj" />. Zero This instance is equal to <paramref name="obj" />. Greater than zero This instance is greater than <paramref name="obj" />. </returns>
+      <summary>
+                    Compares the current instance with another object of the same type and returns an integer that indicates whether the current instance precedes, follows, or occurs in the same position in the sort order as the other object.
+                </summary>
+      <param name="obj">
+                    An object to compare with this instance. 
+                </param>
+      <returns>
+                    A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: 
+                
+                    Value 
+                
+                    Meaning 
+                
+                    Less than zero 
+                
+                    This instance is less than <paramref name="obj" />. 
+                
+                    Zero 
+                
+                    This instance is equal to <paramref name="obj" />. 
+                
+                    Greater than zero 
+                
+                    This instance is greater than <paramref name="obj" />. 
+                </returns>
       <exception cref="T:System.ArgumentException">
-        <paramref name="obj" /> is not the same type as this instance. </exception>
+        <paramref name="obj" /> is not the same type as this instance. 
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.TimeGap.Equals(System.Object)">
-      <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
-      <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
-      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
-      <exception cref="T:System.NullReferenceException">The <paramref name="obj" /> parameter is null.</exception>
+      <summary>
+                    Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
+                </summary>
+      <param name="obj">
+                    The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. 
+                </param>
+      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.
+                </returns>
+      <exception cref="T:System.NullReferenceException">
+                    The <paramref name="obj" /> parameter is null.
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.TimeGap.GetHashCode">
-      <summary>Serves as a hash function for a particular type. </summary>
-      <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Serves as a hash function for a particular type. 
+                </summary>
+      <returns>
+                    A hash code for the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="P:AK.F1.Timing.Messaging.Messages.Driver.TimeGap.Time">
       <summary>
@@ -2801,43 +3056,23 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.TimeGap.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="F:AK.F1.Timing.Messaging.Messages.Driver.TimeGap.Zero">
       <summary>
             Defines a zero time gap. This field is <see langword="readonly" />.
             </summary>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.Messages.Feed.EndOfSessionMessage">
-      <summary>
-            A message which indicates that the session has ended. This class is
-            <see langword="sealed" />.
-            </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Messages.Feed.EndOfSessionMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
-      <summary>
-            Accepts the specified <see cref="T:AK.F1.Timing.Messaging.IMessageVisitor" />.
-            </summary>
-      <param name="visitor">The message visitor.</param>
-      <exception cref="T:System.ArgumentNullException">
-            Thrown when <paramref name="visitor" /> is <see langword="null" />.
-            </exception>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Messages.Feed.EndOfSessionMessage.Instance">
-      <summary>
-            Defines the only <see cref="T:AK.F1.Timing.Messaging.Messages.Feed.EndOfSessionMessage" /> instance. This field is
-            <see langword="readonly" />.
-            </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Messages.Feed.EndOfSessionMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
-    </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetCopyrightMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Feed.SetCopyrightMessage]</p>
-      </summary>
+            A message which contains the copyright text associated with the message stream. This class
+            is <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetCopyrightMessage.#ctor(System.String)">
       <summary>
@@ -2864,13 +3099,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetCopyrightMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetKeyframeMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Feed.SetKeyframeMessage]</p>
-      </summary>
+            A message which sets the lastest ketframe number associated with the message stream. This
+            class is <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetKeyframeMessage.#ctor(System.Int32)">
       <summary>
@@ -2897,8 +3137,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetKeyframeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetNextMessageDelayMessage">
       <summary>
@@ -2931,13 +3175,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetNextMessageDelayMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetPingIntervalMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Feed.SetPingIntervalMessage]</p>
-      </summary>
+            A message which sets the interval at which the live message stream should be pinged with a
+            magic packet. This class is <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetPingIntervalMessage.#ctor(System.TimeSpan)">
       <summary>
@@ -2964,13 +3213,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetPingIntervalMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetStreamValidityMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Feed.SetStreamValidityMessage]</p>
-      </summary>
+            A message which sets a value indicating whether the message stream is valid. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetStreamValidityMessage.#ctor(System.Boolean)">
       <summary>
@@ -2996,13 +3250,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetStreamValidityMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetSystemMessageMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Feed.SetSystemMessageMessage]</p>
-      </summary>
+            A message which contains a message related to the state of the message stream. This class
+            is <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetSystemMessageMessage.#ctor(System.String)">
       <summary>
@@ -3029,13 +3288,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetSystemMessageMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.AddCommentaryMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Session.AddCommentaryMessage]</p>
-      </summary>
+            A message which adds a block commentary related to the current session. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.AddCommentaryMessage.#ctor(System.String)">
       <summary>
@@ -3062,12 +3326,59 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.AddCommentaryMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage">
+      <summary>
+            A message which indicates that the session has ended. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.Messaging.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="F:AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage.Instance">
+      <summary>
+            Defines the only <see cref="T:AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage" /> instance. This field is
+            <see langword="readonly" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage.System#Runtime#Serialization#IObjectReference#GetRealObject(System.Runtime.Serialization.StreamingContext)">
+      <summary>
+                    Returns the real object that should be deserialized, rather than the object that the serialized stream specifies.
+                </summary>
+      <param name="context">
+                    The <see cref="T:System.Runtime.Serialization.StreamingContext" /> from which the current object is deserialized. 
+                </param>
+      <returns>
+                    Returns the actual object that is put into the graph.
+                </returns>
+      <exception cref="T:System.Security.SecurityException">
+                    The caller does not have the required permission. The call will not work on a medium trusted server.
+                </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage.ToString">
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SessionStatus">
       <summary>
-            Defines the various statuses of an F1 live timing session.
+            Defines the status of an F1 live timing session.
             </summary>
     </member>
     <member name="F:AK.F1.Timing.Messaging.Messages.Session.SessionStatus.Green">
@@ -3094,6 +3405,11 @@
     <member name="F:AK.F1.Timing.Messaging.Messages.Session.SessionStatus.Red">
       <summary>
             The practice this has been aborted or the race suspended due to a serious incident.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Messaging.Messages.Session.SessionStatus.Finished">
+      <summary>
+            The session has finished.
             </summary>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SessionType">
@@ -3152,13 +3468,17 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetElapsedSessionTimeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetRaceLapNumberMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Session.SetRaceLapNumberMessage]</p>
-      </summary>
+            A message which sets the current race lap number. This class is <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetRaceLapNumberMessage.#ctor(System.Int32)">
       <summary>
@@ -3185,8 +3505,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetRaceLapNumberMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetRemainingSessionTimeMessage">
       <summary>
@@ -3219,13 +3543,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetRemainingSessionTimeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetSessionStatusMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Session.SetSessionStatusMessage]</p>
-      </summary>
+            A message which sets the <see cref="T:AK.F1.Timing.Messaging.Messages.Session.SessionStatus" />
+            of the current session. This class is <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetSessionStatusMessage.#ctor(AK.F1.Timing.Messaging.Messages.Session.SessionStatus)">
       <summary>
@@ -3250,13 +3579,17 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetSessionStatusMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetSessionTypeMessage">
       <summary>
-            A message which updates the <see cref="T:AK.F1.Timing.Messaging.Messages.Session.SessionType" /> and
-            session identifier. This class is <see langword="sealed" />.
+            A message which updates the <see cref="T:AK.F1.Timing.Messaging.Messages.Session.SessionType" />
+            and session identifier. This class is <see langword="sealed" />.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetSessionTypeMessage.#ctor(AK.F1.Timing.Messaging.Messages.Session.SessionType,System.String)">
@@ -3289,8 +3622,12 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetSessionTypeMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.StartSessionTimeCountdownMessage">
       <summary>
@@ -3313,9 +3650,27 @@
             <see langword="readonly" />.
             </summary>
     </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Session.StartSessionTimeCountdownMessage.System#Runtime#Serialization#IObjectReference#GetRealObject(System.Runtime.Serialization.StreamingContext)">
+      <summary>
+                    Returns the real object that should be deserialized, rather than the object that the serialized stream specifies.
+                </summary>
+      <param name="context">
+                    The <see cref="T:System.Runtime.Serialization.StreamingContext" /> from which the current object is deserialized. 
+                </param>
+      <returns>
+                    Returns the actual object that is put into the graph.
+                </returns>
+      <exception cref="T:System.Security.SecurityException">
+                    The caller does not have the required permission. The call will not work on a medium trusted server.
+                </exception>
+    </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.StartSessionTimeCountdownMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.StopSessionTimeCountdownMessage">
       <summary>
@@ -3338,14 +3693,33 @@
             <see langword="readonly" />.
             </summary>
     </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Session.StopSessionTimeCountdownMessage.System#Runtime#Serialization#IObjectReference#GetRealObject(System.Runtime.Serialization.StreamingContext)">
+      <summary>
+                    Returns the real object that should be deserialized, rather than the object that the serialized stream specifies.
+                </summary>
+      <param name="context">
+                    The <see cref="T:System.Runtime.Serialization.StreamingContext" /> from which the current object is deserialized. 
+                </param>
+      <returns>
+                    Returns the actual object that is put into the graph.
+                </returns>
+      <exception cref="T:System.Security.SecurityException">
+                    The caller does not have the required permission. The call will not work on a medium trusted server.
+                </exception>
+    </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.StopSessionTimeCountdownMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetAirTemperatureMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Weather.SetAirTemperatureMessage]</p>
-      </summary>
+            A message which sets the current air temperature, in degrees celsius. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetAirTemperatureMessage.#ctor(System.Double)">
       <summary>
@@ -3369,13 +3743,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetAirTemperatureMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetAtmosphericPressureMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Weather.SetAtmosphericPressureMessage]</p>
-      </summary>
+            A message which sets the current atmospheric pressure, in millibars. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetAtmosphericPressureMessage.#ctor(System.Double)">
       <summary>
@@ -3402,13 +3781,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetAtmosphericPressureMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetHumidityMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Weather.SetHumidityMessage]</p>
-      </summary>
+            A message which sets the current humidity, as a percentage. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetHumidityMessage.#ctor(System.Double)">
       <summary>
@@ -3435,13 +3819,55 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetHumidityMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
+    </member>
+    <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage">
+      <summary>
+            A message which specifies whether the track is dry or wet. This class is
+            <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage.#ctor(System.Boolean)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage" /> class and specifies
+            whether the track is wet or dry.
+            </summary>
+      <param name="isWet">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="isWet"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage.#ctor(System.Boolean)"]</p>
+      </param>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
+      <summary>
+            Accepts the specified <see cref="T:AK.F1.Timing.Messaging.IMessageVisitor" />.
+            </summary>
+      <param name="visitor">The message visitor.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="visitor" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="P:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage.IsWet">
+      <summary>
+            Gets a value indicating if the track is wet.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage.ToString">
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage]</p>
-      </summary>
+            A message which sets the current track temperature, in degrees celsius. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage.#ctor(System.Double)">
       <summary>
@@ -3465,42 +3891,18 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
-    </member>
-    <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage]</p>
-      </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage.#ctor(System.Int32)">
-      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage" /> class</summary>
-      <param name="wetDry">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="wetDry"/&gt; documentation for "M:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage.#ctor(System.Int32)"]</p>
-      </param>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
-      <summary>
-            Accepts the specified <see cref="T:AK.F1.Timing.Messaging.IMessageVisitor" />.
-            </summary>
-      <param name="visitor">The message visitor.</param>
-      <exception cref="T:System.ArgumentNullException">
-            Thrown when <paramref name="visitor" /> is <see langword="null" />.
-            </exception>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
-    </member>
-    <member name="P:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage.WetDry">
-      <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for P:AK.F1.Timing.Messaging.Messages.Weather.SetWetDryMessage.WetDry]</p>
-      </summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetWindAngleMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Weather.SetWindAngleMessage]</p>
-      </summary>
+            A message which sets the current wind direction, in degrees. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWindAngleMessage.#ctor(System.Int32)">
       <summary>
@@ -3527,20 +3929,25 @@
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWindAngleMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetWindSpeedMessage">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Messages.Weather.SetWindSpeedMessage]</p>
-      </summary>
+            A message which sets the current wind speed, in metres per second. This class is
+            <see langword="sealed" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWindSpeedMessage.#ctor(System.Double)">
       <summary>
             Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Messages.Weather.SetWindSpeedMessage" /> class and
-            specifies the new wind speed, in meters per second.
+            specifies the new wind speed, in metres per second.
             </summary>
-      <param name="speed">The wind speed, in meters per second.</param>
+      <param name="speed">The wind speed, in metres per second.</param>
       <exception cref="T:System.ArgumentOutOfRangeException">
             Thrown when <paramref name="speed" /> is negative.
             </exception>
@@ -3556,17 +3963,22 @@
     </member>
     <member name="P:AK.F1.Timing.Messaging.Messages.Weather.SetWindSpeedMessage.Speed">
       <summary>
-            Gets the current wind speed, in meters per second.
+            Gets the current wind speed, in metres per second.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWindSpeedMessage.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
     <member name="T:AK.F1.Timing.Messaging.Playback.IRecordedMessageReader">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Playback.IRecordedMessageReader]</p>
-      </summary>
+            Allows recorded <see cref="T:AK.F1.Timing.Messaging.Message" />s to be read from an underlying
+            data stream and played back at a certain speed.
+            </summary>
     </member>
     <member name="P:AK.F1.Timing.Messaging.Playback.IRecordedMessageReader.PlaybackSpeed">
       <summary>
@@ -3578,19 +3990,27 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Playback.RecordedMessageReader">
       <summary>
-            Provides a <see cref="T:AK.F1.Timing.Messaging.IMessageReader" /></summary>
+            Provides a <see cref="T:AK.F1.Timing.Messaging.Playback.IRecordedMessageReader" /> which reads
+            <see cref="T:AK.F1.Timing.Messaging.Message" />s which have been recorded by a
+            <see cref="T:AK.F1.Timing.Messaging.Playback.RecordingMessageReader" />.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Playback.RecordedMessageReader.#ctor(System.IO.Stream,System.Boolean)">
-      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Messaging.Playback.RecordedMessageReader" /> class</summary>
-      <param name="input">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="input"/&gt; documentation for "M:AK.F1.Timing.Messaging.Playback.RecordedMessageReader.#ctor(System.IO.Stream,System.Boolean)"]</p>
-      </param>
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Playback.RecordedMessageReader" /> class and specifies
+            the <paramref name="input" /> stream and a value indicating if the stream is owned by the
+            reader.
+            </summary>
+      <param name="input">The input stream.</param>
       <param name="ownsInput">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="ownsInput"/&gt; documentation for "M:AK.F1.Timing.Messaging.Playback.RecordedMessageReader.#ctor(System.IO.Stream,System.Boolean)"]</p>
-      </param>
+        <see langword="true" /> if the reader owns the specified
+            <paramref name="input" /> stream, otherwise; <see langword="false" />.</param>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Playback.RecordedMessageReader.#ctor(System.String)">
-      <summary>Initializes a new instance of the <see cref="T:AK.F1.Timing.Messaging.Playback.RecordedMessageReader" /> class</summary>
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Playback.RecordedMessageReader" /> class and specifies
+            the input file <paramref name="path" />.
+            </summary>
       <param name="path">The input file path.</param>
       <exception cref="T:System.ArgumentNullException">
             Thrown when <paramref name="path" /> is <see langword="null" />.
@@ -3677,20 +4097,72 @@
             </summary>
       <returns>The next <see cref="T:AK.F1.Timing.Messaging.Message" />.</returns>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.IgnorePropertyAttribute">
+    <member name="T:AK.F1.Timing.Serialization.DecoratedObjectReader">
+      <summary>
+            Reads objects that have been serialized by an <see cref="T:AK.F1.Timing.Serialization.DecoratedObjectWriter" />. This
+            class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.DecoratedObjectReader.#ctor(System.IO.Stream)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Serialization.DecoratedObjectReader" /> class and
+            specifies the underlying <paramref name="input" /> stream.
+            </summary>
+      <param name="input">The input stream.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="input" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.DecoratedObjectReader.Read">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "M:AK.F1.Timing.Serialization.DecoratedObjectReader.Read"]</p>
+      </summary>
+      <returns>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;returns&gt; documentation for "M:AK.F1.Timing.Serialization.DecoratedObjectReader.Read"]</p>
+      </returns>
+    </member>
+    <member name="T:AK.F1.Timing.Serialization.DecoratedObjectWriter">
+      <summary>
+            Writes objects to an underlying output stream that have been decorated with a
+            <see cref="T:AK.F1.Timing.Serialization.TypeIdAttribute" />. This class is <see langword="sealed" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.DecoratedObjectWriter.#ctor(System.IO.Stream)">
+      <summary>
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Serialization.DecoratedObjectWriter" /> class and specifies the
+            underlying <paramref name="output" /> stream.
+            </summary>
+      <param name="output">The output stream.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="output" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.DecoratedObjectWriter.Write(System.Object)">
+      <summary>
+            Writes the specified graph to the underlying stream.
+            </summary>
+      <param name="graph">The graph.</param>
+      <exception cref="T:System.ObjectDisposedException">
+            Thrown when this instance has been disposed of.
+            </exception>
+      <exception cref="T:System.Runtime.Serialization.SerializationException">
+            Thrown when an error occurs during serialization.
+            </exception>
+    </member>
+    <member name="T:AK.F1.Timing.Serialization.IgnorePropertyAttribute">
       <summary>
             Specifies that the decorated property should not be serialized. This class is
             <see langword="sealed" />.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.IgnorePropertyAttribute.#ctor">
+    <member name="M:AK.F1.Timing.Serialization.IgnorePropertyAttribute.#ctor">
       <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Serialization.IgnorePropertyAttribute" /> class.
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Serialization.IgnorePropertyAttribute" /> class.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.IgnorePropertyAttribute.IsDefined(System.Reflection.PropertyInfo)">
+    <member name="M:AK.F1.Timing.Serialization.IgnorePropertyAttribute.IsDefined(System.Reflection.PropertyInfo)">
       <summary>
-            Returns a value indicating if the <see cref="T:AK.F1.Timing.Messaging.Serialization.IgnorePropertyAttribute" /> is applied to the
+            Returns a value indicating if the <see cref="T:AK.F1.Timing.Serialization.IgnorePropertyAttribute" /> is applied to the
             specified <paramref name="property" />.
             </summary>
       <param name="property">The property.</param>
@@ -3701,23 +4173,12 @@
             Thrown when <paramref name="property" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.ObjectReader">
+    <member name="T:AK.F1.Timing.Serialization.IObjectReader">
       <summary>
-            Reads objects that have been serialized by an <see cref="T:AK.F1.Timing.Messaging.Serialization.ObjectWriter" />. This class
-            is <see langword="sealed" />.
+            Defines a type which reads serialized objects from an underlying data stream.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.ObjectReader.#ctor(System.IO.Stream)">
-      <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Serialization.ObjectReader" /> class and specifies the
-            underlying <paramref name="input" /> stream.
-            </summary>
-      <param name="input">The input stream.</param>
-      <exception cref="T:System.ArgumentNullException">
-            Thrown when <paramref name="input" /> is <see langword="null" />.
-            </exception>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.ObjectReader.Read">
+    <member name="M:AK.F1.Timing.Serialization.IObjectReader.Read">
       <summary>
             Reads a serialized object from the underlying stream.
             </summary>
@@ -3726,122 +4187,12 @@
             Thrown when an error occurs during deserialization.
             </exception>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode">
+    <member name="T:AK.F1.Timing.Serialization.IObjectWriter">
       <summary>
-            A <see cref="T:System.TypeCode" /> superset which specifies other well known types.
+            Defines a type which serializes objects to an underlying data stream.
             </summary>
     </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Empty">
-      <summary>
-            A null reference.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Object">
-      <summary>
-            A <see cref="T:System.Object" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.DBNull">
-      <summary>
-            A <see cref="T:System.DBNull" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Boolean">
-      <summary>
-            A <see cref="T:System.Boolean" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Char">
-      <summary>
-            A <see cref="T:System.Char" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.SByte">
-      <summary>
-            A <see cref="T:System.SByte" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Byte">
-      <summary>
-            A <see cref="T:System.Byte" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Int16">
-      <summary>
-            A <see cref="T:System.Int16" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.UInt16">
-      <summary>
-            A <see cref="T:System.UInt16" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Int32">
-      <summary>
-            A <see cref="T:System.Int32" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.UInt32">
-      <summary>
-            A <see cref="T:System.UInt32" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Int64">
-      <summary>
-            A <see cref="T:System.Int64" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.UInt64">
-      <summary>
-            A <see cref="T:System.UInt64" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Single">
-      <summary>
-            A <see cref="T:System.Single" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Double">
-      <summary>
-            A <see cref="T:System.Double" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.Decimal">
-      <summary>
-            A <see cref="T:System.Decimal" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.DateTime">
-      <summary>
-            A <see cref="T:System.DateTime" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.String">
-      <summary>
-            A <see cref="T:System.String" />.
-            </summary>
-    </member>
-    <member name="F:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode.TimeSpan">
-      <summary>
-            A <see cref="T:System.TimeSpan" />.
-            </summary>
-    </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.ObjectWriter">
-      <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Serialization.ObjectWriter]</p>
-      </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.ObjectWriter.#ctor(System.IO.Stream)">
-      <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Serialization.ObjectWriter" /> class and specifies the
-            underlying <paramref name="output" /> stream.
-            </summary>
-      <param name="output">The output stream.</param>
-      <exception cref="T:System.ArgumentNullException">
-            Thrown when <paramref name="output" /> is <see langword="null" />.
-            </exception>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.ObjectWriter.Write(System.Object)">
+    <member name="M:AK.F1.Timing.Serialization.IObjectWriter.Write(System.Object)">
       <summary>
             Writes the specified graph to the underlying stream.
             </summary>
@@ -3849,37 +4200,156 @@
       <exception cref="T:System.ObjectDisposedException">
             Thrown when this instance has been disposed of.
             </exception>
+      <exception cref="T:System.Runtime.Serialization.SerializationException">
+            Thrown when an error occurs during serialization.
+            </exception>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor">
+    <member name="T:AK.F1.Timing.Serialization.ObjectTypeCode">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor]</p>
+            A <see cref="T:System.TypeCode" /> superset which specifies other well known types.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Empty">
+      <summary>
+            A null reference.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Object">
+      <summary>
+            A <see cref="T:System.Object" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.DBNull">
+      <summary>
+            A <see cref="T:System.DBNull" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Boolean">
+      <summary>
+            A <see cref="T:System.Boolean" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Char">
+      <summary>
+            A <see cref="T:System.Char" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.SByte">
+      <summary>
+            A <see cref="T:System.SByte" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Byte">
+      <summary>
+            A <see cref="T:System.Byte" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Int16">
+      <summary>
+            A <see cref="T:System.Int16" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.UInt16">
+      <summary>
+            A <see cref="T:System.UInt16" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Int32">
+      <summary>
+            A <see cref="T:System.Int32" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.UInt32">
+      <summary>
+            A <see cref="T:System.UInt32" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Int64">
+      <summary>
+            A <see cref="T:System.Int64" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.UInt64">
+      <summary>
+            A <see cref="T:System.UInt64" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Single">
+      <summary>
+            A <see cref="T:System.Single" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Double">
+      <summary>
+            A <see cref="T:System.Double" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.Decimal">
+      <summary>
+            A <see cref="T:System.Decimal" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.DateTime">
+      <summary>
+            A <see cref="T:System.DateTime" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.String">
+      <summary>
+            A <see cref="T:System.String" />.
+            </summary>
+    </member>
+    <member name="F:AK.F1.Timing.Serialization.ObjectTypeCode.TimeSpan">
+      <summary>
+            A <see cref="T:System.TimeSpan" />.
+            </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Serialization.PropertyDescriptor">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "T:AK.F1.Timing.Serialization.PropertyDescriptor"]</p>
       </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.Equals(AK.F1.Timing.Messaging.Serialization.PropertyDescriptor)">
-      <summary>Indicates whether the current object is equal to another object of the same type.</summary>
-      <param name="other">An object to compare with this object.</param>
-      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.Equals(System.Object)">
-      <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
-      <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
-      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
-      <exception cref="T:System.NullReferenceException">The <paramref name="obj" /> parameter is null.</exception>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.For(System.Reflection.PropertyInfo)">
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.Equals(AK.F1.Timing.Serialization.PropertyDescriptor)">
       <summary>
-            Returns the <see cref="T:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor" /> for the specified
+                    Indicates whether the current object is equal to another object of the same type.
+                </summary>
+      <param name="other">
+                    An object to compare with this object.
+                </param>
+      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+                </returns>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.Equals(System.Object)">
+      <summary>
+                    Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
+                </summary>
+      <param name="obj">
+                    The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. 
+                </param>
+      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.
+                </returns>
+      <exception cref="T:System.NullReferenceException">
+                    The <paramref name="obj" /> parameter is null.
+                </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.For(System.Reflection.PropertyInfo)">
+      <summary>
+            Returns the <see cref="T:AK.F1.Timing.Serialization.PropertyDescriptor" /> for the specified
             <paramref name="property" />.
             </summary>
       <param name="property">The property.</param>
-      <returns>The <see cref="T:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor" /> for the specified
+      <returns>The <see cref="T:AK.F1.Timing.Serialization.PropertyDescriptor" /> for the specified
             <paramref name="property" />.</returns>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.GetHashCode">
-      <summary>Serves as a hash function for a particular type. </summary>
-      <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.GetHashCode">
+      <summary>
+                    Serves as a hash function for a particular type. 
+                </summary>
+      <returns>
+                    A hash code for the current <see cref="T:System.Object" />.
+                </returns>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.GetValue(System.Object)">
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.GetValue(System.Object)">
       <summary>
             Returns the value of the property given the specified <paramref name="instance" />.
             </summary>
@@ -3890,18 +4360,18 @@
             Thrown when <paramref name="instance" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.Info">
+    <member name="P:AK.F1.Timing.Serialization.PropertyDescriptor.Info">
       <summary>
             Gets the underlying <see cref="T:System.Reflection.PropertyInfo" /> which provides
             information about the property.
             </summary>
     </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.PropertyId">
+    <member name="P:AK.F1.Timing.Serialization.PropertyDescriptor.PropertyId">
       <summary>
             Gets the property identifier.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.SetValue(System.Object,System.Object)">
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.SetValue(System.Object,System.Object)">
       <summary>
             Sets this property to the given <paramref name="value" /> on the given
             <paramref name="instance" />.
@@ -3912,22 +4382,26 @@
             Thrown when <paramref name="instance" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
-    </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.PropertyDescriptorCollection">
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.ToString">
       <summary>
-            A unique collection of <see cref="T:AK.F1.Timing.Messaging.Serialization.PropertyDescriptor" />s. This class is
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
+    </member>
+    <member name="T:AK.F1.Timing.Serialization.PropertyDescriptorCollection">
+      <summary>
+            A unique collection of <see cref="T:AK.F1.Timing.Serialization.PropertyDescriptor" />s. This class is
             <see langword="sealed" />.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptorCollection.#ctor">
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptorCollection.#ctor">
       <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Serialization.PropertyDescriptorCollection" /> class.
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Serialization.PropertyDescriptorCollection" /> class.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptorCollection.GetById(System.Int32)">
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptorCollection.GetById(System.Int32)">
       <summary>
             Returns the property with the specified <paramref name="id" />, or <see langword="null" />
             if no property is matched.
@@ -3936,67 +4410,49 @@
       <returns>The property with the specified <paramref name="id" />, or <see langword="null" />
             if no property is matched.</returns>
     </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.PropertyDescriptorCollection.IsSealed">
+    <member name="P:AK.F1.Timing.Serialization.PropertyDescriptorCollection.IsSealed">
       <summary>
             Gets a value indicating if this collection is sealed.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyDescriptorCollection.Seal">
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptorCollection.Seal">
       <summary>
             Seals this collection.
             </summary>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute">
+    <member name="T:AK.F1.Timing.Serialization.PropertyIdAttribute">
       <summary>
             Specifies the identifier of the decorated property. This class is <see langword="sealed" />.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute.#ctor(System.Byte)">
+    <member name="M:AK.F1.Timing.Serialization.PropertyIdAttribute.#ctor(System.Byte)">
       <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute" /> class and specifies
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Serialization.PropertyIdAttribute" /> class and specifies
             the identifier of the decorated property.
             </summary>
       <param name="id">The identifier of the decorated property.</param>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute.Equals(AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute)">
-      <summary>Indicates whether the current object is equal to another object of the same type.</summary>
-      <param name="other">An object to compare with this object.</param>
-      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute.Equals(System.Object)">
-      <summary>Returns a value that indicates whether this instance is equal to a specified object.</summary>
-      <param name="obj">An <see cref="T:System.Object" /> to compare with this instance or null. </param>
-      <returns>true if <paramref name="obj" /> equals the type and value of this instance; otherwise, false.</returns>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute.GetHashCode">
-      <summary>Returns the hash code for this instance.</summary>
-      <returns>A 32-bit signed integer hash code.</returns>
-    </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute.Id">
+    <member name="P:AK.F1.Timing.Serialization.PropertyIdAttribute.Id">
       <summary>
             Gets identifier of the decorated property.
             </summary>
     </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.PropertyIdAttribute.TypeId">
-      <summary>When implemented in a derived class, gets a unique identifier for this <see cref="T:System.Attribute" />.</summary>
-      <returns>An <see cref="T:System.Object" /> that is a unique identifier for the attribute.</returns>
-    </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.SerializationHelper">
+    <member name="T:AK.F1.Timing.Serialization.SerializationHelper">
       <summary>
             Serialization helper class. This class is <see langword="static" />.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.SerializationHelper.GetObjectTypeCode(System.Type)">
+    <member name="M:AK.F1.Timing.Serialization.SerializationHelper.GetObjectTypeCode(System.Type)">
       <summary>
-            Returns the <see cref="T:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode" /> for the specified <paramref name="type" />.
+            Returns the <see cref="T:AK.F1.Timing.Serialization.ObjectTypeCode" /> for the specified <paramref name="type" />.
             </summary>
       <param name="type">The type.</param>
-      <returns>The <see cref="T:AK.F1.Timing.Messaging.Serialization.ObjectTypeCode" /> for the specified <paramref name="type" />.</returns>
+      <returns>The <see cref="T:AK.F1.Timing.Serialization.ObjectTypeCode" /> for the specified <paramref name="type" />.</returns>
       <exception cref="T:System.ArgumentNullException">
             Thrown when <paramref name="type" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.SerializationHelper.GetUninitializedObject(System.Type)">
+    <member name="M:AK.F1.Timing.Serialization.SerializationHelper.GetUninitializedInstance(System.Type)">
       <summary>
             Returns an un-initialised instance of the specified <paramref name="type" />.
             </summary>
@@ -4006,97 +4462,103 @@
             Thrown when <paramref name="type" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.TypeDescriptor">
+    <member name="T:AK.F1.Timing.Serialization.TypeDescriptor">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for T:AK.F1.Timing.Messaging.Serialization.TypeDescriptor]</p>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "T:AK.F1.Timing.Serialization.TypeDescriptor"]</p>
       </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.Equals(AK.F1.Timing.Messaging.Serialization.TypeDescriptor)">
-      <summary>Indicates whether the current object is equal to another object of the same type.</summary>
-      <param name="other">An object to compare with this object.</param>
-      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.Equals(System.Object)">
-      <summary>Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.</summary>
-      <param name="obj">The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. </param>
-      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.</returns>
-      <exception cref="T:System.NullReferenceException">The <paramref name="obj" /> parameter is null.</exception>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.For(System.Int32)">
+    <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.Equals(AK.F1.Timing.Serialization.TypeDescriptor)">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.For(System.Int32)]</p>
-      </summary>
-      <param name="typeId">
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="typeId"/&gt; documentation for "M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.For(System.Int32)"]</p>
-      </param>
-      <returns>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;returns&gt; documentation for M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.For(System.Int32)]</p>
-      </returns>
+                    Indicates whether the current object is equal to another object of the same type.
+                </summary>
+      <param name="other">
+                    An object to compare with this object.
+                </param>
+      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.
+                </returns>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.For(System.Type)">
+    <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.Equals(System.Object)">
       <summary>
-            Returns the <see cref="T:AK.F1.Timing.Messaging.Serialization.TypeDescriptor" /> for the specified <paramref name="type" />.
+                    Determines whether the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />.
+                </summary>
+      <param name="obj">
+                    The <see cref="T:System.Object" /> to compare with the current <see cref="T:System.Object" />. 
+                </param>
+      <returns>true if the specified <see cref="T:System.Object" /> is equal to the current <see cref="T:System.Object" />; otherwise, false.
+                </returns>
+      <exception cref="T:System.NullReferenceException">
+                    The <paramref name="obj" /> parameter is null.
+                </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.For(System.Int32)">
+      <summary>
+            Returns the <see cref="T:AK.F1.Timing.Serialization.TypeDescriptor" /> for the type with the specified identifier.
+            </summary>
+      <param name="typeId">The identifier of the type descriptor to return.</param>
+      <returns>The <see cref="T:AK.F1.Timing.Serialization.TypeDescriptor" /> for the type with the specified
+            identifier.</returns>
+      <exception cref="T:System.Runtime.Serialization.SerializationException">
+            Thrown when the <see cref="T:AK.F1.Timing.Serialization.TypeDescriptor" /> could not be located.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.For(System.Type)">
+      <summary>
+            Returns the <see cref="T:AK.F1.Timing.Serialization.TypeDescriptor" /> for the specified <paramref name="type" />.
             </summary>
       <param name="type">The type.</param>
-      <returns>The <see cref="T:AK.F1.Timing.Messaging.Serialization.TypeDescriptor" /> for the specified <paramref name="type" />.</returns>
+      <returns>The <see cref="T:AK.F1.Timing.Serialization.TypeDescriptor" /> for the specified <paramref name="type" />.</returns>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.GetHashCode">
-      <summary>Serves as a hash function for a particular type. </summary>
-      <returns>A hash code for the current <see cref="T:System.Object" />.</returns>
+    <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.GetHashCode">
+      <summary>
+                    Serves as a hash function for a particular type. 
+                </summary>
+      <returns>
+                    A hash code for the current <see cref="T:System.Object" />.
+                </returns>
     </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.Properties">
+    <member name="P:AK.F1.Timing.Serialization.TypeDescriptor.Properties">
       <summary>
             Gets the collection of properties defined by the type.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.ToString">
-      <summary>Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</summary>
-      <returns>A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.</returns>
+    <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.ToString">
+      <summary>
+                    Returns a <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </summary>
+      <returns>
+                    A <see cref="T:System.String" /> that represents the current <see cref="T:System.Object" />.
+                </returns>
     </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.Type">
+    <member name="P:AK.F1.Timing.Serialization.TypeDescriptor.Type">
       <summary>
             Gets the underlying <see cref="T:System.Type" /> which provides information about the type.
             </summary>
     </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.TypeDescriptor.TypeId">
+    <member name="P:AK.F1.Timing.Serialization.TypeDescriptor.TypeId">
       <summary>
             Gets the type identifier.
             </summary>
     </member>
-    <member name="T:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute">
+    <member name="T:AK.F1.Timing.Serialization.TypeIdAttribute">
       <summary>
             Specifies the identifier of the decorated type. This class is <see langword="sealed" />.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute.#ctor(System.Int32)">
+    <member name="M:AK.F1.Timing.Serialization.TypeIdAttribute.#ctor(System.Int32)">
       <summary>
-            Initialises a new instance of the <see cref="T:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute" /> class and specifies
+            Initialises a new instance of the <see cref="T:AK.F1.Timing.Serialization.TypeIdAttribute" /> class and specifies
             the identifier of the decorated type.
             </summary>
       <param name="id">The identifier of the decorated type.</param>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute.Equals(AK.F1.Timing.Messaging.Serialization.TypeIdAttribute)">
-      <summary>Indicates whether the current object is equal to another object of the same type.</summary>
-      <param name="other">An object to compare with this object.</param>
-      <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute.Equals(System.Object)">
-      <summary>Returns a value that indicates whether this instance is equal to a specified object.</summary>
-      <param name="obj">An <see cref="T:System.Object" /> to compare with this instance or null. </param>
-      <returns>true if <paramref name="obj" /> equals the type and value of this instance; otherwise, false.</returns>
-    </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute.GetHashCode">
-      <summary>Returns the hash code for this instance.</summary>
-      <returns>A 32-bit signed integer hash code.</returns>
-    </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute.Id">
+    <member name="P:AK.F1.Timing.Serialization.TypeIdAttribute.Id">
       <summary>
             Gets identifier of the decorated type.
             </summary>
     </member>
-    <member name="M:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute.IsDefined(System.Type)">
+    <member name="M:AK.F1.Timing.Serialization.TypeIdAttribute.IsDefined(System.Type)">
       <summary>
-            Returns a value indicating if the <see cref="T:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute" /> is applied to the
+            Returns a value indicating if the <see cref="T:AK.F1.Timing.Serialization.TypeIdAttribute" /> is applied to the
             specified <paramref name="type" />.
             </summary>
       <param name="type">The type.</param>
@@ -4106,10 +4568,6 @@
       <exception cref="T:System.ArgumentNullException">
             Thrown when <paramref name="type" /> is <see langword="null" />.
             </exception>
-    </member>
-    <member name="P:AK.F1.Timing.Messaging.Serialization.TypeIdAttribute.TypeId">
-      <summary>When implemented in a derived class, gets a unique identifier for this <see cref="T:System.Attribute" />.</summary>
-      <returns>An <see cref="T:System.Object" /> that is a unique identifier for the attribute.</returns>
     </member>
     <member name="T:AK.F1.Timing.Utility.Disposable">
       <summary>
@@ -4148,6 +4606,11 @@
             Gets a value indicating if this instance has been disposed of.
             </summary>
     </member>
+    <member name="M:AK.F1.Timing.Utility.Disposable.System#IDisposable#Dispose">
+      <summary>
+                    Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+                </summary>
+    </member>
     <member name="T:AK.F1.Timing.Utility.DisposableCallback">
       <summary>
             Provides the facility to invoke a callback method when the action has been disposed of.
@@ -4168,6 +4631,72 @@
       <summary>
             Disposes of this instance.
             </summary>
+    </member>
+    <member name="T:AK.F1.Timing.Utility.HashCodeBuilder">
+      <summary>
+            Provides a handy hash code builder.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.HashCodeBuilder.Add``1(``0)">
+      <summary>
+            Adds the hash code of the specified object to the builder.
+            </summary>
+      <param name="obj">The object whose hash code will be added to the builer.</param>
+      <typeparam name="T">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;typeparam name="T"/&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.Add``1(``0)"]</p>
+      </typeparam>
+      <returns>This builder.</returns>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.HashCodeBuilder.Equals(AK.F1.Timing.Utility.HashCodeBuilder)">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.Equals(AK.F1.Timing.Utility.HashCodeBuilder)"]</p>
+      </summary>
+      <param name="other">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="other"/&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.Equals(AK.F1.Timing.Utility.HashCodeBuilder)"]</p>
+      </param>
+      <returns>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;returns&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.Equals(AK.F1.Timing.Utility.HashCodeBuilder)"]</p>
+      </returns>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.HashCodeBuilder.Equals(System.Object)">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.Equals(System.Object)"]</p>
+      </summary>
+      <param name="obj">
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;param name="obj"/&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.Equals(System.Object)"]</p>
+      </param>
+      <returns>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;returns&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.Equals(System.Object)"]</p>
+      </returns>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.HashCodeBuilder.GetHashCode">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.GetHashCode"]</p>
+      </summary>
+      <returns>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;returns&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.GetHashCode"]</p>
+      </returns>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.HashCodeBuilder.New">
+      <summary>
+            Creates and initialises a new <see cref="T:AK.F1.Timing.Utility.HashCodeBuilder" />.
+            </summary>
+      <returns>A a new <see cref="T:AK.F1.Timing.Utility.HashCodeBuilder" /></returns>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.HashCodeBuilder.op_Implicit(AK.F1.Timing.Utility.HashCodeBuilder)~System.Int32">
+      <summary>
+            Converts the specified <paramref name="builder" /> to an <see cref="T:System.Int32" />.
+            </summary>
+      <param name="builder">The builder to convert.</param>
+      <returns>The specified <paramref name="builder" /> to an <see cref="T:System.Int32" />.</returns>
+    </member>
+    <member name="M:AK.F1.Timing.Utility.HashCodeBuilder.ToString">
+      <summary>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.ToString"]</p>
+      </summary>
+      <returns>
+        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;returns&gt; documentation for "M:AK.F1.Timing.Utility.HashCodeBuilder.ToString"]</p>
+      </returns>
     </member>
     <member name="T:AK.F1.Timing.Utility.SysClock">
       <summary>
