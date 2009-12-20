@@ -20,7 +20,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Playback
 {
     /// <summary>
-    /// Provides a <see cref="AK.F1.Timing.Messaging.IRecordedMessageReader"/> which reads
+    /// Provides a <see cref="AK.F1.Timing.Messaging.Playback.IRecordedMessageReader"/> which reads
     /// <see cref="AK.F1.Timing.Messaging.Message"/>s which have been recorded by a
     /// <see cref="AK.F1.Timing.Messaging.Playback.RecordingMessageReader"/>.
     /// </summary>
