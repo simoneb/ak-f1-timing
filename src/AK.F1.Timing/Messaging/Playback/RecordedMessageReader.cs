@@ -20,7 +20,9 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Playback
 {
     /// <summary>
-    /// Provides a <see cref="AK.F1.Timing.Messaging.IMessageReader"/>
+    /// Provides a <see cref="AK.F1.Timing.Messaging.IRecordedMessageReader"/> which reads
+    /// <see cref="AK.F1.Timing.Messaging.Message"/>s which have been recorded by a
+    /// <see cref="AK.F1.Timing.Messaging.Playback.RecordingMessageReader"/>.
     /// </summary>
     public class RecordedMessageReader : MessageReaderBase, IRecordedMessageReader
     {
@@ -33,7 +35,8 @@ namespace AK.F1.Timing.Messaging.Playback
         #region Public Interface.
 
         /// <summary>
-        /// 
+        /// Initialises a new instance of the <see cref="RecordedMessageReader"/> class and specifies
+        /// the input file <paramref name="path"/>.
         /// </summary>
         /// <param name="path">The input file path.</param>
         /// <exception cref="System.ArgumentNullException">
@@ -49,10 +52,13 @@ namespace AK.F1.Timing.Messaging.Playback
         }
 
         /// <summary>
-        /// 
+        /// Initialises a new instance of the <see cref="RecordedMessageReader"/> class and specifies
+        /// the <paramref name="input"/> stream and a value indicating if the stream is owned by the
+        /// reader.
         /// </summary>
-        /// <param name="input"></param>
-        /// <param name="ownsInput"></param>
+        /// <param name="input">The input stream.</param>
+        /// <param name="ownsInput"><see langword="true"/> if the reader owns the specified
+        /// <paramref name="input"/> stream, otherwise; <see langword="false"/>.</param>
         public RecordedMessageReader(Stream input, bool ownsInput) {            
 
             Guard.NotNull(input, "output");
