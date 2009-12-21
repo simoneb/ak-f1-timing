@@ -58,8 +58,8 @@ namespace AK.F1.Timing.Serialization
         /// <remarks>
         /// This method does not keep track of which assemblies have been searched; it is the
         /// responsiblity of the caller to prevent the same assembly from being repeatedly searched,
-        /// although doing so will not have any adverse effects, in the interests of performance it
-        /// is not recommended.
+        /// although doing so will not have any adverse effects but it is not recommended in the
+        /// interest of performance.
         /// </remarks>
         public static void LoadFrom(Assembly assembly) {
 
