@@ -36,23 +36,6 @@ namespace AK.F1.Timing.Serialization
         }
 
         /// <summary>
-        /// Returns a value indicating if the <see cref="TypeIdAttribute"/> is applied to the
-        /// specified <paramref name="type"/>.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns><see langword="true"/> if the attribute is applied to the specified type,
-        /// otherwise; <see langword="false"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="type"/> is <see langword="null"/>.
-        /// </exception>
-        public static bool IsDefined(Type type) {
-
-            Guard.NotNull(type, "type");
-
-            return Attribute.IsDefined(type, typeof(TypeIdAttribute), false);
-        }
-
-        /// <summary>
         /// Gets identifier of the decorated type.
         /// </summary>
         public int Id { get; private set; }

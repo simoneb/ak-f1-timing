@@ -32,23 +32,6 @@ namespace AK.F1.Timing.Serialization
         /// </summary>
         public IgnorePropertyAttribute() { }
 
-        /// <summary>
-        /// Returns a value indicating if the <see cref="IgnorePropertyAttribute"/> is applied to the
-        /// specified <paramref name="property"/>.
-        /// </summary>
-        /// <param name="property">The property.</param>
-        /// <returns><see langword="true"/> if the attribute is applied to the specified property,
-        /// otherwise; <see langword="false"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="property"/> is <see langword="null"/>.
-        /// </exception>
-        public static bool IsDefined(PropertyInfo property) {
-
-            Guard.NotNull(property, "property");
-
-            return Attribute.IsDefined(property, typeof(IgnorePropertyAttribute), false);
-        }
-
         #endregion
     }
 }
