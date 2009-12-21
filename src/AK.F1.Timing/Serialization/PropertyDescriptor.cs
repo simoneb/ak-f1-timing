@@ -14,16 +14,20 @@
 
 using System;
 using System.Reflection;
+using System.Runtime.Serialization;
 
+using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Serialization
 {
     /// <summary>
-    /// 
+    /// Provides <see cref="System.Reflection.PropertyInfo"/> information required during
+    /// serialization and deserialization by the <see cref="DecoratedObjectWriter"/> and
+    /// <see cref="DecoratedObjectReader"/> respectively. This class is <see langword="sealed"/>.
     /// </summary>
     [Serializable]
-    public class PropertyDescriptor : IEquatable<PropertyDescriptor>
+    public sealed class PropertyDescriptor : IEquatable<PropertyDescriptor>, ISerializable
     {
         #region Public Interface.
 
@@ -34,11 +38,15 @@ namespace AK.F1.Timing.Serialization
         /// <param name="property">The property.</param>
         /// <returns>The <see cref="PropertyDescriptor"/> for the specified
         /// <paramref name="property"/>.</returns>
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
+        /// Thrown when the specified <paramref name="property"/> has not been decorated with the
+        /// <see cref="PropertyIdAttribute"/>.
+        /// </exception>
         public static PropertyDescriptor For(PropertyInfo property) {
 
             Guard.NotNull(property, "property");
 
-            return new PropertyDescriptor(property, GetPropertyId(property));
+            return CreateDescriptor(property);
         }
 
         /// <summary>
@@ -54,7 +62,7 @@ namespace AK.F1.Timing.Serialization
 
             Guard.NotNull(instance, "instance");            
 
-            return this.Info.GetGetMethod().Invoke(instance, null);
+            return this.Property.GetGetMethod().Invoke(instance, null);
         }
 
         /// <summary>
@@ -68,7 +76,7 @@ namespace AK.F1.Timing.Serialization
         /// </exception>
         public void SetValue(object instance, object value) {
 
-            this.Info.GetSetMethod(true).Invoke(instance, new[] { value });
+            this.Property.GetSetMethod(true).Invoke(instance, new[] { value });
         }
 
         /// <inheritdoc/>
@@ -84,7 +92,7 @@ namespace AK.F1.Timing.Serialization
         public bool Equals(PropertyDescriptor other) {
 
             return other != null && other.PropertyId == this.PropertyId &&
-                other.Info.DeclaringType.Equals(this.Info.DeclaringType);
+                other.Property.DeclaringType.Equals(this.Property.DeclaringType);
         }
 
         /// <inheritdoc/>
@@ -92,20 +100,20 @@ namespace AK.F1.Timing.Serialization
 
             return HashCodeBuilder.New()
                 .Add(this.PropertyId)
-                .Add(this.Info.DeclaringType);
+                .Add(this.Property.DeclaringType);
         }
 
         /// <inheritdoc/>
         public override string ToString() {
 
-            return this.Info.ToString();
+            return this.Property.ToString();
         }
 
         /// <summary>
         /// Gets the underlying <see cref="System.Reflection.PropertyInfo"/> which provides
         /// information about the property.
         /// </summary>
-        public PropertyInfo Info { get; private set; }
+        public PropertyInfo Property { get; private set; }
 
         /// <summary>
         /// Gets the property identifier.
@@ -114,23 +122,73 @@ namespace AK.F1.Timing.Serialization
 
         #endregion
 
+        #region Explicit Interface.
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) {
+
+            info.SetType(typeof(PropertyDescriptorReference));
+            new PropertyDescriptorReference(this.Property, this.PropertyId).GetObjectData(info);
+        }
+
+        #endregion
+
         #region Private Impl.
 
-        private PropertyDescriptor(PropertyInfo info, byte id) {
+        private PropertyDescriptor(PropertyInfo property, byte propertyId) {
 
-            this.Info = info;
-            this.PropertyId = id;
+            this.Property = property;
+            this.PropertyId = propertyId;
+        }
+
+        private static PropertyDescriptor CreateDescriptor(PropertyInfo property) {
+
+            byte propertyId = GetPropertyId(property);
+
+            CheckHasGetAndSetMethod(property);
+
+            return new PropertyDescriptor(property, propertyId);
+        }
+
+        private static void CheckHasGetAndSetMethod(PropertyInfo property) {
+
+            if(!(property.CanRead && property.CanWrite)) {
+                throw Guard.PropertyDescriptor_PropertyHaveGetAndSetMethod(property);
+            }            
         }
 
         private static byte GetPropertyId(PropertyInfo property) {
 
-            var attributes = property.GetCustomAttributes(typeof(PropertyIdAttribute), false);
+            PropertyIdAttribute attribute = property.GetAttribute<PropertyIdAttribute>();
 
-            if(attributes.Length > 0) {
-                return ((PropertyIdAttribute)attributes[0]).Id;
+            if(attribute == null) {
+                throw Guard.PropertyDescriptor_PropertyIsNotDecorated(property);                
             }
 
-            throw Guard.PropertyDescriptor_PropertyIsNotDecorated(property);
+            return attribute.Id;
+        }
+
+        [Serializable]
+        private sealed class PropertyDescriptorReference : IObjectReference
+        {
+            private readonly byte _propertyId;
+            private readonly Type _declaringType;
+
+            public PropertyDescriptorReference(PropertyInfo property, byte propertyId) {
+
+                _declaringType = property.DeclaringType;
+                _propertyId = propertyId;
+            }
+
+            public void GetObjectData(SerializationInfo info) {
+
+                info.AddValue("_declaringType", _declaringType);
+                info.AddValue("_propertyId", _propertyId);
+            }
+
+            public object GetRealObject(StreamingContext context) {
+
+                return TypeDescriptor.For(_declaringType).Properties.GetById(_propertyId);                
+            }
         }
 
         #endregion
