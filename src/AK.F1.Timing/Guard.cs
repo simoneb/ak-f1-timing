@@ -34,11 +34,14 @@ namespace AK.F1.Timing
     /// </summary>
     internal static class Guard
     {
-        #region Internal Interface.
+        #region Validation.
 
         [DebuggerStepThrough]
-        internal static void NotNull<T>(T instance, string paramName) where T: class {
-
+#if DEBUG
+        internal static void NotNull<T>(T instance, string paramName) where T : class {
+#else
+        internal static void NotNull(object instance, string paramName) {
+#endif
             if(instance == null) {
                 throw new ArgumentNullException(paramName);
             }
@@ -89,6 +92,34 @@ namespace AK.F1.Timing
             InRange(offset + count < buffer.Length, "count");
         }
 
+        internal static void Fail(string message) {
+
+            Assert(false, message);
+        }
+
+        internal static void Assert(bool condition) {
+
+            Assert(condition, string.Empty);
+        }
+
+        internal static void Assert(bool condition, string message) {
+
+            if(!condition) {
+                Debug.Assert(condition, message);
+                Trace.Assert(condition, message);
+                throw new InvalidProgramException(message);
+            }
+        }
+
+        private static string Format(string format, params object[] args) {
+
+            return string.Format(Resource.Culture, format, args);
+        }
+
+        #endregion
+
+        #region Exception Factory Methods.
+
         internal static DirectoryNotFoundException DirectoryNotFound(string path, string paramName) {
 
             return new DirectoryNotFoundException(path);
@@ -114,33 +145,9 @@ namespace AK.F1.Timing
             return new NotImplementedException();
         }
 
-        private static string Format(string format, params object[] args) {
-
-            return string.Format(Resource.Culture, format, args);
-        }
-
         internal static SerializationException LiveMessageReader_InvalidMessageType(int messageType) {
 
             return new SerializationException(Format(Resource.LiveMessageReader_InvalidMessageType, messageType));
-        }
-
-        internal static void Fail(string message) {
-
-            Assert(false, message);
-        }
-
-        internal static void Assert(bool condition) {
-
-            Assert(condition, string.Empty);
-        }
-        
-        internal static void Assert(bool condition, string message) {
-
-            if(!condition) {
-                Debug.Assert(condition, message);
-                Trace.Assert(condition, message);
-                throw new InvalidProgramException(message);
-            }
         }
 
         internal static SerializationException LiveData_UnableToConvertToSessionStatus(string s) {
@@ -227,6 +234,12 @@ namespace AK.F1.Timing
                 property.DeclaringType, property.Name, typeof(PropertyIdAttribute)));
         }
 
+        internal static SerializationException PropertyDescriptor_PropertyHaveGetAndSetMethod(PropertyInfo property) {
+
+            return new SerializationException(Format(Resource.PropertyDescriptor_PropertyHaveGetAndSetMethod,
+                property.DeclaringType, property.Name));
+        }
+
         internal static SerializationException TypeDescriptor_TypeIsNotDecorated(Type type) {
 
             return new SerializationException(Format(Resource.TypeDescriptor_TypeIsNotDecorated,
@@ -236,7 +249,7 @@ namespace AK.F1.Timing
         internal static InvalidOperationException PropertyDescriptorCollection_DuplicatePropertyDescriptor(PropertyDescriptor item) {
 
             return new InvalidOperationException(Format(Resource.PropertyDescriptorCollection_DuplicatePropertyDescriptor,                
-                item.Info.DeclaringType, item.PropertyId));
+                item.Property.DeclaringType, item.PropertyId));
         }
 
         internal static NotSupportedException PropertyDescriptorCollection_CollectionIsSealed() {
@@ -247,6 +260,12 @@ namespace AK.F1.Timing
         internal static SerializationException TypeDescriptor_NoDescriptorWithTypeId(int typeId) {
 
             return new SerializationException(Format(Resource.TypeDescriptor_NoDescriptorWithTypeId, typeId));
+        }
+
+        internal static SerializationException TypeDescriptor_DuplicateTypeId(TypeDescriptor existing, TypeDescriptor duplicate) {
+
+            return new SerializationException(Format(Resource.TypeDescriptor_DuplicateTypeId,
+                existing.TypeId, existing.Type, duplicate.Type));
         }
 
         internal static SerializationException DecoratedObjectReader_UnexpectedEndOfStream(EndOfStreamException exc) {
@@ -291,7 +310,8 @@ namespace AK.F1.Timing
 
         internal static SerializationException DecoratedObjectReader_PropertyMissing(byte propertyId, TypeDescriptor descriptor) {
 
-            return new SerializationException(Format(Resource.DecoratedObjectReader_PropertyMissing, propertyId, descriptor.Type.FullName));
+            return new SerializationException(Format(Resource.DecoratedObjectReader_PropertyMissing,
+                propertyId, descriptor.Type));
         }
 
         #endregion
