@@ -295,6 +295,15 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The &apos;{0}&apos; type cannot be serialized as the &apos;{1}&apos; property does not have both a get and set method. Note that either method can be private but they must be defined..
+        /// </summary>
+        internal static string PropertyDescriptor_PropertyHaveGetAndSetMethod {
+            get {
+                return ResourceManager.GetString("PropertyDescriptor_PropertyHaveGetAndSetMethod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The &apos;{0}&apos; type cannot be serialized as the &apos;{1}&apos; property is not decorated with the &apos;{2}&apos; attribute..
         /// </summary>
         internal static string PropertyDescriptor_PropertyIsNotDecorated {
@@ -327,6 +336,15 @@ namespace AK.F1.Timing {
         internal static string TimeGap_InvalidCompareToArgument {
             get {
                 return ResourceManager.GetString("TimeGap_InvalidCompareToArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A descriptor already exists with an Id of &apos;{0}&apos; for type &apos;{1}&apos; and type &apos;{2}&apos; has been decorated with the same Id..
+        /// </summary>
+        internal static string TypeDescriptor_DuplicateTypeId {
+            get {
+                return ResourceManager.GetString("TypeDescriptor_DuplicateTypeId", resourceCulture);
             }
         }
         

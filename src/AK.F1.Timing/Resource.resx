@@ -201,11 +201,17 @@
   <data name="PropertyDescriptorCollection_DuplicatePropertyDescriptor" xml:space="preserve">
     <value>The '{0}' type already has a property with an identifier of '{1}'.</value>
   </data>
+  <data name="PropertyDescriptor_PropertyHaveGetAndSetMethod" xml:space="preserve">
+    <value>The '{0}' type cannot be serialized as the '{1}' property does not have both a get and set method. Note that either method can be private but they must be defined.</value>
+  </data>
   <data name="PropertyDescriptor_PropertyIsNotDecorated" xml:space="preserve">
     <value>The '{0}' type cannot be serialized as the '{1}' property is not decorated with the '{2}' attribute.</value>
   </data>
   <data name="TimeGap_InvalidCompareToArgument" xml:space="preserve">
     <value>Cannot compare a {0} instance to an instance of {1}.</value>
+  </data>
+  <data name="TypeDescriptor_DuplicateTypeId" xml:space="preserve">
+    <value>A descriptor already exists with an Id of '{0}' for type '{1}' and type '{2}' has been decorated with the same Id.</value>
   </data>
   <data name="TypeDescriptor_NoDescriptorWithTypeId" xml:space="preserve">
     <value>Unable to deserialize the next object as no type descriptor could be located for type '{0}'.</value>
