@@ -167,6 +167,100 @@
             The HTTP POST method.
             </summary>
     </member>
+    <member name="T:AK.F1.Timing.Extensions.ReflectionExtensions">
+      <summary>
+            Provides reflection related extension. This class is <see langword="static" />.
+            </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Extensions.ReflectionExtensions.GetAttribute``1(System.Reflection.ICustomAttributeProvider)">
+      <summary>
+            Returns the first attribute of type <typeparamref name="T" /> using the specified
+            <paramref name="provider" />.
+            </summary>
+      <param name="provider">The custom type provider.</param>
+      <typeparam name="T">The type of attribute to locate.</typeparam>
+      <returns>The first attribute of type <typeparamref name="T" /> if one exists, otherwise;
+            <see langword="null" />.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="provider" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Extensions.ReflectionExtensions.GetAttribute``1(System.Reflection.ICustomAttributeProvider,System.Boolean)">
+      <summary>
+            Returns the first attribute of type <typeparamref name="T" /> using the specified
+            <paramref name="provider" />.
+            </summary>
+      <param name="provider">The custom type provider.</param>
+      <param name="inherit">
+        <see langword="true" /> search the hierarchy chain for the inherited
+            custom attribute, otherwise; <see langword="false" />.</param>
+      <typeparam name="T">The type of attribute to locate.</typeparam>
+      <returns>The first attribute of type <typeparamref name="T" /> if one exists, otherwise;
+            <see langword="null" />.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="provider" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Extensions.ReflectionExtensions.GetAttributes``1(System.Reflection.ICustomAttributeProvider)">
+      <summary>
+            Returns all attributes of type <typeparamref name="T" /> using the specified
+            <paramref name="provider" />.
+            </summary>
+      <param name="provider">The custom type provider.</param>
+      <typeparam name="T">The type of attribute to locate.</typeparam>
+      <returns>All attributes of type <typeparamref name="T" />, or an empty array of type
+            <typeparamref name="T" /> if non exist.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="provider" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Extensions.ReflectionExtensions.GetAttributes``1(System.Reflection.ICustomAttributeProvider,System.Boolean)">
+      <summary>
+            Returns all attributes of type <typeparamref name="T" /> using the specified
+            <paramref name="provider" />.
+            </summary>
+      <param name="provider">The custom type provider.</param>
+      <param name="inherit">
+        <see langword="true" /> search the hierarchy chain for the inherited
+            custom attribute, otherwise; <see langword="false" />.</param>
+      <typeparam name="T">The type of attribute to locate.</typeparam>
+      <returns>All attributes of type <typeparamref name="T" />, or an empty array of type
+            <typeparamref name="T" /> if non exist.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="provider" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Extensions.ReflectionExtensions.HasAttribute``1(System.Reflection.ICustomAttributeProvider)">
+      <summary>
+            Returns a value indicating if the specified <paramref name="provider" /> provides one
+            or more attributes of type <typeparamref name="T" />.
+            </summary>
+      <param name="provider">The custom type provider.</param>
+      <typeparam name="T">The type of attribute to locate.</typeparam>
+      <returns>
+        <see langword="true" /> if the an attribute of type <typeparamref name="T" />
+            exists, otherwise; <see langword="false" />.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="provider" /> is <see langword="null" />.
+            </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Extensions.ReflectionExtensions.HasAttribute``1(System.Reflection.ICustomAttributeProvider,System.Boolean)">
+      <summary>
+            Returns a value indicating if the specified <paramref name="provider" /> provides one
+            or more attributes of type <typeparamref name="T" />.
+            </summary>
+      <param name="provider">The custom type provider.</param>
+      <param name="inherit">
+        <see langword="true" /> search the hierarchy chain for the inherited
+            custom attribute, otherwise; <see langword="false" />.</param>
+      <typeparam name="T">The type of attribute to locate.</typeparam>
+      <returns>
+        <see langword="true" /> if the an attribute of type <typeparamref name="T" />
+            exists, otherwise; <see langword="false" />.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="provider" /> is <see langword="null" />.
+            </exception>
+    </member>
     <member name="T:AK.F1.Timing.Extensions.StreamExtensions">
       <summary>
         <see cref="T:System.IO.Stream" /> extension class. This class is <see langword="static" />.
@@ -350,7 +444,7 @@
     <member name="T:AK.F1.Timing.Messaging.CompositeMessage">
       <summary>
             Defines a <see cref="T:AK.F1.Timing.Messaging.Message" /> which is composed of one or more
-            <see cref="T:AK.F1.Timing.Messaging.Message" />s. This class is <see langword="sealed" />.
+            <see cref="T:AK.F1.Timing.Messaging.Message" />s. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.CompositeMessage.#ctor(AK.F1.Timing.Messaging.Message[])">
@@ -1273,7 +1367,7 @@
     <member name="T:AK.F1.Timing.Messaging.Live.LiveMessageTranslator">
       <summary>
             Translates the messages read from a <see cref="T:AK.F1.Timing.Messaging.Live.LiveMessageReader" /> into more meaningful
-            messages. This class is <see langword="sealed" />.
+            messages. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.LiveMessageTranslator.#ctor">
@@ -1441,7 +1535,7 @@
     <member name="T:AK.F1.Timing.Messaging.Live.Encryption.LiveDecryptor">
       <summary>
             An <see cref="T:AK.F1.Timing.Messaging.Live.Encryption.IDecryptor" /> implementation which implements
-            the 2009 decryption algorithm. This class is <see langword="sealed" />.
+            the 2009 decryption algorithm. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.Encryption.LiveDecryptor.#ctor(System.Int32)">
@@ -1472,7 +1566,7 @@
       <summary>
             An <see cref="T:AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory" /> implementation which
             creates decryptors seeded using a user's credentials for the F1 live timing site. This
-            class is <see langword="sealed" />.
+            class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.Encryption.LiveDecryptorFactory.#ctor(System.String,System.String)">
@@ -1583,8 +1677,7 @@
     <member name="T:AK.F1.Timing.Messaging.Live.IO.LiveMessageStreamEndpoint">
       <summary>
             An <see cref="T:AK.F1.Timing.Messaging.Live.IO.IMessageStreamEndpoint" /> implementation that
-            opens message streams provided by the F1 live timing server. This class is
-            <see langword="sealed" />.
+            opens message streams provided by the F1 live timing server. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.IO.LiveMessageStreamEndpoint.#ctor">
@@ -1662,7 +1755,7 @@
       <summary>
             A <see cref="T:AK.F1.Timing.Messaging.Live.IO.IMessageStream" /> implementation which
             delegates to an underlying <see cref="T:System.IO.Stream" />. This implementation does
-            not support pinging. This class is <see langword="sealed" />.
+            not support pinging. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.IO.MessageStreamDelegate.#ctor(System.IO.Stream)">
@@ -1700,9 +1793,9 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Live.Recording.RecordedDecryptorFactory">
       <summary>
-            An <see cref="T:AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory" /> implementation that creates
-            decryptors with seeds that have been persisted on the file system. This class is
-            <see langword="sealed" />.
+            An <see cref="T:AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory" /> implementation
+            that creates decryptors with seeds that have been persisted on the file system. This
+            class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.Recording.RecordedDecryptorFactory.#ctor(System.String)">
@@ -1721,8 +1814,8 @@
     <member name="T:AK.F1.Timing.Messaging.Live.Recording.RecordedMessageStreamEndpoint">
       <summary>
             An <see cref="T:AK.F1.Timing.Messaging.Live.IO.IMessageStreamEndpoint" /> implementation that
-            opens messages streams that have been persisted on the file system. This class is
-            <see langword="sealed" />.
+            opens messages streams that have been persisted on the file system. This class cannot be
+            inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Live.Recording.RecordedMessageStreamEndpoint.#ctor(System.String)">
@@ -1768,7 +1861,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.ClearGridRowMessage">
       <summary>
-            A message which clears a driver's grid row. This class is <see langword="sealed" />.
+            A message which clears a driver's grid row. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.ClearGridRowMessage.#ctor(System.Int32)">
@@ -1800,8 +1893,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.DriverMessageBase">
       <summary>
-            Defines the base class for driver related messages. This class is
-            <see langword="abstract" />.
+            Defines the base class for driver related messages. This class is <see langword="abstract" />.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.DriverMessageBase.#ctor(System.Int32)">
@@ -2047,7 +2139,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.LapGap">
       <summary>
-            Represents a gap expressed as a number of laps. This class is <see langword="sealed" />.
+            Represents a gap expressed as a number of laps. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.LapGap.#ctor(System.Int32)">
@@ -2132,7 +2224,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.PostedTime">
       <summary>
             Contains the time, type and lap number of a time posted during a timing session. This class
-            <see langword="sealed" />.
+            cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.PostedTime.#ctor(System.TimeSpan,AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType,System.Int32)">
@@ -2277,8 +2369,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.ReplaceDriverLapTimeMessage">
       <summary>
-            A message which replaces a driver's previous lap time. This class is
-            <see langword="sealed" />.
+            A message which replaces a driver's previous lap time. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.ReplaceDriverLapTimeMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.PostedTime)">
@@ -2319,8 +2410,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.ReplaceDriverSectorTimeMessage">
       <summary>
-            A message which replaces a driver's previous sector time. This class is
-            <see langword="sealed" />.
+            A message which replaces a driver's previous sector time. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.ReplaceDriverSectorTimeMessage.#ctor(System.Int32,System.Int32,AK.F1.Timing.Messaging.Messages.Driver.PostedTime)">
@@ -2368,7 +2458,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverCarNumberMessage">
       <summary>
-            A message which sets a driver's car number. This class is <see langword="sealed" />.
+            A message which sets a driver's car number. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverCarNumberMessage.#ctor(System.Int32,System.Int32)">
@@ -2406,8 +2496,8 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverCompletedLapsMessage">
       <summary>
-            A message which updates the number of laps completed by a driver. This class is
-            <see langword="sealed" />.
+            A message which updates the number of laps completed by a driver. This class cannot be
+            inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverCompletedLapsMessage.#ctor(System.Int32,System.Int32)">
@@ -2442,7 +2532,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverGapMessage">
       <summary>
-            A message which sets a driver's gap. This class is <see langword="sealed" />.
+            A message which sets a driver's gap. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverGapMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.Gap)">
@@ -2483,7 +2573,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverIntervalMessage">
       <summary>
-            A message which sets a driver's interval. This class is <see langword="sealed" />.
+            A message which sets a driver's interval. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverIntervalMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.Gap)">
@@ -2524,8 +2614,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverLapNumberMessage">
       <summary>
-            A message which sets a driver's current lap number. This class is
-            <see langword="sealed" />.
+            A message which sets a driver's current lap number. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverLapNumberMessage.#ctor(System.Int32,System.Int32)">
@@ -2560,7 +2649,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverLapTimeMessage">
       <summary>
-            A message which sets a driver's lap time. This class is <see langword="sealed" />.
+            A message which sets a driver's lap time. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverLapTimeMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.PostedTime)">
@@ -2601,7 +2690,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverNameMessage">
       <summary>
-            A message which sets a driver's name. This class is <see langword="sealed" />.
+            A message which sets a driver's name. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverNameMessage.#ctor(System.Int32,System.String)">
@@ -2642,8 +2731,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitCountMessage">
       <summary>
-            A message which sets a driver's current pit count. This class is
-            <see langword="sealed" />.
+            A message which sets a driver's current pit count. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitCountMessage.#ctor(System.Int32,System.Int32)">
@@ -2678,8 +2766,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage">
       <summary>
-            A message which sets the length of a driver's pit stop. This class is
-            <see langword="sealed" />.
+            A message which sets the length of a driver's pit stop. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPitTimeMessage.#ctor(System.Int32,System.TimeSpan,System.Int32)">
@@ -2724,7 +2811,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPositionMessage">
       <summary>
-            A message which sets a driver's track position. This class is <see langword="sealed" />.
+            A message which sets a driver's track position. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverPositionMessage.#ctor(System.Int32,System.Int32)">
@@ -2762,7 +2849,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverQuallyTimeMessage">
       <summary>
-            A message which sets a driver's qually time. This class is <see langword="sealed" />.
+            A message which sets a driver's qually time. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverQuallyTimeMessage.#ctor(System.Int32,System.Int32,System.TimeSpan)">
@@ -2807,7 +2894,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverSectorTimeMessage">
       <summary>
-            A message which sets a driver's sector time. This class is <see langword="sealed" />.
+            A message which sets a driver's sector time. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverSectorTimeMessage.#ctor(System.Int32,System.Int32,AK.F1.Timing.Messaging.Messages.Driver.PostedTime)">
@@ -2855,7 +2942,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetDriverStatusMessage">
       <summary>
             A message which sets a driver's <see cref="T:AK.F1.Timing.Messaging.Messages.Driver.DriverStatus" />.
-            This class is <see langword="sealed" />.
+            This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetDriverStatusMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.DriverStatus)">
@@ -2893,7 +2980,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage">
       <summary>
-            A message which sets the colour of a driver's grid row. This class is <see langword="sealed" />.
+            A message which sets the colour of a driver's grid row. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnColourMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour)">
@@ -2933,8 +3020,8 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage">
       <summary>
-            A message which sets the colour and value of a driver's grid row. This class is
-            <see langword="sealed" />.
+            A message which sets the colour and value of a driver's grid row. This class cannot be
+            inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.SetGridColumnValueMessage.#ctor(System.Int32,AK.F1.Timing.Messaging.Messages.Driver.GridColumn,AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour,System.String)">
@@ -2985,8 +3072,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Driver.TimeGap">
       <summary>
-            Represents a gap expressed as a unit of time. This class is
-            <see langword="sealed" />.
+            Represents a gap expressed as a unit of time. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Driver.TimeGap.#ctor(System.TimeSpan)">
@@ -3071,7 +3157,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetCopyrightMessage">
       <summary>
             A message which contains the copyright text associated with the message stream. This class
-            is <see langword="sealed" />.
+            cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetCopyrightMessage.#ctor(System.String)">
@@ -3109,7 +3195,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetKeyframeMessage">
       <summary>
             A message which sets the lastest ketframe number associated with the message stream. This
-            class is <see langword="sealed" />.
+            class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetKeyframeMessage.#ctor(System.Int32)">
@@ -3147,7 +3233,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetNextMessageDelayMessage">
       <summary>
             A message which specifies the delay that should be inserted between the next message. This
-            class is <see langword="sealed" />.
+            class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetNextMessageDelayMessage.#ctor(System.TimeSpan)">
@@ -3185,7 +3271,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetPingIntervalMessage">
       <summary>
             A message which sets the interval at which the live message stream should be pinged with a
-            magic packet. This class is <see langword="sealed" />.
+            magic packet. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetPingIntervalMessage.#ctor(System.TimeSpan)">
@@ -3222,8 +3308,8 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetStreamValidityMessage">
       <summary>
-            A message which sets a value indicating whether the message stream is valid. This class is
-            <see langword="sealed" />.
+            A message which sets a value indicating whether the message stream is valid. This class
+            cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetStreamValidityMessage.#ctor(System.Boolean)">
@@ -3260,7 +3346,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Feed.SetSystemMessageMessage">
       <summary>
             A message which contains a message related to the state of the message stream. This class
-            is <see langword="sealed" />.
+            cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Feed.SetSystemMessageMessage.#ctor(System.String)">
@@ -3297,8 +3383,8 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.AddCommentaryMessage">
       <summary>
-            A message which adds a block commentary related to the current session. This class is
-            <see langword="sealed" />.
+            A message which adds a block commentary related to the current session. This class cannot
+            be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.AddCommentaryMessage.#ctor(System.String)">
@@ -3335,8 +3421,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage">
       <summary>
-            A message which indicates that the session has ended. This class is
-            <see langword="sealed" />.
+            A message which indicates that the session has ended. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.EndOfSessionMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
@@ -3439,8 +3524,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetElapsedSessionTimeMessage">
       <summary>
-            A message which sets the elapsed session session time. This class is
-            <see langword="sealed" />.
+            A message which sets the elapsed session session time. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetElapsedSessionTimeMessage.#ctor(System.TimeSpan)">
@@ -3477,7 +3561,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetRaceLapNumberMessage">
       <summary>
-            A message which sets the current race lap number. This class is <see langword="sealed" />.
+            A message which sets the current race lap number. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetRaceLapNumberMessage.#ctor(System.Int32)">
@@ -3514,8 +3598,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetRemainingSessionTimeMessage">
       <summary>
-            A message which sets the remaining session session time. This class is
-            <see langword="sealed" />.
+            A message which sets the remaining session session time. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetRemainingSessionTimeMessage.#ctor(System.TimeSpan)">
@@ -3553,7 +3636,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetSessionStatusMessage">
       <summary>
             A message which sets the <see cref="T:AK.F1.Timing.Messaging.Messages.Session.SessionStatus" />
-            of the current session. This class is <see langword="sealed" />.
+            of the current session. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetSessionStatusMessage.#ctor(AK.F1.Timing.Messaging.Messages.Session.SessionStatus)">
@@ -3589,7 +3672,7 @@
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.SetSessionTypeMessage">
       <summary>
             A message which updates the <see cref="T:AK.F1.Timing.Messaging.Messages.Session.SessionType" />
-            and session identifier. This class is <see langword="sealed" />.
+            and session identifier. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.SetSessionTypeMessage.#ctor(AK.F1.Timing.Messaging.Messages.Session.SessionType,System.String)">
@@ -3631,8 +3714,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.StartSessionTimeCountdownMessage">
       <summary>
-            A message which starts the remaining session time countdown. This class is
-            <see langword="sealed" />.
+            A message which starts the remaining session time countdown. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.StartSessionTimeCountdownMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
@@ -3674,8 +3756,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Session.StopSessionTimeCountdownMessage">
       <summary>
-            A message which stops the remaining session time countdown. This class is
-            <see langword="sealed" />.
+            A message which stops the remaining session time countdown. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Session.StopSessionTimeCountdownMessage.Accept(AK.F1.Timing.Messaging.IMessageVisitor)">
@@ -3717,8 +3798,8 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetAirTemperatureMessage">
       <summary>
-            A message which sets the current air temperature, in degrees celsius. This class is
-            <see langword="sealed" />.
+            A message which sets the current air temperature, in degrees celsius. This class cannot be
+            inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetAirTemperatureMessage.#ctor(System.Double)">
@@ -3752,8 +3833,8 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetAtmosphericPressureMessage">
       <summary>
-            A message which sets the current atmospheric pressure, in millibars. This class is
-            <see langword="sealed" />.
+            A message which sets the current atmospheric pressure, in millibars. This class cannot be
+            inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetAtmosphericPressureMessage.#ctor(System.Double)">
@@ -3790,8 +3871,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetHumidityMessage">
       <summary>
-            A message which sets the current humidity, as a percentage. This class is
-            <see langword="sealed" />.
+            A message which sets the current humidity, as a percentage. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetHumidityMessage.#ctor(System.Double)">
@@ -3828,8 +3908,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage">
       <summary>
-            A message which specifies whether the track is dry or wet. This class is
-            <see langword="sealed" />.
+            A message which specifies whether the track is dry or wet. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetIsWetMessage.#ctor(System.Boolean)">
@@ -3865,8 +3944,8 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage">
       <summary>
-            A message which sets the current track temperature, in degrees celsius. This class is
-            <see langword="sealed" />.
+            A message which sets the current track temperature, in degrees celsius. This class cannot
+            be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetTrackTemperatureMessage.#ctor(System.Double)">
@@ -3900,8 +3979,7 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetWindAngleMessage">
       <summary>
-            A message which sets the current wind direction, in degrees. This class is
-            <see langword="sealed" />.
+            A message which sets the current wind direction, in degrees.  This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWindAngleMessage.#ctor(System.Int32)">
@@ -3938,8 +4016,8 @@
     </member>
     <member name="T:AK.F1.Timing.Messaging.Messages.Weather.SetWindSpeedMessage">
       <summary>
-            A message which sets the current wind speed, in metres per second. This class is
-            <see langword="sealed" />.
+            A message which sets the current wind speed, in metres per second. This class cannot be
+            inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Messaging.Messages.Weather.SetWindSpeedMessage.#ctor(System.Double)">
@@ -4100,7 +4178,7 @@
     <member name="T:AK.F1.Timing.Serialization.DecoratedObjectReader">
       <summary>
             Reads objects that have been serialized by an <see cref="T:AK.F1.Timing.Serialization.DecoratedObjectWriter" />. This
-            class is <see langword="sealed" />.
+            class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Serialization.DecoratedObjectReader.#ctor(System.IO.Stream)">
@@ -4124,7 +4202,7 @@
     <member name="T:AK.F1.Timing.Serialization.DecoratedObjectWriter">
       <summary>
             Writes objects to an underlying output stream that have been decorated with a
-            <see cref="T:AK.F1.Timing.Serialization.TypeIdAttribute" />. This class is <see langword="sealed" />.
+            <see cref="T:AK.F1.Timing.Serialization.TypeIdAttribute" />. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Serialization.DecoratedObjectWriter.#ctor(System.IO.Stream)">
@@ -4159,19 +4237,6 @@
       <summary>
             Initialises a new instance of the <see cref="T:AK.F1.Timing.Serialization.IgnorePropertyAttribute" /> class.
             </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Serialization.IgnorePropertyAttribute.IsDefined(System.Reflection.PropertyInfo)">
-      <summary>
-            Returns a value indicating if the <see cref="T:AK.F1.Timing.Serialization.IgnorePropertyAttribute" /> is applied to the
-            specified <paramref name="property" />.
-            </summary>
-      <param name="property">The property.</param>
-      <returns>
-        <see langword="true" /> if the attribute is applied to the specified property,
-            otherwise; <see langword="false" />.</returns>
-      <exception cref="T:System.ArgumentNullException">
-            Thrown when <paramref name="property" /> is <see langword="null" />.
-            </exception>
     </member>
     <member name="T:AK.F1.Timing.Serialization.IObjectReader">
       <summary>
@@ -4306,8 +4371,10 @@
     </member>
     <member name="T:AK.F1.Timing.Serialization.PropertyDescriptor">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "T:AK.F1.Timing.Serialization.PropertyDescriptor"]</p>
-      </summary>
+            Provides <see cref="T:System.Reflection.PropertyInfo" /> information required during
+            serialization and deserialization by the <see cref="T:AK.F1.Timing.Serialization.DecoratedObjectWriter" /> and
+            <see cref="T:AK.F1.Timing.Serialization.DecoratedObjectReader" /> respectively. This class cannot be inherited.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.Equals(AK.F1.Timing.Serialization.PropertyDescriptor)">
       <summary>
@@ -4340,6 +4407,10 @@
       <param name="property">The property.</param>
       <returns>The <see cref="T:AK.F1.Timing.Serialization.PropertyDescriptor" /> for the specified
             <paramref name="property" />.</returns>
+      <exception cref="T:System.Runtime.Serialization.SerializationException">
+            Thrown when the specified <paramref name="property" /> has not been decorated with the
+            <see cref="T:AK.F1.Timing.Serialization.PropertyIdAttribute" />.
+            </exception>
     </member>
     <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.GetHashCode">
       <summary>
@@ -4360,7 +4431,7 @@
             Thrown when <paramref name="instance" /> is <see langword="null" />.
             </exception>
     </member>
-    <member name="P:AK.F1.Timing.Serialization.PropertyDescriptor.Info">
+    <member name="P:AK.F1.Timing.Serialization.PropertyDescriptor.Property">
       <summary>
             Gets the underlying <see cref="T:System.Reflection.PropertyInfo" /> which provides
             information about the property.
@@ -4381,6 +4452,20 @@
       <exception cref="T:System.ArgumentNullException">
             Thrown when <paramref name="instance" /> is <see langword="null" />.
             </exception>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>
+                    Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the target object.
+                </summary>
+      <param name="info">
+                    The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> to populate with data. 
+                </param>
+      <param name="context">
+                    The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext" />) for this serialization. 
+                </param>
+      <exception cref="T:System.Security.SecurityException">
+                    The caller does not have the required permission. 
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Serialization.PropertyDescriptor.ToString">
       <summary>
@@ -4422,7 +4507,7 @@
     </member>
     <member name="T:AK.F1.Timing.Serialization.PropertyIdAttribute">
       <summary>
-            Specifies the identifier of the decorated property. This class is <see langword="sealed" />.
+            Specifies the identifier of the decorated property. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Serialization.PropertyIdAttribute.#ctor(System.Byte)">
@@ -4464,8 +4549,10 @@
     </member>
     <member name="T:AK.F1.Timing.Serialization.TypeDescriptor">
       <summary>
-        <p style="color: #dc143c; font-size: 8.5pt; font-weight: bold;">[Missing &lt;summary&gt; documentation for "T:AK.F1.Timing.Serialization.TypeDescriptor"]</p>
-      </summary>
+            Provides <see cref="T:System.Type" /> information required during serialization and
+            deserialization by the <see cref="T:AK.F1.Timing.Serialization.DecoratedObjectWriter" /> and
+            <see cref="T:AK.F1.Timing.Serialization.DecoratedObjectReader" /> respectively. This class cannot be inherited.
+            </summary>
     </member>
     <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.Equals(AK.F1.Timing.Serialization.TypeDescriptor)">
       <summary>
@@ -4507,6 +4594,13 @@
             </summary>
       <param name="type">The type.</param>
       <returns>The <see cref="T:AK.F1.Timing.Serialization.TypeDescriptor" /> for the specified <paramref name="type" />.</returns>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="type" /> is <see langword="null" />.
+            </exception>
+      <exception cref="T:System.Runtime.Serialization.SerializationException">
+            Thrown when the specified <paramref name="type" /> has not been decorated with the
+            <see cref="T:AK.F1.Timing.Serialization.TypeIdAttribute" />.
+            </exception>
     </member>
     <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.GetHashCode">
       <summary>
@@ -4516,10 +4610,35 @@
                     A hash code for the current <see cref="T:System.Object" />.
                 </returns>
     </member>
+    <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.LoadFrom(System.Reflection.Assembly)">
+      <summary>
+            Searches the specified <paramref name="assembly" /> for types decorated with the
+            <see cref="T:AK.F1.Timing.Serialization.TypeIdAttribute" /> and creates a <see cref="T:AK.F1.Timing.Serialization.TypeDescriptor" /> for each. Note
+            that the descriptors for the currently executing assembly are loaded automatically.
+            </summary>
+      <param name="assembly">The assembly to search.</param>
+      <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="type" /> is <see langword="null" />.
+            </exception>
+    </member>
     <member name="P:AK.F1.Timing.Serialization.TypeDescriptor.Properties">
       <summary>
             Gets the collection of properties defined by the type.
             </summary>
+    </member>
+    <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+      <summary>
+                    Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the target object.
+                </summary>
+      <param name="info">
+                    The <see cref="T:System.Runtime.Serialization.SerializationInfo" /> to populate with data. 
+                </param>
+      <param name="context">
+                    The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext" />) for this serialization. 
+                </param>
+      <exception cref="T:System.Security.SecurityException">
+                    The caller does not have the required permission. 
+                </exception>
     </member>
     <member name="M:AK.F1.Timing.Serialization.TypeDescriptor.ToString">
       <summary>
@@ -4541,7 +4660,7 @@
     </member>
     <member name="T:AK.F1.Timing.Serialization.TypeIdAttribute">
       <summary>
-            Specifies the identifier of the decorated type. This class is <see langword="sealed" />.
+            Specifies the identifier of the decorated type. This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Serialization.TypeIdAttribute.#ctor(System.Int32)">
@@ -4555,19 +4674,6 @@
       <summary>
             Gets identifier of the decorated type.
             </summary>
-    </member>
-    <member name="M:AK.F1.Timing.Serialization.TypeIdAttribute.IsDefined(System.Type)">
-      <summary>
-            Returns a value indicating if the <see cref="T:AK.F1.Timing.Serialization.TypeIdAttribute" /> is applied to the
-            specified <paramref name="type" />.
-            </summary>
-      <param name="type">The type.</param>
-      <returns>
-        <see langword="true" /> if the attribute is applied to the specified type,
-            otherwise; <see langword="false" />.</returns>
-      <exception cref="T:System.ArgumentNullException">
-            Thrown when <paramref name="type" /> is <see langword="null" />.
-            </exception>
     </member>
     <member name="T:AK.F1.Timing.Utility.Disposable">
       <summary>
@@ -4614,6 +4720,7 @@
     <member name="T:AK.F1.Timing.Utility.DisposableCallback">
       <summary>
             Provides the facility to invoke a callback method when the action has been disposed of.
+            This class cannot be inherited.
             </summary>
     </member>
     <member name="M:AK.F1.Timing.Utility.DisposableCallback.#ctor(System.Action)">
