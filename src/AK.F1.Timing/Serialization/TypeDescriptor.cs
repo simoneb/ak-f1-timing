@@ -15,27 +15,64 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.Serialization;
+
+using AK.F1.Timing.Extensions;
 
 namespace AK.F1.Timing.Serialization
 {
     /// <summary>
-    /// 
+    /// Provides <see cref="System.Type"/> information required during serialization and
+    /// deserialization by the <see cref="DecoratedObjectWriter"/> and
+    /// <see cref="DecoratedObjectReader"/> respectively. This class is <see langword="sealed"/>.
     /// </summary>
     [Serializable]
-    public class TypeDescriptor : IEquatable<TypeDescriptor>
+    public sealed class TypeDescriptor : IEquatable<TypeDescriptor>, ISerializable
     {
         #region Private Impl.
 
-        private static bool _scannedAssemblies;
-        private static readonly object _cacheSyncRoot = new object();
-        private static readonly IDictionary<Type, TypeDescriptor> _typeToDescriptor =
-            new Dictionary<Type, TypeDescriptor>();
-        private static readonly IDictionary<int, TypeDescriptor> _typeIdToDescriptor =
+        private static readonly IDictionary<int, TypeDescriptor> _cache =
             new Dictionary<int, TypeDescriptor>();
 
         #endregion
 
         #region Public Interface.
+
+        /// <summary>
+        /// <see cref="TypeDescriptor"/> class constructor.
+        /// </summary>
+        static TypeDescriptor() {
+
+            LoadFrom(Assembly.GetExecutingAssembly());
+        }
+
+        /// <summary>
+        /// Searches the specified <paramref name="assembly"/> for types decorated with the
+        /// <see cref="TypeIdAttribute"/> and creates a <see cref="TypeDescriptor"/> for each. Note
+        /// that the descriptors for the currently executing assembly are loaded automatically.
+        /// </summary>
+        /// <param name="assembly">The assembly to search.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="type"/> is <see langword="null"/>.
+        /// </exception>
+        /// <remarks>
+        /// This method does not keep track of which assemblies have been searched; it is the
+        /// responsiblity of the caller to prevent the same assembly from being repeatedly searched,
+        /// although doing so will not have any adverse effects, in the interests of performance it
+        /// is not recommended.
+        /// </remarks>
+        public static void LoadFrom(Assembly assembly) {
+
+            // TODO is this method named correctly?
+
+            Guard.NotNull(assembly, "assembly");
+
+            foreach(var type in assembly.GetExportedTypes()) {
+                if(type.HasAttribute<TypeIdAttribute>()) {
+                    CreateAndCacheDescriptor(type);
+                }
+            }
+        }
         
         /// <summary>
         /// Returns the <see cref="TypeDescriptor"/> for the type with the specified identifier.
@@ -48,17 +85,9 @@ namespace AK.F1.Timing.Serialization
         /// </exception>
         public static TypeDescriptor For(int typeId) {
 
-            ScanAssemblies();
-
             TypeDescriptor descriptor;
 
-            if(_typeIdToDescriptor.TryGetValue(typeId, out descriptor)) {
-                return descriptor;
-            }
-
-            ScanAssemblies();
-
-            if(_typeIdToDescriptor.TryGetValue(typeId, out descriptor)) {
+            if(_cache.TryGetValue(typeId, out descriptor)) {
                 return descriptor;
             }
 
@@ -70,17 +99,24 @@ namespace AK.F1.Timing.Serialization
         /// </summary>
         /// <param name="type">The type.</param>
         /// <returns>The <see cref="TypeDescriptor"/> for the specified <paramref name="type"/>.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="type"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
+        /// Thrown when the specified <paramref name="type"/> has not been decorated with the
+        /// <see cref="TypeIdAttribute"/>.
+        /// </exception>
         public static TypeDescriptor For(Type type) {
 
             Guard.NotNull(type, "type");
 
             TypeDescriptor descriptor;
+            int typeId = GetTypeId(type);
 
-            if(!_typeToDescriptor.TryGetValue(type, out descriptor)) {
-                lock(_cacheSyncRoot) {
-                    if(!_typeToDescriptor.TryGetValue(type, out descriptor)) {
-                        descriptor = CreateImpl(type);
-                        CacheDescriptor(descriptor);                        
+            if(!_cache.TryGetValue(typeId, out descriptor)) {
+                lock(_cache) {
+                    if(!_cache.TryGetValue(typeId, out descriptor)) {
+                        descriptor = CreateAndCacheDescriptor(type);
                     }
                 }
             }
@@ -110,7 +146,7 @@ namespace AK.F1.Timing.Serialization
         }
 
         /// <inheritdoc/>
-        public override string ToString() {
+        public override string ToString() {            
 
             return this.Type.ToString();
         }
@@ -132,16 +168,26 @@ namespace AK.F1.Timing.Serialization
 
         #endregion
 
+        #region Explicit Interface.
+
+        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) {
+
+            info.SetType(typeof(TypeDescriptorReference));
+            new TypeDescriptorReference(this.Type).GetObjectData(info);
+        }
+
+        #endregion
+
         #region Private Impl.
 
         private TypeDescriptor(Type type, int typeId, PropertyDescriptorCollection properties) {
 
             this.Type = type;
             this.TypeId = typeId;
-            this.Properties = properties;            
+            this.Properties = properties;
         }
 
-        private static TypeDescriptor CreateImpl(Type type) {
+        private static TypeDescriptor CreateDescriptor(Type type) {
 
             return new TypeDescriptor(type, GetTypeId(type), GetProperties(type));
         }
@@ -153,7 +199,7 @@ namespace AK.F1.Timing.Serialization
 
             do {
                 foreach(var property in type.GetProperties(flags)) {
-                    if(!IgnorePropertyAttribute.IsDefined(property)) {
+                    if(!property.HasAttribute<IgnorePropertyAttribute>()) {
                         properties.Add(PropertyDescriptor.For(property));
                     }
                 }
@@ -166,38 +212,57 @@ namespace AK.F1.Timing.Serialization
 
         private static int GetTypeId(Type type) {
 
-            var attributes = type.GetCustomAttributes(typeof(TypeIdAttribute), false);
+            TypeIdAttribute attribute = type.GetAttribute<TypeIdAttribute>();
 
-            if(attributes.Length > 0) {
-                return ((TypeIdAttribute)attributes[0]).Id;
+            if(attribute == null) {
+                throw Guard.TypeDescriptor_TypeIsNotDecorated(type);
             }
 
-            throw Guard.TypeDescriptor_TypeIsNotDecorated(type);
+            return attribute.Id;            
         }
 
-        private static void ScanAssemblies() {
+        private static TypeDescriptor CreateAndCacheDescriptor(Type type) {
 
-            lock(_cacheSyncRoot) {
-                if(!_scannedAssemblies) {
-                    ScanAssembly(Assembly.GetExecutingAssembly());
-                    _scannedAssemblies = true;
-                }
-            }            
-        }
+            TypeDescriptor descriptor = CreateDescriptor(type);
 
-        private static void ScanAssembly(Assembly assembly) {
+            CacheDescriptor(descriptor);
 
-            foreach(Type type in assembly.GetExportedTypes()) {
-                if(!_typeToDescriptor.ContainsKey(type) && TypeIdAttribute.IsDefined(type)) {
-                    CacheDescriptor(CreateImpl(type));
-                }
-            }
+            return descriptor;
         }
 
         private static void CacheDescriptor(TypeDescriptor descriptor) {
 
-            _typeToDescriptor.Add(descriptor.Type, descriptor);
-            _typeIdToDescriptor.Add(descriptor.TypeId, descriptor);
+            TypeDescriptor cachedDescriptor;
+
+            if(_cache.TryGetValue(descriptor.TypeId, out cachedDescriptor)) {
+                if(cachedDescriptor.Type != descriptor.Type) {
+                    throw Guard.TypeDescriptor_DuplicateTypeId(cachedDescriptor, descriptor);
+                }
+                return;
+            }
+            
+            _cache.Add(descriptor.TypeId, descriptor);
+        }
+
+        [Serializable]
+        private sealed class TypeDescriptorReference : IObjectReference
+        {
+            private readonly Type _type;
+
+            public TypeDescriptorReference(Type type) {
+
+                _type = type;
+            }
+
+            public void GetObjectData(SerializationInfo info) {
+
+                info.AddValue("_type", _type);                
+            }
+
+            public object GetRealObject(StreamingContext context) {
+
+                return TypeDescriptor.For(_type);
+            }
         }
 
         #endregion
