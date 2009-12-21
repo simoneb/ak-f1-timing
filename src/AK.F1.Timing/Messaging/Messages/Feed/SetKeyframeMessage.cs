@@ -19,7 +19,7 @@ namespace AK.F1.Timing.Messaging.Messages.Feed
 {
     /// <summary>
     /// A message which sets the lastest ketframe number associated with the message stream. This
-    /// class is <see langword="sealed"/>.
+    /// class cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(98099362)]

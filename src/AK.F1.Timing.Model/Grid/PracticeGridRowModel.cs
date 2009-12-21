@@ -19,7 +19,7 @@ using AK.F1.Timing.Messaging.Messages.Driver;
 namespace AK.F1.Timing.Model.Grid
 {
     /// <summary>    
-    /// Defines the practice grid row model. This class is <see langword="sealed"/>.
+    /// Defines the practice grid row model. This class cannot be inherited.
     /// </summary>    
     [Serializable]
     public sealed class PracticeGridRowModel : GridRowModelBase

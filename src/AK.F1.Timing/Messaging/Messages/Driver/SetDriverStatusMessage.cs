@@ -19,7 +19,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
     /// A message which sets a driver's <see cref="AK.F1.Timing.Messaging.Messages.Driver.DriverStatus"/>.
-    /// This class is <see langword="sealed"/>.
+    /// This class cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(-36845206)]

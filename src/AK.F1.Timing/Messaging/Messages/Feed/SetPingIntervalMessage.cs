@@ -19,7 +19,7 @@ namespace AK.F1.Timing.Messaging.Messages.Feed
 {
     /// <summary>
     /// A message which sets the interval at which the live message stream should be pinged with a
-    /// magic packet. This class is <see langword="sealed"/>.
+    /// magic packet. This class cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(91507218)]

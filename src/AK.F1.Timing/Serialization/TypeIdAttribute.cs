@@ -17,7 +17,7 @@ using System;
 namespace AK.F1.Timing.Serialization
 {
     /// <summary>
-    /// Specifies the identifier of the decorated type. This class is <see langword="sealed"/>.
+    /// Specifies the identifier of the decorated type. This class cannot be inherited.
     /// </summary>
     [Serializable]
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]

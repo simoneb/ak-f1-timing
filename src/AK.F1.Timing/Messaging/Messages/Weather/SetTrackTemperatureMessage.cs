@@ -18,8 +18,8 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Weather
 {
     /// <summary>
-    /// A message which sets the current track temperature, in degrees celsius. This class is
-    /// <see langword="sealed"/>.
+    /// A message which sets the current track temperature, in degrees celsius. This class cannot
+    /// be inherited.
     /// </summary>
     [Serializable]
     [TypeId(40181265)]

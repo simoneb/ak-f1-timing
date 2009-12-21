@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
     /// <summary>
     /// An <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory"/> implementation which
     /// creates decryptors seeded using a user's credentials for the F1 live timing site. This
-    /// class is <see langword="sealed"/>.
+    /// class cannot be inherited.
     /// </summary>
     public class LiveDecryptorFactory : DecryptorFactoryBase
     {

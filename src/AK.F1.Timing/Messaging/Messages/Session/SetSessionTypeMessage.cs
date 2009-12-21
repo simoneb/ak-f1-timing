@@ -19,7 +19,7 @@ namespace AK.F1.Timing.Messaging.Messages.Session
 {
     /// <summary>
     /// A message which updates the <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionType"/>
-    /// and session identifier. This class is <see langword="sealed"/>.
+    /// and session identifier. This class cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(-15986715)]

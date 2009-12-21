@@ -18,8 +18,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
-    /// Defines the base class for driver related messages. This class is
-    /// <see langword="abstract"/>.
+    /// Defines the base class for driver related messages. This class is <see langword="abstract"/>.
     /// </summary>
     [Serializable]
     public abstract class DriverMessageBase : Message

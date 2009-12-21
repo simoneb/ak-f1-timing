@@ -18,9 +18,10 @@ namespace AK.F1.Timing.Utility
 {
     /// <summary>
     /// Provides the facility to invoke a callback method when the action has been disposed of.
+    /// This class cannot be inherited.
     /// </summary>
     [Serializable]
-    public class DisposableCallback : IDisposable
+    public sealed class DisposableCallback : IDisposable
     {
         #region Private Fields.
 

@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messaging.Live
 {
     /// <summary>
     /// An engine which updates the state information maintained by a
-    /// <see cref="LiveMessageTranslator"/>. This class is <see langword="sealed"/>.
+    /// <see cref="LiveMessageTranslator"/>. This class cannot be inherited.
     /// </summary>
     [Serializable]
     internal sealed class LiveMessageTranslatorStateEngine : MessageVisitor, IMessageProcessor

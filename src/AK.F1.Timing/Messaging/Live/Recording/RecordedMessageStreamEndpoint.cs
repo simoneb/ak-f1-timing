@@ -23,8 +23,8 @@ namespace AK.F1.Timing.Messaging.Live.Recording
 {
     /// <summary>
     /// An <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStreamEndpoint"/> implementation that
-    /// opens messages streams that have been persisted on the file system. This class is
-    /// <see langword="sealed"/>.
+    /// opens messages streams that have been persisted on the file system. This class cannot be
+    /// inherited.
     /// </summary>
     public sealed class RecordedMessageStreamEndpoint : IMessageStreamEndpoint
     {

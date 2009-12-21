@@ -17,7 +17,7 @@ using System;
 namespace AK.F1.Timing.Messaging.Live
 {
     /// <summary>
-    /// Represents the header of an F1 live timing message. This class is <see langword="sealed"/>.
+    /// Represents the header of an F1 live timing message. This class cannot be inherited.
     /// </summary>
     /// <remarks>
     /// The properties of this class are interpreted as a whole rather than individualy as a

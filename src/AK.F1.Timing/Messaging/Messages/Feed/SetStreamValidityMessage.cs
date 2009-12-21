@@ -18,8 +18,8 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Feed
 {
     /// <summary>
-    /// A message which sets a value indicating whether the message stream is valid. This class is
-    /// <see langword="sealed"/>.
+    /// A message which sets a value indicating whether the message stream is valid. This class
+    /// cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(10146908)]

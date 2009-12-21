@@ -18,8 +18,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
-    /// Represents a gap expressed as a unit of time. This class is
-    /// <see langword="sealed"/>.
+    /// Represents a gap expressed as a unit of time. This class cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(78111225)]

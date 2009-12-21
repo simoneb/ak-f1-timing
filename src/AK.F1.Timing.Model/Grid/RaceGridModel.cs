@@ -17,7 +17,7 @@ using System;
 namespace AK.F1.Timing.Model.Grid
 {
     /// <summary>
-    /// Defines the race grid model. This class is <see langword="sealed"/>.
+    /// Defines the race grid model. This class cannot be inherited.
     /// </summary>
     [Serializable]
     public sealed class RaceGridModel : GridModelBase<RaceGridRowModel>

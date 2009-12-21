@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Messaging.Live
 {
     /// <summary>
     /// Translates the messages read from a <see cref="LiveMessageReader"/> into more meaningful
-    /// messages. This class is <see langword="sealed"/>.
+    /// messages. This class cannot be inherited.
     /// </summary>
     [Serializable]
     public sealed class LiveMessageTranslator : MessageVisitor

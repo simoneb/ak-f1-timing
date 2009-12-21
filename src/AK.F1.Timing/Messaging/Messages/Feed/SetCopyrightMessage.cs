@@ -19,7 +19,7 @@ namespace AK.F1.Timing.Messaging.Messages.Feed
 {
     /// <summary>
     /// A message which contains the copyright text associated with the message stream. This class
-    /// is <see langword="sealed"/>.
+    /// cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(40380621)]

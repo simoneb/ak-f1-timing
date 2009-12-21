@@ -20,7 +20,7 @@ namespace AK.F1.Timing.Messaging
 {
     /// <summary>
     /// Defines a <see cref="AK.F1.Timing.Messaging.Message"/> which is composed of one or more
-    /// <see cref="AK.F1.Timing.Messaging.Message"/>s. This class is <see langword="sealed"/>.
+    /// <see cref="AK.F1.Timing.Messaging.Message"/>s. This class cannot be inherited.
     /// </summary>
     [Serializable]
     public sealed class CompositeMessage : Message

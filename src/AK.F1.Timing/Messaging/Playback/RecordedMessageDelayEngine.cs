@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messaging.Playback
     /// <summary>
     /// Provides an engine which causes the current thread to sleep by the amount specified in a
     /// <see cref="AK.F1.Timing.Messaging.Messages.Feed.SetNextMessageDelayMessage"/>. This class
-    /// is <see langword="sealed"/>.
+    /// cannot be inherited.
     /// </summary>
     [Serializable]
     internal sealed class RecordedMessageDelayEngine : MessageVisitor

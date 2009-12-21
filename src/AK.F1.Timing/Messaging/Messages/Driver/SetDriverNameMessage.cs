@@ -18,7 +18,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
-    /// A message which sets a driver's name. This class is <see langword="sealed"/>.
+    /// A message which sets a driver's name. This class cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(-9752615)]

@@ -23,8 +23,8 @@ namespace AK.F1.Timing.Messaging.Live
 {
     /// <summary>
     /// Contains state information relating to a specific driver used during the message
-    /// translation stage of <see cref="M:LiveMessageReader.ReadImpl"/>. This class is
-    /// <see langword="sealed"/>.
+    /// translation stage of <see cref="M:LiveMessageReader.ReadImpl"/>.  This class cannot be
+    /// inherited.
     /// </summary>
     /// <seealso cref="LiveMessageTranslator"/>
     [Serializable]

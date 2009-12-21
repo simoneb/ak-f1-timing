@@ -20,7 +20,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
     /// Contains the time, type and lap number of a time posted during a timing session. This class
-    /// <see langword="sealed"/>.
+    /// cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(71532444)]

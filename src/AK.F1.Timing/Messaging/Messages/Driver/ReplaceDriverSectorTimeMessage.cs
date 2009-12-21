@@ -18,8 +18,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
-    /// A message which replaces a driver's previous sector time. This class is
-    /// <see langword="sealed"/>.
+    /// A message which replaces a driver's previous sector time. This class cannot be inherited.
     /// </summary>
     [Serializable]
     [TypeId(-91873925)]

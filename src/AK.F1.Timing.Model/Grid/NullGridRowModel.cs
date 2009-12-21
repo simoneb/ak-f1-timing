@@ -19,7 +19,7 @@ using AK.F1.Timing.Messaging.Messages.Driver;
 namespace AK.F1.Timing.Model.Grid
 {
     /// <summary>
-    /// Defines a null grid row model. This class is <see langword="sealed"/>.
+    /// Defines a null grid row model. This class cannot be inherited.
     /// </summary>
     [Serializable]
     public sealed class NullGridRowModel : GridRowModelBase

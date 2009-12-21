@@ -21,9 +21,9 @@ using AK.F1.Timing.Messaging.Live.Encryption;
 namespace AK.F1.Timing.Messaging.Live.Recording
 {
     /// <summary>
-    /// An <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory"/> implementation that creates
-    /// decryptors with seeds that have been persisted on the file system. This class is
-    /// <see langword="sealed"/>.
+    /// An <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory"/> implementation
+    /// that creates decryptors with seeds that have been persisted on the file system. This
+    /// class cannot be inherited.
     /// </summary>
     public sealed class RecordedDecryptorFactory : DecryptorFactoryBase
     {

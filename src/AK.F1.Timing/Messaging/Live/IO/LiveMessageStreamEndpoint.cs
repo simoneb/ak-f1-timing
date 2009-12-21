@@ -25,8 +25,7 @@ namespace AK.F1.Timing.Messaging.Live.IO
 {
     /// <summary>
     /// An <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStreamEndpoint"/> implementation that
-    /// opens message streams provided by the F1 live timing server. This class is
-    /// <see langword="sealed"/>.
+    /// opens message streams provided by the F1 live timing server. This class cannot be inherited.
     /// </summary>
     public class LiveMessageStreamEndpoint : IMessageStreamEndpoint
     {

@@ -18,8 +18,8 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
     /// <summary>
-    /// A message which updates the number of laps completed by a driver. This class is
-    /// <see langword="sealed"/>.
+    /// A message which updates the number of laps completed by a driver. This class cannot be
+    /// inherited.
     /// </summary>
     [Serializable]
     [TypeId(59519632)]

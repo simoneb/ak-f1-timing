@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Serialization
     /// <summary>
     /// Provides <see cref="System.Reflection.PropertyInfo"/> information required during
     /// serialization and deserialization by the <see cref="DecoratedObjectWriter"/> and
-    /// <see cref="DecoratedObjectReader"/> respectively. This class is <see langword="sealed"/>.
+    /// <see cref="DecoratedObjectReader"/> respectively. This class cannot be inherited.
     /// </summary>
     [Serializable]
     public sealed class PropertyDescriptor : IEquatable<PropertyDescriptor>, ISerializable
