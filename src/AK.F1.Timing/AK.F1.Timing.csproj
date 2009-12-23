@@ -104,7 +104,7 @@
     <Compile Include="Messaging\Messages\CompositeMessage.cs" />
     <Compile Include="Messaging\Messages\Session\SetElapsedSessionTimeMessage.cs" />
     <Compile Include="Messaging\Messages\Weather\SetIsWetMessage.cs" />
-    <Compile Include="Messaging\Messages\Weather\SetWindDirectionMessage.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetWindAngleMessage.cs" />
     <Compile Include="Messaging\Messages\Weather\SetHumidityMessage.cs" />
     <Compile Include="Messaging\Messages\Weather\SetAtmosphericPressureMessage.cs" />
     <Compile Include="Messaging\Messages\Weather\SetWindSpeedMessage.cs" />
@@ -128,7 +128,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\SteamExtensions.cs" />
+    <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Messaging\Live\IO\LiveMessageStreamEndpoint.cs" />
     <Compile Include="Messaging\Live\Encryption\IDecryptor.cs" />
     <Compile Include="Messaging\Messages\Driver\DriverStatus.cs" />
