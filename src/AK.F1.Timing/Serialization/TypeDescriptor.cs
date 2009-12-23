@@ -173,7 +173,7 @@ namespace AK.F1.Timing.Serialization
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) {
 
             info.SetType(typeof(TypeDescriptorReference));
-            new TypeDescriptorReference(this.Type).GetObjectData(info);
+            new TypeDescriptorReference(this).GetObjectData(info);
         }
 
         #endregion
@@ -249,9 +249,9 @@ namespace AK.F1.Timing.Serialization
         {
             private readonly Type _type;
 
-            public TypeDescriptorReference(Type type) {
+            public TypeDescriptorReference(TypeDescriptor descriptor) {
 
-                _type = type;
+                _type = descriptor.Type;
             }
 
             public void GetObjectData(SerializationInfo info) {

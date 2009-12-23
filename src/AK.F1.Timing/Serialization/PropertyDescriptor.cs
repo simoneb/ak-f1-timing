@@ -127,7 +127,7 @@ namespace AK.F1.Timing.Serialization
         void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) {
 
             info.SetType(typeof(PropertyDescriptorReference));
-            new PropertyDescriptorReference(this.Property, this.PropertyId).GetObjectData(info);
+            new PropertyDescriptorReference(this).GetObjectData(info);
         }
 
         #endregion
@@ -173,10 +173,10 @@ namespace AK.F1.Timing.Serialization
             private readonly byte _propertyId;
             private readonly Type _declaringType;
 
-            public PropertyDescriptorReference(PropertyInfo property, byte propertyId) {
+            public PropertyDescriptorReference(PropertyDescriptor descriptor) {
 
-                _declaringType = property.DeclaringType;
-                _propertyId = propertyId;
+                _declaringType = descriptor.Property.DeclaringType;
+                _propertyId = descriptor.PropertyId;
             }
 
             public void GetObjectData(SerializationInfo info) {
