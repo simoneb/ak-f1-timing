@@ -43,7 +43,8 @@ namespace AK.F1.Timing.Utility
         /// <summary>
         /// Adds the hash code of the specified object to the builder.
         /// </summary>
-        /// <param name="obj">The object whose hash code will be added to the builer.</param>
+        /// <param name="obj">The object whose hash code will be added to the builder. Can be
+        /// <see langword="null"/>.</param>
         /// <returns>This builder.</returns>
         public HashCodeBuilder Add<T>(T obj) {
 
