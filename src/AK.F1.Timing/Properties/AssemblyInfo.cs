@@ -32,3 +32,4 @@ using System.Runtime.InteropServices;
 [assembly: SecurityPermission(SecurityAction.RequestMinimum)]
 [assembly: AssemblyVersion("0.8.43.34352")]
 [assembly: AssemblyFileVersion("0.8.43.34352")]
+[assembly: InternalsVisibleTo("AK.F1.Timing.Core.Test, PublicKey=0024000004800000940000000602000000240000525341310004000001000100e18c5dabeff6460bd8fbe6724052012128c04f965374dddd9141d223e91dc9055e26ce82b8bfe813c570248bc4169b36ddb3669df35575e3131d3d561d220b23869c02613718241769686345d0319b772e6638d2b1b53716a25e94bf0e021e511de692d23beff18e58d8567663fc57b208ea196eae48123e1ef2d696b939caa6")]
