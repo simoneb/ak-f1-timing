@@ -28,6 +28,25 @@ namespace AK.F1.Timing.Utility
         #region Public Interface.
 
         /// <summary>
+        /// Helper method to safely dispose of the specified disposable instance.
+        /// </summary>
+        /// <param name="disposable">The disposable instance. Can be <see langword="null"/>.</param>
+        public static void DisposeOf(IDisposable disposable) {
+
+            if(disposable == null) {
+                return;
+            }
+
+            try {
+                disposable.Dispose();
+            } catch(Exception exc) {
+                if(exc.IsFatal()) {
+                    throw;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating if this instance has been disposed of.
         /// </summary>
         public bool IsDisposed { get; private set; }
@@ -63,25 +82,6 @@ namespace AK.F1.Timing.Utility
 
             if(this.IsDisposed)
                 throw Guard.ObjectDisposed(this);
-        }
-
-        /// <summary>
-        /// Helper method to safely dispose of the specified disposable instance.
-        /// </summary>
-        /// <param name="disposable">The disposable instance. Can be null.</param>
-        protected void DisposeOf(IDisposable disposable) {
-
-            if(disposable == null) {
-                return;
-            }
-
-            try {
-                disposable.Dispose();
-            } catch(Exception exc) {
-                if(exc.IsFatal()) {
-                    throw;
-                }
-            }
         }
 
         #endregion
