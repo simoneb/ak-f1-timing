@@ -17,6 +17,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using AK.F1.Timing.Extensions;
+using AK.F1.Timing.Messaging.Messages;
 using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Messaging.Messages.Feed;
 using AK.F1.Timing.Messaging.Messages.Session;

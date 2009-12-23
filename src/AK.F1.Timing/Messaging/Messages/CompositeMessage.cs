@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing.Messaging.Messages
 {
     /// <summary>
     /// Defines a <see cref="AK.F1.Timing.Messaging.Message"/> which is composed of one or more

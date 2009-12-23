@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 
+using AK.F1.Timing.Messaging.Messages;
 using AK.F1.Timing.Messaging.Messages.Feed;
 using AK.F1.Timing.Serialization;
 

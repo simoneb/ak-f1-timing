@@ -18,6 +18,7 @@ using System.Text;
 
 using AK.F1.Timing.Messaging.Live.Encryption;
 using AK.F1.Timing.Messaging.Live.IO;
+using AK.F1.Timing.Messaging.Messages;
 using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Messaging.Messages.Feed;
 using AK.F1.Timing.Messaging.Messages.Session;
