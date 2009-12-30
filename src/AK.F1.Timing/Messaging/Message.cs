@@ -15,6 +15,7 @@
 using System;
 using System.Globalization;
 using System.Text;
+using System.Runtime.Serialization;
 
 using AK.F1.Timing.Messaging;
 
@@ -84,16 +85,24 @@ namespace AK.F1.Timing.Messaging
         #endregion
 
         #region Private Impl.
-
-        // This type should not serialized hence it has no TypeId.
+        
         [Serializable]
-        private sealed class EmptyMessage : Message
+        private sealed class EmptyMessage : Message, IObjectReference
         {
             public override void Accept(IMessageVisitor visitor) { }
 
             public override string ToString() {
 
                 return Repr("");
+            }
+
+            public object GetRealObject(StreamingContext context) {
+
+                // This is not a complete implementation of IObjectReference as an empty message
+                // will be instantiated but we are only concerned with ensuring identity in the
+                // app-domain.
+
+                return Message.Empty;
             }
         }
 
