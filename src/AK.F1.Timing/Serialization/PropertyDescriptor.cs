@@ -50,33 +50,33 @@ namespace AK.F1.Timing.Serialization
         }
 
         /// <summary>
-        /// Returns the value of the property given the specified <paramref name="instance"/>.
+        /// Returns the value of the property given the specified <paramref name="component"/>.
         /// </summary>
-        /// <param name="instance">The instance.</param>
+        /// <param name="component">The component.</param>
         /// <returns>The value of the property given the specified
-        /// <paramref name="instance"/>.</returns>
+        /// <paramref name="component"/>.</returns>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="instance"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="component"/> is <see langword="null"/>.
         /// </exception>
-        public object GetValue(object instance) {
+        public object GetValue(object component) {
 
-            Guard.NotNull(instance, "instance");            
+            Guard.NotNull(component, "component");            
 
-            return this.Property.GetGetMethod().Invoke(instance, null);
+            return this.Property.GetGetMethod().Invoke(component, null);
         }
 
         /// <summary>
         /// Sets this property to the given <paramref name="value"/> on the given
-        /// <paramref name="instance"/>.
+        /// <paramref name="component"/>.
         /// </summary>        
-        /// <param name="instance">The instance.</param>
+        /// <param name="component">The component.</param>
         /// <param name="value">The value.</param>        
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="instance"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="component"/> is <see langword="null"/>.
         /// </exception>
-        public void SetValue(object instance, object value) {
+        public void SetValue(object component, object value) {
 
-            this.Property.GetSetMethod(true).Invoke(instance, new[] { value });
+            this.Property.GetSetMethod(true).Invoke(component, new[] { value });
         }
 
         /// <inheritdoc/>
