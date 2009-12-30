@@ -20,7 +20,7 @@ namespace AK.F1.Timing.Serialization
     /// A <see cref="System.TypeCode"/> superset which specifies other well known types.
     /// </summary>
     [Serializable]
-    public enum ObjectTypeCode : byte
+    public enum ObjectTypeCode
     {
         /// <summary>
         /// A null reference.
