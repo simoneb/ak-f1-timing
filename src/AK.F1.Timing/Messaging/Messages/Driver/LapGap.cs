@@ -14,6 +14,7 @@
 
 using System;
 using AK.F1.Timing.Serialization;
+using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
@@ -22,7 +23,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     /// </summary>
     [Serializable]
     [TypeId(-54815557)]
-    public sealed class LapGap : Gap
+    public sealed class LapGap : Gap, IEquatable<LapGap>
     {
         #region Public Interface.
 
@@ -52,10 +53,13 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
             if(obj == null || obj.GetType() != GetType()) {
                 return false;
             }
-            if(obj == this) {
-                return true;
-            }
-            return this.Laps == ((LapGap)obj).Laps;
+            return Equals((LapGap)obj);
+        }
+
+        /// <inheritdoc />
+        public bool Equals(LapGap other) {
+
+            return other != null && other.Laps == this.Laps;
         }
 
         /// <inheritdoc />
@@ -80,13 +84,10 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
 
         /// <inheritdoc />
         public override int GetHashCode() {
-
-            int hash = 7;
-
-            hash = 31 * hash + GetType().GetHashCode();
-            hash = 31 * hash + this.Laps.GetHashCode();
-
-            return hash;
+        
+            return HashCodeBuilder.New()
+                .Add(GetType())
+                .Add(this.Laps);
         }
 
         /// <inheritdoc />

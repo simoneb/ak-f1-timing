@@ -14,6 +14,7 @@
 
 using System;
 using AK.F1.Timing.Serialization;
+using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Messaging.Messages.Driver
 {
@@ -22,7 +23,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
     /// </summary>
     [Serializable]
     [TypeId(78111225)]
-    public sealed class TimeGap : Gap
+    public sealed class TimeGap : Gap, IEquatable<TimeGap>
     {
         #region Public Interface.
 
@@ -52,10 +53,13 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
             if(obj == null || obj.GetType() != GetType()) {
                 return false;
             }
-            if(obj == this) {
-                return true;
-            }
-            return this.Time == ((TimeGap)obj).Time;
+            return Equals((TimeGap)obj);
+        }
+
+        /// <inheritdoc />
+        public bool Equals(TimeGap other) {
+
+            return other != null && other.Time == this.Time;
         }
 
         /// <inheritdoc />
@@ -71,8 +75,8 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
                 return this.Time.CompareTo(((TimeGap)obj).Time);
             }
             if(obj is LapGap) {
-                // We are always greater than any LapGap.
-                return 1;
+                // We are always less than any LapGap.
+                return -1;
             }
 
             throw Guard.LapGap_InvalidCompareToArgument(obj);
@@ -80,13 +84,10 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
 
         /// <inheritdoc />
         public override int GetHashCode() {
-
-            int hash = 7;
-
-            hash = 31 * hash + GetType().GetHashCode();
-            hash = 31 * hash + this.Time.GetHashCode();
-
-            return hash;
+        
+            return HashCodeBuilder.New()
+                .Add(GetType())
+                .Add(this.Time);
         }
 
         /// <inheritdoc />
