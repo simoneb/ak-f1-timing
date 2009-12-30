@@ -1,19 +1,2 @@
-session statistics:
-    - numbers of drivers at each status:
-        - on track
-        - in pit
-        - retired
-        - stopped
-        - etc.
-    - fastest lap info
-    - fastest sector times (approximate)
-    - fastest possible lap time (approximate)
-    - parse out fastest sector times and link to driver (?)
-driver statistics:
-    - best lap time
-    - previous lap time
-    - previous sector times
-    - best sector times
-- message reader:
-    - when ping interval is set to > 30 seconds, exit
-    - require end of session message or something similar.
+messages:
+    - decorate translated messages, removes ugly MessageClassifier from Fixup
