@@ -25,22 +25,6 @@ namespace AK.F1.Timing.Extensions
         #region Public Interface.
 
         /// <summary>
-        /// Returns a value indicating if the specified stream is at the end of its input.
-        /// </summary>
-        /// <param name="stream">The stream to test.</param>
-        /// <returns><see langword="true"/> if the specified stream is and the end of its
-        /// input, otherwise; <see langword="false"/>.</returns>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="stream"/> is <see langword="null"/>.
-        /// </exception>        
-        public static bool IsEof(this Stream stream) {
-
-            Guard.NotNull(stream, "stream");
-
-            return stream.Position == stream.Length;
-        }
-
-        /// <summary>
         /// Reads a sequences of bytes the stream and advances the position within the stream by
         /// the number read. If the end of the stream is reached before <paramref name="count"/>
         /// bytes are read, this method will return <see langword="false"/>, otherwise it will
