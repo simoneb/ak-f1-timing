@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{70BA1438-6E08-48BB-86D5-9DC277671EF8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AK.F1.Timing.Test</RootNamespace>
+    <AssemblyName>AK.F1.Timing.Core.Test</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>
+    </StartupObject>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>AK.F1.Timing.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="xunit, Version=1.5.0.1479, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions, Version=1.5.0.1479, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\xunit.extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Messaging\MockMessageReader.cs" />
+    <Compile Include="TestUtility.cs" />
+    <Compile Include="Extensions\UriExtensionsTest.cs" />
+    <Compile Include="Extensions\StringExtensionsTest.cs" />
+    <Compile Include="Extensions\ReflectionExtensionsTest.cs" />
+    <Compile Include="Extensions\ExceptionExtensionsTest.cs" />
+    <Compile Include="Extensions\EventExtensionsTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="F1TimingTest.cs" />
+    <Compile Include="Serialization\ObjectTypeCodeTest.cs" />
+    <Compile Include="Serialization\SerializationTestBase.cs" />
+    <Compile Include="Utility\DisposableTest.cs" />
+    <Compile Include="Utility\DisposableCallbackTest.cs" />
+    <Compile Include="Utility\HashCodeBuilderTest.cs" />
+    <Compile Include="Utility\SysClockTest.cs" />
+    <Compile Include="Serialization\DecoratedObjectReaderTest.cs" />
+    <Compile Include="Serialization\DecoratedObjectWriterTest.cs" />
+    <Compile Include="Serialization\IgnorePropertyAttributeTest.cs" />
+    <Compile Include="Serialization\PropertyDescriptorTest.cs" />
+    <Compile Include="Serialization\PropertyDescriptorCollectionTest.cs" />
+    <Compile Include="Serialization\PropertyIdAttributeTest.cs" />
+    <Compile Include="Serialization\SerializationHelperTest.cs" />
+    <Compile Include="Serialization\TypeDescriptorTest.cs" />
+    <Compile Include="Serialization\TypeIdAttributeTest.cs" />
+    <Compile Include="Messaging\MessageTest.cs" />
+    <Compile Include="Messaging\MessageReaderBaseTest.cs" />
+    <Compile Include="Messaging\MessageVisitorTest.cs" />
+    <Compile Include="Messaging\Playback\RecordedMessageDelayEngineTest.cs" />
+    <Compile Include="Messaging\Playback\RecordedMessageReaderTest.cs" />
+    <Compile Include="Messaging\Playback\RecordingMessageReaderTest.cs" />
+    <Compile Include="Messaging\Messages\CompositeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetAirTemperatureMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetAtmosphericPressureMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetHumidityMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetIsWetMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetTrackTemperatureMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetWindAngleMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Weather\SetWindSpeedMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\AddCommentaryMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\EndOfSessionMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\SetElapsedSessionTimeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\SetRaceLapNumberMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\SetRemainingSessionTimeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\SetSessionStatusMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\SetSessionTypeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\StartSessionTimeCountdownMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Session\StopSessionTimeCountdownMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Feed\SetCopyrightMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Feed\SetKeyframeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Feed\SetNextMessageDelayMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Feed\SetPingIntervalMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Feed\SetStreamValidityMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Feed\SetSystemMessageMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\ClearGridRowMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\DriverMessageBaseTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\GapTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\LapGapTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\PostedTimeTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\ReplaceDriverLapTimeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\ReplaceDriverSectorTimeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverCarNumberMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverCompletedLapsMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverGapMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverIntervalMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverLapNumberMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverLapTimeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverNameMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverPitCountMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverPitTimeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverPositionMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverQuallyTimeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverSectorTimeMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetDriverStatusMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetGridColumnColourMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\SetGridColumnValueMessageTest.cs" />
+    <Compile Include="Messaging\Messages\Driver\TimeGapTest.cs" />
+    <Compile Include="Messaging\Live\LiveDataTest.cs" />
+    <Compile Include="Messaging\Live\LiveDriverTest.cs" />
+    <Compile Include="Messaging\Live\LiveMessageHeaderTest.cs" />
+    <Compile Include="Messaging\Live\LiveMessageReaderTest.cs" />
+    <Compile Include="Messaging\Live\LiveMessageReaderStateEngineTest.cs" />
+    <Compile Include="Messaging\Live\LiveMessageTranslatorTest.cs" />
+    <Compile Include="Messaging\Live\LiveMessageTranslatorStateEngineTest.cs" />
+    <Compile Include="Messaging\Live\Recording\RecordedDecryptorFactoryTest.cs" />
+    <Compile Include="Messaging\Live\Recording\RecordedMessageStreamEndpointTest.cs" />
+    <Compile Include="Messaging\Live\IO\LiveMessageStreamEndpointTest.cs" />
+    <Compile Include="Messaging\Live\IO\LiveSocketMessageStreamTest.cs" />
+    <Compile Include="Messaging\Live\IO\MessageStreamDelegateTest.cs" />
+    <Compile Include="Messaging\Live\Encryption\DecryptorFactoryBaseTest.cs" />
+    <Compile Include="Messaging\Live\Encryption\LiveDecryptorTest.cs" />
+    <Compile Include="Messaging\Live\Encryption\LiveDecryptorFactoryTest.cs" />
+    <Compile Include="Extensions\StreamExtensionsTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AK.F1.Timing\AK.F1.Timing.csproj">
+      <Project>{52334AE8-7F11-404B-AD45-4519F9229F4A}</Project>
+      <Name>AK.F1.Timing</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AK.F1.Timing.snk" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
