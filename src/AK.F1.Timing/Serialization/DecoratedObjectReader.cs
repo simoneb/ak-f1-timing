@@ -41,7 +41,7 @@ namespace AK.F1.Timing.Serialization
             Guard.NotNull(input, "input");
 
             this.Context = new StreamingContext(StreamingContextStates.All);
-            this.Input = new BinaryReader(input, DecoratedObjectWriter.TEXT_ENCODING);            
+            this.Input = DecoratedObjectWriter.CreateBinaryReader(input);
         }
 
         /// <inheritcdoc/>        
@@ -76,7 +76,7 @@ namespace AK.F1.Timing.Serialization
             byte propertyId;
             PropertyDescriptor property;
             TypeDescriptor descriptor = TypeDescriptor.For(this.Input.ReadInt32());
-            object instance = descriptor.Type.GetUninitializedInstance();
+            object component = descriptor.Type.GetUninitializedInstance();
             byte propertyCount = this.Input.ReadByte();
 
             while(propertyCount-- > 0) {
@@ -84,10 +84,10 @@ namespace AK.F1.Timing.Serialization
                 if((property = descriptor.Properties.GetById(propertyId)) == null) {
                     throw Guard.DecoratedObjectReader_PropertyMissing(propertyId, descriptor);
                 }
-                property.SetValue(instance, Read());
+                property.SetValue(component, Read());
             }
 
-            return GetRealObject(instance);
+            return GetRealObject(component);
         }
 
         private object GetRealObject(object instance) {

@@ -28,7 +28,37 @@ namespace AK.F1.Timing.Serialization
     {
         #region Fields.
 
-        internal static readonly Encoding TEXT_ENCODING = Encoding.UTF8;
+        private static readonly Encoding TEXT_ENCODING = Encoding.UTF8;
+
+        #endregion
+
+        #region Internal Interface.
+
+        /// <summary>
+        /// Creates a <see cref="System.IO.BinaryReader"/> suitable for reading data.
+        /// </summary>
+        /// <param name="input">The underlying input stream.</param>
+        /// <returns>A <see cref="System.IO.BinaryReader"/>.</returns>
+        internal static BinaryReader CreateBinaryReader(Stream input) {
+
+            return new BinaryReader(input, TEXT_ENCODING);
+        }
+
+        /// <summary>
+        /// Creates a <see cref="System.IO.BinaryWriter"/> suitable for writing data.
+        /// </summary>
+        /// <param name="output">The underlying output stream.</param>
+        /// <returns>A <see cref="System.IO.BinaryWriter"/>.</returns>
+        internal static BinaryWriter CreateBinaryWriter(Stream output) {
+
+            // TODO consider compression:
+            // - is it supported on .NETCF?
+            // - is it worth the memory overhead?
+            //   - average race session is < 1MiB
+            //   - what is the average tms compression ratio?
+            // - is the format likely to change? backwards compatibility is essential
+            return new BinaryWriter(output, TEXT_ENCODING);
+        }
 
         #endregion
 
@@ -46,7 +76,7 @@ namespace AK.F1.Timing.Serialization
 
             Guard.NotNull(output, "output");
 
-            this.Output = new BinaryWriter(output, TEXT_ENCODING);
+            this.Output = CreateBinaryWriter(output);
         }
 
         /// <inheritdoc/>        
