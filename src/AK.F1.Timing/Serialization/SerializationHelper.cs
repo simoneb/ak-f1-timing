@@ -42,15 +42,15 @@ namespace AK.F1.Timing.Serialization
 
             Guard.NotNull(type, "type");
 
-            TypeCode navtiveTypeCode = Type.GetTypeCode(type);
+            TypeCode clrTypeCode = Type.GetTypeCode(type);
 
-            if(navtiveTypeCode == TypeCode.Object) {
+            if(clrTypeCode == TypeCode.Object) {
                 if(type == TIMESPAN_TYPE) {
                     return ObjectTypeCode.TimeSpan;
                 }
             }
 
-            return (ObjectTypeCode)navtiveTypeCode;
+            return (ObjectTypeCode)clrTypeCode;
         }
 
         /// <summary>
