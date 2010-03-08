@@ -3,25 +3,10 @@
   <!-- Build Properties -->
 
   <PropertyGroup>
-    <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>
-    <DebugSymbols>true</DebugSymbols>
+    <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>    
+    <ForcedBuildProperties>Configuration=$(BuildType)</ForcedBuildProperties>
+    <PackageDependencies>Clean;SetVersionNumber;Build</PackageDependencies>
   </PropertyGroup>
-
-  <Choose>
-    <When Condition="'$(Configuration)'=='Debug'">
-      <PropertyGroup>
-        <DebugType>full</DebugType>
-        <Optimize>false</Optimize>
-        <DefineConstants>DEBUG;TRACE</DefineConstants>
-      </PropertyGroup>
-    </When>
-    <When Condition="'$(Configuration)'=='Release'">
-      <PropertyGroup>
-        <Optimize>true</Optimize>
-        <DefineConstants/>
-      </PropertyGroup>
-    </When>
-  </Choose>
 
   <!-- Path Properties -->
 
@@ -36,6 +21,8 @@
     <MSBuildTasksPath>$(ToolsPath)\msbuild</MSBuildTasksPath>
     <XUnitTasksPath>$(ToolsPath)\xunit</XUnitTasksPath>
     <SvnToolsPath>C:\Program Files\CollabNet\Subversion Client\</SvnToolsPath>
+    <UIBinPath>$(SrcPath)\AK.F1.Timing.UI\src\bin\$(BuildType)</UIBinPath>
+    <RecorderBinPath>$(SrcPath)\AK.F1.Timing.LiveRecorder\src\bin\$(BuildType)</RecorderBinPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildTasksPath)\MSBuild.Community.tasks"/>
@@ -54,18 +41,19 @@
     <CreateItem Include="$(SrcPath)\*.Test.Results.xml">
       <Output TaskParameter="Include" ItemName="CleanFileList"/>
     </CreateItem>
-    <Delete Files="@(CleanFileList)"/>
+    <Delete
+      Files="@(CleanFileList)"/>
     <MSBuild
-        Projects="$(SolutionPath)"
-        Targets="Clean"
-        Properties="Configuration=$(BuildType)"/>
+      Projects="$(SolutionPath)"
+      Targets="Clean"
+      Properties="$(ForcedBuildProperties)"/>
   </Target>
 
   <Target Name="Build">
     <MSBuild
-        Projects="$(SolutionPath)"
-        Targets="Build"
-        Properties="Configuration=$(BuildType)"/>
+      Projects="$(SolutionPath)"
+      Targets="Build"
+      Properties="$(ForcedBuildProperties)"/>
   </Target>
 
   <Target Name="Test" DependsOnTargets="Build">
@@ -74,31 +62,31 @@
       <Output TaskParameter="Include" ItemName="TestXmlFiles"/>
     </CreateItem>
     <CombineXunitXml
-        InputFiles="@(TestXmlFiles)"
-        OutputFile="$(SrcPath)\AK.F1.Timing.Test.Results.xml"/>
+      InputFiles="@(TestXmlFiles)"
+      OutputFile="$(SrcPath)\AK.F1.Timing.Test.Results.xml"/>
     <Delete Files="@(TestXmlFiles)"/>
   </Target>
 
   <Target Name="Help">
     <MSBuild
-        Projects="$(SrcPath)\AK.F1.Timing.shfbproj"
-        Targets="Build"
-        Properties="Configuration=$(BuildType)"/>
+      Projects="$(SrcPath)\AK.F1.Timing.shfbproj"
+      Targets="Build"
+      Properties="Configuration=$(BuildType)"/>
   </Target>
 
   <Target Name="SetVersionNumber">
     <Version
-        Major="1"
-        Minor="0"
-        VersionFile="$(GlobalAssemblyVersionPath)"
-        RevisionType="Automatic">
+      Major="0"
+      Minor="8"
+      VersionFile="$(GlobalAssemblyVersionPath)"
+      RevisionType="Automatic">
      <Output TaskParameter="Major" PropertyName="Major"/>
      <Output TaskParameter="Minor" PropertyName="Minor"/>
      <Output TaskParameter="Revision" PropertyName="Revision"/>
     </Version>
     <SvnVersion
-        LocalPath="."
-        ToolPath="$(SvnToolsPath)">
+      LocalPath="."
+      ToolPath="$(SvnToolsPath)">
      <Output TaskParameter="Revision" PropertyName="Build"/>
     </SvnVersion>
     <PropertyGroup>
@@ -106,37 +94,87 @@
     </PropertyGroup>
     <Message Text="Version: $(GlobalAssemblyVersion)"/>
     <RegexReplace
-        Pattern='AssemblyVersion\(".*"\)'
-        Replacement='AssemblyVersion("$(GlobalAssemblyVersion)")'
-        Files="$(GlobalAssemblyInfoPath)"/>
+      Pattern='AssemblyVersion\(".*"\)'
+      Replacement='AssemblyVersion("$(GlobalAssemblyVersion)")'
+      Files="$(GlobalAssemblyInfoPath)"/>
     <RegexReplace
-        Pattern='AssemblyFileVersion\(".*"\)'
-        Replacement='AssemblyFileVersion("$(GlobalAssemblyVersion)")'
-        Files="$(GlobalAssemblyInfoPath)"/>
+      Pattern='AssemblyFileVersion\(".*"\)'
+      Replacement='AssemblyFileVersion("$(GlobalAssemblyVersion)")'
+      Files="$(GlobalAssemblyInfoPath)"/>
   </Target>
 
-  <Target Name="CreateVersionedBinPath" DependsOnTargets="SetVersionNumber">
+  <Target
+    Name="Package"
+    DependsOnTargets="$(PackageDependencies);PackageUI;PackageRecorder"/>
+
+  <Target Name="PackageUI" DependsOnTargets="$(PackageDependencies)">
     <PropertyGroup>
-      <VersionedBinPath>$(BinPath)\$(BuildType)-$(GlobalAssemblyVersion)</VersionedBinPath>
+      <UIPackagePath>$(BinPath)\latest-f1timing</UIPackagePath>
+      <UIPackageBinPath>$(UIPackagePath)\bin</UIPackageBinPath>
     </PropertyGroup>
-    <RemoveDir Directories="$(VersionedBinPath)" Condition="Exists('$(VersionedBinPath)')"/>
-    <MakeDir Directories="$(VersionedBinPath)"/>
-  </Target>
-
-  <Target Name="Package" DependsOnTargets="CreateVersionedBinPath">
     <ItemGroup>
-      <DataFiles
-        Include="$(SrcPath)\AK.F1.Timing.Data\src\bin\$(BuildType)\*.*"
-        Exclude="$(SrcPath)\AK.F1.Timing.Data\src\bin\$(BuildType)\*.xml"/>
-      <ImportFiles
-        Include="$(SrcPath)\AK.F1.Timing.Data.Import\src\bin\$(BuildType)\*.*"
-        Exclude="$(SrcPath)\AK.F1.Timing.Data.Import\src\bin\$(BuildType)\*.xml"/>      
+      <UIPackageRootFiles
+        Include="$(UIBinPath)\f1timing.*"/>
+      <UIPackageBinFiles
+        Include="$(UIBinPath)\*.*"
+        Exclude="$(UIBinPath)\*.xml;@(UIPackageRootFiles)"/>
+    </ItemGroup>
+    <RemoveDir
+      Directories="$(UIPackagePath)"
+      Condition="Exists('$(UIPackagePath)')"/>
+    <MakeDir
+      Directories="$(UIPackageBinPath)"/>
+    <Copy
+      SourceFiles="@(UIPackageRootFiles)"
+      DestinationFolder="$(UIPackagePath)"/>
+    <Copy
+      SourceFiles="@(UIPackageBinFiles)"
+      DestinationFolder="$(UIPackageBinPath)"/>
+    <ItemGroup>
+      <UIPackageFiles
+        Include="$(UIPackagePath)\**\*.*"/>
     </ItemGroup>
     <Zip
-      ZipFileName="$(VersionedBinPath).zip"
-      Files="@(ZipFiles)"
-      Flatten="true"
-      ZipLevel="10"/>    
+      Files="@(UIPackageFiles)"
+      ZipFileName="$(BinPath)\f1timing.v$(GlobalAssemblyVersion).zip"
+      WorkingDirectory="$(UIPackagePath)"
+      Flatten="false"
+      ZipLevel="10"/>
+  </Target>
+
+  <Target Name="PackageRecorder" DependsOnTargets="$(PackageDependencies)">
+    <PropertyGroup>
+      <RecorderPackagePath>$(BinPath)\latest-f1recorder</RecorderPackagePath>
+      <RecorderPackageBinPath>$(RecorderPackagePath)\bin</RecorderPackageBinPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <RecorderPackageRootFiles
+        Include="$(RecorderBinPath)\f1recorder.*"/>
+      <RecorderPackageBinFiles
+        Include="$(RecorderBinPath)\*.*"
+        Exclude="$(RecorderBinPath)\*.xml;@(RecorderPackageRootFiles)"/>
+    </ItemGroup>
+    <RemoveDir
+      Directories="$(RecorderPackagePath)"
+      Condition="Exists('$(RecorderPackagePath)')"/>
+    <MakeDir
+      Directories="$(RecorderPackageBinPath)"/>
+    <Copy
+      SourceFiles="@(RecorderPackageRootFiles)"
+      DestinationFolder="$(RecorderPackagePath)"/>
+    <Copy
+      SourceFiles="@(RecorderPackageBinFiles)"
+      DestinationFolder="$(RecorderPackageBinPath)"/>
+    <ItemGroup>
+      <RecorderPackageFiles
+        Include="$(RecorderPackagePath)\**\*.*"/>
+    </ItemGroup>
+    <Zip
+      Files="@(RecorderPackageFiles)"
+      ZipFileName="$(BinPath)\f1recorder.v$(GlobalAssemblyVersion).zip"
+      WorkingDirectory="$(RecorderPackagePath)"
+      Flatten="false"
+      ZipLevel="10"/>
   </Target>
 
 </Project>
