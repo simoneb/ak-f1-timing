@@ -1,0 +1,142 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <!-- Build Properties -->
+
+  <PropertyGroup>
+    <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(Configuration)'=='Debug'">
+      <PropertyGroup>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+      </PropertyGroup>
+    </When>
+    <When Condition="'$(Configuration)'=='Release'">
+      <PropertyGroup>
+        <Optimize>true</Optimize>
+        <DefineConstants/>
+      </PropertyGroup>
+    </When>
+  </Choose>
+
+  <!-- Path Properties -->
+
+  <PropertyGroup>
+    <BinPath>..\bin</BinPath>
+    <LibPath>..\lib</LibPath>
+    <ToolsPath>..\tools</ToolsPath>
+    <SrcPath>.</SrcPath>
+    <SolutionPath>$(SrcPath)\AK.F1.Timing.sln</SolutionPath>
+    <GlobalAssemblyInfoPath>$(SrcPath)\GlobalAssemblyInfo.cs</GlobalAssemblyInfoPath>
+    <GlobalAssemblyVersionPath>$(SrcPath)\GlobalAssemblyVersion.version</GlobalAssemblyVersionPath>
+    <MSBuildTasksPath>$(ToolsPath)\msbuild</MSBuildTasksPath>
+    <XUnitTasksPath>$(ToolsPath)\xunit</XUnitTasksPath>
+    <SvnToolsPath>C:\Program Files\CollabNet\Subversion Client\</SvnToolsPath>
+  </PropertyGroup>
+
+  <Import Project="$(MSBuildTasksPath)\MSBuild.Community.tasks"/>
+  <Import Project="$(MSBuildTasksPath)\CodePlex.MSBuildTasks.tasks"/>
+  <Import Project="$(XUnitTasksPath)\XUnit.tasks"/>
+
+  <!-- Build server targets -->
+
+  <Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
+
+  <Target Name="All" DependsOnTargets="Clean;SetVersionNumber;Build;Test"/>
+
+  <!-- Individiual targets -->
+
+  <Target Name="Clean">
+    <CreateItem Include="$(SrcPath)\*.Test.Results.xml">
+      <Output TaskParameter="Include" ItemName="CleanFileList"/>
+    </CreateItem>
+    <Delete Files="@(CleanFileList)"/>
+    <MSBuild
+        Projects="$(SolutionPath)"
+        Targets="Clean"
+        Properties="Configuration=$(BuildType)"/>
+  </Target>
+
+  <Target Name="Build">
+    <MSBuild
+        Projects="$(SolutionPath)"
+        Targets="Build"
+        Properties="Configuration=$(BuildType)"/>
+  </Target>
+
+  <Target Name="Test" DependsOnTargets="Build">
+    <XunitProject ProjectFile="$(SrcPath)\AK.F1.Timing.$(BuildType).xunit"/>
+    <CreateItem Include="$(SrcPath)\*.Test.Results.xml">
+      <Output TaskParameter="Include" ItemName="TestXmlFiles"/>
+    </CreateItem>
+    <CombineXunitXml
+        InputFiles="@(TestXmlFiles)"
+        OutputFile="$(SrcPath)\AK.F1.Timing.Test.Results.xml"/>
+    <Delete Files="@(TestXmlFiles)"/>
+  </Target>
+
+  <Target Name="Help">
+    <MSBuild
+        Projects="$(SrcPath)\AK.F1.Timing.shfbproj"
+        Targets="Build"
+        Properties="Configuration=$(BuildType)"/>
+  </Target>
+
+  <Target Name="SetVersionNumber">
+    <Version
+        Major="1"
+        Minor="0"
+        VersionFile="$(GlobalAssemblyVersionPath)"
+        RevisionType="Automatic">
+     <Output TaskParameter="Major" PropertyName="Major"/>
+     <Output TaskParameter="Minor" PropertyName="Minor"/>
+     <Output TaskParameter="Revision" PropertyName="Revision"/>
+    </Version>
+    <SvnVersion
+        LocalPath="."
+        ToolPath="$(SvnToolsPath)">
+     <Output TaskParameter="Revision" PropertyName="Build"/>
+    </SvnVersion>
+    <PropertyGroup>
+      <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
+    </PropertyGroup>
+    <Message Text="Version: $(GlobalAssemblyVersion)"/>
+    <RegexReplace
+        Pattern='AssemblyVersion\(".*"\)'
+        Replacement='AssemblyVersion("$(GlobalAssemblyVersion)")'
+        Files="$(GlobalAssemblyInfoPath)"/>
+    <RegexReplace
+        Pattern='AssemblyFileVersion\(".*"\)'
+        Replacement='AssemblyFileVersion("$(GlobalAssemblyVersion)")'
+        Files="$(GlobalAssemblyInfoPath)"/>
+  </Target>
+
+  <Target Name="CreateVersionedBinPath" DependsOnTargets="SetVersionNumber">
+    <PropertyGroup>
+      <VersionedBinPath>$(BinPath)\$(BuildType)-$(GlobalAssemblyVersion)</VersionedBinPath>
+    </PropertyGroup>
+    <RemoveDir Directories="$(VersionedBinPath)" Condition="Exists('$(VersionedBinPath)')"/>
+    <MakeDir Directories="$(VersionedBinPath)"/>
+  </Target>
+
+  <Target Name="Package" DependsOnTargets="CreateVersionedBinPath">
+    <ItemGroup>
+      <DataFiles
+        Include="$(SrcPath)\AK.F1.Timing.Data\src\bin\$(BuildType)\*.*"
+        Exclude="$(SrcPath)\AK.F1.Timing.Data\src\bin\$(BuildType)\*.xml"/>
+      <ImportFiles
+        Include="$(SrcPath)\AK.F1.Timing.Data.Import\src\bin\$(BuildType)\*.*"
+        Exclude="$(SrcPath)\AK.F1.Timing.Data.Import\src\bin\$(BuildType)\*.xml"/>      
+    </ItemGroup>
+    <Zip
+      ZipFileName="$(VersionedBinPath).zip"
+      Files="@(ZipFiles)"
+      Flatten="true"
+      ZipLevel="10"/>    
+  </Target>
+
+</Project>

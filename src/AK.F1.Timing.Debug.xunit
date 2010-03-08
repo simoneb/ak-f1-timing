@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xunit>
+  <assemblies>
+    <!-- AK.F1.Timing.Core.Test.dll -->
+    <assembly filename="AK.F1.Timing\test\bin\Debug\AK.F1.Timing.Core.Test.dll" shadow-copy="true">
+      <output type="xml" filename="AK.F1.Timing.Core.Test.Results.xml" />
+    </assembly>
+  </assemblies>
+</xunit>
