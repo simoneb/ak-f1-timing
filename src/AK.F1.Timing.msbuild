@@ -3,13 +3,13 @@
   <!-- Build Properties -->
 
   <PropertyGroup>
-    <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>    
+    <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>
     <ForcedBuildProperties>Configuration=$(BuildType)</ForcedBuildProperties>
-    <PackageDependencies>Clean;SetVersionNumber;Build</PackageDependencies>
+    <CorePackageDependencies>Clean;CleanBinPath;SetVersionNumber;Build</CorePackageDependencies>
   </PropertyGroup>
-
+  
   <!-- Path Properties -->
-
+  
   <PropertyGroup>
     <BinPath>..\bin</BinPath>
     <LibPath>..\lib</LibPath>
@@ -23,6 +23,7 @@
     <SvnToolsPath>C:\Program Files\CollabNet\Subversion Client\</SvnToolsPath>
     <UIBinPath>$(SrcPath)\AK.F1.Timing.UI\src\bin\$(BuildType)</UIBinPath>
     <RecorderBinPath>$(SrcPath)\AK.F1.Timing.LiveRecorder\src\bin\$(BuildType)</RecorderBinPath>
+    <FixupBinPath>$(SrcPath)\AK.F1.Timing.Fixup\src\bin\$(BuildType)</FixupBinPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildTasksPath)\MSBuild.Community.tasks"/>
@@ -71,7 +72,7 @@
     <MSBuild
       Projects="$(SrcPath)\AK.F1.Timing.shfbproj"
       Targets="Build"
-      Properties="Configuration=$(BuildType)"/>
+      Properties="$(ForcedBuildProperties)"/>
   </Target>
 
   <Target Name="SetVersionNumber">
@@ -80,48 +81,53 @@
       Minor="8"
       VersionFile="$(GlobalAssemblyVersionPath)"
       RevisionType="Automatic">
-     <Output TaskParameter="Major" PropertyName="Major"/>
-     <Output TaskParameter="Minor" PropertyName="Minor"/>
-     <Output TaskParameter="Revision" PropertyName="Revision"/>
+      <Output TaskParameter="Major" PropertyName="Major"/>
+      <Output TaskParameter="Minor" PropertyName="Minor"/>
+      <Output TaskParameter="Revision" PropertyName="Revision"/>
     </Version>
     <SvnVersion
       LocalPath="."
       ToolPath="$(SvnToolsPath)">
-     <Output TaskParameter="Revision" PropertyName="Build"/>
+      <Output TaskParameter="Revision" PropertyName="Build"/>
     </SvnVersion>
     <PropertyGroup>
       <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
     </PropertyGroup>
-    <Message Text="Version: $(GlobalAssemblyVersion)"/>
     <RegexReplace
-      Pattern='AssemblyVersion\(".*"\)'
-      Replacement='AssemblyVersion("$(GlobalAssemblyVersion)")'
+      Pattern="AssemblyVersion\(&quot;.*&quot;\)"
+      Replacement="AssemblyVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
       Files="$(GlobalAssemblyInfoPath)"/>
     <RegexReplace
-      Pattern='AssemblyFileVersion\(".*"\)'
-      Replacement='AssemblyFileVersion("$(GlobalAssemblyVersion)")'
+      Pattern="AssemblyFileVersion\(&quot;.*&quot;\)"
+      Replacement="AssemblyFileVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
       Files="$(GlobalAssemblyInfoPath)"/>
+  </Target>
+
+  <Target Name="CleanBinPath">
+    <RemoveDir
+      Directories="$(BinPath)"
+      Condition="Exists('$(BinPath)')"/>
+    <MakeDir
+      Directories="$(BinPath)"/>
   </Target>
 
   <Target
     Name="Package"
-    DependsOnTargets="$(PackageDependencies);PackageUI;PackageRecorder"/>
+    DependsOnTargets="$(CorePackageDependencies);PackageUI;PackageRecorder;PackageFixup"/>
 
-  <Target Name="PackageUI" DependsOnTargets="$(PackageDependencies)">
+  <Target Name="PackageUI" DependsOnTargets="$(CorePackageDependencies)">
     <PropertyGroup>
-      <UIPackagePath>$(BinPath)\latest-f1timing</UIPackagePath>
+      <UIPackageName>f1timing</UIPackageName>
+      <UIPackagePath>$(BinPath)\latest-$(UIPackageName)</UIPackagePath>
       <UIPackageBinPath>$(UIPackagePath)\bin</UIPackageBinPath>
     </PropertyGroup>
     <ItemGroup>
       <UIPackageRootFiles
-        Include="$(UIBinPath)\f1timing.*"/>
+        Include="$(UIBinPath)\$(UIPackageName).*"/>
       <UIPackageBinFiles
         Include="$(UIBinPath)\*.*"
         Exclude="$(UIBinPath)\*.xml;@(UIPackageRootFiles)"/>
     </ItemGroup>
-    <RemoveDir
-      Directories="$(UIPackagePath)"
-      Condition="Exists('$(UIPackagePath)')"/>
     <MakeDir
       Directories="$(UIPackageBinPath)"/>
     <Copy
@@ -136,27 +142,25 @@
     </ItemGroup>
     <Zip
       Files="@(UIPackageFiles)"
-      ZipFileName="$(BinPath)\f1timing.v$(GlobalAssemblyVersion).zip"
+      ZipFileName="$(BinPath)\$(UIPackageName)-v$(GlobalAssemblyVersion).zip"
       WorkingDirectory="$(UIPackagePath)"
       Flatten="false"
       ZipLevel="10"/>
   </Target>
 
-  <Target Name="PackageRecorder" DependsOnTargets="$(PackageDependencies)">
+  <Target Name="PackageRecorder" DependsOnTargets="$(CorePackageDependencies)">
     <PropertyGroup>
-      <RecorderPackagePath>$(BinPath)\latest-f1recorder</RecorderPackagePath>
+      <RecorderPackageName>f1recorder</RecorderPackageName>
+      <RecorderPackagePath>$(BinPath)\latest-$(RecorderPackageName)</RecorderPackagePath>
       <RecorderPackageBinPath>$(RecorderPackagePath)\bin</RecorderPackageBinPath>
     </PropertyGroup>
     <ItemGroup>
       <RecorderPackageRootFiles
-        Include="$(RecorderBinPath)\f1recorder.*"/>
+        Include="$(RecorderBinPath)\$(RecorderPackageName).*"/>
       <RecorderPackageBinFiles
         Include="$(RecorderBinPath)\*.*"
         Exclude="$(RecorderBinPath)\*.xml;@(RecorderPackageRootFiles)"/>
     </ItemGroup>
-    <RemoveDir
-      Directories="$(RecorderPackagePath)"
-      Condition="Exists('$(RecorderPackagePath)')"/>
     <MakeDir
       Directories="$(RecorderPackageBinPath)"/>
     <Copy
@@ -171,8 +175,41 @@
     </ItemGroup>
     <Zip
       Files="@(RecorderPackageFiles)"
-      ZipFileName="$(BinPath)\f1recorder.v$(GlobalAssemblyVersion).zip"
+      ZipFileName="$(BinPath)\$(RecorderPackageName)-v$(GlobalAssemblyVersion).zip"
       WorkingDirectory="$(RecorderPackagePath)"
+      Flatten="false"
+      ZipLevel="10"/>
+  </Target>
+
+  <Target Name="PackageFixup" DependsOnTargets="$(CorePackageDependencies)">
+    <PropertyGroup>
+      <FixupPackageName>f1fixup</FixupPackageName>
+      <FixupPackagePath>$(BinPath)\latest-$(FixupPackageName)</FixupPackagePath>
+      <FixupPackageBinPath>$(FixupPackagePath)\bin</FixupPackageBinPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <FixupPackageRootFiles
+        Include="$(FixupBinPath)\$(FixupPackageName).*"/>
+      <FixupPackageBinFiles
+        Include="$(FixupBinPath)\*.*"
+        Exclude="$(FixupBinPath)\*.xml;@(FixupPackageRootFiles)"/>
+    </ItemGroup>
+    <MakeDir
+      Directories="$(FixupPackageBinPath)"/>
+    <Copy
+      SourceFiles="@(FixupPackageRootFiles)"
+      DestinationFolder="$(FixupPackagePath)"/>
+    <Copy
+      SourceFiles="@(FixupPackageBinFiles)"
+      DestinationFolder="$(FixupPackageBinPath)"/>
+    <ItemGroup>
+      <FixupPackageFiles
+        Include="$(FixupPackagePath)\**\*.*"/>
+    </ItemGroup>
+    <Zip
+      Files="@(FixupPackageFiles)"
+      ZipFileName="$(BinPath)\$(FixupPackageName)-v$(GlobalAssemblyVersion).zip"
+      WorkingDirectory="$(FixupPackagePath)"
       Flatten="false"
       ZipLevel="10"/>
   </Target>
