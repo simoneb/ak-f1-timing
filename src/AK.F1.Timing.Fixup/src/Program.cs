@@ -26,12 +26,6 @@ namespace AK.F1.Timing.Fixup
     /// </summary>
     public static class Program
     {
-        #region Fields.
-
-        private const string TMS_SEARCH_PATTERN = "*.tms";
-
-        #endregion
-
         #region Public Interface.
 
         /// <summary>
@@ -40,29 +34,11 @@ namespace AK.F1.Timing.Fixup
         /// <param name="args">The application arguments.</param>
         public static void Main(string[] args) {
 
-            if(args.Length == 0) {
-                Usage("directory: required argument");
-                return;
+            var options = new CommandLineOptions();
+
+            if(options.ParseAndContinue(args)) {
+                FixupDirectory(options.Directory, options.Recurse);
             }
-
-            string directory = args[0];
-
-            if(!Directory.Exists(directory)) {
-                Usage("directory: specifed directory does not exist");
-                return;
-            }
-
-            bool recurse = false;
-
-            if(args.Length == 2) {
-                if(!args[1].Equals("/r", StringComparison.Ordinal)) {
-                    Usage("invalid option: " + args[1]);
-                    return;
-                }
-                recurse = true;
-            }
-
-            FixupDirectory(directory, recurse);
         }
 
         #endregion
@@ -74,49 +50,45 @@ namespace AK.F1.Timing.Fixup
             int fixedUp = 0;
             var searchOption = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
 
-            foreach(var path in Directory.GetFiles(directory, TMS_SEARCH_PATTERN, searchOption)) {
+            foreach(var path in Directory.GetFiles(directory, "*.tms", searchOption)) {
                 FixupFile(path, path.Substring(directory.Length + 1));
                 ++fixedUp;
             }
 
-            Console.WriteLine("fixup: fixed {0} file{1}", fixedUp, fixedUp >= 0 ? "s" : string.Empty);
+            WriteLine("processed {0} file{1}", fixedUp, fixedUp >= 0 ? "s" : string.Empty);
         }
 
         private static void FixupFile(string path, string name) {
-
-            Console.WriteLine("fixup: {0}", name);
-
-            Message m;
-            var read = 0;
-            var written = 0;
+            
+            int read = 0;
+            int written = 0;
+            Message message;
+            var tempPath = path + ".tmp";
             var classifier = new MessageClassifier();
-            var translater = new LiveMessageTranslator();
-            string temp = path + ".tmp";
+            var translater = new LiveMessageTranslator();            
 
-            File.Copy(path, temp);
-
-            using(var input = File.OpenRead(temp))
+            using(var input = File.OpenRead(path))
             using(var reader = new DecoratedObjectReader(input))
-            using(var output = File.Create(path))
+            using(var output = File.OpenWrite(tempPath))
             using(var writer = new DecoratedObjectWriter(output)) {
                 while(true) {
-                    if((m = (Message)reader.Read()) == null) {
+                    if((message = (Message)reader.Read()) == null) {
                         break;
                     }
                     ++read;
-                    if(classifier.IsTranslated(m)) {
+                    if(classifier.IsTranslated(message)) {
                         continue;
                     }
-                    writer.Write(m);
+                    writer.Write(message);
                     ++written;
-                    if((m = translater.Translate(m)) != null) {
-                        if(m is CompositeMessage) {
-                            foreach(var c in ((CompositeMessage)m).Messages) {
-                                writer.Write(c);
+                    if((message = translater.Translate(message)) != null) {
+                        if(message is CompositeMessage) {
+                            foreach(var component in ((CompositeMessage)message).Messages) {
+                                writer.Write(component);
                                 ++written;
                             }
                         } else {
-                            writer.Write(m);
+                            writer.Write(message);
                             ++written;
                         }
                     }
@@ -124,26 +96,18 @@ namespace AK.F1.Timing.Fixup
                 writer.Write(null);
             }
 
-            File.Delete(temp);
+            File.Replace(tempPath, path, null, true);
 
             int diff = written - read;
 
-            Console.WriteLine("fixed: read={0}, written={1}, {2}={3}",
-                read,
-                written,
-                diff < 0 ? "removed" : "added",
-                Math.Abs(diff));
+            WriteLine("{0}, read={1}, written={2}, {3}={4}",
+                name, read, written, diff < 0 ? "removed" : "added", Math.Abs(diff));
         }
 
-        private static void Usage(string message) {
+        private static void WriteLine(string format, params object[] args) {
 
-            Console.WriteLine("F1 Timing TMS Fixup Utility");
-            Console.WriteLine();            
-            Console.WriteLine(message);
-            Console.WriteLine();
-            Console.WriteLine("directory [/r]");
-            Console.WriteLine("     directory:  directory to fixup");
-            Console.WriteLine("     /r:         recurse directory");
+            Console.Write("f1fixup: ");
+            Console.WriteLine(format, args);
         }
 
         #endregion
