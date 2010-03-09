@@ -31,7 +31,7 @@ namespace AK.F1.Timing.Fixup
             MatchPosition = true)]
         public string Directory;
 
-        [CommandLineParser.ValueUsage("Indicates if directory should be recursively fixedup",
+        [CommandLineParser.ValueUsage("Indicates if directory should be recursively processed.",
             Name = "recurse",
             AlternateName1 = "r",
             Optional = true)]
@@ -47,7 +47,7 @@ namespace AK.F1.Timing.Fixup
             base.Parse(args, ignoreFirstArg);
 
             if(!System.IO.Directory.Exists(this.Directory)) {
-                throw Usage("directory", "specified directory does not exist or the device is not ready");
+                throw Usage("directory", "specified directory does not exist or the device is not ready.");
             }
         }
 
