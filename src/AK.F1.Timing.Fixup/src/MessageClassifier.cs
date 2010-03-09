@@ -18,10 +18,11 @@ using AK.F1.Timing.Messaging;
 using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Messaging.Messages.Feed;
 using AK.F1.Timing.Messaging.Messages.Session;
+using AK.F1.Timing.Messaging.Messages.Weather;
 
 namespace AK.F1.Timing.Fixup
 {
-    internal class MessageClassifier : MessageVisitor
+    internal class MessageClassifier : IMessageVisitor
     {
         #region Public Interface.
 
@@ -34,97 +35,141 @@ namespace AK.F1.Timing.Fixup
             return this.Result;
         }
 
-        public override void Visit(SetSessionStatusMessage message) {
+        public void Visit(SetSessionStatusMessage message) {
 
             // The live message reader does not receive a Finished status, the ping interval message
             // is translated when appropiate.
             this.Result = message.SessionStatus == SessionStatus.Finished;
         }
 
-        public override void Visit(ReplaceDriverLapTimeMessage message) {
+        public void Visit(ReplaceDriverLapTimeMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(ReplaceDriverSectorTimeMessage message) {
+        public void Visit(ReplaceDriverSectorTimeMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverCarNumberMessage message) {
+        public void Visit(SetDriverCarNumberMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverCompletedLapsMessage message) {
+        public void Visit(SetDriverCompletedLapsMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverGapMessage message) {
+        public void Visit(SetDriverGapMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverIntervalMessage message) {
+        public void Visit(SetDriverIntervalMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverLapNumberMessage message) {
+        public void Visit(SetDriverLapNumberMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverLapTimeMessage message) {
+        public void Visit(SetDriverLapTimeMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverNameMessage message) {
+        public void Visit(SetDriverNameMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverPitCountMessage message) {
+        public void Visit(SetDriverPitCountMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverPositionMessage message) {
+        public void Visit(SetDriverPositionMessage message) {
 
             this.Result = false;
         }
 
-        public override void Visit(SetDriverQuallyTimeMessage message) {
+        public void Visit(SetDriverQuallyTimeMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverSectorTimeMessage message) {
+        public void Visit(SetDriverSectorTimeMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverStatusMessage message) {
+        public void Visit(SetDriverStatusMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetRaceLapNumberMessage message) {
+        public void Visit(SetRaceLapNumberMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(EndOfSessionMessage message) {
+        public void Visit(EndOfSessionMessage message) {
 
             this.Result = true;
         }
 
-        public override void Visit(SetDriverPitTimeMessage message) {
+        public void Visit(SetDriverPitTimeMessage message) {
 
             this.Result = true;
         }
+
+        public void Visit(StartSessionTimeCountdownMessage message) { }
+
+        public void Visit(StopSessionTimeCountdownMessage message) { }
+
+        public void Visit(ClearGridRowMessage message) { }
+
+        public void Visit(SetGridColumnColourMessage message) { }
+
+        public void Visit(SetGridColumnValueMessage message) { }
+
+        public void Visit(SetElapsedSessionTimeMessage message) { }
+
+        public void Visit(SetAirTemperatureMessage message) { }
+
+        public void Visit(SetAtmosphericPressureMessage message) { }
+
+        public void Visit(AddCommentaryMessage message) { }
+
+        public void Visit(SetCopyrightMessage message) { }
+
+        public void Visit(SetKeyframeMessage message) { }
+
+        public void Visit(SetHumidityMessage message) { }
+
+        public void Visit(SetRemainingSessionTimeMessage message) { }
+
+        public void Visit(SetPingIntervalMessage message) { }
+
+        public void Visit(SetSystemMessageMessage message) { }
+
+        public void Visit(SetSessionTypeMessage message) { }
+
+        public void Visit(SetStreamValidityMessage message) { }
+
+        public void Visit(SetTrackTemperatureMessage message) { }
+
+        public void Visit(SetIsWetMessage message) { }
+
+        public void Visit(SetWindAngleMessage message) { }
+
+        public void Visit(SetWindSpeedMessage message) { }
+
+        public void Visit(SetNextMessageDelayMessage message) { }
 
         #endregion
 
