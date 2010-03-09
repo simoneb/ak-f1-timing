@@ -30,44 +30,41 @@ namespace AK.F1.Timing.LiveRecorder
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        public static void Main(string[] args) {
+        public static void Main(string[] args) {            
+
+            var options = new CommandLineOptions();
+
+            if(!options.ParseAndContinue(args)) {
+                return;
+            }
 
             log4net.Config.XmlConfigurator.Configure();
 
             string path;
 
-            if(args.Length == 0) {
-                Console.Write("session: ");
-                path = Console.ReadLine().Trim();
-            } else {
-                path = args[0];
-            }
-            path = Path.Combine(Environment.CurrentDirectory, path) + ".tms";
+            path = Path.Combine(Environment.CurrentDirectory, options.Session + ".tms");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            CaptureStream(path);            
+            RecordMessages(path, options.Username, options.Password);
         }
 
         #endregion
 
         #region Private Impl.
 
-        private static void CaptureStream(string path) {
+        private static void RecordMessages(string path, string username, string password) {
 
             Message message;
 
             try {
-                using(var reader = F1Timing.Live.ReadAndRecord(
-                    "andrew.kernahan@gmail.com", "cy3ko2px7iv7", path)) {
+                using(var reader = F1Timing.Live.ReadAndRecord(username, password, path)) {
                     while((message = reader.Read()) != null) {
                         WriteLine(message.ToString());
                     }
                 }
+                WriteLine("end of message stream");                
             } catch(Exception exc) {
-                Console.WriteLine(exc);
-                Console.ReadLine();
+                Console.WriteLine("Error: {0}", exc.Message);                
             }
-            WriteLine("end of message stream");
-            Console.ReadLine();
         }
 
         private static void WriteLine(string format, params object[] args) {
