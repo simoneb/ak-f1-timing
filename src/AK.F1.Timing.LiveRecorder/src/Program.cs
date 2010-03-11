@@ -63,7 +63,7 @@ namespace AK.F1.Timing.LiveRecorder
                 }
                 WriteLine("end of message stream");                
             } catch(Exception exc) {
-                Console.WriteLine("Error: {0}", exc.Message);                
+                Console.WriteLine("{0}: {1}", exc.GetType().Name, exc.Message);                
             }
         }
 
