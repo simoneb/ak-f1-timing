@@ -257,10 +257,10 @@ namespace AK.F1.Timing.Messaging.Live
                         return StartSessionTimeCountdownMessage.Instance;
                     }
                     if(header.Colour > 0) {
-                        return this.ReadWeatherMessage(header);
+                        return ReadWeatherMessage(header);
                     }
                     if(header.DataLength > 0) {
-                        return this.ReadSetRemainingSessionTimeMessage(header);
+                        return ReadSetRemainingSessionTimeMessage(header);
                     }
                     return Message.Empty;
                 case 10:
