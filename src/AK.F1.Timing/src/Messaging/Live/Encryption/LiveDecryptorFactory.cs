@@ -33,7 +33,7 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
 
         private const string AUTH_COOKIE_NAME = "USER";
         private const string AUTH_CONTENT_TYPE = "application/x-www-form-urlencoded; charset=utf-8";
-        private static readonly Uri LOGIN_URI = new Uri("https://secure.formula1.com/reg/login.asp");
+        private static readonly Uri LOGIN_URI = new Uri("https://secure.formula1.com/reg/login");
         private const string SEED_URL_FORMAT = "http://live-timing.formula1.com/reg/getkey/{0}.asp?auth={1}";
         private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;          
 
