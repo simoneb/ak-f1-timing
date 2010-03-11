@@ -160,13 +160,13 @@
     <value>Unable to parse the next message as the time value specified in the message ('{0}') is invalid.</value>
   </data>
   <data name="LiveDecryptorFactory_CredentialsRejected" xml:space="preserve">
-    <value>The supplied credentials have been rejected by the live timing server.</value>
+    <value>The supplied credentials have been rejected by the live-timing server.</value>
   </data>
   <data name="LiveDecryptorFactory_FailedToFetchAuthToken" xml:space="preserve">
-    <value>Failed to fetch the initial authentication token from the live timing servers: '{0}'</value>
+    <value>Failed to fetch the initial authentication token from the live-timing servers: '{0}'</value>
   </data>
   <data name="LiveDecryptorFactory_FailedToFetchSessionSeed" xml:space="preserve">
-    <value>Failed to fetch the session decryption seed from the live timing servers: '{0}'</value>
+    <value>Failed to fetch the session decryption seed from the live-timing servers: '{0}'</value>
   </data>
   <data name="LiveDecryptorFactory_UnableToParseSeed" xml:space="preserve">
     <value>Unable to parse decryption seed from '{0}'.</value>
@@ -181,13 +181,13 @@
     <value>Unable to read any messages from the stream as the first expected message was not an update keyframe message. The first message encountered was '{0}'.</value>
   </data>
   <data name="LiveMessageStreamEndpoint_FailedToOpenKeyframe" xml:space="preserve">
-    <value>Failed to download a keyframe from the live timing servers: '{0}'</value>
+    <value>Failed to download a keyframe from the live-timing servers: '{0}'</value>
   </data>
   <data name="LiveMessageStreamEndpoint_FailedToOpenStream" xml:space="preserve">
-    <value>Failed to open a connection with the live timing servers: '{0}'</value>
+    <value>Failed to open a connection with the live-timing servers: '{0}'</value>
   </data>
   <data name="LiveMessageStreamEndpoint_FailedToResolveStreamHost" xml:space="preserve">
-    <value>Unable to open a connection with the live timing servers as the '{0}' hostname failed to resolve.</value>
+    <value>Unable to open a connection with the live-timing servers as the '{0}' hostname failed to resolve.</value>
   </data>
   <data name="MessageReader_InvalidMessage" xml:space="preserve">
     <value>The format of the next timing message is invalid.</value>

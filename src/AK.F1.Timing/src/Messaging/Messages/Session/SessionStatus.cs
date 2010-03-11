@@ -18,7 +18,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Messaging.Messages.Session
 {
     /// <summary>
-    /// Defines the status of an F1 live timing session.
+    /// Defines the status of an F1 live-timing session.
     /// </summary>
     [Serializable]    
     public enum SessionStatus

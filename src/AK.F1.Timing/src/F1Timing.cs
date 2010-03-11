@@ -39,8 +39,8 @@ namespace AK.F1.Timing
             /// <summary>
             /// Creates a live message reader using the specified credentials.
             /// </summary>
-            /// <param name="username">The user's F1 live timing username.</param>
-            /// <param name="password">The user's F1 live timing password.</param>
+            /// <param name="username">The user's F1 live-timing username.</param>
+            /// <param name="password">The user's F1 live-timing password.</param>
             /// <returns>A message reader which reads live messages.</returns>
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="username"/> or <paramref name="password"/> is 
@@ -53,7 +53,7 @@ namespace AK.F1.Timing
             /// Thrown when an IO error whilst connecting to the live messages stream.
             /// </exception>
             /// <exception cref="System.Security.Authentication.AuthenticationException">
-            /// Thrown when the supplied credentials were rejected by the live timing site.
+            /// Thrown when the supplied credentials were rejected by the live-timing site.
             /// </exception>
             public static IMessageReader Read(string username, string password) {
 
@@ -66,8 +66,8 @@ namespace AK.F1.Timing
             /// Creates a live message reader using the specified credentials and records the
             /// messages to the specified <paramref name="path"/>.
             /// </summary>
-            /// <param name="username">The user's F1 live timing username.</param>
-            /// <param name="password">The user's F1 live timing password.</param>            
+            /// <param name="username">The user's F1 live-timing username.</param>
+            /// <param name="password">The user's F1 live-timing password.</param>            
             /// <param name="path">The path to save the messages to.</param>
             /// <returns>A message reader which reads and records live messages.</returns>
             /// <exception cref="System.ArgumentNullException">
@@ -83,7 +83,7 @@ namespace AK.F1.Timing
             /// messages stream.
             /// </exception>
             /// <exception cref="System.Security.Authentication.AuthenticationException">
-            /// Thrown when the supplied credentials were rejected by the live timing site.
+            /// Thrown when the supplied credentials were rejected by the live-timing site.
             /// </exception>
             public static IMessageReader ReadAndRecord(string username, string password, string path) {
 

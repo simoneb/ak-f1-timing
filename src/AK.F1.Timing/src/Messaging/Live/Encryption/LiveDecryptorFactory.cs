@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
 {
     /// <summary>
     /// An <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory"/> implementation which
-    /// creates decryptors seeded using a user's credentials for the F1 live timing site. This
+    /// creates decryptors seeded using a user's credentials for the F1 live-timing site. This
     /// class cannot be inherited.
     /// </summary>
     public class LiveDecryptorFactory : DecryptorFactoryBase
@@ -44,8 +44,8 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="username">A user's F1 live timing username.</param>
-        /// <param name="password">The user's F1 live timing password.</param>
+        /// <param name="username">A user's F1 live-timing username.</param>
+        /// <param name="password">The user's F1 live-timing password.</param>
         /// <returns></returns>        
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="username"/> or <paramref name="password"/> is 
@@ -55,7 +55,7 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
         /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
         /// </exception>
         /// <exception cref="System.Security.Authentication.AuthenticationException">
-        /// Thrown when the supplied credentials have been rejected by the live timing site.
+        /// Thrown when the supplied credentials have been rejected by the live-timing site.
         /// </exception>
         public LiveDecryptorFactory(string username, string password) {
 

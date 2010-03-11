@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Messaging.Live.IO
     /// <see cref="AK.F1.Timing.Messaging.Message"/>s.
     /// </para>
     /// <para>
-    /// Keyframe streams are used to synchronise clients that connect after a live timing session
+    /// Keyframe streams are used to synchronise clients that connect after a live-timing session
     /// has started. The stream contains all the message needed to update clients to the most
     /// current state. Once the keyframe stream has been processed, a normal message stream
     /// is used to receive instantaneous updates.

@@ -22,7 +22,7 @@ using AK.F1.Timing.Messaging;
 namespace AK.F1.Timing.Messaging
 {
     /// <summary>
-    /// Defines the base class for live timing messages. This class is <see langword="abstract"/>.
+    /// Defines the base class for live-timing messages. This class is <see langword="abstract"/>.
     /// </summary>
     [Serializable]
     public abstract class Message

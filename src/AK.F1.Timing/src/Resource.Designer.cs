@@ -187,7 +187,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The supplied credentials have been rejected by the live timing server..
+        ///   Looks up a localized string similar to The supplied credentials have been rejected by the live-timing server..
         /// </summary>
         internal static string LiveDecryptorFactory_CredentialsRejected {
             get {
@@ -196,7 +196,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to fetch the initial authentication token from the live timing servers: &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Failed to fetch the initial authentication token from the live-timing servers: &apos;{0}&apos;.
         /// </summary>
         internal static string LiveDecryptorFactory_FailedToFetchAuthToken {
             get {
@@ -205,7 +205,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to fetch the session decryption seed from the live timing servers: &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Failed to fetch the session decryption seed from the live-timing servers: &apos;{0}&apos;.
         /// </summary>
         internal static string LiveDecryptorFactory_FailedToFetchSessionSeed {
             get {
@@ -250,7 +250,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to download a keyframe from the live timing servers: &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Failed to download a keyframe from the live-timing servers: &apos;{0}&apos;.
         /// </summary>
         internal static string LiveMessageStreamEndpoint_FailedToOpenKeyframe {
             get {
@@ -259,7 +259,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to open a connection with the live timing servers: &apos;{0}&apos;.
+        ///   Looks up a localized string similar to Failed to open a connection with the live-timing servers: &apos;{0}&apos;.
         /// </summary>
         internal static string LiveMessageStreamEndpoint_FailedToOpenStream {
             get {
@@ -268,7 +268,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to open a connection with the live timing servers as the &apos;{0}&apos; hostname failed to resolve..
+        ///   Looks up a localized string similar to Unable to open a connection with the live-timing servers as the &apos;{0}&apos; hostname failed to resolve..
         /// </summary>
         internal static string LiveMessageStreamEndpoint_FailedToResolveStreamHost {
             get {
