@@ -15,16 +15,16 @@
 using System;
 using System.IO;
 
-namespace AK.F1.Timing.Messaging.Live.IO
+namespace AK.F1.Timing.Live.IO
 {
     /// <summary>
     /// Defines the means of opening message
-    /// <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStream"/>s.
+    /// <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>s.
     /// </summary>
     /// <remarks>
     /// <para>
     /// A message stream contains one or more serialized
-    /// <see cref="AK.F1.Timing.Messaging.Message"/>s.
+    /// <see cref="AK.F1.Timing.Message"/>s.
     /// </para>
     /// <para>
     /// Keyframe streams are used to synchronise clients that connect after a live-timing session
@@ -36,9 +36,9 @@ namespace AK.F1.Timing.Messaging.Live.IO
     public interface IMessageStreamEndpoint
     {
         /// <summary>
-        /// Opens a new message <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStream"/>.
+        /// Opens a new message <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>.
         /// </summary>        
-        /// <returns>An opened message <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStream"/>.
+        /// <returns>An opened message <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>.
         /// </returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="keyframe"/> is negative.
@@ -49,11 +49,11 @@ namespace AK.F1.Timing.Messaging.Live.IO
         IMessageStream Open();
 
         /// <summary>
-        /// Opens a new keyframe <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStream"/> for
+        /// Opens a new keyframe <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> for
         /// the keyframe with the specified <paramref name="keyframe"/> number.
         /// </summary>
         /// <param name="keyframe">The keyframe number.</param>
-        /// <returns>A new keyframe <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStream"/> for
+        /// <returns>A new keyframe <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> for
         /// the keyframe with the specified <paramref name="keyframe"/> number.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="keyframe"/> is negative.

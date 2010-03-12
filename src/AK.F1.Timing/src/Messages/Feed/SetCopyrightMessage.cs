@@ -15,7 +15,7 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Feed
+namespace AK.F1.Timing.Messages.Feed
 {
     /// <summary>
     /// A message which contains the copyright text associated with the message stream. This class

@@ -17,17 +17,17 @@ using System.Collections.Generic;
 using System.Text;
 
 using AK.F1.Timing.Extensions;
-using AK.F1.Timing.Messaging.Messages;
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Feed;
-using AK.F1.Timing.Messaging.Messages.Session;
+using AK.F1.Timing.Messages;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Feed;
+using AK.F1.Timing.Messages.Session;
 
-namespace AK.F1.Timing.Messaging.Live
+namespace AK.F1.Timing.Live
 {
     /// <summary>
-    /// Translates the <see cref="AK.F1.Timing.Messaging.Message"/>s read from the 
+    /// Translates the <see cref="AK.F1.Timing.Message"/>s read from the 
     /// <see cref="LiveMessageReader"/> into more meaningful
-    /// <see cref="AK.F1.Timing.Messaging.Message"/>s. This class cannot be inherited.
+    /// <see cref="AK.F1.Timing.Message"/>s. This class cannot be inherited.
     /// </summary>
     [Serializable]
     public sealed class LiveMessageTranslator : MessageVisitor

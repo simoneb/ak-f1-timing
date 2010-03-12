@@ -17,12 +17,12 @@ using System.IO;
 
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Playback
+namespace AK.F1.Timing.Playback
 {
     /// <summary>
-    /// Provides a <see cref="AK.F1.Timing.Messaging.Playback.IRecordedMessageReader"/> which reads
-    /// <see cref="AK.F1.Timing.Messaging.Message"/>s which have been recorded by a
-    /// <see cref="AK.F1.Timing.Messaging.Playback.RecordingMessageReader"/>.
+    /// Provides a <see cref="AK.F1.Timing.Playback.IRecordedMessageReader"/> which reads
+    /// <see cref="AK.F1.Timing.Message"/>s which have been recorded by a
+    /// <see cref="AK.F1.Timing.Playback.RecordingMessageReader"/>.
     /// </summary>
     public class RecordedMessageReader : MessageReaderBase, IRecordedMessageReader
     {

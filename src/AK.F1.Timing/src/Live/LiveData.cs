@@ -16,10 +16,10 @@ using System;
 using System.Globalization;
 using System.Runtime.Serialization;
 
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Session;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Session;
 
-namespace AK.F1.Timing.Messaging.Live
+namespace AK.F1.Timing.Live
 {
     /// <summary>
     /// Provides statis utility methods for parsing F1 timing primitives. This class is
@@ -163,7 +163,7 @@ namespace AK.F1.Timing.Messaging.Live
 
         /// <summary>
         /// Converts the specified timing colour into a
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType"/>.
+        /// <see cref="AK.F1.Timing.Messages.Driver.PostedTimeType"/>.
         /// </summary>
         /// <param name="colour">The value to convert.</param>
         /// <returns>The converted value.</returns>
@@ -187,7 +187,7 @@ namespace AK.F1.Timing.Messaging.Live
 
         /// <summary>
         /// Converts the specified timing session value into a
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionType"/>.
+        /// <see cref="AK.F1.Timing.Messages.Session.SessionType"/>.
         /// </summary>
         /// <param name="value">The value to convert.</param>
         /// <returns>The converted value.</returns>
@@ -214,7 +214,7 @@ namespace AK.F1.Timing.Messaging.Live
 
         /// <summary>
         /// Converts the specified timing status value to a
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionStatus"/>.
+        /// <see cref="AK.F1.Timing.Messages.Session.SessionStatus"/>.
         /// </summary>
         /// <param name="s">The value to convert.</param>
         /// <returns>The converted value.</returns>
@@ -243,7 +243,7 @@ namespace AK.F1.Timing.Messaging.Live
 
         /// <summary>
         /// Converts the specified timing colour into a
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Driver.DriverStatus"/>.
+        /// <see cref="AK.F1.Timing.Messages.Driver.DriverStatus"/>.
         /// </summary>
         /// <param name="colour">The value to convert.</param>
         /// <returns>The converted value.</returns>
@@ -257,7 +257,7 @@ namespace AK.F1.Timing.Messaging.Live
 
         /// <summary>
         /// Converts the specified timing colour into a
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Driver.DriverStatus"/>.
+        /// <see cref="AK.F1.Timing.Messages.Driver.DriverStatus"/>.
         /// </summary>
         /// <param name="colour">The value to convert.</param>
         /// <returns>The converted value.</returns>
@@ -280,7 +280,7 @@ namespace AK.F1.Timing.Messaging.Live
 
         /// <summary>
         /// Converts the specified timing coloum index to a 
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Driver.GridColumn"/>.
+        /// <see cref="AK.F1.Timing.Messages.Driver.GridColumn"/>.
         /// </summary>
         /// <param name="column">The value to convert.</param>
         /// <param name="currentSessionType">The current session.</param>
@@ -296,7 +296,7 @@ namespace AK.F1.Timing.Messaging.Live
 
         /// <summary>
         /// Converts the specified timing colour into a
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour"/>.
+        /// <see cref="AK.F1.Timing.Messages.Driver.GridColumnColour"/>.
         /// </summary>
         /// <param name="colour">The value to convert.</param>
         /// <returns>The converted value.</returns>

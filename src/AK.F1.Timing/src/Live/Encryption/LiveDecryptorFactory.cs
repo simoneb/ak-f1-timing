@@ -20,10 +20,10 @@ using System.Text;
 
 using AK.F1.Timing.Extensions;
 
-namespace AK.F1.Timing.Messaging.Live.Encryption
+namespace AK.F1.Timing.Live.Encryption
 {
     /// <summary>
-    /// An <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory"/> implementation which
+    /// An <see cref="AK.F1.Timing.Live.Encryption.IDecryptorFactory"/> implementation which
     /// creates decryptors seeded using a user's credentials for the F1 live-timing site. This
     /// class cannot be inherited.
     /// </summary>

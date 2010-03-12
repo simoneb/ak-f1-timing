@@ -15,7 +15,7 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// A message which sets the colour and value of a driver's grid row. This class cannot be

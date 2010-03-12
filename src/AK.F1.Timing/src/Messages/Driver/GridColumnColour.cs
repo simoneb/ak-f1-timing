@@ -15,11 +15,11 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// Defines the various colours of an F1 timing grid
-    /// <see cref="AK.F1.Timing.Messaging.Messages.Driver.GridColumn"/>.
+    /// <see cref="AK.F1.Timing.Messages.Driver.GridColumn"/>.
     /// </summary>
     [Serializable]    
     public enum GridColumnColour

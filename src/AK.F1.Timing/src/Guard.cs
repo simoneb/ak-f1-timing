@@ -21,10 +21,10 @@ using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security.Authentication;
 
-using AK.F1.Timing.Messaging;
-using AK.F1.Timing.Messaging.Live;
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Session;
+using AK.F1.Timing;
+using AK.F1.Timing.Live;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Session;
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing

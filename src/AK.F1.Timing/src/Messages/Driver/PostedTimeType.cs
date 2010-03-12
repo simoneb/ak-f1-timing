@@ -15,7 +15,7 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// Defines the type of time posted by a driver.

@@ -14,24 +14,24 @@
 
 using System;
 
-namespace AK.F1.Timing.Messaging.Live.Encryption
+namespace AK.F1.Timing.Live.Encryption
 {
     /// <summary>
-    /// Defines the means of creating <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptor"/>
+    /// Defines the means of creating <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>
     /// instances.
     /// </summary>
     public interface IDecryptorFactory
     {
         /// <summary>
-        /// Creates a new <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptor"/>.
+        /// Creates a new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>.
         /// </summary>
-        /// <returns>A new <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptor"/>.</returns>
+        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>.</returns>
         IDecryptor Create();
 
         /// <summary>
-        /// Creates a new <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptor"/>.
+        /// Creates a new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>.
         /// </summary>
-        /// <returns>A new <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptor"/>.</returns>
+        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="sessionId"/> is <see langword="null"/>.
         /// </exception>

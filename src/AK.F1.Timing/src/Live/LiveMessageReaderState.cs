@@ -14,7 +14,7 @@
 
 using System;
 
-namespace AK.F1.Timing.Messaging.Live
+namespace AK.F1.Timing.Live
 {
     /// <summary>
     /// Defines the overall state of a <see cref="LiveMessageReader"/>.

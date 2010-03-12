@@ -15,7 +15,7 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// Defines the various statuses of a driver during a session.

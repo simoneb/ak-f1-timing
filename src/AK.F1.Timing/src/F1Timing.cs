@@ -14,11 +14,11 @@
 
 using System;
 
-using AK.F1.Timing.Messaging;
-using AK.F1.Timing.Messaging.Live;
-using AK.F1.Timing.Messaging.Live.Encryption;
-using AK.F1.Timing.Messaging.Live.IO;
-using AK.F1.Timing.Messaging.Playback;
+using AK.F1.Timing;
+using AK.F1.Timing.Live;
+using AK.F1.Timing.Live.Encryption;
+using AK.F1.Timing.Live.IO;
+using AK.F1.Timing.Playback;
 
 namespace AK.F1.Timing
 {
@@ -31,7 +31,7 @@ namespace AK.F1.Timing
         #region Public Interface.
 
         /// <summary>
-        /// Provides methods for creating <see cref="AK.F1.Timing.Messaging.IMessageReader"/>s which
+        /// Provides methods for creating <see cref="AK.F1.Timing.IMessageReader"/>s which
         /// read from the live message stream.
         /// </summary>
         public static class Live
@@ -92,7 +92,7 @@ namespace AK.F1.Timing
         }
 
         /// <summary>
-        /// Provides methods for creating <see cref="AK.F1.Timing.Messaging.Playback.IRecordedMessageReader"/>s
+        /// Provides methods for creating <see cref="AK.F1.Timing.Playback.IRecordedMessageReader"/>s
         /// which read from persisted live message streams.
         /// </summary>
         public static class Playback

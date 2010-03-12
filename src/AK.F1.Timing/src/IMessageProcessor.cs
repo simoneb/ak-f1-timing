@@ -14,10 +14,10 @@
 
 using System;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {    
     /// <summary>
-    /// Defines <see cref="AK.F1.Timing.Messaging.Message"/> processor.
+    /// Defines <see cref="AK.F1.Timing.Message"/> processor.
     /// </summary>    
     public interface IMessageProcessor
     {

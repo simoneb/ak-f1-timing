@@ -15,10 +15,10 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Session
+namespace AK.F1.Timing.Messages.Session
 {
     /// <summary>
-    /// A message which sets the <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionStatus"/>
+    /// A message which sets the <see cref="AK.F1.Timing.Messages.Session.SessionStatus"/>
     /// of the current session. This class cannot be inherited.
     /// </summary>
     [Serializable]
@@ -29,10 +29,10 @@ namespace AK.F1.Timing.Messaging.Messages.Session
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SetSessionStatusMessage"/> class and
-        /// specifies the <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionStatus"/>.
+        /// specifies the <see cref="AK.F1.Timing.Messages.Session.SessionStatus"/>.
         /// </summary>
         /// <param name="sessionStatus">The current 
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionStatus"/>.</param>        
+        /// <see cref="AK.F1.Timing.Messages.Session.SessionStatus"/>.</param>        
         public SetSessionStatusMessage(SessionStatus sessionStatus) {
 
             this.SessionStatus = sessionStatus;            
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messaging.Messages.Session
         }
 
         /// <summary>
-        /// Gets the current <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionStatus"/>.
+        /// Gets the current <see cref="AK.F1.Timing.Messages.Session.SessionStatus"/>.
         /// </summary>
         [PropertyId(0)]
         public SessionStatus SessionStatus { get; private set; }

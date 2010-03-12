@@ -17,12 +17,12 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 
-using AK.F1.Timing.Messaging.Live.IO;
+using AK.F1.Timing.Live.IO;
 
-namespace AK.F1.Timing.Messaging.Live.Recording
+namespace AK.F1.Timing.Live.Recording
 {
     /// <summary>
-    /// An <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStreamEndpoint"/> implementation that
+    /// An <see cref="AK.F1.Timing.Live.IO.IMessageStreamEndpoint"/> implementation that
     /// opens messages streams that have been persisted on the file system. This class cannot be
     /// inherited.
     /// </summary>

@@ -14,12 +14,12 @@
 
 using System;
 
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Feed;
-using AK.F1.Timing.Messaging.Messages.Session;
-using AK.F1.Timing.Messaging.Messages.Weather;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Feed;
+using AK.F1.Timing.Messages.Session;
+using AK.F1.Timing.Messages.Weather;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {    
     /// <summary>
     /// 

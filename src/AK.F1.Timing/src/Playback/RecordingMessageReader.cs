@@ -17,16 +17,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization;
 
-using AK.F1.Timing.Messaging.Messages;
-using AK.F1.Timing.Messaging.Messages.Feed;
+using AK.F1.Timing.Messages;
+using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Playback
+namespace AK.F1.Timing.Playback
 {
     /// <summary>
-    /// Provides a <see cref="AK.F1.Timing.Messaging.IMessageReader"/> decorator which records
-    /// the <see cref="AK.F1.Timing.Messaging.Message"/>s read from an inner
-    /// <see cref="AK.F1.Timing.Messaging.IMessageReader"/>.
+    /// Provides a <see cref="AK.F1.Timing.IMessageReader"/> decorator which records
+    /// the <see cref="AK.F1.Timing.Message"/>s read from an inner
+    /// <see cref="AK.F1.Timing.IMessageReader"/>.
     /// </summary>
     public class RecordingMessageReader : MessageReaderBase
     {

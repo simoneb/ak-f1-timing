@@ -18,10 +18,10 @@ using System.Diagnostics;
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {
     /// <summary>
-    /// Defines a useful base class for <see cref="AK.F1.Timing.Messaging.IMessageReader"/>
+    /// Defines a useful base class for <see cref="AK.F1.Timing.IMessageReader"/>
     /// implementations. This class is <see langword="abstract"/>.
     /// </summary>
     public abstract class MessageReaderBase : Disposable, IMessageReader
@@ -67,10 +67,10 @@ namespace AK.F1.Timing.Messaging
         #region Protected Interface.
 
         /// <summary>
-        /// When overriden in a derived class; reads the next <see cref="AK.F1.Timing.Messaging.Message"/>
+        /// When overriden in a derived class; reads the next <see cref="AK.F1.Timing.Message"/>
         /// from the underlying data stream.
         /// </summary>
-        /// <returns>The next <see cref="AK.F1.Timing.Messaging.Message"/>.</returns>
+        /// <returns>The next <see cref="AK.F1.Timing.Message"/>.</returns>
         /// <remarks>
         /// This method is only invoked when this instance has not been disposed of and
         /// <see cref="MessageReaderBase.ReadException"/> is <see langword="null"/> and a previous

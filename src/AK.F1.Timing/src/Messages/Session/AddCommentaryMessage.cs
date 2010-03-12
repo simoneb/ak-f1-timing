@@ -15,7 +15,7 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Session
+namespace AK.F1.Timing.Messages.Session
 {
     /// <summary>
     /// A message which adds a block commentary related to the current session. This class cannot

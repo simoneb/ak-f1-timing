@@ -14,10 +14,10 @@
 
 using System;
 
-namespace AK.F1.Timing.Messaging.Live.Encryption
+namespace AK.F1.Timing.Live.Encryption
 {    
     /// <summary>
-    /// An <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptor"/> implementation which implements
+    /// An <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/> implementation which implements
     /// the 2009 decryption algorithm. This class cannot be inherited.
     /// </summary>
     public sealed class LiveDecryptor : IDecryptor

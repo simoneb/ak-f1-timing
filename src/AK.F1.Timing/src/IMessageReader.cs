@@ -14,19 +14,19 @@
 
 using System;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {    
     /// <summary>
-    /// Allows <see cref="AK.F1.Timing.Messaging.Message"/>s to be read from an underlying data
+    /// Allows <see cref="AK.F1.Timing.Message"/>s to be read from an underlying data
     /// stream.
     /// </summary>
     public interface IMessageReader : IDisposable
     {
         /// <summary>
-        /// Reads the next <see cref="AK.F1.Timing.Messaging.Message"/> from the underlying data
+        /// Reads the next <see cref="AK.F1.Timing.Message"/> from the underlying data
         /// stream.
         /// </summary>
-        /// <returns>The next <see cref="AK.F1.Timing.Messaging.Message"/>, or <see langword="null"/>
+        /// <returns>The next <see cref="AK.F1.Timing.Message"/>, or <see langword="null"/>
         /// if the last message has been read.</returns>
         /// <exception cref="System.ObjectDisposedException">
         /// Thrown when the reader has been disposed of.

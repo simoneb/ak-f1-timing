@@ -15,10 +15,10 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Session
+namespace AK.F1.Timing.Messages.Session
 {
     /// <summary>
-    /// A message which updates the <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionType"/>
+    /// A message which updates the <see cref="AK.F1.Timing.Messages.Session.SessionType"/>
     /// and session identifier. This class cannot be inherited.
     /// </summary>
     [Serializable]
@@ -29,11 +29,11 @@ namespace AK.F1.Timing.Messaging.Messages.Session
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SetSessionTypeMessage"/> class and
-        /// specifies the <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionType"/> and the session
+        /// specifies the <see cref="AK.F1.Timing.Messages.Session.SessionType"/> and the session
         /// identifier.
         /// </summary>
         /// <param name="sessionType">The current
-        /// <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionType"/>.</param>
+        /// <see cref="AK.F1.Timing.Messages.Session.SessionType"/>.</param>
         /// <param name="sessionId">The session identifier.</param>
         public SetSessionTypeMessage(SessionType sessionType, string sessionId) {
 
@@ -58,7 +58,7 @@ namespace AK.F1.Timing.Messaging.Messages.Session
         }
 
         /// <summary>
-        /// Gets the current <see cref="AK.F1.Timing.Messaging.Messages.Session.SessionType"/>.
+        /// Gets the current <see cref="AK.F1.Timing.Messages.Session.SessionType"/>.
         /// </summary>
         [PropertyId(0)]
         public SessionType SessionType { get; private set; }

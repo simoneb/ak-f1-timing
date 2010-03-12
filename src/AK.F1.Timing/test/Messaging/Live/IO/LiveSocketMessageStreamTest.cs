@@ -15,7 +15,7 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messaging.Live.IO;
+using AK.F1.Timing.Live.IO;
 
 namespace AK.F1.Timing.Test.Messaging.Live.IO
 {

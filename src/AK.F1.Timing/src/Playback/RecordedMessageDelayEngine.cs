@@ -15,13 +15,13 @@
 using System;
 using System.Threading;
 
-using AK.F1.Timing.Messaging.Messages.Feed;
+using AK.F1.Timing.Messages.Feed;
 
-namespace AK.F1.Timing.Messaging.Playback
+namespace AK.F1.Timing.Playback
 {
     /// <summary>
     /// Provides an engine which causes the current thread to sleep by the amount specified in a
-    /// <see cref="AK.F1.Timing.Messaging.Messages.Feed.SetNextMessageDelayMessage"/>. This class
+    /// <see cref="AK.F1.Timing.Messages.Feed.SetNextMessageDelayMessage"/>. This class
     /// cannot be inherited.
     /// </summary>
     [Serializable]

@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// Contains the time, type and lap number of a time posted during a timing session. This class
@@ -32,7 +32,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// Initialises a new instance of the <see cref="PostedTime"/> class.
         /// </summary>
         /// <param name="time">The posted time value.</param>
-        /// <param name="type">The <see cref="AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType"/> of
+        /// <param name="type">The <see cref="AK.F1.Timing.Messages.Driver.PostedTimeType"/> of
         /// the posted time.</param>
         /// <param name="lapNumber">The lap number.</param>
         public PostedTime(TimeSpan time, PostedTimeType type, int lapNumber) {
@@ -130,7 +130,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         public TimeSpan Time { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="AK.F1.Timing.Messaging.Messages.Driver.PostedTimeType"/> of this posted time.
+        /// Gets the <see cref="AK.F1.Timing.Messages.Driver.PostedTimeType"/> of this posted time.
         /// </summary>
         [PropertyId(2)]
         public PostedTimeType Type { get; private set; }

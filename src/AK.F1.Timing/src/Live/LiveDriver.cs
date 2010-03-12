@@ -16,10 +16,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Session;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Session;
 
-namespace AK.F1.Timing.Messaging.Live
+namespace AK.F1.Timing.Live
 {
     /// <summary>
     /// Contains state information relating to a specific driver used during the message

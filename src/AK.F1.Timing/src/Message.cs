@@ -17,9 +17,9 @@ using System.Globalization;
 using System.Text;
 using System.Runtime.Serialization;
 
-using AK.F1.Timing.Messaging;
+using AK.F1.Timing;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {
     /// <summary>
     /// Defines the base class for live-timing messages. This class is <see langword="abstract"/>.
@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Messaging
         public static readonly Message Empty = new EmptyMessage();
 
         /// <summary>
-        /// Accepts the specified <see cref="AK.F1.Timing.Messaging.IMessageVisitor"/>.
+        /// Accepts the specified <see cref="AK.F1.Timing.IMessageVisitor"/>.
         /// </summary>
         /// <param name="visitor">The message visitor.</param>
         /// <exception cref="System.ArgumentNullException">

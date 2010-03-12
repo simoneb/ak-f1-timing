@@ -15,10 +15,10 @@
 using System;
 using System.Collections.Generic;
 
-namespace AK.F1.Timing.Messaging.Live.Encryption
+namespace AK.F1.Timing.Live.Encryption
 {    
     /// <summary>
-    /// Defines a base class for <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory"/>
+    /// Defines a base class for <see cref="AK.F1.Timing.Live.Encryption.IDecryptorFactory"/>
     /// implementations which provides seed caching capabilities. This class is
     /// <see langword="abstract"/>.
     /// </summary>
@@ -98,11 +98,11 @@ namespace AK.F1.Timing.Messaging.Live.Encryption
 
         /// <summary>
         /// When overriden in a derived class; creates a new
-        /// <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptor"/> using the specified
+        /// <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/> using the specified
         /// <paramref name="seed"/>.
         /// </summary>
         /// <param name="seed">The decryption seed.</param>
-        /// <returns>A new <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptor"/> using the specified
+        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/> using the specified
         /// <paramref name="seed"/>.</returns>
         protected abstract IDecryptor CreateWithSeed(int seed);        
 

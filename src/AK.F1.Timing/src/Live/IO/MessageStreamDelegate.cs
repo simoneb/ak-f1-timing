@@ -18,10 +18,10 @@ using System.IO;
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 
-namespace AK.F1.Timing.Messaging.Live.IO
+namespace AK.F1.Timing.Live.IO
 {
     /// <summary>
-    /// A <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStream"/> implementation which
+    /// A <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> implementation which
     /// delegates to an underlying <see cref="System.IO.Stream"/>. This implementation does
     /// not support pinging. This class cannot be inherited.
     /// </summary>

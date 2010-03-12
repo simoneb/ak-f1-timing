@@ -15,7 +15,7 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messaging.Live.Recording;
+using AK.F1.Timing.Live.Recording;
 
 namespace AK.F1.Timing.Test.Messaging.Live.Recording
 {

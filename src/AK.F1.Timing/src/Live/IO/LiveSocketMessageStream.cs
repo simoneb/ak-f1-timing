@@ -20,7 +20,7 @@ using System.Threading;
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 
-namespace AK.F1.Timing.Messaging.Live.IO
+namespace AK.F1.Timing.Live.IO
 {
     /// <summary>
     /// 

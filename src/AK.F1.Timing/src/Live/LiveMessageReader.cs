@@ -16,20 +16,20 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-using AK.F1.Timing.Messaging.Live.Encryption;
-using AK.F1.Timing.Messaging.Live.IO;
-using AK.F1.Timing.Messaging.Messages;
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Feed;
-using AK.F1.Timing.Messaging.Messages.Session;
-using AK.F1.Timing.Messaging.Messages.Weather;
+using AK.F1.Timing.Live.Encryption;
+using AK.F1.Timing.Live.IO;
+using AK.F1.Timing.Messages;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Feed;
+using AK.F1.Timing.Messages.Session;
+using AK.F1.Timing.Messages.Weather;
 using AK.F1.Timing.Utility;
 
-namespace AK.F1.Timing.Messaging.Live
+namespace AK.F1.Timing.Live
 {    
     /// <summary>
-    /// A <see cref="AK.F1.Timing.Messaging.IMessageReader"/> implementation which reads
-    /// <see cref="AK.F1.Timing.Messaging.Message"/>s encoded by the live-timing servers.
+    /// A <see cref="AK.F1.Timing.IMessageReader"/> implementation which reads
+    /// <see cref="AK.F1.Timing.Message"/>s encoded by the live-timing servers.
     /// This class cannot be inherited.
     /// </summary>
     public sealed class LiveMessageReader : MessageReaderBase

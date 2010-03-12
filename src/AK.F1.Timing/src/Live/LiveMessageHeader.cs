@@ -14,7 +14,7 @@
 
 using System;
 
-namespace AK.F1.Timing.Messaging.Live
+namespace AK.F1.Timing.Live
 {
     /// <summary>
     /// Represents the header of an F1 live-timing message. This class cannot be inherited.

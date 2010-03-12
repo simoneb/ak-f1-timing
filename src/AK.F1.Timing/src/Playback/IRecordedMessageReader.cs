@@ -14,12 +14,12 @@
 
 using System;
 
-using AK.F1.Timing.Messaging;
+using AK.F1.Timing;
 
-namespace AK.F1.Timing.Messaging.Playback
+namespace AK.F1.Timing.Playback
 {
     /// <summary>
-    /// Allows recorded <see cref="AK.F1.Timing.Messaging.Message"/>s to be read from an underlying
+    /// Allows recorded <see cref="AK.F1.Timing.Message"/>s to be read from an underlying
     /// data stream and played back at a certain speed.
     /// </summary>
     public interface IRecordedMessageReader : IMessageReader

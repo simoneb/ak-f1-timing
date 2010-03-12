@@ -14,7 +14,7 @@
 
 using System;
 
-namespace AK.F1.Timing.Messaging.Live.IO
+namespace AK.F1.Timing.Live.IO
 {
     /// <summary>
     /// Defines a simple intput stream.

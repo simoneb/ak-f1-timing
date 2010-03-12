@@ -15,7 +15,7 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messaging.Messages.Driver;
+using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Test.Messaging.Messages.Driver
 {

@@ -15,7 +15,7 @@
 using System;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Messaging.Messages.Weather
+namespace AK.F1.Timing.Messages.Weather
 {
     /// <summary>
     /// A message which specifies whether the track is dry or wet. This class cannot be inherited.

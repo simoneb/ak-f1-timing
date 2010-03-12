@@ -16,12 +16,12 @@ using System;
 using System.Globalization;
 using System.IO;
 
-using AK.F1.Timing.Messaging.Live.Encryption;
+using AK.F1.Timing.Live.Encryption;
 
-namespace AK.F1.Timing.Messaging.Live.Recording
+namespace AK.F1.Timing.Live.Recording
 {
     /// <summary>
-    /// An <see cref="AK.F1.Timing.Messaging.Live.Encryption.IDecryptorFactory"/> implementation
+    /// An <see cref="AK.F1.Timing.Live.Encryption.IDecryptorFactory"/> implementation
     /// that creates decryptors with seeds that have been persisted on the file system. This
     /// class cannot be inherited.
     /// </summary>

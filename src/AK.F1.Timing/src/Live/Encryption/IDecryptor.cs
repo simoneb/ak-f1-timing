@@ -14,7 +14,7 @@
 
 using System;
 
-namespace AK.F1.Timing.Messaging.Live.Encryption
+namespace AK.F1.Timing.Live.Encryption
 {    
     /// <summary>
     /// Defines a decryptor.

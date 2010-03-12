@@ -14,15 +14,15 @@
 
 using System;
 
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Feed;
-using AK.F1.Timing.Messaging.Messages.Session;
-using AK.F1.Timing.Messaging.Messages.Weather;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Feed;
+using AK.F1.Timing.Messages.Session;
+using AK.F1.Timing.Messages.Weather;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {
     /// <summary>
-    /// Defines a base class for <see cref="AK.F1.Timing.Messaging.IMessageVisitor"/> implementations.
+    /// Defines a base class for <see cref="AK.F1.Timing.IMessageVisitor"/> implementations.
     /// This class is <see langword="abstract"/>.
     /// </summary>
     [Serializable]

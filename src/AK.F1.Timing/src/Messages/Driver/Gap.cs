@@ -16,7 +16,7 @@ using System;
 using System.Globalization;
 using System.Text;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// Represents a gap. This class is <see langword="abstract"/>.

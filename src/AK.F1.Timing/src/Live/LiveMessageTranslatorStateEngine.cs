@@ -14,10 +14,10 @@
 
 using System;
 
-using AK.F1.Timing.Messaging.Messages.Session;
-using AK.F1.Timing.Messaging.Messages.Driver;
+using AK.F1.Timing.Messages.Session;
+using AK.F1.Timing.Messages.Driver;
 
-namespace AK.F1.Timing.Messaging.Live
+namespace AK.F1.Timing.Live
 {
     /// <summary>
     /// An engine which updates the state information maintained by a

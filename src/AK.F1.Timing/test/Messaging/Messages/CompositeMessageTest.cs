@@ -15,7 +15,7 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messaging.Messages;
+using AK.F1.Timing.Messages;
 
 namespace AK.F1.Timing.Test.Messaging.Messages
 {

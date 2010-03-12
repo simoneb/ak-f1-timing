@@ -21,10 +21,10 @@ using System.Text;
 
 using AK.F1.Timing.Extensions;
 
-namespace AK.F1.Timing.Messaging.Live.IO
+namespace AK.F1.Timing.Live.IO
 {
     /// <summary>
-    /// An <see cref="AK.F1.Timing.Messaging.Live.IO.IMessageStreamEndpoint"/> implementation that
+    /// An <see cref="AK.F1.Timing.Live.IO.IMessageStreamEndpoint"/> implementation that
     /// opens message streams provided by the F1 live-timing server. This class cannot be inherited.
     /// </summary>
     public class LiveMessageStreamEndpoint : IMessageStreamEndpoint

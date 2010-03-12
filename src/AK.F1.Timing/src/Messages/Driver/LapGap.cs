@@ -16,7 +16,7 @@ using System;
 using AK.F1.Timing.Serialization;
 using AK.F1.Timing.Utility;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// Represents a gap expressed as a number of laps. This class cannot be inherited.
