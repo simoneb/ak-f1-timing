@@ -50,7 +50,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AK.F1.Timing\src\AK.F1.Timing.csproj">
+    <ProjectReference Include="..\..\AK.F1.Timing\src\AK.F1.Timing.csproj">
       <Project>{52334AE8-7F11-404B-AD45-4519F9229F4A}</Project>
       <Name>AK.F1.Timing</Name>
     </ProjectReference>

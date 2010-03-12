@@ -23,6 +23,7 @@
     <UIBinPath>$(SrcPath)\AK.F1.Timing.UI\src\bin\$(BuildType)</UIBinPath>
     <RecorderBinPath>$(SrcPath)\AK.F1.Timing.Live.Recorder\src\bin\$(BuildType)</RecorderBinPath>
     <FixupBinPath>$(SrcPath)\AK.F1.Timing.Tms.Fixup\src\bin\$(BuildType)</FixupBinPath>
+    <TmsUtilityBinPath>$(SrcPath)\AK.F1.Timing.Tms.Utility\src\bin\$(BuildType)</TmsUtilityBinPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildTasksPath)\MSBuild.Community.tasks"/>
@@ -109,7 +110,7 @@
 
   <Target
     Name="Package"
-    DependsOnTargets="$(CorePackageDependencies);PackageUI;PackageRecorder;PackageFixup"/>
+    DependsOnTargets="$(CorePackageDependencies);PackageRecorder;PackageFixup;PackageTmsUtility;PackageUI"/>
 
   <Target Name="PackageRecorder" DependsOnTargets="$(CorePackageDependencies)">
     <PropertyGroup>
@@ -175,6 +176,40 @@
       Files="@(FixupPackageFiles)"
       ZipFileName="$(BinPath)\$(FixupPackageName)-v$(GlobalAssemblyVersion).zip"
       WorkingDirectory="$(FixupPackagePath)"
+      Flatten="false"
+      ZipLevel="10"/>
+  </Target>
+  
+  <Target Name="PackageTmsUtility" DependsOnTargets="$(CorePackageDependencies)">
+    <PropertyGroup>
+      <TmsUtilityPackageName>f1tmsutility</TmsUtilityPackageName>
+      <TmsUtilityPackagePath>$(BinPath)\latest-$(TmsUtilityPackageName)</TmsUtilityPackagePath>
+      <TmsUtilityPackageBinPath>$(TmsUtilityPackagePath)\bin</TmsUtilityPackageBinPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <TmsUtilityPackageRootFiles
+        Include="$(TmsUtilityBinPath)\$(TmsUtilityPackageName).*"
+        Exclude="$(TmsUtilityBinPath)\*.pdb"/>
+      <TmsUtilityPackageBinFiles
+        Include="$(TmsUtilityBinPath)\*.*"
+        Exclude="@(TmsUtilityPackageRootFiles);$(TmsUtilityBinPath)\*.xml;$(TmsUtilityBinPath)\*.pdb"/>
+    </ItemGroup>
+    <MakeDir
+      Directories="$(TmsUtilityPackageBinPath)"/>
+    <Copy
+      SourceFiles="@(TmsUtilityPackageRootFiles)"
+      DestinationFolder="$(TmsUtilityPackagePath)"/>
+    <Copy
+      SourceFiles="@(TmsUtilityPackageBinFiles)"
+      DestinationFolder="$(TmsUtilityPackageBinPath)"/>
+    <ItemGroup>
+      <TmsUtilityPackageFiles
+        Include="$(TmsUtilityPackagePath)\**\*.*"/>
+    </ItemGroup>
+    <Zip
+      Files="@(TmsUtilityPackageFiles)"
+      ZipFileName="$(BinPath)\$(TmsUtilityPackageName)-v$(GlobalAssemblyVersion).zip"
+      WorkingDirectory="$(TmsUtilityPackagePath)"
       Flatten="false"
       ZipLevel="10"/>
   </Target>
