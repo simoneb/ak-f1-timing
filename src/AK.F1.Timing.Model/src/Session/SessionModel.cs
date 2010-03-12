@@ -18,9 +18,9 @@ using System.Collections.ObjectModel;
 using System.Windows.Threading;
 
 using AK.F1.Timing.Extensions;
-using AK.F1.Timing.Messaging;
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Session;
+using AK.F1.Timing;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Session;
 using AK.F1.Timing.Model.Collections;
 using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Model.Grid;

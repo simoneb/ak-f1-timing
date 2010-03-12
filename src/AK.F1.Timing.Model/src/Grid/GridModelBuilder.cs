@@ -14,14 +14,14 @@
 
 using System;
 
-using AK.F1.Timing.Messaging;
-using AK.F1.Timing.Messaging.Messages.Driver;
+using AK.F1.Timing;
+using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Grid
 {
     /// <summary>
     /// A builder which builds a <see cref="AK.F1.Timing.Model.Grid.GridModelBuilder&lt;TGridRow&gt;"/>
-    /// as <see cref="AK.F1.Timing.Messaging.Message"/>s are processed.
+    /// as <see cref="AK.F1.Timing.Message"/>s are processed.
     /// </summary>
     /// <typeparam name="TGridRow">The type of
     /// <see cref="AK.F1.Timing.Model.Grid.GridRowModelBase"/>.</typeparam>

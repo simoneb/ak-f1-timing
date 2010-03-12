@@ -14,11 +14,11 @@
 
 using System;
 
-using AK.F1.Timing.Messaging;
-using AK.F1.Timing.Messaging.Messages.Driver;
-using AK.F1.Timing.Messaging.Messages.Feed;
-using AK.F1.Timing.Messaging.Messages.Session;
-using AK.F1.Timing.Messaging.Messages.Weather;
+using AK.F1.Timing;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Feed;
+using AK.F1.Timing.Messages.Session;
+using AK.F1.Timing.Messages.Weather;
 using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Model.Grid;
 
@@ -26,7 +26,7 @@ namespace AK.F1.Timing.Model.Session
 {
     /// <summary>
     /// A builder which builds a <see cref="AK.F1.Timing.Model.Session.SessionModel"/> as it
-    /// processes <see cref="AK.F1.Timing.Messaging.Message"/>s.
+    /// processes <see cref="AK.F1.Timing.Message"/>s.
     /// </summary>
     public class SessionModelBuilder : MessageVisitor, IMessageProcessor
     {

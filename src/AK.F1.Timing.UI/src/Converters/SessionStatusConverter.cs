@@ -17,7 +17,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-using AK.F1.Timing.Messaging.Messages.Session;
+using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.UI.Converters
 {

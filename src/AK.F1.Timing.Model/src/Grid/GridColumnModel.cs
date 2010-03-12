@@ -14,7 +14,7 @@
 
 using System;
 
-using AK.F1.Timing.Messaging.Messages.Driver;
+using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Grid
 {
@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Model.Grid
 
         /// <summary>
         /// Initialises a new instance of the <see cref="GridColumnModel"/> class and specifies
-        /// the <see cref="AK.F1.Timing.Messaging.Messages.Driver.GridColumn"/> type.
+        /// the <see cref="AK.F1.Timing.Messages.Driver.GridColumn"/> type.
         /// </summary>
         /// <param name="type">The grid column type.</param>
         public GridColumnModel(GridColumn type) {
@@ -61,12 +61,12 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         /// <summary>
-        /// Gets the <see cref="AK.F1.Timing.Messaging.Messages.Driver.GridColumn"/>.
+        /// Gets the <see cref="AK.F1.Timing.Messages.Driver.GridColumn"/>.
         /// </summary>
         public GridColumn Type { get; private set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="AK.F1.Timing.Messaging.Messages.Driver.GridColumnColour"/>
+        /// Gets or sets the <see cref="AK.F1.Timing.Messages.Driver.GridColumnColour"/>
         /// of this column.
         /// </summary>
         public GridColumnColour TextColour {

@@ -18,13 +18,13 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 
-using AK.F1.Timing.Messaging.Messages.Driver;
+using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Model.Extensions;
 
 namespace AK.F1.Timing.Model.Collections
 {
     /// <summary>
-    /// A <see cref="AK.F1.Timing.Messaging.Messages.Driver.PostedTime"/> collection model.
+    /// A <see cref="AK.F1.Timing.Messages.Driver.PostedTime"/> collection model.
     /// </summary>
     [Serializable]
     [DebuggerDisplay("Count = {Count}")]
