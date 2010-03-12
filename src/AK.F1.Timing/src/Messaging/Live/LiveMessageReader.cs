@@ -28,7 +28,9 @@ using AK.F1.Timing.Utility;
 namespace AK.F1.Timing.Messaging.Live
 {    
     /// <summary>
-    /// 
+    /// A <see cref="AK.F1.Timing.Messaging.IMessageReader"/> implementation which reads
+    /// <see cref="AK.F1.Timing.Messaging.Message"/>s encoded by the live-timing servers.
+    /// This class cannot be inherited.
     /// </summary>
     public sealed class LiveMessageReader : MessageReaderBase
     {
@@ -71,29 +73,20 @@ namespace AK.F1.Timing.Messaging.Live
         /// <inheritdoc />
         protected override Message ReadImpl() {
 
-            try {
-                switch(this.State) {
-                    case LiveMessageReaderState.Uninitialised:
-                        Initialise();                        
-                        break;
-                    case LiveMessageReaderState.Reading:                                            
-                        break;
-                    case LiveMessageReaderState.Closed:
-                        return null;
-                    case LiveMessageReaderState.Error:
-                        Guard.Fail("LiveMessageReader.ReadImpl should not have been called when in an error state.");
-                        break;
-                    default:
-                        throw Guard.ArgumentOutOfRange("LiveMessageReader.CurrentState");
-                }
-            } catch {
-                DisposeOfMessageStream();
-                this.State = LiveMessageReaderState.Error;
-                throw;
+            switch(this.State) {
+                case LiveMessageReaderState.Reading:
+                    break;
+                case LiveMessageReaderState.Closed:
+                    return null;
+                case LiveMessageReaderState.Uninitialised:
+                    Initialise();
+                    break;
+                default:
+                    throw Guard.ArgumentOutOfRange("State");
             }
 
             Message message = DequeueOrReadNextMessage();
-            
+
             // TODO message enqueued from a keyframe should not be subject to post processing.
             PostProcessMessage(message, true);
 
@@ -177,13 +170,19 @@ namespace AK.F1.Timing.Messaging.Live
             this.Buffer = CreateBuffer();
             this.Decryptor = this.DecryptorFactory.Create();
             this.MessageStream = this.MessageStreamEndpoint.Open();
-            message = ReadMessage();
-            if((keyframeMessage = message as SetKeyframeMessage) == null) {
-                this.Log.ErrorFormat("unexpected first message, expected set keyframe, instead: {0}", message);
-                throw Guard.LiveMessageReader_UnexpectedFirstMessage(message);
+
+            try {
+                message = ReadMessage();
+                if((keyframeMessage = message as SetKeyframeMessage) == null) {
+                    this.Log.ErrorFormat("unexpected first message, expected set keyframe, instead: {0}", message);
+                    throw Guard.LiveMessageReader_UnexpectedFirstMessage(message);
+                }
+                EnqueueMessagesFromKeyframe(keyframeMessage.Keyframe);
+                this.State = LiveMessageReaderState.Reading;
+            } catch {
+                DisposeOfMessageStream();
+                throw;
             }
-            EnqueueMessagesFromKeyframe(keyframeMessage.Keyframe);
-            this.State = LiveMessageReaderState.Reading;
         }
 
         private void EnqueueMessagesFromKeyframe(int keyframe) {
@@ -270,8 +269,8 @@ namespace AK.F1.Timing.Messaging.Live
                 case 12:
                     return ReadSetCopyrightMessage(header);
                 default:
-                    this.Log.ErrorFormat("unknown system message: {0}", header);
-                    throw Guard.LiveMessageReader_InvalidMessageType(header.MessageType);
+                    this.Log.ErrorFormat("unsupported system message: {0}", header);
+                    throw Guard.LiveMessageReader_UnsupportedSystemMessage(header);
             }
         }
 
@@ -280,16 +279,14 @@ namespace AK.F1.Timing.Messaging.Live
             if(header.MessageType == 0) {
                 return ReadSetDriverPositionMessage(header);
             }
-            if(header.MessageType == 15) {
-                // We ignore historical position updates.
-                ReadAndDecryptBytes(header.Value);
-                return Message.Empty;
-            }
             if(header.MessageType <= 13) {
                 return ReadGridColumnMessage(header);
             }
-            this.Log.ErrorFormat("unknown driver related message: {0}", header);
-            throw Guard.LiveMessageReader_InvalidMessageType(header.MessageType);
+            if(header.MessageType == 15) {
+                return ReadHistoricalPositionMessage(header);
+            }
+            this.Log.ErrorFormat("unsupported driver message: {0}", header);
+            throw Guard.LiveMessageReader_UnsupportedDriverMessage(header);
         }
 
         private Message ReadGridColumnMessage(LiveMessageHeader header) {            
@@ -349,6 +346,14 @@ namespace AK.F1.Timing.Messaging.Live
 
             return new SetDriverPositionMessage(header.DriverId, position);
         }
+        
+        private Message ReadHistoricalPositionMessage(LiveMessageHeader header) {
+
+            // We ignore historical position updates as it should be computed by a model.
+            ReadAndDecryptBytes(header.Value);            
+
+            return Message.Empty;
+        }
 
         private Message ReadWeatherMessage(LiveMessageHeader header) {
 
@@ -370,12 +375,24 @@ namespace AK.F1.Timing.Messaging.Live
                 case 6:
                     return new SetAtmosphericPressureMessage(LiveData.ParseDouble(s));
                 case 7:
-                    return new SetWindAngleMessage(LiveData.ParseInt32(s));
+                    return ReadSetWindAngleMessage(s);
                 default:
-                    this.Log.ErrorFormat("unknown weather message: {0}", header);
-                    // TODO might it be better to pass header.ToString()?
-                    throw Guard.LiveMessageReader_InvalidMessageType(header.MessageType);
+                    this.Log.ErrorFormat("unsupported weather message: {0}", header);                    
+                    throw Guard.LiveMessageReader_UnsupportedWeatherMessage(header);
             }            
+        }
+
+        private Message ReadSetWindAngleMessage(string s) {
+
+            int angle = LiveData.ParseInt32(s);
+
+            // The feed, as of 2010-03-12, has started to send through wind angles greater than 360.
+            if(!SetWindAngleMessage.IsValidAngle(angle)) {
+                this.Log.WarnFormat("received invalid wind angle: {0}", angle);
+                return Message.Empty;
+            }
+
+            return new SetWindAngleMessage(angle);
         }
 
         private Message ReadSetElapsedSessionTimeMessage(LiveMessageHeader header) {
