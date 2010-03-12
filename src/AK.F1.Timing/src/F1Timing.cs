@@ -18,7 +18,7 @@ using AK.F1.Timing;
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Live.Encryption;
 using AK.F1.Timing.Live.IO;
-using AK.F1.Timing.Playback;
+using AK.F1.Timing.Recording;
 
 namespace AK.F1.Timing
 {
@@ -92,10 +92,10 @@ namespace AK.F1.Timing
         }
 
         /// <summary>
-        /// Provides methods for creating <see cref="AK.F1.Timing.Playback.IRecordedMessageReader"/>s
+        /// Provides methods for creating <see cref="AK.F1.Timing.Recording.IRecordedMessageReader"/>s
         /// which read from persisted live message streams.
         /// </summary>
-        public static class Playback
+        public static class Recording
         {
             /// <summary>
             /// Creates a playback reader which reads the messages persisted in the specified file <paramref name="path"/>.

@@ -16,7 +16,7 @@ using System;
 
 using AK.F1.Timing;
 
-namespace AK.F1.Timing.Playback
+namespace AK.F1.Timing.Recording
 {
     /// <summary>
     /// Allows recorded <see cref="AK.F1.Timing.Message"/>s to be read from an underlying

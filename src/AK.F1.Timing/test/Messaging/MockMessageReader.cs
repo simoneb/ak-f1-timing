@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using Xunit;
 
 using AK.F1.Timing;
-using AK.F1.Timing.Playback;
 
 namespace AK.F1.Timing.Test.Messaging
 {
