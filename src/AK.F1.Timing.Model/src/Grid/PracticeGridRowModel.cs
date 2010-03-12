@@ -39,6 +39,7 @@ namespace AK.F1.Timing.Model.Grid
             this.Best = new GridColumnModel(GridColumn.LapTime);
             this.Gap = new GridColumnModel(GridColumn.Gap);
             this.Laps = new GridColumnModel(GridColumn.Laps);
+            this.Unknown = new GridColumnModel(GridColumn.Unknown);
         }
 
         /// <inheritdoc />
@@ -47,7 +48,8 @@ namespace AK.F1.Timing.Model.Grid
             base.Reset();
             this.Best.Reset();
             this.Gap.Reset();
-            this.Laps.Reset();            
+            this.Laps.Reset();
+            this.Unknown.Reset();
         }
 
         /// <summary>
@@ -65,6 +67,11 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         public GridColumnModel Laps { get; private set; }
 
+        /// <summary>
+        /// Gets the unknown column.
+        /// </summary>
+        public GridColumnModel Unknown { get; private set; }
+
         #endregion
 
         #region Protected Interface.
@@ -79,6 +86,8 @@ namespace AK.F1.Timing.Model.Grid
                     return this.Gap;
                 case GridColumn.Laps:
                     return this.Laps;
+                case GridColumn.Unknown:
+                    return this.Unknown;
                 default:
                     return base.GetColumnModel(column);
             }
