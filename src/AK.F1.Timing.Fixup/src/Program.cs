@@ -14,6 +14,7 @@
 
 using System;
 using System.IO;
+
 using AK.F1.Timing.Messages;
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Serialization;
@@ -64,7 +65,7 @@ namespace AK.F1.Timing.Fixup
             Message message;
             var tempPath = path + ".tmp";
             var classifier = new MessageClassifier();
-            var translater = new LiveMessageTranslator();            
+            var translator = new LiveMessageTranslator();            
 
             using(var input = File.OpenRead(path))
             using(var reader = new DecoratedObjectReader(input))
@@ -80,7 +81,7 @@ namespace AK.F1.Timing.Fixup
                     }
                     writer.Write(message);
                     ++written;
-                    if((message = translater.Translate(message)) != null) {
+                    if((message = translator.Translate(message)) != null) {
                         if(message is CompositeMessage) {
                             foreach(var component in ((CompositeMessage)message).Messages) {
                                 writer.Write(component);
