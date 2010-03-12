@@ -17,7 +17,7 @@ using Xunit;
 
 using AK.F1.Timing.Messages.Session;
 
-namespace AK.F1.Timing.Test.Messaging.Messages.Session
+namespace AK.F1.Timing.Messaging.Messages.Session
 {
 
 

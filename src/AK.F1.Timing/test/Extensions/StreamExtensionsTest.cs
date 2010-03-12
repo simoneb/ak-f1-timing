@@ -18,7 +18,7 @@ using Xunit;
 
 using AK.F1.Timing.Extensions;
 
-namespace AK.F1.Timing.Test.Extensions
+namespace AK.F1.Timing.Extensions
 {
     public class StreamExtensionsTest
     {

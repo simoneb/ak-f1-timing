@@ -17,7 +17,7 @@ using Xunit;
 
 using AK.F1.Timing.Live.Encryption;
 
-namespace AK.F1.Timing.Test.Messaging.Live.Encryption
+namespace AK.F1.Timing.Messaging.Live.Encryption
 {
 
 

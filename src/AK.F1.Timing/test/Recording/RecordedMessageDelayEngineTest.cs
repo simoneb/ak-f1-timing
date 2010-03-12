@@ -19,7 +19,7 @@ using Xunit;
 using AK.F1.Timing;
 using AK.F1.Timing.Recording;
 
-namespace AK.F1.Timing.Test.Messaging.Recording
+namespace AK.F1.Timing.Messaging.Recording
 {
     public class RecordedMessageDelayEngineTest
     {

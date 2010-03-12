@@ -17,7 +17,7 @@ using Xunit;
 
 using AK.F1.Timing.Messages.Weather;
 
-namespace AK.F1.Timing.Test.Messaging.Messages.Weather
+namespace AK.F1.Timing.Messaging.Messages.Weather
 {
 
 

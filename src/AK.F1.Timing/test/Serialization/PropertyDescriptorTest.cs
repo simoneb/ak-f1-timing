@@ -19,7 +19,7 @@ using Xunit;
 
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Test.Serialization
+namespace AK.F1.Timing.Serialization
 {
     public class PropertyDescriptorTest
     {

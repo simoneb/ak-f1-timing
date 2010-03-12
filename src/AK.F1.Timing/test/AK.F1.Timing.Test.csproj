@@ -8,7 +8,7 @@
     <ProjectGuid>{70BA1438-6E08-48BB-86D5-9DC277671EF8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AK.F1.Timing.Test</RootNamespace>
+    <RootNamespace>AK.F1.Timing</RootNamespace>
     <AssemblyName>AK.F1.Timing.Core.Test</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

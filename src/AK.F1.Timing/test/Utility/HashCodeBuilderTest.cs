@@ -19,7 +19,7 @@ using Xunit;
 
 using AK.F1.Timing.Utility;
 
-namespace AK.F1.Timing.Test.Utility
+namespace AK.F1.Timing.Utility
 {
     public class HashCodeBuilderTest
     {

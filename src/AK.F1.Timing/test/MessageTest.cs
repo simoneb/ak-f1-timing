@@ -23,7 +23,7 @@ using Xunit.Extensions;
 
 using AK.F1.Timing;
 
-namespace AK.F1.Timing.Test.Messaging
+namespace AK.F1.Timing.Messaging
 {
     public class MessageTest
     {

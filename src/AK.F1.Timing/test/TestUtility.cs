@@ -17,7 +17,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace AK.F1.Timing.Test
+namespace AK.F1.Timing
 {
     public static class TestUtility
     {

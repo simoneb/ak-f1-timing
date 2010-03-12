@@ -19,7 +19,7 @@ using System.Threading;
 using AK.F1.Timing.Extensions;
 using Xunit;
 
-namespace AK.F1.Timing.Test.Extensions
+namespace AK.F1.Timing.Extensions
 {
     public class ExceptionExtensionsTest
     {
