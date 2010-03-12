@@ -16,13 +16,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Security.Authentication;
 
 using AK.F1.Timing.Messaging;
+using AK.F1.Timing.Messaging.Live;
 using AK.F1.Timing.Messaging.Messages.Driver;
 using AK.F1.Timing.Messaging.Messages.Session;
 using AK.F1.Timing.Serialization;
@@ -145,9 +145,24 @@ namespace AK.F1.Timing
             return new NotImplementedException();
         }
 
-        internal static SerializationException LiveMessageReader_InvalidMessageType(int messageType) {
+        private static SerializationException LiveMessageReader_UnsupportedMessage(LiveMessageHeader header, string classification) {
 
-            return new SerializationException(Format(Resource.LiveMessageReader_InvalidMessageType, messageType));
+            return new SerializationException(Format(Resource.LiveMessageReader_UnsupportedMessage, header, classification));
+        }
+
+        internal static SerializationException LiveMessageReader_UnsupportedSystemMessage(LiveMessageHeader header) {
+
+            return LiveMessageReader_UnsupportedMessage(header, Resource.LiveMessageReader_MessageClassification_System);
+        }
+
+        internal static SerializationException LiveMessageReader_UnsupportedDriverMessage(LiveMessageHeader header) {
+
+            return LiveMessageReader_UnsupportedMessage(header, Resource.LiveMessageReader_MessageClassification_Driver);
+        }
+
+        internal static SerializationException LiveMessageReader_UnsupportedWeatherMessage(LiveMessageHeader header) {
+
+            return LiveMessageReader_UnsupportedMessage(header, Resource.LiveMessageReader_MessageClassification_Weather);
         }
 
         internal static SerializationException LiveData_UnableToConvertToSessionStatus(string s) {
@@ -202,20 +217,17 @@ namespace AK.F1.Timing
 
         internal static ArgumentException TimeGap_InvalidCompareToArgument(object obj) {
 
-            return new ArgumentException(Format(Resource.TimeGap_InvalidCompareToArgument,
-                typeof(TimeGap).FullName, obj.GetType().FullName), "obj");
+            return new ArgumentException(Format(Resource.TimeGap_InvalidCompareToArgument, typeof(TimeGap).FullName, obj.GetType().FullName), "obj");
         }
 
         internal static ArgumentException LapGap_InvalidCompareToArgument(object obj) {
 
-            return new ArgumentException(Format(Resource.LapGap_InvalidCompareToArgument,
-                typeof(LapGap).FullName, obj.GetType().FullName), "obj");
+            return new ArgumentException(Format(Resource.LapGap_InvalidCompareToArgument, typeof(LapGap).FullName, obj.GetType().FullName), "obj");
         }
 
         internal static ArgumentException PostedTime_InvalidCompareToArgument(object obj) {
 
-            return new ArgumentException(Format(Resource.PostedTime_InvalidCompareToArgument,
-                typeof(PostedTime).FullName, obj.GetType().FullName), "obj");
+            return new ArgumentException(Format(Resource.PostedTime_InvalidCompareToArgument, typeof(PostedTime).FullName, obj.GetType().FullName), "obj");
         }
 
         internal static SerializationException LiveDecryptorFactory_UnableToParseSeed(string s) {
@@ -310,8 +322,7 @@ namespace AK.F1.Timing
 
         internal static SerializationException DecoratedObjectReader_PropertyMissing(byte propertyId, TypeDescriptor descriptor) {
 
-            return new SerializationException(Format(Resource.DecoratedObjectReader_PropertyMissing,
-                propertyId, descriptor.Type));
+            return new SerializationException(Format(Resource.DecoratedObjectReader_PropertyMissing, propertyId, descriptor.Type));
         }
 
         #endregion

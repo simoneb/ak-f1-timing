@@ -223,16 +223,34 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The type of the next timing message (&apos;{0}&apos;) is not supported..
+        ///   Looks up a localized string similar to Driver.
         /// </summary>
-        internal static string LiveMessageReader_InvalidMessageType {
+        internal static string LiveMessageReader_MessageClassification_Driver {
             get {
-                return ResourceManager.GetString("LiveMessageReader_InvalidMessageType", resourceCulture);
+                return ResourceManager.GetString("LiveMessageReader_MessageClassification_Driver", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to read the next message as the end of the message stream was unexpectedly reached..
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        internal static string LiveMessageReader_MessageClassification_System {
+            get {
+                return ResourceManager.GetString("LiveMessageReader_MessageClassification_System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weather.
+        /// </summary>
+        internal static string LiveMessageReader_MessageClassification_Weather {
+            get {
+                return ResourceManager.GetString("LiveMessageReader_MessageClassification_Weather", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to read the next live-timing message as the end of the message stream was unexpectedly reached..
         /// </summary>
         internal static string LiveMessageReader_UnexpectedEndOfStream {
             get {
@@ -241,11 +259,22 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to read any messages from the stream as the first expected message was not an update keyframe message. The first message encountered was &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Unable to read any live-timing messages from the stream as the first expected message was not an update keyframe message. The first message encountered was &apos;{0}&apos;..
         /// </summary>
         internal static string LiveMessageReader_UnexpectedFirstMessage {
             get {
                 return ResourceManager.GetString("LiveMessageReader_UnexpectedFirstMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to read the next live-timing message as it is not supported.
+        ///Message Header: &apos;{0}&apos;
+        ///Message Classification: &apos;{1}&apos;.
+        /// </summary>
+        internal static string LiveMessageReader_UnsupportedMessage {
+            get {
+                return ResourceManager.GetString("LiveMessageReader_UnsupportedMessage", resourceCulture);
             }
         }
         
