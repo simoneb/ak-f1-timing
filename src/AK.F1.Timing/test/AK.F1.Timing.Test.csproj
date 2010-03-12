@@ -87,9 +87,9 @@
     <Compile Include="MessageTest.cs" />
     <Compile Include="MessageReaderBaseTest.cs" />
     <Compile Include="MessageVisitorTest.cs" />
-    <Compile Include="Playback\RecordedMessageDelayEngineTest.cs" />
-    <Compile Include="Playback\RecordedMessageReaderTest.cs" />
-    <Compile Include="Playback\RecordingMessageReaderTest.cs" />
+    <Compile Include="Recording\RecordedMessageDelayEngineTest.cs" />
+    <Compile Include="Recording\RecordedMessageReaderTest.cs" />
+    <Compile Include="Recording\RecordingMessageReaderTest.cs" />
     <Compile Include="Messages\CompositeMessageTest.cs" />
     <Compile Include="Messages\Weather\SetAirTemperatureMessageTest.cs" />
     <Compile Include="Messages\Weather\SetAtmosphericPressureMessageTest.cs" />
@@ -161,9 +161,6 @@
       <Project>{52334AE8-7F11-404B-AD45-4519F9229F4A}</Project>
       <Name>AK.F1.Timing</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Messaging\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
