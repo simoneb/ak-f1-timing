@@ -19,8 +19,7 @@
     <GlobalAssemblyInfoPath>$(SrcPath)\GlobalAssemblyInfo.cs</GlobalAssemblyInfoPath>
     <GlobalAssemblyVersionPath>$(SrcPath)\GlobalAssemblyVersion.version</GlobalAssemblyVersionPath>
     <MSBuildTasksPath>$(ToolsPath)\msbuild</MSBuildTasksPath>
-    <XUnitTasksPath>$(ToolsPath)\xunit</XUnitTasksPath>
-    <SvnToolsPath>C:\Program Files\CollabNet\Subversion Client\</SvnToolsPath>
+    <XUnitTasksPath>$(ToolsPath)\xunit</XUnitTasksPath>    
     <UIBinPath>$(SrcPath)\AK.F1.Timing.UI\src\bin\$(BuildType)</UIBinPath>
     <RecorderBinPath>$(SrcPath)\AK.F1.Timing.LiveRecorder\src\bin\$(BuildType)</RecorderBinPath>
     <FixupBinPath>$(SrcPath)\AK.F1.Timing.Fixup\src\bin\$(BuildType)</FixupBinPath>
@@ -80,16 +79,13 @@
       Major="0"
       Minor="8"
       VersionFile="$(GlobalAssemblyVersionPath)"
-      RevisionType="Automatic">
+      RevisionType="Automatic"
+      BuildType="Increment">
       <Output TaskParameter="Major" PropertyName="Major"/>
       <Output TaskParameter="Minor" PropertyName="Minor"/>
       <Output TaskParameter="Revision" PropertyName="Revision"/>
+      <Output TaskParameter="Build" PropertyName="Build"/>
     </Version>
-    <SvnVersion
-      LocalPath="."
-      ToolPath="$(SvnToolsPath)">
-      <Output TaskParameter="Revision" PropertyName="Build"/>
-    </SvnVersion>
     <PropertyGroup>
       <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
     </PropertyGroup>
@@ -115,39 +111,6 @@
     Name="Package"
     DependsOnTargets="$(CorePackageDependencies);PackageUI;PackageRecorder;PackageFixup"/>
 
-  <Target Name="PackageUI" DependsOnTargets="$(CorePackageDependencies)">
-    <PropertyGroup>
-      <UIPackageName>f1timing</UIPackageName>
-      <UIPackagePath>$(BinPath)\latest-$(UIPackageName)</UIPackagePath>
-      <UIPackageBinPath>$(UIPackagePath)\bin</UIPackageBinPath>
-    </PropertyGroup>
-    <ItemGroup>
-      <UIPackageRootFiles
-        Include="$(UIBinPath)\$(UIPackageName).*"/>
-      <UIPackageBinFiles
-        Include="$(UIBinPath)\*.*"
-        Exclude="$(UIBinPath)\*.xml;@(UIPackageRootFiles)"/>
-    </ItemGroup>
-    <MakeDir
-      Directories="$(UIPackageBinPath)"/>
-    <Copy
-      SourceFiles="@(UIPackageRootFiles)"
-      DestinationFolder="$(UIPackagePath)"/>
-    <Copy
-      SourceFiles="@(UIPackageBinFiles)"
-      DestinationFolder="$(UIPackageBinPath)"/>
-    <ItemGroup>
-      <UIPackageFiles
-        Include="$(UIPackagePath)\**\*.*"/>
-    </ItemGroup>
-    <Zip
-      Files="@(UIPackageFiles)"
-      ZipFileName="$(BinPath)\$(UIPackageName)-v$(GlobalAssemblyVersion).zip"
-      WorkingDirectory="$(UIPackagePath)"
-      Flatten="false"
-      ZipLevel="10"/>
-  </Target>
-
   <Target Name="PackageRecorder" DependsOnTargets="$(CorePackageDependencies)">
     <PropertyGroup>
       <RecorderPackageName>f1recorder</RecorderPackageName>
@@ -156,10 +119,11 @@
     </PropertyGroup>
     <ItemGroup>
       <RecorderPackageRootFiles
-        Include="$(RecorderBinPath)\$(RecorderPackageName).*"/>
+        Include="$(RecorderBinPath)\$(RecorderPackageName).*"
+        Exclude="$(RecorderBinPath)\*.pdb"/>
       <RecorderPackageBinFiles
         Include="$(RecorderBinPath)\*.*"
-        Exclude="$(RecorderBinPath)\*.xml;@(RecorderPackageRootFiles)"/>
+        Exclude="@(RecorderPackageRootFiles);$(RecorderBinPath)\*.xml;$(RecorderBinPath)\*.pdb"/>
     </ItemGroup>
     <MakeDir
       Directories="$(RecorderPackageBinPath)"/>
@@ -189,10 +153,11 @@
     </PropertyGroup>
     <ItemGroup>
       <FixupPackageRootFiles
-        Include="$(FixupBinPath)\$(FixupPackageName).*"/>
+        Include="$(FixupBinPath)\$(FixupPackageName).*"
+        Exclude="$(FixupBinPath)\*.pdb"/>
       <FixupPackageBinFiles
         Include="$(FixupBinPath)\*.*"
-        Exclude="$(FixupBinPath)\*.xml;@(FixupPackageRootFiles)"/>
+        Exclude="@(FixupPackageRootFiles);$(FixupBinPath)\*.xml;$(FixupBinPath)\*.pdb"/>
     </ItemGroup>
     <MakeDir
       Directories="$(FixupPackageBinPath)"/>
@@ -210,6 +175,40 @@
       Files="@(FixupPackageFiles)"
       ZipFileName="$(BinPath)\$(FixupPackageName)-v$(GlobalAssemblyVersion).zip"
       WorkingDirectory="$(FixupPackagePath)"
+      Flatten="false"
+      ZipLevel="10"/>
+  </Target>
+  
+  <Target Name="PackageUI" DependsOnTargets="$(CorePackageDependencies)">
+    <PropertyGroup>
+      <UIPackageName>f1timing</UIPackageName>
+      <UIPackagePath>$(BinPath)\latest-$(UIPackageName)</UIPackagePath>
+      <UIPackageBinPath>$(UIPackagePath)\bin</UIPackageBinPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <UIPackageRootFiles
+        Include="$(UIBinPath)\$(UIPackageName).*"
+        Exclude="$(UIBinPath)\*.pdb"/>
+      <UIPackageBinFiles
+        Include="$(UIBinPath)\*.*"
+        Exclude="@(UIPackageRootFiles);$(UIBinPath)\*.xml;$(UIBinPath)\*.pdb"/>
+    </ItemGroup>
+    <MakeDir
+      Directories="$(UIPackageBinPath)"/>
+    <Copy
+      SourceFiles="@(UIPackageRootFiles)"
+      DestinationFolder="$(UIPackagePath)"/>
+    <Copy
+      SourceFiles="@(UIPackageBinFiles)"
+      DestinationFolder="$(UIPackageBinPath)"/>
+    <ItemGroup>
+      <UIPackageFiles
+        Include="$(UIPackagePath)\**\*.*"/>
+    </ItemGroup>
+    <Zip
+      Files="@(UIPackageFiles)"
+      ZipFileName="$(BinPath)\$(UIPackageName)-v$(GlobalAssemblyVersion).zip"
+      WorkingDirectory="$(UIPackagePath)"
       Flatten="false"
       ZipLevel="10"/>
   </Target>
