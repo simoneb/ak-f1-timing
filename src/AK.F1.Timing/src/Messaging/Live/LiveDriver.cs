@@ -85,7 +85,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// <see langword="false"/>.</returns>
         public bool ColumnHasValue(GridColumn column) {
 
-            return _columnsWithValue[GetBit(column)];
+            return _columnsWithValue[GetBitForColumn(column)];
         }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace AK.F1.Timing.Messaging.Live
         /// otherwise; <see langword="false"/></param>
         public void SetColumnHasValue(GridColumn column, bool value) {
 
-            _columnsWithValue[GetBit(column)] = value;
+            _columnsWithValue[GetBitForColumn(column)] = value;
         }
 
         /// <summary>
@@ -138,6 +138,14 @@ namespace AK.F1.Timing.Messaging.Live
         /// Gets or sets the current status of this driver.
         /// </summary>
         public DriverStatus Status { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating if this driver is the race leader.
+        /// </summary>
+        public bool IsRaceLeader {
+
+            get { return this.Position == 1; }
+        }
 
         /// <summary>
         /// Gets or sets the current position of this driver.
@@ -193,9 +201,9 @@ namespace AK.F1.Timing.Messaging.Live
 
         #region Private Impl.
 
-        private static int GetBit(GridColumn column) {
+        private static int GetBitForColumn(GridColumn column) {
 
-            return (1 << (int)column + 1);
+            return 1 << (int)column;
         }
 
         private Gap Gap {
