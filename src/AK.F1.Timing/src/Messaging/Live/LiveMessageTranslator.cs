@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messaging.Live
             log4net.LogManager.GetLogger(typeof(LiveMessageTranslator));
 
         /// <summary>
-        /// The maximum ping inteval before we interpret it as being the end of the session. This
+        /// The maximum ping interval before we interpret it as being the end of the session. This
         /// field is <see langword="readonly"/>.
         /// </summary>
         private static readonly TimeSpan MAX_PING_INTERVAL = TimeSpan.FromSeconds(30);
@@ -90,19 +90,19 @@ namespace AK.F1.Timing.Messaging.Live
         /// <inheritdoc />
         public override void Visit(SetPingIntervalMessage message) {
 
-            this.Translated = Translate(message);         
+            this.Translated = TranslateSetPingIntervalMessage(message);         
         }        
 
         /// <inheritdoc />
         public override void Visit(SetGridColumnColourMessage message) {
 
-            this.Translated = Translate(message);
+            this.Translated = TranslateSetGridColumnColourMessage(message);
         }
 
         /// <inheritdoc />
         public override void Visit(SetGridColumnValueMessage message) {
 
-            this.Translated = Translate(message);
+            this.Translated = TranslateSetGridColumnValueMessage(message);
         }
 
         #endregion
@@ -153,20 +153,20 @@ namespace AK.F1.Timing.Messaging.Live
 
         #region Private Impl.
 
-        private Message Translate(SetPingIntervalMessage message) {
+        private Message TranslateSetPingIntervalMessage(SetPingIntervalMessage message) {
 
             if(!(message.PingInterval == TimeSpan.Zero || message.PingInterval >= MAX_PING_INTERVAL)) {
                 return null;
             }
 
-            _log.InfoFormat("read terminal message {0}", message);
+            _log.InfoFormat("read terminal message: {0}", message);
 
             return new CompositeMessage(
                 new SetSessionStatusMessage(SessionStatus.Finished),
                 EndOfSessionMessage.Instance);
         }
 
-        private Message Translate(SetGridColumnValueMessage message) {
+        private Message TranslateSetGridColumnValueMessage(SetGridColumnValueMessage message) {
 
             if(message.ClearColumn) {
                 switch(message.Column) {
@@ -211,7 +211,7 @@ namespace AK.F1.Timing.Messaging.Live
             return null;
         }
 
-        private Message Translate(SetGridColumnColourMessage message) {
+        private Message TranslateSetGridColumnColourMessage(SetGridColumnColourMessage message) {
 
             // Yellow indicates that the next column is about to / has received an update and this
             // column is no longer shows the latest information for the driver.
@@ -250,7 +250,7 @@ namespace AK.F1.Timing.Messaging.Live
         private Message TranslateSetIntervalTimeValue(SetGridColumnValueMessage message) {
 
             // The interval column for the lead driver displays the current lap number.
-            if(GetDriver(message).Position == 1) {
+            if(GetDriver(message).IsRaceLeader) {
                 return new CompositeMessage(
                     new SetRaceLapNumberMessage(LiveData.ParseInt32(message.Value)),
                     new SetDriverIntervalMessage(message.DriverId, TimeGap.Zero));
@@ -426,14 +426,14 @@ namespace AK.F1.Timing.Messaging.Live
             if(sectorNumber == 2 && driver.NextSectorNumber == 1 &&
                 (lastS1Time = driver.LastSectors[0]) != null) {
                 _log.Debug("received clear S2 before S1 set, using previous posted time");
-                return Translate(new SetDriverSectorTimeMessage(driver.Id, 1,
+                return TranslateSetDriverSectorTimeMessage(new SetDriverSectorTimeMessage(driver.Id, 1,
                     new PostedTime(lastS1Time.Time, lastS1Time.Type, driver.LapNumber)));
             }
 
             return null;
         }
 
-        private Message Translate(SetDriverSectorTimeMessage message) {
+        private Message TranslateSetDriverSectorTimeMessage(SetDriverSectorTimeMessage message) {
 
             if(message.SectorNumber != 3 || this.SessionType != SessionType.Race) {
                 return message;
