@@ -14,7 +14,6 @@
 
 using System;
 
-using AK.F1.Timing;
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;

@@ -16,8 +16,6 @@ using System;
 using System.IO;
 using log4net;
 
-using AK.F1.Timing;
-
 namespace AK.F1.Timing.Live.Recorder
 {
     /// <summary>

@@ -1,4 +1,4 @@
-// Copyright 2009 Andy Kernahan
+﻿// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,8 +20,6 @@ using System.Linq;
 using System.Reflection;
 using Xunit;
 using Xunit.Extensions;
-
-using AK.F1.Timing;
 
 namespace AK.F1.Timing.Messaging
 {

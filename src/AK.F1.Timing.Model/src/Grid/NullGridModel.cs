@@ -14,8 +14,6 @@
 
 using System;
 
-using AK.F1.Timing;
-
 namespace AK.F1.Timing.Model.Grid
 {
     /// <summary>

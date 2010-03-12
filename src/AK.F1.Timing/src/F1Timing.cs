@@ -14,7 +14,6 @@
 
 using System;
 
-using AK.F1.Timing;
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Live.Encryption;
 using AK.F1.Timing.Live.IO;

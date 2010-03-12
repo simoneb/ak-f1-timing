@@ -17,8 +17,6 @@ using System.Globalization;
 using System.Text;
 using System.Runtime.Serialization;
 
-using AK.F1.Timing;
-
 namespace AK.F1.Timing
 {
     /// <summary>

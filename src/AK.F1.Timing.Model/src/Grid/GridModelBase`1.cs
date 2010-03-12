@@ -15,7 +15,6 @@
 using System;
 using System.Collections.ObjectModel;
 
-using AK.F1.Timing;
 using AK.F1.Timing.Model.Collections;
 
 namespace AK.F1.Timing.Model.Grid

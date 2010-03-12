@@ -14,7 +14,6 @@
 
 using System;
 using System.IO;
-using AK.F1.Timing;
 using AK.F1.Timing.Messages;
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Serialization;
