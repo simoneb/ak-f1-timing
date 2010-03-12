@@ -17,4 +17,4 @@ using System.Reflection;
 
 [assembly: AssemblyTitle("F1 Live Timing Recorder for .NET 3.5")]
 [assembly: AssemblyDescription("F1 Live Timing Recorder App for .NET 3.5.")]
-[assembly: AssemblyProduct("AK.F1.Timing.LiveRecorder")]
+[assembly: AssemblyProduct("AK.F1.Timing.Live.Recorder")]

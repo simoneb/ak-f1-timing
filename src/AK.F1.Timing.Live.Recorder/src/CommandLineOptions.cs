@@ -20,7 +20,7 @@ using Genghis;
 // Disable warning indicating fields are never assigned.
 #pragma warning disable 0649
 
-namespace AK.F1.Timing.LiveRecorder
+namespace AK.F1.Timing.Live.Recorder
 {
     internal sealed class CommandLineOptions : CommandLineParser
     {

@@ -8,11 +8,11 @@
     <ProjectGuid>{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AK.F1.Timing.LiveRecorder</RootNamespace>
+    <RootNamespace>AK.F1.Timing.Live.Recorder</RootNamespace>
     <AssemblyName>f1recorder</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <StartupObject>AK.F1.Timing.LiveRecorder.Program</StartupObject>
+    <StartupObject>AK.F1.Timing.Live.Recorder.Program</StartupObject>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>AK.F1.Timing.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
@@ -72,7 +72,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
