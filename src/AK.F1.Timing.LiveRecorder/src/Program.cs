@@ -14,6 +14,7 @@
 
 using System;
 using System.IO;
+using log4net;
 
 using AK.F1.Timing.Messaging;
 
@@ -24,6 +25,12 @@ namespace AK.F1.Timing.LiveRecorder
     /// </summary>
     public static class Program
     {
+        #region Fields.
+        
+        private static readonly ILog _log = LogManager.GetLogger(typeof(Program));
+        
+        #endregion
+        
         #region Public Interface.
 
         /// <summary>
@@ -63,6 +70,7 @@ namespace AK.F1.Timing.LiveRecorder
                 }
                 WriteLine("end of message stream");                
             } catch(Exception exc) {
+                _log.Error(exc);
                 Console.WriteLine("{0}: {1}", exc.GetType().Name, exc.Message);                
             }
         }
