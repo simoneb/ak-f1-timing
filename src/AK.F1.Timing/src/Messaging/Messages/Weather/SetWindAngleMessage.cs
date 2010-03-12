@@ -35,10 +35,10 @@ namespace AK.F1.Timing.Messaging.Messages.Weather
         /// Thrown when <paramref name="angle"/> is negative or greater than 360.
         /// </exception>
         public SetWindAngleMessage(int angle) {
-
-            Guard.InRange(angle >= 0 && angle <= 360, "angle");
             
-            this.Angle = angle;            
+            Guard.InRange(IsValidAngle(angle), "angle");
+            
+            this.Angle = angle;
         }
 
         /// <inheritdoc />
@@ -53,6 +53,17 @@ namespace AK.F1.Timing.Messaging.Messages.Weather
         public override string ToString() {
 
             return Repr("Angle={0}", this.Angle);
+        }
+        
+        /// <summary>
+        /// Returns a value indicating if the specified <paramref name="angle"/> is valid.
+        /// </summary>
+        /// <param name="angle">The angle to test.</param>
+        /// <returns><see langword="true"/> if the specified <paramref name="angle"/> is valid,
+        /// otherwise; <see langword="false"/>.</returns>
+        public static bool IsValidAngle(int angle) {
+        
+            return angle >= 0 && angle <= 360;
         }
 
         /// <summary>
