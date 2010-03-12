@@ -19,7 +19,7 @@ using Genghis;
 // Disable warning indicating fields are never assigned.
 #pragma warning disable 0649
 
-namespace AK.F1.Timing.Fixup
+namespace AK.F1.Timing.Tms.Fixup
 {
     internal sealed class CommandLineOptions : CommandLineParser
     {

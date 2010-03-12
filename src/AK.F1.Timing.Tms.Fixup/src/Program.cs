@@ -19,7 +19,7 @@ using AK.F1.Timing.Messages;
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Fixup
+namespace AK.F1.Timing.Tms.Fixup
 {
     /// <summary>
     /// Application entry point container.

@@ -68,10 +68,10 @@ namespace AK.F1.Timing.Live.Recorder
                         WriteLine(message.ToString());
                     }
                 }
-                WriteLine("end of message stream");                
+                WriteLine("disconnected");                
             } catch(Exception exc) {
                 _log.Error(exc);
-                Console.WriteLine("{0}: {1}", exc.GetType().Name, exc.Message);                
+                WriteLine("{0} - {1}", exc.GetType().Name, exc.Message);                
             }
         }
 

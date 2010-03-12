@@ -21,4 +21,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("F1 Timing TMS Fixup Utility")]
 [assembly: AssemblyDescription("F1 Timing TMS Fixup Utility")]
-[assembly: AssemblyProduct("AK.F1.Timing.Fixup")]
+[assembly: AssemblyProduct("AK.F1.Timing.Tms.Fixup")]

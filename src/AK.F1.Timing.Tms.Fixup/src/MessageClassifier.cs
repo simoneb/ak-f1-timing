@@ -19,7 +19,7 @@ using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
 using AK.F1.Timing.Messages.Weather;
 
-namespace AK.F1.Timing.Fixup
+namespace AK.F1.Timing.Tms.Fixup
 {
     internal class MessageClassifier : IMessageVisitor
     {
