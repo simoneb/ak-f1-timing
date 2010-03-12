@@ -35,7 +35,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Sandbox", "AK.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Tms.Fixup", "AK.F1.Timing.Tms.Fixup\src\AK.F1.Timing.Tms.Fixup.csproj", "{8F5C52B9-0B59-4C0C-9634-62796209C0B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Tms.Utility", "AK.F1.Timing.Tms.Utility\AK.F1.Timing.Tms.Utility.csproj", "{C68A5CD3-7FD2-4FF7-8E7F-F3A7D11B6177}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Tms.Utility", "AK.F1.Timing.Tms.Utility\src\AK.F1.Timing.Tms.Utility.csproj", "{C68A5CD3-7FD2-4FF7-8E7F-F3A7D11B6177}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
