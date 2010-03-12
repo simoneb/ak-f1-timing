@@ -60,6 +60,8 @@ namespace AK.F1.Timing.Live.Recorder
 
             Message message;
 
+            WriteLine("connecting...");
+
             try {
                 using(var reader = F1Timing.Live.ReadAndRecord(username, password, path)) {
                     while((message = reader.Read()) != null) {
@@ -75,7 +77,7 @@ namespace AK.F1.Timing.Live.Recorder
 
         private static void WriteLine(string format, params object[] args) {
 
-            Console.Write(DateTime.Now.ToLongTimeString());
+            Console.Write(DateTime.Now.ToString("HH:mm:ss.fff"));
             Console.Write(": ");
             Console.WriteLine(format, args);
         }
