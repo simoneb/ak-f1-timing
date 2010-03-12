@@ -91,11 +91,6 @@ namespace AK.F1.Timing.Fixup
             this.Result = true;
         }
 
-        public void Visit(SetDriverPositionMessage message) {
-
-            this.Result = false;
-        }
-
         public void Visit(SetDriverQuallyTimeMessage message) {
 
             this.Result = true;
@@ -125,6 +120,8 @@ namespace AK.F1.Timing.Fixup
 
             this.Result = true;
         }
+
+        public void Visit(SetDriverPositionMessage message) { }
 
         public void Visit(StartSessionTimeCountdownMessage message) { }
 
