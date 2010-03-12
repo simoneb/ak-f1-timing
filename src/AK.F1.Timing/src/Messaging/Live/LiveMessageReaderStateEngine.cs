@@ -51,7 +51,7 @@ namespace AK.F1.Timing.Messaging.Live
         }
 
         /// <summary>
-        /// Determines if the specified message is terminal and closes the reader's stream if so.
+        /// Updates the ping internal on the current message reader.
         /// </summary>
         /// <param name="message">The message.</param>
         public override void Visit(SetPingIntervalMessage message) {
@@ -70,7 +70,7 @@ namespace AK.F1.Timing.Messaging.Live
         }
 
         /// <summary>
-        /// Sets the current reader session type and creates a new decyptor for the session
+        /// Sets the current reader session type and creates a new decryptor for the session
         /// identifier specified by the message.
         /// </summary>
         /// <param name="message">The message.</param>
