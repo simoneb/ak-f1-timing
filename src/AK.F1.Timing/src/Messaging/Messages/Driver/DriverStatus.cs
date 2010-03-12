@@ -36,7 +36,7 @@ namespace AK.F1.Timing.Messaging.Messages.Driver
         /// </summary>
         Out,
         /// <summary>
-        /// Indicates thet driver has stopped out on the track.
+        /// Indicates that driver has stopped out on the track.
         /// </summary>
         Stopped,
         /// <summary>
