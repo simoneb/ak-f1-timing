@@ -14,7 +14,9 @@
 
 using System;
 using System.Collections.Generic;
+
 using AK.F1.Timing.Serialization;
+using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Messages.Driver
 {
@@ -101,13 +103,10 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override int GetHashCode() {
 
-            int hash = 7;
-
-            hash = 31 * hash + this.LapNumber.GetHashCode();
-            hash = 31 * hash + this.Time.GetHashCode();
-            hash = 31 * hash + this.Type.GetHashCode();
-
-            return hash;
+            return HashCodeBuilder.New()
+                .Add(this.LapNumber)
+                .Add(this.Time)
+                .Add(this.Type);
         }
 
         /// <inheritdoc />
