@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Serialization
     /// <see cref="DecoratedObjectReader"/> respectively. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    public sealed class PropertyDescriptor : IEquatable<PropertyDescriptor>, ISerializable
+    public sealed class PropertyDescriptor : IEquatable<PropertyDescriptor>
     {
         #region Public Interface.
 
@@ -91,7 +91,8 @@ namespace AK.F1.Timing.Serialization
         /// <inheritdoc/>
         public bool Equals(PropertyDescriptor other) {
 
-            return other != null && other.PropertyId == this.PropertyId &&
+            return other != null &&
+                other.PropertyId == this.PropertyId &&
                 other.Property.DeclaringType.Equals(this.Property.DeclaringType);
         }
 
@@ -119,16 +120,6 @@ namespace AK.F1.Timing.Serialization
         /// Gets the property identifier.
         /// </summary>
         public byte PropertyId { get; private set; }
-
-        #endregion
-
-        #region Explicit Interface.
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) {
-
-            info.SetType(typeof(PropertyDescriptorReference));
-            new PropertyDescriptorReference(this).GetObjectData(info);
-        }
 
         #endregion
 
@@ -165,30 +156,6 @@ namespace AK.F1.Timing.Serialization
             }
 
             return attribute.Id;
-        }
-
-        [Serializable]
-        private sealed class PropertyDescriptorReference : IObjectReference
-        {
-            private readonly byte _propertyId;
-            private readonly Type _declaringType;
-
-            public PropertyDescriptorReference(PropertyDescriptor descriptor) {
-
-                _declaringType = descriptor.Property.DeclaringType;
-                _propertyId = descriptor.PropertyId;
-            }
-
-            public void GetObjectData(SerializationInfo info) {
-
-                info.AddValue("_declaringType", _declaringType);
-                info.AddValue("_propertyId", _propertyId);
-            }
-
-            public object GetRealObject(StreamingContext context) {
-
-                return TypeDescriptor.For(_declaringType).Properties.GetById(_propertyId);                
-            }
         }
 
         #endregion

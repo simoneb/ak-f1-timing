@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Serialization
     /// <see cref="DecoratedObjectReader"/> respectively. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    public sealed class TypeDescriptor : IEquatable<TypeDescriptor>, ISerializable
+    public sealed class TypeDescriptor : IEquatable<TypeDescriptor>
     {
         #region Private Impl.
 
@@ -73,7 +73,7 @@ namespace AK.F1.Timing.Serialization
                 }
             }
         }
-        
+
         /// <summary>
         /// Returns the <see cref="TypeDescriptor"/> for the type with the specified identifier.
         /// </summary>
@@ -136,7 +136,7 @@ namespace AK.F1.Timing.Serialization
         /// <inheritdoc/>
         public bool Equals(TypeDescriptor other) {
 
-            return other != null && other.TypeId == this.TypeId;
+            return other != null && other.Type.Equals(this.Type);
         }
 
         /// <inheritdoc/>
@@ -146,7 +146,7 @@ namespace AK.F1.Timing.Serialization
         }
 
         /// <inheritdoc/>
-        public override string ToString() {            
+        public override string ToString() {
 
             return this.Type.ToString();
         }
@@ -168,16 +168,6 @@ namespace AK.F1.Timing.Serialization
 
         #endregion
 
-        #region Explicit Interface.
-
-        void ISerializable.GetObjectData(SerializationInfo info, StreamingContext context) {
-
-            info.SetType(typeof(TypeDescriptorReference));
-            new TypeDescriptorReference(this).GetObjectData(info);
-        }
-
-        #endregion
-
         #region Private Impl.
 
         private TypeDescriptor(Type type, int typeId, PropertyDescriptorCollection properties) {
@@ -193,7 +183,7 @@ namespace AK.F1.Timing.Serialization
         }
 
         private static PropertyDescriptorCollection GetProperties(Type type) {
-            
+
             PropertyDescriptorCollection properties = new PropertyDescriptorCollection();
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
@@ -203,7 +193,7 @@ namespace AK.F1.Timing.Serialization
                         properties.Add(PropertyDescriptor.For(property));
                     }
                 }
-            } while((type = type.BaseType) != typeof(object));
+            } while(!(type = type.BaseType).Equals(typeof(object)));
 
             properties.Seal();
 
@@ -218,7 +208,7 @@ namespace AK.F1.Timing.Serialization
                 throw Guard.TypeDescriptor_TypeIsNotDecorated(type);
             }
 
-            return attribute.Id;            
+            return attribute.Id;
         }
 
         private static TypeDescriptor CreateAndCacheDescriptor(Type type) {
@@ -235,34 +225,13 @@ namespace AK.F1.Timing.Serialization
             TypeDescriptor cachedDescriptor;
 
             if(_cache.TryGetValue(descriptor.TypeId, out cachedDescriptor)) {
-                if(cachedDescriptor.Type != descriptor.Type) {
+                if(!cachedDescriptor.Type.Equals(descriptor.Type)) {
                     throw Guard.TypeDescriptor_DuplicateTypeId(cachedDescriptor, descriptor);
                 }
                 return;
             }
-            
+
             _cache.Add(descriptor.TypeId, descriptor);
-        }
-
-        [Serializable]
-        private sealed class TypeDescriptorReference : IObjectReference
-        {
-            private readonly Type _type;
-
-            public TypeDescriptorReference(TypeDescriptor descriptor) {
-
-                _type = descriptor.Type;
-            }
-
-            public void GetObjectData(SerializationInfo info) {
-
-                info.AddValue("_type", _type);                
-            }
-
-            public object GetRealObject(StreamingContext context) {
-
-                return TypeDescriptor.For(_type);
-            }
         }
 
         #endregion
