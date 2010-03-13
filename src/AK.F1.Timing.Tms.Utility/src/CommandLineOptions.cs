@@ -32,6 +32,20 @@ namespace AK.F1.Timing.Tms.Utility
             MatchPosition = true)]
         public string Path;
 
+        [CommandLineParser.ValueUsage("Generate TMS statistics.",
+            Category = "op",
+            Name = "stats",
+            AlternateName1 = "s",
+            Optional = true)]
+        public bool Stats;
+
+        [CommandLineParser.ValueUsage("Dump the TMS to the standard out.",
+            Category = "op",
+            Name = "dump",
+            AlternateName1 = "d",
+            Optional = true)]
+        public bool Dump;
+
         #endregion
 
         #region Protected Interface.
@@ -43,6 +57,9 @@ namespace AK.F1.Timing.Tms.Utility
 
             if(!File.Exists(this.Path)) {
                 throw Usage("path", "specified path does not exist or the device is not ready.");
+            }
+            if(!(this.Stats ^ this.Dump)) {
+                throw Usage("stats|dump", "one operation must be selected.");
             }
         }
 

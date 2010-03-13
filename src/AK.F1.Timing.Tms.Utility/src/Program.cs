@@ -37,7 +37,11 @@ namespace AK.F1.Timing.Tms.Utility
             var options = new CommandLineOptions();
 
             if(options.ParseAndContinue(args)) {
-                Run(options);
+                try {
+                    Run(options);
+                } catch(Exception exc) {
+                    WriteLine("{0} - {1}", exc.GetType().Name, exc.Message);
+                }
             }
         }
 
@@ -47,10 +51,26 @@ namespace AK.F1.Timing.Tms.Utility
 
         private static void Run(CommandLineOptions options) {
 
-            DumpStatistics(options.Path);
+            if(options.Stats) {
+                WriteStatistics(options.Path);
+            } else if(options.Dump) {
+                WriteContents(options.Path);
+            }
         }
 
-        private static void DumpStatistics(string path) {
+        private static void WriteContents(string path) {
+
+            object obj;
+
+            using(var input = File.OpenRead(path))
+            using(var reader = new DecoratedObjectReader(input)) {
+                while((obj = reader.Read()) != null) {
+                    WriteLine("{0}", obj);
+                }
+            }
+        }
+
+        private static void WriteStatistics(string path) {
 
             object obj;
             var numberOfObjects = 0L;
