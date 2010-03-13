@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 using AK.F1.Timing.Extensions;
 
@@ -121,6 +120,10 @@ namespace AK.F1.Timing.Serialization
                 }
             }
 
+            if(!descriptor.Type.Equals(type)) {
+                throw Guard.TypeDescriptor_DuplicateTypeId(descriptor, type);
+            }
+
             return descriptor;
         }
 
@@ -202,7 +205,7 @@ namespace AK.F1.Timing.Serialization
 
         private static int GetTypeId(Type type) {
 
-            TypeIdAttribute attribute = type.GetAttribute<TypeIdAttribute>();
+            TypeIdAttribute attribute = type.GetAttribute<TypeIdAttribute>(false);
 
             if(attribute == null) {
                 throw Guard.TypeDescriptor_TypeIsNotDecorated(type);
@@ -215,23 +218,9 @@ namespace AK.F1.Timing.Serialization
 
             TypeDescriptor descriptor = CreateDescriptor(type);
 
-            CacheDescriptor(descriptor);
+            _cache.Add(descriptor.TypeId, descriptor);
 
             return descriptor;
-        }
-
-        private static void CacheDescriptor(TypeDescriptor descriptor) {
-
-            TypeDescriptor cachedDescriptor;
-
-            if(_cache.TryGetValue(descriptor.TypeId, out cachedDescriptor)) {
-                if(!cachedDescriptor.Type.Equals(descriptor.Type)) {
-                    throw Guard.TypeDescriptor_DuplicateTypeId(cachedDescriptor, descriptor);
-                }
-                return;
-            }
-
-            _cache.Add(descriptor.TypeId, descriptor);
         }
 
         #endregion
