@@ -15,13 +15,43 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Session;
-
 namespace AK.F1.Timing.Messages.Session
 {
-
-
-    public class SetRemainingSessionTimeMessageTest
+    public class SetRemainingSessionTimeMessageTest : MessageTestBase<SetRemainingSessionTimeMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(TimeSpan.FromMilliseconds(1D), message.Remaining);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_remaining_is_negative() {
+
+            Assert.DoesNotThrow(() => {
+                new SetRemainingSessionTimeMessage(TimeSpan.Zero);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetRemainingSessionTimeMessage(TimeSpan.FromMilliseconds(-1));
+            });
+        }
+
+        protected override SetRemainingSessionTimeMessage CreateMessage() {
+
+            return new SetRemainingSessionTimeMessage(TimeSpan.FromMilliseconds(1D));
+        }
     }
 }

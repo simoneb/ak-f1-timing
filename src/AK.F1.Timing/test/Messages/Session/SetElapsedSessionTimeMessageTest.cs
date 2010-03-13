@@ -15,13 +15,43 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Session;
-
 namespace AK.F1.Timing.Messages.Session
 {
-
-
-    public class SetElapsedSessionTimeMessageTest
+    public class SetElapsedSessionTimeMessageTest : MessageTestBase<SetElapsedSessionTimeMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(TimeSpan.FromMilliseconds(1D), message.Elapsed);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_elapsed_is_negative() {
+
+            Assert.DoesNotThrow(() => {
+                new SetElapsedSessionTimeMessage(TimeSpan.Zero);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetElapsedSessionTimeMessage(TimeSpan.FromMilliseconds(-1));
+            });
+        }
+
+        protected override SetElapsedSessionTimeMessage CreateMessage() {
+
+            return new SetElapsedSessionTimeMessage(TimeSpan.FromMilliseconds(1D));
+        }
     }
 }

@@ -15,13 +15,33 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Session;
-
 namespace AK.F1.Timing.Messages.Session
 {
-
-
-    public class SetSessionTypeMessageTest
+    public class SetSessionTypeMessageTest : MessageTestBase<SetSessionTypeMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal("SessionId", message.SessionId);
+            Assert.Equal(SessionType.Qually, message.SessionType);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override SetSessionTypeMessage CreateMessage() {
+
+            return new SetSessionTypeMessage(SessionType.Qually, "SessionId");
+        }
     }
 }

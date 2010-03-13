@@ -15,13 +15,30 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Session;
-
 namespace AK.F1.Timing.Messages.Session
 {
-
-
-    public class EndOfSessionMessageTest
+    public class EndOfSessionMessageTest : MessageTestBase<EndOfSessionMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            Assert.NotNull(EndOfSessionMessage.Instance);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override EndOfSessionMessage CreateMessage() {
+
+            return EndOfSessionMessage.Instance;
+        }
     }
 }

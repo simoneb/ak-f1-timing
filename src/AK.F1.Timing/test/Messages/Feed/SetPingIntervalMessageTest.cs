@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Messages.Feed
 
             var message = CreateMessage();
 
-            Assert.Equal(TimeSpan.Zero, message.PingInterval);
+            Assert.Equal(TimeSpan.FromMilliseconds(1), message.PingInterval);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace AK.F1.Timing.Messages.Feed
 
         protected override SetPingIntervalMessage CreateMessage() {
 
-            return new SetPingIntervalMessage(TimeSpan.Zero);
+            return new SetPingIntervalMessage(TimeSpan.FromMilliseconds(1));
         }
     }
 }

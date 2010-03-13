@@ -15,13 +15,30 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Session;
-
 namespace AK.F1.Timing.Messages.Session
 {
-
-
-    public class StopSessionTimeCountdownMessageTest
+    public class StopSessionTimeCountdownMessageTest : MessageTestBase<StopSessionTimeCountdownMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            Assert.NotNull(StopSessionTimeCountdownMessage.Instance);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override StopSessionTimeCountdownMessage CreateMessage() {
+
+            return StopSessionTimeCountdownMessage.Instance;
+        }
     }
 }

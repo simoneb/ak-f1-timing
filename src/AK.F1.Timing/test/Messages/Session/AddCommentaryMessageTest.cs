@@ -15,13 +15,48 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Session;
-
 namespace AK.F1.Timing.Messages.Session
 {
-
-
-    public class AddCommentaryMessageTest
+    public class AddCommentaryMessageTest : MessageTestBase<AddCommentaryMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal("Commentary", message.Commentary);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void commentary_can_be_blank() {
+
+            Assert.DoesNotThrow(() => {
+                new AddCommentaryMessage(string.Empty);
+            });
+        }
+
+        [Fact]
+        public void ctor_throws_if_commentary_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => {
+                new AddCommentaryMessage(null);
+            });
+        }
+
+        protected override AddCommentaryMessage CreateMessage() {
+
+            return new AddCommentaryMessage("Commentary");
+        }
     }
 }
