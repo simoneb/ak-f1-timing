@@ -38,10 +38,13 @@ namespace AK.F1.Timing.Messages.Driver
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="driverName"/> is <see langword="null"/>.
         /// </exception>
+        /// <exception cref="System.ArgumentException">
+        /// Thrown when <paramref name="driverName"/> is or zero length.
+        /// </exception>
         public SetDriverNameMessage(int driverId, string driverName)
             : base(driverId) {
 
-            Guard.NotNull(driverName, "driverName");
+            Guard.NotNullOrEmpty(driverName, "driverName");
 
             this.DriverName = driverName;
         }
