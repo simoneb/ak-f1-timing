@@ -36,7 +36,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// </exception>
         public SetHumidityMessage(double humidity) {
 
-            Guard.InRange(humidity > 0d && humidity < 100d, "humidity");
+            Guard.InRange(humidity >= 0d && humidity < 100d, "humidity");
 
             this.Humidity = humidity;            
         }
