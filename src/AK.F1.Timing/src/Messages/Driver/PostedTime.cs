@@ -37,7 +37,13 @@ namespace AK.F1.Timing.Messages.Driver
         /// <param name="type">The <see cref="AK.F1.Timing.Messages.Driver.PostedTimeType"/> of
         /// the posted time.</param>
         /// <param name="lapNumber">The lap number.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="time"/> or <paramref name="lapNumber"/> is negative.
+        /// </exception>
         public PostedTime(TimeSpan time, PostedTimeType type, int lapNumber) {
+
+            Guard.InRange(time >= TimeSpan.Zero, "time");
+            Guard.InRange(lapNumber >= 0, "lapNumber");
 
             this.Time = time;
             this.Type = type;
@@ -75,7 +81,9 @@ namespace AK.F1.Timing.Messages.Driver
                 return relationship;
             }
             if((relationship = ((int)this.Type).CompareTo((int)other.Type)) != 0) {
-                return relationship;
+                // Times are ordered Normal(0) -> PersonalBest(1) -> SessionBest(2) so the
+                // sign relationship must be switched.
+                return -relationship;
             }
 
             return this.LapNumber.CompareTo(other.LapNumber);
