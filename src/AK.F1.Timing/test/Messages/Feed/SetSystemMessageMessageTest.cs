@@ -15,13 +15,48 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Feed;
-
 namespace AK.F1.Timing.Messages.Feed
 {
-
-
-    public class SetSystemMessageMessageTest
+    public class SetSystemMessageMessageTest : MessageTestBase<SetSystemMessageMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal("Message", message.Message);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_does_now_throw_if_message_is_blank() {
+
+            Assert.DoesNotThrow(() => {
+                new SetSystemMessageMessage(string.Empty);
+            });
+        }
+
+        [Fact]
+        public void ctor_throws_if_message_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => {
+                new SetSystemMessageMessage(null);
+            });
+        }
+
+        protected override SetSystemMessageMessage CreateMessage() {
+
+            return new SetSystemMessageMessage("Message");
+        }
     }
 }

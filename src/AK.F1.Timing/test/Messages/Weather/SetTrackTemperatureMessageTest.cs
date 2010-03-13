@@ -15,13 +15,32 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Weather;
-
 namespace AK.F1.Timing.Messages.Weather
 {
-
-
-    public class SetTrackTemperatureMessageTest
+    public class SetTrackTemperatureMessageTest : MessageTestBase<SetTrackTemperatureMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1D, message.Temperature);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override SetTrackTemperatureMessage CreateMessage() {
+
+            return new SetTrackTemperatureMessage(1D);
+        } 
     }
 }

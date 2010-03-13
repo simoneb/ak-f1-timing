@@ -15,13 +15,43 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Feed;
-
 namespace AK.F1.Timing.Messages.Feed
 {
-
-
-    public class SetKeyframeMessageTest
+    public class SetKeyframeMessageTest : MessageTestBase<SetKeyframeMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.Keyframe);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_keyframe_if_negative() {
+
+            Assert.DoesNotThrow(() => {
+                new SetKeyframeMessage(0);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetKeyframeMessage(-1);
+            });
+        }
+
+        protected override SetKeyframeMessage CreateMessage() {
+
+            return new SetKeyframeMessage(1);
+        }
     }
 }

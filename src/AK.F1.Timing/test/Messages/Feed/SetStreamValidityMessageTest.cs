@@ -15,13 +15,31 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Feed;
-
 namespace AK.F1.Timing.Messages.Feed
 {
-
-
-    public class SetStreamValidityMessageTest
+    public class SetStreamValidityMessageTest : MessageTestBase<SetStreamValidityMessage>
     {
+        [Fact]
+        public override void can_create() {            
+
+            Assert.True(new SetStreamValidityMessage(true).IsValid);
+            Assert.False(new SetStreamValidityMessage(false).IsValid);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override SetStreamValidityMessage CreateMessage() {
+
+            return new SetStreamValidityMessage(true);
+        }           
     }
 }

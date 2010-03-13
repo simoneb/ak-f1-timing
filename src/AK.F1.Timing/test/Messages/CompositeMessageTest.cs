@@ -15,13 +15,40 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages;
+using AK.F1.Timing.Messages.Weather;
 
 namespace AK.F1.Timing.Messages
 {
-
-
-    public class CompositeMessageTest
+    public class CompositeMessageTest : MessageTestBase<CompositeMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.NotNull(message.Messages);
+            Assert.Equal(2, message.Messages.Count);
+            Assert.Same(Message.Empty, message.Messages[0]);
+            Assert.Same(Message.Empty, message.Messages[1]);
+        }
+
+        [Fact]
+        public override void can_visit() {
+            
+            var visitor = CreateMockMessageVisitor();
+            var message = new CompositeMessage(
+                new SetAirTemperatureMessage(28.3),
+                new SetTrackTemperatureMessage(35.4));
+
+            visitor.Setup(x => x.Visit((SetAirTemperatureMessage)message.Messages[0]));
+            visitor.Setup(x => x.Visit((SetTrackTemperatureMessage)message.Messages[1]));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override CompositeMessage CreateMessage() {
+
+            return new CompositeMessage(Message.Empty, Message.Empty);
+        } 
     }
 }

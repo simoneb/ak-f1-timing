@@ -26,8 +26,8 @@ namespace AK.F1.Timing
                IEnumerable<T> distinctInstances)
                where T : class, IComparable {
 
-            DoEquivalentInstanceAssertions<T>(assert, equivalentInstances);
-            DoDistinctInstanceAssertions<T>(assert, distinctInstances);
+            DoEquivalentInstanceAssertions(assert, equivalentInstances);
+            DoDistinctInstanceAssertions(assert, distinctInstances);
         }
 
         private static void DoDistinctInstanceAssertions<T>(Assertions assert, IEnumerable<T> distinctInstances)
@@ -56,7 +56,7 @@ namespace AK.F1.Timing
             var equivalentInstancesCopy = equivalentInstances.ToArray();
 
             foreach(var x in equivalentInstancesCopy) {
-                DoGeneralInstanceAssertions<T>(assert, x);
+                DoGeneralInstanceAssertions(assert, x);
                 foreach(var y in equivalentInstancesCopy) {
                     assert.True(x.CompareTo(y) == 0);
                 }

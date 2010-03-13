@@ -15,13 +15,56 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Weather;
-
 namespace AK.F1.Timing.Messages.Weather
 {
-
-
-    public class SetWindAngleMessageTest
+    public class SetWindAngleMessageTest : MessageTestBase<SetWindAngleMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.Angle);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_angle_is_negative_or_greater_than_360() {
+
+            Assert.DoesNotThrow(() => {
+                new SetWindAngleMessage(0);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetWindAngleMessage(-1);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetWindAngleMessage(361);
+            });
+        }
+
+        [Fact]
+        public void can_validiate_a_wind_angle() {
+
+            Assert.False(SetWindAngleMessage.IsValidAngle(-1));
+            for(int i = 0; i <= 360; ++i) {
+                Assert.True(SetWindAngleMessage.IsValidAngle(i));
+            }
+            Assert.False(SetWindAngleMessage.IsValidAngle(361));
+        }
+
+        protected override SetWindAngleMessage CreateMessage() {
+
+            return new SetWindAngleMessage(1);
+        } 
     }
 }

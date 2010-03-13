@@ -41,7 +41,7 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throws_is_sector_time_is_null() {
+        public void ctor_throws_if_sector_time_is_null() {
 
             Assert.Throws<ArgumentNullException>(() => {
                 new SetDriverSectorTimeMessage(1, 1, null);

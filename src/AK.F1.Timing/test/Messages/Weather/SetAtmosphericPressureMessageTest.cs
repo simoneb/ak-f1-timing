@@ -15,13 +15,43 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Weather;
-
 namespace AK.F1.Timing.Messages.Weather
 {
-
-
-    public class SetAtmosphericPressureMessageTest
+    public class SetAtmosphericPressureMessageTest : MessageTestBase<SetAtmosphericPressureMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1D, message.Pressure);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_pressure_is_not_positive() {
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetAtmosphericPressureMessage(0D);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetAtmosphericPressureMessage(-1D);
+            });
+        }
+
+        protected override SetAtmosphericPressureMessage CreateMessage() {
+
+            return new SetAtmosphericPressureMessage(1D);
+        } 
     }
 }
