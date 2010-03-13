@@ -32,8 +32,13 @@ namespace AK.F1.Timing.Messages.Driver
         /// </summary>
         /// <param name="driverId">The Id of the driver.</param>
         /// <param name="lapNumber">The driver's new lap number.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="driverId"/> or <paramref name="lapNumber"/> is not positive.
+        /// </exception>  
         public SetDriverLapNumberMessage(int driverId, int lapNumber)
-            : base(driverId) {            
+            : base(driverId) {
+
+            Guard.InRange(lapNumber > 0, "lapNumber");
 
             this.LapNumber = lapNumber;
         }

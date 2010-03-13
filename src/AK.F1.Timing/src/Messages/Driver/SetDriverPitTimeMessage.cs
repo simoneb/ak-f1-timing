@@ -35,11 +35,13 @@ namespace AK.F1.Timing.Messages.Driver
         /// <param name="time">The pit time, inclusive of the time taken to travel the pit lane.</param>
         /// <param name="lapNumber">The lap number on which the driver pitted.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="driverId"/> or <paramref name="lapNumber"/> is not positive.
+        /// Thrown when <paramref name="driverId"/> or <paramref name="lapNumber"/> is not positive or
+        /// <paramref name="time"/> is negative.
         /// </exception>
         public SetDriverPitTimeMessage(int driverId, TimeSpan time, int lapNumber)
             : base(driverId) {
 
+            Guard.InRange(time >= TimeSpan.Zero, "time");
             Guard.InRange(lapNumber >= 0, "lapNumber");
 
             this.Time = time;
