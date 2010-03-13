@@ -273,10 +273,10 @@ namespace AK.F1.Timing
             return new SerializationException(Format(Resource.TypeDescriptor_NoDescriptorWithTypeId, typeId));
         }
 
-        internal static SerializationException TypeDescriptor_DuplicateTypeId(TypeDescriptor existing, TypeDescriptor duplicate) {
+        internal static SerializationException TypeDescriptor_DuplicateTypeId(TypeDescriptor existingDescriptor, Type duplicateType) {
 
             return new SerializationException(Format(Resource.TypeDescriptor_DuplicateTypeId,
-                existing.TypeId, existing.Type, duplicate.Type));
+                existingDescriptor.TypeId, existingDescriptor.Type, duplicateType));
         }
 
         internal static SerializationException DecoratedObjectReader_UnexpectedEndOfStream(EndOfStreamException exc) {
