@@ -25,8 +25,8 @@ namespace AK.F1.Timing.Messages.Driver
 
             // A lap gap should always be greater than any time gap.
 
-            var lapLap = new LapGap(1);
-            var timeGap = new TimeGap(TimeSpan.FromDays(1));
+            var lapLap = new LapGap(0);
+            var timeGap = new TimeGap(TimeSpan.Zero);
 
             Assert.True(lapLap.CompareTo(timeGap) > 0);
             Assert.True(timeGap.CompareTo(lapLap) < 0);
