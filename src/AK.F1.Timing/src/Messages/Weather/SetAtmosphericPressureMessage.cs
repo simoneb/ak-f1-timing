@@ -37,7 +37,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// </exception>
         public SetAtmosphericPressureMessage(double pressure) {
 
-            Guard.InRange(pressure >= 0d, "pressure");
+            Guard.InRange(pressure > 0D, "pressure");
 
             this.Pressure = pressure;            
         }
