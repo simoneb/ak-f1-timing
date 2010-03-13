@@ -15,13 +15,41 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class SetDriverLapTimeMessageTest
+    public class SetDriverLapTimeMessageTest : MessageTestBase<SetDriverLapTimeMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(PostedTime, message.LapTime);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throw_if_lap_time_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => {
+                new SetDriverLapTimeMessage(1, null);
+            });
+        }
+
+        protected override SetDriverLapTimeMessage CreateMessage() {
+
+            return new SetDriverLapTimeMessage(1, PostedTime);
+        }
     }
 }

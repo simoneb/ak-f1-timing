@@ -17,11 +17,44 @@ using Xunit;
 
 using AK.F1.Timing.Messages.Driver;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class SetDriverCarNumberMessageTest
+    public class SetDriverCarNumberMessageTest  : MessageTestBase<SetDriverCarNumberMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.CarNumber);
+            Assert.Equal(1, message.DriverId);            
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_car_number_is_not_positive() {
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetDriverCarNumberMessage(1, 0);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetDriverCarNumberMessage(1, -1);
+            });
+        }
+
+        protected override SetDriverCarNumberMessage CreateMessage() {
+
+            return new SetDriverCarNumberMessage(1, 1);
+        }
     }
 }

@@ -15,13 +15,34 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class SetGridColumnColourMessageTest
+    public class SetGridColumnColourMessageTest : MessageTestBase<SetGridColumnColourMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(GridColumnColour.Blue, message.Colour);
+            Assert.Equal(GridColumn.DriverName, message.Column);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override SetGridColumnColourMessage CreateMessage() {
+
+            return new SetGridColumnColourMessage(1, GridColumn.DriverName, GridColumnColour.Blue);
+        }
     }
 }

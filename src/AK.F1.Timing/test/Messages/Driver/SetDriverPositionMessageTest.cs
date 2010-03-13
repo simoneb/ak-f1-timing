@@ -15,13 +15,44 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class SetDriverPositionMessageTest
+    public class SetDriverPositionMessageTest : MessageTestBase<SetDriverPositionMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+            
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(1, message.Position);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_position_is_not_positive() {
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetDriverPositionMessage(1, 0);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetDriverPositionMessage(1, -1);
+            });
+        }
+
+        protected override SetDriverPositionMessage CreateMessage() {
+
+            return new SetDriverPositionMessage(1, 1);
+        }
     }
 }

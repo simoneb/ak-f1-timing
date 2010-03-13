@@ -17,11 +17,53 @@ using Xunit;
 
 using AK.F1.Timing.Messages.Driver;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class ReplaceDriverSectorTimeMessageTest
+    public class ReplaceDriverSectorTimeMessageTest : MessageTestBase<ReplaceDriverSectorTimeMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(PostedTime, message.Replacement);
+            Assert.Equal(1, message.SectorNumber);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_is_replacement_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => {
+                new ReplaceDriverSectorTimeMessage(1, 1, null);
+            });
+        }
+
+        [Fact]
+        public void ctor_throws_if_sector_number_is_not_positive() {
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new ReplaceDriverSectorTimeMessage(1, 0, PostedTime);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new ReplaceDriverSectorTimeMessage(1, -1, PostedTime);
+            });
+        }
+
+        protected override ReplaceDriverSectorTimeMessage CreateMessage() {
+
+            return new ReplaceDriverSectorTimeMessage(1, 1, PostedTime);
+        }
     }
 }

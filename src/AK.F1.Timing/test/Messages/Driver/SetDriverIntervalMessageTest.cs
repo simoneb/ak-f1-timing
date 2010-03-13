@@ -15,13 +15,41 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class SetDriverIntervalMessageTest
+    public class SetDriverIntervalMessageTest : MessageTestBase<SetDriverIntervalMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(Gap, message.Interval);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_interval_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => {
+                new SetDriverIntervalMessage(1, null);
+            });
+        }
+
+        protected override SetDriverIntervalMessage CreateMessage() {
+
+            return new SetDriverIntervalMessage(1, Gap);
+        }
     }
 }

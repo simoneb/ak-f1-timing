@@ -17,13 +17,25 @@ using Xunit;
 
 namespace AK.F1.Timing.Messages.Driver
 {
-    public class DriverMessageBaseTest
+    public class DriverMessageBaseTest : TestBase
     {
+        [Fact]
         public void can_create() {
 
             var message = new DriverMessageStub(1);
 
             Assert.Equal(1, message.DriverId);
+        }
+
+        [Fact]
+        public void ctor_throws_if_driver_id_is_not_positive() {
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new DriverMessageStub(0);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new DriverMessageStub(-1);
+            });
         }
 
         private sealed class DriverMessageStub : DriverMessageBase

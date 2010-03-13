@@ -17,14 +17,30 @@ using Xunit;
 
 namespace AK.F1.Timing.Messages.Driver
 {
-    public class ClearGridRowMessageTest
+    public class ClearGridRowMessageTest : MessageTestBase<ClearGridRowMessage>
     {
         [Fact]
-        public void can_create() {
+        public override void can_create() {
 
-            var message = new ClearGridRowMessage(1);
+            var message = CreateMessage();
 
             Assert.Equal(1, message.DriverId);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override ClearGridRowMessage CreateMessage() {
+
+            return new ClearGridRowMessage(1);
         }
     }
 }

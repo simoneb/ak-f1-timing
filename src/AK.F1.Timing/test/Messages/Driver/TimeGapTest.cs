@@ -13,15 +13,60 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class TimeGapTest
+    public class TimeGapTest : TestBase
     {
+        [Fact]
+        public void can_create() {
+
+            var time = TimeSpan.FromSeconds(90);
+            var gap = new TimeGap(time);
+
+            Assert.Equal(time, gap.Time);
+        }
+
+        [Fact]
+        public void ctor_throws_if_time_is_not_positive() {
+
+            Assert.DoesNotThrow(() => {
+                var gap = new TimeGap(TimeSpan.Zero);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                var gap = new TimeGap(TimeSpan.FromMilliseconds(-1));
+            });
+        }
+
+        [Fact]
+        public void implements_equality_contract() {
+
+            Assert.EqualityContract(GetEquivalentInstances(), GetDistinctInstances());
+        }
+
+        [Fact]
+        public void implements_comparable_contract() {
+
+            Assert.ComparableContract(GetEquivalentInstances(), GetDistinctInstances());
+        }
+
+        private static IEnumerable<TimeGap> GetDistinctInstances() {
+
+            yield return new TimeGap(TimeSpan.FromSeconds(0));
+            yield return new TimeGap(TimeSpan.FromSeconds(1));
+            yield return new TimeGap(TimeSpan.FromSeconds(2));
+            yield return new TimeGap(TimeSpan.FromSeconds(3));
+            yield return new TimeGap(TimeSpan.FromSeconds(4));
+            yield return new TimeGap(TimeSpan.FromSeconds(5));
+        }
+
+        private static IEnumerable<TimeGap> GetEquivalentInstances() {
+
+            yield return new TimeGap(TimeSpan.FromSeconds(1));
+            yield return new TimeGap(TimeSpan.FromSeconds(1));
+        }   
     }
 }

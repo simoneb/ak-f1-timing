@@ -13,15 +13,34 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class GapTest
+    public class GapTest : TestBase
     {
+        [Fact]
+        public void lap_and_time_gap_implement_a_special_comparable_contract_with_each_other() {
+
+            // A lap gap should always be greater than any time gap.
+
+            var lapLap = new LapGap(1);
+            var timeGap = new TimeGap(TimeSpan.FromDays(1));
+
+            Assert.True(lapLap.CompareTo(timeGap) > 0);
+            Assert.True(timeGap.CompareTo(lapLap) < 0);
+
+            // Given the above, the following should pass.
+
+            Assert.ComparableContract(Enumerable.Empty<Gap>(), new Gap[] {
+                new LapGap(0), new TimeGap(TimeSpan.Zero),
+                new LapGap(1), new TimeGap(TimeSpan.FromSeconds(1)),
+                new LapGap(2), new TimeGap(TimeSpan.FromSeconds(2)),
+                new LapGap(3), new TimeGap(TimeSpan.FromSeconds(3)),
+                new LapGap(4), new TimeGap(TimeSpan.FromSeconds(4)),
+                new LapGap(5), new TimeGap(TimeSpan.FromSeconds(5)),
+            });
+        }
     }
 }

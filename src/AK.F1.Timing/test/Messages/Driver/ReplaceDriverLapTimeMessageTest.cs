@@ -17,15 +17,39 @@ using Xunit;
 
 namespace AK.F1.Timing.Messages.Driver
 {
-    public class ReplaceDriverLapTimeMessageTest
+    public class ReplaceDriverLapTimeMessageTest : MessageTestBase<ReplaceDriverLapTimeMessage>
     {
         [Fact]
-        public void can_create() {
+        public override void can_create() {
 
-            var message = new ReplaceDriverLapTimeMessage(10, TestUtility.PostedTime);
+            var message = CreateMessage();
 
-            Assert.Equal(10, message.DriverId);
-            Assert.Equal(TestUtility.PostedTime, message.Replacement);
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(PostedTime, message.Replacement);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throw_is_replacement_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => {
+                new ReplaceDriverLapTimeMessage(1, null);
+            });
+        }
+
+        protected override ReplaceDriverLapTimeMessage CreateMessage() {
+
+            return new ReplaceDriverLapTimeMessage(1, PostedTime);
         }
     }
 }

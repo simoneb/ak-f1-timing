@@ -15,13 +15,47 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class SetGridColumnValueMessageTest
+    public class SetGridColumnValueMessageTest : MessageTestBase<SetGridColumnValueMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(GridColumnColour.Blue, message.Colour);
+            Assert.Equal(GridColumn.DriverName, message.Column);
+            Assert.Equal("Value", message.Value);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void clear_column_is_true_when_value_is_null() {
+
+            var message = new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.Black, null);
+
+            Assert.True(message.ClearColumn);
+            message = new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.Black, string.Empty);
+            Assert.False(message.ClearColumn);
+            message = new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.Black, "L. HAMILTON");
+            Assert.False(message.ClearColumn);
+        }
+
+        protected override SetGridColumnValueMessage CreateMessage() {
+
+            return new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.Blue, "Value");
+        }
     }
 }

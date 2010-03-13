@@ -17,11 +17,44 @@ using Xunit;
 
 using AK.F1.Timing.Messages.Driver;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class SetDriverCompletedLapsMessageTest
+    public class SetDriverCompletedLapsMessageTest : MessageTestBase<SetDriverCompletedLapsMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.CompletedLaps);
+            Assert.Equal(1, message.DriverId);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        [Fact]
+        public void ctor_throws_if_completed_laps_is_negative() {
+
+            Assert.DoesNotThrow(() => {
+                new SetDriverCompletedLapsMessage(1, 0);
+            });
+            Assert.Throws<ArgumentOutOfRangeException>(() => {
+                new SetDriverCompletedLapsMessage(1, -1);
+            });
+        }
+
+        protected override SetDriverCompletedLapsMessage CreateMessage() {
+
+            return new SetDriverCompletedLapsMessage(1, 1);
+        }
     }
 }

@@ -15,13 +15,33 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
-    public class SetDriverStatusMessageTest
+    public class SetDriverStatusMessageTest : MessageTestBase<SetDriverStatusMessage>
     {
+        [Fact]
+        public override void can_create() {
+
+            var message = CreateMessage();
+
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(DriverStatus.Out, message.DriverStatus);
+        }
+
+        [Fact]
+        public override void can_visit() {
+
+            var message = CreateMessage();
+            var visitor = CreateMockMessageVisitor();
+
+            visitor.Setup(x => x.Visit(message));
+            message.Accept(visitor.Object);
+            visitor.VerifyAll();
+        }
+
+        protected override SetDriverStatusMessage CreateMessage() {
+
+            return new SetDriverStatusMessage(1, DriverStatus.Out);
+        }
     }
 }

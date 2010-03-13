@@ -13,32 +13,60 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 using AK.F1.Timing.Messages.Driver;
 
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-    public class LapGapTest
+    public class LapGapTest : TestBase
     {
-        /*[VerifyContract]
-        public static readonly IContract EqualityTests = new EqualityContract<LapGap>() {
-            ImplementsOperatorOverloads = false,
-            EquivalenceClasses = {
-                new LapGap(0),
-                new LapGap(1),
-                new LapGap(2),
-                new LapGap(3),
-                new LapGap(Int32.MaxValue)
-            }
-        };*/
+        [Fact]
+        public void can_create() {
 
-        [Fact]        
+            var gap = new LapGap(1);
+
+            Assert.Equal(1, gap.Laps);
+        }     
+
+        [Fact]
         public void ctor_throws_if_laps_is_not_positive() {
 
+            Assert.DoesNotThrow(() => {
+                var gap = new LapGap(0);
+            });
             Assert.Throws<ArgumentOutOfRangeException>(() => {
                 var gap = new LapGap(-1);
             });
         }
+
+        [Fact]
+        public void implements_equality_contract() {
+
+            Assert.EqualityContract(GetEquivalentInstances(), GetDistinctInstances());
+        }
+
+        [Fact]
+        public void implements_comparable_contract() {
+
+            Assert.ComparableContract(GetEquivalentInstances(), GetDistinctInstances());
+        }
+
+        private static IEnumerable<LapGap> GetDistinctInstances() {
+
+            yield return new LapGap(0);
+            yield return new LapGap(1);
+            yield return new LapGap(2);
+            yield return new LapGap(3);
+            yield return new LapGap(4);
+            yield return new LapGap(5);
+        }
+
+        private static IEnumerable<LapGap> GetEquivalentInstances() {
+
+            yield return new LapGap(0);
+            yield return new LapGap(0);
+        }   
     }
 }
