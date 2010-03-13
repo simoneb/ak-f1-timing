@@ -14,14 +14,24 @@
 
 using System;
 using Xunit;
+using Xunit.Extensions;
 
-using AK.F1.Timing.Live;
-
-namespace AK.F1.Timing.Messaging.Live
+namespace AK.F1.Timing.Live
 {
-
-
     public class LiveDataTest
     {
+        /*[Theory]
+        [InlineData("0", new TimeSpan(0L))]
+        [InlineData("0.0", new TimeSpan(0L))]
+        [InlineData("0.000", new TimeSpan(0L))]
+        [InlineData("0.000", TimeSpan.Zero)]
+        [InlineData("0:0.000", TimeSpan.Zero)]
+        [InlineData("00:00.000", TimeSpan.Zero)]
+        [InlineData("0:0:0.000", TimeSpan.Zero)]
+        [InlineData("00:00:00.000", TimeSpan.Zero)]
+        public void can_parse_time(string s, TimeSpan expected) {
+
+            Assert.Equal(expected, LiveData.ParseTime(s));
+        }*/
     }
 }

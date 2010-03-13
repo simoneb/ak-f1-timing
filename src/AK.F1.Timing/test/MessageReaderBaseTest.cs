@@ -15,7 +15,7 @@
 using System;
 using Xunit;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {
 
 

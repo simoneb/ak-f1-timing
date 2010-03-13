@@ -21,7 +21,7 @@ using System.Reflection;
 using Xunit;
 using Xunit.Extensions;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {
     public class MessageTest
     {

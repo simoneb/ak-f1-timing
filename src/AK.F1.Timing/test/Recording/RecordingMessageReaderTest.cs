@@ -17,7 +17,7 @@ using Xunit;
 
 using AK.F1.Timing.Recording;
 
-namespace AK.F1.Timing.Messaging.Recording
+namespace AK.F1.Timing.Recording
 {
     public class RecordingMessageReaderTest
     {

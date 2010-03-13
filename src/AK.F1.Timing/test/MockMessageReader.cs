@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace AK.F1.Timing.Messaging
+namespace AK.F1.Timing
 {
     public class MockMessageReader : IMessageReader
     {

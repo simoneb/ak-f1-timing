@@ -20,8 +20,14 @@ using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Serialization
 {
-    public class TypeDescriptorTest
+    public class TypeDescriptorTest : TestBase
     {
+        [Fact]
+        public void implements_equality_contract() {
+
+            
+        }
+
         [Fact]
         public void for_throws_if_type_is_null() {
 
@@ -36,6 +42,95 @@ namespace AK.F1.Timing.Serialization
             Assert.Throws<SerializationException>(() => {
                 TypeDescriptor.For(typeof(string));
             });
+        }
+
+        [Fact]
+        public void for_throws_if_type_is_decorated_but_one_or_properties_properties_are_not() {
+
+            Assert.Throws<SerializationException>(() => {
+                TypeDescriptor.For(typeof(DecoratedTypeWithAnUndecoratedProperty));
+            });
+            Assert.Throws<SerializationException>(() => {
+                TypeDescriptor.For(typeof(DecoratedTypeWithAnUndecoratedAndDecoratedProperty));
+            });
+        }
+
+        [Fact]
+        public void for_throws_if_type_has_duplicate_properties() {
+
+            Assert.Throws<SerializationException>(() => {
+                TypeDescriptor.For(typeof(DecoratedTypeWithDuplicateProperties));
+            });
+            Assert.Throws<SerializationException>(() => {
+                TypeDescriptor.For(typeof(DecoratedChildTypeWithSamePropertyAsParent));
+            });
+        }
+
+        [Fact]
+        public void for_throws_if_base_type_is_decorated_but_type_is_not() {
+
+            Assert.Throws<SerializationException>(() => {
+                TypeDescriptor.For(typeof(UndecoratedChildOfDecoratedType));
+            });
+        }
+
+        [Fact]
+        public void for_throws_if_type_has_already_been_registered_with_the_same_id() {
+
+            TypeDescriptor.For(typeof(DecoratedTypeWithDecoratedProperty));
+            Assert.Throws<SerializationException>(() => {
+                TypeDescriptor.For(typeof(DecoratedTypeWithDuplicateTypeId));
+            });
+        }
+
+        [TypeId(-2694475)]
+        private sealed class DecoratedTypeWithAnUndecoratedProperty
+        {
+            public int Property0 { get; set; }
+        }
+
+        [TypeId(-9215470)]
+        private sealed class DecoratedTypeWithAnUndecoratedAndDecoratedProperty
+        {
+            [PropertyId(0)]
+            public int Property0 { get; set; }
+
+            public int Property1 { get; set; }
+        }
+
+        [TypeId(-7507244)]
+        private sealed class DecoratedTypeWithDuplicateProperties
+        {
+            [PropertyId(0)]
+            public int Property0 { get; set; }
+
+            [PropertyId(0)]
+            public int Property1 { get; set; }
+        }
+
+        [TypeId(1685648)]
+        private class DecoratedTypeWithDecoratedProperty
+        {
+            [PropertyId(0)]
+            public int Property0 { get; set; }
+        }
+
+        [TypeId(1685648)]
+        private class DecoratedTypeWithDuplicateTypeId
+        {
+            [PropertyId(0)]
+            public int Property0 { get; set; }
+        }
+
+        [TypeId(-7211818)]
+        private class DecoratedChildTypeWithSamePropertyAsParent : DecoratedTypeWithDecoratedProperty
+        {
+            [PropertyId(0)]
+            public int Property1 { get; set; }
+        }
+
+        private sealed class UndecoratedChildOfDecoratedType : DecoratedTypeWithDecoratedProperty
+        {
         }
     }
 }

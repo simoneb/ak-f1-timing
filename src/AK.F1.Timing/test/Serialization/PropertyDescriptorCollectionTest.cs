@@ -21,12 +21,32 @@ using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Serialization
 {
-    public class PropertyDescriptorCollectionTest
+    public class PropertyDescriptorCollectionTest : TestBase
     {
-        [Fact]
+        [Fact(Skip="Need to re-write the collection")]
         public void collection_cannot_be_mutated_once_sealed() {
 
             var collection = new PropertyDescriptorCollection();
+            var property0 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property0"));
+            var property1 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property1"));
+
+            collection.Add(property0);
+            collection.Seal();
+            Assert.Throws<NotSupportedException>(() => collection.Add(property1));
+            Assert.Throws<NotSupportedException>(() => collection.Clear());
+            Assert.Throws<NotSupportedException>(() => collection.Insert(0, property1));
+            Assert.Throws<NotSupportedException>(() => collection.Remove(property0));
+            Assert.Throws<NotSupportedException>(() => collection.RemoveAt(0));
+        }
+
+        [TypeId(7013143)]
+        private sealed class DecoratedType
+        {
+            [PropertyId(0)]
+            public int Property0 { get; set; }
+
+            [PropertyId(1)]
+            public int Property1 { get; set; }
         }
     }
 }
