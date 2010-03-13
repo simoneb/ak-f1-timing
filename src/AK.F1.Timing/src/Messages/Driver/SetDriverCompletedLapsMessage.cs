@@ -33,8 +33,14 @@ namespace AK.F1.Timing.Messages.Driver
         /// </summary>
         /// <param name="driverId">The Id of the driver.</param>
         /// <param name="completedLaps">The number of completed laps.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="driverId"/> or is not positive or <paramref name="carNumber"/>
+        /// is negative.
+        /// </exception>        
         public SetDriverCompletedLapsMessage(int driverId, int completedLaps)
-            : base(driverId) {            
+            : base(driverId) {
+
+            Guard.InRange(completedLaps >= 0, "completedLaps");
 
             this.CompletedLaps = completedLaps;
         }
