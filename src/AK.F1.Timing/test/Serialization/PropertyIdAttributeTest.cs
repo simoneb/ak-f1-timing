@@ -24,10 +24,9 @@ namespace AK.F1.Timing.Serialization
         [Fact]
         public void ctor_should_set_the_id_property() {
 
-            byte id = 10;
-            var attribute = new PropertyIdAttribute(id);
+            var attribute = new PropertyIdAttribute(10);
 
-            Assert.Equal(id, attribute.Id);
+            Assert.Equal(10, attribute.Id);
         }
     }
 }

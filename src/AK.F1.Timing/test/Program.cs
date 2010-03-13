@@ -13,15 +13,17 @@
 // limitations under the License.
 
 using System;
-using Xunit;
+using Xunit.Extensions;
 
-using AK.F1.Timing.Messages.Session;
-
-namespace AK.F1.Timing.Messages.Session
+namespace AK.F1.Timing
 {
-
-
-    public class AddCommentaryMessageTest
+    public static class Program
     {
+        public static void Main(string[] arg) {
+
+            var t = new Messages.Driver.ClearGridRowMessageTest();
+
+            t.can_visit();
+        }
     }
 }

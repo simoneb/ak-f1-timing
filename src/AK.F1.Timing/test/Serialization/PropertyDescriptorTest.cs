@@ -13,15 +13,18 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Xunit;
+using Xunit.Extensions;
 
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Serialization
 {
-    public class PropertyDescriptorTest
+    public class PropertyDescriptorTest : TestBase
     {
         [Fact]
         public void for_throws_if_property_is_null() {
@@ -37,6 +40,9 @@ namespace AK.F1.Timing.Serialization
             Assert.Throws<SerializationException>(() => {
                 PropertyDescriptor.For(typeof(string).GetProperty("Length"));
             });
+            Assert.Throws<SerializationException>(() => {
+                PropertyDescriptor.For(typeof(DecoratedTypeWithUndecoratedProperty).GetProperty("Property"));
+            });
         }
 
         [Fact]
@@ -47,13 +53,66 @@ namespace AK.F1.Timing.Serialization
             });
         }
 
+        [Theory]
+        [InlineData("PropertyWithNoGet")]
+        [InlineData("PropertyWithNoSet")]
+        public void for_throws_if_property_does_not_have_a_get_and_set(string propertyName) {
+
+            Assert.Throws<SerializationException>(() => {
+                PropertyDescriptor.For(typeof(DecoratedType).GetProperty(propertyName));
+            });
+        }
+
+        [Theory]
+        [InlineData("PropertyWithPublicGetAndPublicSet")]
+        [InlineData("PropertyWithPrivateGetAndPublicSet")]
+        [InlineData("PropertyWithPublicGetAndPrivateSet")]
+        public void for_does_not_throw_if_property_has_get_and_set(string propertyName) {
+
+            Assert.DoesNotThrow(() => {
+                Assert.NotNull(PropertyDescriptor.For(typeof(DecoratedType).GetProperty(propertyName)));
+            });
+        }
+
         [Fact]
-        public void descriptor_maintains_identity_when_serialized_and_deserialised() {
+        public void can_serialize_descriptor() {
 
-            var property = typeof(DecoratedTypeWithDecoratedProperty).GetProperty("Property");
-            var descriptor = PropertyDescriptor.For(property);
+            var property = typeof(DecoratedType).GetProperty("PropertyWithPublicGetAndPublicSet");
+            PropertyDescriptor expected = PropertyDescriptor.For(property);
+            PropertyDescriptor actual = null;
 
-            Assert.Same(descriptor, TestUtility.Clone(descriptor));
+            Assert.DoesNotThrow(() => {
+                actual = TestUtility.Clone(expected);
+            });
+
+            Assert.NotNull(actual);
+            Assert.Equal(expected.Property, actual.Property);
+            Assert.Equal(expected.PropertyId, actual.PropertyId);
+        }
+
+        [Fact]
+        public void implements_equality_contract() {
+
+            Assert.EqualityContract(GetEquivalentInstances(), GetDistinctInstances());
+        }
+
+        private static IEnumerable<PropertyDescriptor> GetEquivalentInstances() {
+
+            var scope = typeof(DecoratedType);
+
+            yield return PropertyDescriptor.For(scope.GetProperty("PropertyWithPublicGetAndPublicSet"));
+            yield return PropertyDescriptor.For(scope.GetProperty("PropertyWithPublicGetAndPublicSet"));
+            yield return TestUtility.Clone(PropertyDescriptor.For(scope.GetProperty("PropertyWithPublicGetAndPublicSet")));
+        }
+
+        private IEnumerable<PropertyDescriptor> GetDistinctInstances() {
+
+            foreach(var property in typeof(DecoratedTypeWithSameProperties1).GetProperties()) {
+                yield return PropertyDescriptor.For(property);
+            }
+            foreach(var property in typeof(DecoratedTypeWithSameProperties2).GetProperties()) {
+                yield return PropertyDescriptor.For(property);
+            }
         }
 
         private sealed class UndecoratedTypeWithDecoratedProperty
@@ -62,11 +121,67 @@ namespace AK.F1.Timing.Serialization
             public int Property { get; set; }
         }
 
-        [TypeId(Int32.MaxValue)]
-        private sealed class DecoratedTypeWithDecoratedProperty
+        [TypeId(59414808)]
+        private sealed class DecoratedTypeWithUndecoratedProperty
+        {
+            public int Property { get; set; }
+        }
+
+        [TypeId(31739516)]
+        private sealed class DecoratedType
         {
             [PropertyId(0)]
-            public int Property { get; set; }
+            public int PropertyWithPublicGetAndPublicSet { get; set; }
+
+            [PropertyId(1)]
+            public int PropertyWithNoGet { get { return 0; } }
+
+            [PropertyId(2)]
+            public int PropertyWithNoSet { set { } }
+
+            [PropertyId(3)]
+            public int PropertyWithPrivateGetAndPublicSet { private set; get; }
+
+            [PropertyId(4)]
+            public int PropertyWithPublicGetAndPrivateSet { set; private get; }
+        }
+
+        [TypeId(61112946)]
+        private sealed class DecoratedTypeWithSameProperties1
+        {
+            [PropertyId(0)]
+            public int Property1 { get; set; }
+
+            [PropertyId(1)]
+            public int Property2 { get; set; }
+
+            [PropertyId(2)]
+            public int Property3 { get; set; }
+
+            [PropertyId(3)]
+            public int Property4 { get; set; }
+
+            [PropertyId(4)]
+            public int Property5 { get; set; }
+        }
+
+        [TypeId(32378927)]
+        private sealed class DecoratedTypeWithSameProperties2
+        {
+            [PropertyId(0)]
+            public int Property1 { get; set; }
+
+            [PropertyId(1)]
+            public int Property2 { get; set; }
+
+            [PropertyId(2)]
+            public int Property3 { get; set; }
+
+            [PropertyId(3)]
+            public int Property4 { get; set; }
+
+            [PropertyId(4)]
+            public int Property5 { get; set; }
         }
     }
 }
