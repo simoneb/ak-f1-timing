@@ -15,13 +15,25 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
     public class DriverMessageBaseTest
     {
+        public void can_create() {
+
+            var message = new DriverMessageStub(1);
+
+            Assert.Equal(1, message.DriverId);
+        }
+
+        private sealed class DriverMessageStub : DriverMessageBase
+        {
+            public DriverMessageStub(int driverId) : base(driverId) { }
+
+            public override void Accept(IMessageVisitor visitor) {
+
+                throw new NotImplementedException();
+            }
+        }
     }
 }

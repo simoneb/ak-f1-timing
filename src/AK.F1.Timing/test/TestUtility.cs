@@ -17,10 +17,17 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
+using AK.F1.Timing.Messages.Driver;
+
 namespace AK.F1.Timing
 {
     public static class TestUtility
     {
+        public static readonly PostedTime PostedTime = new PostedTime(
+            new TimeSpan(0, 0, 1, 55, 350),
+            PostedTimeType.PersonalBest,
+            12);
+
         public static T Clone<T>(T graph) {
 
             if(graph == null) {

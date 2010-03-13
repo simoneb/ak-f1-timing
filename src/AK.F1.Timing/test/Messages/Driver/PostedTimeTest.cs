@@ -15,13 +15,33 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
     public class PostedTimeTest
     {
+        [Fact]
+        public void can_create() {
+
+            int lapNumber = 10;
+            var time = TimeSpan.FromMilliseconds(1);
+            var type = PostedTimeType.PersonalBest;
+            var actual = new PostedTime(time, type, lapNumber);
+
+            Assert.Equal(lapNumber, actual.LapNumber);
+            Assert.Equal(time, actual.Time);
+            Assert.Equal(type, actual.Type);            
+        }
+
+        [Fact]
+        public void implements_equality() {
+
+
+        }
+
+        [Fact]
+        public void implements_comparable() {
+
+
+        }
     }
 }

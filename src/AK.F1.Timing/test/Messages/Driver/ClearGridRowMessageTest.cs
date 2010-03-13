@@ -15,13 +15,16 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
     public class ClearGridRowMessageTest
     {
+        [Fact]
+        public void can_create() {
+
+            var message = new ClearGridRowMessage(1);
+
+            Assert.Equal(1, message.DriverId);
+        }
     }
 }

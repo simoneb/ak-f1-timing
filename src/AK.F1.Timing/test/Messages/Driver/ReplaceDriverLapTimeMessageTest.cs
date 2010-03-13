@@ -15,13 +15,17 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
-namespace AK.F1.Timing.Messaging.Messages.Driver
+namespace AK.F1.Timing.Messages.Driver
 {
-
-
     public class ReplaceDriverLapTimeMessageTest
     {
+        [Fact]
+        public void can_create() {
+
+            var message = new ReplaceDriverLapTimeMessage(10, TestUtility.PostedTime);
+
+            Assert.Equal(10, message.DriverId);
+            Assert.Equal(TestUtility.PostedTime, message.Replacement);
+        }
     }
 }
