@@ -85,6 +85,13 @@ namespace AK.F1.Timing.Serialization
             base.SetItem(index, item);
         }
 
+        /// <inheritdoc/>
+        protected override void ClearItems() {
+
+            CheckSealed();
+            base.ClearItems();
+        }
+
         #endregion
 
         #region Private Impl.
