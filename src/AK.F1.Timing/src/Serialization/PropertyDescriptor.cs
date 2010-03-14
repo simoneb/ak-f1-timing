@@ -40,13 +40,16 @@ namespace AK.F1.Timing.Serialization
         /// <paramref name="property"/>.</returns>
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when the specified <paramref name="property"/> has not been decorated with the
-        /// <see cref="PropertyIdAttribute"/>.
+        /// <see cref="PropertyIdAttribute"/> or it does not define a getter and setter.
         /// </exception>
         public static PropertyDescriptor For(PropertyInfo property) {
 
             Guard.NotNull(property, "property");
 
-            return CreateDescriptor(property);
+            int propertyId = GetPropertyId(property);
+            var typeDescriptor = TypeDescriptor.For(property.DeclaringType);
+
+            return typeDescriptor.Properties.GetById(propertyId);
         }
 
         /// <summary>
@@ -75,6 +78,8 @@ namespace AK.F1.Timing.Serialization
         /// Thrown when <paramref name="component"/> is <see langword="null"/>.
         /// </exception>
         public void SetValue(object component, object value) {
+
+            Guard.NotNull(component, "component");
 
             this.Property.GetSetMethod(true).Invoke(component, new[] { value });
         }
@@ -123,21 +128,36 @@ namespace AK.F1.Timing.Serialization
 
         #endregion
 
-        #region Private Impl.
+        #region Internal Interface.
 
-        private PropertyDescriptor(PropertyInfo property, byte propertyId) {
-
-            this.Property = property;
-            this.PropertyId = propertyId;
-        }
-
-        private static PropertyDescriptor CreateDescriptor(PropertyInfo property) {
+        /// <summary>
+        /// Creates a <see cref="PropertyDescriptor"/> for the specified
+        /// <paramref name="property"/>.
+        /// </summary>
+        /// <param name="property">The property.</param>
+        /// <returns>The <see cref="PropertyDescriptor"/> for the specified
+        /// <paramref name="property"/>.</returns>
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
+        /// Thrown when the specified <paramref name="property"/> has not been decorated with the
+        /// <see cref="PropertyIdAttribute"/> or it does not define a getter and setter.
+        /// </exception>
+        internal static PropertyDescriptor Create(PropertyInfo property) {
 
             byte propertyId = GetPropertyId(property);
 
             CheckHasGetAndSetMethod(property);
 
             return new PropertyDescriptor(property, propertyId);
+        }
+
+        #endregion
+
+        #region Private Impl.
+
+        private PropertyDescriptor(PropertyInfo property, byte propertyId) {
+
+            this.Property = property;
+            this.PropertyId = propertyId;
         }
 
         private static void CheckHasGetAndSetMethod(PropertyInfo property) {
