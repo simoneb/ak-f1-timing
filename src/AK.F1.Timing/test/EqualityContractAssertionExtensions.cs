@@ -24,14 +24,15 @@ namespace AK.F1.Timing
         public static void EqualityContract<T>(this Assertions assert,
             IEnumerable<T> equivalentInstances,
             IEnumerable<T> distinctInstances)
-            where T : class, IEquatable<T> {
+            where T : IEquatable<T> {
 
-            DoEqualInstanceAssertions(assert, equivalentInstances);
-            DoDistinctInstanceAssertions(assert, distinctInstances);
+            DoEquivalentAssertions(assert, equivalentInstances);
+            DoDistinctAssertions(assert, distinctInstances);
         }
 
-        private static void DoEqualInstanceAssertions<T>(Assertions assert, IEnumerable<T> equivalentInstances)
-            where T : class, IEquatable<T> {
+        private static void DoEquivalentAssertions<T>(Assertions assert,
+            IEnumerable<T> equivalentInstances)
+            where T : IEquatable<T> {
 
             if(equivalentInstances == null) {
                 throw new ArgumentNullException("equivalentInstances");
@@ -51,33 +52,43 @@ namespace AK.F1.Timing
             }
         }
 
-        private static void DoDistinctInstanceAssertions<T>(Assertions assert, IEnumerable<T> distinctInstances)
-            where T : class, IEquatable<T> {
+        private static void DoDistinctAssertions<T>(Assertions assert,
+            IEnumerable<T> distinctInstances)
+            where T : IEquatable<T> {
 
             if(distinctInstances == null) {
                 throw new ArgumentNullException("distinctInstances");
             }
 
+            int xIndex = 0;
+            int yIndex = 0;
             var distinctInstancesCopy = distinctInstances.ToArray();
 
             foreach(var x in distinctInstancesCopy) {
                 DoGeneralInstanceAssertions(assert, x);
                 foreach(var y in distinctInstancesCopy) {
-                    if(!object.ReferenceEquals(x, y)) {
+                    if(yIndex != xIndex) {
                         assert.False(x.GetHashCode() == y.GetHashCode());
                         assert.False(x.Equals(y));
                         assert.False(x.Equals((object)y));
                         assert.False(y.Equals(x));
                         assert.False(y.Equals((object)x));
                     }
+                    ++yIndex;
                 }
+                ++xIndex;
+                yIndex = 0;
             }
         }
 
         private static void DoGeneralInstanceAssertions<T>(Assertions assert, T x)
-            where T : class, IEquatable<T> {
+            where T : IEquatable<T> {
 
-            assert.False(x.Equals((T)null));
+            if(!x.GetType().IsValueType) {
+                var method = x.GetType().GetMethod("Equals", new[] { typeof(T) });
+                var result = method.Invoke(x, new object[] { null });
+                assert.False((bool)result);
+            }            
             assert.False(x.Equals((object)null));
             assert.True(x.Equals(x));
             assert.True(x.Equals((object)x));

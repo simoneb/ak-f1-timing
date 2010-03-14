@@ -73,7 +73,7 @@ namespace AK.F1.Timing
         [Fact]
         public void empty_message_type_should_maintain_identity_when_deserialised() {
 
-            Assert.Same(Message.Empty, TestUtility.Clone(Message.Empty));
+            Assert.Same(Message.Empty, Message.Empty.DeepClone());
         }
 
         [Fact]

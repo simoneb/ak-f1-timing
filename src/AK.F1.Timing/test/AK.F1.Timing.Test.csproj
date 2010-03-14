@@ -72,7 +72,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="MockMessageReader.cs" />
-    <Compile Include="TestUtility.cs" />
+    <Compile Include="TestExtensions.cs" />
     <Compile Include="Extensions\UriExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
     <Compile Include="Extensions\ReflectionExtensionsTest.cs" />
@@ -147,13 +147,8 @@
     <Compile Include="Messages\Driver\TimeGapTest.cs" />
     <Compile Include="Live\LiveDataTest.cs" />
     <Compile Include="Live\LiveDriverTest.cs" />
-    <Compile Include="Live\LiveMessageHeaderTest.cs" />
     <Compile Include="Live\LiveMessageReaderTest.cs" />
-    <Compile Include="Live\LiveMessageReaderStateEngineTest.cs" />
     <Compile Include="Live\LiveMessageTranslatorTest.cs" />
-    <Compile Include="Live\LiveMessageTranslatorStateEngineTest.cs" />
-    <Compile Include="Live\Recording\RecordedDecryptorFactoryTest.cs" />
-    <Compile Include="Live\Recording\RecordedMessageStreamEndpointTest.cs" />
     <Compile Include="Live\IO\LiveMessageStreamEndpointTest.cs" />
     <Compile Include="Live\IO\LiveSocketMessageStreamTest.cs" />
     <Compile Include="Live\IO\MessageStreamDelegateTest.cs" />

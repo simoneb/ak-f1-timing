@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Utility
         public void ctor_should_throw_if_action_is_null() {
 
             Assert.Throws<ArgumentNullException>(() => {
-                var a = new DisposableCallback(null);
+                new DisposableCallback(null);
             });
         }
 
@@ -33,10 +33,10 @@ namespace AK.F1.Timing.Utility
         public void action_should_only_be_called_when_disposed() {
 
             int count = 0;
-            var a = new DisposableCallback(() => ++count);
+            var callback = new DisposableCallback(() => ++count);
 
             Assert.Equal(0, count);
-            a.Dispose();
+            callback.Dispose();
             Assert.Equal(1, count);
         }
 
@@ -44,12 +44,12 @@ namespace AK.F1.Timing.Utility
         public void action_should_only_be_called_once() {
 
             int count = 0;
-            var a = new DisposableCallback(() => ++count);
+            var callback = new DisposableCallback(() => ++count);
 
             Assert.Equal(0, count);
-            a.Dispose();
+            callback.Dispose();
             Assert.Equal(1, count);
-            a.Dispose();
+            callback.Dispose();
             Assert.Equal(1, count);
         }
     }

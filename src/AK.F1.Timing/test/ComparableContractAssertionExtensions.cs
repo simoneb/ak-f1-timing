@@ -26,19 +26,21 @@ namespace AK.F1.Timing
                IEnumerable<T> distinctInstances)
                where T : class, IComparable {
 
-            DoEquivalentInstanceAssertions(assert, equivalentInstances);
-            DoDistinctInstanceAssertions(assert, distinctInstances);
+            DoEquivalentAssertions(assert, equivalentInstances);
+            DoDistinctAssertions(assert, distinctInstances);
         }
 
-        private static void DoDistinctInstanceAssertions<T>(Assertions assert, IEnumerable<T> distinctInstances)
+        private static void DoDistinctAssertions<T>(Assertions assert, IEnumerable<T> distinctInstances)
             where T : class, IComparable {
 
+            int xIndex = 0;
+            int yIndex = 0;
             var distinctInstancesCopy = distinctInstances.ToArray();
 
             foreach(var x in distinctInstancesCopy) {
                 DoGeneralInstanceAssertions(assert, x);
                 foreach(var y in distinctInstancesCopy) {
-                    if(!object.ReferenceEquals(x, y)) {
+                    if(yIndex != xIndex) {
                         assert.False(x.CompareTo(y) == 0);
                         if(x.CompareTo(y) > 0) {
                             assert.True(y.CompareTo(x) < 0);
@@ -46,11 +48,14 @@ namespace AK.F1.Timing
                             assert.True(y.CompareTo(x) > 0);
                         }
                     }
+                    ++yIndex;
                 }
+                ++xIndex;
+                yIndex = 0;
             }
         }
 
-        private static void DoEquivalentInstanceAssertions<T>(Assertions assert, IEnumerable<T> equivalentInstances)
+        private static void DoEquivalentAssertions<T>(Assertions assert, IEnumerable<T> equivalentInstances)
             where T : class, IComparable {
 
             var equivalentInstancesCopy = equivalentInstances.ToArray();

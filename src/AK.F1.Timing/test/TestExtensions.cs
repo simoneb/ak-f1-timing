@@ -21,13 +21,13 @@ using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing
 {
-    public static class TestUtility
+    public static class TestExtensions
     {
-        public static T Clone<T>(T graph) {
+        public static T DeepClone<T>(this T graph) {
 
             if(graph == null) {
                 throw new ArgumentNullException("graph");
-            }
+            }            
 
             var formatter = new BinaryFormatter();
 

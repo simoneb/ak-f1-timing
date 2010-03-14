@@ -21,7 +21,7 @@ using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Utility
 {
-    public class HashCodeBuilderTest
+    public class HashCodeBuilderTest : TestBase
     {
         [Fact]
         public void builder_should_use_algorithm_detailed_in_effective_java() {
@@ -37,35 +37,27 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
-        public void equals_returns_true_for_equal_instances() {
+        public void implements_equality_contract() {
 
-            var a = HashCodeBuilder.New().Add(0).Add(1);
-            var b = HashCodeBuilder.New().Add(0).Add(1);
-
-            Assert.True(a.Equals(a));
-            Assert.True(a.Equals((object)a));            
-
-            Assert.True(a.Equals(b));
-            Assert.True(a.Equals((object)b));
-
-            Assert.True(b.Equals(a));
-            Assert.True(b.Equals((object)a));
+            Assert.EqualityContract(GetEquivalentInstances(), GetDistinctInstances());
         }
 
-        [Fact]
-        public void equals_returns_false_for_unequal_instances() {
+        private static IEnumerable<HashCodeBuilder> GetEquivalentInstances() {
 
-            var a = HashCodeBuilder.New();
-            var b = HashCodeBuilder.New().Add(0).Add(1);
+            yield return HashCodeBuilder.New().Add(0).Add(1);
+            yield return HashCodeBuilder.New().Add(0).Add(1);
+        }
 
-            Assert.False(a.Equals(b));
-            Assert.False(a.Equals((object)b));
+        private static IEnumerable<HashCodeBuilder> GetDistinctInstances() {
 
-            Assert.False(a.Equals(null));
-
-            // This is not complete, but how do you test against every type?!
-            Assert.False(a.Equals(string.Empty));
-            Assert.False(a.Equals(new object()));
+            yield return HashCodeBuilder.New();
+            yield return HashCodeBuilder.New().Add(0);
+            yield return HashCodeBuilder.New().Add(0).Add(0);
+            yield return HashCodeBuilder.New().Add(1).Add(1);
+            yield return HashCodeBuilder.New().Add(0).Add(1).Add(2);
+            yield return HashCodeBuilder.New().Add(0).Add(1).Add(2).Add(3);
+            yield return HashCodeBuilder.New().Add(0).Add(1).Add(2).Add(4);
+            yield return HashCodeBuilder.New().Add(0).Add(1).Add(2).Add(4).Add(5);
         }
 
         [Fact]
@@ -87,7 +79,7 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
-        public void explicit_int32_conversion_operator_returns_hashcode() {
+        public void implicit_int32_conversion_operator_returns_hashcode() {
 
             var builder = HashCodeBuilder.New().Add(1).Add(2);
             
