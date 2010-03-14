@@ -23,14 +23,19 @@ namespace AK.F1.Timing.Serialization
     /// <see langword="sealed"/>.
     /// </summary>
     [Serializable]
-    public sealed class PropertyDescriptorCollection : Collection<PropertyDescriptor>
+    public sealed class PropertyDescriptorCollection : ReadOnlyCollection<PropertyDescriptor>
     {
         #region Public Interface.
 
         /// <summary>
         /// Initialises a new instance of the <see cref="PropertyDescriptorCollection"/> class.
         /// </summary>
-        public PropertyDescriptorCollection() { }
+        /// <param name="list">The list of <see cref="PropertyDescriptor"/>s.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="list"/> is <see langword="null"/>.
+        /// </exception>
+        public PropertyDescriptorCollection(IList<PropertyDescriptor> list)
+            : base(list) { }
 
         /// <summary>
         /// Returns the property with the specified <paramref name="id"/>, or <see langword="null"/>
@@ -50,64 +55,6 @@ namespace AK.F1.Timing.Serialization
             }
 
             return null;
-        }
-        
-        /// <summary>
-        /// Seals this collection.
-        /// </summary>
-        public void Seal() {
-
-            this.IsSealed = true;
-        }
-
-        /// <summary>
-        /// Gets a value indicating if this collection is sealed.
-        /// </summary>
-        public bool IsSealed { get; private set; }        
-
-        #endregion
-
-        #region Protected Interface.
-
-        /// <inheritdoc/>
-        protected override void InsertItem(int index, PropertyDescriptor item) {
-
-            CheckSealed();
-            ValidateItem(item);
-            base.InsertItem(index, item);
-        }
-
-        /// <inheritdoc/>
-        protected override void SetItem(int index, PropertyDescriptor item) {
-
-            CheckSealed();
-            ValidateItem(item);
-            base.SetItem(index, item);
-        }
-
-        /// <inheritdoc/>
-        protected override void ClearItems() {
-
-            CheckSealed();
-            base.ClearItems();
-        }
-
-        #endregion
-
-        #region Private Impl.
-
-        private void CheckSealed() {
-
-            if(this.IsSealed) {
-                throw Guard.PropertyDescriptorCollection_CollectionIsSealed();
-            }
-        }
-        
-        private void ValidateItem(PropertyDescriptor item) {
-
-            Guard.NotNull(item, "item");
-            if(Contains(item))
-                throw Guard.PropertyDescriptorCollection_DuplicatePropertyDescriptor(item);
         }
 
         #endregion
