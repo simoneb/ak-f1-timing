@@ -76,6 +76,8 @@ namespace AK.F1.Timing.Live
         /// <returns>The translated message if possible, otherwise; <see langword="null"/>.</returns>
         public Message Translate(Message message) {
 
+            Guard.NotNull(message, "message");
+
             this.Translated = null;
 
             message.Accept(this);
@@ -127,11 +129,6 @@ namespace AK.F1.Timing.Live
         /// Gets or sets the current session type.
         /// </summary>
         internal SessionType SessionType { get; set; }
-
-        /// <summary>
-        /// Gets the collection of drivers.
-        /// </summary>
-        internal IList<LiveDriver> Drivers { get; private set; }
 
         /// <summary>
         /// Gets or sets the current race lap number.
@@ -378,14 +375,15 @@ namespace AK.F1.Timing.Live
                 return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Stopped);
             }
 
-            return Translate(new SetDriverSectorTimeMessage(driver.Id, sectorNumber, new PostedTime(
+            return TranslateSetDriverSectorTimeMessage(
+                new SetDriverSectorTimeMessage(driver.Id, sectorNumber, new PostedTime(
                 LiveData.ParseTime(message.Value),
                 LiveData.ToPostedTimeType(message.Colour),
                 driver.LapNumber)));
         }
 
         private Message TranslateSetSectorTimeColour(SetGridColumnColourMessage message, int sectorNumber) {
-            
+
             LiveDriver driver = GetDriver(message);
 
             if(driver.IsPitTimeSector(this.SessionType)) {
@@ -411,7 +409,8 @@ namespace AK.F1.Timing.Live
 
             _log.DebugFormat("using previous sector time with new colour: {0}", message);
 
-            return Translate(new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
+            return TranslateSetDriverSectorTimeMessage(
+                new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
                 new PostedTime(lastSectorTime.Time, newTimeType, driver.LapNumber)));
         }
 
@@ -501,7 +500,9 @@ namespace AK.F1.Timing.Live
 
         private Message Translated { get; set; }
 
-        private LiveMessageTranslatorStateEngine StateEngine { get; set; }        
+        private LiveMessageTranslatorStateEngine StateEngine { get; set; }
+
+        private IList<LiveDriver> Drivers { get; set; }
 
         #endregion
     }

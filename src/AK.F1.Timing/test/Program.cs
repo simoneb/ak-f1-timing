@@ -21,9 +21,9 @@ namespace AK.F1.Timing
     {
         public static void Main(string[] arg) {
 
-            var t = new Serialization.TypeDescriptorTest();
+            var t = new Live.LiveMessageTranslatorTest();
 
-            t.for_throws_if_type_has_already_been_registered_with_the_same_id();
+            
         }
     }
 }
