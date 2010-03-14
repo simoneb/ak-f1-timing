@@ -13,14 +13,16 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
+using Moq;
 using Xunit;
 
-using AK.F1.Timing.Recording;
+using AK.F1.Timing.Messages.Feed;
 
 namespace AK.F1.Timing.Recording
 {
-    public class RecordedMessageDelayEngineTest
+    public class RecordedMessageDelayEngineTest : TestBase
     {
         [Fact]
         public void ctor_throws_if_reader_is_null() {
@@ -33,9 +35,39 @@ namespace AK.F1.Timing.Recording
         [Fact]
         public void engine_should_delay_by_amount_specified_in_message() {
 
-            
+            var playbackSpeed = 1D;
+            var delay = TimeSpan.FromSeconds(1D);
+            var actual = ProcessDelay(delay, playbackSpeed);
+
+            Assert.InRange(actual, TimeSpan.FromMilliseconds(950), TimeSpan.FromMilliseconds(1050));
         }
 
+        [Fact]
+        public void engine_should_scale_delay_using_the_read_reader_playback_speed() {
 
+            var playbackSpeed = 2D;
+            var delay = TimeSpan.FromSeconds(1D);
+            var actual = ProcessDelay(delay, playbackSpeed);
+
+            Assert.InRange(actual, TimeSpan.FromMilliseconds(450), TimeSpan.FromMilliseconds(550));
+        }
+
+        private TimeSpan ProcessDelay(TimeSpan delay, double playbackSpeed) {
+
+            var sw = new Stopwatch();
+            var reader = new Mock<IRecordedMessageReader>();
+            var engine = new RecordedMessageDelayEngine(reader.Object);
+
+            reader.SetupGet(x => x.PlaybackSpeed).Returns(playbackSpeed);
+
+            sw.Start();
+            var processed = engine.Process(new SetNextMessageDelayMessage(delay));
+            sw.Stop();
+
+            Assert.True(processed);
+            reader.VerifyAll();
+
+            return sw.Elapsed;
+        }
     }
 }
