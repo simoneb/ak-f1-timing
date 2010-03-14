@@ -241,26 +241,22 @@ namespace AK.F1.Timing
 
         internal static SerializationException PropertyDescriptor_PropertyIsNotDecorated(PropertyInfo property) {
 
-            return new SerializationException(Format(Resource.PropertyDescriptor_PropertyIsNotDecorated,                
-                property.DeclaringType, property.Name, typeof(PropertyIdAttribute)));
+            return new SerializationException(Format(Resource.PropertyDescriptor_PropertyIsNotDecorated, property.DeclaringType, property.Name, typeof(PropertyIdAttribute)));
         }
 
         internal static SerializationException PropertyDescriptor_PropertyHaveGetAndSetMethod(PropertyInfo property) {
 
-            return new SerializationException(Format(Resource.PropertyDescriptor_PropertyHaveGetAndSetMethod,
-                property.DeclaringType, property.Name));
+            return new SerializationException(Format(Resource.PropertyDescriptor_PropertyHaveGetAndSetMethod, property.DeclaringType, property.Name));
         }
 
         internal static SerializationException TypeDescriptor_TypeIsNotDecorated(Type type) {
 
-            return new SerializationException(Format(Resource.TypeDescriptor_TypeIsNotDecorated,
-                type, typeof(TypeIdAttribute)));
+            return new SerializationException(Format(Resource.TypeDescriptor_TypeIsNotDecorated, type, typeof(TypeIdAttribute)));
         }
 
         internal static InvalidOperationException PropertyDescriptorCollection_DuplicatePropertyDescriptor(PropertyDescriptor item) {
 
-            return new InvalidOperationException(Format(Resource.PropertyDescriptorCollection_DuplicatePropertyDescriptor,                
-                item.Property.DeclaringType, item.PropertyId));
+            return new InvalidOperationException(Format(Resource.PropertyDescriptorCollection_DuplicatePropertyDescriptor, item.Property.DeclaringType, item.PropertyId));
         }
 
         internal static NotSupportedException PropertyDescriptorCollection_CollectionIsSealed() {
@@ -275,8 +271,7 @@ namespace AK.F1.Timing
 
         internal static SerializationException TypeDescriptor_DuplicateTypeId(TypeDescriptor existingDescriptor, Type duplicateType) {
 
-            return new SerializationException(Format(Resource.TypeDescriptor_DuplicateTypeId,
-                existingDescriptor.TypeId, existingDescriptor.Type, duplicateType));
+            return new SerializationException(Format(Resource.TypeDescriptor_DuplicateTypeId, existingDescriptor.TypeId, existingDescriptor.Type, duplicateType));
         }
 
         internal static SerializationException DecoratedObjectReader_UnexpectedEndOfStream(EndOfStreamException exc) {
