@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// </summary>
         /// <param name="laps">The number of laps.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="laps"/> is not negative.
+        /// Thrown when <paramref name="laps"/> is negative.
         /// </exception>
         public LapGap(int laps) {
 
