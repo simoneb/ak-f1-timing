@@ -23,15 +23,46 @@ namespace AK.F1.Timing.Serialization
 {
     public class PropertyDescriptorCollectionTest : TestBase
     {
-        [Fact(Skip="Need to re-write the collection")]
-        public void collection_cannot_be_mutated_once_sealed() {
+        [Fact]
+        public void can_create() {
 
-            var collection = new PropertyDescriptorCollection();
             var property0 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property0"));
             var property1 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property1"));
+            var collection = new PropertyDescriptorCollection(new[] { property0, property1 });
 
-            collection.Add(property0);
-            collection.Seal();
+            Assert.True(collection.Contains(property0));
+            Assert.True(collection.Contains(property1));
+            Assert.Equal(2, collection.Count);
+            Assert.Equal(0, collection.IndexOf(property0));
+            Assert.Equal(1, collection.IndexOf(property0));
+        }
+
+        [Fact]
+        public void can_get_a_property_by_its_id() {
+
+            var property0 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property0"));
+            var property1 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property1"));
+            var collection = new PropertyDescriptorCollection(new[] { property0, property1 });
+
+            Assert.Equal(property0, collection.GetById(0));
+            Assert.Equal(property1, collection.GetById(1));
+        }
+
+        [Fact]
+        public void get_by_id_returns_null_if_no_property_exists_with_specified_id() {
+
+            var collection = new PropertyDescriptorCollection(new PropertyDescriptor[0]);
+
+            Assert.Null(collection.GetById(5));
+        }
+
+        [Fact]
+        public void collection_cannot_be_mutated() {
+            
+            var property0 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property0"));
+            var property1 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property1"));
+            IList<PropertyDescriptor> collection = new PropertyDescriptorCollection(new[] { property0, property1 });
+            
             Assert.Throws<NotSupportedException>(() => collection.Add(property1));
             Assert.Throws<NotSupportedException>(() => collection.Clear());
             Assert.Throws<NotSupportedException>(() => collection.Insert(0, property1));
