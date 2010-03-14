@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 using AK.F1.Timing.Extensions;
@@ -182,25 +183,36 @@ namespace AK.F1.Timing.Serialization
 
         private static TypeDescriptor CreateDescriptor(Type type) {
 
-            return new TypeDescriptor(type, GetTypeId(type), GetProperties(type));
+            return new TypeDescriptor(type, GetTypeId(type), GetPropertyDescriptorCollection(type));
         }
 
-        private static PropertyDescriptorCollection GetProperties(Type type) {
+        private static PropertyDescriptorCollection GetPropertyDescriptorCollection(Type type) {
 
-            PropertyDescriptorCollection properties = new PropertyDescriptorCollection();
+            PropertyDescriptor descriptor;
+            IList<PropertyDescriptor> descriptors = new List<PropertyDescriptor>();
+
+            foreach(var property in GetNonIgnoredProperties(type)) {
+                descriptor = PropertyDescriptor.Create(property);
+                if(descriptors.Any(x => x.PropertyId == descriptor.PropertyId)) {
+                    throw Guard.TypeDescriptor_DuplicateProperty(descriptor);
+                }
+                descriptors.Add(descriptor);
+            }
+
+            return new PropertyDescriptorCollection(descriptors);
+        }
+
+        private static IEnumerable<PropertyInfo> GetNonIgnoredProperties(Type type) {
+
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
             do {
                 foreach(var property in type.GetProperties(flags)) {
                     if(!property.HasAttribute<IgnorePropertyAttribute>()) {
-                        properties.Add(PropertyDescriptor.For(property));
+                        yield return property;
                     }
                 }
             } while(!(type = type.BaseType).Equals(typeof(object)));
-
-            properties.Seal();
-
-            return properties;
         }
 
         private static int GetTypeId(Type type) {
