@@ -29,10 +29,38 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
+        public void can_get_the_descriptor_for_a_type() {
+
+            var type = typeof(TypeWithTwoProperties);
+            var descriptor = TypeDescriptor.For(type);
+
+            Assert.NotNull(descriptor);
+            Assert.Equal(2, descriptor.Properties.Count);
+            Assert.Equal(type, descriptor.Type);
+            Assert.Equal(57287559, descriptor.TypeId);
+        }
+
+        [Fact]
+        public void properties_decorated_with_ignore_property_are_ignored() {
+
+            var descriptor = TypeDescriptor.For(typeof(TypeWithIgnoredProperty));
+
+            Assert.Empty(descriptor.Properties);
+        }
+
+        [Fact]
         public void for_throws_if_type_is_null() {
 
             Assert.Throws<ArgumentNullException>(() => {
                 TypeDescriptor.For(null);
+            });
+        }
+
+        [Fact]
+        public void for_throws_if_type_is_not_decprated() {
+
+            Assert.Throws<SerializationException>(() => {
+                TypeDescriptor.For(typeof(UndecoratedType));
             });
         }
 
@@ -48,21 +76,21 @@ namespace AK.F1.Timing.Serialization
         public void for_throws_if_type_is_decorated_but_one_or_properties_properties_are_not() {
 
             Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(DecoratedTypeWithAnUndecoratedProperty));
+                TypeDescriptor.For(typeof(TypeWithAnUndecoratedProperty));
             });
             Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(DecoratedTypeWithAnUndecoratedAndDecoratedProperty));
+                TypeDescriptor.For(typeof(TypeWithAnUndecoratedAndDecoratedProperty));
             });
         }
 
-        [Fact(Skip = "Need to change exception type in collection.")]
+        [Fact]
         public void for_throws_if_type_has_duplicate_properties() {
 
             Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(DecoratedTypeWithDuplicateProperties));
+                TypeDescriptor.For(typeof(TypeWithDuplicateProperties));
             });
             Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(DecoratedChildTypeWithSamePropertyAsParent));
+                TypeDescriptor.For(typeof(ChildTypeWithSamePropertyAsParent));
             });
         }
 
@@ -77,20 +105,26 @@ namespace AK.F1.Timing.Serialization
         [Fact]
         public void for_throws_if_type_has_already_been_registered_with_the_same_id() {
 
-            TypeDescriptor.For(typeof(DecoratedTypeWithDecoratedProperty));
+            TypeDescriptor.For(typeof(TypeWithProperty));
             Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(DecoratedTypeWithDuplicateTypeId));
+                TypeDescriptor.For(typeof(TypeWithDuplicateTypeId));
             });
         }
 
+        private sealed class UndecoratedType
+        {
+            [PropertyId(0)]
+            public int Property0 { get; set; }
+        }
+
         [TypeId(-2694475)]
-        private sealed class DecoratedTypeWithAnUndecoratedProperty
+        private sealed class TypeWithAnUndecoratedProperty
         {
             public int Property0 { get; set; }
         }
 
         [TypeId(-9215470)]
-        private sealed class DecoratedTypeWithAnUndecoratedAndDecoratedProperty
+        private sealed class TypeWithAnUndecoratedAndDecoratedProperty
         {
             [PropertyId(0)]
             public int Property0 { get; set; }
@@ -99,7 +133,7 @@ namespace AK.F1.Timing.Serialization
         }
 
         [TypeId(-7507244)]
-        private sealed class DecoratedTypeWithDuplicateProperties
+        private sealed class TypeWithDuplicateProperties
         {
             [PropertyId(0)]
             public int Property0 { get; set; }
@@ -109,27 +143,44 @@ namespace AK.F1.Timing.Serialization
         }
 
         [TypeId(1685648)]
-        private class DecoratedTypeWithDecoratedProperty
+        private class TypeWithProperty
         {
             [PropertyId(0)]
             public int Property0 { get; set; }
         }
 
+        [TypeId(57287559)]
+        private class TypeWithTwoProperties
+        {
+            [PropertyId(0)]
+            public int Property0 { get; set; }
+
+            [PropertyId(1)]
+            public int Property1 { get; set; }
+        }
+
+        [TypeId(-75030885)]
+        private class TypeWithIgnoredProperty
+        {
+            [IgnoreProperty]
+            public int Property1 { get; set; }
+        }
+
         [TypeId(1685648)]
-        private class DecoratedTypeWithDuplicateTypeId
+        private class TypeWithDuplicateTypeId
         {
             [PropertyId(0)]
             public int Property0 { get; set; }
         }
 
         [TypeId(-7211818)]
-        private class DecoratedChildTypeWithSamePropertyAsParent : DecoratedTypeWithDecoratedProperty
+        private class ChildTypeWithSamePropertyAsParent : TypeWithProperty
         {
             [PropertyId(0)]
             public int Property1 { get; set; }
         }
 
-        private sealed class UndecoratedChildOfDecoratedType : DecoratedTypeWithDecoratedProperty
+        private sealed class UndecoratedChildOfDecoratedType : TypeWithProperty
         {
         }
     }

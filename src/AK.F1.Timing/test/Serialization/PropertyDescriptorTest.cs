@@ -14,18 +14,66 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Runtime.Serialization;
 using Xunit;
 using Xunit.Extensions;
-
-using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Serialization
 {
     public class PropertyDescriptorTest : TestBase
     {
+        [Fact]
+        public void can_get_the_descriptor_for_a_property() {
+
+            var property = typeof(TypeWithPropertyWithPublicGetAndPublicSet).GetProperty("Property");
+            var descriptor = PropertyDescriptor.For(property);
+
+            Assert.NotNull(descriptor);
+            Assert.Equal(property, descriptor.Property);
+            Assert.Equal(1, descriptor.PropertyId);
+        }
+
+        [Fact]
+        public void for_returns_same_instance_for_the_same_property() {
+
+            var property = typeof(TypeWithPropertyWithPublicGetAndPublicSet).GetProperty("Property");
+            var descriptor = PropertyDescriptor.For(property);
+
+            Assert.NotNull(descriptor);
+            Assert.Same(descriptor, PropertyDescriptor.For(property));
+        }
+
+        [Fact]
+        public void can_set_the_value_of_a_property() {
+
+            var component = new TypeWithPropertyWithPublicGetAndPublicSet();
+            var descriptor = PropertyDescriptor.For(component.GetType().GetProperty("Property"));
+
+            Assert.Equal(0, component.Property);
+            descriptor.SetValue(component, 1);
+            Assert.Equal(1, component.Property);
+        }
+
+        [Fact]
+        public void can_set_the_value_of_an_inherited_property() {
+
+            var component = new ChildType();
+            var descriptor = PropertyDescriptor.For(component.GetType().GetProperty("Property"));
+
+            Assert.Equal(0, component.Property);
+            descriptor.SetValue(component, 1);
+            Assert.Equal(1, component.Property);
+        }
+
+        [Fact]
+        public void set_value_throws_if_component_is_null() {
+
+            var property = typeof(TypeWithPropertyWithPublicGetAndPublicSet).GetProperty("Property");
+            var descriptor = PropertyDescriptor.For(property);
+
+            Assert.Throws<ArgumentNullException>(() => descriptor.SetValue(null, 1));
+        }
+
         [Fact]
         public void for_throws_if_property_is_null() {
 
@@ -41,11 +89,11 @@ namespace AK.F1.Timing.Serialization
                 PropertyDescriptor.For(typeof(string).GetProperty("Length"));
             });
             Assert.Throws<SerializationException>(() => {
-                PropertyDescriptor.For(typeof(DecoratedTypeWithUndecoratedProperty).GetProperty("Property"));
+                PropertyDescriptor.For(typeof(TypeWithUndecoratedProperty).GetProperty("Property"));
             });
         }
 
-        [Fact(Skip = "Needs to pass")]
+        [Fact]
         public void for_throws_if_property_is_decorated_but_declaring_type_is_not() {
 
             Assert.Throws<SerializationException>(() => {
@@ -54,30 +102,30 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Theory]
-        [InlineData("PropertyWithNoGet")]
-        [InlineData("PropertyWithNoSet")]
-        public void for_throws_if_property_does_not_have_a_get_and_set(string propertyName) {
+        [InlineData(typeof(TypeWithPropertyWithNoGet))]
+        [InlineData(typeof(TypeWithPropertyWithNoSet))]
+        public void for_throws_if_property_does_not_have_a_get_and_set(Type declaringType) {
 
             Assert.Throws<SerializationException>(() => {
-                PropertyDescriptor.For(typeof(DecoratedType).GetProperty(propertyName));
+                PropertyDescriptor.For(declaringType.GetProperty("Property"));
             });
         }
 
         [Theory]
-        [InlineData("PropertyWithPublicGetAndPublicSet")]
-        [InlineData("PropertyWithPrivateGetAndPublicSet")]
-        [InlineData("PropertyWithPublicGetAndPrivateSet")]
-        public void for_does_not_throw_if_property_has_get_and_set(string propertyName) {
+        [InlineData(typeof(TypeWithPropertyWithPublicGetAndPublicSet))]
+        [InlineData(typeof(TypeWithPropertyWithPrivateGetAndPublicSet))]
+        [InlineData(typeof(TypeWithPropertyWithPublicGetAndPrivateSet))]
+        public void for_does_not_throw_if_property_has_get_and_set(Type declaringType) {
 
             Assert.DoesNotThrow(() => {
-                Assert.NotNull(PropertyDescriptor.For(typeof(DecoratedType).GetProperty(propertyName)));
+                Assert.NotNull(PropertyDescriptor.For(declaringType.GetProperty("Property")));
             });
         }
 
         [Fact]
         public void can_serialize_descriptor() {
 
-            var property = typeof(DecoratedType).GetProperty("PropertyWithPublicGetAndPublicSet");
+            var property = typeof(TypeWithPropertyWithPublicGetAndPublicSet).GetProperty("Property");
             PropertyDescriptor expected = PropertyDescriptor.For(property);
             PropertyDescriptor actual = null;
 
@@ -98,19 +146,18 @@ namespace AK.F1.Timing.Serialization
 
         private static IEnumerable<PropertyDescriptor> GetEquivalentInstances() {
 
-            var scope = typeof(DecoratedType);
+            var scope = typeof(TypeWithPropertyWithPublicGetAndPublicSet);
 
-            yield return PropertyDescriptor.For(scope.GetProperty("PropertyWithPublicGetAndPublicSet"));
-            yield return PropertyDescriptor.For(scope.GetProperty("PropertyWithPublicGetAndPublicSet"));
-            yield return PropertyDescriptor.For(scope.GetProperty("PropertyWithPublicGetAndPublicSet")).DeepClone();
+            yield return PropertyDescriptor.For(scope.GetProperty("Property"));
+            yield return PropertyDescriptor.For(scope.GetProperty("Property")).DeepClone();
         }
 
         private IEnumerable<PropertyDescriptor> GetDistinctInstances() {
 
-            foreach(var property in typeof(DecoratedTypeWithSameProperties1).GetProperties()) {
+            foreach(var property in typeof(TypeWithSameProperties1).GetProperties()) {
                 yield return PropertyDescriptor.For(property);
             }
-            foreach(var property in typeof(DecoratedTypeWithSameProperties2).GetProperties()) {
+            foreach(var property in typeof(TypeWithSameProperties2).GetProperties()) {
                 yield return PropertyDescriptor.For(property);
             }
         }
@@ -122,32 +169,48 @@ namespace AK.F1.Timing.Serialization
         }
 
         [TypeId(59414808)]
-        private sealed class DecoratedTypeWithUndecoratedProperty
+        private sealed class TypeWithUndecoratedProperty
         {
             public int Property { get; set; }
         }
 
         [TypeId(31739516)]
-        private sealed class DecoratedType
+        private sealed class TypeWithPropertyWithPublicGetAndPrivateSet
         {
             [PropertyId(0)]
-            public int PropertyWithPublicGetAndPublicSet { get; set; }
+            public int Property { set; private get; }
+        }
 
+        [TypeId(98239245)]
+        private sealed class TypeWithPropertyWithPrivateGetAndPublicSet
+        {
+            [PropertyId(0)]
+            public int Property { private set; get; }
+        }
+
+        [TypeId(65526584)]
+        private sealed class TypeWithPropertyWithPublicGetAndPublicSet
+        {
             [PropertyId(1)]
-            public int PropertyWithNoGet { get { return 0; } }
+            public int Property { get; set; }
+        }
 
-            [PropertyId(2)]
-            public int PropertyWithNoSet { set { } }
+        [TypeId(-80807557)]
+        private sealed class TypeWithPropertyWithNoGet
+        {
+            [PropertyId(0)]
+            public int Property { set { } }
+        }
 
-            [PropertyId(3)]
-            public int PropertyWithPrivateGetAndPublicSet { private set; get; }
-
-            [PropertyId(4)]
-            public int PropertyWithPublicGetAndPrivateSet { set; private get; }
+        [TypeId(-40412810)]
+        private sealed class TypeWithPropertyWithNoSet
+        {
+            [PropertyId(1)]
+            public int Property { get { return 0; } }
         }
 
         [TypeId(61112946)]
-        private sealed class DecoratedTypeWithSameProperties1
+        private sealed class TypeWithSameProperties1
         {
             [PropertyId(0)]
             public int Property1 { get; set; }
@@ -166,7 +229,7 @@ namespace AK.F1.Timing.Serialization
         }
 
         [TypeId(32378927)]
-        private sealed class DecoratedTypeWithSameProperties2
+        private sealed class TypeWithSameProperties2
         {
             [PropertyId(0)]
             public int Property1 { get; set; }
@@ -183,5 +246,15 @@ namespace AK.F1.Timing.Serialization
             [PropertyId(4)]
             public int Property5 { get; set; }
         }
+
+        [TypeId(-40412810)]
+        private class TypeWithProperty
+        {
+            [PropertyId(0)]
+            public int Property { get; set; }
+        }
+
+        [TypeId(-98367102)]
+        private class ChildType : TypeWithProperty { }
     }
 }

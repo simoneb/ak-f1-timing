@@ -21,7 +21,11 @@ namespace AK.F1.Timing
     {
         public static void Main(string[] arg) {
 
-            var t = new Live.LiveMessageTranslatorTest();
+            var t = new Serialization.PropertyDescriptorTest();
+
+            t.implements_equality_contract();
+
+            var tt = typeof(Serialization.TypeDescriptor);
 
             
         }
