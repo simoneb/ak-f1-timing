@@ -34,7 +34,7 @@ namespace AK.F1.Timing.Serialization
             Assert.True(collection.Contains(property1));
             Assert.Equal(2, collection.Count);
             Assert.Equal(0, collection.IndexOf(property0));
-            Assert.Equal(1, collection.IndexOf(property0));
+            Assert.Equal(1, collection.IndexOf(property1));
         }
 
         [Fact]
