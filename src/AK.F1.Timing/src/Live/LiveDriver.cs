@@ -54,6 +54,7 @@ namespace AK.F1.Timing.Live
 
             this.CarNumber = 0;
             _columnsWithValue = new BitVector32();            
+            this.LapNumber = 0;
             this.LastGapMessage = null;
             this.LastIntervalMessage = null;
             this.LastLapTime = null;
@@ -100,13 +101,33 @@ namespace AK.F1.Timing.Live
         }
 
         /// <summary>
+        /// Returns a value indicating if the specfied sector number is the one next expected
+        /// to be completed by this driver.
+        /// </summary>
+        /// <param name="sectorNumber">The one-based sector number.</param>
+        /// <returns><see langword="true"/> if the sector number is the one next expected to be
+        /// completed, otherwise; <see langword="false"/>.</returns>
+        public bool IsNextSectorNumber(int sectorNumber) {
+
+            if(!IsValidSectorNumber(sectorNumber)) {
+                return false;
+            }
+
+            return sectorNumber == this.NextSectorNumber;
+        }
+
+        /// <summary>
         /// Returns a value indicating if the specfied sector number is the one previous to that
         /// this driver completed.
         /// </summary>
         /// <param name="sectorNumber">The one-based sector number.</param>
         /// <returns><see langword="true"/> if the sector number is the one previous to that
         /// completed, otherwise; <see langword="false"/>.</returns>
-        public bool IsPreviousSectorNumber(int sectorNumber) {            
+        public bool IsPreviousSectorNumber(int sectorNumber) {
+
+            if(!IsValidSectorNumber(sectorNumber)) {
+                return false;
+            }
 
             return (sectorNumber == 3 ? 1 : sectorNumber + 1) == this.NextSectorNumber;
         }
@@ -122,11 +143,16 @@ namespace AK.F1.Timing.Live
         /// </summary>
         /// <param name="raceLapNumber">The race lap number</param>
         /// <returns>The current driver lap number.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="raceLapNumber"/> is negative.
+        /// </exception>
         public int ComputeLapNumber(int raceLapNumber) {
+
+            Guard.InRange(raceLapNumber >= 0, "raceLapNumber");
 
             LapGap gap = this.Gap as LapGap;
 
-            return gap != null ? raceLapNumber - gap.Laps : raceLapNumber;
+            return gap != null ? Math.Max(raceLapNumber - gap.Laps, 0) : raceLapNumber;
         }
 
         /// <summary>
@@ -170,7 +196,10 @@ namespace AK.F1.Timing.Live
         /// <summary>
         /// Gets or sets the next expected sector number to be updated for this driver.
         /// </summary>
-        public int NextSectorNumber { get; set; }
+        public int NextSectorNumber { 
+            // TODO this need to be re-worked, this shouldn't be public.
+            get; set; 
+        }
 
         /// <summary>
         /// Gets or sets the last gap time message posted by the driver.
@@ -204,6 +233,11 @@ namespace AK.F1.Timing.Live
         private static int GetBitForColumn(GridColumn column) {
 
             return 1 << (int)column;
+        }
+
+        private static bool IsValidSectorNumber(int sectorNumber) {
+
+            return sectorNumber >= 1 && sectorNumber <= 3;
         }
 
         private Gap Gap {
