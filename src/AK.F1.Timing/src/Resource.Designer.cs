@@ -342,29 +342,20 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This collection cannot be modified as it is sealed..
+        ///   Looks up a localized string similar to Cannot compare a {0} instance to an instance of {1}..
         /// </summary>
-        internal static string PropertyDescriptorCollection_CollectionIsSealed {
+        internal static string TimeGap_InvalidCompareToArgument {
             get {
-                return ResourceManager.GetString("PropertyDescriptorCollection_CollectionIsSealed", resourceCulture);
+                return ResourceManager.GetString("TimeGap_InvalidCompareToArgument", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The &apos;{0}&apos; type already has a property with an identifier of &apos;{1}&apos;..
         /// </summary>
-        internal static string PropertyDescriptorCollection_DuplicatePropertyDescriptor {
+        internal static string TypeDescriptor_DuplicateProperty {
             get {
-                return ResourceManager.GetString("PropertyDescriptorCollection_DuplicatePropertyDescriptor", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cannot compare a {0} instance to an instance of {1}..
-        /// </summary>
-        internal static string TimeGap_InvalidCompareToArgument {
-            get {
-                return ResourceManager.GetString("TimeGap_InvalidCompareToArgument", resourceCulture);
+                return ResourceManager.GetString("TypeDescriptor_DuplicateProperty", resourceCulture);
             }
         }
         

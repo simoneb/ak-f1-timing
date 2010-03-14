@@ -206,12 +206,6 @@ Message Classification: '{1}'</value>
   <data name="PostedTime_InvalidCompareToArgument" xml:space="preserve">
     <value>Cannot compare a '{0}' instance to an instance of '{1}'.</value>
   </data>
-  <data name="PropertyDescriptorCollection_CollectionIsSealed" xml:space="preserve">
-    <value>This collection cannot be modified as it is sealed.</value>
-  </data>
-  <data name="PropertyDescriptorCollection_DuplicatePropertyDescriptor" xml:space="preserve">
-    <value>The '{0}' type already has a property with an identifier of '{1}'.</value>
-  </data>
   <data name="PropertyDescriptor_PropertyHaveGetAndSetMethod" xml:space="preserve">
     <value>The '{0}' type cannot be serialized as the '{1}' property does not have both a get and set method. Note that either method can be private but they must be defined.</value>
   </data>
@@ -220,6 +214,9 @@ Message Classification: '{1}'</value>
   </data>
   <data name="TimeGap_InvalidCompareToArgument" xml:space="preserve">
     <value>Cannot compare a {0} instance to an instance of {1}.</value>
+  </data>
+  <data name="TypeDescriptor_DuplicateProperty" xml:space="preserve">
+    <value>The '{0}' type already has a property with an identifier of '{1}'.</value>
   </data>
   <data name="TypeDescriptor_DuplicateTypeId" xml:space="preserve">
     <value>A descriptor already exists with an Id of '{0}' for type '{1}' and type '{2}' has been decorated with the same Id.</value>

@@ -254,14 +254,9 @@ namespace AK.F1.Timing
             return new SerializationException(Format(Resource.TypeDescriptor_TypeIsNotDecorated, type, typeof(TypeIdAttribute)));
         }
 
-        internal static InvalidOperationException PropertyDescriptorCollection_DuplicatePropertyDescriptor(PropertyDescriptor item) {
+        internal static SerializationException TypeDescriptor_DuplicateProperty(PropertyDescriptor item) {
 
-            return new InvalidOperationException(Format(Resource.PropertyDescriptorCollection_DuplicatePropertyDescriptor, item.Property.DeclaringType, item.PropertyId));
-        }
-
-        internal static NotSupportedException PropertyDescriptorCollection_CollectionIsSealed() {
-
-            return new NotSupportedException(Resource.PropertyDescriptorCollection_CollectionIsSealed);
+            return new SerializationException(Format(Resource.TypeDescriptor_DuplicateProperty, item.Property.DeclaringType, item.PropertyId));
         }
 
         internal static SerializationException TypeDescriptor_NoDescriptorWithTypeId(int typeId) {
