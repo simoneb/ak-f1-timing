@@ -13,11 +13,38 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Xunit.Extensions;
 
 namespace AK.F1.Timing
 {
     public static class AssertionExtensions
     {
+        public static void PropertiesAreEqual<T>(this Assertions assert, T expected, T actual) {
+
+            if(expected == null) {
+                assert.Null(actual);
+                return;
+            }
+            assert.NotNull(actual);
+            assert.IsType<T>(actual);
+            foreach(var method in GetPublicPropertyGetMethods(expected.GetType())) {                
+                assert.Equal(method.Invoke(expected, null), method.Invoke(actual, null));
+            }
+        }
+
+        private static IEnumerable<MethodInfo> GetPublicPropertyGetMethods(Type type) {
+
+            const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
+
+            do {
+                foreach(var property in type.GetProperties(flags)) {
+                    if(property.GetGetMethod().GetParameters().Length == 0) {
+                        yield return property.GetGetMethod();
+                    }
+                }
+            } while(!(type = type.BaseType).Equals(typeof(object)));
+        }
     }
 }

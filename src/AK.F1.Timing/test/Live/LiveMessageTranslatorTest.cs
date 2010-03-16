@@ -67,34 +67,12 @@ namespace AK.F1.Timing.Live
         [Fact]
         public void car_number_value_updates_are_translated_into_into_set_car_number_and_set_status_messages() {
 
-            var messages = Translate<CompositeMessage>(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1")).Messages;            
-
-            assert_first_message_is_set_car_number_and_next_is_set_status(messages, DriverStatus.OnTrack);
-
-            messages = Translate<CompositeMessage>(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.Red, "1")).Messages;
-            assert_first_message_is_set_car_number_and_next_is_set_status(messages, DriverStatus.InPits);
-        }
-
-        private void assert_first_message_is_set_car_number_and_next_is_set_status(
-            IList<Message> messages, DriverStatus expectedStatus) {
-
-            Assert.Equal(2, messages.Count);
-
-            Assert.IsType<SetDriverCarNumberMessage>(messages[0]);
-
-            var carNumber = (SetDriverCarNumberMessage)messages[0];
-
-            Assert.Equal(1, carNumber.DriverId);
-            Assert.Equal(1, carNumber.CarNumber);
-
-            Assert.IsType<SetDriverStatusMessage>(messages[1]);
-
-            var status = (SetDriverStatusMessage)messages[1];
-
-            Assert.Equal(1, status.DriverId);
-            Assert.Equal(expectedStatus, status.DriverStatus);
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"))
+            .Expect(
+                new SetDriverCarNumberMessage(1, 1),
+                new SetDriverStatusMessage(1, DriverStatus.OnTrack)
+            );
         }
 
         [Fact]
@@ -102,7 +80,7 @@ namespace AK.F1.Timing.Live
 
             foreach(GridColumn column in Enum.GetValues(typeof(GridColumn))) {
                 foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
-                    AssertNullTranslation(new SetGridColumnColourMessage(1, column, colour));
+                    Translate(new SetGridColumnColourMessage(1, column, colour)).ExpectNull();
                 }
             }
         }
@@ -208,7 +186,7 @@ namespace AK.F1.Timing.Live
             Assert.Equal(new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.SessionBest, 5), message.SectorTime);
         }
 
-        private void AssertNullTranslation(params Message[] messages) {
+        private Translation Translate(params Message[] messages) {
 
             Message translated = null;
             var translator = new LiveMessageTranslator();
@@ -218,24 +196,41 @@ namespace AK.F1.Timing.Live
                 translated = translator.Translate(message);
             }
 
-            Assert.Null(translated);
+            return new Translation(translated, this.Assert);
         }
 
-        private TExpectedMessage Translate<TExpectedMessage>(params Message[] messages)
-            where TExpectedMessage : Message {
+        private sealed class Translation
+        {
+            private readonly Message _result;
+            private readonly Assertions _assert;
 
-            Message translated = null;
-            var translator = new LiveMessageTranslator();
+            public Translation(Message result, Assertions assert) {
 
-            Assert.NotEmpty(messages);
-            foreach(var message in messages) {
-                translated = translator.Translate(message);
+                _result = result;
+                _assert = assert;
             }
 
-            Assert.NotNull(translated);
-            Assert.IsType(typeof(TExpectedMessage), translated);
+            public void Expect(Message message) {
 
-            return (TExpectedMessage)translated;
+                _assert.PropertiesAreEqual(message, _result);
+            }
+
+            public void Expect(params Message[] messages) {
+
+                _assert.IsType<CompositeMessage>(_result);
+
+                var composite = (CompositeMessage)_result;
+
+                _assert.Equal(messages.Length, composite.Messages.Count);
+                foreach(var message in composite.Messages) {
+                    _assert.PropertiesAreEqual(message, _result);
+                }
+            }
+
+            public void ExpectNull() {
+
+                _assert.Null(_result);
+            }
         }
     }
 }
