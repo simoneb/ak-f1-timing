@@ -72,7 +72,7 @@ namespace AK.F1.Timing.Messages.Driver
             TimeGap other = obj as TimeGap;
 
             if(other != null) {
-                return this.Time.CompareTo(((TimeGap)obj).Time);
+                return this.Time.CompareTo(other.Time);
             }
             if(obj is LapGap) {
                 // We are always less than any LapGap.
