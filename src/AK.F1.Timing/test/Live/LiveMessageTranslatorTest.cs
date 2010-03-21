@@ -15,6 +15,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Xunit;
 using Xunit.Extensions;
@@ -65,171 +66,316 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void car_number_value_updates_are_translated_into_into_set_car_number_and_set_status_messages() {
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"))
-            .Expect(
-                new SetDriverCarNumberMessage(1, 1),
-                new SetDriverStatusMessage(1, DriverStatus.OnTrack)
-            );
-        }
-
-        [Fact]
-        public void colour_updates_to_a_column_with_no_value_does_not_result_in_a_translation() {
+        public void colours_updates_to_a_columns_with_no_value_are_not_translated() {
 
             foreach(GridColumn column in Enum.GetValues(typeof(GridColumn))) {
                 foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
-                    Translate(new SetGridColumnColourMessage(1, column, colour)).ExpectNull();
+                    Translate(
+                        new SetGridColumnColourMessage(1, column, colour)
+                    ).ExpectNull()
+                    .InAllSessions()
+                    .Assert();
                 }
             }
         }
 
         [Fact]
-        public void sector_1_colour_updates_to_the_sector_just_set_are_translated_into_replace_driver_sector_time_messages() {
+        public void unknown_column_values_are_not_translated() {
 
-            colour_updates_to_the_sector_just_set_are_translated_into_replace_driver_sector_time_messages(GridColumn.S1, 1);
+            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
+                Translate(
+                    new SetGridColumnValueMessage(1, GridColumn.Unknown, colour, "Unknown")
+                ).ExpectNull()
+                .InAllSessions()
+                .Assert();
+                // Assert that clear columns are not translated.
+                Translate(
+                    new SetGridColumnValueMessage(1, GridColumn.Unknown, colour, null)
+                ).ExpectNull()
+                .InAllSessions()
+                .Assert();
+            }
         }
 
         [Fact]
-        public void sector_2_colour_updates_to_the_sector_just_set_are_translated_into_replace_driver_sector_time_messages() {
+        public void unknown_column_colours_are_not_translated() {
 
-            colour_updates_to_the_sector_just_set_are_translated_into_replace_driver_sector_time_messages(GridColumn.S2, 2);
+            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
+                Translate(
+                    new SetGridColumnColourMessage(1, GridColumn.Unknown, colour)
+                ).ExpectNull()
+                .InAllSessions()
+                .Assert();
+            }
         }
 
         [Fact]
-        public void sector_3_colour_updates_to_the_sector_just_set_are_translated_into_replace_driver_sector_time_messages() {
+        public void lap_time_column_values_are_translated() {
 
-            colour_updates_to_the_sector_just_set_are_translated_into_replace_driver_sector_time_messages(GridColumn.S3, 3);
+            Translate(
+                new SetSessionTypeMessage(SessionType.Practice, "SessionId"),
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
+            ).Expect(
+                new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromMilliseconds(95571D), PostedTimeType.Normal, 5))
+            ).InAllSessions()
+            .Assert();
+
+            Translate(
+                new SetSessionTypeMessage(SessionType.Practice, "SessionId"),
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "10"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Green, "1:35.571")
+            ).Expect(
+                new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromMilliseconds(95571D), PostedTimeType.PersonalBest, 10))
+            ).InAllSessions()
+            .Assert();
+
+            Translate(
+                new SetSessionTypeMessage(SessionType.Practice, "SessionId"),
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "15"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Magenta, "1:35.571")
+            ).Expect(
+                new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromMilliseconds(95571D), PostedTimeType.SessionBest, 15))
+            ).InAllSessions()
+            .Assert();
         }
 
-        private void colour_updates_to_the_sector_just_set_are_translated_into_replace_driver_sector_time_messages(GridColumn sectorColumn, int sectorNumber) {
+        [Fact]
+        public void session_type_is_updated_when_a_set_session_type_message_is_processed() {
 
-            var message = Translate<ReplaceDriverSectorTimeMessage>(
+            var translator = new LiveMessageTranslator();
+            var message = new SetSessionTypeMessage(SessionType.Practice, "SessionId");
+
+            Assert.Null(translator.Translate(message));
+            Assert.Equal(message.SessionType, translator.SessionType);
+        }
+
+        [Fact]
+        public void car_number_column_values_are_translated() {
+
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1")
+            ).Expect(
+                new SetDriverCarNumberMessage(1, 1),
+                new SetDriverStatusMessage(1, DriverStatus.OnTrack)
+            ).InAllSessions(
+            ).Assert();
+        }
+
+        [Fact]
+        public void position_column_is_not_translated() {
+
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.Yellow, "10")
+            ).ExpectNull()
+            .InAllSessions()
+            .Assert();
+
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.Yellow, "10"),
+                new SetGridColumnColourMessage(1, GridColumn.Position, GridColumnColour.White)
+            ).ExpectNull()
+            .InAllSessions()
+            .Assert();
+        }
+
+        [Fact]
+        public void sector_1_column_colours_are_translated() {
+
+            sector_column_colours_are_translated(GridColumn.S1, 1);
+        }
+
+        [Fact]
+        public void sector_2_column_colours_are_translated() {
+
+            sector_column_colours_are_translated(GridColumn.S2, 2);
+        }
+
+        [Fact]
+        public void sector_3_column_colours_are_translated() {
+
+            sector_column_colours_are_translated(GridColumn.S3, 3);
+        }
+
+        private void sector_column_colours_are_translated(GridColumn sectorColumn, int sectorNumber) {
+
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "35.5"),
-                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.White));
+                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.White)
+            ).Expect(
+                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.Normal, 1))
+            ).InAllSessions()
+            .Assert();
 
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(sectorNumber, message.SectorNumber);
-            Assert.Equal(new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.Normal, 1), message.Replacement);
-
-            message = Translate<ReplaceDriverSectorTimeMessage>(
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "35.5"),
-                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.Green));
+                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.Green)
+            ).Expect(
+                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.PersonalBest, 1))
+            ).InAllSessions()
+            .Assert();
 
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(sectorNumber, message.SectorNumber);
-            Assert.Equal(new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.PersonalBest, 1), message.Replacement);
-
-            message = Translate<ReplaceDriverSectorTimeMessage>(
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "35.5"),
-                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.Magenta));
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(sectorNumber, message.SectorNumber);
-            Assert.Equal(new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.SessionBest, 1), message.Replacement);
+                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.Magenta)
+            ).Expect(
+                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.SessionBest, 1))
+            ).InAllSessions()
+            .Assert();
         }
 
         [Fact]
-        public void sector_1_value_updates_are_translated_into_set_driver_sector_time_messages() {
+        public void sector_1_column_values_are_translated() {
 
-            sector_value_updates_are_translated_into_set_driver_sector_time_messages(GridColumn.S1, 1);
+            sector_column_values_are_translated(GridColumn.S1, 1);
         }
 
         [Fact]
-        public void sector_2_value_updates_are_translated_into_set_driver_sector_time_messages() {
+        public void sector_2_column_values_are_translated() {
 
-            sector_value_updates_are_translated_into_set_driver_sector_time_messages(GridColumn.S2, 2);
+            sector_column_values_are_translated(GridColumn.S2, 2);
         }
 
         [Fact]
-        public void sector_3_value_updates_are_translated_into_set_driver_sector_time_messages() {
+        public void sector_3_column_values_are_translated() {
 
-            sector_value_updates_are_translated_into_set_driver_sector_time_messages(GridColumn.S3, 3);
+            sector_column_values_are_translated(GridColumn.S3, 3);
         }
 
-        private void sector_value_updates_are_translated_into_set_driver_sector_time_messages(GridColumn sectorColumn, int sectorNumber) {
+        private void sector_column_values_are_translated(GridColumn sectorColumn, int sectorNumber) {
 
-            var message = Translate<SetDriverSectorTimeMessage>(
+            Translate(
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1"));
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1")
+            ).Expect(
+                new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.Normal, 5))
+            ).InAllSessions()
+            .Assert();
 
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(sectorNumber, message.SectorNumber);
-            Assert.Equal(new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.Normal, 5), message.SectorTime);
-
-            message = Translate<SetDriverSectorTimeMessage>(
+            Translate(
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Yellow, "31.1"));
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Green, "31.1")
+            ).Expect(
+                new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.PersonalBest, 5))
+            ).InAllSessions()
+            .Assert();
 
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(sectorNumber, message.SectorNumber);
-            Assert.Equal(new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.Normal, 5), message.SectorTime);
-
-            message = Translate<SetDriverSectorTimeMessage>(
+            Translate(
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Green, "31.1"));
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(sectorNumber, message.SectorNumber);
-            Assert.Equal(new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.PersonalBest, 5), message.SectorTime);
-
-            message = Translate<SetDriverSectorTimeMessage>(
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Magenta, "31.1"));
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(sectorNumber, message.SectorNumber);
-            Assert.Equal(new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.SessionBest, 5), message.SectorTime);
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Magenta, "31.1")
+            ).Expect(
+                new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.SessionBest, 5))
+            ).InAllSessions()
+            .Assert();
         }
 
         private Translation Translate(params Message[] messages) {
 
-            Message translated = null;
-            var translator = new LiveMessageTranslator();
-
-            Assert.NotEmpty(messages);
-            foreach(var message in messages) {
-                translated = translator.Translate(message);
+            if(messages == null || messages.Length == 0) {
+                throw new ArgumentNullException("messages");
             }
 
-            return new Translation(translated, this.Assert);
+            return new Translation(Assert, messages);
         }
 
         private sealed class Translation
         {
-            private readonly Message _result;
+            private Action<Message> _validator;
+            private readonly Message[] _messages;
             private readonly Assertions _assert;
+            private readonly ICollection<SessionType> _sessionTypes = new HashSet<SessionType>();            
 
-            public Translation(Message result, Assertions assert) {
+            public Translation(Assertions assert, params Message[] messages) {
 
-                _result = result;
+                _messages = messages;
                 _assert = assert;
             }
 
-            public void Expect(Message message) {
+            public Translation Expect(Message expectation) {
 
-                _assert.PropertiesAreEqual(message, _result);
+                _validator = actual => _assert.PropertiesAreEqual(expectation, actual);
+
+                return this;
             }
 
-            public void Expect(params Message[] messages) {
+            public Translation Expect(params Message[] expectations) {
 
-                _assert.IsType<CompositeMessage>(_result);
+                _validator = actual => {
+                    _assert.IsType<CompositeMessage>(actual);
+                    var actuals = ((CompositeMessage)actual).Messages;
+                    _assert.Equal(expectations.Length, actuals.Count);
+                    for(int i = 0; i < expectations.Length; ++i) {
+                        _assert.PropertiesAreEqual(expectations[i], actuals[i]);
+                    }
+                };
 
-                var composite = (CompositeMessage)_result;
+                return this;
+            }
 
-                _assert.Equal(messages.Length, composite.Messages.Count);
-                foreach(var message in composite.Messages) {
-                    _assert.PropertiesAreEqual(message, _result);
+            public Translation ExpectNull() {
+
+                _validator = actual => _assert.Null(actual);
+
+                return this;
+            }
+
+            public Translation InAllSessions() {
+
+                foreach(SessionType sessionType in Enum.GetValues(typeof(SessionType))) {
+                    _sessionTypes.Add(sessionType);
                 }
+
+                return this;
             }
 
-            public void ExpectNull() {
+            public Translation InPracticeSession() {
 
-                _assert.Null(_result);
+                _sessionTypes.Add(SessionType.Practice);
+
+                return this;
+            }
+
+            public Translation InQuallySession() {
+
+                _sessionTypes.Add(SessionType.Qually);
+
+                return this;
+            }
+
+            public Translation InRaceSession() {
+
+                _sessionTypes.Add(SessionType.Race);
+
+                return this;
+            }
+
+            public void Assert() {
+
+                Debug.Assert(_validator != null);
+                Debug.Assert(_sessionTypes.Count > 0);
+
+                ValidateTranslationInEachSessionType(_validator);
+            }
+
+            private void ValidateTranslationInEachSessionType(Action<Message> validator) {
+
+                Message translation = null;
+                LiveMessageTranslator translator;
+
+                foreach(var sessionType in _sessionTypes) {
+                    translator = new LiveMessageTranslator();
+                    translator.SessionType = sessionType;
+                    foreach(var message in _messages) {
+                        translation = translator.Translate(message);
+                    }
+                    validator(translation);
+                }
             }
         }
     }
