@@ -31,7 +31,7 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void get_uninitialised_instance_does_requires_public_parameterless_ctor() {
+        public void get_uninitialised_instance_does_not_require_a_public_parameterless_ctor() {
 
             Assert.DoesNotThrow(() => {
                 var obj = SerializationHelper.GetUninitializedInstance(typeof(ClassWithPrivateCtor));
