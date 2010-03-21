@@ -57,7 +57,7 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void for_throws_if_type_is_not_decprated() {
+        public void for_throws_if_type_is_not_decorated() {
 
             Assert.Throws<SerializationException>(() => {
                 TypeDescriptor.For(typeof(UndecoratedType));
@@ -73,7 +73,7 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void for_throws_if_type_is_decorated_but_one_or_properties_properties_are_not() {
+        public void for_throws_if_type_is_decorated_but_one_or_more_properties_are_not() {
 
             Assert.Throws<SerializationException>(() => {
                 TypeDescriptor.For(typeof(TypeWithAnUndecoratedProperty));
