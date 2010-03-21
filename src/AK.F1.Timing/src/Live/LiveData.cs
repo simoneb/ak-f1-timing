@@ -291,7 +291,26 @@ namespace AK.F1.Timing.Live
         /// </exception>
         public static GridColumnColour ToGridColumnColour(byte colour) {
 
-            return (GridColumnColour)colour;
+            switch(colour) {
+                case 0:
+                    return GridColumnColour.Black;
+                case 1:
+                    return GridColumnColour.White;
+                case 2:
+                    return GridColumnColour.Red;
+                case 3:
+                    return GridColumnColour.Green;
+                case 4:
+                    return GridColumnColour.Magenta;
+                case 5:
+                    return GridColumnColour.Blue;
+                case 6:
+                    return GridColumnColour.Yellow;
+                case 7:
+                    return GridColumnColour.Grey;
+                default:
+                    throw Guard.LiveData_UnableToConvertToGridColumnColour(colour);
+            }
         }
 
         #endregion
