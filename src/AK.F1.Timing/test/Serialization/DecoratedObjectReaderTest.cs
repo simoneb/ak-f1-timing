@@ -13,15 +13,49 @@
 // limitations under the License.
 
 using System;
+using System.IO;
+using System.Runtime.Serialization;
 using Xunit;
-
-using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Serialization
 {
-
-
     public class DecoratedObjectReaderTest
     {
+        [Fact]
+        public void ctor_throws_if_input_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => new DecoratedObjectReader(null));
+        }
+
+        [Fact]
+        public void input_is_not_closed_when_reader_is_disposed() {
+
+            var input = new MemoryStream();
+
+            using(var reader = new DecoratedObjectReader(input)) { }
+
+            Assert.DoesNotThrow(() => input.Position = 0);
+            input.Dispose();
+            Assert.Throws<ObjectDisposedException>(() => input.Position = 0);
+        }
+
+        [Fact]
+        public void read_throws_when_reader_has_been_disposed() {
+
+            var reader = new DecoratedObjectReader(new MemoryStream());
+
+            ((IDisposable)reader).Dispose();
+
+            Assert.Throws<ObjectDisposedException>(() => reader.Read());
+        }
+
+        [Fact]
+        public void read_throws_when_end_of_input_has_been_reached() {
+
+            using(var input = new MemoryStream())
+            using(var reader = new DecoratedObjectReader(input)) {
+                Assert.Throws<SerializationException>(() => reader.Read());
+            }
+        }
     }
 }
