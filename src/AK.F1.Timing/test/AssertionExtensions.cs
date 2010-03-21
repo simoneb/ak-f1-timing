@@ -28,7 +28,7 @@ namespace AK.F1.Timing
                 return;
             }
             assert.NotNull(actual);
-            assert.IsType<T>(actual);
+            assert.IsType(expected.GetType(), actual);
             foreach(var method in GetPublicPropertyGetMethods(expected.GetType())) {                
                 assert.Equal(method.Invoke(expected, null), method.Invoke(actual, null));
             }
