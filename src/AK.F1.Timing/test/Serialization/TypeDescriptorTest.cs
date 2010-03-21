@@ -25,7 +25,10 @@ namespace AK.F1.Timing.Serialization
         [Fact]
         public void implements_equality_contract() {
 
-            
+            Assert.EqualityContract(
+                new[] { TypeDescriptor.For(typeof(TypeWithTwoProperties)), TypeDescriptor.For(typeof(TypeWithTwoProperties)) },
+                new[] { TypeDescriptor.For(typeof(TypeWithProperty)), TypeDescriptor.For(typeof(TypeWithTwoProperties)) }
+            );
         }
 
         [Fact]
@@ -38,6 +41,14 @@ namespace AK.F1.Timing.Serialization
             Assert.Equal(2, descriptor.Properties.Count);
             Assert.Equal(type, descriptor.Type);
             Assert.Equal(57287559, descriptor.TypeId);
+        }
+
+        [Fact]
+        public void for_returns_the_same_descriptor_for_the_same_type() {
+
+            var type = typeof(TypeWithTwoProperties);
+
+            Assert.Same(TypeDescriptor.For(type), TypeDescriptor.For(type));
         }
 
         [Fact]
