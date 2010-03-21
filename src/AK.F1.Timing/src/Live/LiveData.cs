@@ -250,20 +250,6 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
-        public static DriverStatus ToDriverStatus(int colour) {
-
-            return ToDriverStatus((GridColumnColour)colour);
-        }
-
-        /// <summary>
-        /// Converts the specified timing colour into a
-        /// <see cref="AK.F1.Timing.Messages.Driver.DriverStatus"/>.
-        /// </summary>
-        /// <param name="colour">The value to convert.</param>
-        /// <returns>The converted value.</returns>
-        /// <exception cref="System.Runtime.Serialization.SerializationException">
-        /// Thrown when <paramref name="colour"/> could not be converted.
-        /// </exception>
         public static DriverStatus ToDriverStatus(GridColumnColour colour) {
 
             switch(colour) {
