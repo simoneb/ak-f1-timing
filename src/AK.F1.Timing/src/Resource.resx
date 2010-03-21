@@ -139,10 +139,10 @@
     <value>Unable parse the next driver status message as the driver status value specified in the message ('{0}') is invalid.</value>
   </data>
   <data name="LiveData_UnableToConvertToGridColumn" xml:space="preserve">
-    <value>Unable to parse the next message as the grid column index '{0}' could not be converted to a GridColumn given the current session ('{1}').</value>
+    <value>Unable to parse the next live-timing message as the grid column index '{0}' could not be converted to a GridColumn given the current session ('{1}').</value>
   </data>
   <data name="LiveData_UnableToConvertToPostedTimeType" xml:space="preserve">
-    <value>Unable to parse the next message as the posted time type value specified in the message ('{0}') is invalid.</value>
+    <value>Unable to parse the next live-timing message as the posted time type value specified in the message ('{0}') is invalid.</value>
   </data>
   <data name="LiveData_UnableToConvertToSessionStatus" xml:space="preserve">
     <value>Unable parse the next race status message as the race status value specified in the message ('{0}') is invalid.</value>
@@ -151,13 +151,13 @@
     <value>Unable to parse the next this type message as the session type value specified in the message ('{0}') is invalid.</value>
   </data>
   <data name="LiveData_UnableToParseDouble" xml:space="preserve">
-    <value>Unable to parse the next message as it contains an incorrectly formatted Double string ('{0}').</value>
+    <value>Unable to parse the next live-timing message as it contains an incorrectly formatted Double string ('{0}').</value>
   </data>
   <data name="LiveData_UnableToParseInt32" xml:space="preserve">
-    <value>Unable to parse the next message as it contains an incorrectly formatted Int32 string ('{0}').</value>
+    <value>Unable to parse the next live-timing message as it contains an incorrectly formatted Int32 string ('{0}').</value>
   </data>
   <data name="LiveData_UnableToParseTime" xml:space="preserve">
-    <value>Unable to parse the next message as the time value specified in the message ('{0}') is invalid.</value>
+    <value>Unable to parse the next live-timing message as the time value specified in the message ('{0}') is invalid.</value>
   </data>
   <data name="LiveDecryptorFactory_CredentialsRejected" xml:space="preserve">
     <value>The supplied credentials have been rejected by the live-timing server.</value>

@@ -124,7 +124,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to parse the next message as the grid column index &apos;{0}&apos; could not be converted to a GridColumn given the current session (&apos;{1}&apos;)..
+        ///   Looks up a localized string similar to Unable to parse the next live-timing message as the grid column index &apos;{0}&apos; could not be converted to a GridColumn given the current session (&apos;{1}&apos;)..
         /// </summary>
         internal static string LiveData_UnableToConvertToGridColumn {
             get {
@@ -133,7 +133,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to parse the next message as the posted time type value specified in the message (&apos;{0}&apos;) is invalid..
+        ///   Looks up a localized string similar to Unable to parse the next live-timing message as the posted time type value specified in the message (&apos;{0}&apos;) is invalid..
         /// </summary>
         internal static string LiveData_UnableToConvertToPostedTimeType {
             get {
@@ -160,7 +160,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to parse the next message as it contains an incorrectly formatted Double string (&apos;{0}&apos;)..
+        ///   Looks up a localized string similar to Unable to parse the next live-timing message as it contains an incorrectly formatted Double string (&apos;{0}&apos;)..
         /// </summary>
         internal static string LiveData_UnableToParseDouble {
             get {
@@ -169,7 +169,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to parse the next message as it contains an incorrectly formatted Int32 string (&apos;{0}&apos;)..
+        ///   Looks up a localized string similar to Unable to parse the next live-timing message as it contains an incorrectly formatted Int32 string (&apos;{0}&apos;)..
         /// </summary>
         internal static string LiveData_UnableToParseInt32 {
             get {
@@ -178,7 +178,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to parse the next message as the time value specified in the message (&apos;{0}&apos;) is invalid..
+        ///   Looks up a localized string similar to Unable to parse the next live-timing message as the time value specified in the message (&apos;{0}&apos;) is invalid..
         /// </summary>
         internal static string LiveData_UnableToParseTime {
             get {
