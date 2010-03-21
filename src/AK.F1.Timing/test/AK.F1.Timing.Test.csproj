@@ -47,6 +47,7 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -67,6 +68,7 @@
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="ComparableContractAssertionExtensions.cs" />
     <Compile Include="EqualityContractAssertionExtensions.cs" />
+    <Compile Include="Live\LiveMessageHeaderTest.cs" />
     <Compile Include="Messages\Driver\GapTest.cs" />
     <Compile Include="Messages\MessageTestBase.cs" />
     <Compile Include="Program.cs" />
