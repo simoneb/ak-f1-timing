@@ -189,6 +189,11 @@ namespace AK.F1.Timing
             return new SerializationException(Format(Resource.LiveData_UnableToConvertToGridColumn, column, currentSessionType));
         }
 
+        internal static SerializationException LiveData_UnableToConvertToGridColumnColour(byte colour) {
+
+            return new SerializationException(Format(Resource.LiveData_UnableToConvertToGridColumnColour, colour));
+        }
+
         internal static SerializationException LiveData_UnableToParseTime(string value) {
 
             return new SerializationException(Format(Resource.LiveData_UnableToParseTime, value));

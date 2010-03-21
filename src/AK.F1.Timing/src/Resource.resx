@@ -141,6 +141,9 @@
   <data name="LiveData_UnableToConvertToGridColumn" xml:space="preserve">
     <value>Unable to parse the next live-timing message as the grid column index '{0}' could not be converted to a GridColumn given the current session ('{1}').</value>
   </data>
+  <data name="LiveData_UnableToConvertToGridColumnColour" xml:space="preserve">
+    <value>Unable to parse the next live-timing message as the grid column colour value specified in the message ('{0}') is invalid.</value>
+  </data>
   <data name="LiveData_UnableToConvertToPostedTimeType" xml:space="preserve">
     <value>Unable to parse the next live-timing message as the posted time type value specified in the message ('{0}') is invalid.</value>
   </data>

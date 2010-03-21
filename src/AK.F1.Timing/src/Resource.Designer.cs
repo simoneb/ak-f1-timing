@@ -133,6 +133,15 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to parse the next live-timing message as the grid column colour value specified in the message (&apos;{0}&apos;) is invalid..
+        /// </summary>
+        internal static string LiveData_UnableToConvertToGridColumnColour {
+            get {
+                return ResourceManager.GetString("LiveData_UnableToConvertToGridColumnColour", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to parse the next live-timing message as the posted time type value specified in the message (&apos;{0}&apos;) is invalid..
         /// </summary>
         internal static string LiveData_UnableToConvertToPostedTimeType {
