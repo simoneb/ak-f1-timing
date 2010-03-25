@@ -84,7 +84,26 @@ namespace AK.F1.Timing.Serialization
 
             CheckDisposed();
 
-            var context = CreateContext(graph);
+            WriteRoot(graph);
+        }
+
+        #endregion
+
+        #region Private Impl.
+
+        private void WriteRoot(object graph) {
+
+            WriteGraph(graph, true);
+        }
+
+        private void WriteChild(object graph) {
+
+            WriteGraph(graph, false);
+        }
+
+        private void WriteGraph(object graph, bool isRoot) {
+
+            var context = CreateContext(graph, isRoot);
 
             if(context.TypeCode == ObjectTypeCode.Object) {
                 WriteObject(ref context);
@@ -93,10 +112,6 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        #endregion
-
-        #region Private Impl.
-
         private void WriteObject(ref GraphContext context) {
 
             WriteObjectTypeCode(context.TypeCode);
@@ -104,7 +119,7 @@ namespace AK.F1.Timing.Serialization
             this.Output.Write((byte)context.Descriptor.Properties.Count);
             foreach(var property in context.Descriptor.Properties) {
                 this.Output.Write(property.PropertyId);
-                Write(property.GetValue(context.Graph));
+                WriteChild(property.GetValue(context.Graph));
             }
         }
 
@@ -121,41 +136,49 @@ namespace AK.F1.Timing.Serialization
                     Guard.Fail("WritePrimitive should not have been called for an Object.");
                     break;
                 case ObjectTypeCode.Boolean:
-                    WriteBoolean(Convert.ToBoolean(context.Graph));
+                    WriteBoolean((bool)context.Graph);
                     break;
                 case ObjectTypeCode.Char:
-                    WriteChar(Convert.ToChar(context.Graph));
+                    WriteChar((char)context.Graph);
                     break;
                 case ObjectTypeCode.SByte:
-                    WriteSByte(Convert.ToSByte(context.Graph));
+                    WriteSByte((sbyte)context.Graph);
                     break;
                 case ObjectTypeCode.Byte:
-                    WriteByte(Convert.ToByte(context.Graph));
+                    WriteByte((byte)context.Graph);
                     break;
                 case ObjectTypeCode.Int16:
+                    WriteInt16((short)context.Graph, context.Compress);
+                    break;
                 case ObjectTypeCode.Int32:
+                    WriteInt32((int)context.Graph, context.Compress);
+                    break;
                 case ObjectTypeCode.Int64:
-                    WriteInt64(Convert.ToInt64(context.Graph));
+                    WriteInt64((long)context.Graph, context.Compress);
                     break;
                 case ObjectTypeCode.UInt16:
+                    WriteUInt16((ushort)context.Graph, context.Compress);
+                    break;
                 case ObjectTypeCode.UInt32:
+                    WriteUInt32((uint)context.Graph, context.Compress);
+                    break;
                 case ObjectTypeCode.UInt64:
-                    WriteUInt64(Convert.ToUInt64(context.Graph));
+                    WriteUInt64((ulong)context.Graph, context.Compress);
                     break;
                 case ObjectTypeCode.Single:
-                    WriteSingle(Convert.ToSingle(context.Graph));
+                    WriteSingle((float)context.Graph);
                     break;
                 case ObjectTypeCode.Double:
-                    WriteDouble(Convert.ToDouble(context.Graph));
+                    WriteDouble((double)context.Graph);
                     break;
                 case ObjectTypeCode.Decimal:
-                    WriteDecimal(Convert.ToDecimal(context.Graph));
+                    WriteDecimal((decimal)context.Graph);
                     break;
                 case ObjectTypeCode.DateTime:
-                    WriteDateTime(Convert.ToDateTime(context.Graph));
+                    WriteDateTime((DateTime)context.Graph);
                     break;
                 case ObjectTypeCode.String:
-                    WriteString(Convert.ToString(context.Graph));
+                    WriteString((string)context.Graph);
                     break;
                 case ObjectTypeCode.TimeSpan:
                     WriteTimeSpan((TimeSpan)context.Graph);
@@ -240,7 +263,37 @@ namespace AK.F1.Timing.Serialization
             this.Output.Write(value);
         }
 
-        private void WriteInt64(long value) {
+        private void WriteInt16(short value, bool compress) {
+
+            if(compress) {
+                CompactWriteInt64(value);
+            } else {
+                WriteObjectTypeCode(ObjectTypeCode.Int16);
+                this.Output.Write(value);
+            }
+        }
+
+        private void WriteInt32(int value, bool compress) {
+
+            if(compress) {
+                CompactWriteInt64(value);
+            } else {
+                WriteObjectTypeCode(ObjectTypeCode.Int32);
+                this.Output.Write(value);
+            }
+        }
+
+        private void WriteInt64(long value, bool compress) {
+
+            if(compress) {
+                CompactWriteInt64(value);
+            } else {
+                WriteObjectTypeCode(ObjectTypeCode.Int64);
+                this.Output.Write(value);
+            }
+        }
+
+        private void CompactWriteInt64(long value) {
 #if DEBUG
             checked {
 #endif
@@ -262,7 +315,37 @@ namespace AK.F1.Timing.Serialization
 #endif
         }
 
-        private void WriteUInt64(ulong value) {
+        private void WriteUInt16(ushort value, bool compress) {
+
+            if(compress) {
+                CompactWriteUInt64(value);
+            } else {
+                WriteObjectTypeCode(ObjectTypeCode.UInt16);
+                this.Output.Write(value);
+            }
+        }
+
+        private void WriteUInt32(uint value, bool compress) {
+
+            if(compress) {
+                CompactWriteUInt64(value);
+            } else {
+                WriteObjectTypeCode(ObjectTypeCode.UInt32);
+                this.Output.Write(value);
+            }
+        }
+
+        private void WriteUInt64(ulong value, bool compress) {
+
+            if(compress) {
+                CompactWriteUInt64(value);
+            } else {
+                WriteObjectTypeCode(ObjectTypeCode.UInt64);
+                this.Output.Write(value);
+            }
+        }
+
+        private void CompactWriteUInt64(ulong value) {
 #if DEBUG
             checked {
 #endif
@@ -284,10 +367,13 @@ namespace AK.F1.Timing.Serialization
 #endif
         }
 
-        private static GraphContext CreateContext(object graph) {
+        private static GraphContext CreateContext(object graph, bool isRoot) {
 
             if(graph == null) {
-                return GraphContext.Empty;
+                return new GraphContext {
+                    IsRoot = isRoot,
+                    TypeCode = ObjectTypeCode.Empty
+                };
             }
 
             TypeDescriptor descriptor = null;
@@ -297,9 +383,10 @@ namespace AK.F1.Timing.Serialization
                 descriptor = TypeDescriptor.For(graph.GetType());
             }
 
-            return new GraphContext() {
+            return new GraphContext {
                 Descriptor = descriptor,
                 Graph = graph,
+                IsRoot = isRoot,
                 TypeCode = typeCode
             };
         }
@@ -309,15 +396,18 @@ namespace AK.F1.Timing.Serialization
         [StructLayout(LayoutKind.Auto)]
         private struct GraphContext
         {
-            public static readonly GraphContext Empty = new GraphContext() { 
-                TypeCode = ObjectTypeCode.Empty 
-            };
-
             public object Graph { get; set; }
 
             public TypeDescriptor Descriptor { get; set; }
 
             public ObjectTypeCode TypeCode { get; set; }
+
+            public bool IsRoot { get; set; }
+
+            public bool Compress {
+
+                get { return !this.IsRoot; }
+            }
         }
 
         #endregion
