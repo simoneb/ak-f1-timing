@@ -53,10 +53,7 @@ namespace AK.F1.Timing.Live.IO
 
             IPEndPoint endpoint = ResolveStreamEndpoint();
             Socket socket = CreateStreamSocket();
-
-            // TODO the socket throws socket exceptions, check to ensure the networkstream wraps these
-            // in IOExceptions.            
-
+            
             _log.InfoFormat("connecting to {0}", endpoint);            
 
             try {
@@ -111,11 +108,9 @@ namespace AK.F1.Timing.Live.IO
 
         private static Socket CreateStreamSocket() {
 
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-
-            socket.NoDelay = false;
-
-            return socket;
+            return new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) {
+                NoDelay = false
+            };
         }
 
         private Uri BuildKeyframeUri(int keyframe) {
@@ -125,18 +120,18 @@ namespace AK.F1.Timing.Live.IO
             sb.Append(KEYFRAME_URL);
             if(keyframe == 0) {
                 sb.Append(KEYFRAME_EXT);
-                if(this.KeyframeCount > 0)
-                    sb.AppendFormat(INV_CULTURE, "?{0}", this.KeyframeCount);
-                ++this.KeyframeCount;
+                if(this.ZeroKeyframeRequests > 0)
+                    sb.AppendFormat(INV_CULTURE, "?{0}", this.ZeroKeyframeRequests);
+                ++this.ZeroKeyframeRequests;
             } else {
                 sb.Append("_").AppendFormat(INV_CULTURE, "{0:00000}", keyframe).Append(KEYFRAME_EXT);
-                this.KeyframeCount = 0;
+                this.ZeroKeyframeRequests = 0;
             }
 
             return new Uri(sb.ToString(), UriKind.Absolute);
         }
 
-        private int KeyframeCount { get; set; }
+        private int ZeroKeyframeRequests { get; set; }
 
         #endregion
     }
