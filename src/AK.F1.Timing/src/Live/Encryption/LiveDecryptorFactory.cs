@@ -27,26 +27,25 @@ namespace AK.F1.Timing.Live.Encryption
     /// creates decryptors seeded using a user's credentials for the F1 live-timing site. This
     /// class cannot be inherited.
     /// </summary>
-    public class LiveDecryptorFactory : DecryptorFactoryBase
+    public sealed class LiveDecryptorFactory : DecryptorFactoryBase
     {
         #region Private Fields.
 
         private const string AUTH_COOKIE_NAME = "USER";
         private const string AUTH_CONTENT_TYPE = "application/x-www-form-urlencoded; charset=utf-8";
         private static readonly Uri LOGIN_URI = new Uri("https://secure.formula1.com/reg/login");
-        private const string SEED_URL_FORMAT = "http://live-timing.formula1.com/reg/getkey/{0}.asp?auth={1}";
-        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;          
+        private const string SEED_URL_FORMAT = "http://live-timing.formula1.com/reg/getkey/{0}.asp?auth={1}";        
 
         #endregion
 
         #region Public Interface.
 
         /// <summary>
-        /// 
+        /// Initialises a new instance of the <see cref="LiveDecryptorFactory"/> class and specifies
+        /// the user's credentials.
         /// </summary>
         /// <param name="username">A user's F1 live-timing username.</param>
         /// <param name="password">The user's F1 live-timing password.</param>
-        /// <returns></returns>        
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="username"/> or <paramref name="password"/> is 
         /// <see langword="null"/>.
@@ -73,25 +72,25 @@ namespace AK.F1.Timing.Live.Encryption
         protected override int GetSeedForSession(string sessionId) {
 
             Guard.NotNullOrEmpty(sessionId, "sessionId");
-
-            string s;
+            
             int seed;
-            Uri uri = MakeSeedUri(sessionId);
+            string response;
+            Uri seedUri = MakeSeedUri(sessionId);
 
-            this.Log.InfoFormat("fetching seed from {0}", uri);
+            this.Log.InfoFormat("fetching seed from {0}", seedUri);
             try {
-                s = uri.GetResponseString(HttpMethod.Get);
+                response = seedUri.GetResponseString(HttpMethod.Get);
             } catch(IOException exc) {
                 this.Log.Error(exc);
                 throw Guard.LiveDecryptorFactory_FailedToFetchSessionSeed(exc);
             }
-            if(s.Equals("invalid", StringComparison.OrdinalIgnoreCase)) {
+            if(response.Equals("invalid", StringComparison.OrdinalIgnoreCase)) {
                 this.Log.Error("failed to fetch the seed as the user's credentials have been rejected");
                 throw Guard.LiveDecryptorFactory_CredentialsRejected();
             }
-            if(!int.TryParse(s, NumberStyles.HexNumber, INV_CULTURE, out seed)) {
-                this.Log.ErrorFormat("failed to parse seed from {0}", s);
-                throw Guard.LiveDecryptorFactory_UnableToParseSeed(s);
+            if(!int.TryParse(response, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out seed)) {
+                this.Log.ErrorFormat("failed to parse seed from {0}", response);
+                throw Guard.LiveDecryptorFactory_UnableToParseSeed(response);
             }
 
             return seed;
@@ -107,41 +106,44 @@ namespace AK.F1.Timing.Live.Encryption
 
         #region Private Impl.
 
-        private void FetchAuthToken(string email, string password) {            
+        private void FetchAuthToken(string username, string password) {            
             
             Cookie cookie;
             CookieCollection cookies;
 
-            this.Log.InfoFormat("fetching auth token from {0} for user {1}", LOGIN_URI, email);
+            this.Log.InfoFormat("fetching auth token from {0} for user {1}", LOGIN_URI, username);
 
-            try {
-                cookies = LOGIN_URI.GetResponseCookies(HttpMethod.Post, request => {
-                    byte[] bytes = GetAuthRequestContent(email, password);
-                    request.ContentType = AUTH_CONTENT_TYPE;
-                    request.ContentLength = bytes.Length;
-                    using(Stream stream = request.GetRequestStream()) {
-                        stream.Write(bytes, 0, bytes.Length);
-                    }
-                });
-            } catch(IOException exc) {
-                this.Log.Error(exc);
-                throw Guard.LiveDecryptorFactory_FailedToFetchAuthToken(exc);
-            }
+            cookies = FetchAuthCookies(username, password);
             if((cookie = cookies[AUTH_COOKIE_NAME]) == null) {
                 this.Log.ErrorFormat("failed to fetch the auth token as no cookie named {0} was found" +
                     " in the response to the login request, assuming the credentials have been rejected",
                     AUTH_COOKIE_NAME);
                 throw Guard.LiveDecryptorFactory_CredentialsRejected();
             }
-
             this.AuthToken = cookie.Value;
             this.Log.InfoFormat("fetched auth token {0}", this.AuthToken);
         }
 
+        private CookieCollection FetchAuthCookies(string username, string password) {
+
+            try {
+                return LOGIN_URI.GetResponseCookies(HttpMethod.Post, request => {
+                    byte[] content = GetAuthRequestContent(username, password);
+                    request.ContentType = AUTH_CONTENT_TYPE;
+                    request.ContentLength = content.Length;
+                    using(var stream = request.GetRequestStream()) {
+                        stream.Write(content, 0, content.Length);
+                    }
+                });
+            } catch(IOException exc) {
+                this.Log.Error(exc);
+                throw Guard.LiveDecryptorFactory_FailedToFetchAuthToken(exc);
+            }
+        }
+
         private Uri MakeSeedUri(string sessionId) {
 
-            return new Uri(string.Format(SEED_URL_FORMAT, sessionId, this.AuthToken),
-                UriKind.Absolute);
+            return new Uri(string.Format(SEED_URL_FORMAT, sessionId, this.AuthToken), UriKind.Absolute);
         }
 
         private static byte[] GetAuthRequestContent(string email, string password) {
