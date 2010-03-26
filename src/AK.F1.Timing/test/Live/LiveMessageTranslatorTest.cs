@@ -26,7 +26,7 @@ using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.Live
 {
-    public class LiveMessageTranslatorTest : TestBase
+    public abstract class LiveMessageTranslatorTest : TestBase
     {
         [Fact]
         public void can_create() {
