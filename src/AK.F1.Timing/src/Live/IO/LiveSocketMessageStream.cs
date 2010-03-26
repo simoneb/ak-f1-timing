@@ -48,13 +48,12 @@ namespace AK.F1.Timing.Live.IO
         /// </exception>
         public LiveSocketMessageStream(Socket socket) {
 
-            Guard.NotNull(socket, "socket");
-            
-            this.Socket = socket;            
+            Guard.NotNull(socket, "socket");            
+
+            this.Socket = socket;
             this.BufferedStream = new BufferedStream(
                 new NetworkStream(socket, FileAccess.Read, true), BUFFER_SIZE);
-            this.PingTimer = new Timer((state) => MaybePing());
-            ChangePingTimerInterval();
+            this.PingTimer = new Timer(s => MaybePing());
         }
 
         /// <inheritdoc />
@@ -102,7 +101,11 @@ namespace AK.F1.Timing.Live.IO
 
         private void ChangePingTimerInterval() {
 
-            this.PingTimer.Change(this.PingInterval, this.PingInterval);
+            if(this.PingInterval > TimeSpan.Zero) {
+                this.PingTimer.Change(this.PingInterval, this.PingInterval);
+            } else {
+                this.PingTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            }
             _log.InfoFormat("ping interval set: {0}", this.PingInterval);
         }
 
