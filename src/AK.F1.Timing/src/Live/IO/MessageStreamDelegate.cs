@@ -65,6 +65,7 @@ namespace AK.F1.Timing.Live.IO
                 DisposeOf(this.Inner);
                 this.Inner = null;
             }
+            base.Dispose(disposing);
         }
 
         #endregion

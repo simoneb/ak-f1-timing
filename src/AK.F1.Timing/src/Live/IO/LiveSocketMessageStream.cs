@@ -93,6 +93,7 @@ namespace AK.F1.Timing.Live.IO
                 DisposeOf(this.PingTimer);
                 DisposeOf(this.BufferedStream);
             }
+            base.Dispose(disposing);
         }
 
         #endregion
