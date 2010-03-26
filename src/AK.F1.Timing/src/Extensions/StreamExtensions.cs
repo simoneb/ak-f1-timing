@@ -38,6 +38,22 @@ namespace AK.F1.Timing.Extensions
         /// <returns><see langword="true"/> if the specified number of bytes were read into
         /// <paramref name="buffer"/>, otherwise; <see langword="false"/> to indicate that the end
         /// of the stream was reached.</returns>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="buffer"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when
+        /// <list type="bullet">
+        /// <item>
+        /// <paramref name="offset"/> is negative or greater than the length
+        /// of <paramref name="buffer"/>
+        /// </item>
+        /// <item>
+        /// <paramref name="count"/> is negative or greater than the length of
+        /// <paramref name="buffer"/> given <paramref name="offset"/>.
+        /// </item>
+        /// </list>
+        /// </exception>
         public static bool FullyRead(this Stream stream, byte[] buffer, int offset, int count) {
 
             Guard.NotNull(stream, "stream");
