@@ -13,15 +13,33 @@
 // limitations under the License.
 
 using System;
+using System.Security.Authentication;
 using Xunit;
 
 using AK.F1.Timing.Live.Encryption;
 
 namespace AK.F1.Timing.Live.Encryption
 {
-
-
     public class LiveDecryptorFactoryTest
     {
+        [Fact]
+        public void ctor_throws_if_username_or_password_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => new LiveDecryptorFactory(null, "password"));
+            Assert.Throws<ArgumentNullException>(() => new LiveDecryptorFactory("username", null));
+        }
+
+        [Fact]
+        public void ctor_throws_if_username_or_password_is_empty() {
+
+            Assert.Throws<ArgumentException>(() => new LiveDecryptorFactory(string.Empty, "password"));
+            Assert.Throws<ArgumentException>(() => new LiveDecryptorFactory("username", string.Empty));
+        }
+
+        [Fact]
+        public void ctor_throws_if_credentials_have_been_rejected() {            
+
+            Assert.Throws<AuthenticationException>(() => new LiveDecryptorFactory(Guid.NewGuid().ToString(), "password"));
+        }
     }
 }
