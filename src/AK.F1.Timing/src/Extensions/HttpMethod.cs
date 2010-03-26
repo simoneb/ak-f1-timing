@@ -17,7 +17,7 @@ using System;
 namespace AK.F1.Timing.Extensions
 {
     /// <summary>
-    /// Defines the most basic of HTTP method.
+    /// Defines the most basic of HTTP methods.
     /// </summary>
     [Serializable]
     public enum HttpMethod
