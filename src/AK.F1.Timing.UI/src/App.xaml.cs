@@ -14,6 +14,8 @@
 
 using System;
 using System.Windows;
+using log4net;
+
 using AK.F1.Timing.UI.ViewModels;
 using AK.F1.Timing.UI.Views;
 
@@ -26,16 +28,25 @@ namespace AK.F1.Timing.UI
     {
         #region Private Impl.
 
+        private ILog _log = LogManager.GetLogger(typeof(App));
+
         static App() {
 
-            log4net.Config.XmlConfigurator.Configure();
+            log4net.Config.XmlConfigurator.Configure();            
         }
         
-        private void OnStartup(object sender, StartupEventArgs e) {            
+        private void OnStartup(object sender, StartupEventArgs e) {
+
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             new MainView() {
                 DataContext = new MainViewModel()
             }.Show();
+        }
+
+        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
+
+            _log.Error(e.ExceptionObject);
         }
 
         #endregion
