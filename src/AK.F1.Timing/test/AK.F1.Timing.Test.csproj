@@ -74,7 +74,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Serialization\DecoratedObjectReaderWriterTest.cs" />
     <Compile Include="TestBase.cs" />
-    <Compile Include="MockMessageReader.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Extensions\UriExtensionsTest.cs" />
     <Compile Include="Extensions\StringExtensionsTest.cs" />
@@ -99,7 +98,6 @@
     <Compile Include="Serialization\TypeIdAttributeTest.cs" />
     <Compile Include="MessageTest.cs" />
     <Compile Include="MessageReaderBaseTest.cs" />
-    <Compile Include="MessageVisitorTest.cs" />
     <Compile Include="Recording\RecordedMessageDelayEngineTest.cs" />
     <Compile Include="Recording\RecordedMessageReaderTest.cs" />
     <Compile Include="Recording\RecordingMessageReaderTest.cs" />
