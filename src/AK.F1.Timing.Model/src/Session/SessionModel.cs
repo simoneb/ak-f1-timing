@@ -56,7 +56,7 @@ namespace AK.F1.Timing.Model.Session
             this.Drivers = new SortableObservableCollection<DriverModel>((x, y) => {
                 return x.Position.CompareTo(y.Position);
             });
-            this.DriversById = new Dictionary<int, DriverModel>();
+            this.DriversById = new Dictionary<int, DriverModel>(25);
             this.Feed = new FeedModel();
             this.Grid = GridModelBase.Create(SessionType.None);
             this.FastestTimes = new FastestTimesModel();
