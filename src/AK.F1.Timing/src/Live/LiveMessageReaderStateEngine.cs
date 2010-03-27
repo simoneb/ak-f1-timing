@@ -56,9 +56,13 @@ namespace AK.F1.Timing.Live
         /// <param name="message">The message.</param>
         public override void Visit(SetPingIntervalMessage message) {
 
-            // I am not sure this the correct location for this logic, but the quicker we ping the
+            var interval = TimeSpan.FromMilliseconds(250d);
+            // I am not sure this the correct location for this logic but the quicker we ping the
             // message stream the quicker we get pushed the data.
-            _reader.MessageStream.PingInterval = TimeSpan.FromTicks(message.PingInterval.Ticks / 2);
+            if(message.PingInterval < interval) {
+                interval = message.PingInterval;
+            }
+            _reader.MessageStream.PingInterval = interval;
         }
 
         /// <summary>
