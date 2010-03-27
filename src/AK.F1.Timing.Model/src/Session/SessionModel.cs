@@ -56,7 +56,7 @@ namespace AK.F1.Timing.Model.Session
             this.Drivers = new SortableObservableCollection<DriverModel>((x, y) => {
                 return x.Position.CompareTo(y.Position);
             });
-            this.DriversById = new List<DriverModel>(25);
+            this.DriversById = new Dictionary<int, DriverModel>();
             this.Feed = new FeedModel();
             this.Grid = GridModelBase.Create(SessionType.None);
             this.FastestTimes = new FastestTimesModel();
@@ -106,19 +106,16 @@ namespace AK.F1.Timing.Model.Session
 
             Guard.InRange(id > 0, "id");
 
-            EnsureDriversByIdCount(id);
+            DriverModel driver;
 
-            int index = id - 1;
-            DriverModel driver = this.DriversById[index];
-
-            if(driver == null) {
+            if(!this.DriversById.TryGetValue(id, out driver)) {
                 driver = new DriverModel(id);
-                this.DriversById[index] = driver;
+                this.DriversById.Add(id, driver);
                 this.Drivers.Add(driver);
             }
 
             return driver;
-        }        
+        }
 
         /// <summary>
         /// Gets the collection of drivers participating in this session.
@@ -260,14 +257,7 @@ namespace AK.F1.Timing.Model.Session
             OnOneSecondElapsed();
         }
 
-        private void EnsureDriversByIdCount(int count) {
-
-            while(this.DriversById.Count < count) {
-                this.DriversById.Add(null);
-            }
-        } 
-
-        private List<DriverModel> DriversById { get; set; }
+        private IDictionary<int, DriverModel> DriversById { get; set; }
 
         #endregion
     }
