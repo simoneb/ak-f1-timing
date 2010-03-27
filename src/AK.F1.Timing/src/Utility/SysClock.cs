@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics;
 
 namespace AK.F1.Timing.Utility
 {
@@ -30,6 +31,15 @@ namespace AK.F1.Timing.Utility
         public static DateTime Now() {
 
             return DateTime.UtcNow;
+        }
+
+        /// <summary>
+        /// Gets the current tick count.
+        /// </summary>
+        /// <returns>The current tick count.</returns>
+        public static TimeSpan Ticks() {
+
+            return TimeSpan.FromTicks(Stopwatch.GetTimestamp());
         }
 
         #endregion
