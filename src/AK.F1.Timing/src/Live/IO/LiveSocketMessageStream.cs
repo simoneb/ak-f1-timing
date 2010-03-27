@@ -33,7 +33,7 @@ namespace AK.F1.Timing.Live.IO
 
         private TimeSpan _pingInterval = TimeSpan.Zero;
 
-        private static readonly byte[] PING_DATA = { 16 };
+        private static readonly byte[] PING_PACKET = { 16 };
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(LiveSocketMessageStream));
 
         #endregion        
@@ -47,11 +47,11 @@ namespace AK.F1.Timing.Live.IO
         /// </exception>
         public LiveSocketMessageStream(Socket socket) {
 
-            Guard.NotNull(socket, "socket");            
+            Guard.NotNull(socket, "socket");
 
             this.Socket = socket;
-            this.Socket.NoDelay = false;            
-            this.BufferedStream = new BufferedStream(new NetworkStream(socket, FileAccess.Read, true));
+            this.Socket.NoDelay = true;            
+            this.Input = new BufferedStream(new NetworkStream(socket, FileAccess.Read, true));
             this.PingTimer = new Timer(s => MaybePing());
         }
 
@@ -60,7 +60,7 @@ namespace AK.F1.Timing.Live.IO
 
             CheckDisposed();
 
-            if(!this.BufferedStream.FullyRead(buffer, offset, count)) {
+            if(!this.Input.FullyRead(buffer, offset, count)) {
                 return false;
             }
             this.LastRead = SysClock.Ticks();
@@ -89,7 +89,7 @@ namespace AK.F1.Timing.Live.IO
 
             if(disposing && !this.IsDisposed) {
                 DisposeOf(this.PingTimer);
-                DisposeOf(this.BufferedStream);
+                DisposeOf(this.Input);
             }
             base.Dispose(disposing);
         }
@@ -112,7 +112,7 @@ namespace AK.F1.Timing.Live.IO
 
             try {
                 if(SysClock.Ticks() - this.LastRead >= this.PingInterval) {                    
-                    this.Socket.Send(PING_DATA);                    
+                    this.Socket.Send(PING_PACKET);                    
                 }
             } catch(ObjectDisposedException) {
             } catch(IOException exc) {
@@ -122,7 +122,7 @@ namespace AK.F1.Timing.Live.IO
 
         private Socket Socket { get; set; }
 
-        private BufferedStream BufferedStream { get; set; }
+        private Stream Input { get; set; }
 
         private Timer PingTimer { get; set; }
 
