@@ -30,12 +30,11 @@ namespace AK.F1.Timing.Live.IO
     public class LiveMessageStreamEndpoint : IMessageStreamEndpoint
     {
         #region Private Fields.
-        
+
         private const int STREAM_PORT = 4321;
         private const string STREAM_HOST = "live-timing.formula1.com";
         private const string KEYFRAME_URL = "http://live-timing.formula1.com/keyframe";
         private const string KEYFRAME_EXT = ".bin";
-        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;
         private static readonly log4net.ILog _log =
             log4net.LogManager.GetLogger(typeof(LiveMessageStreamEndpoint));
 
@@ -51,15 +50,15 @@ namespace AK.F1.Timing.Live.IO
         /// <inheritdoc />
         public IMessageStream Open() {
 
-            IPEndPoint endpoint = ResolveStreamEndpoint();
-            Socket socket = CreateStreamSocket();
-            
-            _log.InfoFormat("connecting to {0}", endpoint);            
+            var endpoint = ResolveStreamEndpoint();
+            var socket = CreateStreamingSocket();
+
+            _log.InfoFormat("connecting: {0}", endpoint);
 
             try {
                 socket.Connect(endpoint);
                 _log.Info("connected");
-            } catch(SocketException exc) {                
+            } catch(SocketException exc) {
                 _log.ErrorFormat("unable to connect to {0}: {1}", endpoint, exc.Message);
                 ((IDisposable)socket).Dispose();
                 throw Guard.LiveMessageStreamEndpoint_FailedToOpenStream(exc);
@@ -74,12 +73,12 @@ namespace AK.F1.Timing.Live.IO
             Guard.InRange(keyframe >= 0, "keyframe");
 
             Stream stream;
-            Uri uri = BuildKeyframeUri(keyframe);
+            Uri keyframeUri = BuildKeyframeUri(keyframe);
 
-            _log.InfoFormat("opening keyframe: {0}", uri);
+            _log.InfoFormat("opening keyframe: {0}", keyframeUri);
             try {
-                stream = uri.GetResponseStream(HttpMethod.Get);
-                _log.InfoFormat("opened keyframe, length: {0}", stream.Length);
+                stream = keyframeUri.GetResponseStream(HttpMethod.Get);
+                _log.InfoFormat("opened keyframe, length: {0}bytes", stream.Length);
                 return new MessageStreamDelegate(stream);
             } catch(IOException exc) {
                 _log.Error(exc);
@@ -90,6 +89,11 @@ namespace AK.F1.Timing.Live.IO
         #endregion
 
         #region Private Impl.
+
+        private static Socket CreateStreamingSocket() {
+
+            return new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        }
 
         private static IPEndPoint ResolveStreamEndpoint() {
 
@@ -106,32 +110,19 @@ namespace AK.F1.Timing.Live.IO
             }
         }
 
-        private static Socket CreateStreamSocket() {
+        private static Uri BuildKeyframeUri(int keyframe) {
 
-            return new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp) {
-                NoDelay = false
-            };
-        }
-
-        private Uri BuildKeyframeUri(int keyframe) {
-
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             sb.Append(KEYFRAME_URL);
-            if(keyframe == 0) {
-                sb.Append(KEYFRAME_EXT);
-                if(this.ZeroKeyframeRequests > 0)
-                    sb.AppendFormat(INV_CULTURE, "?{0}", this.ZeroKeyframeRequests);
-                ++this.ZeroKeyframeRequests;
-            } else {
-                sb.Append("_").AppendFormat(INV_CULTURE, "{0:00000}", keyframe).Append(KEYFRAME_EXT);
-                this.ZeroKeyframeRequests = 0;
+            if(keyframe != 0) {
+                sb.Append("_");
+                sb.AppendFormat(CultureInfo.InvariantCulture, "{0:00000}", keyframe);
             }
+            sb.Append(KEYFRAME_EXT);
 
             return new Uri(sb.ToString(), UriKind.Absolute);
         }
-
-        private int ZeroKeyframeRequests { get; set; }
 
         #endregion
     }
