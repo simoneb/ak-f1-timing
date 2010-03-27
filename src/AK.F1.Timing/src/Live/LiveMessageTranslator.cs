@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Live
         /// </summary>
         public LiveMessageTranslator() {
 
-            this.Drivers = new List<LiveDriver>(25);
+            this.Drivers = new Dictionary<int, LiveDriver>(25);
             this.SessionType = SessionType.None;
             this.StateEngine = new LiveMessageTranslatorStateEngine(this);            
         }
@@ -64,7 +64,7 @@ namespace AK.F1.Timing.Live
             
             this.RaceLapNumber = 0;
             this.SessionType = SessionType.None;
-            foreach(var driver in this.Drivers) {
+            foreach(var driver in this.Drivers.Values) {
                 driver.Reset();
             }
         }
@@ -116,13 +116,16 @@ namespace AK.F1.Timing.Live
         /// </summary>
         /// <param name="message">The driver related message.</param>
         /// <returns>The driver that the specified message related to.</returns>
-        internal LiveDriver GetDriver(DriverMessageBase message) {            
+        internal LiveDriver GetDriver(DriverMessageBase message) {
 
-            while(this.Drivers.Count < message.DriverId) {
-                this.Drivers.Add(new LiveDriver(message.DriverId));
+            LiveDriver driver;
+
+            if(!this.Drivers.TryGetValue(message.DriverId, out driver)) {
+                driver = new LiveDriver(message.DriverId);
+                this.Drivers.Add(message.DriverId, driver);
             }
-            
-            return this.Drivers[message.DriverId - 1];
+
+            return driver;
         }
 
         /// <summary>
@@ -500,9 +503,9 @@ namespace AK.F1.Timing.Live
 
         private Message Translated { get; set; }
 
-        private LiveMessageTranslatorStateEngine StateEngine { get; set; }
+        private IMessageProcessor StateEngine { get; set; }
 
-        private IList<LiveDriver> Drivers { get; set; }
+        private IDictionary<int, LiveDriver> Drivers { get; set; }
 
         #endregion
     }

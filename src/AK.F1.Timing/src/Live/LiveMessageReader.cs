@@ -554,7 +554,7 @@ namespace AK.F1.Timing.Live
 
         private IMessageStreamEndpoint MessageStreamEndpoint { get; set; }        
 
-        private LiveMessageReaderStateEngine StateEngine { get; set; }
+        private IMessageProcessor StateEngine { get; set; }
 
         private LiveMessageTranslator MessageTranslator { get; set; }
 
