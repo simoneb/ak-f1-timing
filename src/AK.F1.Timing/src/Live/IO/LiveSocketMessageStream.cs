@@ -23,18 +23,17 @@ using AK.F1.Timing.Utility;
 namespace AK.F1.Timing.Live.IO
 {
     /// <summary>
-    /// 
+    /// A <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> implementation which
+    /// delegates to an underlying <see cref="System.Net.Sockets.Socket"/>. This implementation
+    /// supports pinging. This class cannot be inherited.
     /// </summary>
     public sealed class LiveSocketMessageStream : Disposable, IMessageStream
     {
         #region Private Fields.
 
-        private TimeSpan _pingInterval = DEFAULT_PING_INTERVAL;
+        private TimeSpan _pingInterval = TimeSpan.Zero;
 
-        private const int BUFFER_SIZE = 256;
-        private static readonly byte[] MAGIC_PING_PACKET = { 16 };        
-        private static readonly TimeSpan DEFAULT_PING_INTERVAL = TimeSpan.FromSeconds(1);
-
+        private static readonly byte[] PING_DATA = { 16 };
         private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(LiveSocketMessageStream));
 
         #endregion        
@@ -51,8 +50,8 @@ namespace AK.F1.Timing.Live.IO
             Guard.NotNull(socket, "socket");            
 
             this.Socket = socket;
-            this.BufferedStream = new BufferedStream(
-                new NetworkStream(socket, FileAccess.Read, true), BUFFER_SIZE);
+            this.Socket.NoDelay = false;            
+            this.BufferedStream = new BufferedStream(new NetworkStream(socket, FileAccess.Read, true));
             this.PingTimer = new Timer(s => MaybePing());
         }
 
@@ -64,7 +63,7 @@ namespace AK.F1.Timing.Live.IO
             if(!this.BufferedStream.FullyRead(buffer, offset, count)) {
                 return false;
             }
-            this.LastRead = SysClock.Now();
+            this.LastRead = SysClock.Ticks();
             return true;
         }
 
@@ -109,11 +108,11 @@ namespace AK.F1.Timing.Live.IO
             _log.InfoFormat("ping interval set: {0}", this.PingInterval);
         }
 
-        private void MaybePing() {
+        private void MaybePing() {            
 
             try {
-                if(SysClock.Now() - this.LastRead >= this.PingInterval) {                    
-                    this.Socket.Send(MAGIC_PING_PACKET);                    
+                if(SysClock.Ticks() - this.LastRead >= this.PingInterval) {                    
+                    this.Socket.Send(PING_DATA);                    
                 }
             } catch(ObjectDisposedException) {
             } catch(IOException exc) {
@@ -127,7 +126,7 @@ namespace AK.F1.Timing.Live.IO
 
         private Timer PingTimer { get; set; }
 
-        private DateTime LastRead { get; set; }
+        private TimeSpan LastRead { get; set; }
 
         #endregion
     }
