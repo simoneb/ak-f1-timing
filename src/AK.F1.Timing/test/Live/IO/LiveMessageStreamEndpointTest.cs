@@ -48,7 +48,17 @@ namespace AK.F1.Timing.Live.IO
 
             using(var stream = endpoint.OpenKeyframe(0)) {                
                 Assert.NotNull(stream);
-            }            
+            }
+        }
+
+        [Fact]
+        public void can_open_first_keyframe() {
+
+            var endpoint = new LiveMessageStreamEndpoint();
+
+            using(var stream = endpoint.OpenKeyframe(1)) {
+                Assert.NotNull(stream);
+            }
         }
 
         [Fact]
