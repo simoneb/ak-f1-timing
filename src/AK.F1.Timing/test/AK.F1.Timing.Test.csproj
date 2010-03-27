@@ -83,7 +83,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="F1TimingTest.cs" />
     <Compile Include="Serialization\ObjectTypeCodeTest.cs" />
-    <Compile Include="Serialization\SerializationTestBase.cs" />
     <Compile Include="Utility\DisposableTest.cs" />
     <Compile Include="Utility\DisposableCallbackTest.cs" />
     <Compile Include="Utility\HashCodeBuilderTest.cs" />
