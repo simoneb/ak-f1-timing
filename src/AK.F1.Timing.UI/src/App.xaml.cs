@@ -16,7 +16,6 @@ using System;
 using Caliburn.PresentationFramework.ApplicationModel;
 
 using AK.F1.Timing.UI.Presenters;
-using AK.F1.Timing.UI.Views;
 
 namespace AK.F1.Timing.UI
 {
