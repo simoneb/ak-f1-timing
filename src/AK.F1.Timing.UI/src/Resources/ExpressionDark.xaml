@@ -1580,7 +1580,7 @@
         <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}"/>
         <Setter Property="BorderBrush" Value="#FF000000"/>
     </Style>
-    <Style TargetType="{x:Type PasswordBox}">
+    <Style TargetType="{x:Type PasswordBox}" x:Key="PasswordBoxStyle">
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="AllowDrop" Value="true" />
