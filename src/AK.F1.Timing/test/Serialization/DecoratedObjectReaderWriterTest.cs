@@ -27,61 +27,90 @@ namespace AK.F1.Timing.Serialization
     {
         [Theory]
         [ClassData(typeof(PrimitiveDataProvider))]
-        public void can_write_and_read_primitives(object primitive) {
+        public void can_round_trip_primitives(object primitive) {
 
-            WriteAndRead(primitive);
+            RoundTripAndAssertEqual(primitive);
         }
 
         [Fact]
-        public void can_write_and_read_multiple_primitives() {
+        public void can_read_and_write_null() {
 
-            object[] graphs = new PrimitiveDataProvider().Select(x => x[0]).ToArray();
+            Assert.Null(RoundTrip((object)null));
+        }
 
-            using(var stream = new MemoryStream()) {
-                WriteGraphs(stream, graphs);
-                stream.Position = 0L;
-                using(var reader = new DecoratedObjectReader(stream)) {
-                    foreach(var graph in graphs) {
-                        Assert.Equal(graph, reader.Read());
-                    }
-                }
-            }
+        [Fact]
+        public void can_round_trip_multiple_primitives() {
+
+            RoundTripAndAssertEqual(PrimitiveDataProvider.GetData());
         }
 
         [Theory]
         [ClassData(typeof(ComplexDataProvider))]
-        public void can_write_and_read_complex_types(object complex) {
+        public void can_round_trip_complex_types(object complex) {
 
-            WriteAndRead(complex);
+            RoundTripAndAssertEqual(complex);
+        }
+
+        [Fact]
+        public void can_round_trip_multiple_complex_types() {
+
+            RoundTripAndAssertEqual(ComplexDataProvider.GetData());
+        }
+
+        [Fact]
+        public void can_round_trip_interleaved_complex_and_primitive_types() {
+
+            var graphs = new List<object>();            
+
+            foreach(var primtive in PrimitiveDataProvider.GetData()) {
+                foreach(var complex in ComplexDataProvider.GetData()) {
+                    graphs.Add(primtive);
+                    graphs.Add(complex);
+                }
+            }
+
+            RoundTripAndAssertEqual(graphs);
+        }
+
+        [Fact]
+        public void ignored_properties_are_not_serialized() {
+
+            var expected = new TypeWithIgnoredProperty { IgnoredProperty = "Ignored" };
+            var actual = RoundTrip(expected);
+
+            Assert.Null(actual.IgnoredProperty);
         }
 
         [Fact]
         public void graphs_which_implement_object_reference_are_respected() {
 
-            Assert.Same(ObjectReference.Instance, WriteAndRead(ObjectReference.Instance));
+            Assert.Same(ObjectReference.Instance, RoundTrip(ObjectReference.Instance));
         }
 
-        private static void WriteGraphs(Stream stream, params object[] graphs) {
+        public void RoundTripAndAssertEqual(IEnumerable<object> graphs) {
 
-            using(var writer = new DecoratedObjectWriter(stream)) {
-                foreach(var graph in graphs) {
-                    writer.Write(graph);
-                }
-            }
-        }
-
-        private static object WriteAndRead(object graph) {
-
-            object actual;
+            var graphsCopy = graphs.ToArray();
 
             using(var stream = new MemoryStream()) {
-                WriteGraphs(stream, graph);
-                Assert.NotEqual(0L, stream.Position);
+                using(var writer = new DecoratedObjectWriter(stream)) {
+                    foreach(var graph in graphsCopy) {
+                        writer.Write(graph);
+                    }
+                }
                 stream.Position = 0L;
                 using(var reader = new DecoratedObjectReader(stream)) {
-                    actual = reader.Read();
+                    foreach(var graph in graphsCopy) {
+                        var actual = reader.Read();
+                        Assert.IsType(graph.GetType(), actual);
+                        Assert.Equal(graph, actual);
+                    }
                 }
             }
+        }
+
+        private static void RoundTripAndAssertEqual(object graph) {
+
+            object actual = RoundTrip(graph);
 
             if(graph == null) {
                 Assert.Null(actual);
@@ -89,8 +118,27 @@ namespace AK.F1.Timing.Serialization
                 Assert.IsType(graph.GetType(), actual);
                 Assert.Equal(graph, actual);
             }
+        }
 
-            return actual;
+        private static T RoundTrip<T>(T graph) {
+
+            object actual;
+
+            using(var stream = new MemoryStream()) {
+                using(var writer = new DecoratedObjectWriter(stream)) {
+                    writer.Write(graph);
+                }
+                stream.Position = 0L;
+                using(var reader = new DecoratedObjectReader(stream)) {
+                    actual = reader.Read();
+                }
+            }
+
+            if(graph != null) {
+                Assert.IsType(graph.GetType(), actual);
+            }
+
+            return (T)actual;
         }
 
         public class ComplexDataProvider : IEnumerable<object[]>
@@ -104,6 +152,11 @@ namespace AK.F1.Timing.Serialization
                     EmptyType = new EmptyType(),
                     TypeWithPrivateCtor = TypeWithPrivateCtor.New()
                 });
+            }
+
+            public static IEnumerable<object> GetData() {
+
+                return new ComplexDataProvider().Select(x => x[0]);
             }
 
             private static object[] A(object value) {
@@ -170,14 +223,29 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
+        [TypeId(36551276)]
+        public class TypeWithIgnoredProperty
+        {
+            [IgnoreProperty]
+            public string IgnoredProperty { get; set; }
+
+            public override bool Equals(object obj) {
+
+                throw new NotImplementedException();
+            }
+
+            public override int GetHashCode() {
+
+                throw new NotImplementedException();
+            }
+        }
+
         public class PrimitiveDataProvider : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator() {
 
-                // Empty
-                yield return A(null);
                 // String
-                yield return A("s");                
+                yield return A("s");
                 // Boolean
                 yield return A(true);
                 yield return A(false);
@@ -247,6 +315,46 @@ namespace AK.F1.Timing.Serialization
                 yield return A(DateTime.Now);
                 yield return A(DateTime.MinValue);
                 yield return A(DateTime.MaxValue);
+
+                yield break;
+
+                // ByteEnum
+                yield return A(ByteEnum.Default);
+                yield return A(ByteEnum.Min);
+                yield return A(ByteEnum.Max);
+                // SByteEnum
+                yield return A(SByteEnum.Default);
+                yield return A(SByteEnum.Min);
+                yield return A(SByteEnum.Max);
+                // Int16Enum
+                yield return A(Int16Enum.Default);
+                yield return A(Int16Enum.Min);
+                yield return A(Int16Enum.Max);
+                // UInt16Enum
+                yield return A(UInt16Enum.Default);
+                yield return A(UInt16Enum.Min);
+                yield return A(UInt16Enum.Max);
+                // Int32Enum
+                yield return A(Int32Enum.Default);
+                yield return A(Int32Enum.Min);
+                yield return A(Int32Enum.Max);
+                // UInt32Enum
+                yield return A(UInt32Enum.Default);
+                yield return A(UInt32Enum.Min);
+                yield return A(UInt32Enum.Max);
+                // Int64Enum
+                yield return A(Int64Enum.Default);
+                yield return A(Int64Enum.Min);
+                yield return A(Int64Enum.Max);
+                // UInt64Enum
+                yield return A(UInt64Enum.Default);
+                yield return A(UInt64Enum.Min);
+                yield return A(UInt64Enum.Max);
+            }
+
+            public static IEnumerable<object> GetData() {
+
+                return new PrimitiveDataProvider().Select(x => x[0]);
             }
 
             private static object[] A(object value) {
@@ -257,6 +365,62 @@ namespace AK.F1.Timing.Serialization
             IEnumerator IEnumerable.GetEnumerator() {
                 throw new NotImplementedException();
             }
+        }
+
+        private enum ByteEnum : byte
+        {
+            Default = 0,
+            Min = Byte.MinValue,
+            Max = Byte.MaxValue
+        }
+
+        private enum SByteEnum : sbyte
+        {
+            Default = 0,
+            Min = SByte.MinValue,
+            Max = SByte.MaxValue
+        }
+
+        private enum Int16Enum : short
+        {
+            Default = 0,
+            Min = Int16.MinValue,
+            Max = Int16.MaxValue
+        }
+
+        private enum UInt16Enum : ushort
+        {
+            Default = 0,
+            Min = UInt16.MinValue,
+            Max = UInt16.MaxValue
+        }
+
+        private enum Int32Enum : int
+        {
+            Default = 0,
+            Min = Int32.MinValue,
+            Max = Int32.MaxValue
+        }
+
+        private enum UInt32Enum : uint
+        {
+            Default = 0,
+            Min = UInt32.MinValue,
+            Max = UInt32.MaxValue
+        }
+
+        private enum Int64Enum : long
+        {
+            Default = 0,
+            Min = Int64.MinValue,
+            Max = Int64.MaxValue
+        }
+
+        private enum UInt64Enum : ulong
+        {
+            Default = 0,
+            Min = UInt64.MinValue,
+            Max = UInt64.MaxValue
         }
 
         [TypeId(123456789)]
