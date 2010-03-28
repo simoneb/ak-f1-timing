@@ -1,0 +1,19 @@
+<Window
+    x:Class="AK.F1.Timing.UI.Views.ShellView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    xmlns:cal="http://www.caliburnproject.org"
+    Title="F1-Timing"
+    Background="{StaticResource ControlBackgroundBrush}"
+    WindowStartupLocation="CenterScreen"
+    Height="450"
+    Width="600">
+    <StackPanel>
+        <Menu HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Exit" x:Name="Exit"/>
+            </MenuItem>
+        </Menu>
+        <ContentControl x:Name="CurrentPresenter" />
+    </StackPanel>
+</Window>

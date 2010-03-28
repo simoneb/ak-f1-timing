@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+﻿// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,13 +13,14 @@
 // limitations under the License.
 
 using System;
+using Caliburn.PresentationFramework.ApplicationModel;
 
-using AK.F1.Timing.Model;
-
-namespace AK.F1.Timing.UI.ViewModels
+namespace AK.F1.Timing.UI.Presenters
 {
     /// <summary>
-    /// Defines the base class for view models. This class is <see langword="abstract"/>.
+    /// 
     /// </summary>
-    public abstract class ViewModelBase : ModelBase { }
+    public interface ISettingsPresenter : IPresenter
+    {       
+    }
 }

@@ -13,10 +13,9 @@
 // limitations under the License.
 
 using System;
-using System.Windows;
-using log4net;
+using Caliburn.PresentationFramework.ApplicationModel;
 
-using AK.F1.Timing.UI.ViewModels;
+using AK.F1.Timing.UI.Presenters;
 using AK.F1.Timing.UI.Views;
 
 namespace AK.F1.Timing.UI
@@ -24,28 +23,53 @@ namespace AK.F1.Timing.UI
     /// <summary>
     /// The application entry point.
     /// </summary>
-    public partial class App : Application
+    public partial class App : CaliburnApplication
     {
-        #region Private Impl.
+        #region Fields.
 
-        private ILog _log = LogManager.GetLogger(typeof(App));
+        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(App));
+
+        #endregion
+
+        #region Public Interface.
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="App"/> class.
+        /// </summary>
+        public App() {
+
+            InitializeComponent();
+        }
+
+        #endregion
+
+        #region Protected Interface.
+
+        /// <inheritdoc/>        
+        protected override object CreateRootModel() {
+
+            var binder = (DefaultBinder)this.Container.GetInstance<IBinder>();
+
+            binder.EnableMessageConventions();
+            binder.EnableBindingConventions();
+
+            return this.Container.GetInstance<IShellPresenter>();
+        }
+
+        #endregion
+
+        #region Private Impl.        
 
         static App() {
 
-            log4net.Config.XmlConfigurator.Configure();            
-        }
-        
-        private void OnStartup(object sender, StartupEventArgs e) {
+            log4net.Config.XmlConfigurator.Configure();
 
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
-            new MainView() {
-                DataContext = new MainViewModel()
-            }.Show();
+            AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
-        private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
+        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e) {
 
+            // TODO create an exception presenter.
             _log.Error(e.ExceptionObject);
         }
 

@@ -1,0 +1,40 @@
+<UserControl
+    x:Class="AK.F1.Timing.UI.Views.SettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"    
+    HorizontalAlignment="Center">
+    <Grid x:Name="LayoutRoot" Width="250">        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock
+            Text="Email"/>
+        <TextBox
+            Text="{Binding Email, Mode=TwoWay}"
+            Grid.Column="1"/>
+        <TextBlock
+            Text="Password"
+            Grid.Row="1"/>
+        <PasswordBox
+            Grid.Column="1"
+            Grid.Row="1"/>
+        <StackPanel
+            Orientation="Horizontal"
+            HorizontalAlignment="Right"
+            Grid.Row="2"
+            Grid.ColumnSpan="2">
+            <Button
+                Content="Save" 
+                x:Name="Save"/>
+            <Button
+                Content="Cancel" 
+                x:Name="Cancel"/>
+        </StackPanel>        
+    </Grid>
+</UserControl>
