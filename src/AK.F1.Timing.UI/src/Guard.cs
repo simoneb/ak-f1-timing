@@ -25,7 +25,7 @@ namespace AK.F1.Timing.UI
         #region Internal Interface.
 
         [DebuggerStepThrough]
-        internal static void NotNull<T>(T instance, string paramName) where T: class {
+        internal static void NotNull<T>(T instance, string paramName) {
 
             if(instance == null) {
                 throw new ArgumentNullException(paramName);
