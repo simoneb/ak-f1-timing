@@ -119,8 +119,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Commands\DelegateCommand.cs" />
-    <Compile Include="Commands\CommandReference.cs" />
     <Compile Include="Controls\DoubleCollectionModelControl.cs" />
     <Compile Include="Controls\PostedTimeCollectionModelControl.cs" />
     <Compile Include="Controls\TimingGrid.cs" />
