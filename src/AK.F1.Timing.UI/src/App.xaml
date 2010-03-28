@@ -1,8 +1,8 @@
-﻿<cal:CaliburnApplication
+﻿<Caliburn:CaliburnApplication
     x:Class="AK.F1.Timing.UI.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:cal="http://www.caliburnproject.org">
+    xmlns:Caliburn="http://www.caliburnproject.org">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,4 +11,4 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
-</cal:CaliburnApplication>
+</Caliburn:CaliburnApplication>

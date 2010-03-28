@@ -1,19 +1,19 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:converters="clr-namespace:AK.F1.Timing.UI.Converters">
+    xmlns:Converters="clr-namespace:AK.F1.Timing.UI.Converters">
     
-    <converters:DriverStatusConverter x:Key="DriverStatusConverter"/>
-    <converters:GridColumnColourConverter x:Key="GridColumnColourConverter"/>
-    <converters:LapTimeConverter x:Key="LapTimeConverter"/>
-    <converters:LapTimeDeltaConverter x:Key="LapTimeDeltaConverter"/>
-    <converters:SectorTimeConverter x:Key="SectorTimeConverter"/>
-    <converters:SectorTimeDeltaConverter x:Key="SectorTimeDeltaConverter"/>
-    <converters:LapNumberConverter x:Key="LapNumberConverter"/>
-    <converters:PositionConverter x:Key="PositionConverter"/>
-    <converters:PostedTimeTypeToColourConverter x:Key="PostedTimeTypeToColourConverter"/>
-    <converters:SessionStatusConverter x:Key="SessionStatusConverter"/>
-    <converters:SessionStatusToColourConverter x:Key="SessionStatusToColourConverter"/>    
+    <Converters:DriverStatusConverter x:Key="DriverStatusConverter"/>
+    <Converters:GridColumnColourConverter x:Key="GridColumnColourConverter"/>
+    <Converters:LapTimeConverter x:Key="LapTimeConverter"/>
+    <Converters:LapTimeDeltaConverter x:Key="LapTimeDeltaConverter"/>
+    <Converters:SectorTimeConverter x:Key="SectorTimeConverter"/>
+    <Converters:SectorTimeDeltaConverter x:Key="SectorTimeDeltaConverter"/>
+    <Converters:LapNumberConverter x:Key="LapNumberConverter"/>
+    <Converters:PositionConverter x:Key="PositionConverter"/>
+    <Converters:PostedTimeTypeToColourConverter x:Key="PostedTimeTypeToColourConverter"/>
+    <Converters:SessionStatusConverter x:Key="SessionStatusConverter"/>
+    <Converters:SessionStatusToColourConverter x:Key="SessionStatusToColourConverter"/>    
 
     <Style BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
         <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
