@@ -21,7 +21,7 @@ using Microsoft.Practices.ServiceLocation;
 namespace AK.F1.Timing.UI.Presenters
 {
     /// <summary>
-    /// Defines the main view model.
+    /// The <see cref="AK.F1.Timing.UI.Presenters.IShellPresenter"/>.
     /// </summary>
     [Singleton(typeof(IShellPresenter))]
     public class ShellPresenter : PresenterManager, IShellPresenter
@@ -50,9 +50,7 @@ namespace AK.F1.Timing.UI.Presenters
             _serviceLocator = serviceLocator;
         }
 
-        /// <summary>
-        /// Exits the application.
-        /// </summary>
+        /// <inheritdoc/>
         public void Exit() {
 
             Application.Current.Shutdown();
@@ -74,11 +72,11 @@ namespace AK.F1.Timing.UI.Presenters
         }
 
         /// <summary>
-        /// Opens the <see cref="AK.F1.Timing.UI.Presenters.ISettingsPresenter"/>
+        /// Opens the <see cref="AK.F1.Timing.UI.Presenters.IHomePresenter"/>
         /// </summary>
-        public void OpenSettings() {
+        public void OpenHome() {
 
-            Open<ISettingsPresenter>();
+            Open<IHomePresenter>();
         }
 
         /// <inheritdoc/>
@@ -100,7 +98,7 @@ namespace AK.F1.Timing.UI.Presenters
 
             base.OnActivate();
 
-            OpenSettings();
+            OpenHome();
         }
 
         #endregion

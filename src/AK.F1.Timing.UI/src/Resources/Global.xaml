@@ -4,6 +4,8 @@
     xmlns:Controls="clr-namespace:AK.F1.Timing.UI.Controls"
     xmlns:Converters="clr-namespace:AK.F1.Timing.UI.Converters">
 
+    <Converters:CollapsedWhenNullConverter x:Key="CollapsedWhenNullConverter"/>
+
     <Style BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
         <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
     </Style>
@@ -35,7 +37,7 @@
         <Setter Property="BorderBrush" Value="{StaticResource NormalBrush}"/>
     </Style>
 
-    <Converters:PostedTimeTypeToColourConverter x:Key="PostedTimeTypeToColourConverter"/>
+    <Converters:PostedTimeTypeToColourConverter x:Key="PostedTimeTypeToColourConverter"/>    
 
     <Style TargetType="{x:Type Controls:DoubleCollectionModelControl}">
         <Setter Property="Template">

@@ -59,6 +59,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
     <Reference Include="UIAutomationProvider">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
@@ -89,7 +91,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\SettingsView.xaml">
+    <Page Include="Views\F1Logo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoadScreenView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\HomeView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -115,6 +125,7 @@
     <Compile Include="Controls\DoubleCollectionModelControl.cs" />
     <Compile Include="Controls\PostedTimeCollectionModelControl.cs" />
     <Compile Include="Controls\TimingGrid.cs" />
+    <Compile Include="Converters\CollapsedWhenNullConverter.cs" />
     <Compile Include="Converters\DriverStatusConverter.cs" />
     <Compile Include="Converters\SessionStatusConverter.cs" />
     <Compile Include="Converters\LapTimeDeltaConverter.cs" />
@@ -126,9 +137,12 @@
     <Compile Include="Converters\SectorTimeConverter.cs" />
     <Compile Include="Converters\PostedTimeTypeToColourConverter.cs" />
     <Compile Include="Converters\GridColumnColourConverter.cs" />
-    <Compile Include="Presenters\Impl\SettingsPresenter.cs" />
+    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Presenters\ILoadScreenPresenter.cs" />
+    <Compile Include="Presenters\Impl\LoadScreenPresenter.cs" />
+    <Compile Include="Presenters\Impl\HomePresenter.cs" />
     <Compile Include="Presenters\Impl\SessionPresenter.cs" />
-    <Compile Include="Presenters\ISettingsPresenter.cs" />
+    <Compile Include="Presenters\IHomePresenter.cs" />
     <Compile Include="Presenters\IShellPresenter.cs" />
     <Compile Include="Utility\Format.cs" />
     <Compile Include="Guard.cs" />
@@ -137,8 +151,14 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\SettingsView.xaml.cs">
-      <DependentUpon>SettingsView.xaml</DependentUpon>
+    <Compile Include="Views\F1Logo.xaml.cs">
+      <DependentUpon>F1Logo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoadScreenView.xaml.cs">
+      <DependentUpon>LoadScreenView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HomeView.xaml.cs">
+      <DependentUpon>HomeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>

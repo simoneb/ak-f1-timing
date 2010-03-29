@@ -23,6 +23,11 @@ namespace AK.F1.Timing.UI.Presenters
     public interface IShellPresenter : IPresenterManager
     {
         /// <summary>
+        /// Exits the application.
+        /// </summary>
+        void Exit();
+
+        /// <summary>
         /// Opens the <see cref="Caliburn.PresentationFramework.ApplicationModel.IPresenter"/>
         /// of the given type <typeparamref name="T"/>.
         /// </summary>
