@@ -15,16 +15,15 @@
 using System;
 using Caliburn.PresentationFramework.ApplicationModel;
 
+using AK.F1.Timing.Model.Session;
+
 namespace AK.F1.Timing.UI.Presenters
 {
     /// <summary>
-    /// The <see cref="AK.F1.Timing.UI.Presenters.IHomePresenter"/>.
+    /// The 
     /// </summary>
-    public interface IHomePresenter : IPresenter
+    public interface ISessionPresenter : IPresenter
     {
-        /// <summary>
-        /// Gets or sets the user live-timing password.
-        /// </summary>
-        string Password { get; set; }
+        SessionModel Session { get; set; } 
     }
 }

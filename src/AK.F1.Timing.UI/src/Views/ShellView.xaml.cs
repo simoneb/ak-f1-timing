@@ -50,6 +50,11 @@ namespace AK.F1.Timing.UI.Views
             }
         }
 
+        private void Border_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+
+            DragMove();
+        }
+
         #endregion
     }
 }

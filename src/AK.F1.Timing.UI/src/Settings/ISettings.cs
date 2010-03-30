@@ -13,10 +13,16 @@
 // limitations under the License.
 
 using System;
+using System.ComponentModel;
 
-namespace AK.F1.Timing.UI.Models
+namespace AK.F1.Timing.UI.Settings
 {
-    public class LoginModel
+    public interface ISettings : INotifyPropertyChanged
     {
+        string Email { get; set; }
+
+        string Password { get; set; }
+
+        void Save();
     }
 }

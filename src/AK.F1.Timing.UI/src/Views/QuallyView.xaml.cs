@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+﻿// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,18 +13,26 @@
 // limitations under the License.
 
 using System;
-using Caliburn.PresentationFramework.ApplicationModel;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace AK.F1.Timing.UI.Presenters
+namespace AK.F1.Timing.UI.Views
 {
     /// <summary>
-    /// The <see cref="AK.F1.Timing.UI.Presenters.IHomePresenter"/>.
+    /// The main view window.
     /// </summary>
-    public interface IHomePresenter : IPresenter
+    public partial class QuallyView : UserControl
     {
+        #region Public Interface.
+
         /// <summary>
-        /// Gets or sets the user live-timing password.
+        /// Initialises a new instance of the <see cref="QuallyView"/> class.
         /// </summary>
-        string Password { get; set; }
+        public QuallyView() {
+
+            InitializeComponent();
+        }
+
+        #endregion
     }
 }

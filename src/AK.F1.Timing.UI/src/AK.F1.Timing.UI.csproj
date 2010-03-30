@@ -87,9 +87,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Global.xaml">
+    <Page Include="Resources\Common.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Manifest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\F1Logo.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -107,7 +111,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\QuallyMainView.xaml">
+    <Page Include="Views\QuallyView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -125,6 +129,7 @@
     <Compile Include="Controls\DoubleCollectionModelControl.cs" />
     <Compile Include="Controls\PostedTimeCollectionModelControl.cs" />
     <Compile Include="Controls\TimingGrid.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\CollapsedWhenNullConverter.cs" />
     <Compile Include="Converters\DriverStatusConverter.cs" />
     <Compile Include="Converters\SessionStatusConverter.cs" />
@@ -137,13 +142,17 @@
     <Compile Include="Converters\SectorTimeConverter.cs" />
     <Compile Include="Converters\PostedTimeTypeToColourConverter.cs" />
     <Compile Include="Converters\GridColumnColourConverter.cs" />
-    <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Presenters\Impl\SessionPresenter.cs" />
+    <Compile Include="Presenters\ISessionPresenter.cs" />
     <Compile Include="Presenters\ILoadScreenPresenter.cs" />
     <Compile Include="Presenters\Impl\LoadScreenPresenter.cs" />
     <Compile Include="Presenters\Impl\HomePresenter.cs" />
-    <Compile Include="Presenters\Impl\SessionPresenter.cs" />
     <Compile Include="Presenters\IHomePresenter.cs" />
     <Compile Include="Presenters\IShellPresenter.cs" />
+    <Compile Include="Actions\WatchSessionAction.cs" />
+    <Compile Include="Actions\LoginAction.cs" />
+    <Compile Include="Settings\IsolatedStorageSettings.cs" />
+    <Compile Include="Settings\ISettings.cs" />
     <Compile Include="Utility\Format.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -163,8 +172,8 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuallyMainView.xaml.cs">
-      <DependentUpon>QuallyMainView.xaml</DependentUpon>
+    <Compile Include="Views\QuallyView.xaml.cs">
+      <DependentUpon>QuallyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -225,7 +234,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
