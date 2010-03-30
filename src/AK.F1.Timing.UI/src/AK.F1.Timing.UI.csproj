@@ -83,15 +83,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Resources\ExpressionDark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Resources\Common.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Manifest.xaml">
+    <Page Include="Resources\ExpressionDark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Global.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FastestTimes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SessionStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -111,13 +119,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\QuallyView.xaml">
+    <Page Include="Views\QuallyMainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MainView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\TimingGrid.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
@@ -126,10 +138,14 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Actions\LoginAction.cs" />
+    <Compile Include="Actions\WatchSessionAction.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Settings\ISettings.cs" />
+    <Compile Include="Settings\IsolatedStorageSettings.cs" />
     <Compile Include="Controls\DoubleCollectionModelControl.cs" />
     <Compile Include="Controls\PostedTimeCollectionModelControl.cs" />
     <Compile Include="Controls\TimingGrid.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\CollapsedWhenNullConverter.cs" />
     <Compile Include="Converters\DriverStatusConverter.cs" />
     <Compile Include="Converters\SessionStatusConverter.cs" />
@@ -142,23 +158,25 @@
     <Compile Include="Converters\SectorTimeConverter.cs" />
     <Compile Include="Converters\PostedTimeTypeToColourConverter.cs" />
     <Compile Include="Converters\GridColumnColourConverter.cs" />
-    <Compile Include="Presenters\Impl\SessionPresenter.cs" />
-    <Compile Include="Presenters\ISessionPresenter.cs" />
     <Compile Include="Presenters\ILoadScreenPresenter.cs" />
     <Compile Include="Presenters\Impl\LoadScreenPresenter.cs" />
     <Compile Include="Presenters\Impl\HomePresenter.cs" />
+    <Compile Include="Presenters\Impl\SessionPresenter.cs" />
     <Compile Include="Presenters\IHomePresenter.cs" />
+    <Compile Include="Presenters\ISessionPresenter.cs" />
     <Compile Include="Presenters\IShellPresenter.cs" />
-    <Compile Include="Actions\WatchSessionAction.cs" />
-    <Compile Include="Actions\LoginAction.cs" />
-    <Compile Include="Settings\IsolatedStorageSettings.cs" />
-    <Compile Include="Settings\ISettings.cs" />
     <Compile Include="Utility\Format.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Resource.Designer.cs">
       <DependentUpon>Resource.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Views\FastestTimes.xaml.cs">
+      <DependentUpon>FastestTimes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SessionStatus.xaml.cs">
+      <DependentUpon>SessionStatus.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\F1Logo.xaml.cs">
       <DependentUpon>F1Logo.xaml</DependentUpon>
@@ -172,8 +190,8 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuallyView.xaml.cs">
-      <DependentUpon>QuallyView.xaml</DependentUpon>
+    <Compile Include="Views\QuallyMainView.xaml.cs">
+      <DependentUpon>QuallyMainView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -192,6 +210,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Views\TimingGrid.xaml.cs">
+      <DependentUpon>TimingGrid.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -21,11 +21,19 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="LoginButtonStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+            <Setter Property="Margin" Value="0,2,2,0"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding CanLogin}" Value="False">
                     <Setter Property="Button.IsEnabled" Value="False"/>
                 </DataTrigger>
             </Style.Triggers>
+        </Style>
+        <Style x:Key="LoginErrorMessageStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+            <Setter Property="Margin" Value="0,5,0,0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{StaticResource ErrorBrush}"/>
+            <Setter Property="Visibility" Value="{Binding HasLoginErrorMessage, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"/>
         </Style>
     </UserControl.Resources>
     <StackPanel HorizontalAlignment="Center" Margin="0,130,0,0">
@@ -48,15 +56,9 @@
                 <TextBox Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource EmailStyle}"/>
                 <TextBlock Text="Password" Grid.Row="1" Style="{StaticResource FieldLabel}"/>
                 <PasswordBox x:Name="Password" PasswordChanged="OnPasswordChanged" Grid.Row="1" Grid.Column="1" Style="{StaticResource PasswordStyle}"/>
-                <Button Content="Login" x:Name="Login" HorizontalAlignment="Right" Margin="0,2,2,0" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource LoginButtonStyle}"/>
+                <Button Content="Login" x:Name="Login" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource LoginButtonStyle}"/>
             </Grid>
         </GroupBox>
-        <TextBlock Text="{Binding LoginErrorMessage}" HorizontalAlignment="Center" Visibility="{Binding HasLoginErrorMessage, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <TextBlock.Style>
-                <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
-                    <Setter Property="Foreground" Value="{StaticResource ErrorBrush}"/>
-                </Style>
-            </TextBlock.Style>
-        </TextBlock>
+        <TextBlock Text="{Binding LoginErrorMessage}" Style="{StaticResource LoginErrorMessageStyle}"/>
     </StackPanel>
 </UserControl>

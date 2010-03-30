@@ -82,14 +82,14 @@ namespace AK.F1.Timing.UI.Presenters
                 yield break;
             }
 
-            // Save the last known valid credentials.
-            _settings.Email = this.Email;
-            _settings.Password = this.Password;
-            _settings.Save();
+            SaveCredentials();
 
             yield return new WatchSessionAction(_shellPresenter, login.AuthenticationToken);
         }
 
+        /// <summary>
+        /// Returns a value indicating if the user can login.
+        /// </summary>
         public bool CanLogin {
 
             get { return this.IsEmailValid && this.IsPasswordValid; }
@@ -139,16 +139,22 @@ namespace AK.F1.Timing.UI.Presenters
             get { return !string.IsNullOrEmpty(_password); }
         }
 
+        /// <summary>
+        /// Gets the current login error message.
+        /// </summary>
         public string LoginErrorMessage {
 
             get { return _loginErrorMessage; }
-            set {
+            private set {
                 _loginErrorMessage = value;
                 NotifyOfPropertyChange("LoginErrorMessage");
                 NotifyOfPropertyChange("HasLoginErrorMessage");
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating if there is a login message.
+        /// </summary>
         public bool HasLoginErrorMessage  {
 
             get { return !string.IsNullOrEmpty(_loginErrorMessage); }            
@@ -163,9 +169,19 @@ namespace AK.F1.Timing.UI.Presenters
 
             base.OnActivate();
 
-            this.DisplayName = "Home";            
             this.Email = _settings.Email;
             this.Password = _settings.Password;
+        }
+
+        #endregion
+
+        #region Private Impl.
+
+        private void SaveCredentials() {
+
+            _settings.Email = this.Email;
+            _settings.Password = this.Password;
+            _settings.Save();
         }
 
         #endregion
