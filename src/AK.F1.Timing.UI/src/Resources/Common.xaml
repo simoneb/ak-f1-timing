@@ -35,9 +35,9 @@
 
     </Style>
 
-    <Style BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
+    <!--<Style BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
         <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
-    </Style>
+    </Style>-->
 
     <Style TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>

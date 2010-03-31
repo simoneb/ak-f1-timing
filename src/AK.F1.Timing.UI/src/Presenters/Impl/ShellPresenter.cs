@@ -29,7 +29,6 @@ namespace AK.F1.Timing.UI.Presenters
         #region Fields.
 
         private IPresenter _dialogueModel;
-        private readonly IServiceLocator _serviceLocator;
 
         #endregion
 
@@ -47,7 +46,7 @@ namespace AK.F1.Timing.UI.Presenters
 
             Guard.NotNull(serviceLocator, "serviceLocator");
 
-            _serviceLocator = serviceLocator;
+            this.Container = serviceLocator;
         }
 
         /// <inheritdoc/>
@@ -59,7 +58,7 @@ namespace AK.F1.Timing.UI.Presenters
         /// <inheritdoc/>
         public void Open<T>() where T : IPresenter {
 
-            this.Open(_serviceLocator.GetInstance<T>());
+            this.Open(this.Container.GetInstance<T>());
         }
 
         /// <inheritdoc/>
@@ -88,6 +87,9 @@ namespace AK.F1.Timing.UI.Presenters
                 NotifyOfPropertyChange("DialogueModel");
             }
         }
+
+        /// <inheritdoc/>
+        public IServiceLocator Container { get; private set; }
 
         #endregion
 

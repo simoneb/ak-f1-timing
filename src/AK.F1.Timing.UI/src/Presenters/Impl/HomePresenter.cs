@@ -18,6 +18,7 @@ using System.IO;
 using System.Security.Authentication;
 using System.ComponentModel;
 using System.Windows;
+using Microsoft.Win32;
 using Caliburn.Core.Metadata;
 using Caliburn.PresentationFramework;
 using Caliburn.PresentationFramework.Actions;
@@ -25,7 +26,7 @@ using Caliburn.PresentationFramework.ApplicationModel;
 using Caliburn.PresentationFramework.Filters;
 
 using AK.F1.Timing.UI.Actions;
-using AK.F1.Timing.UI.Settings;
+using AK.F1.Timing.UI.Services.Settings;
 
 namespace AK.F1.Timing.UI.Presenters
 {
@@ -37,7 +38,7 @@ namespace AK.F1.Timing.UI.Presenters
     {
         #region Fields.
 
-        private string _email;
+        private string _username;
         private string _password;
         private string _loginErrorMessage;
         private readonly ISettings _settings;
@@ -65,6 +66,23 @@ namespace AK.F1.Timing.UI.Presenters
             _settings = settings;      
         }
 
+        public void Playback() {
+
+            var fd = new OpenFileDialog();
+
+            fd.Filter = "Timing Message Store (*.tms)|*.tms";
+            if(fd.ShowDialog() != true) {
+                return;
+            }
+
+            var player = new Services.Session.DefaultSessionPlayer(F1Timing.Playback.Read(fd.FileName));
+            var presenter = _shellPresenter.Container.GetInstance<ISessionPresenter>();
+
+            presenter.Player = player;
+
+            _shellPresenter.Open(presenter, delegate { });
+        }
+
         /// <summary>
         /// Logs into the live-timing feed.
         /// </summary>
@@ -73,7 +91,7 @@ namespace AK.F1.Timing.UI.Presenters
 
             this.LoginErrorMessage = null;
 
-            var login = new LoginAction(this.Email, this.Password);
+            var login = new LiveLoginAction(this.Username, this.Password);
 
             yield return login;
 
@@ -84,7 +102,7 @@ namespace AK.F1.Timing.UI.Presenters
 
             SaveCredentials();
 
-            yield return new WatchSessionAction(_shellPresenter, login.AuthenticationToken);
+            yield return new WatchLiveSessionAction(_shellPresenter, login.AuthenticationToken);
         }
 
         /// <summary>
@@ -92,29 +110,29 @@ namespace AK.F1.Timing.UI.Presenters
         /// </summary>
         public bool CanLogin {
 
-            get { return this.IsEmailValid && this.IsPasswordValid; }
+            get { return this.IsUsernameValid && this.IsPasswordValid; }
         }
 
         /// <summary>
-        /// Gets or sets the user live-timing email address.
+        /// Gets or sets the user's live-timing username.
         /// </summary>
-        public string Email {
+        public string Username {
 
-            get { return _email; }
+            get { return _username; }
             set {
-                _email = value;
-                NotifyOfPropertyChange("Email");
-                NotifyOfPropertyChange("IsEmailValid");
+                _username = value;
+                NotifyOfPropertyChange("Username");
+                NotifyOfPropertyChange("IsUsernameValid");
                 NotifyOfPropertyChange("CanLogin");
             }
         }
 
         /// <summary>
-        /// Gets a value indicating if the users email address is valid.
+        /// Gets a value indicating if the user's username is valid.
         /// </summary>
-        public bool IsEmailValid {
+        public bool IsUsernameValid {
 
-            get { return !string.IsNullOrEmpty(_email); }
+            get { return !string.IsNullOrEmpty(_username); }
         }
 
         /// <summary>
@@ -169,7 +187,7 @@ namespace AK.F1.Timing.UI.Presenters
 
             base.OnActivate();
 
-            this.Email = _settings.Email;
+            this.Username = _settings.Username;
             this.Password = _settings.Password;
         }
 
@@ -179,7 +197,7 @@ namespace AK.F1.Timing.UI.Presenters
 
         private void SaveCredentials() {
 
-            _settings.Email = this.Email;
+            _settings.Username = this.Username;
             _settings.Password = this.Password;
             _settings.Save();
         }

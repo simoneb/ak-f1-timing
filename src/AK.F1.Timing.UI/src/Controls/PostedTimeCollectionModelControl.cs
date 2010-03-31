@@ -24,11 +24,16 @@ namespace AK.F1.Timing.UI.Controls
     public class PostedTimeCollectionModelControl : Control
     {
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(PostedTimeCollectionModelControl));
+            DependencyProperty.Register(
+                "Title",
+                typeof(string),
+                typeof(PostedTimeCollectionModelControl));
 
         static PostedTimeCollectionModelControl() {
 
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(PostedTimeCollectionModelControl), new FrameworkPropertyMetadata(typeof(PostedTimeCollectionModelControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(
+                typeof(PostedTimeCollectionModelControl),
+                new FrameworkPropertyMetadata(typeof(PostedTimeCollectionModelControl)));
         }
 
         public string Title {

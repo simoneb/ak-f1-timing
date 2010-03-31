@@ -95,11 +95,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\FastestTimes.xaml">
+    <Page Include="Views\Components\DebugInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Components\DriverInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SessionStatus.xaml">
+    <Page Include="Views\Components\FastestTimes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Components\SessionStatus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Components\Weather.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -119,7 +131,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\QuallyMainView.xaml">
+    <Page Include="Views\SessionView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -127,22 +139,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\TimingGrid.xaml">
+    <Page Include="Views\Components\TimingGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Actions\WatchRecordedSessionAction.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Actions\LoginAction.cs" />
-    <Compile Include="Actions\WatchSessionAction.cs" />
+    <Compile Include="Actions\LiveLoginAction.cs" />
+    <Compile Include="Actions\WatchLiveSessionAction.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="Settings\ISettings.cs" />
-    <Compile Include="Settings\IsolatedStorageSettings.cs" />
+    <Compile Include="Services\Session\ExceptionEventArgs.cs" />
+    <Compile Include="Services\Session\ISessionPlayer.cs" />
+    <Compile Include="Services\Settings\ISettings.cs" />
+    <Compile Include="Services\Settings\IsolatedStorageSettings.cs" />
     <Compile Include="Controls\DoubleCollectionModelControl.cs" />
     <Compile Include="Controls\PostedTimeCollectionModelControl.cs" />
     <Compile Include="Controls\TimingGrid.cs" />
@@ -165,6 +180,7 @@
     <Compile Include="Presenters\IHomePresenter.cs" />
     <Compile Include="Presenters\ISessionPresenter.cs" />
     <Compile Include="Presenters\IShellPresenter.cs" />
+    <Compile Include="Services\Session\DefaultSessionPlayer.cs" />
     <Compile Include="Utility\Format.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -172,11 +188,20 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Views\FastestTimes.xaml.cs">
+    <Compile Include="Views\Components\DebugInfo.xaml.cs">
+      <DependentUpon>DebugInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Components\DriverInfo.xaml.cs">
+      <DependentUpon>DriverInfo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Components\FastestTimes.xaml.cs">
       <DependentUpon>FastestTimes.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SessionStatus.xaml.cs">
+    <Compile Include="Views\Components\SessionStatus.xaml.cs">
       <DependentUpon>SessionStatus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Components\Weather.xaml.cs">
+      <DependentUpon>Weather.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\F1Logo.xaml.cs">
       <DependentUpon>F1Logo.xaml</DependentUpon>
@@ -190,8 +215,8 @@
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\QuallyMainView.xaml.cs">
-      <DependentUpon>QuallyMainView.xaml</DependentUpon>
+    <Compile Include="Views\SessionView.xaml.cs">
+      <DependentUpon>SessionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainView.xaml.cs">
       <DependentUpon>MainView.xaml</DependentUpon>
@@ -211,7 +236,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Views\TimingGrid.xaml.cs">
+    <Compile Include="Views\Components\TimingGrid.xaml.cs">
       <DependentUpon>TimingGrid.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -255,7 +280,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

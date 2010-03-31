@@ -6,14 +6,14 @@
     xmlns:Views="clr-namespace:AK.F1.Timing.UI.Views">
     <UserControl.Resources>
         <SolidColorBrush x:Key="ErrorBrush" Color="Red"/>
-        <Style x:Key="EmailStyle" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
+        <Style x:Key="LoginUsernameStyle" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
             <Style.Triggers>
-                <DataTrigger Binding="{Binding IsEmailValid}" Value="False">
+                <DataTrigger Binding="{Binding IsUsernameValid}" Value="False">
                     <Setter Property="TextBox.BorderBrush" Value="{StaticResource ErrorBrush}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="PasswordStyle" BasedOn="{StaticResource {x:Type PasswordBox}}" TargetType="{x:Type PasswordBox}">
+        <Style x:Key="LoginPasswordStyle" BasedOn="{StaticResource {x:Type PasswordBox}}" TargetType="{x:Type PasswordBox}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsPasswordValid}" Value="False">
                     <Setter Property="PasswordBox.BorderBrush" Value="{StaticResource ErrorBrush}"/>
@@ -53,12 +53,13 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Email" Style="{StaticResource FieldLabel}"/>
-                <TextBox Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource EmailStyle}"/>
+                <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource LoginUsernameStyle}"/>
                 <TextBlock Text="Password" Grid.Row="1" Style="{StaticResource FieldLabel}"/>
-                <PasswordBox x:Name="Password" PasswordChanged="OnPasswordChanged" Grid.Row="1" Grid.Column="1" Style="{StaticResource PasswordStyle}"/>
+                <PasswordBox x:Name="Password" PasswordChanged="OnPasswordChanged" Grid.Row="1" Grid.Column="1" Style="{StaticResource LoginPasswordStyle}"/>
                 <Button Content="Login" x:Name="Login" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource LoginButtonStyle}"/>
             </Grid>
         </GroupBox>
         <TextBlock Text="{Binding LoginErrorMessage}" Style="{StaticResource LoginErrorMessageStyle}"/>
+        <Button Content="Playback" x:Name="Playback"/>
     </StackPanel>
 </UserControl>

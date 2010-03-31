@@ -1,0 +1,31 @@
+﻿<!-- DataContext: AK.F1.Timing.Model.Session.SessionModel -->
+<UserControl x:Class="AK.F1.Timing.UI.Views.Components.DebugInfo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Column="0" Grid.Row="0" Text="Type:"/>
+        <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding Session.SessionType}"/>
+        <TextBlock Grid.Column="0" Grid.Row="1" Text="Lap No.:"/>
+        <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding Session.RaceLapNumber}"/>
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="Messages:"/>
+        <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Session.Feed.MessageCount}"/>
+        <TextBlock Grid.Column="0" Grid.Row="3" Text="Sys Message:"/>
+        <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Session.Messages.System}"/>
+        <TextBlock Grid.Column="0" Grid.Row="4" Text="Ping Interval:"/>
+        <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Session.Feed.PingInterval}"/>
+        <TextBlock Grid.Column="0" Grid.Row="5" Text="Keyframe No.:"/>
+        <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding Session.Feed.KeyframeNumber}"/>
+    </Grid>
+</UserControl>

@@ -13,20 +13,16 @@
 // limitations under the License.
 
 using System;
-using Caliburn.PresentationFramework.ApplicationModel;
+using System.ComponentModel;
 
-using AK.F1.Timing.UI.Services.Session;
-
-namespace AK.F1.Timing.UI.Presenters
+namespace AK.F1.Timing.UI.Services.Settings
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface ISessionPresenter : IPresenter
+    public interface ISettings : INotifyPropertyChanged
     {
-        /// <summary>
-        /// Gets or sets the <see cref="AK.F1.Timing.UI.Services.Session.ISessionPlayer"/>.
-        /// </summary>
-        ISessionPlayer Player { get; set; } 
+        string Username { get; set; }
+
+        string Password { get; set; }
+
+        void Save();
     }
 }

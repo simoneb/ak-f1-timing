@@ -20,16 +20,16 @@ namespace AK.F1.Timing.UI.Views
     /// <summary>
     /// The F1 logo.
     /// </summary>
-	public partial class F1Logo : UserControl
+    public partial class F1Logo : UserControl
     {
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="F1Logo"/> class.
+        /// Initialises a new instance of the <see cref="F1Logo"/> control.
         /// </summary>
-        public F1Logo()
-		{
-			InitializeComponent();
+        public F1Logo() {
+
+            InitializeComponent();
         }
 
         #endregion

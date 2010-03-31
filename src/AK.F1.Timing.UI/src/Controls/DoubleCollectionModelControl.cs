@@ -24,14 +24,22 @@ namespace AK.F1.Timing.UI.Controls
     public class DoubleCollectionModelControl : Control
     {
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(DoubleCollectionModelControl));
+            DependencyProperty.Register(
+                "Title",
+                typeof(string),
+                typeof(DoubleCollectionModelControl));
 
         public static readonly DependencyProperty StringFormatProperty =
-            DependencyProperty.Register("StringFormat", typeof(string), typeof(DoubleCollectionModelControl));
+            DependencyProperty.Register(
+                "StringFormat",
+                typeof(string),
+                typeof(DoubleCollectionModelControl));
 
         static DoubleCollectionModelControl() {            
 
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(DoubleCollectionModelControl), new FrameworkPropertyMetadata(typeof(DoubleCollectionModelControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(
+                typeof(DoubleCollectionModelControl),
+                new FrameworkPropertyMetadata(typeof(DoubleCollectionModelControl)));
         }
 
         public string Title {

@@ -1,0 +1,31 @@
+<UserControl
+    x:Class="AK.F1.Timing.UI.Views.SessionView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Components="clr-namespace:AK.F1.Timing.UI.Views.Components"
+    xmlns:Controls="clr-namespace:AK.F1.Timing.UI.Controls"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <StackPanel>
+        <TabControl TabStripPlacement="Left" Margin="0,4,0,0">
+            <TabItem Header="Grid">
+                <StackPanel Orientation="Horizontal" Margin="4,0,4,4">
+                    <Border Style="{StaticResource Border}">
+                        <DockPanel VerticalAlignment="Stretch">
+                            <Components:TimingGrid DockPanel.Dock="Top" DataContext="{Binding Session.Grid}"/>
+                            <Components:SessionStatus DockPanel.Dock="Bottom" Margin="3,3,3,3"/>
+                        </DockPanel>
+                    </Border>                    
+                    <DockPanel>
+                        <Components:FastestTimes DataContext="{Binding Session.FastestTimes}" DockPanel.Dock="Top" Margin="6,0,0,0"/>
+                        <Components:DriverInfo DataContext="{Binding SelectedDriver}" Margin="6,6,0,0"/>
+                    </DockPanel>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Weather">
+                <Components:Weather DataContext="{Binding Session.Weather}"/>
+            </TabItem>
+            <TabItem Header="Debug">
+                <Components:DebugInfo Margin="4,2,4,3" VerticalAlignment="Top"/>
+            </TabItem>
+        </TabControl>
+    </StackPanel>
+</UserControl>

@@ -14,6 +14,7 @@
 
 using System;
 using Caliburn.PresentationFramework.ApplicationModel;
+using Microsoft.Practices.ServiceLocation;
 
 namespace AK.F1.Timing.UI.Presenters
 {
@@ -47,5 +48,10 @@ namespace AK.F1.Timing.UI.Presenters
         /// Thrown when <paramref name="presenter"/> is <see langword="null"/>.
         /// </exception>
         void ShowDialogue<T>(T presenter) where T : IPresenter, ILifecycleNotifier;
+
+        /// <summary>
+        /// Gets the application's <see cref="Microsoft.Practices.ServiceLocation.IServiceLocator"/>
+        /// </summary>
+        IServiceLocator Container { get; }
     }
 }

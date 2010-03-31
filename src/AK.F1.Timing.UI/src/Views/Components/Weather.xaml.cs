@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+﻿// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,32 +13,23 @@
 // limitations under the License.
 
 using System;
-using System.Windows;
+using System.Windows.Controls;
 
-namespace AK.F1.Timing.UI.Views
+namespace AK.F1.Timing.UI.Views.Components
 {
     /// <summary>
-    /// The main view window.
+    /// A control which shows information relating the weather.
     /// </summary>
-    public partial class ShellView : Window
+    public partial class Weather : UserControl
     {
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ShellView"/> class.
+        /// Initialises a new instance of the <see cref="TimingGrid"/> control.
         /// </summary>
-        public ShellView() {
+        public Weather() {
 
-            InitializeComponent();                        
-        }
-
-        #endregion
-
-        #region Private Impl.
-
-        private void Border_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-
-            DragMove();
+            InitializeComponent();
         }
 
         #endregion
