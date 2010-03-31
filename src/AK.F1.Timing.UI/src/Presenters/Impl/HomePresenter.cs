@@ -66,21 +66,16 @@ namespace AK.F1.Timing.UI.Presenters
             _settings = settings;      
         }
 
-        public void Playback() {
+        public IEnumerable<IResult> Playback() {
 
             var fd = new OpenFileDialog();
 
             fd.Filter = "Timing Message Store (*.tms)|*.tms";
             if(fd.ShowDialog() != true) {
-                return;
+                yield break;
             }
 
-            var player = new Services.Session.DefaultSessionPlayer(F1Timing.Playback.Read(fd.FileName));
-            var presenter = _shellPresenter.Container.GetInstance<ISessionPresenter>();
-
-            presenter.Player = player;
-
-            _shellPresenter.Open(presenter, delegate { });
+            yield return new WatchRecordedSessionAction(_shellPresenter, fd.FileName);
         }
 
         /// <summary>

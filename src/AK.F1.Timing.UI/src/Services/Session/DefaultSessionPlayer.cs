@@ -55,6 +55,7 @@ namespace AK.F1.Timing.UI.Services.Session
             this.Session = new SessionModel();
             this.Dispatcher = Application.Current.Dispatcher;
             this.Worker = new Thread(ReadAndDispatchMessages);
+            this.Worker.IsBackground = true;
             this.CachedDispatchMessageCallback = (Action<Message>)DispatchMessageCallback;
         }
 
@@ -63,9 +64,7 @@ namespace AK.F1.Timing.UI.Services.Session
 
             lock(this.Worker) {
                 // TODO this should throw if worker is not unstarted or running.
-                if(this.Worker.ThreadState == ThreadState.Unstarted) {
-                    this.Worker.Start();
-                }
+                this.Worker.Start();
             }
         }
 

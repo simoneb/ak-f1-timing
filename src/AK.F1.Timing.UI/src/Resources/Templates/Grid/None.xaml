@@ -1,0 +1,10 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Grid="clr-namespace:AK.F1.Timing.Model.Grid;assembly=AK.F1.Timing.Model">
+    <DataTemplate DataType="{x:Type Grid:NullGridModel}">
+        <Grid>
+            <TextBlock Text="No Session In Progress" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

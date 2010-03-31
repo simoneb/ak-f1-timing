@@ -34,11 +34,13 @@ namespace AK.F1.Timing.UI.Actions
         }
 
         public void Execute(IRoutedMessageWithOutcome message, IInteractionNode handlingNode) {
-            
-            var player = new DefaultSessionPlayer(F1Timing.Playback.Read(_path));
+
+            var reader = F1Timing.Playback.Read(_path);
+            var player = new DefaultSessionPlayer(reader);
             var presenter = _shellPresenter.Container.GetInstance<ISessionPresenter>();
 
-            presenter.Player = player;
+            reader.PlaybackSpeed = 50;
+            presenter.Player = player;            
 
             _shellPresenter.Open(presenter, delegate { });
 
