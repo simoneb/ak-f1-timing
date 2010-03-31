@@ -29,7 +29,7 @@ namespace AK.F1.Timing.Live
 {    
     /// <summary>
     /// A <see cref="AK.F1.Timing.IMessageReader"/> implementation which reads
-    /// <see cref="AK.F1.Timing.Message"/>s encoded by the live-timing servers.
+    /// <see cref="AK.F1.Timing.Message"/>s serialized by the live-timing servers.
     /// This class cannot be inherited.
     /// </summary>
     public sealed class LiveMessageReader : MessageReaderBase
