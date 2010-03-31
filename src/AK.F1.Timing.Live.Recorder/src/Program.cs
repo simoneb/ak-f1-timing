@@ -63,7 +63,8 @@ namespace AK.F1.Timing.Live.Recorder
             WriteLine("connecting...");
 
             try {
-                using(var reader = F1Timing.Live.ReadAndRecord(username, password, path)) {
+                var token = F1Timing.Live.Login(username, password);
+                using(var reader = F1Timing.Live.ReadAndRecord(token, path)) {
                     while((message = reader.Read()) != null) {
                         WriteLine(message.ToString());
                     }
