@@ -244,6 +244,11 @@ namespace AK.F1.Timing
             return new AuthenticationException(Resource.LiveDecryptorFactory_CredentialsRejected);
         }
 
+        internal static AuthenticationException LiveAuthenticationService_CredentialsRejected() {
+
+            return new AuthenticationException(Resource.LiveAuthenticationService_CredentialsRejected);
+        }
+
         internal static SerializationException PropertyDescriptor_PropertyIsNotDecorated(PropertyInfo property) {
 
             return new SerializationException(Format(Resource.PropertyDescriptor_PropertyIsNotDecorated, property.DeclaringType, property.Name, typeof(PropertyIdAttribute)));
@@ -304,9 +309,9 @@ namespace AK.F1.Timing
             return new IOException(Format(Resource.LiveMessageStreamEndpoint_FailedToOpenKeyframe, exc.Message), exc);
         }
 
-        internal static IOException LiveDecryptorFactory_FailedToFetchAuthToken(IOException exc) {
+        internal static IOException LiveAuthenticationService_FailedToFetchAuthToken(IOException exc) {
 
-            return new IOException(Format(Resource.LiveDecryptorFactory_FailedToFetchAuthToken, exc.Message), exc);
+            return new IOException(Format(Resource.LiveAuthenticationService_FailedToFetchAuthToken, exc.Message), exc);
         }
 
         internal static IOException LiveDecryptorFactory_FailedToFetchSessionSeed(IOException exc) {

@@ -68,6 +68,8 @@
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="ComparableContractAssertionExtensions.cs" />
     <Compile Include="EqualityContractAssertionExtensions.cs" />
+    <Compile Include="AuthenticationTokenTest.cs" />
+    <Compile Include="Live\LiveAuthenticationServiceTest.cs" />
     <Compile Include="Live\LiveMessageHeaderTest.cs" />
     <Compile Include="Messages\Driver\GapTest.cs" />
     <Compile Include="Messages\MessageTestBase.cs" />

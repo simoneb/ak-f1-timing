@@ -31,16 +31,16 @@ namespace AK.F1.Timing
 
         /// <summary>
         /// Provides methods for creating <see cref="AK.F1.Timing.IMessageReader"/>s which
-        /// read from the live message stream.
+        /// read from the live-timing message stream.
         /// </summary>
         public static class Live
         {
             /// <summary>
-            /// Creates a live message reader using the specified credentials.
+            /// Logs into the live-timing service using the specified credentials.
             /// </summary>
             /// <param name="username">The user's F1 live-timing username.</param>
             /// <param name="password">The user's F1 live-timing password.</param>
-            /// <returns>A message reader which reads live messages.</returns>
+            /// <returns>The <see cref="AuthenticationToken"/> for the user.</returns>
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="username"/> or <paramref name="password"/> is 
             /// <see langword="null"/>.
@@ -54,52 +54,66 @@ namespace AK.F1.Timing
             /// <exception cref="System.Security.Authentication.AuthenticationException">
             /// Thrown when the supplied credentials were rejected by the live-timing site.
             /// </exception>
-            public static IMessageReader Read(string username, string password) {
+            public static AuthenticationToken Login(string username, string password) {                
 
-                return new LiveMessageReader(
-                    new LiveMessageStreamEndpoint(),
-                    new LiveDecryptorFactory(username, password));
+                return LiveAuthenticationService.Login(username, password);
             }
 
             /// <summary>
-            /// Creates a live message reader using the specified credentials and records the
-            /// messages to the specified <paramref name="path"/>.
+            /// Creates a live-timing message reader using the specified authentication
+            /// <paramref name="token"/>.
             /// </summary>
-            /// <param name="username">The user's F1 live-timing username.</param>
-            /// <param name="password">The user's F1 live-timing password.</param>            
+            /// <param name="token">The authentication token.</param>
+            /// <returns>A message reader which reads live messages.</returns>
+            /// <exception cref="System.ArgumentNullException">
+            /// Thrown when <paramref name="token"/> is <see langword="null"/>.
+            /// </exception>
+            /// <exception cref="System.IO.IOException">
+            /// Thrown when an IO error whilst connecting to the live-timing message stream.
+            /// </exception>
+            public static IMessageReader Read(AuthenticationToken token) {
+
+                return new LiveMessageReader(
+                    new LiveMessageStreamEndpoint(),
+                    new LiveDecryptorFactory(token));
+            }
+
+            /// <summary>
+            /// Creates a live message reader using the specified authentication
+            /// <paramref name="token"/> and records the messages to the specified
+            /// <paramref name="path"/>.
+            /// </summary>
+            /// <param name="token">The authentication token.</param>        
             /// <param name="path">The path to save the messages to.</param>
             /// <returns>A message reader which reads and records live messages.</returns>
             /// <exception cref="System.ArgumentNullException">
-            /// Thrown when <paramref name="username"/> or <paramref name="password"/> or
-            /// <paramref name="path"/> is <see langword="null"/>.
+            /// Thrown when <paramref name="token"/> or <paramref name="path"/> is
+            /// <see langword="null"/>.
             /// </exception>
             /// <exception cref="System.ArgumentException">
-            /// Thrown when <paramref name="username"/> or <paramref name="password"/> or
-            /// <paramref name="path"/> is empty.
+            /// Thrown when <paramref name="path"/> is of zero length.
             /// </exception>
             /// <exception cref="System.IO.IOException">
-            /// Thrown when an IO error occurs whilst creating the output file or connecting to the live
-            /// messages stream.
+            /// Thrown when an IO error occurs whilst creating the output file or connecting to the
+            /// live-timing message stream.
             /// </exception>
-            /// <exception cref="System.Security.Authentication.AuthenticationException">
-            /// Thrown when the supplied credentials were rejected by the live-timing site.
-            /// </exception>
-            public static IMessageReader ReadAndRecord(string username, string password, string path) {
+            public static IMessageReader ReadAndRecord(AuthenticationToken token, string path) {
 
-                return new RecordingMessageReader(Read(username, password), path);
+                return new RecordingMessageReader(Read(token), path);
             }
         }
 
         /// <summary>
         /// Provides methods for creating <see cref="AK.F1.Timing.Recording.IRecordedMessageReader"/>s
-        /// which read from persisted live message streams.
+        /// which read from persisted live-timing message streams.
         /// </summary>
         public static class Playback
         {
             /// <summary>
-            /// Creates a playback reader which reads the messages persisted in the specified file <paramref name="path"/>.
+            /// Creates a playback reader which reads live-timing messages persisted to the specified
+            /// file <paramref name="path"/>.
             /// </summary>
-            /// <param name="path">The path of the recorded message stream.</param>
+            /// <param name="path">The path of the recorded live-timing message stream.</param>
             /// <returns></returns>
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="path"/> is <see langword="null"/>.

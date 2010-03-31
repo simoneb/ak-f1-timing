@@ -45,6 +45,8 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
@@ -54,6 +56,8 @@
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="F1Timing.cs" />
     <Compile Include="IMessageProcessor.cs" />
+    <Compile Include="AuthenticationToken.cs" />
+    <Compile Include="Live\LiveAuthenticationService.cs" />
     <Compile Include="Live\IO\LiveSocketMessageStream.cs" />
     <Compile Include="Live\IO\MessageStreamDelegate.cs" />
     <Compile Include="Messages\Driver\SetDriverPitTimeMessage.cs" />
