@@ -26,6 +26,12 @@ namespace AK.F1.Timing.Messages.Session
         }
 
         [Fact]
+        public void maintains_identity_when_serialized() {
+
+            Assert.Same(EndOfSessionMessage.Instance, EndOfSessionMessage.Instance.DeepClone());
+        }
+
+        [Fact]
         public override void can_visit() {
 
             var message = CreateMessage();
