@@ -49,7 +49,8 @@ namespace AK.F1.Timing.Model.Grid
             this.Q1.Reset();
             this.Q2.Reset();
             this.Q3.Reset();
-            this.Laps.Reset();            
+            // TODO this is a HACK, the feed clears the row but never sends an lap update.
+            //this.Laps.Reset();            
         }
 
         /// <summary>
