@@ -33,8 +33,6 @@ namespace AK.F1.Timing.Live.Encryption
 
         private const string SEED_URL_FORMAT = "http://live-timing.formula1.com/reg/getkey/{0}.asp?auth={1}";
 
-        private static log4net.ILog _log = log4net.LogManager.GetLogger(typeof(LiveDecryptorFactory));
-
         #endregion
 
         #region Public Interface.
@@ -67,19 +65,19 @@ namespace AK.F1.Timing.Live.Encryption
             string response;
             Uri seedUri = MakeSeedUri(sessionId);
 
-            _log.InfoFormat("fetching seed from {0}", seedUri);
+            this.Log.InfoFormat("fetching seed from {0}", seedUri);
             try {
                 response = seedUri.GetResponseString(HttpMethod.Get);
             } catch(IOException exc) {
-                _log.Error(exc);
+                this.Log.Error(exc);
                 throw Guard.LiveDecryptorFactory_FailedToFetchSessionSeed(exc);
             }
             if(response.Equals("invalid", StringComparison.OrdinalIgnoreCase)) {
-                _log.Error("failed to fetch the seed as the user's credentials have been rejected");
+                this.Log.Error("failed to fetch the seed as the user's credentials have been rejected");
                 throw Guard.LiveAuthenticationService_CredentialsRejected();
             }
             if(!int.TryParse(response, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out seed)) {
-                _log.ErrorFormat("failed to parse seed from {0}", response);
+                this.Log.ErrorFormat("failed to parse seed from {0}", response);
                 throw Guard.LiveDecryptorFactory_UnableToParseSeed(response);
             }
 
