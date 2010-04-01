@@ -5,7 +5,7 @@
   <PropertyGroup>
     <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>
     <ForcedBuildProperties>Configuration=$(BuildType)</ForcedBuildProperties>
-    <CorePackageDependencies>Clean;CleanBinPath;SetVersionNumber;Build;Test</CorePackageDependencies>
+    <CorePackageDependsOn>Clean;CleanBinPath;GetNextVersion;Build;Test</CorePackageDependsOn>
   </PropertyGroup>
   
   <!-- Path Properties -->
@@ -33,8 +33,6 @@
   <!-- Build server targets -->
 
   <Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
-
-  <Target Name="All" DependsOnTargets="Clean;SetVersionNumber;Build;Test"/>
 
   <!-- Individiual targets -->
 
@@ -74,8 +72,8 @@
       Targets="Build"
       Properties="$(ForcedBuildProperties)"/>
   </Target>
-
-  <Target Name="SetVersionNumber">
+  
+  <Target Name="GetNextVersion">
     <Version
       Major="0"
       Minor="8"
@@ -90,6 +88,8 @@
     <PropertyGroup>
       <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
     </PropertyGroup>
+    <Message
+        Text="Version: $(GlobalAssemblyVersion)"/>
     <RegexReplace
       Pattern="AssemblyVersion\(&quot;.*&quot;\)"
       Replacement="AssemblyVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
@@ -98,6 +98,23 @@
       Pattern="AssemblyFileVersion\(&quot;.*&quot;\)"
       Replacement="AssemblyFileVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
       Files="$(GlobalAssemblyInfoPath)"/>
+  </Target>
+  
+  <Target Name="GetCurrentVersion">
+    <Version
+      VersionFile="$(GlobalAssemblyVersionPath)"
+      RevisionType="None"
+      BuildType="None">
+      <Output TaskParameter="Major" PropertyName="Major"/>
+      <Output TaskParameter="Minor" PropertyName="Minor"/>
+      <Output TaskParameter="Revision" PropertyName="Revision"/>
+      <Output TaskParameter="Build" PropertyName="Build"/>
+    </Version>
+    <PropertyGroup>
+      <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
+    </PropertyGroup>
+    <Message
+        Text="Version: $(GlobalAssemblyVersion)"/>
   </Target>
 
   <Target Name="CleanBinPath">
@@ -110,9 +127,9 @@
 
   <Target
     Name="Package"
-    DependsOnTargets="$(CorePackageDependencies);PackageRecorder;PackageFixup;PackageTmsUtility;PackageUI"/>
+    DependsOnTargets="$(CorePackageDependsOn);PackageRecorder;PackageFixup;PackageTmsUtility;PackageUI"/>
 
-  <Target Name="PackageRecorder" DependsOnTargets="$(CorePackageDependencies)">
+  <Target Name="PackageRecorder" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
       <RecorderPackageName>f1recorder</RecorderPackageName>
       <RecorderPackagePath>$(BinPath)\latest-$(RecorderPackageName)</RecorderPackagePath>
@@ -146,7 +163,7 @@
       ZipLevel="10"/>
   </Target>
 
-  <Target Name="PackageFixup" DependsOnTargets="$(CorePackageDependencies)">
+  <Target Name="PackageFixup" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
       <FixupPackageName>f1fixup</FixupPackageName>
       <FixupPackagePath>$(BinPath)\latest-$(FixupPackageName)</FixupPackagePath>
@@ -180,7 +197,7 @@
       ZipLevel="10"/>
   </Target>
   
-  <Target Name="PackageTmsUtility" DependsOnTargets="$(CorePackageDependencies)">
+  <Target Name="PackageTmsUtility" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
       <TmsUtilityPackageName>f1tmsutility</TmsUtilityPackageName>
       <TmsUtilityPackagePath>$(BinPath)\latest-$(TmsUtilityPackageName)</TmsUtilityPackagePath>
@@ -214,7 +231,7 @@
       ZipLevel="10"/>
   </Target>
   
-  <Target Name="PackageUI" DependsOnTargets="$(CorePackageDependencies)">
+  <Target Name="PackageUI" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
       <UIPackageName>f1timing</UIPackageName>
       <UIPackagePath>$(BinPath)\latest-$(UIPackageName)</UIPackagePath>
