@@ -53,7 +53,7 @@ namespace AK.F1.Timing.UI.Actions
 
             var reader = F1Timing.Playback.Read(this.TmsPath);
 
-            reader.PlaybackSpeed = 15d;
+            reader.PlaybackSpeed = 100d;
 
             return new DefaultSessionPlayer(reader);
         }

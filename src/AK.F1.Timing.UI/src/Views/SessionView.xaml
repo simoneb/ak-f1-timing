@@ -8,12 +8,12 @@
         <TabControl TabStripPlacement="Left" Margin="0,4,0,0">
             <TabItem Header="Grid">
                 <StackPanel Orientation="Horizontal" Margin="4,0,4,4">
-                    <Components:TimingGrid DataContext="{Binding Session}" DockPanel.Dock="Top"/>
-                    <StackPanel>
-                        <Components:MiniWeather DataContext="{Binding Session.Weather}" Margin="6,0,0,0"/>
-                        <Components:FastestTimes DataContext="{Binding Session.FastestTimes}" Margin="6,6,0,0"/>
+                    <Components:TimingGrid DataContext="{Binding}" DockPanel.Dock="Top"/>
+                    <DockPanel LastChildFill="True">
+                        <!--<Components:MiniWeather DataContext="{Binding Session.Weather}" DockPanel.Dock="Top" Margin="6,0,0,0"/>-->
+                        <Components:FastestTimes DataContext="{Binding Session.FastestTimes}" DockPanel.Dock="Top" Margin="6,0,0,0"/>
                         <Components:DriverTiming DataContext="{Binding SelectedDriver}" Margin="6,6,0,0"/>
-                    </StackPanel>
+                    </DockPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Weather">

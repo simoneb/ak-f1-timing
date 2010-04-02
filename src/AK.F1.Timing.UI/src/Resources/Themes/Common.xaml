@@ -14,6 +14,8 @@
     <Converters:HiddenWhenFalseConverter x:Key="HiddenWhenFalseConverter"/>
     <Converters:HiddenWhenNullConverter x:Key="HiddenWhenNullConverter"/>
     
+    <Converters:DriverStatusToColourConverter x:Key="DriverStatusToColourConverter"/>
+    
 
     <Style x:Key="Border" TargetType="{x:Type Border}">
         <Setter Property="CornerRadius" Value="3"/>

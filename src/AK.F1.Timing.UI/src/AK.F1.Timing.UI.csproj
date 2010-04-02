@@ -162,6 +162,7 @@
     <Compile Include="Converters\CollapsedWhenFalseConverter.cs" />
     <Compile Include="Converters\CollapsedWhenTrueConverter.cs" />
     <Compile Include="Converters\CollapsedWhenNotNullConverter.cs" />
+    <Compile Include="Converters\DriverStatusToColourConverter.cs" />
     <Compile Include="Converters\HiddenWhenNullConverter.cs" />
     <Compile Include="Converters\HiddenWhenTrueConverter.cs" />
     <Compile Include="Converters\HiddenWhenFalseConverter.cs" />
