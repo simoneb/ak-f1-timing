@@ -26,6 +26,7 @@ namespace AK.F1.Timing.Model.Session
     {
         #region Private Fields.
 
+        private bool _isEmpty;
         private FastestTimeModel _lap;
         private FastestTimeModel _s1;
         private FastestTimeModel _s2;
@@ -99,8 +100,9 @@ namespace AK.F1.Timing.Model.Session
 
             get { return _lap; }
             private set {
-                if(SetProperty("Lap", ref _lap, value)) {
+                if(SetProperty("Lap", ref _lap, value)) {                    
                     ComputePossible();
+                    NotifyIsEmptyChanged();
                 }
             }
         }
@@ -114,6 +116,7 @@ namespace AK.F1.Timing.Model.Session
             private set {
                 if(SetProperty("S1", ref _s1, value)) {
                     ComputePossible();
+                    NotifyIsEmptyChanged();
                 }
             }
         }
@@ -125,8 +128,9 @@ namespace AK.F1.Timing.Model.Session
 
             get { return _s2; }
             private set {
-                if(SetProperty("S2", ref _s2, value)) {
+                if(SetProperty("S2", ref _s2, value)) {                    
                     ComputePossible();
+                    NotifyIsEmptyChanged();
                 }
             }
         }
@@ -138,8 +142,9 @@ namespace AK.F1.Timing.Model.Session
 
             get { return _s3; }
             private set {
-                if(SetProperty("S3", ref _s3, value)) {
+                if(SetProperty("S3", ref _s3, value)) {                    
                     ComputePossible();
+                    NotifyIsEmptyChanged();
                 }
             }
         }
@@ -153,6 +158,17 @@ namespace AK.F1.Timing.Model.Session
 
             get { return _possible; }
             private set { SetProperty("Possible", ref _possible, value); }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if this model is empty.
+        /// </summary>
+        public bool IsEmpty {
+
+            get {
+                // Possible is not included as it's computed base on S1-S3 and Lap.
+                return this.S1 == null && this.S2 == null && this.S3 == null && this.Lap == null;
+            }
         }
 
         #endregion
@@ -186,6 +202,11 @@ namespace AK.F1.Timing.Model.Session
             }
 
             return this.Lap.Time - value;
+        }
+
+        private void NotifyIsEmptyChanged() {
+
+            OnPropertyChanged("IsEmpty");
         }
 
         #endregion
