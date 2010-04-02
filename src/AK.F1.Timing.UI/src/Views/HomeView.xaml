@@ -33,24 +33,24 @@
             <Setter Property="Margin" Value="0,5,0,0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="{StaticResource ErrorBrush}"/>
-            <Setter Property="Visibility" Value="{Binding HasLoginErrorMessage, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Setter Property="Visibility" Value="{Binding HasLoginErrorMessage, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
         </Style>
     </UserControl.Resources>
-    <StackPanel HorizontalAlignment="Center" Margin="0,130,0,0">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <Views:F1Logo HorizontalAlignment="Center"/>
         <GroupBox Width="285">
             <GroupBox.Header>
                 <Label>Live-Timing Login</Label>
             </GroupBox.Header>
-            <Grid Margin="0,4,0,0">
+            <Grid Margin="2,4,0,2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="60"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Email" Style="{StaticResource FieldLabel}"/>
                 <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource LoginUsernameStyle}"/>

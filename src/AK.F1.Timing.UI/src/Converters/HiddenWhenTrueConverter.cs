@@ -22,11 +22,11 @@ using AK.F1.Timing.Messages.Driver;
 namespace AK.F1.Timing.UI.Converters
 {
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class BooleanToVisibilityConverter : IValueConverter
+    public class HiddenWhenTrueConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
-            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
+            return (bool)value ? Visibility.Hidden : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

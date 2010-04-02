@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+﻿// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,39 +13,23 @@
 // limitations under the License.
 
 using System;
-using System.Windows;
+using System.Windows.Controls;
 
-namespace AK.F1.Timing.UI.Views
+namespace AK.F1.Timing.UI.Views.Components
 {
     /// <summary>
-    /// The main view window.
+    /// A control which shows information relating the weather.
     /// </summary>
-    public partial class MainView : Window
+    public partial class MiniWeather : UserControl
     {
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="MainView"/> class.
+        /// Initialises a new instance of the <see cref="MiniWeather"/> control.
         /// </summary>
-        public MainView() {
+        public MiniWeather() {
 
-            InitializeComponent();                        
-        }
-
-        #endregion
-
-        #region Private Impl.
-
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
-
-            Size size = e.NewSize;
-
-            if(this.MinHeight < size.Height) {
-                this.MinHeight = size.Height;                
-            }
-            if(this.MinWidth < size.Width) {
-                this.MinWidth = size.Width;
-            }
+            InitializeComponent();
         }
 
         #endregion

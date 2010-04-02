@@ -75,7 +75,7 @@ namespace AK.F1.Timing.UI.Presenters
                 yield break;
             }
 
-            yield return new WatchRecordedSessionAction(_shellPresenter, fd.FileName);
+            yield return new PlayRecordedSessionAction(fd.FileName);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace AK.F1.Timing.UI.Presenters
 
             SaveCredentials();
 
-            yield return new WatchLiveSessionAction(_shellPresenter, login.AuthenticationToken);
+            yield return new PlayLiveSessionAction(login.AuthenticationToken);
         }
 
         /// <summary>

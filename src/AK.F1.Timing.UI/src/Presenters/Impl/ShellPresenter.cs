@@ -18,6 +18,8 @@ using Caliburn.Core.Metadata;
 using Caliburn.PresentationFramework.ApplicationModel;
 using Microsoft.Practices.ServiceLocation;
 
+using AK.F1.Timing.UI.Utility;
+
 namespace AK.F1.Timing.UI.Presenters
 {
     /// <summary>
@@ -27,7 +29,7 @@ namespace AK.F1.Timing.UI.Presenters
     public class ShellPresenter : PresenterManager, IShellPresenter
     {
         #region Fields.
-
+        
         private IPresenter _dialogueModel;
 
         #endregion
@@ -86,6 +88,14 @@ namespace AK.F1.Timing.UI.Presenters
                 _dialogueModel = value;
                 NotifyOfPropertyChange("DialogueModel");
             }
+        }
+
+        /// <summary>
+        /// Gets the application's title.
+        /// </summary>
+        public string ApplicationTitle {
+
+            get { return AssemblyInfoHelper.VersionedTitle; }
         }
 
         /// <inheritdoc/>

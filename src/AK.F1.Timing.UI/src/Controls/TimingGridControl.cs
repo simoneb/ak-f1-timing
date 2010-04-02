@@ -13,16 +13,12 @@
 // limitations under the License.
 
 using System;
-using Caliburn.PresentationFramework.ApplicationModel;
+using System.Windows;
+using System.Windows.Controls;
 
-namespace AK.F1.Timing.UI.Presenters
+namespace AK.F1.Timing.UI.Controls
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    public interface ILoadScreenPresenter : IPresenter, ILifecycleNotifier
+    class TimingGridControl
     {
-        void BeginLoad();
-        void EndLoad();
     }
 }

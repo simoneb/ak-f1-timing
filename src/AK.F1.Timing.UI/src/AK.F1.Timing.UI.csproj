@@ -107,23 +107,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Templates\Session\Common.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Templates\Session\None.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Templates\Session\Practice.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Templates\Session\Qually.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Templates\Session\Race.xaml">
+    <Page Include="Views\Components\MiniWeather.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -131,15 +115,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Components\DriverInfo.xaml">
+    <Page Include="Views\Components\DriverTiming.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Components\FastestTimes.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Components\SessionStatus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -148,10 +128,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\F1Logo.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\LoadScreenView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -167,10 +143,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\MainView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Components\TimingGrid.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,14 +150,21 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Actions\WatchRecordedSessionAction.cs" />
+    <Compile Include="Actions\PlayRecordedSessionAction.cs" />
+    <Compile Include="Actions\PlaySessionActionBase.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Actions\LiveLoginAction.cs" />
-    <Compile Include="Actions\WatchLiveSessionAction.cs" />
-    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Actions\PlayLiveSessionAction.cs" />
+    <Compile Include="Controls\TimingGridControl.cs" />
+    <Compile Include="Converters\CollapsedWhenFalseConverter.cs" />
+    <Compile Include="Converters\CollapsedWhenTrueConverter.cs" />
+    <Compile Include="Converters\CollapsedWhenNotNullConverter.cs" />
+    <Compile Include="Converters\HiddenWhenNullConverter.cs" />
+    <Compile Include="Converters\HiddenWhenTrueConverter.cs" />
+    <Compile Include="Converters\HiddenWhenFalseConverter.cs" />
     <Compile Include="Services\Session\ExceptionEventArgs.cs" />
     <Compile Include="Services\Session\ISessionPlayer.cs" />
     <Compile Include="Services\Settings\ISettings.cs" />
@@ -204,14 +183,13 @@
     <Compile Include="Converters\SectorTimeConverter.cs" />
     <Compile Include="Converters\PostedTimeTypeToColourConverter.cs" />
     <Compile Include="Converters\GridColumnColourConverter.cs" />
-    <Compile Include="Presenters\ILoadScreenPresenter.cs" />
-    <Compile Include="Presenters\Impl\LoadScreenPresenter.cs" />
     <Compile Include="Presenters\Impl\HomePresenter.cs" />
     <Compile Include="Presenters\Impl\SessionPresenter.cs" />
     <Compile Include="Presenters\IHomePresenter.cs" />
     <Compile Include="Presenters\ISessionPresenter.cs" />
     <Compile Include="Presenters\IShellPresenter.cs" />
     <Compile Include="Services\Session\DefaultSessionPlayer.cs" />
+    <Compile Include="Utility\AssemblyInfoHelper.cs" />
     <Compile Include="Utility\Format.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -219,26 +197,23 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
+    <Compile Include="Views\Components\MiniWeather.xaml.cs">
+      <DependentUpon>MiniWeather.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Components\DebugInfo.xaml.cs">
       <DependentUpon>DebugInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Components\DriverInfo.xaml.cs">
-      <DependentUpon>DriverInfo.xaml</DependentUpon>
+    <Compile Include="Views\Components\DriverTiming.xaml.cs">
+      <DependentUpon>DriverTiming.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Components\FastestTimes.xaml.cs">
       <DependentUpon>FastestTimes.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Components\SessionStatus.xaml.cs">
-      <DependentUpon>SessionStatus.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Components\Weather.xaml.cs">
       <DependentUpon>Weather.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\F1Logo.xaml.cs">
       <DependentUpon>F1Logo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\LoadScreenView.xaml.cs">
-      <DependentUpon>LoadScreenView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HomeView.xaml.cs">
       <DependentUpon>HomeView.xaml</DependentUpon>
@@ -248,10 +223,6 @@
     </Compile>
     <Compile Include="Views\SessionView.xaml.cs">
       <DependentUpon>SessionView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MainView.xaml.cs">
-      <DependentUpon>MainView.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Presenters\Impl\ShellPresenter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -311,7 +282,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

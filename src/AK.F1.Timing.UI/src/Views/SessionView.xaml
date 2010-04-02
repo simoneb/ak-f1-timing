@@ -5,26 +5,22 @@
     xmlns:Controls="clr-namespace:AK.F1.Timing.UI.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <StackPanel>
-        <TabControl TabStripPlacement="Bottom" Margin="0,4,0,0">
+        <TabControl TabStripPlacement="Left" Margin="0,4,0,0">
             <TabItem Header="Grid">
                 <StackPanel Orientation="Horizontal" Margin="4,0,4,4">
-                    <Border Style="{StaticResource Border}">
-                        <DockPanel VerticalAlignment="Stretch">
-                            <Components:TimingGrid DockPanel.Dock="Top" DataContext="{Binding Session.Grid}"/>
-                            <Components:SessionStatus DockPanel.Dock="Bottom" Margin="3,3,3,3"/>
-                        </DockPanel>
-                    </Border>                    
-                    <DockPanel>
-                        <Components:FastestTimes DataContext="{Binding Session.FastestTimes}" DockPanel.Dock="Top" Margin="6,0,0,0"/>
-                        <Components:DriverInfo DataContext="{Binding SelectedDriver}" Margin="6,6,0,0"/>
-                    </DockPanel>
+                    <Components:TimingGrid DataContext="{Binding Session}" DockPanel.Dock="Top"/>
+                    <StackPanel>
+                        <Components:MiniWeather DataContext="{Binding Session.Weather}" Margin="6,0,0,0"/>
+                        <Components:FastestTimes DataContext="{Binding Session.FastestTimes}" Margin="6,6,0,0"/>
+                        <Components:DriverTiming DataContext="{Binding SelectedDriver}" Margin="6,6,0,0"/>
+                    </StackPanel>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Weather">
                 <Components:Weather DataContext="{Binding Session.Weather}"/>
             </TabItem>
             <TabItem Header="Debug">
-                <Components:DebugInfo Margin="4,2,4,3" VerticalAlignment="Top"/>
+                <Components:DebugInfo DataContext="{Binding Session}" Margin="4,2,4,3" VerticalAlignment="Top"/>
             </TabItem>
         </TabControl>
     </StackPanel>

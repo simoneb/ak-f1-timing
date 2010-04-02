@@ -13,19 +13,25 @@
 // limitations under the License.
 
 using System;
-using System.ComponentModel;
-using System.Windows;
 using System.Windows.Controls;
 
-using AK.F1.Timing.UI.Presenters;
-
-namespace AK.F1.Timing.UI.Views
+namespace AK.F1.Timing.UI.Views.Components
 {
-    public partial class LoadScreenView : UserControl
+    /// <summary>
+    /// Shows information relating to the currently selected driver.
+    /// </summary>
+    public partial class DriverTiming : UserControl
     {
-        public LoadScreenView()
-        {
+        #region Public Interface.
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="DriverTiming"/> control.
+        /// </summary>
+        public DriverTiming() {
+
             InitializeComponent();
         }
+
+        #endregion
     }
 }

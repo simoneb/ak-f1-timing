@@ -5,8 +5,15 @@
     xmlns:Controls="clr-namespace:AK.F1.Timing.UI.Controls"
     xmlns:Converters="clr-namespace:AK.F1.Timing.UI.Converters">
 
+    <Converters:CollapsedWhenTrueConverter x:Key="CollapsedWhenTrueConverter"/>
+    <Converters:CollapsedWhenFalseConverter x:Key="CollapsedWhenFalseConverter"/>
     <Converters:CollapsedWhenNullConverter x:Key="CollapsedWhenNullConverter"/>
-    <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    <Converters:CollapsedWhenNotNullConverter x:Key="CollapsedWhenNotNullConverter"/>
+    
+    <Converters:HiddenWhenTrueConverter x:Key="HiddenWhenTrueConverter"/>
+    <Converters:HiddenWhenFalseConverter x:Key="HiddenWhenFalseConverter"/>
+    <Converters:HiddenWhenNullConverter x:Key="HiddenWhenNullConverter"/>
+    
 
     <Style x:Key="Border" TargetType="{x:Type Border}">
         <Setter Property="CornerRadius" Value="3"/>
@@ -16,11 +23,11 @@
     </Style>
 
     <Style TargetType="{x:Type Window}" x:Key="WindowStyle">
-        <Setter Property="Height" Value="525"/>
-        <Setter Property="Width" Value="800"/>
-        <Setter Property="WindowStyle" Value="None"/>        
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="MinHeight" Value="440"/>
+        <Setter Property="MinWidth" Value="600"/>                
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="SizeToContent" Value="WidthAndHeight"/>
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
     </Style>
 
     <Style BasedOn="{StaticResource Border}" TargetType="{x:Type Border}" x:Key="WindowBodyStyle">        

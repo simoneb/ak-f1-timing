@@ -50,7 +50,7 @@ namespace AK.F1.Timing.UI.Presenters
         void ShowDialogue<T>(T presenter) where T : IPresenter, ILifecycleNotifier;
 
         /// <summary>
-        /// Gets the application's <see cref="Microsoft.Practices.ServiceLocation.IServiceLocator"/>
+        /// Gets the application's <see cref="Microsoft.Practices.ServiceLocation.IServiceLocator"/>.
         /// </summary>
         IServiceLocator Container { get; }
     }

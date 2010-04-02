@@ -6,29 +6,20 @@
     xmlns:Views="clr-namespace:AK.F1.Timing.UI.Views"
     WindowStartupLocation="CenterScreen"
     Style="{StaticResource WindowStyle}"
-    Title="F1-Timing">
-    <Border Style="{StaticResource WindowBodyStyle}">
-        <DockPanel>
-            <Border DockPanel.Dock="Top" Style="{StaticResource WindowHeaderStyle}" MouseLeftButtonDown="Border_MouseLeftButtonDown">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,1,2">
-                    <Button Name="Exit" Style="{StaticResource ExitWindowButton}"/>
-                </StackPanel>
-            </Border>
-            <Grid>
-                <Grid>
-                    <ContentControl x:Name="CurrentPresenter"/>
-                </Grid>
-                <Grid IsHitTestVisible="True" Visibility="{Binding DialogueModel, Converter={StaticResource CollapsedWhenNullConverter}}">                  
-                    <Grid Margin="2" HorizontalAlignment="Center">
-                        <Border Style="{StaticResource Border}">
-                            <Border.Effect>
-                                <DropShadowEffect/>
-                            </Border.Effect>
-                            <ContentControl Caliburn:View.Model="{Binding DialogueModel}"/>
-                        </Border>
-                    </Grid>
-                </Grid>
+    Title="{Binding ApplicationTitle}">
+    <Grid>
+        <Grid>
+            <ContentControl x:Name="CurrentPresenter"/>
+        </Grid>
+        <Grid IsHitTestVisible="True" Visibility="{Binding DialogueModel, Converter={StaticResource CollapsedWhenNullConverter}}">                  
+            <Grid Margin="2" HorizontalAlignment="Center">
+                <Border Style="{StaticResource Border}">
+                    <Border.Effect>
+                        <DropShadowEffect/>
+                    </Border.Effect>
+                    <ContentControl Caliburn:View.Model="{Binding DialogueModel}"/>
+                </Border>
             </Grid>
-        </DockPanel>
-    </Border>
+        </Grid>
+    </Grid>
 </Window>
