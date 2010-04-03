@@ -106,9 +106,11 @@ namespace AK.F1.Timing.Model.Session
         public override void Visit(SetDriverQuallyTimeMessage message) {
 
             var driver = GetDriver(message.DriverId);
+            var postedTime = new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted);
             
             driver.QuallyTimes.Set(message.QuallyNumber, message.QuallyTime);
-            driver.LapTimes.Laps.Add(new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted));
+            driver.LapTimes.Laps.Add(postedTime);
+            TrySetFastestLap(postedTime, driver);
         }
 
         /// <inheritdoc />
@@ -320,8 +322,14 @@ namespace AK.F1.Timing.Model.Session
 
         private void TrySetFastestLap(PostedTime time, DriverModel driver) {
 
-            if(time.Type == PostedTimeType.SessionBest) {
-                this.Session.FastestTimes.SetLap(time.Time, driver, time.LapNumber);
+            // TODO does this belong here?
+
+            var times = this.Session.FastestTimes;
+            var isSessionBest = time.Type == PostedTimeType.SessionBest ||
+                (this.Session.SessionType != SessionType.Race && (times.Lap == null || time.Time < times.Lap.Time));
+
+            if(isSessionBest) {
+                times.SetLap(time.Time, driver, time.LapNumber);
             }
         }
 
