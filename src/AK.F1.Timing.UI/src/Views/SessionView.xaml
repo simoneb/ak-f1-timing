@@ -10,9 +10,9 @@
                 <StackPanel Orientation="Horizontal" Margin="4,0,4,4">
                     <Components:TimingGrid DataContext="{Binding}" DockPanel.Dock="Top"/>
                     <DockPanel LastChildFill="True">
-                        <Components:MiniWeather DataContext="{Binding Session.Weather}" DockPanel.Dock="Top" Margin="6,0,0,0"/>
-                        <Components:FastestTimes DataContext="{Binding Session.FastestTimes}" DockPanel.Dock="Top" Margin="6,6,0,0"/>
-                        <Components:DriverTiming DataContext="{Binding SelectedDriver}" Margin="6,6,0,0"/>
+                        <Components:MiniWeather DataContext="{Binding Session.Weather}" DockPanel.Dock="Top" Margin="4,0,0,0"/>
+                        <Components:FastestTimes DataContext="{Binding Session.FastestTimes}" DockPanel.Dock="Top" Margin="4,4,0,0"/>
+                        <Components:DriverTiming DataContext="{Binding SelectedDriver}" Margin="4,4,0,0"/>
                     </DockPanel>
                 </StackPanel>
             </TabItem>
