@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Extensions
         #region Private Fields.
 
         private const int BUFFER_SIZE = 32;
-        private const int TIMEOUT = 15 * 1000;        
+        private const int TIMEOUT = 10 * 1000;        
         private static readonly Action<HttpWebRequest> EmptyConfigurator = r => { };
 
         #endregion
