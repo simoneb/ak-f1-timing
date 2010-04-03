@@ -5,11 +5,12 @@
     xmlns:Caliburn="http://www.caliburnproject.org"
     xmlns:Views="clr-namespace:AK.F1.Timing.UI.Views"
     WindowStartupLocation="CenterScreen"
+    SizeChanged="Window_SizeChanged"
     Style="{StaticResource WindowStyle}"
     Title="{Binding ApplicationTitle}">
     <Grid>
         <Grid>
-            <ContentControl x:Name="CurrentPresenter"/>
+            <ContentControl x:Name="ActiveScreen"/>
         </Grid>
         <Grid IsHitTestVisible="True" Visibility="{Binding DialogueModel, Converter={StaticResource CollapsedWhenNullConverter}}">                  
             <Grid Margin="2" HorizontalAlignment="Center">

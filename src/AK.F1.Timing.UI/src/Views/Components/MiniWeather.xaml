@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:AK.F1.Timing.UI.Controls">
     <GroupBox HorizontalAlignment="Stretch">
-        <GroupBox.Header>Weather</GroupBox.Header>
+        <GroupBox.Header>
+            <ContentControl Content="{Binding IsWet, Converter={StaticResource BooleanToWetDryConverter}}" ContentStringFormat="{}Weather - {0}"/>
+        </GroupBox.Header>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -16,21 +18,15 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Air Temperature" />
             <ContentControl Grid.Column="1" Grid.Row="0" Content="{Binding AirTemperature.Current}" ContentStringFormat="{}{0:0.0}°C" HorizontalAlignment="Right"/>
             <TextBlock Grid.Column="0" Grid.Row="1" Text="Track Temperature" />
             <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding TrackTemperature.Current}" ContentStringFormat="{}{0:0.0}°C" HorizontalAlignment="Right"/>
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Wind Speed" />
-            <ContentControl Grid.Column="1" Grid.Row="2" Content="{Binding WindSpeed.Current}" ContentStringFormat="{}{0:0.00}m/s" HorizontalAlignment="Right"/>
-            <TextBlock Grid.Column="0" Grid.Row="4" Text="Pressure" />
-            <ContentControl Grid.Column="1" Grid.Row="4" Content="{Binding Pressure.Current}" ContentStringFormat="{}{0:0.0}mb" HorizontalAlignment="Right"/>
-            <TextBlock Grid.Column="0" Grid.Row="5" Text="Humidity" />
-            <ContentControl Grid.Column="1" Grid.Row="5" Content="{Binding Humidity.Current}" ContentStringFormat="{}{0:0}%" HorizontalAlignment="Right"/>
-            <TextBlock Grid.Column="0" Grid.Row="6" Text="Raining" />
-            <ContentControl Grid.Column="1" Grid.Row="6" Content="{Binding IsWet}" HorizontalAlignment="Right"/>
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Pressure" />
+            <ContentControl Grid.Column="1" Grid.Row="2" Content="{Binding Pressure.Current}" ContentStringFormat="{}{0:0.0}mb" HorizontalAlignment="Right"/>
+            <TextBlock Grid.Column="0" Grid.Row="3" Text="Humidity" />
+            <ContentControl Grid.Column="1" Grid.Row="3" Content="{Binding Humidity.Current}" ContentStringFormat="{}{0:0}%" HorizontalAlignment="Right"/>
         </Grid>
     </GroupBox>
 </UserControl>

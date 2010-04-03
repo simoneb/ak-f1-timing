@@ -16,6 +16,7 @@
     
     <Converters:DriverStatusToColourConverter x:Key="DriverStatusToColourConverter"/>
     
+    <Converters:BooleanToWetDryConverter x:Key="BooleanToWetDryConverter"/>
 
     <Style x:Key="Border" TargetType="{x:Type Border}">
         <Setter Property="CornerRadius" Value="3"/>

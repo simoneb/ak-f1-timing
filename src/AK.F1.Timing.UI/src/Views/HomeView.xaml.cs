@@ -17,7 +17,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
-using AK.F1.Timing.UI.Presenters;
+using AK.F1.Timing.UI.Screens;
 
 namespace AK.F1.Timing.UI.Views
 {
@@ -56,7 +56,7 @@ namespace AK.F1.Timing.UI.Views
                 this.Presenter.PropertyChanged -= OnPresenterPropertyChanged;
             }
             if(e.NewValue != null) {
-                this.Presenter = (IHomePresenter)e.NewValue;
+                this.Presenter = (IHomeScreen)e.NewValue;
                 this.Presenter.PropertyChanged += OnPresenterPropertyChanged;
                 this.Password.Password = this.Presenter.Password;
             }
@@ -71,7 +71,7 @@ namespace AK.F1.Timing.UI.Views
             }
         }
 
-        private IHomePresenter Presenter { get; set; }
+        private IHomeScreen Presenter { get; set; }
 
         private bool IgnorePresenterPropertyChanges { get; set; }
 

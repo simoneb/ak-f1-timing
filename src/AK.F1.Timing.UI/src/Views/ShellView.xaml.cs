@@ -41,6 +41,12 @@ namespace AK.F1.Timing.UI.Views
             DragMove();
         }
 
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
+
+            this.MinWidth = Math.Max(this.MinWidth, e.NewSize.Width);
+            this.MinHeight = Math.Max(this.MinHeight, e.NewSize.Height);            
+        }
+
         #endregion
     }
 }

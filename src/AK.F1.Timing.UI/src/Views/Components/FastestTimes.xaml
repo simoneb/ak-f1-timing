@@ -23,7 +23,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Text=""/>
                 <TextBlock Grid.Column="1" Grid.Row="0" HorizontalAlignment="Right" Text="Time"/>
-                <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Text="Diff"/>
+                <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Text="Delta"/>
                 <TextBlock Grid.Column="3" Grid.Row="0" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Driver"/>
                 <TextBlock Grid.Column="4" Grid.Row="0" HorizontalAlignment="Right" Text="Lap"/>
                 <TextBlock Grid.Column="0" Grid.Row="1" Text="S1"/>

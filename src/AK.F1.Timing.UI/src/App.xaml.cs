@@ -13,9 +13,11 @@
 // limitations under the License.
 
 using System;
+using Caliburn.Core.Logging;
 using Caliburn.PresentationFramework.ApplicationModel;
 
-using AK.F1.Timing.UI.Presenters;
+using AK.F1.Timing.UI.Screens;
+using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI
 {
@@ -44,31 +46,26 @@ namespace AK.F1.Timing.UI
 
         #region Protected Interface.
 
-        /// <inheritdoc/>        
-        protected override object CreateRootModel() {
+        /// <inheritdoc/>
+        protected override object CreateRootModel() {            
 
-            var binder = (DefaultBinder)this.Container.GetInstance<IBinder>();
-
-            binder.EnableMessageConventions();
-            binder.EnableBindingConventions();
-
-            return this.Container.GetInstance<IShellPresenter>();
+            return this.Container.GetInstance<IShellScreen>();
         }
 
         #endregion
 
-        #region Private Impl.        
+        #region Private Impl.
 
         static App() {
 
             log4net.Config.XmlConfigurator.Configure();
-
+            LogManager.Initialize(Log4NetAdapter.GetLog);
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
         private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e) {
 
-            // TODO create an exception presenter.
+            // TODO create an exception screen.
             _log.Error(e.ExceptionObject);
         }
 

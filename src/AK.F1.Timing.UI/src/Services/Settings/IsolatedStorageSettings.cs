@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System;
-using Caliburn.Core.Metadata;
+using Caliburn.Core.IoC;
 using Caliburn.PresentationFramework.ApplicationModel;
 
 namespace AK.F1.Timing.UI.Services.Settings

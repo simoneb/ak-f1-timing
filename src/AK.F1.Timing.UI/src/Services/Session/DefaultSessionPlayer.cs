@@ -20,6 +20,7 @@ using System.Windows;
 using System.Windows.Threading;
 
 using AK.F1.Timing.Model.Session;
+using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI.Services.Session
 {
@@ -79,11 +80,13 @@ namespace AK.F1.Timing.UI.Services.Session
 
             Message message;
 
-            DispatchEvent(this.Started);
-
             try {
-                while((message = this.Reader.Read()) != null) {
-                    DispatchMessage(message);
+                message = this.Reader.Read();
+                DispatchEvent(this.Started);
+                if(message != null) {
+                    do {
+                        DispatchMessage(message);
+                    } while((message = this.Reader.Read()) != null);
                 }
             } catch(IOException exc) {
                 LogAndDispatchException(exc);
