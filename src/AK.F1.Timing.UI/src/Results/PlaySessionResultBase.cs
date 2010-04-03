@@ -36,11 +36,11 @@ namespace AK.F1.Timing.UI.Results
 
             Guard.NotNull(context, "context");
 
-            var shellPresenter = context.ServiceLocator.GetInstance<IShellScreen>();
+            var shellScreen = context.ServiceLocator.GetInstance<IShellScreen>();
             var sessionPresenter = context.ServiceLocator.GetInstance<ISessionScreen>();
 
             sessionPresenter.Player = CreateSessionPlayer();
-            shellPresenter.OpenScreen(sessionPresenter, delegate { });
+            shellScreen.OpenScreen(sessionPresenter, delegate { });
 
             Completed(this, new ResultCompletionEventArgs());
         }

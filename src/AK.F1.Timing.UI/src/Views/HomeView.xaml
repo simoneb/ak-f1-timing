@@ -56,6 +56,6 @@
             </Grid>
         </GroupBox>
         <TextBlock Text="{Binding LoginErrorMessage}" Style="{StaticResource LoginErrorMessageStyle}"/>
-        <!-- <Button Content="Playback" x:Name="Playback"/> -->
+         <Button Content="Playback" x:Name="Playback"/> 
     </StackPanel>
 </UserControl>

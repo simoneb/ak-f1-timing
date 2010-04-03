@@ -38,7 +38,7 @@ namespace AK.F1.Timing.UI.Screens
         private string _password;
         private string _loginErrorMessage;
         private readonly ISettings _settings;
-        private readonly IShellScreen _shellPresenter;
+        private readonly IShellScreen _shellScreen;
 
         #endregion
 
@@ -47,18 +47,18 @@ namespace AK.F1.Timing.UI.Screens
         /// <summary>
         /// Initialises a new instance of the <see cref="HomeScreen"/> class.
         /// </summary>
-        /// <param name="shellPresenter">The
+        /// <param name="shellScreen">The
         /// <see cref="AK.F1.Timing.UI.Screens.IShellScreen"/>.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="shellPresenter"/> or <paramref name="settings"/>
+        /// Thrown when <paramref name="shellScreen"/> or <paramref name="settings"/>
         /// is <see langword="null"/>.
         /// </exception>
-        public HomeScreen(IShellScreen shellPresenter, ISettings settings) {
+        public HomeScreen(IShellScreen shellScreen, ISettings settings) {
 
-            Guard.NotNull(shellPresenter, "shellPresenter");
+            Guard.NotNull(shellScreen, "shellScreen");
             Guard.NotNull(settings, "settings");
 
-            _shellPresenter = shellPresenter;
+            _shellScreen = shellScreen;
             _settings = settings;      
         }
 

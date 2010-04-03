@@ -96,10 +96,7 @@ namespace AK.F1.Timing.UI.Screens
 
             get { return AssemblyInfoHelper.VersionedTitle; }
         }
-
-        /// <inheritdoc/>
-        public IServiceLocator Container { get; private set; }
-
+        
         #endregion
 
         #region Protected Interface.
@@ -111,6 +108,12 @@ namespace AK.F1.Timing.UI.Screens
 
             OpenHome();
         }
+
+        #endregion
+
+        #region Private Impl.
+
+        private IServiceLocator Container { get; set; }
 
         #endregion
     }

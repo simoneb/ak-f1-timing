@@ -34,7 +34,7 @@ namespace AK.F1.Timing.UI.Screens
         private ISessionPlayer _player;        
         private DriverModel _selectedDriver;
         private GridRowModelBase _selectedGridRow;
-        private readonly IShellScreen _shellPresenter;
+        private readonly IShellScreen _shellScreen;
 
         #endregion
 
@@ -43,16 +43,16 @@ namespace AK.F1.Timing.UI.Screens
         /// <summary>
         /// Initialises a new instance of the <see cref="SessionScreen"/> class.
         /// </summary>
-        /// <param name="shellPresenter">The
+        /// <param name="shellScreen">The
         /// <see cref="AK.F1.Timing.UI.Screens.IShellScreen"/>.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="shellPresenter"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="shellScreen"/> is <see langword="null"/>.
         /// </exception>
-        public SessionScreen(IShellScreen shellPresenter) {
+        public SessionScreen(IShellScreen shellScreen) {
 
-            Guard.NotNull(shellPresenter, "shellPresenter");
+            Guard.NotNull(shellScreen, "shellScreen");
 
-            _shellPresenter = shellPresenter;
+            _shellScreen = shellScreen;
         }
 
         /// <inheritdoc/>

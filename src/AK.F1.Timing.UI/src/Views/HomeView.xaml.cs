@@ -45,35 +45,34 @@ namespace AK.F1.Timing.UI.Views
 
         private void OnPasswordChanged(object sender, RoutedEventArgs e) {
 
-            this.IgnorePresenterPropertyChanges = true;
-            this.Presenter.Password = ((PasswordBox)e.Source).Password;
-            this.IgnorePresenterPropertyChanges = false;
+            e.Handled = true;
+            this.IgnoreScreenPropertyChanges = true;
+            this.Screen.Password = ((PasswordBox)e.Source).Password;            
+            this.IgnoreScreenPropertyChanges = false;
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {            
 
-            if(this.Presenter != null) {
-                this.Presenter.PropertyChanged -= OnPresenterPropertyChanged;
+            if(this.Screen != null) {
+                this.Screen.PropertyChanged -= OnScreenPropertyChanged;
             }
             if(e.NewValue != null) {
-                this.Presenter = (IHomeScreen)e.NewValue;
-                this.Presenter.PropertyChanged += OnPresenterPropertyChanged;
-                this.Password.Password = this.Presenter.Password;
+                this.Screen = (IHomeScreen)e.NewValue;
+                this.Screen.PropertyChanged += OnScreenPropertyChanged;
+                this.Password.Password = this.Screen.Password;
             }
         }
 
-        private void OnPresenterPropertyChanged(object sender, PropertyChangedEventArgs e) {
+        private void OnScreenPropertyChanged(object sender, PropertyChangedEventArgs e) {
 
-            if(!this.IgnorePresenterPropertyChanges) {
-                if(e.PropertyName.Equals("Password", StringComparison.Ordinal)) {
-                    this.Password.Password = this.Presenter.Password;
-                }
+            if(!this.IgnoreScreenPropertyChanges && e.PropertyName.Equals("Password", StringComparison.Ordinal)) {
+                this.Password.Password = this.Screen.Password;
             }
         }
 
-        private IHomeScreen Presenter { get; set; }
+        private IHomeScreen Screen { get; set; }
 
-        private bool IgnorePresenterPropertyChanges { get; set; }
+        private bool IgnoreScreenPropertyChanges { get; set; }
 
         #endregion
     }
