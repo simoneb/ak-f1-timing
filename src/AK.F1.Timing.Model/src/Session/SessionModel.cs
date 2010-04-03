@@ -29,7 +29,7 @@ namespace AK.F1.Timing.Model.Session
     /// <summary>
     /// Provides detailed information about a single F1 timing session.
     /// </summary>
-    public class SessionModel : ModelBase, IMessageProcessor, IDriverModelProvider
+    public class SessionModel : ModelBase, IMessageProcessor
     {
         #region Private Fields.
 
