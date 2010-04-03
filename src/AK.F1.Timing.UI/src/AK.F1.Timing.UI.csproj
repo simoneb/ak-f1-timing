@@ -189,8 +189,8 @@
     <Compile Include="Converters\SectorTimeConverter.cs" />
     <Compile Include="Converters\PostedTimeTypeToColourConverter.cs" />
     <Compile Include="Converters\GridColumnColourConverter.cs" />
-    <Compile Include="Screens\Impl\HomeScreen.cs" />
-    <Compile Include="Screens\Impl\SessionScreen.cs" />
+    <Compile Include="Screens\HomeScreen.cs" />
+    <Compile Include="Screens\SessionScreen.cs" />
     <Compile Include="Screens\IHomeScreen.cs" />
     <Compile Include="Screens\ISessionScreen.cs" />
     <Compile Include="Screens\IShellScreen.cs" />
@@ -231,7 +231,7 @@
     <Compile Include="Views\SessionView.xaml.cs">
       <DependentUpon>SessionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Screens\Impl\ShellScreen.cs" />
+    <Compile Include="Screens\ShellScreen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -289,7 +289,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
