@@ -5,9 +5,8 @@
     xmlns:Caliburn="http://www.caliburnproject.org">
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Themes/ExpressionDark.xaml"/>
-                <ResourceDictionary Source="Resources/Themes/Common.xaml"/>
+            <ResourceDictionary.MergedDictionaries>                
+                <ResourceDictionary Source="Resources/Themes/Generic.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/Grid/Common.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/Grid/None.xaml"/>
                 <ResourceDictionary Source="Resources/Templates/Grid/Practice.xaml"/>
