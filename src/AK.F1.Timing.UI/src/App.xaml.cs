@@ -28,7 +28,7 @@ namespace AK.F1.Timing.UI
     {
         #region Fields.
 
-        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(App));
+        private static readonly log4net.ILog _log;
 
         #endregion
 
@@ -60,6 +60,7 @@ namespace AK.F1.Timing.UI
 
             log4net.Config.XmlConfigurator.Configure();
             LogManager.Initialize(Log4NetAdapter.GetLog);
+            _log = log4net.LogManager.GetLogger(typeof(App));
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
