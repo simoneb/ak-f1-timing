@@ -26,7 +26,6 @@ namespace AK.F1.Timing.Model.Session
     {
         #region Private Fields.
 
-        private bool _isEmpty;
         private FastestTimeModel _lap;
         private FastestTimeModel _s1;
         private FastestTimeModel _s2;
