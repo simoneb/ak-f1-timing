@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Model.Grid
         #region Practice Interface.
 
         /// <inheritdoc />
-        protected override PracticeGridRowModel CreateGridRow(int driverId) {
+        protected override PracticeGridRowModel CreateRow(int driverId) {
 
             return new PracticeGridRowModel(driverId);
         }

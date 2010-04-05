@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 using AK.F1.Timing.Model.Collections;
@@ -22,14 +23,14 @@ namespace AK.F1.Timing.Model.Grid
     /// <summary>
     /// Defines the base class for a grid model. This class is <see langword="abstract"/>.
     /// </summary>
-    /// <typeparam name="TGridRow">The type of <see cref="GridRowModelBase"/> that the grid is
+    /// <typeparam name="TRow">The type of <see cref="GridRowModelBase"/> that the grid is
     /// composed of.</typeparam>
     [Serializable]    
-    public abstract class GridModelBase<TGridRow> : GridModelBase where TGridRow: GridRowModelBase
+    public abstract class GridModelBase<TRow> : GridModelBase where TRow: GridRowModelBase
     {
         #region Private Fields.
 
-        private GridModelBuilder<TGridRow> _builder;
+        private GridModelBuilder<TRow> _builder;
 
         #endregion
 
@@ -51,25 +52,23 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Throw when <paramref name="driverId"/> is not positive.
         /// </exception>
-        public virtual TGridRow GetGridRow(int driverId) {
+        public virtual TRow GetRow(int driverId) {
 
-            foreach(var row in Rows) {
-                if(row.DriverId == driverId) {
-                    return row;
-                }
+            TRow row;
+
+            if(!RowsById.TryGetValue(driverId, out row)) {
+                row = CreateRow(driverId);
+                RowsById.Add(driverId, row);
+                InnerRows.Add(row);
             }
 
-            var model = CreateGridRow(driverId);
-
-            Rows.Add(model);
-
-            return model;
+            return row;
         }
 
         /// <summary>
         /// Gets the collection of rows contained by this grid.
         /// </summary>
-        public SortableObservableCollection<TGridRow> Rows { get; private set; }
+        public ReadOnlyObservableCollection<TRow> Rows { get; private set; }
 
         #endregion
 
@@ -80,10 +79,12 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         protected GridModelBase() {
 
-            Rows = new SortableObservableCollection<TGridRow>((x, y) => {
+            RowsById = new Dictionary<int, TRow>(25);
+            InnerRows = new SortableObservableCollection<TRow>((x, y) => {
                 return x.RowIndex.CompareTo(y.RowIndex);
             });
-            Builder = new GridModelBuilder<TGridRow>(this);
+            Rows = new ReadOnlyObservableCollection<TRow>(InnerRows);
+            Builder = new GridModelBuilder<TRow>(this);
         }
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Throw when <paramref name="driverId"/> is not positive.
         /// </exception>
-        protected abstract TGridRow CreateGridRow(int driverId);
+        protected abstract TRow CreateRow(int driverId);
 
         /// <summary>
         /// Gets or sets the instance which builds the grid model.
@@ -102,7 +103,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentNullException">
         /// Throw when <paramref name="value"/> is <see langword="null"/>.
         /// </exception>
-        protected GridModelBuilder<TGridRow> Builder {
+        protected GridModelBuilder<TRow> Builder {
 
             get { return _builder; }
             set {
@@ -110,6 +111,21 @@ namespace AK.F1.Timing.Model.Grid
                 _builder = value;
             }
         }
+
+        #endregion
+
+        #region Internal Interface.
+
+        /// <summary>
+        /// Gets the inner collection of grid rows.
+        /// </summary>
+        internal SortableObservableCollection<TRow> InnerRows { get; private set; }
+
+        #endregion
+
+        #region Private Impl.
+
+        private IDictionary<int, TRow> RowsById { get; set; }
 
         #endregion
     }

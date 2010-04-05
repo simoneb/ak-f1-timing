@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         /// <param name="driverId"></param>
         /// <returns><see langword="null"/>.</returns>
-        public override NullGridRowModel GetGridRow(int driverId) {
+        public override NullGridRowModel GetRow(int driverId) {
 
             return null;
         }
@@ -56,7 +56,7 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>        
         /// <param name="driverId"></param>
         /// <exception cref="System.NotImplementedException"></exception>
-        protected override NullGridRowModel CreateGridRow(int driverId) {
+        protected override NullGridRowModel CreateRow(int driverId) {
 
             throw Guard.NotImplemented();
         }
