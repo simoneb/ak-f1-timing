@@ -28,6 +28,11 @@ namespace AK.F1.Timing.UI.Services.Session
         event EventHandler Started;
 
         /// <summary>
+        /// Occurs when the player has been paused.
+        /// </summary>
+        event EventHandler Paused;
+
+        /// <summary>
         /// Occurs when the player has stopped.
         /// </summary>
         event EventHandler Stopped;
@@ -40,11 +45,30 @@ namespace AK.F1.Timing.UI.Services.Session
         /// <summary>
         /// Starts the player.
         /// </summary>
+        /// <exception cref="System.InvalidOperationException">
+        /// Thrown when the player is stopped.
+        /// </exception>
         void Start();
+
+        /// <summary>
+        /// Pauses the player.
+        /// </summary>
+        /// <exception cref="System.NotSupportedException">
+        /// Thrown when the player does not support pause.
+        /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// Thrown when the player cannot be paused as it has not been started or it is stopped.
+        /// </exception>
+        void Pause();
 
         /// <summary>
         /// Gets the <see cref="AK.F1.Timing.Model.Session.SessionModel"/> being played.
         /// </summary>
         SessionModel Session { get; }
+
+        /// <summary>
+        /// Gets a value indicating if this player supports pausing.
+        /// </summary>
+        bool SupportsPause { get; }
     }
 }

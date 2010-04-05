@@ -20,10 +20,14 @@ using System.Windows;
 using System.Windows.Threading;
 
 using AK.F1.Timing.Model.Session;
+using AK.F1.Timing.Recording;
 using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI.Services.Session
 {
+    /// <summary>
+    /// A default <see cref="AK.F1.Timing.UI.Services.Session.ISessionPlayer"/> implementation.
+    /// </summary>
     public class DefaultSessionPlayer : ISessionPlayer
     {
         #region Fields.
@@ -39,38 +43,54 @@ namespace AK.F1.Timing.UI.Services.Session
         public event EventHandler Started;
 
         /// <inheritdoc/>
+        public event EventHandler Paused;
+
+        /// <inheritdoc/>
         public event EventHandler Stopped;
 
         /// <inheritdoc/>
         public event EventHandler<ExceptionEventArgs> Exception;
 
         /// <summary>
-        /// 
+        /// Initialises a new instance of the <see cref="DefaultSessionPlayer"/> class.
         /// </summary>
-        /// <param name="messageReader"></param>
-        public DefaultSessionPlayer(IMessageReader messageReader) {
+        /// <param name="reader"></param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="reader"/> is <see langword="null"/>.
+        /// </exception>
+        public DefaultSessionPlayer(IMessageReader reader) {
 
-            Guard.NotNull(messageReader, "messageReader");
+            Guard.NotNull(reader, "reader");
 
-            this.Reader = messageReader;
-            this.Session = new SessionModel();
-            this.Dispatcher = Application.Current.Dispatcher;
-            this.Worker = new Thread(ReadAndDispatchMessages);
-            this.Worker.IsBackground = true;
-            this.CachedDispatchMessageCallback = (Action<Message>)DispatchMessageCallback;
+            Reader = reader;
+            Session = new SessionModel();
+            Dispatcher = Application.Current.Dispatcher;
+            Worker = new Thread(ReadAndDispatchMessages) {                
+                IsBackground = true
+            };
+            CachedDispatchMessageCallback = (Action<Message>)DispatchMessageCallback;            
         }
 
         /// <inheritdoc/>
         public void Start() {
 
-            lock(this.Worker) {
+            lock(Worker) {
                 // TODO this should throw if worker is not unstarted or running.
-                this.Worker.Start();
+                Worker.Start();
             }
         }
 
         /// <inheritdoc/>
+        public void Pause() {
+
+            throw new NotSupportedException();
+        }
+
+        /// <inheritdoc/>
         public SessionModel Session { get; private set; }
+
+        /// <inheritdoc/>
+        public bool SupportsPause { get; set; }
 
         #endregion
 
@@ -81,12 +101,12 @@ namespace AK.F1.Timing.UI.Services.Session
             Message message;
 
             try {
-                message = this.Reader.Read();
-                DispatchEvent(this.Started);
+                message = Reader.Read();
+                DispatchEvent(Started);
                 if(message != null) {
-                    do {
+                    do {                        
                         DispatchMessage(message);
-                    } while((message = this.Reader.Read()) != null);
+                    } while((message = Reader.Read()) != null);
                 }
             } catch(IOException exc) {
                 LogAndDispatchException(exc);
@@ -97,36 +117,36 @@ namespace AK.F1.Timing.UI.Services.Session
                 throw;
             }
 
-            DispatchEvent(this.Stopped);
+            DispatchEvent(Stopped);
         }
 
         private void DispatchMessage(Message message) {
 
-            this.Dispatcher.BeginInvoke(this.CachedDispatchMessageCallback, message);
+            Dispatcher.BeginInvoke(CachedDispatchMessageCallback, message);
         }
 
         private void DispatchMessageCallback(Message message) {
 
-            this.Session.Process(message);
+            Session.Process(message);
         }
 
         private void LogAndDispatchException(Exception exc) {
 
             _log.Error(exc);
-            DispatchEvent(this.Exception, new ExceptionEventArgs(exc));
+            DispatchEvent(Exception, new ExceptionEventArgs(exc));
         }
 
         private void DispatchEvent(EventHandler @event) {
 
             if(@event != null) {
-                this.Dispatcher.BeginInvoke(@event, this, EventArgs.Empty);
+                Dispatcher.BeginInvoke(@event, this, EventArgs.Empty);
             }
         }
 
         private void DispatchEvent<T>(EventHandler<T> @event, T e) where T: EventArgs {
 
             if(@event != null) {
-                this.Dispatcher.BeginInvoke(@event, this, e);
+                Dispatcher.BeginInvoke(@event, this, e);
             }
         }
 

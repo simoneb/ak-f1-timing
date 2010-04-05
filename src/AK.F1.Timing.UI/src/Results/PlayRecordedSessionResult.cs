@@ -53,9 +53,11 @@ namespace AK.F1.Timing.UI.Results
 
             var reader = F1Timing.Playback.Read(this.TmsPath);
 
-            reader.PlaybackSpeed = 100d;
+            reader.PlaybackSpeed = 50d;
 
-            return new DefaultSessionPlayer(reader);
+            return new DefaultSessionPlayer(reader) {
+                SupportsPause = true
+            };
         }
 
         #endregion
