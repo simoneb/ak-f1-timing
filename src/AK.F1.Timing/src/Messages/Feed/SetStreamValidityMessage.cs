@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Messages.Feed
         /// <see langword="false"/>.</param>
         public SetStreamValidityMessage(bool isValid) {
 
-            this.IsValid = isValid;
+            IsValid = isValid;
         }
 
         /// <inheritdoc />
@@ -49,7 +49,7 @@ namespace AK.F1.Timing.Messages.Feed
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("IsValid='{0}'", this.IsValid);
+            return Repr("IsValid='{0}'", IsValid);
         }
 
         /// <summary>

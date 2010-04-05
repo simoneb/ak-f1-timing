@@ -41,7 +41,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.InRange(pitCount >= 0, "pitCount");
 
-            this.PitCount = pitCount;
+            PitCount = pitCount;
         }
 
         /// <inheritdoc />
@@ -55,7 +55,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, PitCount={1}", this.DriverId, this.PitCount);
+            return Repr("DriverId={0}, PitCount={1}", DriverId, PitCount);
         }
 
         /// <summary>

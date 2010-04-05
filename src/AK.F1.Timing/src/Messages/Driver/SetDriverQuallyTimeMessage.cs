@@ -43,8 +43,8 @@ namespace AK.F1.Timing.Messages.Driver
             Guard.InRange(quallyNumber > 0, "quallyNumber");
             Guard.InRange(quallyTime > TimeSpan.Zero, "quallyTime");
 
-            this.QuallyNumber = quallyNumber;            
-            this.QuallyTime = quallyTime;
+            QuallyNumber = quallyNumber;            
+            QuallyTime = quallyTime;
         }
 
         /// <inheritdoc />
@@ -58,8 +58,8 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, QuallyNumber={1}, QuallyTime='{2}'", this.DriverId,
-                this.QuallyNumber, this.QuallyTime);
+            return Repr("DriverId={0}, QuallyNumber={1}, QuallyTime='{2}'", DriverId,
+                QuallyNumber, QuallyTime);
         }
 
         /// <summary>

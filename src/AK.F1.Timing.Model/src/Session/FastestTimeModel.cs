@@ -36,10 +36,10 @@ namespace AK.F1.Timing.Model.Session
         /// <param name="lapNumber">The lap number on which the time was set.</param>
         public FastestTimeModel(TimeSpan time, TimeSpan? delta, DriverModel driver, int lapNumber) {
 
-            this.Time = time;
-            this.Delta = delta;
-            this.Driver = driver;
-            this.LapNumber = lapNumber;
+            Time = time;
+            Delta = delta;
+            Driver = driver;
+            LapNumber = lapNumber;
         }
 
         /// <summary>

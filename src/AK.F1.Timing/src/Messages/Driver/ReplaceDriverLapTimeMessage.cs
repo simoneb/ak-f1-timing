@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.NotNull(replacement, "replacement");
 
-            this.Replacement = replacement;
+            Replacement = replacement;
         }
 
         /// <inheritdoc />
@@ -57,7 +57,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, Replacement={1}", this.DriverId, this.Replacement);
+            return Repr("DriverId={0}, Replacement={1}", DriverId, Replacement);
         }
 
         /// <summary>

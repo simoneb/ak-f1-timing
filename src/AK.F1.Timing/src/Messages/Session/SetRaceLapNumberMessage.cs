@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messages.Session
 
             Guard.InRange(lapNumber >= 0, "lapNumber");
 
-            this.LapNumber = lapNumber;            
+            LapNumber = lapNumber;            
         }
 
         /// <inheritdoc />
@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Messages.Session
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("LapNumber={0}", this.LapNumber);
+            return Repr("LapNumber={0}", LapNumber);
         }
 
         /// <summary>

@@ -65,7 +65,7 @@ namespace AK.F1.Timing.Serialization
 
             Guard.NotNull(component, "component");            
 
-            return this.Property.GetGetMethod().Invoke(component, null);
+            return Property.GetGetMethod().Invoke(component, null);
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace AK.F1.Timing.Serialization
 
             Guard.NotNull(component, "component");
 
-            this.Property.GetSetMethod(true).Invoke(component, new[] { value });
+            Property.GetSetMethod(true).Invoke(component, new[] { value });
         }
 
         /// <inheritdoc/>
@@ -97,22 +97,22 @@ namespace AK.F1.Timing.Serialization
         public bool Equals(PropertyDescriptor other) {
 
             return other != null &&
-                other.PropertyId == this.PropertyId &&
-                other.Property.DeclaringType.Equals(this.Property.DeclaringType);
+                other.PropertyId == PropertyId &&
+                other.Property.DeclaringType.Equals(Property.DeclaringType);
         }
 
         /// <inheritdoc/>
         public override int GetHashCode() {
 
             return HashCodeBuilder.New()
-                .Add(this.PropertyId)
-                .Add(this.Property.DeclaringType);
+                .Add(PropertyId)
+                .Add(Property.DeclaringType);
         }
 
         /// <inheritdoc/>
         public override string ToString() {
 
-            return this.Property.ToString();
+            return Property.ToString();
         }
 
         /// <summary>
@@ -156,8 +156,8 @@ namespace AK.F1.Timing.Serialization
 
         private PropertyDescriptor(PropertyInfo property, byte propertyId) {
 
-            this.Property = property;
-            this.PropertyId = propertyId;
+            Property = property;
+            PropertyId = propertyId;
         }
 
         private static void CheckHasGetAndSetMethod(PropertyInfo property) {

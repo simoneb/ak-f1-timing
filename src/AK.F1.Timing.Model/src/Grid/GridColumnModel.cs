@@ -40,15 +40,15 @@ namespace AK.F1.Timing.Model.Grid
         /// <param name="type">The grid column type.</param>
         public GridColumnModel(GridColumn type) {
 
-            this.Type = type;
-            this.TextColour = GridColumnColour.Black;
+            Type = type;
+            TextColour = GridColumnColour.Black;
         }
 
         /// <inheritdoc />
         public override string ToString() {
 
-            return string.Format("Type='{0}', Text='{1}', TextColour='{2}'", this.Type,
-                this.Text, this.TextColour);
+            return string.Format("Type='{0}', Text='{1}', TextColour='{2}'", Type,
+                Text, TextColour);
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         public void Reset() {
 
-            this.Text = null;
-            this.TextColour = GridColumnColour.Black;
+            Text = null;
+            TextColour = GridColumnColour.Black;
         }
 
         /// <summary>

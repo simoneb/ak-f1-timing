@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Feed
 
             Guard.InRange(delay > TimeSpan.Zero, "delay");
 
-            this.Delay = delay;
+            Delay = delay;
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Feed
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Delay='{0}'", this.Delay);
+            return Repr("Delay='{0}'", Delay);
         }
 
         /// <summary>

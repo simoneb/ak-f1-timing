@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Weather
 
             Guard.InRange(pressure > 0D, "pressure");
 
-            this.Pressure = pressure;            
+            Pressure = pressure;            
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Pressure={0}", this.Pressure);
+            return Repr("Pressure={0}", Pressure);
         }
 
         /// <summary>

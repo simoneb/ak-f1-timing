@@ -37,7 +37,7 @@ namespace AK.F1.Timing.UI.Results
 
             Guard.NotNull(token, "token");
 
-            this.Token = token;
+            Token = token;
         }
 
         #endregion
@@ -47,7 +47,7 @@ namespace AK.F1.Timing.UI.Results
         /// <inheritdoc/>
         protected override ISessionPlayer CreateSessionPlayer() {
 
-            return new DefaultSessionPlayer(F1Timing.Live.Read(this.Token));
+            return new DefaultSessionPlayer(F1Timing.Live.Read(Token));
         }
 
         #endregion

@@ -45,9 +45,9 @@ namespace AK.F1.Timing.Messages.Driver
             Guard.InRange(time >= TimeSpan.Zero, "time");
             Guard.InRange(lapNumber >= 0, "lapNumber");
 
-            this.Time = time;
-            this.Type = type;
-            this.LapNumber = lapNumber;            
+            Time = time;
+            Type = type;
+            LapNumber = lapNumber;            
         }
 
         /// <inheritdoc />
@@ -77,16 +77,16 @@ namespace AK.F1.Timing.Messages.Driver
             if(other == this) {
                 return 0;
             }
-            if((relationship = this.Time.CompareTo(other.Time)) != 0) {
+            if((relationship = Time.CompareTo(other.Time)) != 0) {
                 return relationship;
             }
-            if((relationship = ((int)this.Type).CompareTo((int)other.Type)) != 0) {
+            if((relationship = ((int)Type).CompareTo((int)other.Type)) != 0) {
                 // Times are ordered Normal(0) -> PersonalBest(1) -> SessionBest(2) so the
                 // sign relationship must be switched.
                 return -relationship;
             }
 
-            return this.LapNumber.CompareTo(other.LapNumber);
+            return LapNumber.CompareTo(other.LapNumber);
         }
 
         /// <inheritdoc />
@@ -103,25 +103,25 @@ namespace AK.F1.Timing.Messages.Driver
             if(other == null)
                 return false;
 
-            return this.LapNumber == other.LapNumber &&
-                this.Time == other.Time &&
-                this.Type == other.Type;
+            return LapNumber == other.LapNumber &&
+                Time == other.Time &&
+                Type == other.Type;
         }
 
         /// <inheritdoc />
         public override int GetHashCode() {
 
             return HashCodeBuilder.New()
-                .Add(this.LapNumber)
-                .Add(this.Time)
-                .Add(this.Type);
+                .Add(LapNumber)
+                .Add(Time)
+                .Add(Type);
         }
 
         /// <inheritdoc />
         public override string ToString() {
 
             return string.Format("{0}(Time='{1}', Type='{2}', LapNumber={3})", GetType().Name,
-                this.Time, this.Type, this.LapNumber);
+                Time, Type, LapNumber);
         }        
 
         /// <summary>
@@ -142,7 +142,7 @@ namespace AK.F1.Timing.Messages.Driver
         [IgnoreProperty]
         public double TimeInSeconds {
 
-            get { return this.Time.TotalSeconds; }
+            get { return Time.TotalSeconds; }
         }
 
         /// <summary>

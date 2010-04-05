@@ -44,7 +44,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.InRange(laps >= 0, "laps");
 
-            this.Laps = laps;
+            Laps = laps;
         }
 
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public bool Equals(LapGap other) {
 
-            return other != null && other.Laps == this.Laps;
+            return other != null && other.Laps == Laps;
         }
 
         /// <inheritdoc />
@@ -72,7 +72,7 @@ namespace AK.F1.Timing.Messages.Driver
             LapGap other = obj as LapGap;
 
             if(other != null) {
-                return this.Laps.CompareTo(other.Laps);
+                return Laps.CompareTo(other.Laps);
             }
             if(obj is TimeGap) {
                 // We are always greater than any TimeGap.
@@ -87,13 +87,13 @@ namespace AK.F1.Timing.Messages.Driver
         
             return HashCodeBuilder.New()
                 .Add(GetType())
-                .Add(this.Laps);
+                .Add(Laps);
         }
 
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Laps={0}", this.Laps);
+            return Repr("Laps={0}", Laps);
         }
 
         /// <summary>

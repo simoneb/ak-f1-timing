@@ -35,8 +35,8 @@ namespace AK.F1.Timing.UI.Views
 
             InitializeComponent();
 
-            this.DataContextChanged += OnDataContextChanged;
-            this.Password.PasswordChanged += OnPasswordChanged;
+            DataContextChanged += OnDataContextChanged;
+            Password.PasswordChanged += OnPasswordChanged;
         }
 
         #endregion
@@ -46,27 +46,27 @@ namespace AK.F1.Timing.UI.Views
         private void OnPasswordChanged(object sender, RoutedEventArgs e) {
 
             e.Handled = true;
-            this.IgnoreScreenPropertyChanges = true;
-            this.Screen.Password = ((PasswordBox)e.Source).Password;            
-            this.IgnoreScreenPropertyChanges = false;
+            IgnoreScreenPropertyChanges = true;
+            Screen.Password = ((PasswordBox)e.Source).Password;            
+            IgnoreScreenPropertyChanges = false;
         }
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {            
 
-            if(this.Screen != null) {
-                this.Screen.PropertyChanged -= OnScreenPropertyChanged;
+            if(Screen != null) {
+                Screen.PropertyChanged -= OnScreenPropertyChanged;
             }
             if(e.NewValue != null) {
-                this.Screen = (IHomeScreen)e.NewValue;
-                this.Screen.PropertyChanged += OnScreenPropertyChanged;
-                this.Password.Password = this.Screen.Password;
+                Screen = (IHomeScreen)e.NewValue;
+                Screen.PropertyChanged += OnScreenPropertyChanged;
+                Password.Password = Screen.Password;
             }
         }
 
         private void OnScreenPropertyChanged(object sender, PropertyChangedEventArgs e) {
 
-            if(!this.IgnoreScreenPropertyChanges && e.PropertyName.Equals("Password", StringComparison.Ordinal)) {
-                this.Password.Password = this.Screen.Password;
+            if(!IgnoreScreenPropertyChanges && e.PropertyName.Equals("Password", StringComparison.Ordinal)) {
+                Password.Password = Screen.Password;
             }
         }
 

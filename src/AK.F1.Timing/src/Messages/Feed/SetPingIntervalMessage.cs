@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Feed
 
             Guard.InRange(pingInterval >= TimeSpan.Zero, "pingInterval");
 
-            this.PingInterval = pingInterval;            
+            PingInterval = pingInterval;            
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Feed
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("PingInterval='{0}'", this.PingInterval);
+            return Repr("PingInterval='{0}'", PingInterval);
         }
 
         /// <summary>

@@ -213,8 +213,8 @@ namespace AK.F1.Timing.Serialization
                 var other = (TypeWithComplexProperties)obj;
 
                 return
-                    object.Equals(other.EmptyType, this.EmptyType) &&
-                    object.Equals(other.TypeWithPrivateCtor, this.TypeWithPrivateCtor);
+                    object.Equals(other.EmptyType, EmptyType) &&
+                    object.Equals(other.TypeWithPrivateCtor, TypeWithPrivateCtor);
             }
 
             public override int GetHashCode() {

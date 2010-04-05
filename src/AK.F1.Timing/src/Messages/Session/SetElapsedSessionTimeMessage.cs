@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messages.Session
 
             Guard.InRange(elapsed >= TimeSpan.Zero, "elapsed");
 
-            this.Elapsed = elapsed;            
+            Elapsed = elapsed;            
         }
 
         /// <inheritdoc />
@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Messages.Session
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Elapsed='{0}'", this.Elapsed);
+            return Repr("Elapsed='{0}'", Elapsed);
         }
 
         /// <summary>

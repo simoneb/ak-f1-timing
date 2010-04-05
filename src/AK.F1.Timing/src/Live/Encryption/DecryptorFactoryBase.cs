@@ -45,7 +45,7 @@ namespace AK.F1.Timing.Live.Encryption
         /// <inheritdoc />
         public virtual IDecryptor Create() {
 
-            this.Log.Info("creating decryptor with default seed");
+            Log.Info("creating decryptor with default seed");
 
             return CreateWithSeed(DecryptorFactoryBase.DefaultSeed);
         }
@@ -57,14 +57,14 @@ namespace AK.F1.Timing.Live.Encryption
 
             int seed;
 
-            if(!this.SeedCache.TryGetValue(sessionId, out seed)) {
+            if(!SeedCache.TryGetValue(sessionId, out seed)) {
                 seed = GetSeedForSession(sessionId);
-                this.SeedCache.Add(sessionId, seed);
+                SeedCache.Add(sessionId, seed);
             } else {
-                this.Log.InfoFormat("cache hit for session {0} with seed {1}", sessionId, seed);
+                Log.InfoFormat("cache hit for session {0} with seed {1}", sessionId, seed);
             }
 
-            this.Log.InfoFormat("creating decryptor for session {0} with seed {1}", sessionId, seed);
+            Log.InfoFormat("creating decryptor for session {0} with seed {1}", sessionId, seed);
 
             return CreateWithSeed(seed);
         }
@@ -78,7 +78,7 @@ namespace AK.F1.Timing.Live.Encryption
         /// </summary>
         protected DecryptorFactoryBase() {
 
-            this.SeedCache = new Dictionary<string, int>(StringComparer.Ordinal);
+            SeedCache = new Dictionary<string, int>(StringComparer.Ordinal);
         }
 
         /// <summary>

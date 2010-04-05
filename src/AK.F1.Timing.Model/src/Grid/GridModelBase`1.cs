@@ -40,7 +40,7 @@ namespace AK.F1.Timing.Model.Grid
 
             Guard.NotNull(message, "message");
 
-            message.Accept(this.Builder);
+            message.Accept(Builder);
         }
         
         /// <summary>
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Model.Grid
         /// </exception>
         public virtual TGridRow GetGridRow(int driverId) {
 
-            foreach(var row in this.Rows) {
+            foreach(var row in Rows) {
                 if(row.DriverId == driverId) {
                     return row;
                 }
@@ -61,7 +61,7 @@ namespace AK.F1.Timing.Model.Grid
 
             var model = CreateGridRow(driverId);
 
-            this.Rows.Add(model);
+            Rows.Add(model);
 
             return model;
         }
@@ -80,10 +80,10 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         protected GridModelBase() {
 
-            this.Rows = new SortableObservableCollection<TGridRow>((x, y) => {
+            Rows = new SortableObservableCollection<TGridRow>((x, y) => {
                 return x.RowIndex.CompareTo(y.RowIndex);
             });
-            this.Builder = new GridModelBuilder<TGridRow>(this);
+            Builder = new GridModelBuilder<TGridRow>(this);
         }
 
         /// <summary>

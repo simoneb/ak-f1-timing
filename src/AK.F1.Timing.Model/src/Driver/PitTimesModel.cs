@@ -38,8 +38,8 @@ namespace AK.F1.Timing.Model.Driver
 
             Guard.NotNull(driver, "driver");
 
-            this.Driver = driver;
-            this.Values = new ObservableCollection<PitTimeModel>();
+            Driver = driver;
+            Values = new ObservableCollection<PitTimeModel>();
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Model.Driver
 
             Guard.NotNull(item, "item");
 
-            this.Values.Add(item);
+            Values.Add(item);
         }
 
         /// <summary>

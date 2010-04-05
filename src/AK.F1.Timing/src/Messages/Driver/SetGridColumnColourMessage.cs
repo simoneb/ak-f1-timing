@@ -35,8 +35,8 @@ namespace AK.F1.Timing.Messages.Driver
         public SetGridColumnColourMessage(int driverId, GridColumn column,
             GridColumnColour colour) : base(driverId) {
 
-            this.Column = column;
-            this.Colour = colour;            
+            Column = column;
+            Colour = colour;            
         }
 
         /// <inheritdoc />
@@ -51,7 +51,7 @@ namespace AK.F1.Timing.Messages.Driver
         public override string ToString() {
 
             return Repr("DriverId={0}, Column='{1}', Colour='{2}'",
-                this.DriverId, this.Column, this.Colour);
+                DriverId, Column, Colour);
         }
 
         /// <summary>

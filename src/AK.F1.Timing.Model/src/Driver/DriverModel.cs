@@ -46,17 +46,17 @@ namespace AK.F1.Timing.Model.Driver
         /// <param name="id">The driver's Id.</param>
         public DriverModel(int id) {
 
-            this.Id = id;
-            this.LapTimes = new LapTimesModel(this);
-            this.PitTimes = new PitTimesModel(this);            
-            this.QuallyTimes = new QuallyTimesModel(this);
-            this.Status = DriverStatus.InPits;            
+            Id = id;
+            LapTimes = new LapTimesModel(this);
+            PitTimes = new PitTimesModel(this);            
+            QuallyTimes = new QuallyTimesModel(this);
+            Status = DriverStatus.InPits;            
         }
 
         /// <inheritdoc />
         public override string ToString() {
 
-            return this.Name ?? base.ToString();
+            return Name ?? base.ToString();
         }
 
         /// <summary>

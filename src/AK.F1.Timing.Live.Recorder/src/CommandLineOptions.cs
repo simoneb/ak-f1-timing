@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Live.Recorder
 
             base.Parse(args, ignoreFirstArg);
 
-            if(this.Session.IndexOfAny(Path.GetInvalidPathChars()) > -1) {
+            if(Session.IndexOfAny(Path.GetInvalidPathChars()) > -1) {
                 throw Usage("session", "must not contain any invalid path characters");
             }
         }

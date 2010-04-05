@@ -76,7 +76,7 @@ namespace AK.F1.Timing.Serialization
 
             Guard.NotNull(output, "output");
 
-            this.Output = CreateBinaryWriter(output);
+            Output = CreateBinaryWriter(output);
         }
 
         /// <inheritdoc/>        
@@ -115,10 +115,10 @@ namespace AK.F1.Timing.Serialization
         private void WriteObject(ref GraphContext context) {
 
             WriteObjectTypeCode(context.TypeCode);
-            this.Output.Write(context.Descriptor.TypeId);
-            this.Output.Write((byte)context.Descriptor.Properties.Count);
+            Output.Write(context.Descriptor.TypeId);
+            Output.Write((byte)context.Descriptor.Properties.Count);
             foreach(var property in context.Descriptor.Properties) {
-                this.Output.Write(property.PropertyId);
+                Output.Write(property.PropertyId);
                 WriteChild(property.GetValue(context.Graph));
             }
         }
@@ -200,67 +200,67 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteObjectTypeCode(ObjectTypeCode value) {
 
-            this.Output.Write((byte)value);
+            Output.Write((byte)value);
         }
 
         private void WriteBoolean(bool value) {
 
             WriteObjectTypeCode(ObjectTypeCode.Boolean);
-            this.Output.Write(value);
+            Output.Write(value);
         }
 
         private void WriteChar(char value) {
 
             WriteObjectTypeCode(ObjectTypeCode.Char);
-            this.Output.Write(value);
+            Output.Write(value);
         }
 
         private void WriteSByte(sbyte value) {
 
             WriteObjectTypeCode(ObjectTypeCode.SByte);
-            this.Output.Write(value);
+            Output.Write(value);
         }
 
         private void WriteByte(byte value) {
 
             WriteObjectTypeCode(ObjectTypeCode.Byte);
-            this.Output.Write(value);
+            Output.Write(value);
         }
 
         private void WriteSingle(float value) {
 
             WriteObjectTypeCode(ObjectTypeCode.Single);
-            this.Output.Write(value);
+            Output.Write(value);
         }
 
         private void WriteTimeSpan(TimeSpan value) {
 
             WriteObjectTypeCode(ObjectTypeCode.TimeSpan);
-            this.Output.Write(value.Ticks);
+            Output.Write(value.Ticks);
         }
 
         private void WriteString(string value) {
 
             WriteObjectTypeCode(ObjectTypeCode.String);
-            this.Output.Write(value);
+            Output.Write(value);
         }
 
         private void WriteDateTime(DateTime value) {
 
             WriteObjectTypeCode(ObjectTypeCode.DateTime);
-            this.Output.Write(value.ToBinary());
+            Output.Write(value.ToBinary());
         }
 
         private void WriteDecimal(decimal value) {
 
             WriteObjectTypeCode(ObjectTypeCode.Decimal);
-            this.Output.Write(value);
+            Output.Write(value);
         }
 
         private void WriteDouble(double value) {
             
             WriteObjectTypeCode(ObjectTypeCode.Double);
-            this.Output.Write(value);
+            Output.Write(value);
         }
 
         private void WriteInt16(short value, bool compress) {
@@ -269,7 +269,7 @@ namespace AK.F1.Timing.Serialization
                 CompactWriteInt64(value);
             } else {
                 WriteObjectTypeCode(ObjectTypeCode.Int16);
-                this.Output.Write(value);
+                Output.Write(value);
             }
         }
 
@@ -279,7 +279,7 @@ namespace AK.F1.Timing.Serialization
                 CompactWriteInt64(value);
             } else {
                 WriteObjectTypeCode(ObjectTypeCode.Int32);
-                this.Output.Write(value);
+                Output.Write(value);
             }
         }
 
@@ -289,7 +289,7 @@ namespace AK.F1.Timing.Serialization
                 CompactWriteInt64(value);
             } else {
                 WriteObjectTypeCode(ObjectTypeCode.Int64);
-                this.Output.Write(value);
+                Output.Write(value);
             }
         }
 
@@ -299,16 +299,16 @@ namespace AK.F1.Timing.Serialization
 #endif
                 if(value >= byte.MinValue && value <= byte.MaxValue) {
                     WriteObjectTypeCode(ObjectTypeCode.Byte);
-                    this.Output.Write((byte)value);
+                    Output.Write((byte)value);
                 } else if(value >= short.MinValue && value <= short.MaxValue) {
                     WriteObjectTypeCode(ObjectTypeCode.Int16);
-                    this.Output.Write((short)value);
+                    Output.Write((short)value);
                 } else if(value >= int.MinValue && value <= int.MaxValue) {
                     WriteObjectTypeCode(ObjectTypeCode.Int32);
-                    this.Output.Write((int)value);
+                    Output.Write((int)value);
                 } else {
                     WriteObjectTypeCode(ObjectTypeCode.Int64);
-                    this.Output.Write(value);
+                    Output.Write(value);
                 }
 #if DEBUG
             }
@@ -321,7 +321,7 @@ namespace AK.F1.Timing.Serialization
                 CompactWriteUInt64(value);
             } else {
                 WriteObjectTypeCode(ObjectTypeCode.UInt16);
-                this.Output.Write(value);
+                Output.Write(value);
             }
         }
 
@@ -331,7 +331,7 @@ namespace AK.F1.Timing.Serialization
                 CompactWriteUInt64(value);
             } else {
                 WriteObjectTypeCode(ObjectTypeCode.UInt32);
-                this.Output.Write(value);
+                Output.Write(value);
             }
         }
 
@@ -341,7 +341,7 @@ namespace AK.F1.Timing.Serialization
                 CompactWriteUInt64(value);
             } else {
                 WriteObjectTypeCode(ObjectTypeCode.UInt64);
-                this.Output.Write(value);
+                Output.Write(value);
             }
         }
 
@@ -351,16 +351,16 @@ namespace AK.F1.Timing.Serialization
 #endif
                 if(value <= byte.MaxValue) {
                     WriteObjectTypeCode(ObjectTypeCode.Byte);
-                    this.Output.Write((byte)value);
+                    Output.Write((byte)value);
                 } else if(value <= ushort.MaxValue) {
                     WriteObjectTypeCode(ObjectTypeCode.UInt16);
-                    this.Output.Write((ushort)value);
+                    Output.Write((ushort)value);
                 } else if(value <= uint.MaxValue) {
                     WriteObjectTypeCode(ObjectTypeCode.UInt32);
-                    this.Output.Write((uint)value);
+                    Output.Write((uint)value);
                 } else {
                     WriteObjectTypeCode(ObjectTypeCode.UInt64);
-                    this.Output.Write(value);
+                    Output.Write(value);
                 }
 #if DEBUG
             }
@@ -406,7 +406,7 @@ namespace AK.F1.Timing.Serialization
 
             public bool Compress {
 
-                get { return !this.IsRoot; }
+                get { return !IsRoot; }
             }
         }
 

@@ -67,18 +67,18 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         public virtual void Reset() {
             
-            /*this.CarNumber.Reset();
-            this.DriverName.Reset();
-            this.Position.Reset();*/
-            this.S1.Reset();
-            this.S2.Reset();
-            this.S3.Reset();
+            /*CarNumber.Reset();
+            DriverName.Reset();
+            Position.Reset();*/
+            S1.Reset();
+            S2.Reset();
+            S3.Reset();
         }
 
         /// <inheritdoc />
         public override string ToString() {
 
-            return this.DriverName.Text ?? base.ToString();
+            return DriverName.Text ?? base.ToString();
         }
 
         /// <summary>
@@ -146,13 +146,13 @@ namespace AK.F1.Timing.Model.Grid
 
             Guard.InRange(driverId > 0, "driverId");
 
-            this.DriverId = driverId;
-            this.Position = new GridColumnModel(GridColumn.Position);
-            this.CarNumber = new GridColumnModel(GridColumn.CarNumber);
-            this.DriverName = new GridColumnModel(GridColumn.DriverName);
-            this.S1 = new GridColumnModel(GridColumn.S1);
-            this.S2 = new GridColumnModel(GridColumn.S2);
-            this.S3 = new GridColumnModel(GridColumn.S3);
+            DriverId = driverId;
+            Position = new GridColumnModel(GridColumn.Position);
+            CarNumber = new GridColumnModel(GridColumn.CarNumber);
+            DriverName = new GridColumnModel(GridColumn.DriverName);
+            S1 = new GridColumnModel(GridColumn.S1);
+            S2 = new GridColumnModel(GridColumn.S2);
+            S3 = new GridColumnModel(GridColumn.S3);
         }
 
         /// <summary>
@@ -167,17 +167,17 @@ namespace AK.F1.Timing.Model.Grid
 
             switch(column) {
                 case GridColumn.Position:
-                    return this.Position;
+                    return Position;
                 case GridColumn.CarNumber:
-                    return this.CarNumber;
+                    return CarNumber;
                 case GridColumn.DriverName:
-                    return this.DriverName;
+                    return DriverName;
                 case GridColumn.S1:
-                    return this.S1;
+                    return S1;
                 case GridColumn.S2:
-                    return this.S2;
+                    return S2;
                 case GridColumn.S3:
-                    return this.S3;
+                    return S3;
                 default:
                     throw Guard.ArgumentOutOfRange("column");
             }

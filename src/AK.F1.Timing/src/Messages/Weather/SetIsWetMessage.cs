@@ -33,7 +33,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// <param name="isWet"></param>
         public SetIsWetMessage(bool isWet) {            
 
-            this.IsWet = isWet;            
+            IsWet = isWet;            
         }
 
         /// <inheritdoc />
@@ -47,7 +47,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("IsWet='{0}'", this.IsWet);
+            return Repr("IsWet='{0}'", IsWet);
         }
 
         /// <summary>

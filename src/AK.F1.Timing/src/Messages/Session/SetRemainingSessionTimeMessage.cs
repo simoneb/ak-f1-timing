@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messages.Session
 
             Guard.InRange(remaining >= TimeSpan.Zero, "remaining");
 
-            this.Remaining = remaining;            
+            Remaining = remaining;            
         }
 
         /// <inheritdoc />
@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Messages.Session
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Remaining='{0}'", this.Remaining);
+            return Repr("Remaining='{0}'", Remaining);
         }
 
         /// <summary>

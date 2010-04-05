@@ -39,11 +39,11 @@ namespace AK.F1.Timing.Model.Driver
 
             Guard.NotNull(driver, "driver");            
 
-            this.Driver = driver;
-            this.S1 = new PostedTimeCollectionModel();
-            this.S2 = new PostedTimeCollectionModel();
-            this.S3 = new PostedTimeCollectionModel();
-            this.Laps = new PostedTimeCollectionModel();
+            Driver = driver;
+            S1 = new PostedTimeCollectionModel();
+            S2 = new PostedTimeCollectionModel();
+            S3 = new PostedTimeCollectionModel();
+            Laps = new PostedTimeCollectionModel();
         }
 
         /// <summary>
@@ -57,11 +57,11 @@ namespace AK.F1.Timing.Model.Driver
         public PostedTimeCollectionModel GetSector(int sectorNumber) {
 
             if(sectorNumber == 1) {
-                return this.S1;
+                return S1;
             } else if(sectorNumber == 2) {
-                return this.S2;
+                return S2;
             } else if(sectorNumber == 3) {
-                return this.S3;
+                return S3;
             }
 
             throw Guard.ArgumentOutOfRange("sectorNumber");

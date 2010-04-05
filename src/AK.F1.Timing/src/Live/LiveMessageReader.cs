@@ -57,13 +57,13 @@ namespace AK.F1.Timing.Live
             Guard.NotNull(messageStreamEndpoint, "messageStreamEndpoint");
             Guard.NotNull(decryptorFactory, "decryptorFactory");
             
-            this.MessageStreamEndpoint = messageStreamEndpoint;
-            this.DecryptorFactory = decryptorFactory;
-            this.QueuedMessages = new Queue<Message>();            
-            this.SessionType = SessionType.None;
-            this.State = LiveMessageReaderState.Uninitialised;
-            this.StateEngine = new LiveMessageReaderStateEngine(this);
-            this.MessageTranslator = new LiveMessageTranslator();
+            MessageStreamEndpoint = messageStreamEndpoint;
+            DecryptorFactory = decryptorFactory;
+            QueuedMessages = new Queue<Message>();            
+            SessionType = SessionType.None;
+            State = LiveMessageReaderState.Uninitialised;
+            StateEngine = new LiveMessageReaderStateEngine(this);
+            MessageTranslator = new LiveMessageTranslator();
         }
 
         #endregion
@@ -73,7 +73,7 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         protected override Message ReadImpl() {
 
-            switch(this.State) {
+            switch(State) {
                 case LiveMessageReaderState.Reading:
                     break;
                 case LiveMessageReaderState.Closed:
@@ -96,7 +96,7 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
 
-            if(disposing && !this.IsDisposed) {
+            if(disposing && !IsDisposed) {
                 DisposeOfMessageStream();
             }
             base.Dispose(disposing);
@@ -111,8 +111,8 @@ namespace AK.F1.Timing.Live
         /// </summary>
         internal void DisposeOfMessageStream() {
 
-            DisposeOf(this.MessageStream);
-            this.MessageStream = null;
+            DisposeOf(MessageStream);
+            MessageStream = null;
         }
 
         /// <summary>
@@ -146,16 +146,16 @@ namespace AK.F1.Timing.Live
 
         private Message DequeueOrReadNextMessage() {
 
-            return this.QueuedMessages.Count > 0 ? this.QueuedMessages.Dequeue() : ReadMessage();
+            return QueuedMessages.Count > 0 ? QueuedMessages.Dequeue() : ReadMessage();
         }
 
         private void PostProcessMessage(Message message, bool translate) {
 
-            this.StateEngine.Process(message);
+            StateEngine.Process(message);
             if(translate) {
-                Message translated = this.MessageTranslator.Translate(message);
+                Message translated = MessageTranslator.Translate(message);
                 if(translated != null) {
-                    this.QueuedMessages.Enqueue(translated);
+                    QueuedMessages.Enqueue(translated);
                 }
             }
         }
@@ -165,20 +165,20 @@ namespace AK.F1.Timing.Live
             Message message;
             SetKeyframeMessage keyframeMessage;
 
-            this.Log.Info("initialising");
+            Log.Info("initialising");
 
-            this.Buffer = CreateBuffer();
-            this.Decryptor = this.DecryptorFactory.Create();
-            this.MessageStream = this.MessageStreamEndpoint.Open();
+            Buffer = CreateBuffer();
+            Decryptor = DecryptorFactory.Create();
+            MessageStream = MessageStreamEndpoint.Open();
 
             try {
                 message = ReadMessage();
                 if((keyframeMessage = message as SetKeyframeMessage) == null) {
-                    this.Log.ErrorFormat("unexpected first message, expected set keyframe, instead: {0}", message);
+                    Log.ErrorFormat("unexpected first message, expected set keyframe, instead: {0}", message);
                     throw Guard.LiveMessageReader_UnexpectedFirstMessage(message);
                 }
                 EnqueueMessagesFromKeyframe(keyframeMessage.Keyframe);
-                this.State = LiveMessageReaderState.Reading;
+                State = LiveMessageReaderState.Reading;
             } catch {
                 DisposeOfMessageStream();
                 throw;
@@ -190,25 +190,25 @@ namespace AK.F1.Timing.Live
             Message message;
             SetKeyframeMessage keyframeMessage;
 
-            this.Log.InfoFormat("enqueuing messages from keyframe {0}", keyframe);
+            Log.InfoFormat("enqueuing messages from keyframe {0}", keyframe);
 
             using(StreamAndBufferBackup()) {
-                this.Decryptor.Reset();
-                this.MessageStream = this.MessageStreamEndpoint.OpenKeyframe(keyframe);                
+                Decryptor.Reset();
+                MessageStream = MessageStreamEndpoint.OpenKeyframe(keyframe);                
                 try {
                     do {
                         if((message = ReadMessage()) != Message.Empty) {                            
-                            this.QueuedMessages.Enqueue(message);
+                            QueuedMessages.Enqueue(message);
                             PostProcessMessage(message, false);
                         }
                     } while((keyframeMessage = message as SetKeyframeMessage) == null);
                     if(keyframeMessage.Keyframe > keyframe) {
-                        this.Log.InfoFormat("keyframe contained a set keyframe message " +
+                        Log.InfoFormat("keyframe contained a set keyframe message " +
                             "with a higher keyframe number ({0}) than the one currently " +
                             "being read ({1}), reloading.", keyframeMessage.Keyframe, keyframe);
                         // All queued messages will be superceeded in the new keyframe.
-                        this.QueuedMessages.Clear();                        
-                        this.MessageTranslator.Reset();
+                        QueuedMessages.Clear();                        
+                        MessageTranslator.Reset();
                         EnqueueMessagesFromKeyframe(keyframeMessage.Keyframe);
                         return;
                     }
@@ -217,10 +217,10 @@ namespace AK.F1.Timing.Live
                 }
             }
 
-            this.Decryptor.Reset();
+            Decryptor.Reset();
 
-            this.Log.InfoFormat("enqueued {0} messages from keyframe {1}",
-                this.QueuedMessages.Count, keyframe);
+            Log.InfoFormat("enqueued {0} messages from keyframe {1}",
+                QueuedMessages.Count, keyframe);
         }
 
         private Message ReadMessage() {
@@ -269,7 +269,7 @@ namespace AK.F1.Timing.Live
                 case 12:
                     return ReadSetCopyrightMessage(header);
                 default:
-                    this.Log.ErrorFormat("unsupported system message: {0}", header);
+                    Log.ErrorFormat("unsupported system message: {0}", header);
                     throw Guard.LiveMessageReader_UnsupportedSystemMessage(header);
             }
         }
@@ -285,7 +285,7 @@ namespace AK.F1.Timing.Live
             if(header.MessageType == 15) {
                 return ReadHistoricalPositionMessage(header);
             }
-            this.Log.ErrorFormat("unsupported driver message: {0}", header);
+            Log.ErrorFormat("unsupported driver message: {0}", header);
             throw Guard.LiveMessageReader_UnsupportedDriverMessage(header);
         }
 
@@ -313,7 +313,7 @@ namespace AK.F1.Timing.Live
 
             return new SetGridColumnValueMessage(
                 header.DriverId,
-                LiveData.ToGridColumn(header.MessageType, this.SessionType),
+                LiveData.ToGridColumn(header.MessageType, SessionType),
                 LiveData.ToGridColumnColour(header.Colour),
                 value);
         }
@@ -322,7 +322,7 @@ namespace AK.F1.Timing.Live
 
             return new SetGridColumnColourMessage(
                 header.DriverId,
-                LiveData.ToGridColumn(header.MessageType, this.SessionType),
+                LiveData.ToGridColumn(header.MessageType, SessionType),
                 LiveData.ToGridColumnColour(header.Colour));
         }
 
@@ -330,7 +330,7 @@ namespace AK.F1.Timing.Live
 
             return new SetGridColumnValueMessage(
                 header.DriverId,
-                LiveData.ToGridColumn(header.MessageType, this.SessionType),
+                LiveData.ToGridColumn(header.MessageType, SessionType),
                 LiveData.ToGridColumnColour(header.Colour),
                 null);
         }
@@ -377,7 +377,7 @@ namespace AK.F1.Timing.Live
                 case 7:
                     return ReadSetWindAngleMessage(s);
                 default:
-                    this.Log.ErrorFormat("unsupported weather message: {0}", header);                    
+                    Log.ErrorFormat("unsupported weather message: {0}", header);                    
                     throw Guard.LiveMessageReader_UnsupportedWeatherMessage(header);
             }            
         }
@@ -388,7 +388,7 @@ namespace AK.F1.Timing.Live
 
             // The feed, as of 2010-03-12, has started to send through wind angles greater than 360.
             if(!SetWindAngleMessage.IsValidAngle(angle)) {
-                this.Log.WarnFormat("received invalid wind angle: {0}", angle);
+                Log.WarnFormat("received invalid wind angle: {0}", angle);
                 return Message.Empty;
             }
 
@@ -399,7 +399,7 @@ namespace AK.F1.Timing.Live
 
             ReadAndDecryptBytes(2);
 
-            int seconds = this.Buffer[1] << 8 & 0xFF00 | this.Buffer[0] & 0xFF |
+            int seconds = Buffer[1] << 8 & 0xFF00 | Buffer[0] & 0xFF |
                 header.Value << 16 & 0xFF0000;
 
             return new SetElapsedSessionTimeMessage(TimeSpan.FromSeconds(seconds));
@@ -453,13 +453,13 @@ namespace AK.F1.Timing.Live
         private Message ReadSetKeyframeMessage(LiveMessageHeader header) {
 
             if(header.DataLength != 2) {
-                this.Log.ErrorFormat("invalid keyframe data length: {0}", header.DataLength);
+                Log.ErrorFormat("invalid keyframe data length: {0}", header.DataLength);
                 throw Guard.MessageReader_InvalidMessage();
             }
 
             ReadBytes(header.DataLength);
 
-            return new SetKeyframeMessage(this.Buffer[1] << 8 & 0xFF00 | this.Buffer[0] & 0xFF);
+            return new SetKeyframeMessage(Buffer[1] << 8 & 0xFF00 | Buffer[0] & 0xFF);
         }
 
         private Message ReadSetStreamValidityMessage(LiveMessageHeader header) {
@@ -488,14 +488,14 @@ namespace AK.F1.Timing.Live
 
         private IDisposable StreamAndBufferBackup() {
 
-            byte[] buffer = this.Buffer;
-            IMessageStream stream = this.MessageStream;
+            byte[] buffer = Buffer;
+            IMessageStream stream = MessageStream;
 
-            this.Buffer = CreateBuffer();
+            Buffer = CreateBuffer();
 
             return new DisposableCallback(() => {
-                this.Buffer = buffer;
-                this.MessageStream = stream;
+                Buffer = buffer;
+                MessageStream = stream;
             });
         }
 
@@ -508,8 +508,8 @@ namespace AK.F1.Timing.Live
 
             ReadBytes(2);
 
-            int b0 = this.Buffer[0];
-            int b1 = this.Buffer[1];
+            int b0 = Buffer[0];
+            int b1 = Buffer[1];
 
             return new LiveMessageHeader() {
                 DriverId =  (byte)(b0 & 0x1F),
@@ -522,7 +522,7 @@ namespace AK.F1.Timing.Live
 
         private void ReadBytes(int count) {
 
-            if(!this.MessageStream.FullyRead(this.Buffer, 0, count)) {
+            if(!MessageStream.FullyRead(Buffer, 0, count)) {
                 throw Guard.LiveMessageReader_UnexpectedEndOfStream();
             }
         }
@@ -530,22 +530,22 @@ namespace AK.F1.Timing.Live
         private void ReadAndDecryptBytes(int count) {
 
             ReadBytes(count);
-            this.Decryptor.Decrypt(this.Buffer, 0, count);
+            Decryptor.Decrypt(Buffer, 0, count);
         }
 
         private string GetUtf8(int offset, int count) {
 
-            return UTF8.GetString(this.Buffer, offset, count);
+            return UTF8.GetString(Buffer, offset, count);
         }
 
         private string GetLatin1(int offset, int count) {
 
-            return ISO_8859_1.GetString(this.Buffer, offset, count);
+            return ISO_8859_1.GetString(Buffer, offset, count);
         }
 
         private string GetUtf16LE(int offset, int count) {
 
-            return UTF_16LE.GetString(this.Buffer, offset, count);
+            return UTF_16LE.GetString(Buffer, offset, count);
         }        
 
         private byte[] Buffer { get; set; }

@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messages.Weather
 
             Guard.InRange(humidity >= 0d && humidity < 100d, "humidity");
 
-            this.Humidity = humidity;            
+            Humidity = humidity;            
         }
 
         /// <inheritdoc />
@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Humidity={0}", this.Humidity);
+            return Repr("Humidity={0}", Humidity);
         }
 
         /// <summary>

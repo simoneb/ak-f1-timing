@@ -55,10 +55,10 @@ namespace AK.F1.Timing.Tms.Utility
 
             base.Parse(args, ignoreFirstArg);
 
-            if(!File.Exists(this.Path)) {
+            if(!File.Exists(Path)) {
                 throw Usage("path", "specified path does not exist or the device is not ready.");
             }
-            if(!(this.Stats ^ this.Dump)) {
+            if(!(Stats ^ Dump)) {
                 throw Usage("stats|dump", "one operation must be selected.");
             }
         }

@@ -73,7 +73,7 @@ namespace AK.F1.Timing.UI.Screens
         /// </summary>
         public SessionModel Session {
 
-            get { return this.Player.Session; }
+            get { return Player.Session; }
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace AK.F1.Timing.UI.Screens
                 if(_selectedGridRow != value) {
                     _selectedGridRow = value;
                     NotifyOfPropertyChange("SelectedGridRow");
-                    this.SelectedDriver = value != null ? this.Session.GetDriver(value.DriverId) : null;
+                    SelectedDriver = value != null ? Session.GetDriver(value.DriverId) : null;
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace AK.F1.Timing.UI.Screens
 
             base.OnActivate();
 
-            this.Player.Start();
+            Player.Start();
         }
 
         #endregion

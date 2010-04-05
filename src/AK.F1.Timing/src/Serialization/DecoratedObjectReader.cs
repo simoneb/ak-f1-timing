@@ -40,8 +40,8 @@ namespace AK.F1.Timing.Serialization
 
             Guard.NotNull(input, "input");
 
-            this.Context = new StreamingContext(StreamingContextStates.All);
-            this.Input = DecoratedObjectWriter.CreateBinaryReader(input);
+            Context = new StreamingContext(StreamingContextStates.All);
+            Input = DecoratedObjectWriter.CreateBinaryReader(input);
         }
 
         /// <inheritcdoc/>        
@@ -68,19 +68,19 @@ namespace AK.F1.Timing.Serialization
 
         private ObjectTypeCode ReadObjectTypeCode() {
 
-            return (ObjectTypeCode)this.Input.ReadByte();
+            return (ObjectTypeCode)Input.ReadByte();
         }
 
         private object ReadObject() {
 
             byte propertyId;
             PropertyDescriptor property;
-            TypeDescriptor descriptor = TypeDescriptor.For(this.Input.ReadInt32());
+            TypeDescriptor descriptor = TypeDescriptor.For(Input.ReadInt32());
             object component = descriptor.Type.GetUninitializedInstance();
-            byte propertyCount = this.Input.ReadByte();
+            byte propertyCount = Input.ReadByte();
 
             while(propertyCount-- > 0) {
-                propertyId = this.Input.ReadByte();
+                propertyId = Input.ReadByte();
                 if((property = descriptor.Properties.GetById(propertyId)) == null) {
                     throw Guard.DecoratedObjectReader_PropertyMissing(propertyId, descriptor);
                 }
@@ -94,7 +94,7 @@ namespace AK.F1.Timing.Serialization
 
             IObjectReference reference = instance as IObjectReference;
 
-            return reference != null ? reference.GetRealObject(this.Context) : instance;
+            return reference != null ? reference.GetRealObject(Context) : instance;
         }
 
         private object ReadPrimitive(ObjectTypeCode typeCode) {
@@ -108,37 +108,37 @@ namespace AK.F1.Timing.Serialization
                 case ObjectTypeCode.DBNull:
                     return DBNull.Value;
                 case ObjectTypeCode.Boolean:
-                    return this.Input.ReadBoolean();
+                    return Input.ReadBoolean();
                 case ObjectTypeCode.Char:
-                    return this.Input.ReadChar();
+                    return Input.ReadChar();
                 case ObjectTypeCode.SByte:
-                    return this.Input.ReadSByte();
+                    return Input.ReadSByte();
                 case ObjectTypeCode.Byte:
-                    return this.Input.ReadByte();
+                    return Input.ReadByte();
                 case ObjectTypeCode.Int16:
-                    return this.Input.ReadInt16();
+                    return Input.ReadInt16();
                 case ObjectTypeCode.UInt16:
-                    return this.Input.ReadUInt16();
+                    return Input.ReadUInt16();
                 case ObjectTypeCode.Int32:
-                    return this.Input.ReadInt32();
+                    return Input.ReadInt32();
                 case ObjectTypeCode.UInt32:
-                    return this.Input.ReadUInt32();
+                    return Input.ReadUInt32();
                 case ObjectTypeCode.Int64:
-                    return this.Input.ReadInt64();
+                    return Input.ReadInt64();
                 case ObjectTypeCode.UInt64:
-                    return this.Input.ReadUInt64();
+                    return Input.ReadUInt64();
                 case ObjectTypeCode.Single:
-                    return this.Input.ReadSingle();
+                    return Input.ReadSingle();
                 case ObjectTypeCode.Double:
-                    return this.Input.ReadDouble();
+                    return Input.ReadDouble();
                 case ObjectTypeCode.Decimal:
-                    return this.Input.ReadDecimal();
+                    return Input.ReadDecimal();
                 case ObjectTypeCode.DateTime:
-                    return DateTime.FromBinary(this.Input.ReadInt64());
+                    return DateTime.FromBinary(Input.ReadInt64());
                 case ObjectTypeCode.String:
-                    return this.Input.ReadString();
+                    return Input.ReadString();
                 case ObjectTypeCode.TimeSpan:
-                    return TimeSpan.FromTicks(this.Input.ReadInt64());
+                    return TimeSpan.FromTicks(Input.ReadInt64());
                 default:
                     throw Guard.DecoratedObjectReader_InvalidObjectTypeCode(typeCode);
             }

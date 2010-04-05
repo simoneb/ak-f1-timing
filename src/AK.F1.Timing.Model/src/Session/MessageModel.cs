@@ -44,7 +44,7 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public void Reset() {
 
-            this.System = null;
+            System = null;
             _commentary.Length = 0;
             OnCommentaryChanged();
         }

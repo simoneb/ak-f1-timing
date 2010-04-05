@@ -44,8 +44,8 @@ namespace AK.F1.Timing.Messages.Driver
             Guard.InRange(time >= TimeSpan.Zero, "time");
             Guard.InRange(lapNumber >= 0, "lapNumber");
 
-            this.Time = time;
-            this.LapNumber = lapNumber;
+            Time = time;
+            LapNumber = lapNumber;
         }
 
         /// <inheritdoc />
@@ -59,8 +59,8 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, Time='{1}', LapNumber={2}", this.DriverId,
-                this.Time, this.LapNumber);
+            return Repr("DriverId={0}, Time='{1}', LapNumber={2}", DriverId,
+                Time, LapNumber);
         }
 
         /// <summary>

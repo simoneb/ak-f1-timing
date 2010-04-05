@@ -83,14 +83,14 @@ namespace AK.F1.Timing.UI.Screens
         [AsyncAction(BlockInteraction = true)]
         public IEnumerable<IResult> Login() {
 
-            this.LoginErrorMessage = null;
+            LoginErrorMessage = null;
 
-            var login = new LiveLoginResult(this.Username, this.Password);
+            var login = new LiveLoginResult(Username, Password);
 
             yield return login;
 
             if(!login.Success) {
-                this.LoginErrorMessage = login.Exception.Message;
+                LoginErrorMessage = login.Exception.Message;
                 yield break;
             }
 
@@ -104,7 +104,7 @@ namespace AK.F1.Timing.UI.Screens
         /// </summary>
         public bool CanLogin {
 
-            get { return this.IsUsernameValid && this.IsPasswordValid; }
+            get { return IsUsernameValid && IsPasswordValid; }
         }
 
         /// <summary>
@@ -181,8 +181,8 @@ namespace AK.F1.Timing.UI.Screens
 
             base.OnActivate();
 
-            this.Username = _settings.Username;
-            this.Password = _settings.Password;
+            Username = _settings.Username;
+            Password = _settings.Password;
         }
 
         #endregion
@@ -196,8 +196,8 @@ namespace AK.F1.Timing.UI.Screens
 
         private void SaveCredentials() {
 
-            _settings.Username = this.Username;
-            _settings.Password = this.Password;
+            _settings.Username = Username;
+            _settings.Password = Password;
             _settings.Save();
         }
 

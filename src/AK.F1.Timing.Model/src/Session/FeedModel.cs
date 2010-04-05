@@ -43,10 +43,10 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public void Reset() {
 
-            this.Copyright = null;
-            this.KeyframeNumber = 0;
-            this.MessageCount = 0;
-            this.PingInterval = TimeSpan.Zero;            
+            Copyright = null;
+            KeyframeNumber = 0;
+            MessageCount = 0;
+            PingInterval = TimeSpan.Zero;            
         }
 
         /// <summary>

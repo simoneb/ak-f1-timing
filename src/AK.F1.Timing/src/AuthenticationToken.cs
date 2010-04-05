@@ -45,13 +45,13 @@ namespace AK.F1.Timing
             if(other == null) {
                 return false;
             }
-            return _comparer.Equals(other.Token, this.Token);
+            return _comparer.Equals(other.Token, Token);
         }
 
         /// <inheritdoc/>
         public override int GetHashCode() {
 
-            return _comparer.GetHashCode(this.Token);
+            return _comparer.GetHashCode(Token);
         }
 
         #endregion

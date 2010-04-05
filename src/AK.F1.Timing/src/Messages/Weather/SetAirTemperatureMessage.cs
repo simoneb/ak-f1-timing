@@ -34,7 +34,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// <param name="temperature">The air temperature, in degrees celsius.</param>
         public SetAirTemperatureMessage(double temperature) {
 
-            this.Temperature = temperature;            
+            Temperature = temperature;            
         }
 
         /// <inheritdoc />
@@ -48,7 +48,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Temperature={0}", this.Temperature);
+            return Repr("Temperature={0}", Temperature);
         }
 
         /// <summary>

@@ -41,11 +41,11 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public void Reset() {
 
-            this.Lap = null;
-            this.S1 = null;
-            this.S2 = null;
-            this.S3 = null;
-            this.Possible = null;
+            Lap = null;
+            S1 = null;
+            S2 = null;
+            S3 = null;
+            Possible = null;
         }
 
         /// <summary>
@@ -66,11 +66,11 @@ namespace AK.F1.Timing.Model.Session
             Guard.NotNull(driver, "driver");
 
             if(sectorNumber == 1) {
-                this.S1 = CreateFastestTime(time, driver, lapNumber, this.S1);
+                S1 = CreateFastestTime(time, driver, lapNumber, S1);
             } else if(sectorNumber == 2) {
-                this.S2 = CreateFastestTime(time, driver, lapNumber, this.S2);
+                S2 = CreateFastestTime(time, driver, lapNumber, S2);
             } else if(sectorNumber == 3) {
-                this.S3 = CreateFastestTime(time, driver, lapNumber, this.S3);
+                S3 = CreateFastestTime(time, driver, lapNumber, S3);
             } else {
                 throw Guard.ArgumentOutOfRange("sectorNumber");
             }
@@ -89,7 +89,7 @@ namespace AK.F1.Timing.Model.Session
 
             Guard.NotNull(driver, "driver");
 
-            this.Lap = CreateFastestTime(time, driver, lapNumber, this.Lap);
+            Lap = CreateFastestTime(time, driver, lapNumber, Lap);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace AK.F1.Timing.Model.Session
 
             get {
                 // Possible is not included as it's computed base on S1-S3 and Lap.
-                return this.S1 == null && this.S2 == null && this.S3 == null && this.Lap == null;
+                return S1 == null && S2 == null && S3 == null && Lap == null;
             }
         }
 
@@ -184,23 +184,23 @@ namespace AK.F1.Timing.Model.Session
 
         private void ComputePossible() {
 
-            if(this.S1 == null || this.S2 == null || this.S3 == null) {
-                this.Possible = null;                
+            if(S1 == null || S2 == null || S3 == null) {
+                Possible = null;                
             } else {
-                var newPossibleTime = this.S1.Time + this.S2.Time + this.S3.Time;
-                // TODO this is a bit hackish. Need a better was of expressing this.
-                this.Possible = new FastestTimeModel(newPossibleTime,
+                var newPossibleTime = S1.Time + S2.Time + S3.Time;
+                // TODO this is a bit hackish. Need a better was of expressing 
+                Possible = new FastestTimeModel(newPossibleTime,
                     ComputeDiffFromLap(newPossibleTime), null, 0);
             }            
         }
 
         private TimeSpan? ComputeDiffFromLap(TimeSpan value) {
 
-            if(this.Lap == null) {
+            if(Lap == null) {
                 return null;
             }
 
-            return this.Lap.Time - value;
+            return Lap.Time - value;
         }
 
         private void NotifyIsEmptyChanged() {

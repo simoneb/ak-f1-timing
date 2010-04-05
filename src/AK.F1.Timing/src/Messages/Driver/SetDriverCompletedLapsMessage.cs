@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.InRange(completedLaps >= 0, "completedLaps");
 
-            this.CompletedLaps = completedLaps;
+            CompletedLaps = completedLaps;
         }
 
         /// <inheritdoc />
@@ -56,8 +56,8 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, CompletedLaps={1}", this.DriverId,
-                this.CompletedLaps);
+            return Repr("DriverId={0}, CompletedLaps={1}", DriverId,
+                CompletedLaps);
         }
 
         /// <summary>

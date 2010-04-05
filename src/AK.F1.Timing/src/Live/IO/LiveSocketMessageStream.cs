@@ -49,10 +49,10 @@ namespace AK.F1.Timing.Live.IO
 
             Guard.NotNull(socket, "socket");
 
-            this.Socket = socket;
-            this.Socket.NoDelay = true;            
-            this.Input = new BufferedStream(new NetworkStream(socket, FileAccess.Read, true));
-            this.PingTimer = new Timer(s => MaybePing());
+            Socket = socket;
+            Socket.NoDelay = true;            
+            Input = new BufferedStream(new NetworkStream(socket, FileAccess.Read, true));
+            PingTimer = new Timer(s => MaybePing());
         }
 
         /// <inheritdoc />
@@ -60,10 +60,10 @@ namespace AK.F1.Timing.Live.IO
 
             CheckDisposed();
 
-            if(!this.Input.FullyRead(buffer, offset, count)) {
+            if(!Input.FullyRead(buffer, offset, count)) {
                 return false;
             }
-            this.LastRead = SysClock.Ticks();
+            LastRead = SysClock.Ticks();
             return true;
         }
 
@@ -87,9 +87,9 @@ namespace AK.F1.Timing.Live.IO
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
 
-            if(disposing && !this.IsDisposed) {
-                DisposeOf(this.PingTimer);
-                DisposeOf(this.Input);
+            if(disposing && !IsDisposed) {
+                DisposeOf(PingTimer);
+                DisposeOf(Input);
             }
             base.Dispose(disposing);
         }
@@ -100,19 +100,19 @@ namespace AK.F1.Timing.Live.IO
 
         private void ChangePingTimerInterval() {
 
-            if(this.PingInterval > TimeSpan.Zero) {
-                this.PingTimer.Change(this.PingInterval, this.PingInterval);
+            if(PingInterval > TimeSpan.Zero) {
+                PingTimer.Change(PingInterval, PingInterval);
             } else {
-                this.PingTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                PingTimer.Change(Timeout.Infinite, Timeout.Infinite);
             }
-            _log.InfoFormat("ping interval set: {0}", this.PingInterval);
+            _log.InfoFormat("ping interval set: {0}", PingInterval);
         }
 
         private void MaybePing() {            
 
             try {
-                if(SysClock.Ticks() - this.LastRead >= this.PingInterval) {                    
-                    this.Socket.Send(PING_PACKET);                    
+                if(SysClock.Ticks() - LastRead >= PingInterval) {                    
+                    Socket.Send(PING_PACKET);                    
                 }
             } catch(ObjectDisposedException) {
             } catch(IOException exc) {

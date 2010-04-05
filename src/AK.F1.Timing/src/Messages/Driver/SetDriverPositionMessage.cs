@@ -40,7 +40,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.InRange(position > 0, "position");
 
-            this.Position = position;
+            Position = position;
         }
 
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, Position={1}", this.DriverId, this.Position);
+            return Repr("DriverId={0}, Position={1}", DriverId, Position);
         }
 
         /// <summary>

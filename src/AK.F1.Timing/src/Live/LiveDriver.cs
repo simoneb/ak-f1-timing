@@ -44,7 +44,7 @@ namespace AK.F1.Timing.Live
         public LiveDriver(int id) {
             
             Reset();
-            this.Id = id;
+            Id = id;
         }
 
         /// <summary>
@@ -52,18 +52,18 @@ namespace AK.F1.Timing.Live
         /// </summary>
         public void Reset() {
 
-            this.CarNumber = 0;
+            CarNumber = 0;
             _columnsWithValue = new BitVector32();            
-            this.LapNumber = 0;
-            this.LastGapMessage = null;
-            this.LastIntervalMessage = null;
-            this.LastLapTime = null;
-            this.LastSectors = new PostedTime[3];
-            this.Name = null;
-            this.NextSectorNumber = 0;
-            this.PitTimeSectorCount = 0;
-            this.Position = 0;
-            this.Status = DriverStatus.InPits;
+            LapNumber = 0;
+            LastGapMessage = null;
+            LastIntervalMessage = null;
+            LastLapTime = null;
+            LastSectors = new PostedTime[3];
+            Name = null;
+            NextSectorNumber = 0;
+            PitTimeSectorCount = 0;
+            Position = 0;
+            Status = DriverStatus.InPits;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace AK.F1.Timing.Live
         public bool IsPitTimeSector(SessionType currentSessionType) {
 
             return currentSessionType == SessionType.Race &&
-                (this.PitTimeSectorCount-- > 0 || this.Status != DriverStatus.OnTrack);
+                (PitTimeSectorCount-- > 0 || Status != DriverStatus.OnTrack);
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace AK.F1.Timing.Live
                 return false;
             }
 
-            return sectorNumber == this.NextSectorNumber;
+            return sectorNumber == NextSectorNumber;
         }
 
         /// <summary>
@@ -129,13 +129,13 @@ namespace AK.F1.Timing.Live
                 return false;
             }
 
-            return (sectorNumber == 3 ? 1 : sectorNumber + 1) == this.NextSectorNumber;
+            return (sectorNumber == 3 ? 1 : sectorNumber + 1) == NextSectorNumber;
         }
 
         /// <inheritdoc />
         public override string ToString() {
 
-            return this.Name ?? base.ToString();
+            return Name ?? base.ToString();
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace AK.F1.Timing.Live
 
             Guard.InRange(raceLapNumber >= 0, "raceLapNumber");
 
-            LapGap gap = this.Gap as LapGap;
+            LapGap gap = Gap as LapGap;
 
             return gap != null ? Math.Max(raceLapNumber - gap.Laps, 0) : raceLapNumber;
         }
@@ -170,7 +170,7 @@ namespace AK.F1.Timing.Live
         /// </summary>
         public bool IsRaceLeader {
 
-            get { return this.Position == 1; }
+            get { return Position == 1; }
         }
 
         /// <summary>
@@ -242,7 +242,7 @@ namespace AK.F1.Timing.Live
 
         private Gap Gap {
 
-            get { return this.LastGapMessage != null ? this.LastGapMessage.Gap : null; }
+            get { return LastGapMessage != null ? LastGapMessage.Gap : null; }
         }
 
         #endregion

@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Session
 
             Guard.NotNull(commentary, "commentary");
 
-            this.Commentary = commentary;
+            Commentary = commentary;
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Session
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Commentary='{0}'", this.Commentary);
+            return Repr("Commentary='{0}'", Commentary);
         }
 
         /// <summary>

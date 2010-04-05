@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Messages.Session
         /// <see cref="AK.F1.Timing.Messages.Session.SessionStatus"/>.</param>        
         public SetSessionStatusMessage(SessionStatus sessionStatus) {
 
-            this.SessionStatus = sessionStatus;            
+            SessionStatus = sessionStatus;            
         }
 
         /// <inheritdoc />
@@ -49,7 +49,7 @@ namespace AK.F1.Timing.Messages.Session
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("SessionStatus='{0}'", this.SessionStatus);
+            return Repr("SessionStatus='{0}'", SessionStatus);
         }
 
         /// <summary>

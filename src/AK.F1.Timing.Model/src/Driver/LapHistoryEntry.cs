@@ -37,11 +37,11 @@ namespace AK.F1.Timing.Model.Driver
         /// otherwise; <see langword="false"/>.</param>
         public LapHistoryEntry(PostedTime s1, PostedTime s2, PostedTime s3, PostedTime lap, bool pitted) {
 
-            this.S1 = s1;
-            this.S2 = s2;
-            this.S3 = s3;
-            this.Lap = lap;
-            this.Pitted = pitted;
+            S1 = s1;
+            S2 = s2;
+            S3 = s3;
+            Lap = lap;
+            Pitted = pitted;
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace AK.F1.Timing.Model.Driver
         /// </summary>
         public int LapNumber {
 
-            get { return (this.S1 ?? this.S2 ?? this.S3).LapNumber; }
+            get { return (S1 ?? S2 ?? S3).LapNumber; }
         }
 
         /// <summary>

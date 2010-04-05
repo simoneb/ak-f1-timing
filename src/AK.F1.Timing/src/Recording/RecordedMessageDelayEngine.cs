@@ -40,7 +40,7 @@ namespace AK.F1.Timing.Recording
 
             Guard.NotNull(reader, "reader");
 
-            this.Reader = reader;
+            Reader = reader;
         }
 
         /// <summary>
@@ -56,11 +56,11 @@ namespace AK.F1.Timing.Recording
 
             Guard.NotNull(message, "message");
 
-            this.Delayed = false;
+            Delayed = false;
 
             message.Accept(this);
 
-            return this.Delayed;
+            return Delayed;
         }
 
         /// <inheritdoc />
@@ -72,7 +72,7 @@ namespace AK.F1.Timing.Recording
                 Thread.Sleep(delay);                
             }
 
-            this.Delayed = true;
+            Delayed = true;
         }
 
         #endregion
@@ -81,7 +81,7 @@ namespace AK.F1.Timing.Recording
 
         private TimeSpan ScaleDelay(TimeSpan delay) {
 
-            double millis = delay.TotalMilliseconds * 1d / this.Reader.PlaybackSpeed;
+            double millis = delay.TotalMilliseconds * 1d / Reader.PlaybackSpeed;
             
             return TimeSpan.FromMilliseconds(millis);
         }

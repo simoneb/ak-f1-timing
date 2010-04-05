@@ -46,7 +46,7 @@ namespace AK.F1.Timing.Serialization
         /// if no property is matched.</returns>
         public PropertyDescriptor GetById(int id) {
 
-            var items = this.Items;
+            var items = Items;
 
             for(int i = 0; i < items.Count; ++i) {
                 if(items[i].PropertyId == id) {

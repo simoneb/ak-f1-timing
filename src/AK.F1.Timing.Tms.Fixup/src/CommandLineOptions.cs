@@ -46,7 +46,7 @@ namespace AK.F1.Timing.Tms.Fixup
 
             base.Parse(args, ignoreFirstArg);
 
-            if(!System.IO.Directory.Exists(this.Directory)) {
+            if(!System.IO.Directory.Exists(Directory)) {
                 throw Usage("directory", "specified directory does not exist or the device is not ready.");
             }
         }

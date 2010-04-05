@@ -52,9 +52,9 @@ namespace AK.F1.Timing.Live
         /// </summary>
         public LiveMessageTranslator() {
 
-            this.Drivers = new Dictionary<int, LiveDriver>(25);
-            this.SessionType = SessionType.None;
-            this.StateEngine = new LiveMessageTranslatorStateEngine(this);            
+            Drivers = new Dictionary<int, LiveDriver>(25);
+            SessionType = SessionType.None;
+            StateEngine = new LiveMessageTranslatorStateEngine(this);            
         }
 
         /// <summary>
@@ -62,9 +62,9 @@ namespace AK.F1.Timing.Live
         /// </summary>
         public void Reset() {
             
-            this.RaceLapNumber = 0;
-            this.SessionType = SessionType.None;
-            foreach(var driver in this.Drivers.Values) {
+            RaceLapNumber = 0;
+            SessionType = SessionType.None;
+            foreach(var driver in Drivers.Values) {
                 driver.Reset();
             }
         }
@@ -78,33 +78,33 @@ namespace AK.F1.Timing.Live
 
             Guard.NotNull(message, "message");
 
-            this.Translated = null;
+            Translated = null;
 
             message.Accept(this);
-            this.StateEngine.Process(message);
-            if(this.Translated != null) {
-                this.StateEngine.Process(this.Translated);                
+            StateEngine.Process(message);
+            if(Translated != null) {
+                StateEngine.Process(Translated);                
             }
 
-            return this.Translated;
+            return Translated;
         }
 
         /// <inheritdoc />
         public override void Visit(SetPingIntervalMessage message) {
 
-            this.Translated = TranslateSetPingIntervalMessage(message);         
+            Translated = TranslateSetPingIntervalMessage(message);         
         }        
 
         /// <inheritdoc />
         public override void Visit(SetGridColumnColourMessage message) {
 
-            this.Translated = TranslateSetGridColumnColourMessage(message);
+            Translated = TranslateSetGridColumnColourMessage(message);
         }
 
         /// <inheritdoc />
         public override void Visit(SetGridColumnValueMessage message) {
 
-            this.Translated = TranslateSetGridColumnValueMessage(message);
+            Translated = TranslateSetGridColumnValueMessage(message);
         }
 
         #endregion
@@ -120,9 +120,9 @@ namespace AK.F1.Timing.Live
 
             LiveDriver driver;
 
-            if(!this.Drivers.TryGetValue(message.DriverId, out driver)) {
+            if(!Drivers.TryGetValue(message.DriverId, out driver)) {
                 driver = new LiveDriver(message.DriverId);
-                this.Drivers.Add(message.DriverId, driver);
+                Drivers.Add(message.DriverId, driver);
             }
 
             return driver;
@@ -144,8 +144,8 @@ namespace AK.F1.Timing.Live
         internal bool HasSessionStarted {
 
             get {
-                return this.SessionType != SessionType.None &&
-                    (this.SessionType != SessionType.Race || this.RaceLapNumber > 0);
+                return SessionType != SessionType.None &&
+                    (SessionType != SessionType.Race || RaceLapNumber > 0);
             }
         }
 
@@ -299,7 +299,7 @@ namespace AK.F1.Timing.Live
 
         private Message TranslateSetLapTimeValue(SetGridColumnValueMessage message) {
 
-            if(!this.HasSessionStarted) {
+            if(!HasSessionStarted) {
                 return Ignored("session has not started", message);
             }
 
@@ -359,7 +359,7 @@ namespace AK.F1.Timing.Live
 
             LiveDriver driver = GetDriver(message);
 
-            if(driver.IsPitTimeSector(this.SessionType)) {
+            if(driver.IsPitTimeSector(SessionType)) {
                 if(sectorNumber != 3) {
                     return Ignored("irrelevant pit time sector update", message);
                 }
@@ -389,7 +389,7 @@ namespace AK.F1.Timing.Live
 
             LiveDriver driver = GetDriver(message);
 
-            if(driver.IsPitTimeSector(this.SessionType)) {
+            if(driver.IsPitTimeSector(SessionType)) {
                 return null;
             }
 
@@ -437,14 +437,14 @@ namespace AK.F1.Timing.Live
 
         private Message TranslateSetDriverSectorTimeMessage(SetDriverSectorTimeMessage message) {
 
-            if(message.SectorNumber != 3 || this.SessionType != SessionType.Race) {
+            if(message.SectorNumber != 3 || SessionType != SessionType.Race) {
                 return message;
             }
             // We do not receive lap messages during a race session so we infer it from the
             // current race lap number and the driver's current gap.
             return new CompositeMessage(message,
                 new SetDriverCompletedLapsMessage(message.DriverId,
-                    GetDriver(message).ComputeLapNumber(this.RaceLapNumber)));
+                    GetDriver(message).ComputeLapNumber(RaceLapNumber)));
         }
 
         private Message TranslateSetNameValue(SetGridColumnValueMessage message) {

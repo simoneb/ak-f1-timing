@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Feed
 
             Guard.NotNull(copyright, "copyright");
 
-            this.Copyright = copyright;
+            Copyright = copyright;
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Feed
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Copyright='{0}'", this.Copyright);
+            return Repr("Copyright='{0}'", Copyright);
         }
 
         /// <summary>

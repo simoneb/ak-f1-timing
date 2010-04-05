@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Model.Session
 
             Guard.NotNull(session, "session");
 
-            this.Session = session;
+            Session = session;
         }
 
         /// <summary>
@@ -56,8 +56,8 @@ namespace AK.F1.Timing.Model.Session
         public void Process(Message message) {
 
             message.Accept(this);
-            this.Session.Grid.Process(message);
-            ++this.Session.Feed.MessageCount;
+            Session.Grid.Process(message);
+            ++Session.Feed.MessageCount;
         }
 
         /// <inheritdoc />
@@ -79,7 +79,7 @@ namespace AK.F1.Timing.Model.Session
 
             if(driver.Position != message.Position) {
                 driver.Position = message.Position;
-                this.Session.InnerDrivers.Sort();
+                Session.InnerDrivers.Sort();
             }
         }
 
@@ -151,17 +151,17 @@ namespace AK.F1.Timing.Model.Session
         /// <inheritdoc />
         public override void Visit(SetSessionTypeMessage message) {
 
-            if(this.Session.SessionType != message.SessionType) {
-                this.Session.Reset();
-                this.Session.SessionType = message.SessionType;
-                this.Session.Grid = GridModelBase.Create(message.SessionType);
+            if(Session.SessionType != message.SessionType) {
+                Session.Reset();
+                Session.SessionType = message.SessionType;
+                Session.Grid = GridModelBase.Create(message.SessionType);
             }
         }
 
         /// <inheritdoc />
         public override void Visit(SetSessionStatusMessage message) {
 
-            this.Session.SessionStatus = message.SessionStatus;
+            Session.SessionStatus = message.SessionStatus;
         }
 
         /// <inheritdoc />
@@ -173,37 +173,37 @@ namespace AK.F1.Timing.Model.Session
         /// <inheritdoc />
         public override void Visit(SetAirTemperatureMessage message) {
 
-            this.Session.Weather.AirTemperature.Add(message.Temperature);
+            Session.Weather.AirTemperature.Add(message.Temperature);
         }
 
         /// <inheritdoc />
         public override void Visit(SetTrackTemperatureMessage message) {
 
-            this.Session.Weather.TrackTemperature.Add(message.Temperature);
+            Session.Weather.TrackTemperature.Add(message.Temperature);
         }
 
         /// <inheritdoc />
         public override void Visit(SetWindSpeedMessage message) {
 
-            this.Session.Weather.WindSpeed.Add(message.Speed);
+            Session.Weather.WindSpeed.Add(message.Speed);
         }
 
         /// <inheritdoc />
         public override void Visit(SetAtmosphericPressureMessage message) {
 
-            this.Session.Weather.Pressure.Add(message.Pressure);
+            Session.Weather.Pressure.Add(message.Pressure);
         }
 
         /// <inheritdoc />
         public override void Visit(SetHumidityMessage message) {
 
-            this.Session.Weather.Humidity.Add(message.Humidity);
+            Session.Weather.Humidity.Add(message.Humidity);
         }
 
         /// <inheritdoc />
         public override void Visit(SetWindAngleMessage message) {
 
-            this.Session.Weather.WindAngle.Add(message.Angle);
+            Session.Weather.WindAngle.Add(message.Angle);
         }
 
         /// <inheritdoc />
@@ -221,78 +221,78 @@ namespace AK.F1.Timing.Model.Session
         /// <inheritdoc />
         public override void Visit(SetElapsedSessionTimeMessage message) {
 
-            this.Session.ElapsedSessionTime = message.Elapsed;
+            Session.ElapsedSessionTime = message.Elapsed;
             if(message.Elapsed > TimeSpan.Zero) {
-                this.Session.OneSecondTimer.Start();
+                Session.OneSecondTimer.Start();
             } else {
-                this.Session.OneSecondTimer.Stop();
+                Session.OneSecondTimer.Stop();
             }
         }
 
         /// <inheritdoc />
         public override void Visit(SetRemainingSessionTimeMessage message) {
 
-            this.Session.RemainingSessionTime = message.Remaining;
+            Session.RemainingSessionTime = message.Remaining;
         }
 
         /// <inheritdoc />
         public override void Visit(SetRaceLapNumberMessage message) {
 
-            this.Session.RaceLapNumber = message.LapNumber;
+            Session.RaceLapNumber = message.LapNumber;
         }
 
         /// <inheritdoc />
         public override void Visit(AddCommentaryMessage message) {
 
-            this.Session.Messages.AddCommentary(message.Commentary);
+            Session.Messages.AddCommentary(message.Commentary);
         }
 
         /// <inheritdoc />
         public override void Visit(SetSystemMessageMessage message) {
 
-            this.Session.Messages.System = message.Message;                
+            Session.Messages.System = message.Message;                
         }
 
         /// <inheritdoc />
         public override void Visit(SetPingIntervalMessage message) {
 
-            this.Session.Feed.PingInterval = message.PingInterval;
+            Session.Feed.PingInterval = message.PingInterval;
         }
 
         /// <inheritdoc />
         public override void Visit(SetKeyframeMessage message) {
 
-            this.Session.Feed.KeyframeNumber = message.Keyframe;
+            Session.Feed.KeyframeNumber = message.Keyframe;
         }
 
         /// <inheritdoc />
         public override void Visit(SetCopyrightMessage message) {
 
-            this.Session.Feed.Copyright = message.Copyright;
+            Session.Feed.Copyright = message.Copyright;
         }
 
         /// <inheritdoc />
         public override void Visit(StartSessionTimeCountdownMessage message) {
 
-            this.Session.DecrementRemainingSessionTime = true;
+            Session.DecrementRemainingSessionTime = true;
         }
 
         /// <inheritdoc />
         public override void Visit(StopSessionTimeCountdownMessage message) {
 
-            this.Session.DecrementRemainingSessionTime = false;
+            Session.DecrementRemainingSessionTime = false;
         }
 
         /// <inheritdoc />
         public override void Visit(SetIsWetMessage message) {
 
-            this.Session.Weather.IsWet = message.IsWet;
+            Session.Weather.IsWet = message.IsWet;
         }
 
         /// <inheritdoc />
         public override void Visit(EndOfSessionMessage message) {
 
-            this.Session.OneSecondTimer.Stop();
+            Session.OneSecondTimer.Stop();
         }
 
         #endregion
@@ -306,7 +306,7 @@ namespace AK.F1.Timing.Model.Session
         /// <returns>The driver with the specified Id from the session.</returns>
         protected DriverModel GetDriver(int driverId) {
 
-            return this.Session.GetDriver(driverId);
+            return Session.GetDriver(driverId);
         }
 
         /// <summary>
@@ -322,9 +322,9 @@ namespace AK.F1.Timing.Model.Session
 
             // TODO does this belong here?
 
-            var times = this.Session.FastestTimes;
+            var times = Session.FastestTimes;
             var isSessionBest = time.Type == PostedTimeType.SessionBest ||
-                (this.Session.SessionType != SessionType.Race && (times.Lap == null || time.Time < times.Lap.Time));
+                (Session.SessionType != SessionType.Race && (times.Lap == null || time.Time < times.Lap.Time));
 
             if(isSessionBest) {
                 times.SetLap(time.Time, driver, time.LapNumber);
@@ -334,7 +334,7 @@ namespace AK.F1.Timing.Model.Session
         private void TrySetFastestSector(int sectorNumber, PostedTime time, DriverModel driver) {
 
             if(time.Type == PostedTimeType.SessionBest) {
-                this.Session.FastestTimes.SetSector(sectorNumber, time.Time, driver, time.LapNumber);
+                Session.FastestTimes.SetSector(sectorNumber, time.Time, driver, time.LapNumber);
             }
         }
 

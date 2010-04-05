@@ -37,9 +37,9 @@ namespace AK.F1.Timing.Messages.Driver
         public SetGridColumnValueMessage(int driverId, GridColumn column,
             GridColumnColour colour, string value) : base(driverId) {
 
-            this.Column = column;
-            this.Colour = colour;
-            this.Value = value;
+            Column = column;
+            Colour = colour;
+            Value = value;
         }
 
         /// <inheritdoc />
@@ -54,8 +54,8 @@ namespace AK.F1.Timing.Messages.Driver
         public override string ToString() {
 
             return Repr("DriverId={0}, Column='{1}', Colour='{2}', Value='{3}'",
-                this.DriverId, this.Column, this.Colour,
-                this.Value != null ? this.Value : "(none)");
+                DriverId, Column, Colour,
+                Value != null ? Value : "(none)");
         }
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace AK.F1.Timing.Messages.Driver
         [IgnoreProperty]
         public bool ClearColumn {
 
-            get { return this.Value == null; }
+            get { return Value == null; }
         }
 
         #endregion

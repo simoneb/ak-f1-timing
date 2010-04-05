@@ -47,7 +47,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.InRange(driverId > 0, "driverId");
 
-            this.DriverId = driverId;
+            DriverId = driverId;
         }
 
         #endregion

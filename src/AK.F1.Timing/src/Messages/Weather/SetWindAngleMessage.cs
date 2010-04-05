@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messages.Weather
             
             Guard.InRange(IsValidAngle(angle), "angle");
             
-            this.Angle = angle;
+            Angle = angle;
         }
 
         /// <inheritdoc />
@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Angle={0}", this.Angle);
+            return Repr("Angle={0}", Angle);
         }
         
         /// <summary>

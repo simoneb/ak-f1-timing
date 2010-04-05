@@ -140,19 +140,19 @@ namespace AK.F1.Timing.Serialization
         /// <inheritdoc/>
         public bool Equals(TypeDescriptor other) {
 
-            return other != null && other.Type.Equals(this.Type);
+            return other != null && other.Type.Equals(Type);
         }
 
         /// <inheritdoc/>
         public override int GetHashCode() {
 
-            return this.TypeId;
+            return TypeId;
         }
 
         /// <inheritdoc/>
         public override string ToString() {
 
-            return this.Type.ToString();
+            return Type.ToString();
         }
 
         /// <summary>
@@ -176,9 +176,9 @@ namespace AK.F1.Timing.Serialization
 
         private TypeDescriptor(Type type, int typeId, PropertyDescriptorCollection properties) {
 
-            this.Type = type;
-            this.TypeId = typeId;
-            this.Properties = properties;
+            Type = type;
+            TypeId = typeId;
+            Properties = properties;
         }
 
         private static TypeDescriptor CreateDescriptor(Type type) {

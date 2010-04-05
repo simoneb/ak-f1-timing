@@ -67,11 +67,11 @@ namespace AK.F1.Timing.UI.Results
 
             dispatcher.ExecuteOnBackgroundThread(() => {
                 try {
-                    this.AuthenticationToken = F1Timing.Live.Login(_username, _password);
+                    AuthenticationToken = F1Timing.Live.Login(_username, _password);
                 } catch(AuthenticationException exc) {
-                    this.Exception = exc;
+                    Exception = exc;
                 } catch(IOException exc) {
-                    this.Exception = exc;
+                    Exception = exc;
                 }
             }, delegate {
                 Completed(this, new ResultCompletionEventArgs());
@@ -83,7 +83,7 @@ namespace AK.F1.Timing.UI.Results
         /// </summary>
         public bool Success {
 
-            get { return this.Exception == null; }
+            get { return Exception == null; }
         }
 
         /// <summary>

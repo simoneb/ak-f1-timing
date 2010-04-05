@@ -47,7 +47,7 @@ namespace AK.F1.Timing.UI.Screens
 
             Guard.NotNull(serviceLocator, "serviceLocator");
 
-            this.Container = serviceLocator;
+            Container = serviceLocator;
         }
 
         /// <inheritdoc/>
@@ -59,7 +59,7 @@ namespace AK.F1.Timing.UI.Screens
         /// <inheritdoc/>
         public void Open<T>() where T : IScreen {
 
-            this.OpenScreen(this.Container.GetInstance<T>());
+            this.OpenScreen(Container.GetInstance<T>());
         }
 
         /// <inheritdoc/>
@@ -67,8 +67,8 @@ namespace AK.F1.Timing.UI.Screens
 
             Guard.NotNull(screen, "screen");
 
-            screen.WasShutdown += delegate { this.DialogueModel = null; };
-            this.DialogueModel = screen;
+            screen.WasShutdown += delegate { DialogueModel = null; };
+            DialogueModel = screen;
         }
 
         /// <summary>

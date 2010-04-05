@@ -57,7 +57,7 @@ namespace AK.F1.Timing.Live.Recording
             Guard.NotNull(directory, "directory");
             Guard.DirectoryExists(directory, "directory");
 
-            this.Directory = directory;
+            Directory = directory;
         }
 
         #endregion
@@ -72,9 +72,9 @@ namespace AK.F1.Timing.Live.Recording
             int seed;
             string seedPath = BuildSeedPath(sessionId);
 
-            this.Log.InfoFormat("opening: {0}", seedPath);
+            Log.InfoFormat("opening: {0}", seedPath);
             seed = (int)(long.Parse(File.ReadAllText(seedPath), NumberStyles.HexNumber, INV_CULTURE) & 0xFFFFFFFF);
-            this.Log.InfoFormat("opened, seed: {0}", seed);
+            Log.InfoFormat("opened, seed: {0}", seed);
 
             return seed;
         }
@@ -91,7 +91,7 @@ namespace AK.F1.Timing.Live.Recording
 
         private string BuildSeedPath(string sessionId) {
 
-            return Path.Combine(this.Directory, sessionId + FILE_EXT);
+            return Path.Combine(Directory, sessionId + FILE_EXT);
         }       
 
         private string Directory { get; set; }

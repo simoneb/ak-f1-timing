@@ -32,8 +32,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <param name="lapNumber">The lap number on which the pit time was set.</param>
         public PitTimeModel(TimeSpan time, int lapNumber) {
 
-            this.Time = time;
-            this.LapNumber = lapNumber;
+            Time = time;
+            LapNumber = lapNumber;
         }
 
         /// <summary>

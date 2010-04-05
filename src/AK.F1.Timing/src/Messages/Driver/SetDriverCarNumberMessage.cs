@@ -40,7 +40,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.InRange(carNumber > 0, "carNumber");
 
-            this.CarNumber = carNumber;
+            CarNumber = carNumber;
         }
 
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, CarNumber={1}", this.DriverId, this.CarNumber);
+            return Repr("DriverId={0}, CarNumber={1}", DriverId, CarNumber);
         }
 
         /// <summary>

@@ -440,7 +440,7 @@ namespace Genghis
 
         public class UsageException : ApplicationException
         {
-            public UsageException(string arg, string error) : base(error) { this.arg = arg.Trim(); }
+            public UsageException(string arg, string error) : base(error) { arg = arg.Trim(); }
             protected string arg = "";
             public string Argument {
                 get { return arg; }

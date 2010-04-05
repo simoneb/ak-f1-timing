@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Feed
 
             Guard.InRange(keyframe >= 0, "keyframe");
 
-            this.Keyframe = keyframe;
+            Keyframe = keyframe;
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Feed
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Keyframe={0}", this.Keyframe);
+            return Repr("Keyframe={0}", Keyframe);
         }
 
         /// <summary>

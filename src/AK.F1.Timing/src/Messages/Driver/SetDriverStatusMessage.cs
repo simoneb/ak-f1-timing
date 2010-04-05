@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Driver
         public SetDriverStatusMessage(int driverId, DriverStatus driverStatus)
             : base(driverId) {
 
-            this.DriverStatus = driverStatus;
+            DriverStatus = driverStatus;
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, DriverStatus='{1}'", this.DriverId, this.DriverStatus);
+            return Repr("DriverId={0}, DriverStatus='{1}'", DriverId, DriverStatus);
         }
 
         /// <summary>

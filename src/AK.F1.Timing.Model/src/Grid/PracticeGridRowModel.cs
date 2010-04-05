@@ -36,20 +36,20 @@ namespace AK.F1.Timing.Model.Grid
         public PracticeGridRowModel(int driverId)
             : base(driverId) {
 
-            this.Best = new GridColumnModel(GridColumn.LapTime);
-            this.Gap = new GridColumnModel(GridColumn.Gap);
-            this.Laps = new GridColumnModel(GridColumn.Laps);
-            this.Unknown = new GridColumnModel(GridColumn.Unknown);
+            Best = new GridColumnModel(GridColumn.LapTime);
+            Gap = new GridColumnModel(GridColumn.Gap);
+            Laps = new GridColumnModel(GridColumn.Laps);
+            Unknown = new GridColumnModel(GridColumn.Unknown);
         }
 
         /// <inheritdoc />
         public override void Reset() {
 
             base.Reset();
-            this.Best.Reset();
-            this.Gap.Reset();
-            this.Laps.Reset();
-            this.Unknown.Reset();
+            Best.Reset();
+            Gap.Reset();
+            Laps.Reset();
+            Unknown.Reset();
         }
 
         /// <summary>
@@ -81,13 +81,13 @@ namespace AK.F1.Timing.Model.Grid
 
             switch(column) {
                 case GridColumn.LapTime:
-                    return this.Best;
+                    return Best;
                 case GridColumn.Gap:
-                    return this.Gap;
+                    return Gap;
                 case GridColumn.Laps:
-                    return this.Laps;
+                    return Laps;
                 case GridColumn.Unknown:
-                    return this.Unknown;
+                    return Unknown;
                 default:
                     return base.GetColumnModel(column);
             }

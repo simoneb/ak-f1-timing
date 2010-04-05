@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.NotNull(gap, "gap");
 
-            this.Gap = gap;
+            Gap = gap;
         }
 
         /// <inheritdoc />
@@ -57,7 +57,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, Gap={1}", this.DriverId, this.Gap);
+            return Repr("DriverId={0}, Gap={1}", DriverId, Gap);
         }
 
         /// <summary>

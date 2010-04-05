@@ -34,8 +34,8 @@ namespace AK.F1.Timing.Live
 
             return string.Format(
                 "{0}(MessageType='{1}', DriverId='{2}', Colour='{3}', DataLength='{4}', Value='{5}')",
-                GetType().Name, this.MessageType, this.DriverId, this.Colour, this.DataLength,
-                this.Value);
+                GetType().Name, MessageType, DriverId, Colour, DataLength,
+                Value);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Live
         /// </summary>
         public bool IsSystemMessage {
 
-            get { return this.DriverId == 0; }
+            get { return DriverId == 0; }
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace AK.F1.Timing.Live
         /// </summary>
         public bool IsDriverMessage {
 
-            get { return this.DriverId > 0; }
+            get { return DriverId > 0; }
         }
 
         /// <summary>

@@ -27,98 +27,98 @@ namespace AK.F1.Timing.Tms.Fixup
 
         public bool IsTranslated(Message message) {
 
-            this.Result = false;
+            Result = false;
 
             message.Accept(this);
 
-            return this.Result;
+            return Result;
         }
 
         public void Visit(SetSessionStatusMessage message) {
 
             // The live message reader does not receive a Finished status, the ping interval message
             // is translated when appropiate.
-            this.Result = message.SessionStatus == SessionStatus.Finished;
+            Result = message.SessionStatus == SessionStatus.Finished;
         }
 
         public void Visit(ReplaceDriverLapTimeMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(ReplaceDriverSectorTimeMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverCarNumberMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverCompletedLapsMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverGapMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverIntervalMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverLapNumberMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverLapTimeMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverNameMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverPitCountMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverQuallyTimeMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverSectorTimeMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverStatusMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetRaceLapNumberMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(EndOfSessionMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverPitTimeMessage message) {
 
-            this.Result = true;
+            Result = true;
         }
 
         public void Visit(SetDriverPositionMessage message) { }

@@ -46,8 +46,8 @@ namespace AK.F1.Timing.Messages.Driver
             Guard.InRange(sectorNumber > 0, "sectorNumber");
             Guard.NotNull(replacement, "replacement");
 
-            this.SectorNumber = sectorNumber;            
-            this.Replacement = replacement;
+            SectorNumber = sectorNumber;            
+            Replacement = replacement;
         }
 
         /// <inheritdoc />
@@ -62,7 +62,7 @@ namespace AK.F1.Timing.Messages.Driver
         public override string ToString() {
 
             return Repr("DriverId={0}, SectorNumber={1}, Replacement={2}",
-                this.DriverId, this.SectorNumber, this.Replacement);
+                DriverId, SectorNumber, Replacement);
         }
 
         /// <summary>

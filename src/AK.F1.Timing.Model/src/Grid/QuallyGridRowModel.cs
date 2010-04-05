@@ -36,21 +36,21 @@ namespace AK.F1.Timing.Model.Grid
         public QuallyGridRowModel(int driverId)
             : base(driverId) {
 
-            this.Q1 = new GridColumnModel(GridColumn.Q1);
-            this.Q2 = new GridColumnModel(GridColumn.Q2);
-            this.Q3 = new GridColumnModel(GridColumn.Q3);
-            this.Laps = new GridColumnModel(GridColumn.Laps);
+            Q1 = new GridColumnModel(GridColumn.Q1);
+            Q2 = new GridColumnModel(GridColumn.Q2);
+            Q3 = new GridColumnModel(GridColumn.Q3);
+            Laps = new GridColumnModel(GridColumn.Laps);
         }
 
         /// <inheritdoc />
         public override void Reset() {
 
             base.Reset();
-            this.Q1.Reset();
-            this.Q2.Reset();
-            this.Q3.Reset();
+            Q1.Reset();
+            Q2.Reset();
+            Q3.Reset();
             // TODO this is a HACK, the feed clears the row but never sends an lap update.
-            //this.Laps.Reset();            
+            //Laps.Reset();            
         }
 
         /// <summary>
@@ -82,13 +82,13 @@ namespace AK.F1.Timing.Model.Grid
 
             switch(column) {
                 case GridColumn.Q1:
-                    return this.Q1;
+                    return Q1;
                 case GridColumn.Q2:
-                    return this.Q2;
+                    return Q2;
                 case GridColumn.Q3:
-                    return this.Q3;
+                    return Q3;
                 case GridColumn.Laps:
-                    return this.Laps;
+                    return Laps;
                 default:
                     return base.GetColumnModel(column);
             }

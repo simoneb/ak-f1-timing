@@ -84,8 +84,8 @@ namespace AK.F1.Timing.Recording
             Message message;
 
             try {
-                if((message = (Message)this.Reader.Read()) != null) {
-                    if(this.DelayEngine.Process(message)) {
+                if((message = (Message)Reader.Read()) != null) {
+                    if(DelayEngine.Process(message)) {
                         // The engine processed a delay message, let our base class handle the re-read.
                         // See MessageReaderBase#Read.
                         message = Message.Empty;
@@ -104,7 +104,7 @@ namespace AK.F1.Timing.Recording
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
 
-            if(disposing && !this.IsDisposed) {
+            if(disposing && !IsDisposed) {
                 DisposeOfResources();
             }
             base.Dispose(disposing);
@@ -114,20 +114,20 @@ namespace AK.F1.Timing.Recording
 
         private void Initialise(Stream input, bool ownsInput) {
 
-            this.Input = input;
-            this.OwnsInput = ownsInput;
-            this.Reader = new DecoratedObjectReader(input);
-            this.DelayEngine = new RecordedMessageDelayEngine(this);
+            Input = input;
+            OwnsInput = ownsInput;
+            Reader = new DecoratedObjectReader(input);
+            DelayEngine = new RecordedMessageDelayEngine(this);
         }
 
         private void DisposeOfResources() {
 
-            DisposeOf(this.Reader);
-            this.Reader = null;
-            if(this.OwnsInput) {                
-                DisposeOf(this.Input);
+            DisposeOf(Reader);
+            Reader = null;
+            if(OwnsInput) {                
+                DisposeOf(Input);
             }            
-            this.Input = null;
+            Input = null;
         }
 
         private Stream Input { get; set; }
