@@ -137,6 +137,15 @@ namespace AK.F1.Timing.Messages.Driver
         public TimeSpan Time { get; private set; }
 
         /// <summary>
+        /// Returns the value of this posted time in seconds.
+        /// </summary>
+        [IgnoreProperty]
+        public double TimeInSeconds {
+
+            get { return this.Time.TotalSeconds; }
+        }
+
+        /// <summary>
         /// Gets the <see cref="AK.F1.Timing.Messages.Driver.PostedTimeType"/> of this posted time.
         /// </summary>
         [PropertyId(2)]
