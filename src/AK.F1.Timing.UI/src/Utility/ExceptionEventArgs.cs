@@ -36,7 +36,7 @@ namespace AK.F1.Timing.UI.Utility
 
             Guard.NotNull(exception, "exception");
 
-            this.Exception = exception;
+            Exception = exception;
         }
 
         /// <summary>

@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Feed
 
             Guard.NotNull(message, "message");            
 
-            this.Message = message;
+            Message = message;
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Feed
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Message='{0}'", this.Message);
+            return Repr("Message='{0}'", Message);
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ namespace AK.F1.Timing.Serialization
         /// <param name="id">The identifier of the decorated type.</param>
         public TypeIdAttribute(int id) {
 
-            this.Id = id;      
+            Id = id;      
         }
 
         /// <summary>

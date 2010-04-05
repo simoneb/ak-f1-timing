@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Messages
 
             Guard.NotNullOrEmpty(messages, "messages");
 
-            this.Messages = Array.AsReadOnly(messages);
+            Messages = Array.AsReadOnly(messages);
         }
 
         /// <inheritdoc />
@@ -50,7 +50,7 @@ namespace AK.F1.Timing.Messages
 
             Guard.NotNull(visitor, "visitor");
 
-            foreach(Message message in this.Messages) {
+            foreach(Message message in Messages) {
                 message.Accept(visitor);
             }
         }
@@ -61,7 +61,7 @@ namespace AK.F1.Timing.Messages
             StringBuilder sb = new StringBuilder();
 
             sb.Append("[");
-            foreach(Message message in this.Messages) {
+            foreach(Message message in Messages) {
                 if(sb.Length > 1) {
                     sb.Append(", ");
                 }

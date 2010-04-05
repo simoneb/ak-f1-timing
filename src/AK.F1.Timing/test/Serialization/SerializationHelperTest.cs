@@ -81,7 +81,7 @@ namespace AK.F1.Timing.Serialization
         {
             public ClassWithPublicCtor() {
 
-                this.Initialised = true;
+                Initialised = true;
             }
 
             public bool Initialised { get; private set; }

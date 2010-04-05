@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Model.Driver
 
             Guard.NotNull(driver, "driver");
 
-            this.Driver = driver;            
+            Driver = driver;            
         }
 
         /// <summary>
@@ -57,11 +57,11 @@ namespace AK.F1.Timing.Model.Driver
         public void Set(int quallyNumber, TimeSpan? value) {
 
             if(quallyNumber == 1) {
-                this.Q1 = value;
+                Q1 = value;
             } else if(quallyNumber == 2) {
-                this.Q2 = value;
+                Q2 = value;
             } else if(quallyNumber == 3) {
-                this.Q3 = value;
+                Q3 = value;
             } else {
                 throw Guard.ArgumentOutOfRange("quallyNumber");
             }

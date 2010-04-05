@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Model.Collections
 
             Guard.NotNull(comparison, "comparison");
 
-            this.Comparer = new DelegateComparer<T>(comparison);
+            Comparer = new DelegateComparer<T>(comparison);
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public void Sort() {
 
-            if(this.Items.Count > 1) {
-                SyncOrderWith(this.Items.OrderBy(item => item, this.Comparer));
+            if(Items.Count > 1) {
+                SyncOrderWith(Items.OrderBy(item => item, Comparer));
             }
         }
 
@@ -64,7 +64,7 @@ namespace AK.F1.Timing.Model.Collections
             int i = 0;
 
             foreach(var item in sortedItems) {
-                if(this.Comparer.Compare(item, this[i]) != 0) {
+                if(Comparer.Compare(item, this[i]) != 0) {
                     Move(IndexOf(item), i);
                 }
                 ++i;

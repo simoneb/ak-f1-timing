@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Messages.Weather
 
             Guard.InRange(speed >= 0d, "speed");
 
-            this.Speed = speed;            
+            Speed = speed;            
         }
 
         /// <inheritdoc />
@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Messages.Weather
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Speed={0}", this.Speed);
+            return Repr("Speed={0}", Speed);
         }
 
         /// <summary>

@@ -49,7 +49,7 @@ namespace AK.F1.Timing.UI
         /// <inheritdoc/>
         protected override object CreateRootModel() {            
 
-            return this.Container.GetInstance<IShellScreen>();
+            return Container.GetInstance<IShellScreen>();
         }
 
         #endregion

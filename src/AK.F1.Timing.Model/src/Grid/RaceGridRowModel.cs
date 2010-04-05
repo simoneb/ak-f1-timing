@@ -36,26 +36,26 @@ namespace AK.F1.Timing.Model.Grid
         public RaceGridRowModel(int driverId)
             : base(driverId) {
 
-            this.Gap = new GridColumnModel(GridColumn.Gap);
-            this.Interval = new GridColumnModel(GridColumn.Interval);
-            this.LapTime = new GridColumnModel(GridColumn.LapTime);
-            this.PitCount = new GridColumnModel(GridColumn.PitCount);
-            this.PitLap1 = new GridColumnModel(GridColumn.PitLap1);
-            this.PitLap2 = new GridColumnModel(GridColumn.PitLap2);
-            this.PitLap3 = new GridColumnModel(GridColumn.PitLap3);
+            Gap = new GridColumnModel(GridColumn.Gap);
+            Interval = new GridColumnModel(GridColumn.Interval);
+            LapTime = new GridColumnModel(GridColumn.LapTime);
+            PitCount = new GridColumnModel(GridColumn.PitCount);
+            PitLap1 = new GridColumnModel(GridColumn.PitLap1);
+            PitLap2 = new GridColumnModel(GridColumn.PitLap2);
+            PitLap3 = new GridColumnModel(GridColumn.PitLap3);
         }
 
         /// <inheritdoc />
         public override void Reset() {
 
             base.Reset();
-            this.Gap.Reset();
-            this.Interval.Reset();
-            this.LapTime.Reset();
-            this.PitCount.Reset();
-            this.PitLap1.Reset();
-            this.PitLap2.Reset();
-            this.PitLap3.Reset();                
+            Gap.Reset();
+            Interval.Reset();
+            LapTime.Reset();
+            PitCount.Reset();
+            PitLap1.Reset();
+            PitLap2.Reset();
+            PitLap3.Reset();                
         }
 
         /// <summary>
@@ -102,19 +102,19 @@ namespace AK.F1.Timing.Model.Grid
 
             switch(column) {
                 case GridColumn.Gap:
-                    return this.Gap;
+                    return Gap;
                 case GridColumn.Interval:
-                    return this.Interval;
+                    return Interval;
                 case GridColumn.LapTime:
-                    return this.LapTime;
+                    return LapTime;
                 case GridColumn.PitCount:
-                    return this.PitCount;
+                    return PitCount;
                 case GridColumn.PitLap1:
-                    return this.PitLap1;
+                    return PitLap1;
                 case GridColumn.PitLap2:
-                    return this.PitLap2;
+                    return PitLap2;
                 case GridColumn.PitLap3:
-                    return this.PitLap3;
+                    return PitLap3;
                 default:
                     return base.GetColumnModel(column);
             }

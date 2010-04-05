@@ -40,7 +40,7 @@ namespace AK.F1.Timing.Live.IO
 
             Guard.NotNull(inner, "inner");
 
-            this.Inner = inner;
+            Inner = inner;
         }
 
         /// <inheritdoc />
@@ -48,7 +48,7 @@ namespace AK.F1.Timing.Live.IO
 
             CheckDisposed();
 
-            return this.Inner.FullyRead(buffer, offset, count);
+            return Inner.FullyRead(buffer, offset, count);
         }
 
         /// <inheritdoc />
@@ -61,9 +61,9 @@ namespace AK.F1.Timing.Live.IO
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
 
-            if(disposing && !this.IsDisposed) {                
-                DisposeOf(this.Inner);
-                this.Inner = null;
+            if(disposing && !IsDisposed) {                
+                DisposeOf(Inner);
+                Inner = null;
             }
             base.Dispose(disposing);
         }

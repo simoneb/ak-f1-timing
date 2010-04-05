@@ -44,7 +44,7 @@ namespace AK.F1.Timing.Messages.Driver
 
             Guard.InRange(time >= TimeSpan.Zero, "time");
 
-            this.Time = time;
+            Time = time;
         }
 
         /// <inheritdoc />
@@ -59,7 +59,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public bool Equals(TimeGap other) {
 
-            return other != null && other.Time == this.Time;
+            return other != null && other.Time == Time;
         }
 
         /// <inheritdoc />
@@ -72,7 +72,7 @@ namespace AK.F1.Timing.Messages.Driver
             TimeGap other = obj as TimeGap;
 
             if(other != null) {
-                return this.Time.CompareTo(other.Time);
+                return Time.CompareTo(other.Time);
             }
             if(obj is LapGap) {
                 // We are always less than any LapGap.
@@ -87,13 +87,13 @@ namespace AK.F1.Timing.Messages.Driver
         
             return HashCodeBuilder.New()
                 .Add(GetType())
-                .Add(this.Time);
+                .Add(Time);
         }
 
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("Time='{0}'", this.Time.ToString());
+            return Repr("Time='{0}'", Time.ToString());
         }
 
         /// <summary>

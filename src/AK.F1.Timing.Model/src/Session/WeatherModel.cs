@@ -37,12 +37,12 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public WeatherModel() {            
             
-            this.AirTemperature = new DoubleCollectionModel();
-            this.TrackTemperature = new DoubleCollectionModel();
-            this.Humidity = new DoubleCollectionModel();
-            this.WindSpeed = new DoubleCollectionModel();
-            this.Pressure = new DoubleCollectionModel();
-            this.WindAngle = new DoubleCollectionModel();            
+            AirTemperature = new DoubleCollectionModel();
+            TrackTemperature = new DoubleCollectionModel();
+            Humidity = new DoubleCollectionModel();
+            WindSpeed = new DoubleCollectionModel();
+            Pressure = new DoubleCollectionModel();
+            WindAngle = new DoubleCollectionModel();            
         }
 
         /// <summary>
@@ -50,13 +50,13 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public void Reset() {
             
-            this.AirTemperature.Reset();
-            this.Pressure.Reset();
-            this.Humidity.Reset();
-            this.TrackTemperature.Reset();
-            this.WindAngle.Reset();
-            this.WindSpeed.Reset();
-            this.IsWet = false;
+            AirTemperature.Reset();
+            Pressure.Reset();
+            Humidity.Reset();
+            TrackTemperature.Reset();
+            WindAngle.Reset();
+            WindSpeed.Reset();
+            IsWet = false;
         }
 
         /// <summary>

@@ -62,8 +62,8 @@ namespace AK.F1.Timing.Utility
         /// <see langword="false"/> to indicate being called implicitly by the GC.</param>
         protected virtual void Dispose(bool disposing) {
 
-            if(!this.IsDisposed) {
-                this.IsDisposed = true;
+            if(!IsDisposed) {
+                IsDisposed = true;
                 // No point calling SuppressFinalize if were are being called from the finalizer.
                 if(disposing)
                     GC.SuppressFinalize(this);
@@ -80,7 +80,7 @@ namespace AK.F1.Timing.Utility
         [DebuggerStepThrough]
         protected void CheckDisposed() {
 
-            if(this.IsDisposed)
+            if(IsDisposed)
                 throw Guard.ObjectDisposed(this);
         }
 

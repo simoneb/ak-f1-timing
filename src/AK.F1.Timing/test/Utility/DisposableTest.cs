@@ -73,7 +73,7 @@ namespace AK.F1.Timing.Utility
 
             protected override void Dispose(bool disposing) {
 
-                this.Disposing = disposing;
+                Disposing = disposing;
                 base.Dispose(disposing);
             }
 

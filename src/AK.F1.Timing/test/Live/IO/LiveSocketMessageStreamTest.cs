@@ -195,9 +195,9 @@ namespace AK.F1.Timing.Live.IO
         {
             public void Dispose() {
 
-                ((IDisposable)this.Stream).Dispose();
-                ((IDisposable)this.Local).Dispose();
-                ((IDisposable)this.Remote).Dispose();                
+                ((IDisposable)Stream).Dispose();
+                ((IDisposable)Local).Dispose();
+                ((IDisposable)Remote).Dispose();                
             }
 
             public Socket Local { get; set; }

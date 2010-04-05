@@ -80,7 +80,7 @@ namespace AK.F1.Timing.Live.Encryption
         {
             protected override int GetSeedForSession(string sessionId) {
 
-                ++this.GetSeedForSessionCount;
+                ++GetSeedForSessionCount;
 
                 return 7;
             }
@@ -89,14 +89,14 @@ namespace AK.F1.Timing.Live.Encryption
 
             protected override IDecryptor CreateWithSeed(int seed) {
 
-                this.CreateWithSeed_Seed = seed;
+                CreateWithSeed_Seed = seed;
 
                 return new Mock<IDecryptor>().Object;
             }
 
             public log4net.ILog GetLogProperty() {
 
-                return this.Log;
+                return Log;
             }
 
             public int CreateWithSeed_Seed { get; set; }

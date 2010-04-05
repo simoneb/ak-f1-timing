@@ -62,16 +62,16 @@ namespace AK.F1.Timing.Live.Recording
             Guard.NotNull(directory, "directory");
             Guard.DirectoryExists(directory, "directory");
 
-            this.Directory = directory;
-            this.StreamFilePath = Path.Combine(directory, STREAM_FILE_NAME);
+            Directory = directory;
+            StreamFilePath = Path.Combine(directory, STREAM_FILE_NAME);
         }
 
         /// <inheritdoc />
         public IMessageStream Open() {
 
-            _log.DebugFormat("opening stream {0}", this.StreamFilePath);
+            _log.DebugFormat("opening stream {0}", StreamFilePath);
 
-            FileStream fileStream = File.Open(this.StreamFilePath, FileMode.Open,
+            FileStream fileStream = File.Open(StreamFilePath, FileMode.Open,
                 FileAccess.Read, FileShare.None);
 
             return new MessageStreamDelegate(fileStream);
@@ -102,18 +102,18 @@ namespace AK.F1.Timing.Live.Recording
 
             sb.Append(KEYFRAME_FILE_NAME);
             if(keyframe == 0) {
-                if(this.KeyframeCount > 0) {
-                    sb.AppendFormat(INV_CULTURE, "_{0}", this.KeyframeCount);
+                if(KeyframeCount > 0) {
+                    sb.AppendFormat(INV_CULTURE, "_{0}", KeyframeCount);
                 }
                 sb.Append(KEYFRAME_FILE_EXT);
-                ++this.KeyframeCount;
+                ++KeyframeCount;
             } else {
                 sb.Append("_").AppendFormat(INV_CULTURE, "{0:00000}", keyframe);
                 sb.Append(KEYFRAME_FILE_EXT);
-                this.KeyframeCount = 0;
+                KeyframeCount = 0;
             }
 
-            return Path.Combine(this.Directory, sb.ToString());
+            return Path.Combine(Directory, sb.ToString());
         }
 
         private int KeyframeCount { get; set; }

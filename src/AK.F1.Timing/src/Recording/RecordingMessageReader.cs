@@ -95,7 +95,7 @@ namespace AK.F1.Timing.Recording
             Message message;
 
             try {
-                if((message = this.Inner.Read()) != null) {
+                if((message = Inner.Read()) != null) {
                     InsertDelay();
                     Serialize(message);
                 } else {
@@ -113,7 +113,7 @@ namespace AK.F1.Timing.Recording
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
 
-            if(disposing && !this.IsDisposed) {
+            if(disposing && !IsDisposed) {
                 DisposeOfResources();
             }
             base.Dispose(disposing);
@@ -123,23 +123,23 @@ namespace AK.F1.Timing.Recording
 
         private void Initialise(IMessageReader inner, Stream output, bool ownsOutput) {
 
-            this.Inner = inner;
-            this.Output = output;
-            this.OwnsOutput = ownsOutput;
-            this.Writer = new DecoratedObjectWriter(output);
-            this.Stopwatch = new Stopwatch();            
+            Inner = inner;
+            Output = output;
+            OwnsOutput = ownsOutput;
+            Writer = new DecoratedObjectWriter(output);
+            Stopwatch = new Stopwatch();            
         }
 
         private void DisposeOfResources() {            
 
-            DisposeOf(this.Inner);
-            this.Inner = null;            
-            DisposeOf(this.Writer);
-            this.Writer = null;
-            if(this.OwnsOutput) {                
-                DisposeOf(this.Output);
+            DisposeOf(Inner);
+            Inner = null;            
+            DisposeOf(Writer);
+            Writer = null;
+            if(OwnsOutput) {                
+                DisposeOf(Output);
             }
-            this.Output = null;
+            Output = null;
         }
 
         private void InsertDelay() {
@@ -147,15 +147,15 @@ namespace AK.F1.Timing.Recording
             TimeSpan delay;
             TimeSpan elapsed;
 
-            if(this.Stopwatch.IsRunning) {
-                elapsed = this.Stopwatch.Elapsed;
-                delay = elapsed - this.LastElapsed;
-                this.LastElapsed = elapsed;
+            if(Stopwatch.IsRunning) {
+                elapsed = Stopwatch.Elapsed;
+                delay = elapsed - LastElapsed;
+                LastElapsed = elapsed;
                 if(delay >= MIN_MESSAGE_DELAY) {
                     Serialize(new SetNextMessageDelayMessage(delay), false);
                 }
             } else {
-                this.Stopwatch.Start();
+                Stopwatch.Start();
             }
         }
 
@@ -171,13 +171,13 @@ namespace AK.F1.Timing.Recording
 
                 if(composite != null) {
                     foreach(Message component in composite.Messages) {
-                        this.Writer.Write(component);
+                        Writer.Write(component);
                     }
                     return;
                 }
             }
 
-            this.Writer.Write(message);
+            Writer.Write(message);
         }
 
         private IMessageReader Inner { get; set; }

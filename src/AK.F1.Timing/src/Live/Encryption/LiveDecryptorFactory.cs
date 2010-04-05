@@ -49,7 +49,7 @@ namespace AK.F1.Timing.Live.Encryption
 
             Guard.NotNull(token, "token");
 
-            this.AuthToken = token.Token;
+            AuthToken = token.Token;
         }
 
         #endregion
@@ -65,19 +65,19 @@ namespace AK.F1.Timing.Live.Encryption
             string response;
             Uri seedUri = MakeSeedUri(sessionId);
 
-            this.Log.InfoFormat("fetching seed from {0}", seedUri);
+            Log.InfoFormat("fetching seed from {0}", seedUri);
             try {
                 response = seedUri.GetResponseString(HttpMethod.Get);
             } catch(IOException exc) {
-                this.Log.Error(exc);
+                Log.Error(exc);
                 throw Guard.LiveDecryptorFactory_FailedToFetchSessionSeed(exc);
             }
             if(response.Equals("invalid", StringComparison.OrdinalIgnoreCase)) {
-                this.Log.Error("failed to fetch the seed as the user's credentials have been rejected");
+                Log.Error("failed to fetch the seed as the user's credentials have been rejected");
                 throw Guard.LiveAuthenticationService_CredentialsRejected();
             }
             if(!int.TryParse(response, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out seed)) {
-                this.Log.ErrorFormat("failed to parse seed from {0}", response);
+                Log.ErrorFormat("failed to parse seed from {0}", response);
                 throw Guard.LiveDecryptorFactory_UnableToParseSeed(response);
             }
 
@@ -96,7 +96,7 @@ namespace AK.F1.Timing.Live.Encryption
 
         private Uri MakeSeedUri(string sessionId) {
 
-            return new Uri(string.Format(SEED_URL_FORMAT, sessionId, this.AuthToken), UriKind.Absolute);
+            return new Uri(string.Format(SEED_URL_FORMAT, sessionId, AuthToken), UriKind.Absolute);
         }
 
         private string AuthToken { get; set; }

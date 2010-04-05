@@ -43,8 +43,8 @@ namespace AK.F1.Timing.UI.Views
 
         private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
 
-            this.MinWidth = Math.Max(this.MinWidth, e.NewSize.Width);
-            this.MinHeight = Math.Max(this.MinHeight, e.NewSize.Height);            
+            MinWidth = Math.Max(MinWidth, e.NewSize.Width);
+            MinHeight = Math.Max(MinHeight, e.NewSize.Height);            
         }
 
         #endregion

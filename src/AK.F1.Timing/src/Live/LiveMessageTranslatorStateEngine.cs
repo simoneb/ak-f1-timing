@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Live
         /// <param name="translator">The translator to update.</param>
         public LiveMessageTranslatorStateEngine(LiveMessageTranslator translator) {
 
-            this.Translator = translator;
+            Translator = translator;
             translator.SessionType = SessionType.None;
         }
 
@@ -128,17 +128,17 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         public override void Visit(SetSessionTypeMessage message) {
 
-            if(this.Translator.SessionType != message.SessionType) {
+            if(Translator.SessionType != message.SessionType) {
                 _log.InfoFormat("session type changing to {0}, resetting", message.SessionType);
-                this.Translator.Reset();
-                this.Translator.SessionType = message.SessionType;
+                Translator.Reset();
+                Translator.SessionType = message.SessionType;
             }
         }
 
         /// <inheritdoc />
         public override void Visit(SetRaceLapNumberMessage message) {
 
-            this.Translator.RaceLapNumber = message.LapNumber;
+            Translator.RaceLapNumber = message.LapNumber;
         }
 
         /// <inheritdoc />
@@ -159,7 +159,7 @@ namespace AK.F1.Timing.Live
 
         private LiveDriver GetDriver(DriverMessageBase message) {
 
-            return this.Translator.GetDriver(message);
+            return Translator.GetDriver(message);
         }
 
         private LiveMessageTranslator Translator { get; set; }

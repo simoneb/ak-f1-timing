@@ -39,8 +39,8 @@ namespace AK.F1.Timing.Messages.Session
 
             Guard.NotNull(sessionId, "sessionId");
 
-            this.SessionType = sessionType;
-            this.SessionId = sessionId;
+            SessionType = sessionType;
+            SessionId = sessionId;
         }
 
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace AK.F1.Timing.Messages.Session
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("SessionType='{0}', SessionId='{1}'", this.SessionType, this.SessionId);
+            return Repr("SessionType='{0}', SessionId='{1}'", SessionType, SessionId);
         }
 
         /// <summary>

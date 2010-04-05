@@ -83,7 +83,7 @@ namespace AK.F1.Timing.Extensions
         {
             public MultipleAttribute(int order) {
 
-                this.Order = order;
+                Order = order;
             }
 
             public int Order { get; private set; }

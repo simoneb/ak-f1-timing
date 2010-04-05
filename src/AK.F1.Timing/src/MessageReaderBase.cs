@@ -40,7 +40,7 @@ namespace AK.F1.Timing
             CheckDisposed();
             ThrowReadException();
 
-            if(this.EndOfStreamReached) {
+            if(EndOfStreamReached) {
                 return null;
             }
 
@@ -57,7 +57,7 @@ namespace AK.F1.Timing
                 throw;
             }
 
-            this.EndOfStreamReached = message == null;
+            EndOfStreamReached = message == null;
 
             return message;
         }
@@ -105,17 +105,17 @@ namespace AK.F1.Timing
 
         private void ThrowReadException() {
 
-            if(this.ReadException != null) {
-                throw this.ReadException;
+            if(ReadException != null) {
+                throw ReadException;
             }
         }
 
         private void ProcessReadException(Exception exc) {
 
-            Debug.Assert(this.ReadException == null);
+            Debug.Assert(ReadException == null);
 
-            this.Log.Error(exc);
-            this.ReadException = exc;
+            Log.Error(exc);
+            ReadException = exc;
         }
 
         private bool EndOfStreamReached { get; set; }

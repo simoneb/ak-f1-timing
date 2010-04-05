@@ -41,7 +41,7 @@ namespace AK.F1.Timing.UI.Results
 
             Guard.NotNullOrEmpty(tmsPath, "tmsPath");
 
-            this.TmsPath = tmsPath;
+            TmsPath = tmsPath;
         }
 
         #endregion
@@ -51,7 +51,7 @@ namespace AK.F1.Timing.UI.Results
         /// <inheritdoc/>
         protected override ISessionPlayer CreateSessionPlayer() {
 
-            var reader = F1Timing.Playback.Read(this.TmsPath);
+            var reader = F1Timing.Playback.Read(TmsPath);
 
             reader.PlaybackSpeed = 50d;
 

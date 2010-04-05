@@ -78,7 +78,7 @@ namespace AK.F1.Timing.Model
             Guard.NotNullOrEmpty(propertyName, "propertyName");
             CheckPropertyExists(propertyName);
 
-            if(this.PropertyChanged != null) {
+            if(PropertyChanged != null) {
                 OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
             }
         }
@@ -94,7 +94,7 @@ namespace AK.F1.Timing.Model
 
             Guard.NotNull(e, "e");
 
-            PropertyChangedEventHandler @event = this.PropertyChanged;
+            PropertyChangedEventHandler @event = PropertyChanged;
 
             if(@event != null) {
                 @event(this, e);
