@@ -42,6 +42,7 @@ namespace AK.F1.Timing.Model.Collections
         private TimeSpan? _currentDelta;
         private int _personBestCount;
         private int _sessionBestCount;
+        private ObservableCollection<PostedTime> _innerValues;
 
         #endregion
 
@@ -52,12 +53,12 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public PostedTimeCollectionModel() {
 
-            this.Values = new ObservableCollection<PostedTime>();
-            this.Values.CollectionChanged += OnValuesCollectionChanged;
+            _innerValues = new ObservableCollection<PostedTime>();
+            Values = new ReadOnlyObservableCollection<PostedTime>(_innerValues);
         }
 
         /// <summary>
-        /// Adds the specified item to this collection.
+        /// Adds the specified <paramref name="item"/> to this collection.
         /// </summary>
         /// <param name="item">The item to add to this collection.</param>
         /// <exception cref="System.ArgumentNullException">
@@ -67,7 +68,23 @@ namespace AK.F1.Timing.Model.Collections
 
             Guard.NotNull(item, "item");
 
-            this.Values.Add(item);
+            _innerValues.Add(item);
+            UpdateStatistics(item);
+        }
+
+        /// <summary>
+        /// Replaces the current item with the specified <paramref name="replacement"/>.
+        /// </summary>
+        /// <param name="replacement">The replacement item.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="item"/> is <see langword="null"/>.
+        /// </exception>
+        public void ReplaceCurrent(PostedTime replacement) {
+
+            Guard.NotNull(replacement, "replacement");
+
+            _innerValues[_innerValues.Count - 1] = replacement;
+            ReplaceStatistics(replacement);
         }
 
         /// <summary>
@@ -75,13 +92,14 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public void Reset() {
 
-            this.Values.Clear();
+            _innerValues.Clear();
+            ResetStatistics();
         }
 
         /// <summary>
-        /// Gets the collection of values.
+        /// Gets the underlying collection of values.
         /// </summary>
-        public ObservableCollection<PostedTime> Values { get; private set; }
+        public ReadOnlyObservableCollection<PostedTime> Values { get; private set; }
 
         /// <summary>
         /// Gets the current value.
@@ -177,148 +195,132 @@ namespace AK.F1.Timing.Model.Collections
 
         #region Private Impl.
 
-        private void OnValuesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+        private void UpdateStatistics(PostedTime item) {
 
-            switch(e.Action) {
-                case NotifyCollectionChangedAction.Add:
-                    UpdateStatistics((PostedTime)e.NewItems[0]);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                case NotifyCollectionChangedAction.Replace:
-                    ComputeStatistics();
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    ComputeStatistics();
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                default:
-                    break;
-            }
+            UpdateCount();
+            UpdateCurrentAndDelta();
+            UpdateMinimum(item);
+            UpdateMaximum(item);
+            UpdateMean(item);
+            UpdateRange();
+            UpdateTypeCounts(item);
         }
 
-        private void ComputeStatistics() {
+        private void ReplaceStatistics(PostedTime replacement) {
 
-            if(this.Values.Count > 0) {
-                ComputeCount();
-                ComputeCurrentPreviousAndDelta();
-                ComputeMinimum();
-                ComputeMaximum();
-                ComputeRange();
-                ComputeMean();
-                ComputeSessionAndPersonBestCounts();
+            if(_innerValues.Count > 0) {
+                UpdateCount();                
+                ReplaceMinimum(replacement);
+                ReplaceMaximum(replacement);
+                ReplaceMean(replacement);
+                UpdateRange();
+                ReplaceTypeCounts(replacement);
+                UpdateCurrentAndDelta();
             } else {
                 ResetStatistics();
             }
         }
 
-        private void ComputeCount() {
-
-            this.Count = this.Values.Count;
-        }
-
-        private void ComputeRange() {
-
-            this.Range = this.Maximum.Time - this.Minimum.Time;
-        }
-
-        private void ComputeMean() {
-
-            this.Mean = this.Values.Average(t => t.Time);
-        }
-
-        private void ComputeCurrentPreviousAndDelta() {
-
-            int count = this.Values.Count;
-
-            this.Current = this.Values[count - 1];
-            if(count > 1) {
-                this.Previous = this.Values[count - 2];
-                this.CurrentDelta = this.Current.Time - this.Previous.Time;
-            } else {
-                this.CurrentDelta = null;
-            }
-        }
-
-        private void ComputeMinimum() {
-
-            this.Minimum = this.Values.Min();
-        }
-
-        private void ComputeMaximum() {
-
-            this.Maximum = this.Values.Max();
-        }
-
-        private void ComputeSessionAndPersonBestCounts() {
-
-            int personal = 0;
-            int session = 0;
-
-            foreach(var time in this.Values) {
-                if(time.Type == PostedTimeType.PersonalBest) {
-                    ++personal;
-                } else if(time.Type == PostedTimeType.SessionBest) {
-                    ++session;
-                }
-            }
-
-            this.PersonalBestCount = personal;
-            this.SessionBestCount = session;
-        }
-
-        private void UpdateStatistics(PostedTime value) {
-
-            ComputeCount();
-            ComputeCurrentPreviousAndDelta();
-            UpdateMinimum(value);
-            UpdateMaximum(value);
-            ComputeRange();
-            UpdateMean(value);
-            UpdateSessionAndPersonBestCounts(value);
-        }
-
-        private void UpdateMean(PostedTime value) {
-
-            this.Total += ToDouble(value.Time);
-            this.Mean = FromDouble(this.Total / this.Values.Count);
-        }
-
-        private void UpdateMinimum(PostedTime value) {
-
-            if(this.Minimum == null || value.CompareTo(this.Minimum) < 0) {
-                this.Minimum = value;
-            }
-        }
-
-        private void UpdateMaximum(PostedTime value) {
-
-            if(this.Maximum == null || value.CompareTo(this.Maximum) > 0) {
-                this.Maximum = value;
-            }
-        }
-
-        private void UpdateSessionAndPersonBestCounts(PostedTime value) {
-
-            if(value.Type == PostedTimeType.PersonalBest) {
-                ++this.PersonalBestCount;
-            } else if(value.Type == PostedTimeType.SessionBest) {
-                ++this.SessionBestCount;
-            }
-        }
-
         private void ResetStatistics() {
 
-            this.Count = 0;
-            this.Current = null;
-            this.Previous = null;
-            this.CurrentDelta = null;
-            this.Minimum = null;
-            this.Maximum = null;
-            this.Range = null;
-            this.Mean = null;
-            this.Total = 0d;
-            this.PersonalBestCount = 0;
-            this.SessionBestCount = 0;
+            Count = 0;
+            Current = null;
+            Previous = null;
+            CurrentDelta = null;
+            Minimum = null;
+            Maximum = null;
+            Range = null;
+            Mean = null;
+            Total = 0d;
+            PersonalBestCount = 0;
+            SessionBestCount = 0;
+        }
+
+        private void UpdateCount() {
+
+            Count = _innerValues.Count;
+        }
+
+        private void UpdateRange() {
+
+            Range = Maximum.Time - Minimum.Time;
+        }
+
+        private void UpdateCurrentAndDelta() {
+
+            Current = _innerValues[_innerValues.Count - 1];
+            if(_innerValues.Count > 1) {
+                Previous = _innerValues[_innerValues.Count - 2];
+                CurrentDelta = Current.Time - Previous.Time;
+            } else {
+                Previous = null;
+                CurrentDelta = null;
+            }
+        }
+        
+        private void UpdateTypeCounts(PostedTime item) {
+
+            if(item.Type == PostedTimeType.PersonalBest) {
+                ++PersonalBestCount;
+            } else if(item.Type == PostedTimeType.SessionBest) {
+                ++SessionBestCount;
+            }
+        }
+
+        private void ReplaceTypeCounts(PostedTime replacement) {
+
+            if(replacement.Type != Current.Type) {
+                if(replacement.Type == PostedTimeType.PersonalBest) {
+                    ++PersonalBestCount;
+                    SessionBestCount = Math.Max(SessionBestCount - 1, 0);
+                } else if(replacement.Type == PostedTimeType.SessionBest) {
+                    ++SessionBestCount;
+                    PersonalBestCount = Math.Max(PersonalBestCount - 1, 0);
+                }
+            }
+        }
+
+        private void UpdateMean(PostedTime item) {
+
+            Total += ToDouble(item.Time);
+            Mean = FromDouble(Total / _innerValues.Count);
+        }
+
+        private void ReplaceMean(PostedTime replacement) {
+
+            if(replacement.Time != Current.Time) {
+                Total -= ToDouble(Current.Time);
+                Total += ToDouble(replacement.Time);
+                Mean = FromDouble(Total / _innerValues.Count);
+            }
+        }
+
+        private void UpdateMinimum(PostedTime item) {
+
+            if(Minimum == null || item.CompareTo(Minimum) < 0) {
+                Minimum = item;
+            }
+        }
+
+        private void ReplaceMinimum(PostedTime replacement) {
+
+            if(replacement.Equals(Minimum)) {
+                Minimum = _innerValues.Min();
+            }
+        }
+
+        private void UpdateMaximum(PostedTime item) {
+
+            if(Maximum == null || item.CompareTo(Maximum) > 0) {
+                Maximum = item;
+            }
+        }
+
+        private void ReplaceMaximum(PostedTime replacement) {
+
+            if(replacement.Equals(Maximum)) {
+                Maximum = _innerValues.Max();
+            }
         }
 
         private static double ToDouble(TimeSpan value) {

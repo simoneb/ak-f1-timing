@@ -79,7 +79,7 @@ namespace AK.F1.Timing.Model.Session
 
             if(driver.Position != message.Position) {
                 driver.Position = message.Position;
-                this.Session.Drivers.Sort();
+                this.Session.InnerDrivers.Sort();
             }
         }
 
@@ -96,9 +96,8 @@ namespace AK.F1.Timing.Model.Session
         public override void Visit(ReplaceDriverSectorTimeMessage message) {
 
             var driver = GetDriver(message.DriverId);
-            var values = driver.LapTimes.GetSector(message.SectorNumber).Values;
-
-            values[values.Count - 1] = message.Replacement;
+            
+            driver.LapTimes.GetSector(message.SectorNumber).ReplaceCurrent(message.Replacement);
             TrySetFastestSector(message.SectorNumber, message.Replacement, driver);
         }
 
@@ -126,9 +125,8 @@ namespace AK.F1.Timing.Model.Session
         public override void Visit(ReplaceDriverLapTimeMessage message) {
 
             var driver = GetDriver(message.DriverId);
-            var times = driver.LapTimes.Laps.Values;
 
-            times[times.Count - 1] = message.Replacement;
+            driver.LapTimes.Laps.ReplaceCurrent(message.Replacement);
             TrySetFastestLap(message.Replacement, driver);
         }
 

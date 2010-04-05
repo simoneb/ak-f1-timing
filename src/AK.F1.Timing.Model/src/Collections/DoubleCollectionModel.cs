@@ -13,10 +13,8 @@
 // limitations under the License.
 
 using System;
-using System.Diagnostics;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
+using System.Diagnostics;
 
 namespace AK.F1.Timing.Model.Collections
 {
@@ -35,7 +33,8 @@ namespace AK.F1.Timing.Model.Collections
         private double? _maximum;
         private double? _mean;
         private double? _range;
-        private double? _standardDeviation;        
+        private double? _standardDeviation;
+        private ObservableCollection<double> _innerValues;
 
         #endregion
 
@@ -46,17 +45,18 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public DoubleCollectionModel() {
 
-            this.Values = new ObservableCollection<double>();
-            this.Values.CollectionChanged += OnValuesCollectionChanged;
+            _innerValues = new ObservableCollection<double>();            
+            Values = new ReadOnlyObservableCollection<double>(_innerValues);
         }
 
         /// <summary>
-        /// Adds the specified item to this collection.
+        /// Adds the specified <paramref name="item"/> to this collection.
         /// </summary>
         /// <param name="item">The item to add to this collection.</param>
         public void Add(double item) {
 
-            this.Values.Add(item);
+            _innerValues.Add(item);
+            UpdateStatistics(item);
         }
 
         /// <summary>
@@ -64,13 +64,14 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public void Reset() {
 
-            this.Values.Clear();
+            _innerValues.Clear();
+            ResetStatistics();
         }
 
         /// <summary>
-        /// Gets the collection of values.
+        /// Gets the underlying collection of values.
         /// </summary>
-        public ObservableCollection<double> Values { get; private set; }
+        public ReadOnlyObservableCollection<double> Values { get; private set; }
 
         /// <summary>
         /// Gets the current value.
@@ -139,126 +140,72 @@ namespace AK.F1.Timing.Model.Collections
 
         #region Private Impl.
 
-        private void OnValuesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {            
+        private void UpdateStatistics(double item) {
 
-            switch(e.Action) {
-                case NotifyCollectionChangedAction.Add:
-                    UpdateStatistics((double)e.NewItems[0]);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                case NotifyCollectionChangedAction.Replace:
-                    ComputeStatistics();
-                    break;
-                case NotifyCollectionChangedAction.Reset:
-                    ComputeStatistics();
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                default:
-                    break;
+            UpdateCount();
+            UpdateCurrent();
+            UpdateMinimum(item);
+            UpdateMaximum(item);
+            UpdateRange();
+            UpdateMean(item);
+            UpdateStandardDeviation(item);
+        }
+
+        private void UpdateCount() {
+
+            Count = _innerValues.Count;
+        }
+
+        private void UpdateCurrent() {
+
+            Current = _innerValues[_innerValues.Count - 1];
+        }
+
+        private void UpdateStandardDeviation(double item) {
+
+            double n = _innerValues.Count;
+            double mean = Mean.GetValueOrDefault(0d);
+
+            SumOfSquaredValues += Sqr(item);
+            StandardDeviation = Math.Sqrt(1d / n * (SumOfSquaredValues - (n * Sqr(mean))));
+        }
+
+        private void UpdateMean(double item) {
+
+            Total += item;
+            Mean = Total / _innerValues.Count;
+        }
+
+        private void UpdateMinimum(double item) {
+
+            if(Minimum == null || item < Minimum) {
+                Minimum = item;
             }
         }
 
-        private void ComputeStatistics() {
+        private void UpdateMaximum(double item) {
 
-            if(this.Values.Count > 0) {
-                ComputeCount();
-                ComputeCurrent();
-                ComputeMinimum();
-                ComputeMaximum();
-                ComputeRange();
-                ComputeMean();
-                ComputeStandardDeviation();
-            } else {
-                ResetStatistics();
+            if(Maximum == null || item > Maximum) {
+                Maximum = item;
             }
         }
 
-        private void ComputeCount() {
+        private void UpdateRange() {
 
-            this.Count = this.Values.Count;
-        }
-
-        private void ComputeMean() {
-
-            this.Mean = this.Values.Average();
-        }
-
-        private void ComputeRange() {
-
-            this.Range = this.Maximum - this.Minimum;
-        }
-
-        private void ComputeCurrent() {
-
-            this.Current = this.Values[this.Values.Count - 1];
-        }
-
-        private void ComputeMinimum() {
-
-            this.Minimum = this.Values.Min();
-        }
-
-        private void ComputeMaximum() {
-
-            this.Maximum = this.Values.Max();
-        }
-
-        private void ComputeStandardDeviation() {
-
-            UpdateStandardDeviation(this.Current.Value);
-        }
-
-        private void UpdateStatistics(double value) {
-
-            ComputeCount();
-            ComputeCurrent();
-            UpdateMinimum(value);
-            UpdateMaximum(value);
-            ComputeRange();
-            UpdateMean(value);
-            UpdateStandardDeviation(value);
-        }
-
-        private void UpdateStandardDeviation(double value) {
-
-            double n = this.Values.Count;
-            double mean = this.Mean != null ? this.Mean.Value : 0d;
-
-            this.SumOfSquaredValues += Sqr(value);
-            this.StandardDeviation = Math.Sqrt(1d / n * (this.SumOfSquaredValues - (n * Sqr(mean))));
-        }
-
-        private void UpdateMean(double value) {
-
-            this.Total += value;
-            this.Mean = this.Total / this.Values.Count;
-        }
-
-        private void UpdateMinimum(double value) {
-
-            if(this.Minimum == null || value < this.Minimum) {
-                this.Minimum = value;
-            }
-        }
-
-        private void UpdateMaximum(double value) {
-
-            if(this.Maximum == null || value > this.Maximum) {
-                this.Maximum = value;
-            }
+            Range = Maximum - Minimum;
         }
 
         private void ResetStatistics() {
 
-            this.Count = 0;
-            this.Current = null;
-            this.Minimum = null;
-            this.Maximum = null;
-            this.Range = null;
-            this.Mean = null;
-            this.StandardDeviation = null;
-            this.Total = 0d;            
-            this.SumOfSquaredValues = 0d;            
+            Count = 0;
+            Current = null;
+            Minimum = null;
+            Maximum = null;
+            Range = null;
+            Mean = null;
+            StandardDeviation = null;
+            Total = 0d;            
+            SumOfSquaredValues = 0d;            
         }
 
         private static double Sqr(double d) {

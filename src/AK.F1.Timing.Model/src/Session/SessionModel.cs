@@ -52,20 +52,21 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public SessionModel() {
 
-            this.Builder = new SessionModelBuilder(this);
-            this.Drivers = new SortableObservableCollection<DriverModel>((x, y) => {
+            Builder = new SessionModelBuilder(this);            
+            InnerDrivers = new SortableObservableCollection<DriverModel>((x, y) => {
                 return x.Position.CompareTo(y.Position);
             });
-            this.DriversById = new Dictionary<int, DriverModel>(25);
-            this.Feed = new FeedModel();
-            this.Grid = GridModelBase.Create(SessionType.None);
-            this.FastestTimes = new FastestTimesModel();
-            this.Messages = new MessageModel();
-            this.OneSecondTimer = new DispatcherTimer(DispatcherPriority.Normal);
-            this.OneSecondTimer.Interval = ONE_SECOND;
-            this.OneSecondTimer.Tick += OnOneSecondElapsed;
-            this.SessionStatus = SessionStatus.Finished;
-            this.Weather = new WeatherModel();
+            Drivers = new ReadOnlyObservableCollection<DriverModel>(InnerDrivers);
+            DriversById = new Dictionary<int, DriverModel>(25);
+            Feed = new FeedModel();
+            Grid = GridModelBase.Create(SessionType.None);
+            FastestTimes = new FastestTimesModel();
+            Messages = new MessageModel();
+            OneSecondTimer = new DispatcherTimer(DispatcherPriority.Normal);
+            OneSecondTimer.Interval = ONE_SECOND;
+            OneSecondTimer.Tick += (s, e) => OnOneSecondElapsed();
+            SessionStatus = SessionStatus.Finished;
+            Weather = new WeatherModel();
         }
 
         /// <summary>
@@ -77,7 +78,7 @@ namespace AK.F1.Timing.Model.Session
         /// </exception>
         public void Process(Message message) {
 
-            this.Builder.Process(message);            
+            Builder.Process(message);            
         }
 
         /// <summary>
@@ -85,20 +86,20 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public void Reset() {
 
-            this.OneSecondTimer.Stop();            
-            this.DecrementRemainingSessionTime = false;
-            this.Drivers.Clear();
-            this.DriversById.Clear();
-            this.ElapsedSessionTime = TimeSpan.Zero;
-            this.FastestTimes.Reset();
-            this.Feed.Reset();
-            this.Grid = GridModelBase.Create(SessionType.None);            
-            this.Messages.Reset();
-            this.RaceLapNumber = 0;
-            this.RemainingSessionTime = TimeSpan.Zero;
-            this.SessionStatus = SessionStatus.Finished;
-            this.SessionType = SessionType.None;            
-            this.Weather.Reset();
+            OneSecondTimer.Stop();            
+            DecrementRemainingSessionTime = false;
+            InnerDrivers.Clear();
+            DriversById.Clear();
+            ElapsedSessionTime = TimeSpan.Zero;
+            FastestTimes.Reset();
+            Feed.Reset();
+            Grid = GridModelBase.Create(SessionType.None);            
+            Messages.Reset();
+            RaceLapNumber = 0;
+            RemainingSessionTime = TimeSpan.Zero;
+            SessionStatus = SessionStatus.Finished;
+            SessionType = SessionType.None;            
+            Weather.Reset();
         }
 
         /// <inheritdoc/>
@@ -108,10 +109,10 @@ namespace AK.F1.Timing.Model.Session
 
             DriverModel driver;
 
-            if(!this.DriversById.TryGetValue(id, out driver)) {
+            if(!DriversById.TryGetValue(id, out driver)) {
                 driver = new DriverModel(id);
-                this.DriversById.Add(id, driver);
-                this.Drivers.Add(driver);
+                DriversById.Add(id, driver);
+                InnerDrivers.Add(driver);
             }
 
             return driver;
@@ -120,7 +121,7 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the collection of drivers participating in this session.
         /// </summary>
-        public SortableObservableCollection<DriverModel> Drivers { get; private set; }
+        public ReadOnlyObservableCollection<DriverModel> Drivers { get; private set; }
 
         /// <summary>
         /// Gets the weather model.
@@ -206,15 +207,15 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         protected virtual void OnOneSecondElapsed() {
 
-            this.ElapsedSessionTime += ONE_SECOND;
+            ElapsedSessionTime += ONE_SECOND;
 
-            if(!this.DecrementRemainingSessionTime) {
+            if(!DecrementRemainingSessionTime) {
                 return;
             }
 
-            TimeSpan remaining = this.RemainingSessionTime - ONE_SECOND;
+            TimeSpan remaining = RemainingSessionTime - ONE_SECOND;
 
-            this.RemainingSessionTime = remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero;
+            RemainingSessionTime = remaining > TimeSpan.Zero ? remaining : TimeSpan.Zero;
         }
 
         /// <summary>
@@ -248,14 +249,14 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         internal bool DecrementRemainingSessionTime { get; set; }
 
+        /// <summary>
+        /// Gets the inner collection of drivers.
+        /// </summary>
+        internal SortableObservableCollection<DriverModel> InnerDrivers { get; set; }
+
         #endregion
 
         #region Private Impl.
-
-        private void OnOneSecondElapsed(object sender, EventArgs e) {
-
-            OnOneSecondElapsed();
-        }
 
         private IDictionary<int, DriverModel> DriversById { get; set; }
 
