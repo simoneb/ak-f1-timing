@@ -42,38 +42,65 @@ namespace AK.F1.Timing.Live.Recorder
             if(!options.ParseAndContinue(args)) {
                 return;
             }
+            
+            AuthenticationToken token;
+            
+            if(!TryAuthenticate(options.Username, options.Password, out token)) {
+                return;
+            }
 
-            log4net.Config.XmlConfigurator.Configure();
-
-            string path;
-
-            path = Path.Combine(Environment.CurrentDirectory, options.Session + ".tms");
+            string path = Path.Combine(Environment.CurrentDirectory, options.Session + ".tms");
+            
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            RecordMessages(path, options.Username, options.Password);
+            RecordMessages(token, path);
         }
 
         #endregion
 
         #region Private Impl.
+        
+        static Program() {
+        
+            log4net.Config.XmlConfigurator.Configure();
+        }
+        
+        private static bool TryAuthenticate(string username, string password, out AuthenticationToken token) {
+        
+            WriteLine("authenticating...");
+        
+            token = null;        
+            try {
+                token = F1Timing.Live.Login(username, password);
+                WriteLine("authenticated {0}", username);
+            } catch(Exception exc) {
+                WriteLine(exc);
+            }
+            
+            return token != null;
+        }
 
-        private static void RecordMessages(string path, string username, string password) {
+        private static void RecordMessages(AuthenticationToken token, string path) {
 
             Message message;
 
             WriteLine("connecting...");
 
             try {
-                var token = F1Timing.Live.Login(username, password);
                 using(var reader = F1Timing.Live.ReadAndRecord(token, path)) {
                     while((message = reader.Read()) != null) {
                         WriteLine(message.ToString());
                     }
                 }
                 WriteLine("disconnected");                
-            } catch(Exception exc) {
-                _log.Error(exc);
-                WriteLine("{0} - {1}", exc.GetType().Name, exc.Message);                
+            } catch(Exception exc) {                
+                WriteLine(exc);
             }
+        }
+        
+        private static void WriteLine(Exception exception) {
+        
+            _log.Error(exception);        
+            WriteLine("{0} - {1}", exception.GetType().Name, exception.Message);
         }
 
         private static void WriteLine(string format, params object[] args) {
