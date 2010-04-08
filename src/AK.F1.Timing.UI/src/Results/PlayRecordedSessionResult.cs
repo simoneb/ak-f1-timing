@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using Microsoft.Practices.ServiceLocation;
 
 using AK.F1.Timing.UI.Services.Session;
 
@@ -51,11 +50,7 @@ namespace AK.F1.Timing.UI.Results
         /// <inheritdoc/>
         protected override ISessionPlayer CreateSessionPlayer() {
 
-            var reader = F1Timing.Playback.Read(TmsPath);
-
-            reader.PlaybackSpeed = 50d;
-
-            return new DefaultSessionPlayer(reader) {
+            return new DefaultSessionPlayer(CreateReader) {
                 SupportsPause = true
             };
         }
@@ -63,6 +58,15 @@ namespace AK.F1.Timing.UI.Results
         #endregion
 
         #region Private Impl.
+        
+        private IMessageReader CreateReader() {
+        
+            var reader = F1Timing.Playback.Read(TmsPath);
+
+            reader.PlaybackSpeed = 50d;
+            
+            return reader;
+        }
 
         private string TmsPath { get; set; }
 

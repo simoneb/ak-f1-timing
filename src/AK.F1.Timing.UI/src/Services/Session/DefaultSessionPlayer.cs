@@ -54,21 +54,21 @@ namespace AK.F1.Timing.UI.Services.Session
         /// <summary>
         /// Initialises a new instance of the <see cref="DefaultSessionPlayer"/> class.
         /// </summary>
-        /// <param name="reader"></param>
+        /// <param name="readerFactory">The message reader factory.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="reader"/> is <see langword="null"/>.
         /// </exception>
-        public DefaultSessionPlayer(IMessageReader reader) {
+        public DefaultSessionPlayer(Func<IMessageReader> readerFactory) {
 
-            Guard.NotNull(reader, "reader");
+            Guard.NotNull(readerFactory, "readerFactory");
 
-            Reader = reader;
+            ReaderFactory = readerFactory;
             Session = new SessionModel();
             Dispatcher = Application.Current.Dispatcher;
-            Worker = new Thread(ReadAndDispatchMessages) {                
+            Worker = new Thread(ReadAndDispatchMessages) {
                 IsBackground = true
             };
-            CachedDispatchMessageCallback = (Action<Message>)DispatchMessageCallback;            
+            CachedDispatchMessageCallback = (Action<Message>)DispatchMessageCallback;
         }
 
         /// <inheritdoc/>
@@ -101,12 +101,14 @@ namespace AK.F1.Timing.UI.Services.Session
             Message message;
 
             try {
-                message = Reader.Read();
-                DispatchEvent(Started);
-                if(message != null) {
-                    do {                        
-                        DispatchMessage(message);
-                    } while((message = Reader.Read()) != null);
+                using(var reader = ReaderFactory()) {
+                    message = reader.Read();
+                    DispatchEvent(Started);
+                    if(message != null) {
+                        do {
+                            DispatchMessage(message);
+                        } while((message = reader.Read()) != null);
+                    }
                 }
             } catch(IOException exc) {
                 LogAndDispatchException(exc);
@@ -150,7 +152,7 @@ namespace AK.F1.Timing.UI.Services.Session
             }
         }
 
-        private IMessageReader Reader { get; set; }
+        private Func<IMessageReader> ReaderFactory { get; set; }
 
         private Dispatcher Dispatcher { get; set; }
 

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using Microsoft.Practices.ServiceLocation;
 
 using AK.F1.Timing.UI.Services.Session;
 
@@ -47,12 +46,17 @@ namespace AK.F1.Timing.UI.Results
         /// <inheritdoc/>
         protected override ISessionPlayer CreateSessionPlayer() {
 
-            return new DefaultSessionPlayer(F1Timing.Live.Read(Token));
+            return new DefaultSessionPlayer(CreateReader);
         }
 
         #endregion
 
         #region Private Impl.
+
+        private IMessageReader CreateReader() {
+
+            return F1Timing.Live.Read(Token);
+        }
 
         private AuthenticationToken Token { get; set; }
 
