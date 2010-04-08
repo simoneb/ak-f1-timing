@@ -94,17 +94,12 @@ namespace AK.F1.Timing.Recording
 
             Message message;
 
-            try {
-                if((message = Inner.Read()) != null) {
-                    InsertDelay();
-                    Serialize(message);
-                } else {
-                    Serialize(null, false);
-                    DisposeOfResources();
-                }
-            } catch {
-                DisposeOfResources();
-                throw;
+            if((message = Inner.Read()) != null) {
+                InsertDelay();
+                Serialize(message);
+            } else {
+                // An end message delay is not required.
+                Serialize(null);
             }
 
             return message;
@@ -113,9 +108,19 @@ namespace AK.F1.Timing.Recording
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
 
-            if(disposing && !IsDisposed) {
-                DisposeOfResources();
+            if(IsDisposed) {
+                return;
             }
+            if(disposing) {
+                DisposeOf(Writer);
+                if(OwnsOutput) {
+                    DisposeOf(Output);
+                }
+                DisposeOf(Inner);
+            }
+            Writer = null;
+            Output = null;
+            Inner = null;
             base.Dispose(disposing);
         }
 
@@ -127,19 +132,7 @@ namespace AK.F1.Timing.Recording
             Output = output;
             OwnsOutput = ownsOutput;
             Writer = new DecoratedObjectWriter(output);
-            Stopwatch = new Stopwatch();            
-        }
-
-        private void DisposeOfResources() {            
-
-            DisposeOf(Inner);
-            Inner = null;            
-            DisposeOf(Writer);
-            Writer = null;
-            if(OwnsOutput) {                
-                DisposeOf(Output);
-            }
-            Output = null;
+            Stopwatch = new Stopwatch();
         }
 
         private void InsertDelay() {
@@ -152,7 +145,7 @@ namespace AK.F1.Timing.Recording
                 delay = elapsed - LastElapsed;
                 LastElapsed = elapsed;
                 if(delay >= MIN_MESSAGE_DELAY) {
-                    Serialize(new SetNextMessageDelayMessage(delay), false);
+                    Serialize(new SetNextMessageDelayMessage(delay));
                 }
             } else {
                 Stopwatch.Start();
@@ -161,23 +154,15 @@ namespace AK.F1.Timing.Recording
 
         private void Serialize(Message message) {
 
-            Serialize(message, true);
-        }
+            CompositeMessage composite = message as CompositeMessage;
 
-        private void Serialize(Message message, bool expand) {
-
-            if(expand) {
-                CompositeMessage composite = message as CompositeMessage;
-
-                if(composite != null) {
-                    foreach(Message component in composite.Messages) {
-                        Writer.Write(component);
-                    }
-                    return;
+            if(composite != null) {
+                foreach(Message component in composite.Messages) {
+                    Serialize(component);
                 }
+            } else {
+                Writer.Write(message);
             }
-
-            Writer.Write(message);
         }
 
         private IMessageReader Inner { get; set; }

@@ -59,7 +59,7 @@ namespace AK.F1.Timing.Recording
         /// <param name="input">The input stream.</param>
         /// <param name="ownsInput"><see langword="true"/> if the reader owns the specified
         /// <paramref name="input"/> stream, otherwise; <see langword="false"/>.</param>
-        public RecordedMessageReader(Stream input, bool ownsInput) {            
+        public RecordedMessageReader(Stream input, bool ownsInput) {
 
             Guard.NotNull(input, "output");
 
@@ -83,19 +83,12 @@ namespace AK.F1.Timing.Recording
 
             Message message;
 
-            try {
-                if((message = (Message)Reader.Read()) != null) {
-                    if(DelayEngine.Process(message)) {
-                        // The engine processed a delay message, let our base class handle the re-read.
-                        // See MessageReaderBase#Read.
-                        message = Message.Empty;
-                    }
-                } else {
-                    DisposeOfResources();
+            if((message = (Message)Reader.Read()) != null) {
+                if(DelayEngine.Process(message)) {
+                    // The engine processed a delay message, let our base class handle the re-read.
+                    // See MessageReaderBase#Read.
+                    message = Message.Empty;
                 }
-            } catch {
-                DisposeOfResources();
-                throw;
             }
 
             return message;
@@ -104,9 +97,17 @@ namespace AK.F1.Timing.Recording
         /// <inheritdoc />
         protected override void Dispose(bool disposing) {
 
-            if(disposing && !IsDisposed) {
-                DisposeOfResources();
+            if(IsDisposed) {
+                return;
             }
+            if(disposing) {
+                DisposeOf(Reader);
+                if(OwnsInput) {
+                    DisposeOf(Input);
+                }                
+            }
+            Reader = null;
+            Input = null;            
             base.Dispose(disposing);
         }
 
@@ -118,16 +119,6 @@ namespace AK.F1.Timing.Recording
             OwnsInput = ownsInput;
             Reader = new DecoratedObjectReader(input);
             DelayEngine = new RecordedMessageDelayEngine(this);
-        }
-
-        private void DisposeOfResources() {
-
-            DisposeOf(Reader);
-            Reader = null;
-            if(OwnsInput) {                
-                DisposeOf(Input);
-            }            
-            Input = null;
         }
 
         private Stream Input { get; set; }
