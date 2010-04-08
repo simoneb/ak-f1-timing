@@ -34,8 +34,7 @@ namespace AK.F1.Timing.Live
 
             return string.Format(
                 "{0}(MessageType='{1}', DriverId='{2}', Colour='{3}', DataLength='{4}', Value='{5}')",
-                GetType().Name, MessageType, DriverId, Colour, DataLength,
-                Value);
+                GetType().Name, MessageType, DriverId, Colour, DataLength, Value);
         }
 
         /// <summary>
