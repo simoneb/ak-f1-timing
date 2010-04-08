@@ -14,6 +14,7 @@
 
 using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace AK.F1.Timing.UI.Views
 {
@@ -36,7 +37,7 @@ namespace AK.F1.Timing.UI.Views
 
         #region Private Impl.
 
-        private void Border_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void BeginDragMove(object sender, MouseButtonEventArgs e) {
 
             DragMove();
         }
