@@ -172,7 +172,7 @@ namespace AK.F1.Timing.Live
         /// </exception>
         public static PostedTimeType ToPostedTimeType(GridColumnColour colour) {
 
-            switch((GridColumnColour)colour) {
+            switch(colour) {
                 case GridColumnColour.Green:
                     return PostedTimeType.PersonalBest;
                 case GridColumnColour.Magenta:
