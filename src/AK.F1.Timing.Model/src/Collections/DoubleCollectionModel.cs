@@ -33,8 +33,7 @@ namespace AK.F1.Timing.Model.Collections
         private double? _maximum;
         private double? _mean;
         private double? _range;
-        private double? _standardDeviation;
-        private ObservableCollection<double> _innerValues;
+        private double? _standardDeviation;        
 
         #endregion
 
@@ -45,17 +44,22 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public DoubleCollectionModel() {
 
-            _innerValues = new ObservableCollection<double>();            
-            Values = new ReadOnlyObservableCollection<double>(_innerValues);
+            InnerValues = new ObservableCollection<double>();            
+            Values = new ReadOnlyObservableCollection<double>(InnerValues);
         }
 
         /// <summary>
         /// Adds the specified <paramref name="item"/> to this collection.
         /// </summary>
         /// <param name="item">The item to add to this collection.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// When when <paramref name="item"/> is not a number.
+        /// </exception>
         public void Add(double item) {
 
-            _innerValues.Add(item);
+            Guard.InRange(!Double.IsNaN(item), "item");
+
+            InnerValues.Add(item);
             UpdateStatistics(item);
         }
 
@@ -64,7 +68,7 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public void Reset() {
 
-            _innerValues.Clear();
+            InnerValues.Clear();
             ResetStatistics();
         }
 
@@ -153,17 +157,17 @@ namespace AK.F1.Timing.Model.Collections
 
         private void UpdateCount() {
 
-            Count = _innerValues.Count;
+            Count = InnerValues.Count;
         }
 
         private void UpdateCurrent() {
 
-            Current = _innerValues[_innerValues.Count - 1];
+            Current = InnerValues[InnerValues.Count - 1];
         }
 
         private void UpdateStandardDeviation(double item) {
 
-            double n = _innerValues.Count;
+            double n = InnerValues.Count;
             double mean = Mean.GetValueOrDefault(0d);
 
             SumOfSquaredValues += Sqr(item);
@@ -172,8 +176,8 @@ namespace AK.F1.Timing.Model.Collections
 
         private void UpdateMean(double item) {
 
-            Total += item;
-            Mean = Total / _innerValues.Count;
+            SumOfValues += item;
+            Mean = SumOfValues / InnerValues.Count;
         }
 
         private void UpdateMinimum(double item) {
@@ -204,7 +208,7 @@ namespace AK.F1.Timing.Model.Collections
             Range = null;
             Mean = null;
             StandardDeviation = null;
-            Total = 0d;            
+            SumOfValues = 0d;            
             SumOfSquaredValues = 0d;            
         }
 
@@ -213,9 +217,11 @@ namespace AK.F1.Timing.Model.Collections
             return d * d;
         }
 
-        private double Total { get; set; }
+        private double SumOfValues { get; set; }
 
         private double SumOfSquaredValues { get; set; }
+
+        private ObservableCollection<double> InnerValues { get; set; }
 
         #endregion
     }
