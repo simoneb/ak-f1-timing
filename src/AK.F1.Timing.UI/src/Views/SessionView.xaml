@@ -4,10 +4,10 @@
     xmlns:Components="clr-namespace:AK.F1.Timing.UI.Views.Components"
     xmlns:Controls="clr-namespace:AK.F1.Timing.UI.Controls"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StackPanel>
-        <TabControl TabStripPlacement="Left" Margin="0,4,0,0">
+    <Grid>
+        <TabControl TabStripPlacement="Left" Margin="4">
             <TabItem Header="Grid">
-                <StackPanel Orientation="Horizontal" Margin="4,0,4,4">
+                <StackPanel Orientation="Horizontal">
                     <Components:TimingGrid DataContext="{Binding}" DockPanel.Dock="Top"/>
                     <DockPanel LastChildFill="True">
                         <Components:MiniWeather DataContext="{Binding Session.Weather}" DockPanel.Dock="Top" Margin="4,0,0,0"/>
@@ -20,8 +20,8 @@
                 <Components:Weather DataContext="{Binding Session.Weather}"/>
             </TabItem>
             <TabItem Header="Debug">
-                <Components:DebugInfo DataContext="{Binding Session}" Margin="4,2,4,3" VerticalAlignment="Top"/>
+                <Components:DebugInfo DataContext="{Binding Session}" VerticalAlignment="Top"/>
             </TabItem>
         </TabControl>
-    </StackPanel>
+    </Grid>
 </UserControl>
