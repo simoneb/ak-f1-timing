@@ -42,7 +42,6 @@ namespace AK.F1.Timing.Model.Collections
         private TimeSpan? _currentDelta;
         private int _personBestCount;
         private int _sessionBestCount;
-        private ObservableCollection<PostedTime> _innerValues;
 
         #endregion
 
@@ -53,8 +52,8 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public PostedTimeCollectionModel() {
 
-            _innerValues = new ObservableCollection<PostedTime>();
-            Values = new ReadOnlyObservableCollection<PostedTime>(_innerValues);
+            InnerValues = new ObservableCollection<PostedTime>();
+            Values = new ReadOnlyObservableCollection<PostedTime>(InnerValues);
         }
 
         /// <summary>
@@ -68,7 +67,7 @@ namespace AK.F1.Timing.Model.Collections
 
             Guard.NotNull(item, "item");
 
-            _innerValues.Add(item);
+            InnerValues.Add(item);
             UpdateStatistics(item);
         }
 
@@ -79,12 +78,18 @@ namespace AK.F1.Timing.Model.Collections
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="item"/> is <see langword="null"/>.
         /// </exception>
+        /// <exception cref="System.InvalidOperationException">
+        /// Thrown when the collection is empty.
+        /// </exception>
         public void ReplaceCurrent(PostedTime replacement) {
 
             Guard.NotNull(replacement, "replacement");
+            if(InnerValues.Count == 0) {
+                throw Guard.PostedTimeCollectionModel_CurrentCannotBeReplaced();
+            }
 
-            _innerValues[_innerValues.Count - 1] = replacement;
-            ReplaceStatistics(replacement);
+            InnerValues[InnerValues.Count - 1] = replacement;
+            ReplaceCurrentStatistics(replacement);
         }
 
         /// <summary>
@@ -92,7 +97,7 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public void Reset() {
 
-            _innerValues.Clear();
+            InnerValues.Clear();
             ResetStatistics();
         }
 
@@ -206,19 +211,14 @@ namespace AK.F1.Timing.Model.Collections
             UpdateTypeCounts(item);
         }
 
-        private void ReplaceStatistics(PostedTime replacement) {
+        private void ReplaceCurrentStatistics(PostedTime replacement) {
 
-            if(_innerValues.Count > 0) {
-                UpdateCount();                
-                ReplaceMinimum(replacement);
-                ReplaceMaximum(replacement);
-                ReplaceMean(replacement);
-                UpdateRange();
-                ReplaceTypeCounts(replacement);
-                UpdateCurrentAndDelta();
-            } else {
-                ResetStatistics();
-            }
+            ReplaceCurrentMinimum(replacement);
+            ReplaceCurrentMaximum(replacement);
+            ReplaceCurrentMean(replacement);
+            UpdateRange();
+            ReplaceCurrentTypeCounts(replacement);
+            UpdateCurrentAndDelta();
         }
 
         private void ResetStatistics() {
@@ -231,14 +231,14 @@ namespace AK.F1.Timing.Model.Collections
             Maximum = null;
             Range = null;
             Mean = null;
-            Total = 0d;
+            SumOfValues = 0L;
             PersonalBestCount = 0;
             SessionBestCount = 0;
         }
 
         private void UpdateCount() {
 
-            Count = _innerValues.Count;
+            Count = InnerValues.Count;
         }
 
         private void UpdateRange() {
@@ -248,9 +248,9 @@ namespace AK.F1.Timing.Model.Collections
 
         private void UpdateCurrentAndDelta() {
 
-            Current = _innerValues[_innerValues.Count - 1];
-            if(_innerValues.Count > 1) {
-                Previous = _innerValues[_innerValues.Count - 2];
+            Current = InnerValues[InnerValues.Count - 1];
+            if(InnerValues.Count > 1) {
+                Previous = InnerValues[InnerValues.Count - 2];
                 CurrentDelta = Current.Time - Previous.Time;
             } else {
                 Previous = null;
@@ -267,31 +267,41 @@ namespace AK.F1.Timing.Model.Collections
             }
         }
 
-        private void ReplaceTypeCounts(PostedTime replacement) {
+        private void ReplaceCurrentTypeCounts(PostedTime replacement) {
 
-            if(replacement.Type != Current.Type) {
-                if(replacement.Type == PostedTimeType.PersonalBest) {
-                    ++PersonalBestCount;
-                    SessionBestCount = Math.Max(SessionBestCount - 1, 0);
-                } else if(replacement.Type == PostedTimeType.SessionBest) {
-                    ++SessionBestCount;
+            if(replacement.Type == Current.Type) {
+                return;
+            }
+            switch(Current.Type) {
+                case PostedTimeType.PersonalBest:
                     PersonalBestCount = Math.Max(PersonalBestCount - 1, 0);
-                }
+                    break;
+                case PostedTimeType.SessionBest:
+                    SessionBestCount = Math.Max(SessionBestCount - 1, 0);
+                    break;
+            }
+            switch(replacement.Type) {
+                case PostedTimeType.PersonalBest:
+                    ++PersonalBestCount;
+                    break;
+                case PostedTimeType.SessionBest:
+                    ++SessionBestCount;
+                    break;
             }
         }
 
         private void UpdateMean(PostedTime item) {
 
-            Total += ToDouble(item.Time);
-            Mean = FromDouble(Total / _innerValues.Count);
+            SumOfValues += item.Time.Ticks;
+            Mean = TimeSpan.FromTicks(SumOfValues / InnerValues.Count);
         }
 
-        private void ReplaceMean(PostedTime replacement) {
+        private void ReplaceCurrentMean(PostedTime replacement) {
 
             if(replacement.Time != Current.Time) {
-                Total -= ToDouble(Current.Time);
-                Total += ToDouble(replacement.Time);
-                Mean = FromDouble(Total / _innerValues.Count);
+                SumOfValues -= Current.Time.Ticks;
+                SumOfValues += replacement.Time.Ticks;
+                Mean = TimeSpan.FromTicks(SumOfValues / InnerValues.Count);
             }
         }
 
@@ -302,10 +312,10 @@ namespace AK.F1.Timing.Model.Collections
             }
         }
 
-        private void ReplaceMinimum(PostedTime replacement) {
+        private void ReplaceCurrentMinimum(PostedTime replacement) {
 
-            if(replacement.Equals(Minimum)) {
-                Minimum = _innerValues.Min();
+            if(replacement.CompareTo(Minimum) < 0) {
+                Minimum = replacement;
             }
         }
 
@@ -316,24 +326,16 @@ namespace AK.F1.Timing.Model.Collections
             }
         }
 
-        private void ReplaceMaximum(PostedTime replacement) {
+        private void ReplaceCurrentMaximum(PostedTime replacement) {
 
-            if(replacement.Equals(Maximum)) {
-                Maximum = _innerValues.Max();
+            if(replacement.CompareTo(Maximum) > 0) {
+                Maximum = replacement;
             }
         }
 
-        private static double ToDouble(TimeSpan value) {
+        private long SumOfValues { get; set; }
 
-            return value.TotalMilliseconds;
-        }
-
-        private static TimeSpan FromDouble(double value) {
-
-            return TimeSpan.FromMilliseconds(value);
-        }
-
-        private double Total { get; set; }
+        private ObservableCollection<PostedTime> InnerValues { get; set; }
 
         #endregion
     }
