@@ -69,6 +69,11 @@ namespace AK.F1.Timing.Model
             return new NotImplementedException();
         }
 
+        internal static InvalidOperationException PostedTimeCollectionModel_CurrentCannotBeReplaced() {
+
+            return new InvalidOperationException(Resource.PostedTimeCollectionModel_CurrentCannotBeReplaced);
+        }
+
         private static string Format(string format, params object[] args) {
 
             return string.Format(Resource.Culture, format, args);

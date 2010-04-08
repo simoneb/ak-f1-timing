@@ -123,4 +123,7 @@
   <data name="ModelBase_InvalidPropertyName" xml:space="preserve">
     <value>Invalid property name '{0}'.</value>
   </data>
+  <data name="PostedTimeCollectionModel_CurrentCannotBeReplaced" xml:space="preserve">
+    <value>The current item cannot be replaced as the collection is empty.</value>
+  </data>
 </root>
