@@ -29,12 +29,12 @@ namespace AK.F1.Timing.Model.Collections
         public void compare_delegates_to_comparison_method() {
             
             var comparer = new DelegateComparer<int>((x, y) => {
-                Assert.Equal(x, 10);
-                Assert.Equal(y, 10);
-                return 10;
+                Assert.Equal(x, 1);
+                Assert.Equal(y, 2);
+                return 3;
             });
 
-            Assert.Equal(10, comparer.Compare(10, 10));
+            Assert.Equal(3, comparer.Compare(1, 2));
         }
     }
 }
