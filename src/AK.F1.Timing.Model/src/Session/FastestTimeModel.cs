@@ -25,16 +25,16 @@ namespace AK.F1.Timing.Model.Session
     [Serializable]
     public sealed class FastestTimeModel
     {
-        #region Public Interface.        
+        #region Public Interface.
 
         /// <summary>
         /// Initialises a new instance of the <see cref="FastestTimeModel"/> class.
         /// </summary>
-        /// <param name="time">The time.</param>
-        /// <param name="delta">The delta from the previous fastest time.</param>
         /// <param name="driver">The driver which posted the time. Can be <see langword="null"/>.</param>
+        /// <param name="time">The time.</param>
         /// <param name="lapNumber">The lap number on which the time was set.</param>
-        public FastestTimeModel(TimeSpan time, TimeSpan? delta, DriverModel driver, int lapNumber) {
+        /// <param name="delta">The delta from the previous fastest time.</param>
+        public FastestTimeModel(DriverModel driver, TimeSpan time, int lapNumber, TimeSpan? delta) {
 
             Time = time;
             Delta = delta;

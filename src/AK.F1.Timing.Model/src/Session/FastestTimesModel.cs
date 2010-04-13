@@ -52,8 +52,8 @@ namespace AK.F1.Timing.Model.Session
         /// Sets the new fastest sector time for the one-based specified sector number.
         /// </summary>
         /// <param name="sectorNumber">The one-based sector time to set.</param>
-        /// <param name="time">The time.</param>        
-        /// <param name="driver">The driver which posted the time.</param>
+        /// <param name="driver">The driver which posted the time.</param>        
+        /// <param name="time">The time.</param>
         /// <param name="lapNumber">The lap number on which the time was set.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Throw when <paramref name="driver"/> is <see langword="null"/>.
@@ -61,7 +61,7 @@ namespace AK.F1.Timing.Model.Session
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="sectorNumber"/> is less than one or greater than three.
         /// </exception>
-        public void SetSector(int sectorNumber, TimeSpan time, DriverModel driver, int lapNumber) {
+        public void SetSector(int sectorNumber, DriverModel driver, TimeSpan time, int lapNumber) {
 
             Guard.NotNull(driver, "driver");
 
@@ -79,13 +79,13 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Sets the new fastest lap time.
         /// </summary>
-        /// <param name="time">The time.</param>        
-        /// <param name="driver">The driver which posted the time.</param>
+        /// <param name="driver">The driver which posted the time.</param>        
+        /// <param name="time">The time.</param>
         /// <param name="lapNumber">The lap number on which the time was set.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Throw when <paramref name="driver"/> is <see langword="null"/>.
         /// </exception>
-        public void SetLap(TimeSpan time, DriverModel driver, int lapNumber) {
+        public void SetLap(DriverModel driver, TimeSpan time, int lapNumber) {
 
             Guard.NotNull(driver, "driver");
 
@@ -177,9 +177,7 @@ namespace AK.F1.Timing.Model.Session
         private static FastestTimeModel CreateFastestTime(TimeSpan time, DriverModel driver,
             int lapNumber, FastestTimeModel previous) {
 
-            return new FastestTimeModel(time,
-                previous != null ? new Nullable<TimeSpan>(time - previous.Time) : null,
-                driver, lapNumber);
+            return new FastestTimeModel(driver, time, lapNumber, previous != null ? new TimeSpan?(time - previous.Time) : null);
         }
 
         private void ComputePossible() {
@@ -188,9 +186,8 @@ namespace AK.F1.Timing.Model.Session
                 Possible = null;                
             } else {
                 var newPossibleTime = S1.Time + S2.Time + S3.Time;
-                // TODO this is a bit hackish. Need a better was of expressing 
-                Possible = new FastestTimeModel(newPossibleTime,
-                    ComputeDiffFromLap(newPossibleTime), null, 0);
+                // TODO this is a bit hackish.
+                Possible = new FastestTimeModel(null, newPossibleTime, 0, ComputeDiffFromLap(newPossibleTime));
             }            
         }
 

@@ -327,14 +327,14 @@ namespace AK.F1.Timing.Model.Session
                 (Session.SessionType != SessionType.Race && (times.Lap == null || time.Time < times.Lap.Time));
 
             if(isSessionBest) {
-                times.SetLap(time.Time, driver, time.LapNumber);
+                times.SetLap(driver, time.Time, time.LapNumber);
             }
         }
 
         private void TrySetFastestSector(int sectorNumber, PostedTime time, DriverModel driver) {
 
             if(time.Type == PostedTimeType.SessionBest) {
-                Session.FastestTimes.SetSector(sectorNumber, time.Time, driver, time.LapNumber);
+                Session.FastestTimes.SetSector(sectorNumber, driver, time.Time, time.LapNumber);
             }
         }
 
