@@ -85,7 +85,7 @@ namespace AK.F1.Timing.UI.Screens
             get { return _dialogueModel; }
             private set {
                 _dialogueModel = value;
-                NotifyOfPropertyChange("DialogueModel");
+                NotifyOfPropertyChange(() => DialogueModel);
             }
         }
 

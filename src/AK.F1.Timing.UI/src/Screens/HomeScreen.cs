@@ -115,9 +115,9 @@ namespace AK.F1.Timing.UI.Screens
             get { return _username; }
             set {
                 _username = value;
-                NotifyOfPropertyChange("Username");
-                NotifyOfPropertyChange("IsUsernameValid");
-                NotifyOfCanLoginChange();
+                NotifyOfPropertyChange(() => Username);
+                NotifyOfPropertyChange(() => IsUsernameValid);
+                NotifyOfPropertyChange(() => CanLogin);
             }
         }
 
@@ -137,9 +137,9 @@ namespace AK.F1.Timing.UI.Screens
             get { return _password; }
             set {
                 _password = value;
-                NotifyOfPropertyChange("Password");
-                NotifyOfPropertyChange("IsPasswordValid");
-                NotifyOfCanLoginChange();
+                NotifyOfPropertyChange(() => Password);
+                NotifyOfPropertyChange(() => IsPasswordValid);
+                NotifyOfPropertyChange(() => CanLogin);
             }
         }
 
@@ -159,8 +159,8 @@ namespace AK.F1.Timing.UI.Screens
             get { return _loginErrorMessage; }
             private set {
                 _loginErrorMessage = value;
-                NotifyOfPropertyChange("LoginErrorMessage");
-                NotifyOfPropertyChange("HasLoginErrorMessage");
+                NotifyOfPropertyChange(() => LoginErrorMessage);
+                NotifyOfPropertyChange(() => HasLoginErrorMessage);
             }
         }
 
@@ -179,20 +179,15 @@ namespace AK.F1.Timing.UI.Screens
         /// <inheritdoc/>
         protected override void OnActivate() {
 
-            base.OnActivate();
-
             Username = _settings.Username;
             Password = _settings.Password;
+
+            base.OnActivate();
         }
 
         #endregion
 
         #region Private Impl.
-
-        private void NotifyOfCanLoginChange() {
-
-            NotifyOfPropertyChange("CanLogin");
-        }
 
         private void SaveCredentials() {
 

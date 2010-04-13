@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Windows;
 using Caliburn.Core.IoC;
 using Caliburn.PresentationFramework.Screens;
 
@@ -20,6 +21,7 @@ using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Model.Grid;
 using AK.F1.Timing.Model.Session;
 using AK.F1.Timing.UI.Services.Session;
+using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI.Screens
 {
@@ -61,9 +63,13 @@ namespace AK.F1.Timing.UI.Screens
             get { return _player; }
             set {
                 if(_player != value) {
+                    if(_player != null) {
+                        _player.Exception -= OnPlayerException;
+                    }
                     _player = value;
-                    NotifyOfPropertyChange("Player");
-                    NotifyOfPropertyChange("Session");
+                    _player.Exception += OnPlayerException;
+                    NotifyOfPropertyChange(() => Player);
+                    NotifyOfPropertyChange(() => Session);
                 }
             }
         }
@@ -85,7 +91,7 @@ namespace AK.F1.Timing.UI.Screens
             set {
                 if(_selectedGridRow != value) {
                     _selectedGridRow = value;
-                    NotifyOfPropertyChange("SelectedGridRow");
+                    NotifyOfPropertyChange(() => SelectedGridRow);
                     SelectedDriver = value != null ? Session.GetDriver(value.DriverId) : null;
                 }
             }
@@ -100,7 +106,7 @@ namespace AK.F1.Timing.UI.Screens
             private set {
                 if(_selectedDriver != value) {
                     _selectedDriver = value;
-                    NotifyOfPropertyChange("SelectedDriver");
+                    NotifyOfPropertyChange(() => SelectedDriver);
                 }
             }
         }
@@ -112,9 +118,19 @@ namespace AK.F1.Timing.UI.Screens
         /// <inheritdoc/>
         protected override void OnActivate() {
 
-            base.OnActivate();
-
             Player.Start();
+
+            base.OnActivate();            
+        }
+
+        #endregion
+
+        #region Private Impl.
+
+        private void OnPlayerException(object sender, ExceptionEventArgs e) {
+
+            MessageBox.Show(e.Exception.Message, e.Exception.GetType().Name,
+                MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         #endregion
