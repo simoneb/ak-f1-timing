@@ -28,11 +28,11 @@ namespace AK.F1.Timing.Messages.Driver
         /// </summary>
         Normal = 0,
         /// <summary>
-        /// A personal best time. The time is only relevant in the current 
+        /// A personal best time. The time is only relevant in the current session.
         /// </summary>
         PersonalBest = 1,
         /// <summary>
-        /// A this best time. The time is only relevant in the current 
+        /// A this best time. The time is only relevant in the current session.
         /// </summary>
         SessionBest = 2
     }
