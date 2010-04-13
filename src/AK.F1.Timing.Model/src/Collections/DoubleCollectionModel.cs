@@ -16,6 +16,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
+using AK.F1.Timing.Extensions;
+
 namespace AK.F1.Timing.Model.Collections
 {
     /// <summary>
@@ -28,10 +30,12 @@ namespace AK.F1.Timing.Model.Collections
         #region Private Fields.
 
         private int _count;
-        private double? _current;
+        private double? _current;        
+        private DeltaType _currentDeltaType;
         private double? _minimum;
         private double? _maximum;
         private double? _mean;
+        private DeltaType _meanDeltaType;
         private double? _range;
         private double? _standardDeviation;        
 
@@ -40,12 +44,22 @@ namespace AK.F1.Timing.Model.Collections
         #region Public Interface.
 
         /// <summary>
+        /// Occurs when this collection is resetting.
+        /// </summary>
+        public event EventHandler ResetBegin;
+
+        /// <summary>
+        /// Occurs when this collection has been reset.
+        /// </summary>
+        public event EventHandler ResetComplete;
+
+        /// <summary>
         /// Initialises a new instance of the <see cref="DoubleCollectionModel"/> class.
         /// </summary>
         public DoubleCollectionModel() {
 
-            InnerValues = new ObservableCollection<double>();            
-            Values = new ReadOnlyObservableCollection<double>(InnerValues);
+            InnerItems = new ObservableCollection<double>();            
+            Items = new ReadOnlyObservableCollection<double>(InnerItems);
         }
 
         /// <summary>
@@ -59,7 +73,7 @@ namespace AK.F1.Timing.Model.Collections
 
             Guard.InRange(!Double.IsNaN(item), "item");
 
-            InnerValues.Add(item);
+            InnerItems.Add(item);
             UpdateStatistics(item);
         }
 
@@ -68,17 +82,19 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public void Reset() {
 
-            InnerValues.Clear();
+            ResetBegin.Raise(this);
+            InnerItems.Clear();
             ResetStatistics();
+            ResetComplete.Raise(this);
         }
 
         /// <summary>
-        /// Gets the underlying collection of values.
+        /// Gets the underlying collection of items.
         /// </summary>
-        public ReadOnlyObservableCollection<double> Values { get; private set; }
+        public ReadOnlyObservableCollection<double> Items { get; private set; }
 
         /// <summary>
-        /// Gets the current value.
+        /// Gets the current item.
         /// </summary>
         public double? Current {
 
@@ -87,7 +103,16 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the minimum value.
+        /// Gets delta type of the current item.
+        /// </summary>
+        public DeltaType CurrentDeltaType {
+
+            get { return _currentDeltaType; }
+            protected set { SetProperty("CurrentDeltaType", ref _currentDeltaType, value); }
+        }
+
+        /// <summary>
+        /// Gets the smallest item in this collection.
         /// </summary>
         public double? Minimum {
 
@@ -96,7 +121,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the maximum value.
+        /// Gets the largest item in this collection.
         /// </summary>
         public double? Maximum {
 
@@ -105,7 +130,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the mean value.
+        /// Gets the mean item value in this collection.
         /// </summary>
         public double? Mean {
 
@@ -114,7 +139,16 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the value range.
+        /// Gets delta type of the mean item value.
+        /// </summary>
+        public DeltaType MeanDeltaType {
+
+            get { return _meanDeltaType; }
+            protected set { SetProperty("MeanDeltaType", ref _meanDeltaType, value); }
+        }
+
+        /// <summary>
+        /// Gets the range of items in this collection.
         /// </summary>
         public double? Range {
 
@@ -123,7 +157,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the standard deviation.
+        /// Gets the standard deviation across all items in this collection.
         /// </summary>
         public double? StandardDeviation {
 
@@ -132,7 +166,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the number of elements in the collection.
+        /// Gets the number of items in the collection.
         /// </summary>
         public int Count {
 
@@ -145,29 +179,37 @@ namespace AK.F1.Timing.Model.Collections
         #region Private Impl.
 
         private void UpdateStatistics(double item) {
-
-            UpdateCount();
+            
             UpdateCurrent();
+            UpdateDeltaType(item);
             UpdateMinimum(item);
             UpdateMaximum(item);
             UpdateRange();
             UpdateMean(item);
             UpdateStandardDeviation(item);
+            UpdateCount();
         }
 
         private void UpdateCount() {
 
-            Count = InnerValues.Count;
+            Count = InnerItems.Count;
         }
 
         private void UpdateCurrent() {
 
-            Current = InnerValues[InnerValues.Count - 1];
+            Current = InnerItems[InnerItems.Count - 1];
+        }
+
+        private void UpdateDeltaType(double item) {
+
+            CurrentDeltaType = Items.Count > 1 ?
+                ComputeDeltaType(InnerItems[InnerItems.Count - 2], item) :
+                DeltaType.None;
         }
 
         private void UpdateStandardDeviation(double item) {
 
-            double n = InnerValues.Count;
+            double n = InnerItems.Count;
             double mean = Mean.GetValueOrDefault(0d);
 
             SumOfSquaredValues += Sqr(item);
@@ -176,8 +218,13 @@ namespace AK.F1.Timing.Model.Collections
 
         private void UpdateMean(double item) {
 
+            double? previousMean = Mean;
+
             SumOfValues += item;
-            Mean = SumOfValues / InnerValues.Count;
+            Mean = SumOfValues / InnerItems.Count;
+            MeanDeltaType = previousMean.HasValue ?
+                ComputeDeltaType(previousMean.Value, Mean.Value) :
+                DeltaType.None;
         }
 
         private void UpdateMinimum(double item) {
@@ -203,10 +250,12 @@ namespace AK.F1.Timing.Model.Collections
 
             Count = 0;
             Current = null;
+            CurrentDeltaType = DeltaType.None;
             Minimum = null;
             Maximum = null;
             Range = null;
             Mean = null;
+            MeanDeltaType = DeltaType.None;
             StandardDeviation = null;
             SumOfValues = 0d;            
             SumOfSquaredValues = 0d;            
@@ -217,11 +266,22 @@ namespace AK.F1.Timing.Model.Collections
             return d * d;
         }
 
+        private static DeltaType ComputeDeltaType(double previousItem, double newItem) {
+
+            if(newItem > previousItem) {
+                return DeltaType.Increase;
+            } else if(newItem < previousItem) {
+                return DeltaType.Decrease;
+            } else {
+                return DeltaType.None;
+            }
+        }
+
         private double SumOfValues { get; set; }
 
         private double SumOfSquaredValues { get; set; }
 
-        private ObservableCollection<double> InnerValues { get; set; }
+        private ObservableCollection<double> InnerItems { get; set; }
 
         #endregion
     }

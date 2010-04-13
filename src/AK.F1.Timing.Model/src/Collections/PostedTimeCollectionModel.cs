@@ -52,8 +52,8 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public PostedTimeCollectionModel() {
 
-            InnerValues = new ObservableCollection<PostedTime>();
-            Values = new ReadOnlyObservableCollection<PostedTime>(InnerValues);
+            InnerItems = new ObservableCollection<PostedTime>();
+            Items = new ReadOnlyObservableCollection<PostedTime>(InnerItems);
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace AK.F1.Timing.Model.Collections
 
             Guard.NotNull(item, "item");
 
-            InnerValues.Add(item);
+            InnerItems.Add(item);
             UpdateStatistics(item);
         }
 
@@ -84,11 +84,11 @@ namespace AK.F1.Timing.Model.Collections
         public void ReplaceCurrent(PostedTime replacement) {
 
             Guard.NotNull(replacement, "replacement");
-            if(InnerValues.Count == 0) {
+            if(InnerItems.Count == 0) {
                 throw Guard.PostedTimeCollectionModel_CurrentCannotBeReplaced();
             }
 
-            InnerValues[InnerValues.Count - 1] = replacement;
+            InnerItems[InnerItems.Count - 1] = replacement;
             ReplaceCurrentStatistics(replacement);
         }
 
@@ -97,17 +97,17 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         public void Reset() {
 
-            InnerValues.Clear();
+            InnerItems.Clear();
             ResetStatistics();
         }
 
         /// <summary>
-        /// Gets the underlying collection of values.
+        /// Gets the underlying collection of items.
         /// </summary>
-        public ReadOnlyObservableCollection<PostedTime> Values { get; private set; }
+        public ReadOnlyObservableCollection<PostedTime> Items { get; private set; }
 
         /// <summary>
-        /// Gets the current value.
+        /// Gets the current item in this collection.
         /// </summary>
         public PostedTime Current {
 
@@ -116,7 +116,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the previous value.
+        /// Gets the previous item in this collection.
         /// </summary>
         public PostedTime Previous {
 
@@ -125,7 +125,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the delta between the current and previous value.
+        /// Gets the delta between the current and previous item.
         /// </summary>
         public TimeSpan? CurrentDelta {
 
@@ -134,7 +134,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the minimum value.
+        /// Gets the smallest item in this collection.
         /// </summary>
         public PostedTime Minimum {
 
@@ -143,7 +143,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the maximum value.
+        /// Gets the largest item in this collection.
         /// </summary>
         public PostedTime Maximum {
 
@@ -152,7 +152,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the mean value.
+        /// Gets the mean item value in this collection.
         /// </summary>
         public TimeSpan? Mean {
 
@@ -161,7 +161,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the value range.
+        /// Gets the range of items in this collection.
         /// </summary>
         public TimeSpan? Range {
 
@@ -170,7 +170,7 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         /// <summary>
-        /// Gets the number of elements in the collection.
+        /// Gets the number of items in the collection.
         /// </summary>
         public int Count {
 
@@ -201,13 +201,13 @@ namespace AK.F1.Timing.Model.Collections
         #region Private Impl.
 
         private void UpdateStatistics(PostedTime item) {
-
-            UpdateCount();
+            
             UpdateCurrentAndDelta();
             UpdateMinimum(item);
             UpdateMaximum(item);
             UpdateMean(item);
             UpdateRange();
+            UpdateCount();
             UpdateTypeCounts(item);
         }
 
@@ -238,7 +238,7 @@ namespace AK.F1.Timing.Model.Collections
 
         private void UpdateCount() {
 
-            Count = InnerValues.Count;
+            Count = InnerItems.Count;
         }
 
         private void UpdateRange() {
@@ -248,9 +248,9 @@ namespace AK.F1.Timing.Model.Collections
 
         private void UpdateCurrentAndDelta() {
 
-            Current = InnerValues[InnerValues.Count - 1];
-            if(InnerValues.Count > 1) {
-                Previous = InnerValues[InnerValues.Count - 2];
+            Current = InnerItems[InnerItems.Count - 1];
+            if(InnerItems.Count > 1) {
+                Previous = InnerItems[InnerItems.Count - 2];
                 CurrentDelta = Current.Time - Previous.Time;
             } else {
                 Previous = null;
@@ -293,7 +293,7 @@ namespace AK.F1.Timing.Model.Collections
         private void UpdateMean(PostedTime item) {
 
             SumOfValues += item.Time.Ticks;
-            Mean = TimeSpan.FromTicks(SumOfValues / InnerValues.Count);
+            Mean = TimeSpan.FromTicks(SumOfValues / InnerItems.Count);
         }
 
         private void ReplaceCurrentMean(PostedTime replacement) {
@@ -301,7 +301,7 @@ namespace AK.F1.Timing.Model.Collections
             if(replacement.Time != Current.Time) {
                 SumOfValues -= Current.Time.Ticks;
                 SumOfValues += replacement.Time.Ticks;
-                Mean = TimeSpan.FromTicks(SumOfValues / InnerValues.Count);
+                Mean = TimeSpan.FromTicks(SumOfValues / InnerItems.Count);
             }
         }
 
@@ -335,7 +335,7 @@ namespace AK.F1.Timing.Model.Collections
 
         private long SumOfValues { get; set; }
 
-        private ObservableCollection<PostedTime> InnerValues { get; set; }
+        private ObservableCollection<PostedTime> InnerItems { get; set; }
 
         #endregion
     }

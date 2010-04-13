@@ -23,7 +23,7 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void can_create() {
 
-            var model = new DoubleCollectionModel();
+            var model = new DoubleCollectionModel();            
 
             assert_has_default_property_values(model);
         }
@@ -33,9 +33,31 @@ namespace AK.F1.Timing.Model.Collections
 
             var model = new DoubleCollectionModel();
 
-            model.Add(5d);            
+            model.Add(1d);
+            model.Add(2d);
             model.Reset();
             assert_has_default_property_values(model);
+        }
+
+        [Fact]
+        public void reset_raises_begin_and_end_events() {
+            
+            var resetBeginRaised = false;
+            var resetCompleteRaised = false;
+            var model = new DoubleCollectionModel();
+
+            model.ResetBegin += delegate {
+                Assert.False(resetBeginRaised);
+                Assert.False(resetCompleteRaised);
+                resetBeginRaised = true;
+            };
+            model.ResetComplete += delegate {
+                Assert.True(resetBeginRaised);
+                Assert.False(resetCompleteRaised);
+                resetCompleteRaised = true;
+            };
+            model.Reset();
+            Assert.True(resetBeginRaised && resetCompleteRaised);
         }
 
         [Fact]
@@ -50,12 +72,14 @@ namespace AK.F1.Timing.Model.Collections
 
             Assert.Equal(0, model.Count);
             Assert.Null(model.Current);
+            Assert.Equal(DeltaType.None, model.CurrentDeltaType);
             Assert.Null(model.Maximum);
             Assert.Null(model.Mean);
+            Assert.Equal(DeltaType.None, model.MeanDeltaType);
             Assert.Null(model.Minimum);
             Assert.Null(model.Range);
             Assert.Null(model.StandardDeviation);
-            Assert.Empty(model.Values);
+            Assert.Empty(model.Items);
         }
 
         [Fact]
@@ -85,6 +109,24 @@ namespace AK.F1.Timing.Model.Collections
             Assert.Equal(2d, model.Current);
 
             Assert.Equal(2, context.Changes["Current"]);
+        }
+
+        [Fact]
+        public void adding_an_item_updates_the_current_delta_type_if_it_has_changed() {
+
+            var context = new TestContext();
+            var model = context.Model;
+
+            model.Add(1d);
+            Assert.Equal(DeltaType.None, model.CurrentDeltaType);
+            model.Add(2d);
+            Assert.Equal(DeltaType.Increase, model.CurrentDeltaType);
+            model.Add(1d);
+            Assert.Equal(DeltaType.Decrease, model.CurrentDeltaType);
+            model.Add(1d);
+            Assert.Equal(DeltaType.None, model.CurrentDeltaType);
+
+            Assert.Equal(3, context.Changes["CurrentDeltaType"]);
         }
 
         [Fact]
@@ -136,6 +178,24 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
+        public void adding_an_item_updates_the_mean_delta_type_if_it_has_changed() {
+
+            var context = new TestContext();
+            var model = context.Model;
+
+            model.Add(10d);
+            Assert.Equal(DeltaType.None, model.MeanDeltaType);
+            model.Add(10d);
+            Assert.Equal(DeltaType.None, model.MeanDeltaType);
+            model.Add(20d);
+            Assert.Equal(DeltaType.Increase, model.MeanDeltaType);
+            model.Add(5d);
+            Assert.Equal(DeltaType.Decrease, model.MeanDeltaType);            
+
+            Assert.Equal(2, context.Changes["MeanDeltaType"]);
+        }
+
+        [Fact]
         public void adding_an_item_updates_the_range() {
 
             var context = new TestContext();
@@ -178,13 +238,13 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_adds_it_to_the_values() {
+        public void adding_an_item_adds_it_to_the_items() {
 
             var model = new DoubleCollectionModel();
 
             model.Add(1d);
-            Assert.Equal(1, model.Values.Count);
-            Assert.Equal(1d, model.Values[0]);
+            Assert.Equal(1, model.Items.Count);
+            Assert.Equal(1d, model.Items[0]);
         }
 
         private sealed class TestContext

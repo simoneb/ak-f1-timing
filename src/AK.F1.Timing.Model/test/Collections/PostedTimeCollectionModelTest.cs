@@ -76,7 +76,7 @@ namespace AK.F1.Timing.Model.Collections
             Assert.Null(model.Previous);
             Assert.Null(model.Range);
             Assert.Equal(0, model.SessionBestCount);
-            Assert.Empty(model.Values);
+            Assert.Empty(model.Items);
         }
 
         [Fact]
@@ -324,24 +324,24 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_adds_it_to_the_values() {
+        public void adding_an_item_adds_it_to_the_items() {
 
             var item = PT(32, PostedTimeType.Normal, 5);
             var model = new PostedTimeCollectionModel();
 
             model.Add(item);
-            Assert.Equal(1, model.Values.Count);
-            Assert.Equal(item, model.Values[0]);
+            Assert.Equal(1, model.Items.Count);
+            Assert.Equal(item, model.Items[0]);
         }
 
         [Fact]
-        public void replacing_an_item_updates_the_values() {
+        public void replacing_an_item_updates_the_items() {
 
             var context = CreateReplaceTestContext();
             var replacement = PT(50, PostedTimeType.Normal, 1);
 
             context.Model.ReplaceCurrent(replacement);
-            Assert.Equal(replacement, context.Model.Values[0]);
+            Assert.Equal(replacement, context.Model.Items[0]);
         }
 
         private static TestContext CreateReplaceTestContext() {
