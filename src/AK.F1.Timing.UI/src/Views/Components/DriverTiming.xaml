@@ -109,25 +109,25 @@
                             </vc:Axis>
                         </vc:Chart.AxesY>
                         <vc:Chart.Series>
-                            <vc:DataSeries DataSource="{Binding S1.Values}" Style="{StaticResource SectorSeries}">
+                            <vc:DataSeries DataSource="{Binding S1.Items}" Style="{StaticResource SectorSeries}">
                                 <vc:DataSeries.DataMappings>
                                     <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
                                     <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
                                 </vc:DataSeries.DataMappings>
                             </vc:DataSeries>
-                            <vc:DataSeries DataSource="{Binding S2.Values}" Style="{StaticResource SectorSeries}">
+                            <vc:DataSeries DataSource="{Binding S2.Items}" Style="{StaticResource SectorSeries}">
                                 <vc:DataSeries.DataMappings>
                                     <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
                                     <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
                                 </vc:DataSeries.DataMappings>
                             </vc:DataSeries>
-                            <vc:DataSeries DataSource="{Binding S3.Values}" Style="{StaticResource SectorSeries}">
+                            <vc:DataSeries DataSource="{Binding S3.Items}" Style="{StaticResource SectorSeries}">
                                 <vc:DataSeries.DataMappings>
                                     <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
                                     <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
                                 </vc:DataSeries.DataMappings>
                             </vc:DataSeries>
-                            <vc:DataSeries DataSource="{Binding Laps.Values}" Style="{StaticResource SectorSeries}">
+                            <vc:DataSeries DataSource="{Binding Laps.Items}" Style="{StaticResource SectorSeries}">
                                 <vc:DataSeries.DataMappings>
                                     <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
                                     <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
