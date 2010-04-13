@@ -98,11 +98,13 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public bool Equals(PostedTime other) {
 
-            if(other == this)
-                return true;
-            if(other == null)
+            if(other == null) {
                 return false;
-
+            }
+            if(other == this) {
+                return true;
+            }
+            
             return LapNumber == other.LapNumber &&
                 Time == other.Time &&
                 Type == other.Type;
