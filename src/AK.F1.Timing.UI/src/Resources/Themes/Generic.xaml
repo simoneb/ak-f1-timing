@@ -134,6 +134,7 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                     <RowDefinition/>
+                                    <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <TextBlock Grid.Column="0" Grid.Row="0" Text="Min"/>
                                 <ContentControl Grid.Column="1" Grid.Row="0" Content="{Binding Path=Minimum}" ContentStringFormat="{TemplateBinding StringFormat}" Style="{StaticResource Statistic}"/>
@@ -141,12 +142,14 @@
                                 <ContentControl Grid.Column="1" Grid.Row="1" Content="{Binding Path=Maximum}" ContentStringFormat="{TemplateBinding StringFormat}" Style="{StaticResource Statistic}"/>
                                 <TextBlock Grid.Column="0" Grid.Row="2" Text="Mean"/>
                                 <ContentControl Grid.Column="1" Grid.Row="2" Content="{Binding Path=Mean}" ContentStringFormat="{TemplateBinding StringFormat}" Style="{StaticResource Statistic}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Range"/>
-                                <ContentControl Grid.Column="1" Grid.Row="3" Content="{Binding Path=Range}" ContentStringFormat="{TemplateBinding StringFormat}" Style="{StaticResource Statistic}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Std. Deviation"/>
-                                <ContentControl Grid.Column="1" Grid.Row="4" Content="{Binding Path=StandardDeviation}" ContentStringFormat="{TemplateBinding StringFormat}" Style="{StaticResource Statistic}"/>
-                                <TextBlock Grid.Column="0" Grid.Row="5" Text="Collection Size"/>
-                                <ContentControl Grid.Column="1" Grid.Row="5" Content="{Binding Path=Count}" Style="{StaticResource Statistic}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="3" Text="Mean Δ"/>
+                                <ContentControl Grid.Column="1" Grid.Row="3" Content="{Binding Path=MeanDeltaType}" Style="{StaticResource Statistic}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="4" Text="Range"/>
+                                <ContentControl Grid.Column="1" Grid.Row="4" Content="{Binding Path=Range}" ContentStringFormat="{TemplateBinding StringFormat}" Style="{StaticResource Statistic}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="5" Text="Std. Deviation"/>
+                                <ContentControl Grid.Column="1" Grid.Row="5" Content="{Binding Path=StandardDeviation}" ContentStringFormat="{TemplateBinding StringFormat}" Style="{StaticResource Statistic}"/>
+                                <TextBlock Grid.Column="0" Grid.Row="6" Text="Collection Size"/>
+                                <ContentControl Grid.Column="1" Grid.Row="6" Content="{Binding Path=Count}" Style="{StaticResource Statistic}"/>
                             </Grid>
                         </Expander.Content>
                     </Expander>
