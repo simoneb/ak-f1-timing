@@ -38,9 +38,6 @@ namespace AK.F1.Timing.Recording
         /// </summary>
         private static readonly TimeSpan MIN_MESSAGE_DELAY = TimeSpan.FromMilliseconds(5);
 
-        private static readonly log4net.ILog _log =
-            log4net.LogManager.GetLogger(typeof(RecordingMessageReader));
-
         #endregion
 
         #region Public Interface.
@@ -95,11 +92,11 @@ namespace AK.F1.Timing.Recording
             Message message;
 
             if((message = Inner.Read()) != null) {
-                InsertDelay();
-                Serialize(message);
+                WriteDelay();
+                Write(message);
             } else {
                 // An end message delay is not required.
-                Serialize(null);
+                Write(null);
             }
 
             return message;
@@ -135,7 +132,7 @@ namespace AK.F1.Timing.Recording
             Stopwatch = new Stopwatch();
         }
 
-        private void InsertDelay() {
+        private void WriteDelay() {
 
             TimeSpan delay;
             TimeSpan elapsed;
@@ -145,20 +142,20 @@ namespace AK.F1.Timing.Recording
                 delay = elapsed - LastElapsed;
                 LastElapsed = elapsed;
                 if(delay >= MIN_MESSAGE_DELAY) {
-                    Serialize(new SetNextMessageDelayMessage(delay));
+                    Write(new SetNextMessageDelayMessage(delay));
                 }
             } else {
                 Stopwatch.Start();
             }
         }
 
-        private void Serialize(Message message) {
+        private void Write(Message message) {
 
             CompositeMessage composite = message as CompositeMessage;
 
             if(composite != null) {
                 foreach(Message component in composite.Messages) {
-                    Serialize(component);
+                    Write(component);
                 }
             } else {
                 Writer.Write(message);
