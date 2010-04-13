@@ -39,11 +39,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <param name="colour">The new column colour.</param>
         public void Update(GridColumn column, GridColumnColour colour) {
 
-            var model = GetColumnModel(column);
-
-            if(model != null) {
-                model.TextColour = colour;
-            }
+            GetColumn(column).TextColour = colour;
         }
 
         /// <summary>
@@ -54,12 +50,10 @@ namespace AK.F1.Timing.Model.Grid
         /// <param name="text">The new column text.</param>
         public void Update(GridColumn column, GridColumnColour colour, string text) {
 
-            var model = GetColumnModel(column);
+            var model = GetColumn(column);
 
-            if(model != null) {
-                model.Text = text;
-                model.TextColour = colour;
-            }
+            model.Text = text;
+            model.TextColour = colour;
         }
 
         /// <summary>
@@ -163,7 +157,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when the specified <paramref name="column"/> is not contained by the row.
         /// </exception>
-        protected virtual GridColumnModel GetColumnModel(GridColumn column) {
+        protected virtual GridColumnModel GetColumn(GridColumn column) {
 
             switch(column) {
                 case GridColumn.Position:

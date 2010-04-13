@@ -78,7 +78,7 @@ namespace AK.F1.Timing.Model.Grid
         #region Protected Interface.
 
         /// <inheritdoc />
-        protected override GridColumnModel GetColumnModel(GridColumn column) {
+        protected override GridColumnModel GetColumn(GridColumn column) {
 
             switch(column) {
                 case GridColumn.Q1:
@@ -90,7 +90,7 @@ namespace AK.F1.Timing.Model.Grid
                 case GridColumn.Laps:
                     return Laps;
                 default:
-                    return base.GetColumnModel(column);
+                    return base.GetColumn(column);
             }
         }
 
