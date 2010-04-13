@@ -60,16 +60,27 @@ namespace AK.F1.Timing.Model.Collections
         #region Private Impl.
 
         private void SyncOrderWith(IEnumerable<T> sortedItems) {
-            
+
             int i = 0;
 
             foreach(var item in sortedItems) {
                 if(Comparer.Compare(item, this[i]) != 0) {
-                    Move(IndexOf(item), i);
+                    Move(IndexOf(item, i), i);
                 }
                 ++i;
             }
-        }        
+        }
+
+        private int IndexOf(T item, int index) {
+
+            for(int i = index; i < Items.Count; ++i) {
+                if(Comparer.Compare(item, Items[i]) == 0) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
 
         private IComparer<T> Comparer { get; set; }
 
