@@ -67,7 +67,7 @@ namespace AK.F1.Timing
         /// Thrown when <paramref name="token"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="System.ArgumentException">
-        /// Thrown when <paramref name="token"/> is or zero length.
+        /// Thrown when <paramref name="token"/> is of zero length.
         /// </exception>
         internal AuthenticationToken(string token) {
 
