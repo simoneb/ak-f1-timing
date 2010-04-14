@@ -51,6 +51,7 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Collections\DeltaType.cs" />
     <Compile Include="Collections\PostedTimeCollectionModel.cs" />
     <Compile Include="Collections\DelegateComparer.cs" />
     <Compile Include="Driver\LapHistoryEntry.cs" />
@@ -117,7 +118,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
