@@ -5,7 +5,7 @@
   <PropertyGroup>
     <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>
     <ForcedBuildProperties>Configuration=$(BuildType)</ForcedBuildProperties>
-    <CorePackageDependsOn>Clean;CleanBinPath;GetNextVersion;Build;Test</CorePackageDependsOn>
+    <CorePackageDependsOn>Clean;CleanBinPath;GetNextVersion;Build</CorePackageDependsOn>
   </PropertyGroup>
   
   <!-- Path Properties -->
