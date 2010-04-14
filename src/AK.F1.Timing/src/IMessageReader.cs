@@ -35,8 +35,8 @@ namespace AK.F1.Timing
         /// Thrown when an IO error occurs reading the next message from the stream.
         /// </exception>
         /// <exception cref="System.Runtime.Serialization.SerializationException">
-        /// Thrown when the format of the next message of the stream is invalid or the message
-        /// itself is not recognised.
+        /// Thrown when the format of the next message is invalid or the message itself is
+        /// not recognised.
         /// </exception>
         Message Read();        
     }
