@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,61 +13,35 @@
 // limitations under the License.
 
 using System;
+using System.Linq;
+using System.Collections.Generic;
 using System.IO;
 
 using AK.F1.Timing.Messages;
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Tms.Fixup
+namespace AK.F1.Timing.Tms.Utility.Operations
 {
-    /// <summary>
-    /// Application entry point container.
-    /// </summary>
-    public static class Program
+    internal class FixupOperation : Operation
     {
-        #region Public Interface.
+        private readonly string _path;
 
-        /// <summary>
-        /// Application entry point.
-        /// </summary>
-        /// <param name="args">The application arguments.</param>
-        public static void Main(string[] args) {
+        public FixupOperation(string path) {
 
-            var options = new CommandLineOptions();
-
-            if(options.ParseAndContinue(args)) {
-                FixupDirectory(options.Directory, options.Recurse);
-            }
+            _path = path;
         }
 
-        #endregion
+        public override void Run() {
 
-        #region Private Impl.
-
-        private static void FixupDirectory(string directory, bool recurse) {
-
-            int fixedUp = 0;
-            var searchOption = recurse ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly;
-
-            foreach(var path in Directory.GetFiles(directory, "*.tms", searchOption)) {
-                FixupFile(path, path.Substring(directory.Length + 1));
-                ++fixedUp;
-            }
-
-            WriteLine("processed {0} file{1}", fixedUp, fixedUp >= 0 ? "s" : string.Empty);
-        }
-
-        private static void FixupFile(string path, string name) {
-            
             int read = 0;
             int written = 0;
             Message message;
-            var tempPath = path + ".tmp";
+            var tempPath = _path + ".tmp";
             var classifier = new MessageClassifier();
-            var translator = new LiveMessageTranslator();            
+            var translator = new LiveMessageTranslator();
 
-            using(var input = File.OpenRead(path))
+            using(var input = File.OpenRead(_path))
             using(var reader = new DecoratedObjectReader(input))
             using(var output = File.OpenWrite(tempPath))
             using(var writer = new DecoratedObjectWriter(output)) {
@@ -96,20 +70,12 @@ namespace AK.F1.Timing.Tms.Fixup
                 writer.Write(null);
             }
 
-            File.Replace(tempPath, path, null, true);
+            File.Replace(tempPath, _path, null, true);
 
             int diff = written - read;
 
-            WriteLine("{0}, read={1}, written={2}, {3}={4}",
-                name, read, written, diff < 0 ? "removed" : "added", Math.Abs(diff));
+            Console.WriteLine("read={0}, written={1}, {2}={3}",
+                read, written, diff < 0 ? "removed" : "added", Math.Abs(diff));
         }
-
-        private static void WriteLine(string format, params object[] args) {
-
-            Console.Write("f1fixup: ");
-            Console.WriteLine(format, args);
-        }
-
-        #endregion
     }
 }

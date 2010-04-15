@@ -32,12 +32,12 @@ namespace AK.F1.Timing.Tms.Utility
             MatchPosition = true)]
         public string Path;
 
-        [CommandLineParser.ValueUsage("Generate TMS statistics.",
+        [CommandLineParser.ValueUsage("Fixup the TMS by filtering out translated messages and replaying the session.",
             Category = "op",
-            Name = "stats",
-            AlternateName1 = "s",
+            Name = "fixup",
+            AlternateName1 = "f",
             Optional = true)]
-        public bool Stats;
+        public bool Fixup;
 
         [CommandLineParser.ValueUsage("Dump the TMS to the standard out.",
             Category = "op",
@@ -45,6 +45,13 @@ namespace AK.F1.Timing.Tms.Utility
             AlternateName1 = "d",
             Optional = true)]
         public bool Dump;
+
+        [CommandLineParser.ValueUsage("Generate TMS statistics.",
+            Category = "op",
+            Name = "stats",
+            AlternateName1 = "s",
+            Optional = true)]
+        public bool Stats;
 
         #endregion
 
@@ -58,8 +65,8 @@ namespace AK.F1.Timing.Tms.Utility
             if(!File.Exists(Path)) {
                 throw Usage("path", "specified path does not exist or the device is not ready.");
             }
-            if(!(Stats ^ Dump)) {
-                throw Usage("stats|dump", "one operation must be selected.");
+            if(!(Fixup ^ Dump ^ Stats)) {
+                throw Usage("fixup|dump|stats", "one operation must be selected.");
             }
         }
 

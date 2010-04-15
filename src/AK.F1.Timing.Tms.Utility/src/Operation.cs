@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,12 +13,11 @@
 // limitations under the License.
 
 using System;
-using System.Resources;
-using System.Reflection;
-using System.Security.Permissions;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("F1 Timing TMS Fixup Utility")]
-[assembly: AssemblyDescription("F1 Timing TMS Fixup Utility")]
-[assembly: AssemblyProduct("AK.F1.Timing.Tms.Fixup")]
+namespace AK.F1.Timing.Tms.Utility
+{
+    internal abstract class Operation
+    {
+        public abstract void Run();
+    }
+}

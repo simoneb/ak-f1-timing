@@ -25,5 +25,5 @@ using System.Security.Permissions;
 [assembly: NeutralResourcesLanguage("en-GB")]
 [assembly: ComVisible(false)]
 [assembly: SecurityPermission(SecurityAction.RequestMinimum)]
-[assembly: AssemblyVersion("0.8.252.52454")]
-[assembly: AssemblyFileVersion("0.8.252.52454")]
+[assembly: AssemblyVersion("0.8.253.48834")]
+[assembly: AssemblyFileVersion("0.8.253.48834")]

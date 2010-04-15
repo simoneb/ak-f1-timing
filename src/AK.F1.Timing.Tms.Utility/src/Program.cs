@@ -15,9 +15,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Diagnostics;
 using System.Linq;
 
 using AK.F1.Timing.Serialization;
+using AK.F1.Timing.Tms.Utility.Operations;
 
 namespace AK.F1.Timing.Tms.Utility
 {
@@ -40,7 +42,7 @@ namespace AK.F1.Timing.Tms.Utility
                 try {
                     Run(options);
                 } catch(Exception exc) {
-                    WriteLine("{0} - {1}", exc.GetType().Name, exc.Message);
+                    Console.WriteLine("{0} - {1}", exc.GetType().Name, exc.Message);
                 }
             }
         }
@@ -52,85 +54,14 @@ namespace AK.F1.Timing.Tms.Utility
         private static void Run(CommandLineOptions options) {
 
             if(options.Stats) {
-                WriteStatistics(options.Path);
+                new WriteStatisticsOperation(options.Path).Run();
             } else if(options.Dump) {
-                WriteContents(options.Path);
+                new DumpOperation(options.Path).Run();
+            } else if(options.Fixup) {
+                new FixupOperation(options.Path).Run();
+            } else {
+                Debug.Fail("no operation has been specified");
             }
-        }
-
-        private static void WriteContents(string path) {
-
-            object obj;
-
-            using(var input = File.OpenRead(path))
-            using(var reader = new DecoratedObjectReader(input)) {
-                while((obj = reader.Read()) != null) {
-                    WriteLine("{0}", obj);
-                }
-            }
-        }
-
-        private static void WriteStatistics(string path) {
-
-            object obj;
-            var numberOfObjects = 0L;
-            var numberOfObjectByType = new Dictionary<Type, long>();
-
-            using(var input = File.OpenRead(path))
-            using(var reader = new DecoratedObjectReader(input)) {
-                while((obj = reader.Read()) != null) {
-                    ++numberOfObjects;
-                    if(numberOfObjectByType.ContainsKey(obj.GetType())) {
-                        ++numberOfObjectByType[obj.GetType()];
-                    } else {
-                        numberOfObjectByType[obj.GetType()] = 1;
-                    }
-                }
-            }
-
-            var fileInfo = new FileInfo(path);
-
-            WriteStatistics(new Statistics() {
-                FileName = fileInfo.Name,
-                FileLength = fileInfo.Length,
-                NumberOfObjects = numberOfObjects,
-                NumberOfObjectByType = numberOfObjectByType
-            });
-        }
-
-        private static void WriteStatistics(Statistics stats) {
-
-            int firstColumnWidth = Math.Max(stats.NumberOfObjectByType.Select(x => x.Key.Name.Length).Max(), 30);
-            int secondColumnWidth = Math.Max(stats.FileName.Length, 10);
-            var sectionDelimiter = string.Format("+{0}+{1}+", new string('-', firstColumnWidth), new string('-', secondColumnWidth));
-            var rowFormat = string.Format("|{{0,-{0}}}|{{1,{1}}}|", firstColumnWidth, secondColumnWidth);
-
-            WriteLine(sectionDelimiter);
-            WriteLine(rowFormat, "File Name:", stats.FileName);
-            WriteLine(rowFormat, "File Length:", stats.FileLength);
-            WriteLine(rowFormat, "Number of Objects:", stats.NumberOfObjects);
-            WriteLine(rowFormat, "Average Object Length:", stats.FileLength / stats.NumberOfObjects);
-            WriteLine(rowFormat, "Number of Object Types:", stats.NumberOfObjectByType.Count);
-            WriteLine(sectionDelimiter);
-            WriteLine(rowFormat, "Object Type", "Count");
-            WriteLine(sectionDelimiter);
-            foreach(var pair in stats.NumberOfObjectByType.OrderByDescending(x => x.Value)) {
-                WriteLine(rowFormat, pair.Key.Name, pair.Value);
-            }
-            WriteLine(sectionDelimiter);
-        }
-
-        private static void WriteLine(string format, params object[] args) {
-
-            Console.WriteLine(format, args);
-        }
-
-        private sealed class Statistics
-        {
-            public string FileName;
-            public long FileLength;
-            public long NumberOfObjects;
-            public IDictionary<Type, long> NumberOfObjectByType;
         }
 
         #endregion

@@ -23,8 +23,7 @@
     <CoreBinPath>$(SrcPath)\AK.F1.Timing\src\bin\$(BuildType)</CoreBinPath>
     <ModelBinPath>$(SrcPath)\AK.F1.Timing.Model\src\bin\$(BuildType)</ModelBinPath>
     <UIBinPath>$(SrcPath)\AK.F1.Timing.UI\src\bin\$(BuildType)</UIBinPath>
-    <RecorderBinPath>$(SrcPath)\AK.F1.Timing.Live.Recorder\src\bin\$(BuildType)</RecorderBinPath>
-    <FixupBinPath>$(SrcPath)\AK.F1.Timing.Tms.Fixup\src\bin\$(BuildType)</FixupBinPath>
+    <RecorderBinPath>$(SrcPath)\AK.F1.Timing.Live.Recorder\src\bin\$(BuildType)</RecorderBinPath>    
     <TmsUtilityBinPath>$(SrcPath)\AK.F1.Timing.Tms.Utility\src\bin\$(BuildType)</TmsUtilityBinPath>
   </PropertyGroup>
 
@@ -124,7 +123,7 @@
 
   <Target
     Name="Package"
-    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageRecorder;PackageFixup;PackageTmsUtility;PackageUI"/>
+    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageRecorder;PackageTmsUtility;PackageUI"/>
     
   <Target Name="PackageLibs" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
@@ -182,40 +181,6 @@
       Files="@(RecorderPackageFiles)"
       ZipFileName="$(BinPath)\$(RecorderPackageName)-v$(GlobalAssemblyVersion).zip"
       WorkingDirectory="$(RecorderPackagePath)"
-      Flatten="false"
-      ZipLevel="10"/>
-  </Target>
-
-  <Target Name="PackageFixup" DependsOnTargets="$(CorePackageDependsOn)">
-    <PropertyGroup>
-      <FixupPackageName>f1fixup</FixupPackageName>
-      <FixupPackagePath>$(BinPath)\latest-$(FixupPackageName)</FixupPackagePath>
-      <FixupPackageBinPath>$(FixupPackagePath)\bin</FixupPackageBinPath>
-    </PropertyGroup>
-    <ItemGroup>
-      <FixupPackageRootFiles
-        Include="$(FixupBinPath)\$(FixupPackageName).*"
-        Exclude="$(FixupBinPath)\*.pdb"/>
-      <FixupPackageBinFiles
-        Include="$(FixupBinPath)\*.*"
-        Exclude="@(FixupPackageRootFiles);$(FixupBinPath)\*.xml;$(FixupBinPath)\*.pdb"/>
-    </ItemGroup>
-    <MakeDir
-      Directories="$(FixupPackageBinPath)"/>
-    <Copy
-      SourceFiles="@(FixupPackageRootFiles)"
-      DestinationFolder="$(FixupPackagePath)"/>
-    <Copy
-      SourceFiles="@(FixupPackageBinFiles)"
-      DestinationFolder="$(FixupPackageBinPath)"/>
-    <ItemGroup>
-      <FixupPackageFiles
-        Include="$(FixupPackagePath)\**\*.*"/>
-    </ItemGroup>
-    <Zip
-      Files="@(FixupPackageFiles)"
-      ZipFileName="$(BinPath)\$(FixupPackageName)-v$(GlobalAssemblyVersion).zip"
-      WorkingDirectory="$(FixupPackagePath)"
       Flatten="false"
       ZipLevel="10"/>
   </Target>
