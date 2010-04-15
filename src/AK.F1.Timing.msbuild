@@ -1,15 +1,15 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="All" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <!-- Build Properties -->
 
   <PropertyGroup>
     <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>
     <ForcedBuildProperties>Configuration=$(BuildType)</ForcedBuildProperties>
-    <CorePackageDependsOn>Clean;CleanBinPath;GetNextVersion;Build</CorePackageDependsOn>
+    <CorePackageDependsOn>Build;GetCurrentVersion</CorePackageDependsOn>
   </PropertyGroup>
-  
+
   <!-- Path Properties -->
-  
+
   <PropertyGroup>
     <BinPath>..\bin</BinPath>
     <LibPath>..\lib</LibPath>
@@ -19,7 +19,9 @@
     <GlobalAssemblyInfoPath>$(SrcPath)\GlobalAssemblyInfo.cs</GlobalAssemblyInfoPath>
     <GlobalAssemblyVersionPath>$(SrcPath)\GlobalAssemblyVersion.version</GlobalAssemblyVersionPath>
     <MSBuildTasksPath>$(ToolsPath)\msbuild</MSBuildTasksPath>
-    <XUnitTasksPath>$(ToolsPath)\xunit</XUnitTasksPath>    
+    <XUnitTasksPath>$(ToolsPath)\xunit</XUnitTasksPath>
+    <CoreBinPath>$(SrcPath)\AK.F1.Timing\src\bin\$(BuildType)</CoreBinPath>
+    <ModelBinPath>$(SrcPath)\AK.F1.Timing.Model\src\bin\$(BuildType)</ModelBinPath>
     <UIBinPath>$(SrcPath)\AK.F1.Timing.UI\src\bin\$(BuildType)</UIBinPath>
     <RecorderBinPath>$(SrcPath)\AK.F1.Timing.Live.Recorder\src\bin\$(BuildType)</RecorderBinPath>
     <FixupBinPath>$(SrcPath)\AK.F1.Timing.Tms.Fixup\src\bin\$(BuildType)</FixupBinPath>
@@ -29,12 +31,10 @@
   <Import Project="$(MSBuildTasksPath)\MSBuild.Community.tasks"/>
   <Import Project="$(MSBuildTasksPath)\CodePlex.MSBuildTasks.tasks"/>
   <Import Project="$(XUnitTasksPath)\XUnit.tasks"/>
+  
+  <!-- Targets -->
 
-  <!-- Build server targets -->
-
-  <Target Name="Rebuild" DependsOnTargets="Clean;Build"/>
-
-  <!-- Individiual targets -->
+  <Target Name="All" DependsOnTargets="Clean;GetNextVersion;Build;Package"/>
 
   <Target Name="Clean">
     <CreateItem Include="$(SrcPath)\*.Test.Results.xml">
@@ -42,6 +42,11 @@
     </CreateItem>
     <Delete
       Files="@(CleanFileList)"/>
+    <RemoveDir
+      Directories="$(BinPath)"
+      Condition="Exists('$(BinPath)')"/>
+    <MakeDir
+      Directories="$(BinPath)"/>
     <MSBuild
       Projects="$(SolutionPath)"
       Targets="Clean"
@@ -72,7 +77,24 @@
       Targets="Build"
       Properties="$(ForcedBuildProperties)"/>
   </Target>
-  
+
+  <Target Name="GetCurrentVersion">
+    <Version
+      VersionFile="$(GlobalAssemblyVersionPath)"
+      RevisionType="None"
+      BuildType="None">
+      <Output TaskParameter="Major" PropertyName="Major"/>
+      <Output TaskParameter="Minor" PropertyName="Minor"/>
+      <Output TaskParameter="Revision" PropertyName="Revision"/>
+      <Output TaskParameter="Build" PropertyName="Build"/>
+    </Version>
+    <PropertyGroup>
+      <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
+    </PropertyGroup>
+    <Message
+        Text="Version: $(GlobalAssemblyVersion)"/>
+  </Target>
+
   <Target Name="GetNextVersion">
     <Version
       Major="0"
@@ -99,35 +121,36 @@
       Replacement="AssemblyFileVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
       Files="$(GlobalAssemblyInfoPath)"/>
   </Target>
-  
-  <Target Name="GetCurrentVersion">
-    <Version
-      VersionFile="$(GlobalAssemblyVersionPath)"
-      RevisionType="None"
-      BuildType="None">
-      <Output TaskParameter="Major" PropertyName="Major"/>
-      <Output TaskParameter="Minor" PropertyName="Minor"/>
-      <Output TaskParameter="Revision" PropertyName="Revision"/>
-      <Output TaskParameter="Build" PropertyName="Build"/>
-    </Version>
-    <PropertyGroup>
-      <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
-    </PropertyGroup>
-    <Message
-        Text="Version: $(GlobalAssemblyVersion)"/>
-  </Target>
-
-  <Target Name="CleanBinPath">
-    <RemoveDir
-      Directories="$(BinPath)"
-      Condition="Exists('$(BinPath)')"/>
-    <MakeDir
-      Directories="$(BinPath)"/>
-  </Target>
 
   <Target
     Name="Package"
-    DependsOnTargets="$(CorePackageDependsOn);PackageRecorder;PackageFixup;PackageTmsUtility;PackageUI"/>
+    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageRecorder;PackageFixup;PackageTmsUtility;PackageUI"/>
+    
+  <Target Name="PackageLibs" DependsOnTargets="$(CorePackageDependsOn)">
+    <PropertyGroup>
+      <LibsPackageName>ak-f1-timing</LibsPackageName>
+      <LibsPackagePath>$(BinPath)\latest-$(LibsPackageName)</LibsPackagePath>
+    </PropertyGroup>
+    <ItemGroup>
+      <LibsPackageRootFiles
+        Include="$(CoreBinPath)\*.*;$(ModelBinPath)\*.*"/>
+    </ItemGroup>
+    <MakeDir
+      Directories="$(LibsPackagePath)"/>
+    <Copy
+      SourceFiles="@(LibsPackageRootFiles)"
+      DestinationFolder="$(LibsPackagePath)"/>
+    <ItemGroup>
+      <LibsPackageFiles
+        Include="$(LibsPackagePath)\**\*.*"/>
+    </ItemGroup>
+    <Zip
+      Files="@(LibsPackageFiles)"
+      ZipFileName="$(BinPath)\$(LibsPackageName)-v$(GlobalAssemblyVersion).zip"
+      WorkingDirectory="$(LibsPackagePath)"
+      Flatten="false"
+      ZipLevel="10"/>
+  </Target>
 
   <Target Name="PackageRecorder" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
@@ -196,7 +219,7 @@
       Flatten="false"
       ZipLevel="10"/>
   </Target>
-  
+
   <Target Name="PackageTmsUtility" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
       <TmsUtilityPackageName>f1tmsutility</TmsUtilityPackageName>
@@ -230,7 +253,7 @@
       Flatten="false"
       ZipLevel="10"/>
   </Target>
-  
+
   <Target Name="PackageUI" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
       <UIPackageName>f1timing</UIPackageName>
