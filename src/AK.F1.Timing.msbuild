@@ -127,7 +127,7 @@
     
   <Target Name="PackageLibs" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
-      <LibsPackageName>ak-f1-timing</LibsPackageName>
+      <LibsPackageName>f1core</LibsPackageName>
       <LibsPackagePath>$(BinPath)\latest-$(LibsPackageName)</LibsPackagePath>
     </PropertyGroup>
     <ItemGroup>
