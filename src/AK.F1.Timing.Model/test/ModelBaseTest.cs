@@ -29,15 +29,17 @@ namespace AK.F1.Timing.Model
             Assert.Throws<ArgumentNullException>(() => person.PublicOnPropertyChanged((string)null));
             Assert.Throws<ArgumentException>(() => person.PublicOnPropertyChanged(string.Empty));
         }
-
-        [Fact]
-        [Conditional("DEBUG")]
+        
+        
+#if DEBUG
+        [Fact]        
         public void on_property_changed_throws_if_no_property_exists_with_given_name() {
 
             var person = new Person();
 
             Assert.Throws<ArgumentException>(() => person.PublicOnPropertyChanged("NonExsistentProperty"));
         }
+#endif
 
         [Fact]
         public void on_property_changed_throws_if_e_is_null() {
