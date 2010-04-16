@@ -15,8 +15,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using Xunit;
 using Xunit.Extensions;
@@ -25,51 +25,10 @@ namespace AK.F1.Timing.Serialization
 {
     public class DecoratedObjectReaderWriterTest
     {
-        [Theory]
-        [ClassData(typeof(PrimitiveDataProvider))]
-        public void can_round_trip_primitives(object primitive) {
-
-            RoundTripAndAssertEqual(primitive);
-        }
-
         [Fact]
-        public void can_read_and_write_null() {
+        public void can_round_trip_null() {
 
             Assert.Null(RoundTrip((object)null));
-        }
-
-        [Fact]
-        public void can_round_trip_multiple_primitives() {
-
-            RoundTripAndAssertEqual(PrimitiveDataProvider.GetData());
-        }
-
-        [Theory]
-        [ClassData(typeof(ComplexDataProvider))]
-        public void can_round_trip_complex_types(object complex) {
-
-            RoundTripAndAssertEqual(complex);
-        }
-
-        [Fact]
-        public void can_round_trip_multiple_complex_types() {
-
-            RoundTripAndAssertEqual(ComplexDataProvider.GetData());
-        }
-
-        [Fact]
-        public void can_round_trip_interleaved_complex_and_primitive_types() {
-
-            var graphs = new List<object>();            
-
-            foreach(var primtive in PrimitiveDataProvider.GetData()) {
-                foreach(var complex in ComplexDataProvider.GetData()) {
-                    graphs.Add(primtive);
-                    graphs.Add(complex);
-                }
-            }
-
-            RoundTripAndAssertEqual(graphs);
         }
 
         [Fact]
@@ -82,41 +41,64 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void graphs_which_implement_object_reference_are_respected() {
+        public void object_references_can_be_round_tripped_and_the_real_object_is_returned() {
 
             Assert.Same(ObjectReference.Instance, RoundTrip(ObjectReference.Instance));
         }
 
-        public void RoundTripAndAssertEqual(IEnumerable<object> graphs) {
+        [Fact]
+        public void can_round_trip_types_with_private_ctors() {
 
-            var graphsCopy = graphs.ToArray();
+            Assert.NotNull(RoundTrip(TypeWithPrivateCtor.New()));
+        }
+
+        [Fact]
+        public void can_round_trip_types_with_protected_ctors() {
+
+            Assert.NotNull(RoundTrip(TypeWithPrivateCtor.New()));
+        }
+
+        [Fact]
+        public void can_round_trip_empty_types() {
+
+            Assert.NotNull(RoundTrip(TypeWithPrivateCtor.New()));
+        }
+
+        [Theory]
+        [ClassData(typeof(PrimitiveDataProvider))]
+        public void can_round_trip_types_with_primitive_properties(object graph) {
+
+            var actual = RoundTrip(graph);
+
+            Assert.Equal(graph, actual);
+        }
+
+        [Theory]
+        [ClassData(typeof(ComplexDataProvider))]
+        public void can_round_trip_types_with_complex_properties(object graph) {
+
+            var actual = RoundTrip(graph);
+
+            Assert.Equal(graph, actual);
+        }
+
+        [Fact]
+        public void can_round_trip_multiple_types_on_one_stream() {
+
+            var graphs = PrimitiveDataProvider.GetData().ToList();
 
             using(var stream = new MemoryStream()) {
                 using(var writer = new DecoratedObjectWriter(stream)) {
-                    foreach(var graph in graphsCopy) {
+                    foreach(var graph in graphs) {
                         writer.Write(graph);
                     }
                 }
                 stream.Position = 0L;
-                using(var reader = new DecoratedObjectReader(stream)) {
-                    foreach(var graph in graphsCopy) {
-                        var actual = reader.Read();
-                        Assert.IsType(graph.GetType(), actual);
-                        Assert.Equal(graph, actual);
+                using(var reader = new DecoratedObjectReader(stream)) {                    
+                    foreach(var graph in graphs) {
+                        Assert.Equal(graph, reader.Read());
                     }
                 }
-            }
-        }
-
-        private static void RoundTripAndAssertEqual(object graph) {
-
-            object actual = RoundTrip(graph);
-
-            if(graph == null) {
-                Assert.Null(actual);
-            } else {
-                Assert.IsType(graph.GetType(), actual);
-                Assert.Equal(graph, actual);
             }
         }
 
@@ -135,39 +117,11 @@ namespace AK.F1.Timing.Serialization
             }
 
             if(graph != null) {
+                Assert.NotNull(actual);
                 Assert.IsType(graph.GetType(), actual);
             }
 
             return (T)actual;
-        }
-
-        public class ComplexDataProvider : IEnumerable<object[]>
-        {
-            public IEnumerator<object[]> GetEnumerator() {
-
-                yield return A(new EmptyType());
-                yield return A(TypeWithPrivateCtor.New());
-                yield return A(new TypeWithComplexProperties());
-                yield return A(new TypeWithComplexProperties {
-                    EmptyType = new EmptyType(),
-                    TypeWithPrivateCtor = TypeWithPrivateCtor.New()
-                });
-            }
-
-            public static IEnumerable<object> GetData() {
-
-                return new ComplexDataProvider().Select(x => x[0]);
-            }
-
-            private static object[] A(object value) {
-
-                return new object[] { value };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-
-                return GetEnumerator();
-            }
         }
 
         [TypeId(23409283)]
@@ -195,31 +149,25 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(5528731)]
-        public class TypeWithComplexProperties
+        [TypeId(4431976)]
+        public class TypeWithProtectedCtor : EmptyType
         {
-            [PropertyId(0)]
-            public EmptyType EmptyType { get; set; }
+            protected TypeWithProtectedCtor() { }
 
-            [PropertyId(1)]
-            public TypeWithPrivateCtor TypeWithPrivateCtor { get; set; }
+            public static TypeWithProtectedCtor New() {
 
-            public override bool Equals(object obj) {
-
-                if(obj == null || obj.GetType() != GetType()) {
-                    return false;
-                }
-
-                var other = (TypeWithComplexProperties)obj;
-
-                return
-                    object.Equals(other.EmptyType, EmptyType) &&
-                    object.Equals(other.TypeWithPrivateCtor, TypeWithPrivateCtor);
+                return new TypeWithProtectedCtor();
             }
+        }
 
-            public override int GetHashCode() {
+        [TypeId(123456789)]
+        private sealed class ObjectReference : IObjectReference
+        {
+            public static readonly ObjectReference Instance = new ObjectReference();
 
-                throw new NotImplementedException();
+            public object GetRealObject(StreamingContext context) {
+
+                return Instance;
             }
         }
 
@@ -240,116 +188,347 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
+        [TypeId(68102379)]
+        private class CharHolder : PrimitiveHolder<Char>
+        {
+            public CharHolder() {
+
+                Min = Char.MinValue;
+                Max = Char.MaxValue;
+            }
+        }
+
+        [TypeId(58738455)]
+        private class StringHolder : PrimitiveHolder<String>
+        {
+            public StringHolder() {
+
+                Min = "Min";
+                Max = "Max";
+            }
+        }
+
+        [TypeId(84504291)]
+        private class DateTimeHolder : PrimitiveHolder<DateTime>
+        {
+            public DateTimeHolder() {
+
+                Min = DateTime.MinValue;
+                Max = DateTime.MaxValue;
+            }
+        }
+
+        [TypeId(88324618)]
+        private class TimeSpanHolder : PrimitiveHolder<TimeSpan>
+        {
+            public TimeSpanHolder() {
+
+                Min = TimeSpan.MinValue;
+                Max = TimeSpan.MaxValue;
+            }
+        }
+
+        [TypeId(56716748)]
+        private class ByteHolder : PrimitiveHolder<Byte>
+        {
+            public ByteHolder() {
+
+                Min = Byte.MinValue;
+                Max = Byte.MaxValue;
+            }
+        }
+
+        [TypeId(83053711)]
+        private class SByteHolder : PrimitiveHolder<SByte>
+        {
+            public SByteHolder() {
+
+                Min = SByte.MinValue;
+                Max = SByte.MaxValue;
+            }
+        }
+
+        [TypeId(37755692)]
+        private class Int16Holder : PrimitiveHolder<Int16>
+        {
+            public Int16Holder() {
+
+                Min = Int16.MinValue;
+                Max = Int16.MaxValue;
+            }
+        }
+
+        [TypeId(28095204)]
+        private class UInt16Holder : PrimitiveHolder<UInt16>
+        {
+            public UInt16Holder() {
+
+                Min = UInt16.MinValue;
+                Max = UInt16.MaxValue;
+            }
+        }
+
+        [TypeId(80020408)]
+        private class Int32Holder : PrimitiveHolder<Int32>
+        {
+            public Int32Holder() {
+
+                Min = Int32.MinValue;
+                Max = Int32.MaxValue;
+            }
+        }
+
+        [TypeId(73188542)]
+        private class UInt32Holder : PrimitiveHolder<UInt32>
+        {
+            public UInt32Holder() {
+
+                Min = UInt32.MinValue;
+                Max = UInt32.MaxValue;
+            }
+        }
+
+        [TypeId(48194370)]
+        private class Int64Holder : PrimitiveHolder<Int64>
+        {
+            public Int64Holder() {
+
+                Min = Int64.MinValue;
+                Max = Int64.MaxValue;
+            }
+        }
+
+        [TypeId(95896724)]
+        private class UInt64Holder : PrimitiveHolder<UInt64>
+        {
+            public UInt64Holder() {
+
+                Min = UInt64.MinValue;
+                Max = UInt64.MaxValue;
+            }
+        }
+
+        [TypeId(52151731)]
+        private class DoubleHolder : PrimitiveHolder<Double>
+        {
+            public DoubleHolder() {
+
+                Min = Double.MinValue;
+                Max = Double.MaxValue;
+            }
+        }
+
+        [TypeId(29802692)]
+        private class SingleHolder : PrimitiveHolder<Single>
+        {
+            public SingleHolder() {
+
+                Min = Single.MinValue;
+                Max = Single.MaxValue;
+            }
+        }
+
+        [TypeId(62803598)]
+        private class DecimalHolder : PrimitiveHolder<Decimal>
+        {
+            public DecimalHolder() {
+
+                Min = Decimal.MinValue;
+                Max = Decimal.MaxValue;
+            }
+        }
+
+        [TypeId(26740644)]
+        private class ByteEnumHolder : PrimitiveHolder<ByteEnum>
+        {
+            public ByteEnumHolder() {
+
+                Min = ByteEnum.Min;
+                Max = ByteEnum.Max;
+            }
+        }
+
+        [TypeId(29618117)]
+        private class SByteEnumHolder : PrimitiveHolder<SByteEnum>
+        {
+            public SByteEnumHolder() {
+
+                Min = SByteEnum.Min;
+                Max = SByteEnum.Max;
+            }
+        }
+
+        [TypeId(49263960)]
+        private class Int16EnumHolder : PrimitiveHolder<Int16Enum>
+        {
+            public Int16EnumHolder() {
+
+                Min = Int16Enum.Min;
+                Max = Int16Enum.Max;
+            }
+        }
+
+        [TypeId(10754466)]
+        private class UInt16EnumHolder : PrimitiveHolder<UInt16Enum>
+        {
+            public UInt16EnumHolder() {
+
+                Min = UInt16Enum.Min;
+                Max = UInt16Enum.Max;
+            }
+        }
+
+        [TypeId(67571400)]
+        private class Int32EnumHolder : PrimitiveHolder<Int32Enum>
+        {
+            public Int32EnumHolder() {
+
+                Min = Int32Enum.Min;
+                Max = Int32Enum.Max;
+            }
+        }
+
+        [TypeId(59285730)]
+        private class UInt32EnumHolder : PrimitiveHolder<UInt32Enum>
+        {
+            public UInt32EnumHolder() {
+
+                Min = UInt32Enum.Min;
+                Max = UInt32Enum.Max;
+            }
+        }
+
+        [TypeId(70098681)]
+        private class Int64EnumHolder : PrimitiveHolder<Int64Enum>
+        {
+            public Int64EnumHolder() {
+
+                Min = Int64Enum.Min;
+                Max = Int64Enum.Max;
+            }
+        }
+
+        [TypeId(58969482)]
+        private class UInt64EnumHolder : PrimitiveHolder<UInt64Enum>
+        {
+            public UInt64EnumHolder() {
+
+                Min = UInt64Enum.Min;
+                Max = UInt64Enum.Max;
+            }
+        }
+
+        [TypeId(19310090)]
+        private abstract class PrimitiveHolder<T>
+        {
+            [PropertyId(0)]
+            public T Min { get; set; }
+            [PropertyId(1)]
+            public T Max { get; set; }
+            [PropertyId(2)]
+            public T Default { get; set; }
+
+            protected PrimitiveHolder() {
+
+                Default = default(T);
+            }
+
+            public override bool Equals(object obj) {
+
+                if(obj == null || obj.GetType() != GetType()) {
+                    return false;
+                }
+                if(obj == this) {
+                    return true;
+                }
+                var other = (PrimitiveHolder<T>)obj;
+                return
+                    object.Equals(Default, other.Default) &&
+                    object.Equals(Min, other.Min) &&
+                    object.Equals(Max, other.Max);
+            }
+
+            public override int GetHashCode() {
+
+                throw new NotImplementedException();
+            }
+        }
+
+        private enum ByteEnum : byte
+        {
+            Min = Byte.MinValue,
+            Max = Byte.MaxValue
+        }
+
+        private enum SByteEnum : sbyte
+        {
+            Min = SByte.MinValue,
+            Max = SByte.MaxValue
+        }
+
+        private enum Int16Enum : short
+        {
+            Min = Int16.MinValue,
+            Max = Int16.MaxValue
+        }
+
+        private enum UInt16Enum : ushort
+        {
+            Min = UInt16.MinValue,
+            Max = UInt16.MaxValue
+        }
+
+        private enum Int32Enum : int
+        {
+            Min = Int32.MinValue,
+            Max = Int32.MaxValue
+        }
+
+        private enum UInt32Enum : uint
+        {
+            Min = UInt32.MinValue,
+            Max = UInt32.MaxValue
+        }
+
+        private enum Int64Enum : long
+        {
+            Min = Int64.MinValue,
+            Max = Int64.MaxValue
+        }
+
+        private enum UInt64Enum : ulong
+        {
+            Min = UInt64.MinValue,
+            Max = UInt64.MaxValue
+        }
+
         public class PrimitiveDataProvider : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator() {
-
-                // String
-                yield return A("s");
-                // Boolean
-                yield return A(true);
-                yield return A(false);
-                // Char
-                yield return A('c');
-                yield return A(char.MinValue);
-                yield return A(char.MaxValue);
-                // Byte
-                yield return A((Byte)0);
-                yield return A(Byte.MinValue);
-                yield return A(Byte.MaxValue);
-                // SByte
-                yield return A((SByte)0);
-                yield return A(SByte.MinValue);
-                yield return A(SByte.MaxValue);
-                // Int16
-                yield return A((Int16)0);
-                yield return A(Int16.MinValue);
-                yield return A(Int16.MaxValue);
-                // UInt16
-                yield return A((UInt16)0);
-                yield return A(UInt16.MinValue);
-                yield return A(UInt16.MaxValue);
-                // Int32
-                yield return A((Int32)0);
-                yield return A(Int32.MinValue);
-                yield return A(Int32.MaxValue);
-                // UInt32
-                yield return A((UInt32)0);
-                yield return A(UInt32.MinValue);
-                yield return A(UInt32.MaxValue);
-                // Int64
-                yield return A((Int64)0);
-                yield return A(Int64.MinValue);
-                yield return A(Int64.MaxValue);
-                // UInt64
-                yield return A((UInt64)0);
-                yield return A(UInt64.MinValue);
-                yield return A(UInt64.MaxValue);
-                //  Single
-                yield return A((Single)0);
-                yield return A(Single.MinValue);
-                yield return A(Single.MaxValue);
-                yield return A(Single.Epsilon);
-                yield return A(Single.NaN);
-                yield return A(Single.NegativeInfinity);
-                yield return A(Single.PositiveInfinity);
-                // Double
-                yield return A((Double)0);
-                yield return A(Double.MinValue);
-                yield return A(Double.MaxValue);
-                yield return A(Double.Epsilon);
-                yield return A(Double.NaN);
-                yield return A(Double.NegativeInfinity);
-                yield return A(Double.PositiveInfinity);
-                // Decimal
-                yield return A((Decimal)0);
-                yield return A(Decimal.MinValue);
-                yield return A(Decimal.MaxValue);
-                // DBNull
-                yield return A(DBNull.Value);
-                // TimeSpan
-                yield return A(TimeSpan.Zero);
-                yield return A(TimeSpan.MinValue);
-                yield return A(TimeSpan.MaxValue);
-                // DateTime
-                yield return A(DateTime.Now);
-                yield return A(DateTime.MinValue);
-                yield return A(DateTime.MaxValue);
-
-                yield break;
-
-                // ByteEnum
-                yield return A(ByteEnum.Default);
-                yield return A(ByteEnum.Min);
-                yield return A(ByteEnum.Max);
-                // SByteEnum
-                yield return A(SByteEnum.Default);
-                yield return A(SByteEnum.Min);
-                yield return A(SByteEnum.Max);
-                // Int16Enum
-                yield return A(Int16Enum.Default);
-                yield return A(Int16Enum.Min);
-                yield return A(Int16Enum.Max);
-                // UInt16Enum
-                yield return A(UInt16Enum.Default);
-                yield return A(UInt16Enum.Min);
-                yield return A(UInt16Enum.Max);
-                // Int32Enum
-                yield return A(Int32Enum.Default);
-                yield return A(Int32Enum.Min);
-                yield return A(Int32Enum.Max);
-                // UInt32Enum
-                yield return A(UInt32Enum.Default);
-                yield return A(UInt32Enum.Min);
-                yield return A(UInt32Enum.Max);
-                // Int64Enum
-                yield return A(Int64Enum.Default);
-                yield return A(Int64Enum.Min);
-                yield return A(Int64Enum.Max);
-                // UInt64Enum
-                yield return A(UInt64Enum.Default);
-                yield return A(UInt64Enum.Min);
-                yield return A(UInt64Enum.Max);
+                
+                yield return A(new ByteHolder());
+                yield return A(new ByteEnumHolder());
+                yield return A(new SByteHolder());
+                yield return A(new SByteEnumHolder());
+                yield return A(new Int16Holder());
+                yield return A(new Int16EnumHolder());
+                yield return A(new UInt16Holder());   
+                yield return A(new UInt16EnumHolder());
+                yield return A(new Int32Holder());
+                yield return A(new Int32EnumHolder());
+                yield return A(new UInt32Holder());
+                yield return A(new UInt32EnumHolder());
+                yield return A(new Int64Holder());
+                yield return A(new Int64EnumHolder());
+                yield return A(new UInt64Holder());
+                yield return A(new UInt64EnumHolder());
+                yield return A(new SingleHolder());
+                yield return A(new DoubleHolder());
+                yield return A(new DecimalHolder());
+                yield return A(new DateTimeHolder());
+                yield return A(new TimeSpanHolder());
+                yield return A(new CharHolder());
+                yield return A(new StringHolder());  
             }
 
             public static IEnumerable<object> GetData() {
@@ -367,70 +546,60 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        private enum ByteEnum : byte
+        [TypeId(35928738)]
+        private class TypeWithComplexProperties
         {
-            Default = 0,
-            Min = Byte.MinValue,
-            Max = Byte.MaxValue
+            public TypeWithComplexProperties() {
+
+                P0 = new Int16Holder();
+                P1 = new Int32Holder();
+            }
+
+            [PropertyId(0)]
+            public Int16Holder P0 { get; set; }
+
+            [PropertyId(1)]
+            public Int32Holder P1 { get; set; }
+
+            public override bool Equals(object obj) {
+
+                if(obj == null || obj.GetType() != GetType()) {
+                    return false;
+                }
+                if(obj == this) {
+                    return true;
+                }
+                var other = (TypeWithComplexProperties)obj;
+                return
+                    object.Equals(P0, other.P0) &&
+                    object.Equals(P1, other.P1);
+            }
+
+            public override int GetHashCode() {
+
+                throw new NotImplementedException();
+            }
         }
 
-        private enum SByteEnum : sbyte
+        public class ComplexDataProvider : IEnumerable<object[]>
         {
-            Default = 0,
-            Min = SByte.MinValue,
-            Max = SByte.MaxValue
-        }
+            public IEnumerator<object[]> GetEnumerator() {
 
-        private enum Int16Enum : short
-        {
-            Default = 0,
-            Min = Int16.MinValue,
-            Max = Int16.MaxValue
-        }
+                yield return A(new TypeWithComplexProperties());
+            }
 
-        private enum UInt16Enum : ushort
-        {
-            Default = 0,
-            Min = UInt16.MinValue,
-            Max = UInt16.MaxValue
-        }
+            public static IEnumerable<object> GetData() {
 
-        private enum Int32Enum : int
-        {
-            Default = 0,
-            Min = Int32.MinValue,
-            Max = Int32.MaxValue
-        }
+                return new PrimitiveDataProvider().Select(x => x[0]);
+            }
 
-        private enum UInt32Enum : uint
-        {
-            Default = 0,
-            Min = UInt32.MinValue,
-            Max = UInt32.MaxValue
-        }
+            private static object[] A(object value) {
 
-        private enum Int64Enum : long
-        {
-            Default = 0,
-            Min = Int64.MinValue,
-            Max = Int64.MaxValue
-        }
+                return new object[] { value };
+            }
 
-        private enum UInt64Enum : ulong
-        {
-            Default = 0,
-            Min = UInt64.MinValue,
-            Max = UInt64.MaxValue
-        }
-
-        [TypeId(123456789)]
-        private sealed class ObjectReference : IObjectReference
-        {
-            public static readonly ObjectReference Instance = new ObjectReference();
-
-            public object GetRealObject(StreamingContext context) {
-
-                return Instance;
+            IEnumerator IEnumerable.GetEnumerator() {
+                throw new NotImplementedException();
             }
         }
     }

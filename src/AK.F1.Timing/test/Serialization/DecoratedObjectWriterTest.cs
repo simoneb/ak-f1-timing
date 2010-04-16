@@ -13,16 +13,73 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using Xunit;
-using Xunit.Extensions;
 
 namespace AK.F1.Timing.Serialization
 {
     public class DecoratedObjectWriterTest
     {
+        [Fact]
+        public void can_write_a_null_graph() {
+
+            Assert.DoesNotThrow(() => Write(null));
+        }
+
+        [Fact]
+        public void only_graphs_decorated_with_a_type_id_can_be_written() {
+
+            Assert.Throws<SerializationException>(() => Write(new object()));
+            Assert.Throws<SerializationException>(() => Write('s'));
+            Assert.Throws<SerializationException>(() => Write("s"));
+            Assert.Throws<SerializationException>(() => Write(true));
+            Assert.Throws<SerializationException>(() => Write((Byte)0));
+            Assert.Throws<SerializationException>(() => Write((SByte)0));
+            Assert.Throws<SerializationException>(() => Write((Int16)0));
+            Assert.Throws<SerializationException>(() => Write((UInt16)0));
+            Assert.Throws<SerializationException>(() => Write((Int32)0));
+            Assert.Throws<SerializationException>(() => Write((UInt32)0));
+            Assert.Throws<SerializationException>(() => Write((Int64)0));
+            Assert.Throws<SerializationException>(() => Write((UInt64)0));
+            Assert.Throws<SerializationException>(() => Write((Single)0));
+            Assert.Throws<SerializationException>(() => Write((Double)0));
+            Assert.Throws<SerializationException>(() => Write((Decimal)0));
+            Assert.Throws<SerializationException>(() => Write(DBNull.Value));
+            Assert.Throws<SerializationException>(() => Write(TimeSpan.Zero));
+            Assert.Throws<SerializationException>(() => Write(DateTime.MinValue));
+        }
+
+        [Fact]
+        public void graphs_which_contain_circular_references_are_not_supported() {
+
+            var graph = new SimpleType();
+            // Root to self.
+            graph.Value = graph;
+            Assert.Throws<SerializationException>(() => Write(graph));
+            // Descendent to root.
+            graph.Value = new SimpleType { Value = graph };
+            Assert.Throws<SerializationException>(() => Write(graph));
+            // Descendent to self.
+            graph.Value = new SimpleType();
+            graph.Value.Value = graph.Value;
+            Assert.Throws<SerializationException>(() => Write(graph));
+            // Descendent to parent.
+            graph.Value = new SimpleType { Value = graph.Value };
+            Assert.Throws<SerializationException>(() => Write(graph));
+        }
+
+        [Fact]
+        public void the_same_graph_written_on_the_same_stream_is_not_detected_as_a_circular_reference() {
+
+            var graph = new SimpleType();
+
+            using(var writer = CreateWriter()) {
+                writer.Write(graph);
+                writer.Write(graph);
+            }
+        }
+
         [Fact]
         public void ctor_throws_if_output_is_null() {
 
@@ -42,72 +99,32 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void can_write_a_null_graph() {
-
-            using(var writer = CreateMemoryBackedWriter()) {
-                Assert.DoesNotThrow(() => writer.Write(null));
-            }
-        }
-
-        [Theory]
-        [ClassData(typeof(PrimitiveDataProvider))]
-        public void can_write_all_clr_primitives(object primitive) {
-
-            using(var writer = CreateMemoryBackedWriter()) {
-                Assert.DoesNotThrow(() => writer.Write(primitive));
-            }
-        }
-
-        [Fact]
-        public void write_throws_if_graph_is_not_a_primitive_and_has_not_decorated_with_a_type_id() {
-
-            using(var writer = CreateMemoryBackedWriter()) {
-                Assert.Throws<SerializationException>(() => writer.Write(new object()));
-            }
-        }
-
-        [Fact]
         public void write_throws_when_writer_has_been_disposed() {
 
-            var writer = CreateMemoryBackedWriter();
+            var writer = CreateWriter();
 
             ((IDisposable)writer).Dispose();
 
             Assert.Throws<ObjectDisposedException>(() => writer.Write(null));
         }
 
-        private static DecoratedObjectWriter CreateMemoryBackedWriter() {
+        private static void Write(object graph) {
+
+            using(var writer = CreateWriter()) {
+                writer.Write(graph);
+            }
+        }
+
+        private static DecoratedObjectWriter CreateWriter() {
 
             return new DecoratedObjectWriter(new MemoryStream());
         }
 
-        public class PrimitiveDataProvider : IEnumerable<object[]>
+        [TypeId(42871340)]
+        private class SimpleType
         {
-            public IEnumerator<object[]> GetEnumerator() {
-
-                yield return new object[] { 's' };
-                yield return new object[] { "s" };
-                yield return new object[] { true };
-                yield return new object[] { (Byte)0 };
-                yield return new object[] { (SByte)0 };
-                yield return new object[] { (Int16)0 };
-                yield return new object[] { (UInt16)0 };
-                yield return new object[] { (Int32)0 };
-                yield return new object[] { (UInt32)0 };
-                yield return new object[] { (Int64)0 };
-                yield return new object[] { (UInt64)0 };
-                yield return new object[] { (Single)0 };
-                yield return new object[] { (Double)0 };
-                yield return new object[] { (Decimal)0 };
-                yield return new object[] { DBNull.Value };
-                yield return new object[] { TimeSpan.Zero };
-                yield return new object[] { DateTime.MinValue };
-            }
-
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
-
-                return GetEnumerator();
-            }
+            [PropertyId(0)]
+            public SimpleType Value { get; set; }
         }
     }
 }
