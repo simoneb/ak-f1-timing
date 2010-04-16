@@ -32,6 +32,8 @@
   <Import Project="$(XUnitTasksPath)\XUnit.tasks"/>
   
   <!-- Targets -->
+  
+  <Target Name="TeamCity" DependsOnTargets="Clean;GetCurrentVersion;Build;Test"/>
 
   <Target Name="All" DependsOnTargets="Clean;GetNextVersion;Build;Package"/>
 
