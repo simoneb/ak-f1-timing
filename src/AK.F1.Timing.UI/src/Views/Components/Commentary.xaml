@@ -1,0 +1,10 @@
+﻿<!-- DataContext: AK.F1.Timing.Model.Session.MessageModel -->
+<UserControl x:Class="AK.F1.Timing.UI.Views.Components.Commentary"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Hidden">
+            <TextBlock Text="{Binding Commentary}"/>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
