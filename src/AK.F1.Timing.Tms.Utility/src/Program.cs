@@ -13,12 +13,8 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Diagnostics;
-using System.Linq;
 
-using AK.F1.Timing.Serialization;
 using AK.F1.Timing.Tms.Utility.Operations;
 
 namespace AK.F1.Timing.Tms.Utility
@@ -50,6 +46,11 @@ namespace AK.F1.Timing.Tms.Utility
         #endregion
 
         #region Private Impl.
+        
+        static Program() {
+        
+            log4net.Config.XmlConfigurator.Configure();
+        }
 
         private static void Run(CommandLineOptions options) {
 
