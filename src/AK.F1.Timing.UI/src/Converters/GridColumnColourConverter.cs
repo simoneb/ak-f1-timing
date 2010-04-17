@@ -42,7 +42,7 @@ namespace AK.F1.Timing.UI.Converters
                 case GridColumnColour.Magenta:
                     return Brushes.Magenta;
                 case GridColumnColour.Blue:
-                    return Brushes.Blue;
+                    return Brushes.Cyan;
                 case GridColumnColour.Yellow:
                     return Brushes.Yellow;
                 case GridColumnColour.Grey:
