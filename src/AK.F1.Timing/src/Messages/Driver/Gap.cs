@@ -64,7 +64,7 @@ namespace AK.F1.Timing.Messages.Driver
         #region Internal Interface.
 
         /// <summary>
-        /// Prevent this class being implemented outside this library.
+        /// Prevent this class being inherited outside this library.
         /// </summary>
         internal Gap() { }
 
