@@ -34,7 +34,7 @@ namespace AK.F1.Timing.Live
         public void can_compute_the_drivers_lap_number() {
 
             var driver = new LiveDriver(1);
-            
+
             Assert.Equal(10, driver.ComputeLapNumber(10));
             driver.LastGapMessage = new SetDriverGapMessage(1, LapGap.Zero);
             Assert.Equal(10, driver.ComputeLapNumber(10));
@@ -88,28 +88,37 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void can_determine_if_a_sector_number_is_the_next_expected_to_be_completed() {
+        public void can_determine_if_a_sector_number_is_the_next_one_expected_to_be_completed() {
 
             var driver = new LiveDriver(1);
 
-            for(int i = 1; i <= 3; ++i) {
-                Assert.False(driver.IsNextSectorNumber(i));
-            }
-            for(int i = 1; i <= 3; ++i) {
-                driver.NextSectorNumber = i;
-                Assert.True(driver.IsNextSectorNumber(i));
-            }
+            driver.NextSectorNumber = 1;
+            Assert.True(driver.IsNextSectorNumber(1));
+            driver.NextSectorNumber = 2;
+            Assert.True(driver.IsNextSectorNumber(2));
+            driver.NextSectorNumber = 3;
+            Assert.True(driver.IsNextSectorNumber(3));
         }
 
         [Fact]
-        public void is_nexts_sector_number_is_always_false_if_sector_number_is_out_of_range() {
+        public void is_next_sector_number_returns_false_if_the_current_sector_has_not_been_set() {
+
+            var driver = new LiveDriver(1);
+
+            Assert.False(driver.IsNextSectorNumber(1));
+            Assert.False(driver.IsNextSectorNumber(2));
+            Assert.False(driver.IsNextSectorNumber(3));
+        }
+
+        [Fact]
+        public void is_next_sector_number_returns_false_if_sector_number_is_out_of_range() {
 
             var driver = new LiveDriver(1);
 
             for(int i = 1; i <= 3; ++i) {
+                driver.NextSectorNumber = i;
                 Assert.False(driver.IsNextSectorNumber(0));
                 Assert.False(driver.IsNextSectorNumber(4));
-                driver.NextSectorNumber = i;
             }
         }
 
@@ -118,26 +127,33 @@ namespace AK.F1.Timing.Live
 
             var driver = new LiveDriver(1);
 
-            for(int i = 1; i <= 3; ++i) {
-                Assert.False(driver.IsPreviousSectorNumber(i));
-            }
             driver.NextSectorNumber = 1;
-            Assert.True(driver.IsPreviousSectorNumber(3));
-            driver.NextSectorNumber = 2;
-            Assert.True(driver.IsPreviousSectorNumber(1));
-            driver.NextSectorNumber = 3;
             Assert.True(driver.IsPreviousSectorNumber(2));
+            driver.NextSectorNumber = 2;
+            Assert.True(driver.IsPreviousSectorNumber(3));
+            driver.NextSectorNumber = 3;
+            Assert.True(driver.IsPreviousSectorNumber(1));
         }
 
         [Fact]
-        public void is_previous_sector_number_is_always_false_if_sector_number_is_out_of_range() {
+        public void is_previous_sector_number_returns_false_if_the_current_sector_has_not_been_set() {
+
+            var driver = new LiveDriver(1);
+
+            Assert.False(driver.IsPreviousSectorNumber(1));
+            Assert.False(driver.IsPreviousSectorNumber(2));
+            Assert.False(driver.IsPreviousSectorNumber(3));
+        }
+
+        [Fact]
+        public void is_previous_sector_number_returns_false_if_sector_number_is_out_of_range() {
 
             var driver = new LiveDriver(1);
 
             for(int i = 1; i <= 3; ++i) {
+                driver.NextSectorNumber = i;
                 Assert.False(driver.IsPreviousSectorNumber(0));
                 Assert.False(driver.IsPreviousSectorNumber(4));
-                driver.NextSectorNumber = i;
             }
         }
 

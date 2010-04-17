@@ -109,7 +109,7 @@ namespace AK.F1.Timing.Live
         /// completed, otherwise; <see langword="false"/>.</returns>
         public bool IsNextSectorNumber(int sectorNumber) {
 
-            if(!IsValidSectorNumber(sectorNumber)) {
+            if(!HaveNextSectorNumber) {
                 return false;
             }
 
@@ -125,11 +125,11 @@ namespace AK.F1.Timing.Live
         /// completed, otherwise; <see langword="false"/>.</returns>
         public bool IsPreviousSectorNumber(int sectorNumber) {
 
-            if(!IsValidSectorNumber(sectorNumber)) {
+            if(!HaveNextSectorNumber) {
                 return false;
             }
 
-            return (sectorNumber == 3 ? 1 : sectorNumber + 1) == NextSectorNumber;
+            return sectorNumber == (NextSectorNumber == 3 ? 1 : NextSectorNumber + 1);
         }
 
         /// <inheritdoc />
@@ -235,9 +235,9 @@ namespace AK.F1.Timing.Live
             return 1 << (int)column;
         }
 
-        private static bool IsValidSectorNumber(int sectorNumber) {
+        private bool HaveNextSectorNumber {
 
-            return sectorNumber >= 1 && sectorNumber <= 3;
+            get { return NextSectorNumber != 0; }
         }
 
         private Gap Gap {
