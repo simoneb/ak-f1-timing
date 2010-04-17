@@ -27,16 +27,22 @@ namespace AK.F1.Timing
     {
         [Theory]        
         [ClassData(typeof(ExportedMessageTypeProvider))]
-        public void exported_message_type_is_serializable(Type messageType) {
+        public void exported_message_complies_with_guidelines(Type messageType) {
+
+            exported_message_type_is_serializable(messageType);
+            exported_message_type_instance_fields_are_private(messageType);
+            exported_message_type_public_properties_are_readonly(messageType);
+            exported_message_type_name_should_end_with_message(messageType);
+        }
+
+        private static void exported_message_type_is_serializable(Type messageType) {
 
             Assert.True(messageType.IsSerializable, string.Format(
                 "Message type '{0}' should be serializable.",
                 messageType.FullName));
         }
 
-        [Theory]
-        [ClassData(typeof(ExportedMessageTypeProvider))]
-        public void exported_message_type_instance_fields_are_private(Type messageType) {
+        private static void exported_message_type_instance_fields_are_private(Type messageType) {
 
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
             var fields = messageType.GetFields(flags);
@@ -46,9 +52,7 @@ namespace AK.F1.Timing
                 messageType.FullName));
         }
 
-        [Theory]
-        [ClassData(typeof(ExportedMessageTypeProvider))]
-        public void exported_message_type_public_properties_are_readonly(Type messageType) {
+        private static void exported_message_type_public_properties_are_readonly(Type messageType) {
 
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
             var properties = messageType.GetProperties(flags).Where(x => {
@@ -61,9 +65,7 @@ namespace AK.F1.Timing
                 messageType.FullName));
         }
 
-        [Theory]
-        [ClassData(typeof(ExportedMessageTypeProvider))]
-        public void exported_message_type_name_should_end_with_message(Type messageType) {
+        private static void exported_message_type_name_should_end_with_message(Type messageType) {
 
             Assert.True(messageType.IsAbstract || messageType.Name.EndsWith("Message", StringComparison.Ordinal), string.Format(
                 "The name of Message type '{0}' should end with Message.",

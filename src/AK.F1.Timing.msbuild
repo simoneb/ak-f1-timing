@@ -5,7 +5,7 @@
   <PropertyGroup>
     <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>
     <ForcedBuildProperties>Configuration=$(BuildType)</ForcedBuildProperties>
-    <CorePackageDependsOn>Build;GetCurrentVersion</CorePackageDependsOn>
+    <CorePackageDependsOn>GetCurrentVersion;Build;Test</CorePackageDependsOn>
   </PropertyGroup>
 
   <!-- Path Properties -->
@@ -33,9 +33,9 @@
   
   <!-- Targets -->
   
-  <Target Name="TeamCity" DependsOnTargets="Clean;GetCurrentVersion;Build;Test"/>
+  <Target Name="TeamCity" DependsOnTargets="GetCurrentVersion;Build;Test"/>
 
-  <Target Name="All" DependsOnTargets="Clean;GetNextVersion;Build;Package"/>
+  <Target Name="All" DependsOnTargets="GetNextVersion;Build;Test;Package"/>
 
   <Target Name="Clean">
     <CreateItem Include="$(SrcPath)\*.Test.Results.xml">
@@ -54,7 +54,7 @@
       Properties="$(ForcedBuildProperties)"/>
   </Target>
 
-  <Target Name="Build">
+  <Target Name="Build" DependsOnTargets="Clean">
     <MSBuild
       Projects="$(SolutionPath)"
       Targets="Build"
