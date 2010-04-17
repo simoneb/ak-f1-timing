@@ -13,12 +13,10 @@
 // limitations under the License.
 
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.IO;
 
-using AK.F1.Timing.Messages;
 using AK.F1.Timing.Live;
+using AK.F1.Timing.Messages;
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Tms.Utility.Operations
@@ -34,48 +32,76 @@ namespace AK.F1.Timing.Tms.Utility.Operations
 
         public override void Run() {
 
-            int read = 0;
-            int written = 0;
-            Message message;
             var tempPath = _path + ".tmp";
+
+            Fixup(_path, tempPath);
+
+            File.Replace(tempPath, _path, null, true);
+        }
+
+        private void Fixup(string srcPath, string dstPath) {
+
+            Message message;
+            var stats = new Stats();
             var classifier = new MessageClassifier();
             var translator = new LiveMessageTranslator();
 
-            using(var input = File.OpenRead(_path))
+            using(var input = File.OpenRead(srcPath))
             using(var reader = new DecoratedObjectReader(input))
-            using(var output = File.OpenWrite(tempPath))
+            using(var output = File.Create(dstPath))
             using(var writer = new DecoratedObjectWriter(output)) {
                 while(true) {
                     if((message = (Message)reader.Read()) == null) {
                         break;
                     }
-                    ++read;
-                    if(classifier.IsTranslated(message)) {
+                    ++stats.Read;
+                    if(classifier.IsTranslated(message)) {                        
+                        ++stats.OrgTranslated;
                         continue;
                     }
                     writer.Write(message);
-                    ++written;
+                    ++stats.Written;
                     if((message = translator.Translate(message)) != null) {
                         if(message is CompositeMessage) {
                             foreach(var component in ((CompositeMessage)message).Messages) {
                                 writer.Write(component);
-                                ++written;
+                                ++stats.Written;
+                                ++stats.NewTranslated;                                
                             }
                         } else {
                             writer.Write(message);
-                            ++written;
+                            ++stats.Written;
+                            ++stats.NewTranslated;
                         }
                     }
                 }
                 writer.Write(null);
             }
 
-            File.Replace(tempPath, _path, null, true);
+            stats.Print();
+        }
 
-            int diff = written - read;
+        private sealed class Stats
+        {
+            public int Read;
+            public int Written;
+            public int OrgTranslated;
+            public int NewTranslated;            
 
-            Console.WriteLine("read={0}, written={1}, {2}={3}",
-                read, written, diff < 0 ? "removed" : "added", Math.Abs(diff));
+            public int RWDiff {
+
+                get { return Written - Read; }
+            }
+
+            public void Print() {
+
+                Console.WriteLine("read={0}, org-translated={1}, new-tranlated={2}, written={3}, {4}={5}",
+                    Read,
+                    OrgTranslated,
+                    NewTranslated,
+                    Written,
+                    RWDiff < 0 ? "removed" : "added", Math.Abs(RWDiff));
+            }
         }
     }
 }
