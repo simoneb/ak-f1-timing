@@ -106,6 +106,24 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to serialize &apos;{0}&apos; (type &apos;{1}&apos;) as it has already been seen in the current graph..
+        /// </summary>
+        internal static string DecoratedObjectWriter_CirularReferencesAreNotSupported {
+            get {
+                return ResourceManager.GetString("DecoratedObjectWriter_CirularReferencesAreNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to serialize type &apos;{0}&apos; as a root graph as it is primtive and not an object..
+        /// </summary>
+        internal static string DecoratedObjectWriter_RootGraphMustBeAnObject {
+            get {
+                return ResourceManager.GetString("DecoratedObjectWriter_RootGraphMustBeAnObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot compare a &apos;{0}&apos; instance to an instance of &apos;{1}&apos;..
         /// </summary>
         internal static string LapGap_InvalidCompareToArgument {

@@ -105,7 +105,7 @@ namespace AK.F1.Timing.Serialization
 
             if(context.TypeCode != ObjectTypeCode.Empty &&
                 context.TypeCode != ObjectTypeCode.Object) {
-                throw new SerializationException();
+                throw Guard.DecoratedObjectWriter_RootGraphMustBeAnObject(root);
             }
 
             WriteGraph(context);
@@ -129,7 +129,7 @@ namespace AK.F1.Timing.Serialization
         private void AssertGraphHasNotBeenSeen(object graph) {
 
             if(!SeenHashCodes.Add(RuntimeHelpers.GetHashCode(graph))) {
-                throw new SerializationException();
+                throw Guard.DecoratedObjectWriter_CirularReferencesAreNotSupported(graph);
             }
         }
 

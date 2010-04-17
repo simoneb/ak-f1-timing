@@ -289,6 +289,21 @@ namespace AK.F1.Timing
             return new SerializationException(Format(Resource.DecoratedObjectReader_InvalidObjectTypeCode, (int)typeCode));
         }
 
+        internal static SerializationException DecoratedObjectReader_PropertyMissing(byte propertyId, TypeDescriptor descriptor) {
+
+            return new SerializationException(Format(Resource.DecoratedObjectReader_PropertyMissing, propertyId, descriptor.Type));
+        }
+
+        internal static SerializationException DecoratedObjectWriter_RootGraphMustBeAnObject(object root) {
+
+            return new SerializationException(Format(Resource.DecoratedObjectWriter_RootGraphMustBeAnObject, root.GetType()));
+        }
+
+        internal static SerializationException DecoratedObjectWriter_CirularReferencesAreNotSupported(object graph) {
+
+            return new SerializationException(Format(Resource.DecoratedObjectWriter_CirularReferencesAreNotSupported, graph, graph.GetType()));
+        }
+
         internal static IOException LiveMessageStreamEndpoint_FailedToResolveStreamHost(string hostname) {
 
             return new IOException(Format(Resource.LiveMessageStreamEndpoint_FailedToResolveStreamHost, hostname));
@@ -317,11 +332,6 @@ namespace AK.F1.Timing
         internal static IOException LiveDecryptorFactory_FailedToFetchSessionSeed(IOException exc) {
 
             return new IOException(Format(Resource.LiveDecryptorFactory_FailedToFetchSessionSeed, exc.Message), exc);
-        }
-
-        internal static SerializationException DecoratedObjectReader_PropertyMissing(byte propertyId, TypeDescriptor descriptor) {
-
-            return new SerializationException(Format(Resource.DecoratedObjectReader_PropertyMissing, propertyId, descriptor.Type));
         }
 
         #endregion

@@ -233,4 +233,10 @@ Message Classification: '{1}'</value>
   <data name="LiveDecryptorFactory_CredentialsRejected" xml:space="preserve">
     <value>Failed to fetch the session decryption seed from the live-timing service as the user's authentication token has been rejected.</value>
   </data>
+  <data name="DecoratedObjectWriter_CirularReferencesAreNotSupported" xml:space="preserve">
+    <value>Unable to serialize '{0}' (type '{1}') as it has already been seen in the current graph.</value>
+  </data>
+  <data name="DecoratedObjectWriter_RootGraphMustBeAnObject" xml:space="preserve">
+    <value>Unable to serialize type '{0}' as a root graph as it is primtive and not an object.</value>
+  </data>
 </root>

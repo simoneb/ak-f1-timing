@@ -61,7 +61,7 @@ namespace AK.F1.Timing.Serialization
         [Fact]
         public void can_round_trip_empty_types() {
 
-            Assert.NotNull(RoundTrip(TypeWithPrivateCtor.New()));
+            Assert.NotNull(RoundTrip(new EmptyType()));
         }
 
         [Theory]
@@ -119,6 +119,8 @@ namespace AK.F1.Timing.Serialization
             if(graph != null) {
                 Assert.NotNull(actual);
                 Assert.IsType(graph.GetType(), actual);
+            } else {
+                Assert.Null(actual);
             }
 
             return (T)actual;
