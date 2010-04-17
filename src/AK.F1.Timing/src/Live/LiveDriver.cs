@@ -60,7 +60,7 @@ namespace AK.F1.Timing.Live
             LastLapTime = null;
             LastSectors = new PostedTime[3];
             Name = null;
-            NextSectorNumber = 0;
+            CurrentSectorNumber = 0;
             PitTimeSectorCount = 0;
             Position = 0;
             Status = DriverStatus.InPits;
@@ -101,19 +101,19 @@ namespace AK.F1.Timing.Live
         }
 
         /// <summary>
-        /// Returns a value indicating if the specfied sector number is the one next expected
-        /// to be completed by this driver.
+        /// Returns a value indicating if the specfied sector number is the sector this driver
+        /// is currently completing.
         /// </summary>
         /// <param name="sectorNumber">The one-based sector number.</param>
-        /// <returns><see langword="true"/> if the sector number is the one next expected to be
-        /// completed, otherwise; <see langword="false"/>.</returns>
-        public bool IsNextSectorNumber(int sectorNumber) {
+        /// <returns><see langword="true"/> if the sector number is the one currently being completed,
+        /// otherwise; <see langword="false"/>.</returns>
+        public bool IsCurrentSectorNumber(int sectorNumber) {
 
-            if(!HaveNextSectorNumber) {
+            if(!HaveCurrentSectorNumber) {
                 return false;
             }
 
-            return sectorNumber == NextSectorNumber;
+            return sectorNumber == CurrentSectorNumber;
         }
 
         /// <summary>
@@ -125,11 +125,11 @@ namespace AK.F1.Timing.Live
         /// completed, otherwise; <see langword="false"/>.</returns>
         public bool IsPreviousSectorNumber(int sectorNumber) {
 
-            if(!HaveNextSectorNumber) {
+            if(!HaveCurrentSectorNumber) {
                 return false;
             }
 
-            return sectorNumber == (NextSectorNumber == 3 ? 1 : NextSectorNumber + 1);
+            return sectorNumber == (CurrentSectorNumber == 1 ? 3 : CurrentSectorNumber - 1);
         }
 
         /// <inheritdoc />
@@ -194,9 +194,9 @@ namespace AK.F1.Timing.Live
         public int PitTimeSectorCount { get; set; }
 
         /// <summary>
-        /// Gets or sets the next expected sector number to be updated for this driver.
+        /// Gets or sets the one-based sector number this driver is currently completing.
         /// </summary>
-        public int NextSectorNumber { 
+        public int CurrentSectorNumber { 
             // TODO this need to be re-worked, this shouldn't be public.
             get; set; 
         }
@@ -235,9 +235,9 @@ namespace AK.F1.Timing.Live
             return 1 << (int)column;
         }
 
-        private bool HaveNextSectorNumber {
+        private bool HaveCurrentSectorNumber {
 
-            get { return NextSectorNumber != 0; }
+            get { return CurrentSectorNumber != 0; }
         }
 
         private Gap Gap {

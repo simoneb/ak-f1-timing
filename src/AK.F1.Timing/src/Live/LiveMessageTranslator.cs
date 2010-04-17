@@ -398,11 +398,11 @@ namespace AK.F1.Timing.Live
             // The feed often sends a colour update for the previous sector time to indicate that
             // it was a PB or SB. To hack this we publish a replacement when we receive such a
             // message.
-            if(!driver.IsNextSectorNumber(sectorNumber)) {
+            if(!driver.IsCurrentSectorNumber(sectorNumber)) {
                 if(!driver.IsPreviousSectorNumber(sectorNumber)) {
                     _log.WarnFormat("received completely out of order S{0} update when an S{1} update" +
                         " was expected, cannot translate this message: {2}", sectorNumber,
-                        driver.NextSectorNumber, message);
+                        driver.CurrentSectorNumber, message);
                     return null;
                 }
                 _log.DebugFormat("received out of order sector update: {0}", message);
@@ -425,7 +425,7 @@ namespace AK.F1.Timing.Live
             // can detect this when the S2 time is cleared and we are expecting an S1 update. Note
             // that an S2 clear can be received when we do not have a previous S1 time, usually
             // at the start of a session.
-            if(sectorNumber == 2 && driver.IsNextSectorNumber(1) &&
+            if(driver.IsCurrentSectorNumber(1) && sectorNumber == 2 &&
                 (lastS1Time = driver.LastSectors[0]) != null) {
                 _log.Debug("received clear S2 before S1 set, using previous posted time");
                 return TranslateSetDriverSectorTimeMessage(new SetDriverSectorTimeMessage(driver.Id, 1,

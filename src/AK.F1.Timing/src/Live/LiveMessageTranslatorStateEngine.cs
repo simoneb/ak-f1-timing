@@ -69,7 +69,7 @@ namespace AK.F1.Timing.Live
             LiveDriver driver = GetDriver(message);
 
             driver.LastSectors[message.SectorNumber - 1] = message.SectorTime;
-            driver.NextSectorNumber = message.SectorNumber != 3 ? message.SectorNumber + 1 : 1;
+            driver.CurrentSectorNumber = message.SectorNumber != 3 ? message.SectorNumber + 1 : 1;
         }
 
         /// <inheritdoc />
@@ -96,7 +96,7 @@ namespace AK.F1.Timing.Live
             LiveDriver driver = GetDriver(message);
 
             ++driver.LapNumber;
-            driver.NextSectorNumber = 1;
+            driver.CurrentSectorNumber = 1;
             // Ensure we can identify when a sector update is actually a pit lap time update.
             driver.PitTimeSectorCount = driver.Status == DriverStatus.InPits ? message.PitCount : 0;            
         }
