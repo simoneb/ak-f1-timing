@@ -24,31 +24,31 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="115" Header="Driver" HeaderContainerStyle="{StaticResource LeftAlignedHeader}">
+                        <GridViewColumn Width="100" Header="Driver" HeaderContainerStyle="{StaticResource LeftAlignedHeader}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Control DataContext="{Binding DriverName}" Style="{StaticResource LeftAlignedColumn}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Q1" Width="55">
+                        <GridViewColumn Width="30" Header="G">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Control DataContext="{Binding Q1}" Style="{StaticResource StandardColumn}"/>
+                                    <Control DataContext="{Binding Gap}" Style="{StaticResource StandardColumn}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Q2" Width="55">
+                        <GridViewColumn Width="30" Header="I">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Control DataContext="{Binding Q2}" Style="{StaticResource StandardColumn}"/>
+                                    <Control DataContext="{Binding Interval}" Style="{StaticResource StandardColumn}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Q3" Width="55">
+                        <GridViewColumn Width="55" Header="L">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Control DataContext="{Binding Q3}" Style="{StaticResource StandardColumn}"/>
+                                    <Control DataContext="{Binding LapTime}" Style="{StaticResource StandardColumn}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -59,10 +59,24 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
+                        <GridViewColumn HeaderContainerStyle="{StaticResource PitLapHeader}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Control DataContext="{Binding PitLap1}" Style="{StaticResource PitLapColumn}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
                         <GridViewColumn Header="S2" HeaderContainerStyle="{StaticResource SectorHeader}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Control DataContext="{Binding S2}" Style="{StaticResource StandardColumn}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn HeaderContainerStyle="{StaticResource PitLapHeader}">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Control DataContext="{Binding PitLap2}" Style="{StaticResource PitLapColumn}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -73,10 +87,17 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Width="30" Header="Laps">
+                        <GridViewColumn HeaderContainerStyle="{StaticResource PitLapHeader}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Control DataContext="{Binding Laps}" Style="{StaticResource StandardColumn}"/>
+                                    <Control DataContext="{Binding PitLap3}" Style="{StaticResource PitLapColumn}"/>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="20" Header="Pit">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Control DataContext="{Binding PitCount}" Style="{StaticResource StandardColumn}"/>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

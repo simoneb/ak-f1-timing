@@ -26,7 +26,7 @@ using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.Live
 {
-    public abstract class LiveMessageTranslatorTest : TestBase
+    public class LiveMessageTranslatorTest : TestBase
     {
         [Fact]
         public void can_create() {
@@ -66,7 +66,7 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void colours_updates_to_a_columns_with_no_value_are_not_translated() {
+        public void colour_updates_to_a_column_with_no_value_are_not_translated() {
 
             foreach(GridColumn column in Enum.GetValues(typeof(GridColumn))) {
                 foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
@@ -110,7 +110,7 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void lap_time_column_values_are_translated() {
+        public void lap_time_column_values_are_translated_into_set_lap_time_messages() {
 
             Translate(
                 new SetSessionTypeMessage(SessionType.Practice, "SessionId"),
@@ -141,7 +141,7 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void session_type_is_updated_when_a_set_session_type_message_is_processed() {
+        public void when_a_set_session_type_message_is_processed_the_session_type_is_updated() {
 
             var translator = new LiveMessageTranslator();
             var message = new SetSessionTypeMessage(SessionType.Practice, "SessionId");
@@ -151,7 +151,7 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void car_number_column_values_are_translated() {
+        public void car_number_column_values_are_translated_into_set_car_number_and_set_status_messages() {
 
             Translate(
                 new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1")
@@ -163,7 +163,18 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void position_column_is_not_translated() {
+        public void driver_name_column_values_are_translated_into_set_driver_name_messages() {
+
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.White, "Name")
+            ).Expect(
+                new SetDriverNameMessage(1, "Name")
+            ).InAllSessions(
+            ).Assert();
+        }
+
+        [Fact]
+        public void position_column_is_not_translated_as_it_is_provided_by_the_feed() {
 
             Translate(
                 new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.Yellow, "10")
@@ -180,24 +191,24 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void sector_1_column_colours_are_translated() {
+        public void when_a_sector_1_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message() {
 
-            sector_column_colours_are_translated(GridColumn.S1, 1);
+            when_a_sector_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message(GridColumn.S1, 1);
         }
 
         [Fact]
-        public void sector_2_column_colours_are_translated() {
+        public void when_a_sector_2_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message() {
 
-            sector_column_colours_are_translated(GridColumn.S2, 2);
+            when_a_sector_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message(GridColumn.S2, 2);
         }
 
         [Fact]
-        public void sector_3_column_colours_are_translated() {
+        public void when_a_sector_3_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message() {
 
-            sector_column_colours_are_translated(GridColumn.S3, 3);
+            when_a_sector_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message(GridColumn.S3, 3);
         }
 
-        private void sector_column_colours_are_translated(GridColumn sectorColumn, int sectorNumber) {
+        private void when_a_sector_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message(GridColumn sectorColumn, int sectorNumber) {
 
             Translate(
                 new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
@@ -230,27 +241,28 @@ namespace AK.F1.Timing.Live
             .Assert();
         }
 
-        [Fact(Skip = "Need test fixing")]
-        public void sector_1_column_values_are_translated() {
+        [Fact]
+        public void sector_1_column_values_are_translated_into_set_sector_time_messages() {
 
-            sector_column_values_are_translated(GridColumn.S1, 1);
+            sector_column_values_are_translated_into_set_sector_time_messages(GridColumn.S1, 1);
         }
 
-        [Fact(Skip = "Need test fixing")]
-        public void sector_2_column_values_are_translated() {
+        [Fact]
+        public void sector_2_column_values_are_translated_into_set_sector_time_messages() {
 
-            sector_column_values_are_translated(GridColumn.S2, 2);
+            sector_column_values_are_translated_into_set_sector_time_messages(GridColumn.S2, 2);
         }
 
-        [Fact(Skip = "Need test fixing")]
-        public void sector_3_column_values_are_translated() {
+        [Fact]
+        public void sector_3_column_values_in_a_race_session_are_translated_into_set_sector_time_and_set_driver_completed_laps_messages() {
 
-            sector_column_values_are_translated(GridColumn.S3, 3);
+
         }
 
-        private void sector_column_values_are_translated(GridColumn sectorColumn, int sectorNumber) {
+        private void sector_column_values_are_translated_into_set_sector_time_messages(GridColumn sectorColumn, int sectorNumber) {
 
             Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
                 new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1")
             ).Expect(
@@ -259,6 +271,7 @@ namespace AK.F1.Timing.Live
             .Assert();
 
             Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
                 new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Green, "31.1")
             ).Expect(
@@ -267,6 +280,7 @@ namespace AK.F1.Timing.Live
             .Assert();
 
             Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
                 new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Magenta, "31.1")
             ).Expect(
@@ -274,6 +288,8 @@ namespace AK.F1.Timing.Live
             ).InAllSessions()
             .Assert();
         }
+
+        #region Translation
 
         private Translation Translate(params Message[] messages) {
 
@@ -378,5 +394,7 @@ namespace AK.F1.Timing.Live
                 }
             }
         }
+
+        #endregion
     }
 }
