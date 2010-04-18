@@ -53,6 +53,23 @@ namespace AK.F1.Timing.Model.Grid
             //Laps.Reset();            
         }
 
+        /// <inheritdoc />
+        public override GridColumnModel GetColumn(GridColumn column) {
+
+            switch(column) {
+                case GridColumn.Q1:
+                    return Q1;
+                case GridColumn.Q2:
+                    return Q2;
+                case GridColumn.Q3:
+                    return Q3;
+                case GridColumn.Laps:
+                    return Laps;
+                default:
+                    return base.GetColumn(column);
+            }
+        }
+
         /// <summary>
         /// Gets the qually one column.
         /// </summary>
@@ -72,27 +89,6 @@ namespace AK.F1.Timing.Model.Grid
         /// Gets the laps column.
         /// </summary>
         public GridColumnModel Laps { get; private set; }
-
-        #endregion
-
-        #region Protected Interface.
-
-        /// <inheritdoc />
-        protected override GridColumnModel GetColumn(GridColumn column) {
-
-            switch(column) {
-                case GridColumn.Q1:
-                    return Q1;
-                case GridColumn.Q2:
-                    return Q2;
-                case GridColumn.Q3:
-                    return Q3;
-                case GridColumn.Laps:
-                    return Laps;
-                default:
-                    return base.GetColumn(column);
-            }
-        }
 
         #endregion
     }

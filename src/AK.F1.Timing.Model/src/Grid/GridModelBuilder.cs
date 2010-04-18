@@ -22,23 +22,23 @@ namespace AK.F1.Timing.Model.Grid
     /// A builder which builds a <see cref="AK.F1.Timing.Model.Grid.GridModelBuilder&lt;TGridRow&gt;"/>
     /// as <see cref="AK.F1.Timing.Message"/>s are processed.
     /// </summary>
-    /// <typeparam name="TGridRow">The type of
+    /// <typeparam name="TRow">The type of
     /// <see cref="AK.F1.Timing.Model.Grid.GridRowModelBase"/>.</typeparam>
     [Serializable]
-    public class GridModelBuilder<TGridRow> : MessageVisitor, IMessageProcessor
-        where TGridRow : GridRowModelBase
+    public class GridModelBuilder<TRow> : MessageVisitor, IMessageProcessor
+        where TRow : GridRowModelBase
     {
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="GridModelBuilder&lt;TGridRow&gt;"/> class
+        /// Initialises a new instance of the <see cref="GridModelBuilder&lt;TRow&gt;"/> class
         /// and specified the grid that will be built as messages are processed.
         /// </summary>
         /// <param name="grid">The grid to build.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Throw when <paramref name="grid"/> is <see langword="null"/>.
         /// </exception>
-        public GridModelBuilder(GridModelBase<TGridRow> grid) {
+        public GridModelBuilder(GridModelBase<TRow> grid) {
 
             Guard.NotNull(grid, "grid");
 
@@ -65,12 +65,12 @@ namespace AK.F1.Timing.Model.Grid
         /// <inheritdoc />
         public override void Visit(SetDriverPositionMessage message) {
 
-            var index = Math.Max(0, message.Position - 1);
-            var row = Grid.GetRow(message.DriverId);
+            int index = Math.Max(0, message.Position - 1);
+            TRow row = Grid.GetRow(message.DriverId);
 
             if(row.RowIndex != index) {
                 row.RowIndex = index;
-                Grid.InnerRows.Sort();
+                Grid.Sort();
             }
         }
 
@@ -108,7 +108,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Gets the grid being built.
         /// </summary>
-        protected GridModelBase<TGridRow> Grid { get; private set; }
+        protected GridModelBase<TRow> Grid { get; private set; }
 
         #endregion
     }

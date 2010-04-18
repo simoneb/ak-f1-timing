@@ -52,6 +52,23 @@ namespace AK.F1.Timing.Model.Grid
             Unknown.Reset();
         }
 
+        /// <inheritdoc />
+        public override GridColumnModel GetColumn(GridColumn column) {
+
+            switch(column) {
+                case GridColumn.LapTime:
+                    return Best;
+                case GridColumn.Gap:
+                    return Gap;
+                case GridColumn.Laps:
+                    return Laps;
+                case GridColumn.Unknown:
+                    return Unknown;
+                default:
+                    return base.GetColumn(column);
+            }
+        }
+
         /// <summary>
         /// Gets the best time column.
         /// </summary>
@@ -71,27 +88,6 @@ namespace AK.F1.Timing.Model.Grid
         /// Gets the unknown column.
         /// </summary>
         public GridColumnModel Unknown { get; private set; }
-
-        #endregion
-
-        #region Protected Interface.
-
-        /// <inheritdoc />
-        protected override GridColumnModel GetColumn(GridColumn column) {
-
-            switch(column) {
-                case GridColumn.LapTime:
-                    return Best;
-                case GridColumn.Gap:
-                    return Gap;
-                case GridColumn.Laps:
-                    return Laps;
-                case GridColumn.Unknown:
-                    return Unknown;
-                default:
-                    return base.GetColumn(column);
-            }
-        }
 
         #endregion
     }

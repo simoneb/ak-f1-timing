@@ -66,6 +66,14 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         /// <summary>
+        /// Sorts the grid.
+        /// </summary>
+        public void Sort() {
+
+            InnerRows.Sort();
+        }
+
+        /// <summary>
         /// Gets the collection of rows contained by this grid.
         /// </summary>
         public ReadOnlyObservableCollection<TRow> Rows { get; private set; }
@@ -113,19 +121,12 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         #endregion
-
-        #region Internal Interface.
-
-        /// <summary>
-        /// Gets the inner collection of grid rows.
-        /// </summary>
-        internal SortableObservableCollection<TRow> InnerRows { get; private set; }
-
-        #endregion
-
+        
         #region Private Impl.
 
         private IDictionary<int, TRow> RowsById { get; set; }
+
+        private SortableObservableCollection<TRow> InnerRows { get; set; }
 
         #endregion
     }

@@ -61,6 +61,14 @@
     <Compile Include="Collections\DoubleCollectionModelTest.cs" />
     <Compile Include="Collections\DelegateComparerTest.cs" />
     <Compile Include="Collections\SortableObservableCollectionTest.cs" />
+    <Compile Include="Grid\RaceGridModelTest.cs" />
+    <Compile Include="Grid\QuallyGridModelTest.cs" />
+    <Compile Include="Grid\PracticeGridModelTest.cs" />
+    <Compile Include="Grid\GridModelTestBase.cs" />
+    <Compile Include="Grid\RaceGridRowModelTest.cs" />
+    <Compile Include="Grid\QuallyGridRowModelTest.cs" />
+    <Compile Include="Grid\PracticeGridRowModelTest.cs" />
+    <Compile Include="Grid\GridRowModelTestBase.cs" />
     <Compile Include="Grid\GridModelBaseTest.cs" />
     <Compile Include="Grid\GridColumnModelTest.cs" />
     <Compile Include="ModelBaseTest.cs" />

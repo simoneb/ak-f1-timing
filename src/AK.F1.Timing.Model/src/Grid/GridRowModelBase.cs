@@ -69,6 +69,34 @@ namespace AK.F1.Timing.Model.Grid
             S3.Reset();
         }
 
+        /// <summary>
+        /// Returns the column model for the specified column.
+        /// </summary>
+        /// <param name="column">The column.</param>
+        /// <returns>The column model if found, otherwise; <see langword="null"/>.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when the specified <paramref name="column"/> is not contained by the row.
+        /// </exception>
+        public virtual GridColumnModel GetColumn(GridColumn column) {
+
+            switch(column) {
+                case GridColumn.Position:
+                    return Position;
+                case GridColumn.CarNumber:
+                    return CarNumber;
+                case GridColumn.DriverName:
+                    return DriverName;
+                case GridColumn.S1:
+                    return S1;
+                case GridColumn.S2:
+                    return S2;
+                case GridColumn.S3:
+                    return S3;
+                default:
+                    throw Guard.ArgumentOutOfRange("column");
+            }
+        }
+
         /// <inheritdoc />
         public override string ToString() {
 
@@ -147,34 +175,6 @@ namespace AK.F1.Timing.Model.Grid
             S1 = new GridColumnModel(GridColumn.S1);
             S2 = new GridColumnModel(GridColumn.S2);
             S3 = new GridColumnModel(GridColumn.S3);
-        }
-
-        /// <summary>
-        /// Returns the column model for the specified column.
-        /// </summary>
-        /// <param name="column">The column.</param>
-        /// <returns>The column model if found, otherwise; <see langword="null"/>.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when the specified <paramref name="column"/> is not contained by the row.
-        /// </exception>
-        protected virtual GridColumnModel GetColumn(GridColumn column) {
-
-            switch(column) {
-                case GridColumn.Position:
-                    return Position;
-                case GridColumn.CarNumber:
-                    return CarNumber;
-                case GridColumn.DriverName:
-                    return DriverName;
-                case GridColumn.S1:
-                    return S1;
-                case GridColumn.S2:
-                    return S2;
-                case GridColumn.S3:
-                    return S3;
-                default:
-                    throw Guard.ArgumentOutOfRange("column");
-            }
         }
 
         #endregion

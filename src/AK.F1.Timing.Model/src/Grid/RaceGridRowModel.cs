@@ -58,6 +58,29 @@ namespace AK.F1.Timing.Model.Grid
             PitLap3.Reset();                
         }
 
+        /// <inheritdoc />
+        public override GridColumnModel GetColumn(GridColumn column) {
+
+            switch(column) {
+                case GridColumn.Gap:
+                    return Gap;
+                case GridColumn.Interval:
+                    return Interval;
+                case GridColumn.LapTime:
+                    return LapTime;
+                case GridColumn.PitCount:
+                    return PitCount;
+                case GridColumn.PitLap1:
+                    return PitLap1;
+                case GridColumn.PitLap2:
+                    return PitLap2;
+                case GridColumn.PitLap3:
+                    return PitLap3;
+                default:
+                    return base.GetColumn(column);
+            }
+        }
+
         /// <summary>
         /// Gets the gap time column.
         /// </summary>
@@ -91,34 +114,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Gets the pit lap three column.
         /// </summary>
-        public GridColumnModel PitLap3 { get; private set; }        
-
-        #endregion
-
-        #region Protected Interface.
-
-        /// <inheritdoc />
-        protected override GridColumnModel GetColumn(GridColumn column) {            
-
-            switch(column) {
-                case GridColumn.Gap:
-                    return Gap;
-                case GridColumn.Interval:
-                    return Interval;
-                case GridColumn.LapTime:
-                    return LapTime;
-                case GridColumn.PitCount:
-                    return PitCount;
-                case GridColumn.PitLap1:
-                    return PitLap1;
-                case GridColumn.PitLap2:
-                    return PitLap2;
-                case GridColumn.PitLap3:
-                    return PitLap3;
-                default:
-                    return base.GetColumn(column);
-            }
-        }
+        public GridColumnModel PitLap3 { get; private set; }
 
         #endregion
     }
