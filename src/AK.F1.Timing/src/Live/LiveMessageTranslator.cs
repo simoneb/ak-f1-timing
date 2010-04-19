@@ -365,9 +365,7 @@ namespace AK.F1.Timing.Live
                 }
                 // After a driver pits, the pit times are displayed and the S3 column always displays the
                 // length of the last pit stop.
-                return new SetDriverPitTimeMessage(driver.Id,
-                    LiveData.ParseTime(message.Value),
-                    driver.LapNumber);
+                return new SetDriverPitTimeMessage(driver.Id, LiveData.ParseTime(message.Value), driver.LapNumber);
             }
 
             if(message.Value.OrdinalEquals("OUT")) {

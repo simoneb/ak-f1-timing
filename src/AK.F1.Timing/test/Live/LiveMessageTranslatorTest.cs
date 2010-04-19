@@ -289,6 +289,73 @@ namespace AK.F1.Timing.Live
             .Assert();
         }
 
+        [Fact]
+        public void when_a_driver_pits_and_the_sector_3_column_receives_a_value_update_it_is_translated_into_a_set_pit_pit_time_message() {
+
+            Translate(
+                new SetDriverPositionMessage(1, 1),
+                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Red, "IN PIT"),
+                new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.S3, GridColumnColour.White, "25.7")
+            ).Expect(
+                new SetDriverPitTimeMessage(1, TimeSpan.FromSeconds(25.7), 1)
+            ).InRaceSession()
+            .Assert();
+        }
+
+        [Fact]
+        public void when_a_driver_pits_for_the_second_time_the_next_sector_2_update_is_ignored() {
+
+            Translate(
+                new SetDriverPositionMessage(1, 1),
+                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Red, "IN PIT"),
+                new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "2"),
+                new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, "25.7")
+            ).ExpectNull()
+            .InRaceSession()
+            .Assert();
+        }
+
+        [Fact]
+        public void when_a_driver_pits_for_the_third_time_the_next_sector_1_and_2_values_updates_are_ignored() {
+
+            Translate(
+                new SetDriverPositionMessage(1, 1),
+                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Red, "IN PIT"),
+                new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "3"),
+                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "25.7"),
+                new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, "25.7")
+            ).ExpectNull()
+            .InRaceSession()
+            .Assert();
+        }
+
+        [Fact]
+        public void when_a_driver_pits_for_the_fourth_time_the_next_three_sector_updates_are_ignored_and_the_next_sector_1_update_is_tranlated_into_a_set_sector_time_message() {
+
+            Translate(
+                new SetDriverPositionMessage(1, 1),
+                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Red, "IN PIT"),
+                new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "4"),
+                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "25.7"),
+                new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, "26.7"),                
+                new SetGridColumnValueMessage(1, GridColumn.S3, GridColumnColour.White, "35.7"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "OUT"),
+                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "40.5")
+            ).Expect(
+                new SetDriverSectorTimeMessage(1, 1, new PostedTime(TimeSpan.FromSeconds(40.5), PostedTimeType.Normal, 1))
+            ).InRaceSession()
+            .Assert();
+        }
+
         #region Translation
 
         private Translation Translate(params Message[] messages) {
