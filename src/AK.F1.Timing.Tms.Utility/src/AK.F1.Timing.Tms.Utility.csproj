@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AK.F1.Timing.Tms.Utility</RootNamespace>
-    <AssemblyName>f1tmsutility</AssemblyName>
+    <AssemblyName>f1tmsutil</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>AK.F1.Timing.Tms.Utility.Program</StartupObject>
