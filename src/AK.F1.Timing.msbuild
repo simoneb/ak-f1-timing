@@ -4,8 +4,13 @@
 
   <PropertyGroup>
     <BuildType Condition="'$(BuildType)'==''">Debug</BuildType>
+    <BuildNumber>$(BUILD_NUMBER)</BuildNumber>
+    <BuildNumber Condition="'$(BuildNumber)'==''">0</BuildNumber>
+    <BuildRevision>$(BUILD_VCS_NUMBER)</BuildRevision>
+    <BuildRevision Condition="'$(BuildRevision)'==''">0</BuildRevision>
+    <GlobalAssemblyVersion>0.8.$(BuildNumber).$(BuildRevision)</GlobalAssemblyVersion>
     <ForcedBuildProperties>Configuration=$(BuildType)</ForcedBuildProperties>
-    <CorePackageDependsOn>GetCurrentVersion;Build;Test</CorePackageDependsOn>
+    <CorePackageDependsOn>SetAssemblyVersion;Build;Test</CorePackageDependsOn>
   </PropertyGroup>
 
   <!-- Path Properties -->
@@ -32,10 +37,8 @@
   <Import Project="$(XUnitTasksPath)\XUnit.tasks"/>
   
   <!-- Targets -->
-  
-  <Target Name="TeamCity" DependsOnTargets="GetCurrentVersion;Build;Test"/>
 
-  <Target Name="All" DependsOnTargets="GetNextVersion;Build;Test;Package"/>
+  <Target Name="All" DependsOnTargets="Clean;Build;Test;PackageAll"/>
 
   <Target Name="Clean">
     <CreateItem Include="$(SrcPath)\*.Test.Results.xml">
@@ -53,8 +56,19 @@
       Targets="Clean"
       Properties="$(ForcedBuildProperties)"/>
   </Target>
+  
+  <Target Name="SetAssemblyVersion" Condition="'$(BuildNumber)' != '0'">
+    <RegexReplace
+      Pattern="AssemblyVersion\(&quot;.*&quot;\)"
+      Replacement="AssemblyVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
+      Files="$(GlobalAssemblyInfoPath)"/>
+    <RegexReplace
+      Pattern="AssemblyFileVersion\(&quot;.*&quot;\)"
+      Replacement="AssemblyFileVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
+      Files="$(GlobalAssemblyInfoPath)"/>
+  </Target>
 
-  <Target Name="Build" DependsOnTargets="Clean">
+  <Target Name="Build" DependsOnTargets="SetAssemblyVersion">
     <MSBuild
       Projects="$(SolutionPath)"
       Targets="Build"
@@ -79,53 +93,9 @@
       Properties="$(ForcedBuildProperties)"/>
   </Target>
 
-  <Target Name="GetCurrentVersion">
-    <Version
-      VersionFile="$(GlobalAssemblyVersionPath)"
-      RevisionType="None"
-      BuildType="None">
-      <Output TaskParameter="Major" PropertyName="Major"/>
-      <Output TaskParameter="Minor" PropertyName="Minor"/>
-      <Output TaskParameter="Revision" PropertyName="Revision"/>
-      <Output TaskParameter="Build" PropertyName="Build"/>
-    </Version>
-    <PropertyGroup>
-      <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
-    </PropertyGroup>
-    <Message
-        Text="Version: $(GlobalAssemblyVersion)"/>
-  </Target>
-
-  <Target Name="GetNextVersion">
-    <Version
-      Major="0"
-      Minor="8"
-      VersionFile="$(GlobalAssemblyVersionPath)"
-      RevisionType="Automatic"
-      BuildType="Increment">
-      <Output TaskParameter="Major" PropertyName="Major"/>
-      <Output TaskParameter="Minor" PropertyName="Minor"/>
-      <Output TaskParameter="Revision" PropertyName="Revision"/>
-      <Output TaskParameter="Build" PropertyName="Build"/>
-    </Version>
-    <PropertyGroup>
-      <GlobalAssemblyVersion>$(Major).$(Minor).$(Build).$(Revision)</GlobalAssemblyVersion>
-    </PropertyGroup>
-    <Message
-        Text="Version: $(GlobalAssemblyVersion)"/>
-    <RegexReplace
-      Pattern="AssemblyVersion\(&quot;.*&quot;\)"
-      Replacement="AssemblyVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
-      Files="$(GlobalAssemblyInfoPath)"/>
-    <RegexReplace
-      Pattern="AssemblyFileVersion\(&quot;.*&quot;\)"
-      Replacement="AssemblyFileVersion(&quot;$(GlobalAssemblyVersion)&quot;)"
-      Files="$(GlobalAssemblyInfoPath)"/>
-  </Target>
-
   <Target
-    Name="Package"
-    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageRecorder;PackageTmsUtility;PackageUI"/>
+    Name="PackageAll"
+    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageUtilities;PackageUI"/>
     
   <Target Name="PackageLibs" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
@@ -153,11 +123,15 @@
       ZipLevel="10"/>
   </Target>
 
-  <Target Name="PackageRecorder" DependsOnTargets="$(CorePackageDependsOn)">
+  <Target Name="PackageUtilities" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
-      <RecorderPackageName>f1recorder</RecorderPackageName>
-      <RecorderPackagePath>$(BinPath)\latest-$(RecorderPackageName)</RecorderPackagePath>
+      <UtilitiesPackageName>f1utils</UtilitiesPackageName>
+      <UtilitiesPackagePath>$(BinPath)\latest-$(UtilitiesPackageName)</UtilitiesPackagePath>
+      <UtilitiesPackageBinPath>$(UtilitiesPackagePath)\bin</UtilitiesPackageBinPath>
+      <RecorderPackageName>f1recorder</RecorderPackageName>      
       <RecorderPackageBinPath>$(RecorderPackagePath)\bin</RecorderPackageBinPath>
+      <TmsUtilityPackageName>f1tmsutil</TmsUtilityPackageName>      
+      <TmsUtilityPackageBinPath>$(TmsUtilityPackagePath)\bin</TmsUtilityPackageBinPath>
     </PropertyGroup>
     <ItemGroup>
       <RecorderPackageRootFiles
@@ -166,34 +140,6 @@
       <RecorderPackageBinFiles
         Include="$(RecorderBinPath)\*.*"
         Exclude="@(RecorderPackageRootFiles);$(RecorderBinPath)\*.xml;$(RecorderBinPath)\*.pdb"/>
-    </ItemGroup>
-    <MakeDir
-      Directories="$(RecorderPackageBinPath)"/>
-    <Copy
-      SourceFiles="@(RecorderPackageRootFiles)"
-      DestinationFolder="$(RecorderPackagePath)"/>
-    <Copy
-      SourceFiles="@(RecorderPackageBinFiles)"
-      DestinationFolder="$(RecorderPackageBinPath)"/>
-    <ItemGroup>
-      <RecorderPackageFiles
-        Include="$(RecorderPackagePath)\**\*.*"/>
-    </ItemGroup>
-    <Zip
-      Files="@(RecorderPackageFiles)"
-      ZipFileName="$(BinPath)\$(RecorderPackageName)-v$(GlobalAssemblyVersion).zip"
-      WorkingDirectory="$(RecorderPackagePath)"
-      Flatten="false"
-      ZipLevel="10"/>
-  </Target>
-
-  <Target Name="PackageTmsUtility" DependsOnTargets="$(CorePackageDependsOn)">
-    <PropertyGroup>
-      <TmsUtilityPackageName>f1tmsutility</TmsUtilityPackageName>
-      <TmsUtilityPackagePath>$(BinPath)\latest-$(TmsUtilityPackageName)</TmsUtilityPackagePath>
-      <TmsUtilityPackageBinPath>$(TmsUtilityPackagePath)\bin</TmsUtilityPackageBinPath>
-    </PropertyGroup>
-    <ItemGroup>
       <TmsUtilityPackageRootFiles
         Include="$(TmsUtilityBinPath)\$(TmsUtilityPackageName).*"
         Exclude="$(TmsUtilityBinPath)\*.pdb"/>
@@ -202,21 +148,21 @@
         Exclude="@(TmsUtilityPackageRootFiles);$(TmsUtilityBinPath)\*.xml;$(TmsUtilityBinPath)\*.pdb"/>
     </ItemGroup>
     <MakeDir
-      Directories="$(TmsUtilityPackageBinPath)"/>
+      Directories="$(UtilitiesPackageBinPath)"/>
     <Copy
-      SourceFiles="@(TmsUtilityPackageRootFiles)"
-      DestinationFolder="$(TmsUtilityPackagePath)"/>
+      SourceFiles="@(RecorderPackageRootFiles);@(TmsUtilityPackageRootFiles)"
+      DestinationFolder="$(UtilitiesPackagePath)"/>
     <Copy
-      SourceFiles="@(TmsUtilityPackageBinFiles)"
-      DestinationFolder="$(TmsUtilityPackageBinPath)"/>
+      SourceFiles="@(RecorderPackageBinFiles);@(TmsUtilityPackageBinFiles)"
+      DestinationFolder="$(UtilitiesPackageBinPath)"/>
     <ItemGroup>
-      <TmsUtilityPackageFiles
-        Include="$(TmsUtilityPackagePath)\**\*.*"/>
+      <UtilitiesPackageFiles
+        Include="$(UtilitiesPackagePath)\**\*.*"/>
     </ItemGroup>
     <Zip
-      Files="@(TmsUtilityPackageFiles)"
-      ZipFileName="$(BinPath)\$(TmsUtilityPackageName)-v$(GlobalAssemblyVersion).zip"
-      WorkingDirectory="$(TmsUtilityPackagePath)"
+      Files="@(UtilitiesPackageFiles)"
+      ZipFileName="$(BinPath)\$(UtilitiesPackageName)-v$(GlobalAssemblyVersion).zip"
+      WorkingDirectory="$(UtilitiesPackagePath)"
       Flatten="false"
       ZipLevel="10"/>
   </Target>

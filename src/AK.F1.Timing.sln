@@ -16,7 +16,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MSBuild", "MSBuild", "{1DF56C8A-50E6-4189-B7DE-D5D3AA59F310}"
 	ProjectSection(SolutionItems) = preProject
 		AK.F1.Timing.msbuild = AK.F1.Timing.msbuild
-		GlobalAssemblyVersion.version = GlobalAssemblyVersion.version
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Test", "AK.F1.Timing\test\AK.F1.Timing.Test.csproj", "{70BA1438-6E08-48BB-86D5-9DC277671EF8}"
