@@ -8,7 +8,7 @@
     <BuildNumber Condition="'$(BuildNumber)'==''">0</BuildNumber>
     <BuildRevision>$(BUILD_VCS_NUMBER)</BuildRevision>
     <BuildRevision Condition="'$(BuildRevision)'==''">0</BuildRevision>
-    <GlobalAssemblyVersion>0.8.$(BuildNumber).$(BuildRevision)</GlobalAssemblyVersion>
+    <GlobalAssemblyVersion>0.8.$(BuildRevision).$(BuildNumber)</GlobalAssemblyVersion>
     <ForcedBuildProperties>Configuration=$(BuildType)</ForcedBuildProperties>
     <CorePackageDependsOn>SetAssemblyVersion;Build;Test</CorePackageDependsOn>
   </PropertyGroup>
