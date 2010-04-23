@@ -14,24 +14,33 @@
 
 using System;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Data;
-
-using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.UI.Converters
 {
+    /// <summary>
+    /// A <see cref="System.Boolean"/> to "Wet" or "Dry" <see cref="System.Windows.Data.IValueConverter"/>.
+    /// This class cannot be inherited.
+    /// </summary>
     [ValueConversion(typeof(bool), typeof(string))]
-    public class BooleanToWetDryConverter : IValueConverter
+    public sealed class BooleanToWetDryConverter : IValueConverter
     {
+        #region Public Interface.
+
+        /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
             return (bool)value ? "Wet" : "Dry";
         }
 
+        /// <summary>
+        /// This method always throws a <see cref="System.NotImplementedException"/>.
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
 
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

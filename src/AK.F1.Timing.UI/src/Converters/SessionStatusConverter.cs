@@ -21,9 +21,15 @@ using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.UI.Converters
 {
+    /// <summary>
+    /// This class cannot be inherited.
+    /// </summary>
     [ValueConversion(typeof(SessionStatus), typeof(string))]
     public class SessionStatusConverter : IValueConverter
     {
+        #region Public Interface.
+
+        /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
             if(value == null) {
@@ -48,9 +54,14 @@ namespace AK.F1.Timing.UI.Converters
             }
         }
 
+        /// <summary>
+        /// This method always throws a <see cref="System.NotImplementedException"/>.
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
 
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

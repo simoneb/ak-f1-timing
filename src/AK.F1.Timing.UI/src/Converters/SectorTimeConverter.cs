@@ -15,23 +15,33 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
 
 using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI.Converters
 {
+    /// <summary>
+    /// This class cannot be inherited.
+    /// </summary>
     [ValueConversion(typeof(TimeSpan), typeof(string))]
     public class SectorTimeConverter : IValueConverter
     {
+        #region Public Interface.
+
+        /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
             return value != null ? Format.SectorTime((TimeSpan)value) : string.Empty;
         }
 
+        /// <summary>
+        /// This method always throws a <see cref="System.NotImplementedException"/>.
+        /// </summary>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
 
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }

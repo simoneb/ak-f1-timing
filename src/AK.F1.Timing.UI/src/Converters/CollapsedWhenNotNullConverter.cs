@@ -17,21 +17,30 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-using AK.F1.Timing.Messages.Driver;
-
 namespace AK.F1.Timing.UI.Converters
 {
+    /// <summary>
+    /// This class cannot be inherited.
+    /// </summary>
     [ValueConversion(typeof(object), typeof(Visibility))]
-    public class CollapsedWhenNotNullConverter : IValueConverter
+    public sealed class CollapsedWhenNotNullConverter : IValueConverter
     {
+        #region Public Interface.
+
+        /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return value == null ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
+        /// <summary>
+        /// This method always throws a <see cref="System.NotImplementedException"/>.
+        /// </summary>
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
+
             throw new NotImplementedException();
         }
+
+        #endregion
     }
 }
