@@ -21,8 +21,7 @@
     <ToolsPath>..\tools</ToolsPath>
     <SrcPath>.</SrcPath>
     <SolutionPath>$(SrcPath)\AK.F1.Timing.sln</SolutionPath>
-    <GlobalAssemblyInfoPath>$(SrcPath)\GlobalAssemblyInfo.cs</GlobalAssemblyInfoPath>
-    <GlobalAssemblyVersionPath>$(SrcPath)\GlobalAssemblyVersion.version</GlobalAssemblyVersionPath>
+    <GlobalAssemblyInfoPath>$(SrcPath)\GlobalAssemblyInfo.cs</GlobalAssemblyInfoPath>    
     <MSBuildTasksPath>$(ToolsPath)\msbuild</MSBuildTasksPath>
     <XUnitTasksPath>$(ToolsPath)\xunit</XUnitTasksPath>
     <CoreBinPath>$(SrcPath)\AK.F1.Timing\src\bin\$(BuildType)</CoreBinPath>
