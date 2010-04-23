@@ -15,6 +15,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Media;
 
 using AK.F1.Timing.Messages.Driver;
 
@@ -23,8 +24,8 @@ namespace AK.F1.Timing.UI.Converters
     /// <summary>
     /// This class cannot be inherited.
     /// </summary>
-    [ValueConversion(typeof(DriverStatus), typeof(string))]
-    public sealed class DriverStatusConverter : IValueConverter
+    [ValueConversion(typeof(PostedTimeType), typeof(Brush))]
+    public sealed class PostedTimeTypeToBrushConverter : IValueConverter
     {
         #region Public Interface.
 
@@ -32,22 +33,18 @@ namespace AK.F1.Timing.UI.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
             if(value == null) {
-                return string.Empty;
+                return Brushes.Black;
             }
 
-            switch((DriverStatus)value) {
-                case DriverStatus.OnTrack:
-                    return "On Track";
-                case DriverStatus.InPits:
-                    return "In Pits";
-                case DriverStatus.Out:
-                    return "Out";
-                case DriverStatus.Stopped:
-                    return "Stopped";
-                case DriverStatus.Retired:
-                    return "Retired";
+            switch((PostedTimeType)value) {
+                case PostedTimeType.Normal:
+                    return Brushes.White;
+                case PostedTimeType.PersonalBest:
+                    return Brushes.LimeGreen;
+                case PostedTimeType.SessionBest:
+                    return Brushes.Magenta;
                 default:
-                    throw Guard.ArgumentOutOfRange("value");
+                    throw new ArgumentOutOfRangeException("value");
             }
         }
 

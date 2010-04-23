@@ -15,23 +15,43 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
+using System.Windows.Media;
 
-using AK.F1.Timing.UI.Utility;
+using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.UI.Converters
 {
     /// <summary>
     /// This class cannot be inherited.
     /// </summary>
-    [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public sealed class LapTimeDeltaConverter : IValueConverter
+    [ValueConversion(typeof(SessionStatus), typeof(string))]
+    public sealed class SessionStatusToStringConverter : IValueConverter
     {
         #region Public Interface.
 
         /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
-            return value != null ? Format.LapTimeDelta((TimeSpan)value) : string.Empty;
+            if(value == null) {
+                return Brushes.White;
+            }
+
+            switch((SessionStatus)value) {
+                case SessionStatus.Finished:
+                    return "Finished";
+                case SessionStatus.Green:
+                    return "Green";
+                case SessionStatus.Yellow:
+                    return "Yellow";
+                case SessionStatus.SafetyCarOnStandBy:
+                    return "SCS";
+                case SessionStatus.SafetyCarDeployed:
+                    return "SCD";
+                case SessionStatus.Red:
+                    return "Red";
+                default:
+                    throw Guard.ArgumentOutOfRange("value");
+            }
         }
 
         /// <summary>

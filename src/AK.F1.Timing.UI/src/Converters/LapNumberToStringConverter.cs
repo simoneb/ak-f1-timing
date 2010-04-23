@@ -16,22 +16,20 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-using AK.F1.Timing.UI.Utility;
-
 namespace AK.F1.Timing.UI.Converters
 {
     /// <summary>
     /// This class cannot be inherited.
     /// </summary>
-    [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public sealed class SectorTimeDeltaConverter : IValueConverter
+    [ValueConversion(typeof(int), typeof(string))]
+    public sealed class LapNumberToStringConverter : IValueConverter
     {
         #region Public Interface.
 
         /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
-            return value != null ? Format.SectorTimeDelta((TimeSpan)value) : string.Empty;
+            return value != null ? "L" + value.ToString() : string.Empty;
         }
 
         /// <summary>

@@ -15,41 +15,23 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
 
-using AK.F1.Timing.Messages.Session;
+using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI.Converters
 {
     /// <summary>
     /// This class cannot be inherited.
     /// </summary>
-    [ValueConversion(typeof(SessionStatus), typeof(Brush))]
-    public sealed class SessionStatusToColourConverter : IValueConverter
+    [ValueConversion(typeof(TimeSpan), typeof(string))]
+    public sealed class SectorTimeToStringConverter : IValueConverter
     {
         #region Public Interface.
 
-        /// <ineritdoc/>    
+        /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
-            if(value == null) {
-                return Brushes.White;
-            }
-
-            switch((SessionStatus)value) {
-                case SessionStatus.Finished:
-                    return Brushes.White;
-                case SessionStatus.Green:
-                    return Brushes.LimeGreen;
-                case SessionStatus.Yellow:                    
-                case SessionStatus.SafetyCarOnStandBy:                    
-                case SessionStatus.SafetyCarDeployed:
-                    return Brushes.Yellow;
-                case SessionStatus.Red:
-                    return Brushes.Red;
-                default:
-                    throw Guard.ArgumentOutOfRange("value");
-            }
+            return value != null ? Format.SectorTime((TimeSpan)value) : string.Empty;
         }
 
         /// <summary>

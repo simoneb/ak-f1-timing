@@ -15,7 +15,6 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
 
 using AK.F1.Timing.Messages.Driver;
 
@@ -24,37 +23,31 @@ namespace AK.F1.Timing.UI.Converters
     /// <summary>
     /// This class cannot be inherited.
     /// </summary>
-    [ValueConversion(typeof(GridColumnColour), typeof(Brush))]
-    public sealed class GridColumnColourConverter : IValueConverter
+    [ValueConversion(typeof(DriverStatus), typeof(string))]
+    public sealed class DriverStatusToStringConverter : IValueConverter
     {
         #region Public Interface.
 
-        /// <ineritdoc/>
+        /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
             if(value == null) {
-                return Brushes.Black;
-            }            
+                return string.Empty;
+            }
 
-            switch((GridColumnColour)value) {
-                case GridColumnColour.Black:
-                    return Brushes.Black;
-                case GridColumnColour.White:
-                    return Brushes.White;
-                case GridColumnColour.Red:
-                    return Brushes.Red;
-                case GridColumnColour.Green:
-                    return Brushes.LimeGreen;
-                case GridColumnColour.Magenta:
-                    return Brushes.Magenta;
-                case GridColumnColour.Blue:
-                    return Brushes.Cyan;
-                case GridColumnColour.Yellow:
-                    return Brushes.Yellow;
-                case GridColumnColour.Grey:
-                    return Brushes.Gray;
+            switch((DriverStatus)value) {
+                case DriverStatus.OnTrack:
+                    return "On Track";
+                case DriverStatus.InPits:
+                    return "In Pits";
+                case DriverStatus.Out:
+                    return "Out";
+                case DriverStatus.Stopped:
+                    return "Stopped";
+                case DriverStatus.Retired:
+                    return "Retired";
                 default:
-                    throw new ArgumentOutOfRangeException("value");
+                    throw Guard.ArgumentOutOfRange("value");
             }
         }
 

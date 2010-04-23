@@ -15,37 +15,21 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
-
-using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.UI.Converters
 {
     /// <summary>
     /// This class cannot be inherited.
     /// </summary>
-    [ValueConversion(typeof(PostedTimeType), typeof(Brush))]
-    public sealed class PostedTimeTypeToColourConverter : IValueConverter
+    [ValueConversion(typeof(int), typeof(string))]
+    public sealed class PositionToStringConverter : IValueConverter
     {
         #region Public Interface.
 
         /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
-            if(value == null) {
-                return Brushes.Black;
-            }
-
-            switch((PostedTimeType)value) {
-                case PostedTimeType.Normal:
-                    return Brushes.White;
-                case PostedTimeType.PersonalBest:
-                    return Brushes.LimeGreen;
-                case PostedTimeType.SessionBest:
-                    return Brushes.Magenta;
-                default:
-                    throw new ArgumentOutOfRangeException("value");
-            }
+            return value != null ? "P" + value.ToString() : string.Empty;
         }
 
         /// <summary>

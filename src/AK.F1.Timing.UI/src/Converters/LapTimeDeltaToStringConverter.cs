@@ -15,35 +15,23 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Windows.Media;
 
-using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI.Converters
 {
     /// <summary>
     /// This class cannot be inherited.
     /// </summary>
-    [ValueConversion(typeof(DriverStatus), typeof(Brush))]
-    public sealed class DriverStatusToColourConverter : IValueConverter
+    [ValueConversion(typeof(TimeSpan), typeof(string))]
+    public sealed class LapTimeDeltaToStringConverter : IValueConverter
     {
         #region Public Interface.
 
         /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
-            switch((DriverStatus)value) {
-                case DriverStatus.OnTrack:
-                    return Brushes.White;
-                case DriverStatus.InPits:
-                    return Brushes.Red;
-                case DriverStatus.Out:                    
-                case DriverStatus.Stopped:                    
-                case DriverStatus.Retired:
-                    return Brushes.Yellow;
-                default:
-                    throw Guard.ArgumentOutOfRange("value");
-            }
+            return value != null ? Format.LapTimeDelta((TimeSpan)value) : string.Empty;
         }
 
         /// <summary>

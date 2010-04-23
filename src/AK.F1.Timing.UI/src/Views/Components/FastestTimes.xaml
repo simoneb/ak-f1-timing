@@ -27,28 +27,28 @@
                 <TextBlock Grid.Column="3" Grid.Row="0" HorizontalAlignment="Left" Margin="10,0,0,0" Text="Driver"/>
                 <TextBlock Grid.Column="4" Grid.Row="0" HorizontalAlignment="Right" Text="Lap"/>
                 <TextBlock Grid.Column="0" Grid.Row="1" Text="S1"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.Delta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.Delta, Converter={StaticResource SectorTimeDeltaToStringConverter}}"/>
                 <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding S1.Driver.Name}"/>
-                <TextBlock Grid.Column="4" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                <TextBlock Grid.Column="4" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.LapNumber, Converter={StaticResource LapNumberToStringConverter}}"/>
                 <TextBlock Grid.Column="0" Grid.Row="2" Text="S2"/>
-                <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                <TextBlock Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.Delta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
+                <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                <TextBlock Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.Delta, Converter={StaticResource SectorTimeDeltaToStringConverter}}"/>
                 <TextBlock Grid.Column="3" Grid.Row="2" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding S2.Driver.Name}"/>
-                <TextBlock Grid.Column="4" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                <TextBlock Grid.Column="4" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.LapNumber, Converter={StaticResource LapNumberToStringConverter}}"/>
                 <TextBlock Grid.Column="0" Grid.Row="3" Text="S3"/>
-                <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                <TextBlock Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.Delta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
+                <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                <TextBlock Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.Delta, Converter={StaticResource SectorTimeDeltaToStringConverter}}"/>
                 <TextBlock Grid.Column="3" Grid.Row="3" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding S3.Driver.Name}"/>
-                <TextBlock Grid.Column="4" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                <TextBlock Grid.Column="4" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.LapNumber, Converter={StaticResource LapNumberToStringConverter}}"/>
                 <TextBlock Grid.Column="0" Grid.Row="4" Text="Lap"/>
-                <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Lap.Time, Converter={StaticResource LapTimeConverter}}"/>
-                <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Lap.Delta, Converter={StaticResource LapTimeDeltaConverter}}"/>
+                <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Lap.Time, Converter={StaticResource LapTimeToStringConverter}}"/>
+                <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Lap.Delta, Converter={StaticResource LapTimeDeltaToStringConverter}}"/>
                 <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Left" Margin="10,0,0,0" Text="{Binding Lap.Driver.Name}"/>
-                <TextBlock Grid.Column="4" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Lap.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                <TextBlock Grid.Column="4" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Lap.LapNumber, Converter={StaticResource LapNumberToStringConverter}}"/>
                 <TextBlock Grid.Column="0" Grid.Row="5" Text="Poss"/>
-                <TextBlock Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right" Text="{Binding Possible.Time, Converter={StaticResource LapTimeConverter}}"/>
-                <TextBlock Grid.Column="2" Grid.Row="5" HorizontalAlignment="Right" Text="{Binding Possible.Delta, Converter={StaticResource LapTimeDeltaConverter}}"/>
+                <TextBlock Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right" Text="{Binding Possible.Time, Converter={StaticResource LapTimeToStringConverter}}"/>
+                <TextBlock Grid.Column="2" Grid.Row="5" HorizontalAlignment="Right" Text="{Binding Possible.Delta, Converter={StaticResource LapTimeDeltaToStringConverter}}"/>
             </Grid>
             <Grid Visibility="{Binding IsEmpty, Converter={StaticResource CollapsedWhenFalseConverter}}">
                 <TextBlock Text="Waiting for data..." HorizontalAlignment="Center" VerticalAlignment="Center"/>

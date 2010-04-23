@@ -7,11 +7,11 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>                
                 <ResourceDictionary Source="Resources/Themes/Generic.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Grid/Common.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Grid/None.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Grid/Practice.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Grid/Qually.xaml"/>
-                <ResourceDictionary Source="Resources/Templates/Grid/Race.xaml"/>
+                <ResourceDictionary Source="Resources/Grid/Common.xaml"/>
+                <ResourceDictionary Source="Resources/Grid/None.xaml"/>
+                <ResourceDictionary Source="Resources/Grid/Practice.xaml"/>
+                <ResourceDictionary Source="Resources/Grid/Qually.xaml"/>
+                <ResourceDictionary Source="Resources/Grid/Race.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

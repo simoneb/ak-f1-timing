@@ -1,0 +1,70 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Grid="clr-namespace:AK.F1.Timing.Model.Grid;assembly=AK.F1.Timing.Model">
+    <GridView x:Key="{x:Type Grid:PracticeGridModel}" AllowsColumnReorder="False">
+        <GridViewColumn Width="15" Header="P">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding Position}" Style="{StaticResource StandardColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="25" Header="C">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding CarNumber}" Style="{StaticResource StandardColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="115" Header="Driver" HeaderContainerStyle="{StaticResource LeftAlignedHeader}">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding DriverName}" Style="{StaticResource LeftAlignedColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Header="Best" Width="55">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding Best}" Style="{StaticResource StandardColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="30" Header="Gap">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding Gap}" Style="{StaticResource StandardColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Header="S1" HeaderContainerStyle="{StaticResource SectorHeader}">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding S1}" Style="{StaticResource StandardColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Header="S2" HeaderContainerStyle="{StaticResource SectorHeader}">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding S2}" Style="{StaticResource StandardColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Header="S3" HeaderContainerStyle="{StaticResource SectorHeader}">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding S3}" Style="{StaticResource StandardColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+        <GridViewColumn Width="30" Header="Laps">
+            <GridViewColumn.CellTemplate>
+                <DataTemplate>
+                    <Control DataContext="{Binding Laps}" Style="{StaticResource StandardColumn}"/>
+                </DataTemplate>
+            </GridViewColumn.CellTemplate>
+        </GridViewColumn>
+    </GridView>
+</ResourceDictionary>

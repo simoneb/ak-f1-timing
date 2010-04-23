@@ -99,23 +99,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Templates\Grid\Common.xaml">
+    <Page Include="Resources\Grid\Common.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Templates\Grid\None.xaml">
+    <Page Include="Resources\Grid\None.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Templates\Grid\Practice.xaml">
+    <Page Include="Resources\Grid\Practice.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Templates\Grid\Qually.xaml">
+    <Page Include="Resources\Grid\Qually.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Templates\Grid\Race.xaml">
+    <Page Include="Resources\Grid\Race.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,6 +166,7 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Converters\ObjectTypeToResourceConverter.cs" />
     <Compile Include="Results\PlayRecordedSessionResult.cs" />
     <Compile Include="Results\PlaySessionResultBase.cs" />
     <Compile Include="App.xaml.cs">
@@ -179,7 +180,7 @@
     <Compile Include="Converters\CollapsedWhenTrueConverter.cs" />
     <Compile Include="Converters\CollapsedWhenNotNullConverter.cs" />
     <Compile Include="Converters\BooleanToWetDryConverter.cs" />
-    <Compile Include="Converters\DriverStatusToColourConverter.cs" />
+    <Compile Include="Converters\DriverStatusToBrushConverter.cs" />
     <Compile Include="Converters\HiddenWhenNullConverter.cs" />
     <Compile Include="Converters\HiddenWhenTrueConverter.cs" />
     <Compile Include="Converters\HiddenWhenFalseConverter.cs" />
@@ -190,17 +191,17 @@
     <Compile Include="Controls\DoubleCollectionModelControl.cs" />
     <Compile Include="Controls\PostedTimeCollectionModelControl.cs" />
     <Compile Include="Converters\CollapsedWhenNullConverter.cs" />
-    <Compile Include="Converters\DriverStatusConverter.cs" />
-    <Compile Include="Converters\SessionStatusConverter.cs" />
-    <Compile Include="Converters\LapTimeDeltaConverter.cs" />
-    <Compile Include="Converters\SectorTimeDeltaConverter.cs" />
-    <Compile Include="Converters\SessionStatusToColourConverter.cs" />
-    <Compile Include="Converters\PositionConverter.cs" />
-    <Compile Include="Converters\LapTimeConverter.cs" />
-    <Compile Include="Converters\LapNumberConverter.cs" />
-    <Compile Include="Converters\SectorTimeConverter.cs" />
-    <Compile Include="Converters\PostedTimeTypeToColourConverter.cs" />
-    <Compile Include="Converters\GridColumnColourConverter.cs" />
+    <Compile Include="Converters\DriverStatusToStringConverter.cs" />
+    <Compile Include="Converters\SessionStatusToStringConverter.cs" />
+    <Compile Include="Converters\LapTimeDeltaToStringConverter.cs" />
+    <Compile Include="Converters\SectorTimeDeltaToStringConverter.cs" />
+    <Compile Include="Converters\SessionStatusToBrushConverter.cs" />
+    <Compile Include="Converters\PositionToStringConverter.cs" />
+    <Compile Include="Converters\LapTimeToStringConverter.cs" />
+    <Compile Include="Converters\LapNumberToStringConverter.cs" />
+    <Compile Include="Converters\SectorTimeToStringConverter.cs" />
+    <Compile Include="Converters\PostedTimeTypeToBrushConverter.cs" />
+    <Compile Include="Converters\GridColumnBrushConverter.cs" />
     <Compile Include="Screens\HomeScreen.cs" />
     <Compile Include="Screens\SessionScreen.cs" />
     <Compile Include="Screens\IHomeScreen.cs" />

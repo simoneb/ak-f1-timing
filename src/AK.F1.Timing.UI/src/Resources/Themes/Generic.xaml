@@ -18,7 +18,7 @@
     <Converters:HiddenWhenFalseConverter x:Key="HiddenWhenFalseConverter"/>
     <Converters:HiddenWhenNullConverter x:Key="HiddenWhenNullConverter"/>
     
-    <Converters:DriverStatusToColourConverter x:Key="DriverStatusToColourConverter"/>
+    <Converters:DriverStatusToBrushConverter x:Key="DriverStatusToBrushConverter"/>
     
     <Converters:BooleanToWetDryConverter x:Key="BooleanToWetDryConverter"/>
 
@@ -103,7 +103,7 @@
         <Setter Property="Margin" Value="2"/>
     </Style>
 
-    <Converters:PostedTimeTypeToColourConverter x:Key="PostedTimeTypeToColourConverter"/>    
+    <Converters:PostedTimeTypeToBrushConverter x:Key="PostedTimeTypeToBrushConverter"/>    
 
     <Style TargetType="{x:Type Controls:DoubleCollectionModelControl}">
         <Setter Property="Template">

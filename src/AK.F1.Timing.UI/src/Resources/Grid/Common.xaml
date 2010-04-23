@@ -3,16 +3,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Converters="clr-namespace:AK.F1.Timing.UI.Converters">
     
-    <Converters:DriverStatusConverter x:Key="DriverStatusConverter"/>
-    <Converters:GridColumnColourConverter x:Key="GridColumnColourConverter"/>
-    <Converters:LapTimeConverter x:Key="LapTimeConverter"/>
-    <Converters:LapTimeDeltaConverter x:Key="LapTimeDeltaConverter"/>
-    <Converters:SectorTimeConverter x:Key="SectorTimeConverter"/>
-    <Converters:SectorTimeDeltaConverter x:Key="SectorTimeDeltaConverter"/>
-    <Converters:LapNumberConverter x:Key="LapNumberConverter"/>
-    <Converters:PositionConverter x:Key="PositionConverter"/>
-    <Converters:SessionStatusConverter x:Key="SessionStatusConverter"/>
-    <Converters:SessionStatusToColourConverter x:Key="SessionStatusToColourConverter"/>
+    <Converters:DriverStatusToStringConverter x:Key="DriverStatusToStringConverter"/>
+    <Converters:GridColumnBrushConverter x:Key="GridColumnBrushConverter"/>
+    <Converters:LapTimeToStringConverter x:Key="LapTimeToStringConverter"/>
+    <Converters:LapTimeDeltaToStringConverter x:Key="LapTimeDeltaToStringConverter"/>
+    <Converters:SectorTimeToStringConverter x:Key="SectorTimeToStringConverter"/>
+    <Converters:SectorTimeDeltaToStringConverter x:Key="SectorTimeDeltaToStringConverter"/>
+    <Converters:LapNumberToStringConverter x:Key="LapNumberToStringConverter"/>
+    <Converters:PositionToStringConverter x:Key="PositionToStringConverter"/>
+    <Converters:SessionStatusToStringConverter x:Key="SessionStatusToStringConverter"/>
+    <Converters:SessionStatusToBrushConverter x:Key="SessionStatusToBrushConverter"/>
+    <Converters:ObjectTypeToResourceConverter x:Key="ObjectTypeToResourceConverter"/>
 
     <Style TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
@@ -147,7 +148,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Control}">
-                    <TextBlock Margin="-5,0,-6,0" Foreground="{Binding Path=TextColour, Converter={StaticResource GridColumnColourConverter}}" Text="{Binding Path=Text}" TextAlignment="Right"/>
+                    <TextBlock Margin="-5,0,-6,0" Foreground="{Binding Path=TextColour, Converter={StaticResource GridColumnBrushConverter}}" Text="{Binding Path=Text}" TextAlignment="Right"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -158,7 +159,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Control}">
-                    <TextBlock Margin="{TemplateBinding Margin}" Foreground="{Binding Path=TextColour, Converter={StaticResource GridColumnColourConverter}}" Text="{Binding Path=Text}" TextAlignment="Left"/>
+                    <TextBlock Margin="{TemplateBinding Margin}" Foreground="{Binding Path=TextColour, Converter={StaticResource GridColumnBrushConverter}}" Text="{Binding Path=Text}" TextAlignment="Left"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -7,103 +7,14 @@
             <ContentControl Content="{Binding Session.SessionType}" ContentStringFormat="{}{0} Timing"/>
         </GroupBox.Header>
         <DockPanel LastChildFill="True">
-            <ListView BorderThickness="0" MinHeight="450" ItemsSource="{Binding Path=Session.Grid.Rows}" SelectedItem="{Binding SelectedGridRow}" SelectionMode="Single" DockPanel.Dock="Top">
-                <ListView.View>
-                    <GridView AllowsColumnReorder="False">
-                        <GridViewColumn Width="15" Header="P">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding Position}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="25" Header="C">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding CarNumber}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="100" Header="Driver" HeaderContainerStyle="{StaticResource LeftAlignedHeader}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding DriverName}" Style="{StaticResource LeftAlignedColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="30" Header="G">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding Gap}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="30" Header="I">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding Interval}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="55" Header="L">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding LapTime}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="S1" HeaderContainerStyle="{StaticResource SectorHeader}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding S1}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn HeaderContainerStyle="{StaticResource PitLapHeader}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding PitLap1}" Style="{StaticResource PitLapColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="S2" HeaderContainerStyle="{StaticResource SectorHeader}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding S2}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn HeaderContainerStyle="{StaticResource PitLapHeader}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding PitLap2}" Style="{StaticResource PitLapColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Header="S3" HeaderContainerStyle="{StaticResource SectorHeader}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding S3}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn HeaderContainerStyle="{StaticResource PitLapHeader}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding PitLap3}" Style="{StaticResource PitLapColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                        <GridViewColumn Width="20" Header="Pit">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Control DataContext="{Binding PitCount}" Style="{StaticResource StandardColumn}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <ListView BorderThickness="0"
+                      MinHeight="450"
+                      MinWidth="375"
+                      ItemsSource="{Binding Path=Session.Grid.Rows}"
+                      SelectedItem="{Binding SelectedGridRow}"
+                      SelectionMode="Single"
+                      DockPanel.Dock="Top"
+                      View="{Binding Session.Grid, Converter={StaticResource ObjectTypeToResourceConverter}}"/>
             <Grid DataContext="{Binding Session}" Margin="4,4,4,0" DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -114,7 +25,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Style="{StaticResource GridSessionText}" Text="{Binding ElapsedSessionTime}"/>
-                <TextBlock Grid.Column="1" Grid.Row="0" Foreground="{Binding Path=SessionStatus, Converter={StaticResource SessionStatusToColourConverter}}" HorizontalAlignment="Center" Style="{StaticResource GridSessionText}" Text="{Binding Path=SessionStatus, Converter={StaticResource SessionStatusConverter}}"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Foreground="{Binding Path=SessionStatus, Converter={StaticResource SessionStatusToBrushConverter}}" HorizontalAlignment="Center" Style="{StaticResource GridSessionText}" Text="{Binding Path=SessionStatus, Converter={StaticResource SessionStatusToStringConverter}}"/>
                 <TextBlock Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" Style="{StaticResource GridSessionText}" Text="{Binding RemainingSessionTime}"/>
             </Grid>
         </DockPanel>

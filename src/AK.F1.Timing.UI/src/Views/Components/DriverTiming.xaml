@@ -10,7 +10,7 @@
                     <TextBlock Text="Driver Timing"/>
                 </Grid>
                 <Grid Visibility="{Binding Path=., Converter={StaticResource CollapsedWhenNullConverter}}">
-                    <TextBlock Foreground="{Binding Status, Converter={StaticResource DriverStatusToColourConverter}}">
+                    <TextBlock Foreground="{Binding Status, Converter={StaticResource DriverStatusToBrushConverter}}">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}P{0} - {1}">
                                 <Binding Path="Position"/>
@@ -49,31 +49,31 @@
                         <TextBlock Grid.Column="5" Grid.Row="0" HorizontalAlignment="Right" Text="PB"/>
                         <TextBlock Grid.Column="6" Grid.Row="0" HorizontalAlignment="Right" Text="SB"/>
                         <TextBlock Grid.Column="0" Grid.Row="1" Text="S1"/>
-                        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Foreground="{Binding S1.Current.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding S1.Current.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                        <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.CurrentDelta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
-                        <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right" Foreground="{Binding S1.Minimum.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding S1.Minimum.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                        <TextBlock Grid.Column="4" Grid.Row="1" HorizontalAlignment="Right" Margin="6,0,0,0" Text="{Binding S1.Minimum.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" Foreground="{Binding S1.Current.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding S1.Current.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.CurrentDelta, Converter={StaticResource SectorTimeDeltaToStringConverter}}"/>
+                        <TextBlock Grid.Column="3" Grid.Row="1" HorizontalAlignment="Right" Foreground="{Binding S1.Minimum.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding S1.Minimum.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                        <TextBlock Grid.Column="4" Grid.Row="1" HorizontalAlignment="Right" Margin="6,0,0,0" Text="{Binding S1.Minimum.LapNumber, Converter={StaticResource LapNumberToStringConverter}}"/>
                         <TextBlock Grid.Column="5" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.PersonalBestCount}"/>
                         <TextBlock Grid.Column="6" Grid.Row="1" HorizontalAlignment="Right" Text="{Binding S1.SessionBestCount}"/>
                         <TextBlock Grid.Column="0" Grid.Row="2" Text="S2"/>
-                        <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Foreground="{Binding S2.Current.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding S2.Current.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                        <TextBlock Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.CurrentDelta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
-                        <TextBlock Grid.Column="3" Grid.Row="2" HorizontalAlignment="Right" Foreground="{Binding S2.Minimum.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding S2.Minimum.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                        <TextBlock Grid.Column="4" Grid.Row="2" HorizontalAlignment="Right" Margin="6,0,0,0" Text="{Binding S2.Minimum.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Foreground="{Binding S2.Current.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding S2.Current.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.CurrentDelta, Converter={StaticResource SectorTimeDeltaToStringConverter}}"/>
+                        <TextBlock Grid.Column="3" Grid.Row="2" HorizontalAlignment="Right" Foreground="{Binding S2.Minimum.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding S2.Minimum.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                        <TextBlock Grid.Column="4" Grid.Row="2" HorizontalAlignment="Right" Margin="6,0,0,0" Text="{Binding S2.Minimum.LapNumber, Converter={StaticResource LapNumberToStringConverter}}"/>
                         <TextBlock Grid.Column="5" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.PersonalBestCount}"/>
                         <TextBlock Grid.Column="6" Grid.Row="2" HorizontalAlignment="Right" Text="{Binding S2.SessionBestCount}"/>
                         <TextBlock Grid.Column="0" Grid.Row="3" Text="S3"/>
-                        <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Foreground="{Binding S3.Current.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding S3.Current.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                        <TextBlock Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.CurrentDelta, Converter={StaticResource SectorTimeDeltaConverter}}"/>
-                        <TextBlock Grid.Column="3" Grid.Row="3" HorizontalAlignment="Right" Foreground="{Binding S3.Minimum.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding S3.Minimum.Time, Converter={StaticResource SectorTimeConverter}}"/>
-                        <TextBlock Grid.Column="4" Grid.Row="3" HorizontalAlignment="Right" Margin="6,0,0,0" Text="{Binding S3.Minimum.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right" Foreground="{Binding S3.Current.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding S3.Current.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.CurrentDelta, Converter={StaticResource SectorTimeDeltaToStringConverter}}"/>
+                        <TextBlock Grid.Column="3" Grid.Row="3" HorizontalAlignment="Right" Foreground="{Binding S3.Minimum.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding S3.Minimum.Time, Converter={StaticResource SectorTimeToStringConverter}}"/>
+                        <TextBlock Grid.Column="4" Grid.Row="3" HorizontalAlignment="Right" Margin="6,0,0,0" Text="{Binding S3.Minimum.LapNumber, Converter={StaticResource LapNumberToStringConverter}}"/>
                         <TextBlock Grid.Column="5" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.PersonalBestCount}"/>
                         <TextBlock Grid.Column="6" Grid.Row="3" HorizontalAlignment="Right" Text="{Binding S3.SessionBestCount}"/>
                         <TextBlock Grid.Column="0" Grid.Row="4" Text="Lap"/>
-                        <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Foreground="{Binding Laps.Current.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Laps.Current.Time, Converter={StaticResource LapTimeConverter}}"/>
-                        <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Laps.CurrentDelta, Converter={StaticResource LapTimeDeltaConverter}}"/>
-                        <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Right" Foreground="{Binding Laps.Minimum.Type, Converter={StaticResource PostedTimeTypeToColourConverter}}" Text="{Binding Laps.Minimum.Time, Converter={StaticResource LapTimeConverter}}"/>
-                        <TextBlock Grid.Column="4" Grid.Row="4" HorizontalAlignment="Right" Margin="6,0,0,0" Text="{Binding Laps.Minimum.LapNumber, Converter={StaticResource LapNumberConverter}}"/>
+                        <TextBlock Grid.Column="1" Grid.Row="4" HorizontalAlignment="Right" Foreground="{Binding Laps.Current.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding Laps.Current.Time, Converter={StaticResource LapTimeToStringConverter}}"/>
+                        <TextBlock Grid.Column="2" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Laps.CurrentDelta, Converter={StaticResource LapTimeDeltaToStringConverter}}"/>
+                        <TextBlock Grid.Column="3" Grid.Row="4" HorizontalAlignment="Right" Foreground="{Binding Laps.Minimum.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding Laps.Minimum.Time, Converter={StaticResource LapTimeToStringConverter}}"/>
+                        <TextBlock Grid.Column="4" Grid.Row="4" HorizontalAlignment="Right" Margin="6,0,0,0" Text="{Binding Laps.Minimum.LapNumber, Converter={StaticResource LapNumberToStringConverter}}"/>
                         <TextBlock Grid.Column="5" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Laps.PersonalBestCount}"/>
                         <TextBlock Grid.Column="6" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Laps.SessionBestCount}"/>
                     </Grid>

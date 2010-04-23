@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+﻿// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,24 +14,25 @@
 
 using System;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
-
-using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI.Converters
 {
     /// <summary>
     /// This class cannot be inherited.
     /// </summary>
-    [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public sealed class SectorTimeConverter : IValueConverter
+    [ValueConversion(typeof(object), typeof(object))]
+    public sealed class ObjectTypeToResourceConverter : IValueConverter
     {
         #region Public Interface.
 
         /// <ineritdoc/>        
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
 
-            return value != null ? Format.SectorTime((TimeSpan)value) : string.Empty;
+            Guard.NotNull(value, "value");
+
+            return Application.Current.FindResource(value.GetType());
         }
 
         /// <summary>
