@@ -24,7 +24,7 @@ namespace AK.F1.Timing.UI.Converters
     /// This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public class LapTimeDeltaConverter : IValueConverter
+    public sealed class LapTimeDeltaConverter : IValueConverter
     {
         #region Public Interface.
 

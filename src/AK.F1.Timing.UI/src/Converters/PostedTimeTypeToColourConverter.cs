@@ -25,7 +25,7 @@ namespace AK.F1.Timing.UI.Converters
     /// This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(PostedTimeType), typeof(Brush))]
-    public class PostedTimeTypeToColourConverter : IValueConverter
+    public sealed class PostedTimeTypeToColourConverter : IValueConverter
     {
         #region Public Interface.
 

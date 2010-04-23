@@ -22,7 +22,7 @@ namespace AK.F1.Timing.UI.Converters
     /// This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(int), typeof(string))]
-    public class LapNumberConverter : IValueConverter
+    public sealed class LapNumberConverter : IValueConverter
     {
         #region Public Interface.
 

@@ -24,7 +24,7 @@ namespace AK.F1.Timing.UI.Converters
     /// This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(TimeSpan), typeof(string))]
-    public class SectorTimeConverter : IValueConverter
+    public sealed class SectorTimeConverter : IValueConverter
     {
         #region Public Interface.
 

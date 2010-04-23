@@ -25,7 +25,7 @@ namespace AK.F1.Timing.UI.Converters
     /// This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(SessionStatus), typeof(Brush))]
-    public class SessionStatusToColourConverter : IValueConverter
+    public sealed class SessionStatusToColourConverter : IValueConverter
     {
         #region Public Interface.
 

@@ -25,7 +25,7 @@ namespace AK.F1.Timing.UI.Converters
     /// This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(DriverStatus), typeof(Brush))]
-    public class DriverStatusToColourConverter : IValueConverter
+    public sealed class DriverStatusToColourConverter : IValueConverter
     {
         #region Public Interface.
 

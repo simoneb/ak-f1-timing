@@ -25,7 +25,7 @@ namespace AK.F1.Timing.UI.Converters
     /// This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(GridColumnColour), typeof(Brush))]
-    public class GridColumnColourConverter : IValueConverter
+    public sealed class GridColumnColourConverter : IValueConverter
     {
         #region Public Interface.
 

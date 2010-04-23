@@ -23,7 +23,7 @@ namespace AK.F1.Timing.UI.Converters
     /// This class cannot be inherited.
     /// </summary>
     [ValueConversion(typeof(bool), typeof(Visibility))]
-    public class CollapsedWhenTrueConverter : IValueConverter
+    public sealed class CollapsedWhenTrueConverter : IValueConverter
     {
         #region Public Interface.
 
