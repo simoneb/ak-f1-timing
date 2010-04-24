@@ -16,7 +16,7 @@ using System;
 using System.IO;
 using log4net;
 
-namespace AK.F1.Timing.Live.Recorder
+namespace AK.F1.Timing.Utility.LiveRecorder
 {
     /// <summary>
     /// Application entry point container. This class is <see langword="static"/>.

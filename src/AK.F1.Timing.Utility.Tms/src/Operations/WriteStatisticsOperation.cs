@@ -19,7 +19,7 @@ using System.Linq;
 
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Tms.Utility.Operations
+namespace AK.F1.Timing.Utility.Tms.Operations
 {
     internal class WriteStatisticsOperation : Operation
     {

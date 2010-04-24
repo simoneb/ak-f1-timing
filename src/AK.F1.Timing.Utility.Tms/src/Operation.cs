@@ -14,7 +14,7 @@
 
 using System;
 
-namespace AK.F1.Timing.Tms.Utility
+namespace AK.F1.Timing.Utility.Tms
 {
     internal abstract class Operation
     {

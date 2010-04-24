@@ -15,9 +15,9 @@
 using System;
 using System.Diagnostics;
 
-using AK.F1.Timing.Tms.Utility.Operations;
+using AK.F1.Timing.Utility.Tms.Operations;
 
-namespace AK.F1.Timing.Tms.Utility
+namespace AK.F1.Timing.Utility.Tms
 {
     /// <summary>
     /// Application entry point container.

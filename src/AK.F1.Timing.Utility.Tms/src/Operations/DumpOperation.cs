@@ -17,7 +17,7 @@ using System.IO;
 
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Tms.Utility.Operations
+namespace AK.F1.Timing.Utility.Tms.Operations
 {
     internal class DumpOperation : Operation
     {

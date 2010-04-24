@@ -13,12 +13,8 @@
 // limitations under the License.
 
 using System;
-using System.Resources;
 using System.Reflection;
-using System.Security.Permissions;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("F1 Timing TMS Utility")]
-[assembly: AssemblyDescription("F1 Timing TMS Utility")]
-[assembly: AssemblyProduct("AK.F1.Timing.Tms.Utility")]
+[assembly: AssemblyTitle("F1 Live-Timing Recorder for .NET 3.5")]
+[assembly: AssemblyDescription("F1 Live-Timing Recorder for .NET 3.5.")]
+[assembly: AssemblyProduct("AK.F1.Timing.Utility.LiveRecorder")]

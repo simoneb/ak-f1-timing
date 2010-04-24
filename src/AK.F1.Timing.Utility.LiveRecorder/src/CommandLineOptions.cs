@@ -20,38 +20,29 @@ using Genghis;
 // Disable warning indicating fields are never assigned.
 #pragma warning disable 0649
 
-namespace AK.F1.Timing.Tms.Utility
+namespace AK.F1.Timing.Utility.LiveRecorder
 {
     internal sealed class CommandLineOptions : CommandLineParser
     {
         #region Public Interface.
 
-        [CommandLineParser.ValueUsage("The path of the TMS file to process.",
-            Name = "path",
+        [CommandLineParser.ValueUsage("The name of the session to record.",
+            Name = "session",
+            AlternateName1 = "s",
+            MatchPosition = true)]
+        public string Session;
+
+        [CommandLineParser.ValueUsage("A valid www.formula1.com username.",
+            Name = "username",
+            AlternateName1 = "u",
+            MatchPosition = true)]
+        public string Username;
+
+        [CommandLineParser.ValueUsage("The corresponding password.",
+            Name = "password",
             AlternateName1 = "p",
             MatchPosition = true)]
-        public string Path;
-
-        [CommandLineParser.ValueUsage("Fixup the TMS by filtering out translated messages and replaying the session.",
-            Category = "op",
-            Name = "fixup",
-            AlternateName1 = "f",
-            Optional = true)]
-        public bool Fixup;
-
-        [CommandLineParser.ValueUsage("Dump the TMS to the standard out.",
-            Category = "op",
-            Name = "dump",
-            AlternateName1 = "d",
-            Optional = true)]
-        public bool Dump;
-
-        [CommandLineParser.ValueUsage("Generate TMS statistics.",
-            Category = "op",
-            Name = "stats",
-            AlternateName1 = "s",
-            Optional = true)]
-        public bool Stats;
+        public string Password;
 
         #endregion
 
@@ -62,11 +53,8 @@ namespace AK.F1.Timing.Tms.Utility
 
             base.Parse(args, ignoreFirstArg);
 
-            if(!File.Exists(Path)) {
-                throw Usage("path", "specified path does not exist or the device is not ready.");
-            }
-            if(!(Fixup ^ Dump ^ Stats)) {
-                throw Usage("fixup|dump|stats", "one operation must be selected.");
+            if(Session.IndexOfAny(Path.GetInvalidPathChars()) > -1) {
+                throw Usage("session", "must not contain any invalid path characters");
             }
         }
 
