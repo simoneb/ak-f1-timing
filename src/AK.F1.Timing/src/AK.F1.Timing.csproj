@@ -148,7 +148,7 @@
     <Compile Include="Messages\Driver\SetDriverNameMessage.cs" />
     <Compile Include="Messages\Session\SetRaceLapNumberMessage.cs" />
     <Compile Include="Messages\Driver\SetDriverLapNumberMessage.cs" />
-    <Compile Include="MessageVisitor.cs" />
+    <Compile Include="MessageVisitorBase.cs" />
     <Compile Include="IMessageVisitor.cs" />
     <Compile Include="Messages\Driver\SetDriverCarNumberMessage.cs" />
     <Compile Include="Messages\Driver\DriverMessageBase.cs" />

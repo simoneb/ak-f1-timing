@@ -22,18 +22,13 @@ using AK.F1.Timing.Messages.Weather;
 namespace AK.F1.Timing
 {
     /// <summary>
-    /// Defines a base class for <see cref="AK.F1.Timing.IMessageVisitor"/> implementations.
-    /// This class is <see langword="abstract"/>.
+    /// Defines a base class for <see cref="AK.F1.Timing.IMessageVisitor"/> implementations were
+    /// all visit methods are no-ops. This class is <see langword="abstract"/>.
     /// </summary>
     [Serializable]
-    public abstract class MessageVisitor : IMessageVisitor
+    public abstract class MessageVisitorBase : IMessageVisitor
     {
         #region Public Interface.
-   
-        /// <summary>
-        /// Defines a null message visitor. This field is <see langword="readonly"/>.
-        /// </summary>
-        public static readonly IMessageVisitor Null = new NullMessageVisitor();
 
         /// <inheritdoc />
         public virtual void Visit(EndOfSessionMessage message) { }
@@ -154,13 +149,6 @@ namespace AK.F1.Timing
 
         /// <inheritdoc />
         public virtual void Visit(SetDriverPitTimeMessage message) { }
-
-        #endregion
-
-        #region Private Impl.
-
-        [Serializable]
-        private sealed class NullMessageVisitor : MessageVisitor { }
 
         #endregion
     }

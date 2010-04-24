@@ -30,7 +30,7 @@ namespace AK.F1.Timing.Live
     /// <see cref="AK.F1.Timing.Message"/>s. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    public sealed class LiveMessageTranslator : MessageVisitor
+    public sealed class LiveMessageTranslator : MessageVisitorBase
     {
         #region Private Fields.
 

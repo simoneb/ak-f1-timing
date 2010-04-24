@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Recording
     /// cannot be inherited.
     /// </summary>
     [Serializable]
-    internal sealed class RecordedMessageDelayEngine : MessageVisitor
+    internal sealed class RecordedMessageDelayEngine : MessageVisitorBase
     {
         #region Public Interface.
 

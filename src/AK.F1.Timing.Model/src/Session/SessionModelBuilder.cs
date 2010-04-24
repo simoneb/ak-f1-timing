@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Model.Session
     /// A builder which builds a <see cref="AK.F1.Timing.Model.Session.SessionModel"/> as it
     /// processes <see cref="AK.F1.Timing.Message"/>s.
     /// </summary>
-    public class SessionModelBuilder : MessageVisitor, IMessageProcessor
+    public class SessionModelBuilder : MessageVisitorBase, IMessageProcessor
     {
         #region Public Interface.
 

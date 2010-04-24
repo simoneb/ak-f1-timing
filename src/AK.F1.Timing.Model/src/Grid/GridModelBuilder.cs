@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Model.Grid
     /// <typeparam name="TRow">The type of
     /// <see cref="AK.F1.Timing.Model.Grid.GridRowModelBase"/>.</typeparam>
     [Serializable]
-    public class GridModelBuilder<TRow> : MessageVisitor, IMessageProcessor
+    public class GridModelBuilder<TRow> : MessageVisitorBase, IMessageProcessor
         where TRow : GridRowModelBase
     {
         #region Public Interface.

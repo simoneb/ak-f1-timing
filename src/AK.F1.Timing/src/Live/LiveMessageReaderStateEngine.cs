@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Live
     /// <see cref="LiveMessageReader"/>. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    internal sealed class LiveMessageReaderStateEngine : MessageVisitor, IMessageProcessor
+    internal sealed class LiveMessageReaderStateEngine : MessageVisitorBase, IMessageProcessor
     {
         #region Private Fields.
 

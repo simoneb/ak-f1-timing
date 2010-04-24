@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Live
     /// <see cref="LiveMessageTranslator"/>. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    internal sealed class LiveMessageTranslatorStateEngine : MessageVisitor, IMessageProcessor
+    internal sealed class LiveMessageTranslatorStateEngine : MessageVisitorBase, IMessageProcessor
     {
         #region Private Fields.
 
