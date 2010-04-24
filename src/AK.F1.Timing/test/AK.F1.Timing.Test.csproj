@@ -74,7 +74,9 @@
     <Compile Include="Messages\Driver\GapTest.cs" />
     <Compile Include="Messages\MessageTestBase.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Recording\RecordingIntegrationTest.cs" />
     <Compile Include="Serialization\DecoratedObjectReaderWriterTest.cs" />
+    <Compile Include="StubMessageReader.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="Extensions\UriExtensionsTest.cs" />
