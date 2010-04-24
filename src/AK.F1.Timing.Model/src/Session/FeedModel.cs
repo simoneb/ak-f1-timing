@@ -20,7 +20,7 @@ namespace AK.F1.Timing.Model.Session
     /// <summary>
     /// 
     /// </summary>
-    public class FeedModel : ModelBase
+    public partial class FeedModel : ModelBase, IMessageProcessor
     {
         #region Private Fields.
 
@@ -36,7 +36,18 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Initialises a new instance of the <see cref="FeedModel"/> class.
         /// </summary>
-        public FeedModel() { }
+        public FeedModel() {
+
+            Builder = new FeedModelBuilder(this);
+        }
+
+        /// <inheritdoc/>        
+        public void Process(Message message) {
+
+            Guard.NotNull(message, "message");
+
+            Builder.Process(message);
+        }
 
         /// <summary>
         /// Resets this feed model.
@@ -55,7 +66,7 @@ namespace AK.F1.Timing.Model.Session
         public TimeSpan PingInterval {
 
             get { return _pingInterval; }
-            protected internal set { SetProperty("PingInterval", ref _pingInterval, value); }
+            private set { SetProperty("PingInterval", ref _pingInterval, value); }
         }
 
         /// <summary>
@@ -64,7 +75,7 @@ namespace AK.F1.Timing.Model.Session
         public int MessageCount {
 
             get { return _messageCount; }
-            protected internal set { SetProperty("MessageCount", ref _messageCount, value); }
+            private set { SetProperty("MessageCount", ref _messageCount, value); }
         }
 
         /// <summary>
@@ -73,7 +84,7 @@ namespace AK.F1.Timing.Model.Session
         public int KeyframeNumber {
 
             get { return _keyframeNumber; }
-            protected internal set { SetProperty("KeyframeNumber", ref _keyframeNumber, value); }
+            private set { SetProperty("KeyframeNumber", ref _keyframeNumber, value); }
         }
 
         /// <summary>
@@ -82,8 +93,14 @@ namespace AK.F1.Timing.Model.Session
         public string Copyright {
 
             get { return _copyright; }
-            protected internal set { SetProperty("Copyright", ref _copyright, value); }
+            private set { SetProperty("Copyright", ref _copyright, value); }
         }
+
+        #endregion
+
+        #region Private Impl.
+
+        private IMessageProcessor Builder { get; set; }
 
         #endregion
     }

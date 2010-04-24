@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Model.Session
     /// <summary>
     /// Contains all information relating to the current weather condition.
     /// </summary>
-    public class WeatherModel : ModelBase
+    public partial class WeatherModel : ModelBase, IMessageProcessor
     {
         #region Private Fields.
 
@@ -35,21 +35,30 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Initialises a new instance of the <see cref="WeatherModel"/> class.
         /// </summary>
-        public WeatherModel() {            
+        public WeatherModel() {
             
             AirTemperature = new DoubleCollectionModel();
             TrackTemperature = new DoubleCollectionModel();
             Humidity = new DoubleCollectionModel();
             WindSpeed = new DoubleCollectionModel();
             Pressure = new DoubleCollectionModel();
-            WindAngle = new DoubleCollectionModel();            
+            WindAngle = new DoubleCollectionModel();
+            Builder = new WeatherModelBuilder(this);
+        }
+
+        /// <inheritdoc/>        
+        public void Process(Message message) {
+
+            Guard.NotNull(message, "message");
+
+            Builder.Process(message);
         }
 
         /// <summary>
         /// Resets this weather model.
         /// </summary>
         public void Reset() {
-            
+
             AirTemperature.Reset();
             Pressure.Reset();
             Humidity.Reset();
@@ -94,9 +103,15 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>      
         public bool IsWet {
 
-            get { return _isWet; }
-            protected internal set { SetProperty("IsWet", ref _isWet, value); }
+            get { return _isWet; }            
+            private set { SetProperty("IsWet", ref _isWet, value); }
         }
+
+        #endregion
+
+        #region Private Impl.
+
+        private IMessageProcessor Builder { get; set; }
 
         #endregion
     }

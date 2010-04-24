@@ -17,8 +17,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Threading;
 
-using AK.F1.Timing.Extensions;
-using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
 using AK.F1.Timing.Model.Collections;
 using AK.F1.Timing.Model.Driver;
@@ -29,7 +27,7 @@ namespace AK.F1.Timing.Model.Session
     /// <summary>
     /// Provides detailed information about a single F1 timing session.
     /// </summary>
-    public class SessionModel : ModelBase, IMessageProcessor
+    public class SessionModel : ModelBase, IMessageProcessor, IDriverModelLocator
     {
         #region Private Fields.
 
@@ -51,8 +49,7 @@ namespace AK.F1.Timing.Model.Session
         /// Initialises a new instance of the <see cref="SessionModel"/> class.
         /// </summary>
         public SessionModel() {
-
-            Builder = new SessionModelBuilder(this);            
+                        
             InnerDrivers = new SortableObservableCollection<DriverModel>((x, y) => {
                 return x.Position.CompareTo(y.Position);
             });
@@ -60,13 +57,14 @@ namespace AK.F1.Timing.Model.Session
             DriversById = new Dictionary<int, DriverModel>(25);
             Feed = new FeedModel();
             Grid = GridModelBase.Create(SessionType.None);
-            FastestTimes = new FastestTimesModel();
+            FastestTimes = new FastestTimesModel(this);
             Messages = new MessageModel();
             OneSecondTimer = new DispatcherTimer(DispatcherPriority.Normal);
             OneSecondTimer.Interval = ONE_SECOND;
             OneSecondTimer.Tick += (s, e) => OnOneSecondElapsed();
             SessionStatus = SessionStatus.Finished;
             Weather = new WeatherModel();
+            Builder = new SessionModelBuilder(this);
         }
 
         /// <summary>

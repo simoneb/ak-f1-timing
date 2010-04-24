@@ -20,7 +20,7 @@ namespace AK.F1.Timing.Model.Session
     /// <summary>
     /// A container for messages generated during a timing session.
     /// </summary>
-    public class MessageModel : ModelBase
+    public partial class MessageModel : ModelBase, IMessageProcessor
     {
         #region Private Fields.
 
@@ -36,7 +36,15 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         public MessageModel() {
 
-            _commentary = new StringBuilder();
+            Builder = new MessageModelBuilder(this);
+        }
+
+        /// <inheritdoc/>        
+        public void Process(Message message) {
+
+            Guard.NotNull(message, "message");
+
+            Builder.Process(message);
         }
 
         /// <summary>
@@ -45,51 +53,50 @@ namespace AK.F1.Timing.Model.Session
         public void Reset() {
 
             System = null;
-            _commentary.Length = 0;
+            _commentary = null;
             OnCommentaryChanged();
         }
-
-        /// <summary>
-        /// Adds the specified commentary line to the running commentary.
-        /// </summary>
-        /// <param name="commentary">The commentary to add.</param>
-        public void AddCommentary(string commentary) {
-
-            Guard.NotNullOrEmpty(commentary, "commentary");
-
-            _commentary.Append(commentary);
-            // TODO is this correct?
-            if(commentary.EndsWith(".")) {
-                _commentary.AppendLine().AppendLine();                
-            }
-            OnCommentaryChanged();
-        }     
 
         /// <summary>
         /// Gets the running commentary.
         /// </summary>
         public string Commentary {
 
-            get { return _commentary.ToString(); }
+            get { return _commentary != null ? _commentary.ToString() : null; }
         }
 
         /// <summary>
-        /// Gets or sets the system message.
+        /// Gets the system message.
         /// </summary>
         public string System {
 
             get { return _system; }
-            set { SetProperty("System", ref _system, value); }
+            private set { SetProperty("System", ref _system, value); }
         }
 
         #endregion
 
         #region Private Impl.
 
+        private void AddCommentary(string commentary) {
+
+            if(_commentary == null) {
+                _commentary = new StringBuilder();
+            }
+            _commentary.Append(commentary);
+            // TODO is this correct?
+            if(commentary.EndsWith(".")) {
+                _commentary.AppendLine().AppendLine();
+            }
+            OnCommentaryChanged();
+        }
+
         private void OnCommentaryChanged() {
 
             OnPropertyChanged("Commentary");
         }
+
+        private MessageModelBuilder Builder { get; set; }
 
         #endregion
     }

@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Model.Session
     /// Contains information relating to the fastest times set during a session.
     /// </summary>
     [Serializable]
-    public class FastestTimesModel : ModelBase
+    public partial class FastestTimesModel : ModelBase
     {
         #region Private Fields.
 
@@ -37,6 +37,30 @@ namespace AK.F1.Timing.Model.Session
         #region Public Interface.
 
         /// <summary>
+        /// Initialises a new instance of the <see cref="FastestTimesModel"/> class and specifies
+        /// the driver model provider.
+        /// </summary>
+        /// <param name="driverLocator">The driver model provider.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="driverLocator"/> is <see langword="null"/>.
+        /// </exception>
+        public FastestTimesModel(IDriverModelLocator driverLocator) {
+
+            Guard.NotNull(driverLocator, "driverLocator");
+
+            DriverLocator = driverLocator;
+            Reset();
+        }
+
+        /// <inheritdoc/>        
+        public void Process(Message message) {
+
+            Guard.NotNull(message, "message");
+
+            Builder.Process(message);
+        }
+
+        /// <summary>
         /// Resets this model.
         /// </summary>
         public void Reset() {
@@ -46,6 +70,7 @@ namespace AK.F1.Timing.Model.Session
             S2 = null;
             S3 = null;
             Possible = null;
+            Builder = new FastestTimesModelBuilder(this);
         }
 
         /// <summary>
@@ -204,6 +229,10 @@ namespace AK.F1.Timing.Model.Session
 
             OnPropertyChanged("IsEmpty");
         }
+
+        private IMessageProcessor Builder { get; set; }
+
+        private IDriverModelLocator DriverLocator { get; set; }
 
         #endregion
     }

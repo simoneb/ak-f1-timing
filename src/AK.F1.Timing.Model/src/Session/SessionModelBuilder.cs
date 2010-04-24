@@ -15,17 +15,16 @@
 using System;
 
 using AK.F1.Timing.Messages.Driver;
-using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
-using AK.F1.Timing.Messages.Weather;
 using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Model.Grid;
 
 namespace AK.F1.Timing.Model.Session
 {
     /// <summary>
-    /// A builder which builds a <see cref="AK.F1.Timing.Model.Session.SessionModel"/> as it
-    /// processes <see cref="AK.F1.Timing.Message"/>s.
+    /// A <see cref="AK.F1.Timing.IMessageProcessor"/> which builds a
+    /// <see cref="AK.F1.Timing.Model.Session.SessionModel"/> as it processes
+    /// <see cref="AK.F1.Timing.Message"/>s. This class cannot be inherited.
     /// </summary>
     public class SessionModelBuilder : MessageVisitorBase, IMessageProcessor
     {
@@ -33,7 +32,7 @@ namespace AK.F1.Timing.Model.Session
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SessionModelBuilder"/> class and specifies
-        /// the session to build.
+        /// the <paramref name="session"/> to build.
         /// </summary>
         /// <param name="session">The session to build.</param>
         /// <exception cref="System.ArgumentNullException">
@@ -46,18 +45,17 @@ namespace AK.F1.Timing.Model.Session
             Session = session;
         }
 
-        /// <summary>
-        /// Processes the specified message.
-        /// </summary>
-        /// <param name="message">The message to process.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Throw when <paramref name="message"/> is <see langword="null"/>.
-        /// </exception>
+        /// <inheritdoc/>        
         public void Process(Message message) {
 
+            Guard.NotNull(message, "message");
+            
             message.Accept(this);
+            Session.Feed.Process(message);
+            Session.FastestTimes.Process(message);
             Session.Grid.Process(message);
-            ++Session.Feed.MessageCount;
+            Session.Messages.Process(message);
+            Session.Weather.Process(message);            
         }
 
         /// <inheritdoc />
@@ -89,7 +87,6 @@ namespace AK.F1.Timing.Model.Session
             var driver = GetDriver(message.DriverId);            
 
             driver.LapTimes.GetSector(message.SectorNumber).Add(message.SectorTime);
-            TrySetFastestSector(message.SectorNumber, message.SectorTime, driver);
         }
 
         /// <inheritdoc />
@@ -98,7 +95,6 @@ namespace AK.F1.Timing.Model.Session
             var driver = GetDriver(message.DriverId);
             
             driver.LapTimes.GetSector(message.SectorNumber).ReplaceCurrent(message.Replacement);
-            TrySetFastestSector(message.SectorNumber, message.Replacement, driver);
         }
 
         /// <inheritdoc />
@@ -109,7 +105,6 @@ namespace AK.F1.Timing.Model.Session
             
             driver.QuallyTimes.Set(message.QuallyNumber, message.QuallyTime);
             driver.LapTimes.Laps.Add(postedTime);
-            TrySetFastestLap(postedTime, driver);
         }
 
         /// <inheritdoc />
@@ -118,7 +113,6 @@ namespace AK.F1.Timing.Model.Session
             var driver = GetDriver(message.DriverId);
 
             driver.LapTimes.Laps.Add(message.LapTime);
-            TrySetFastestLap(message.LapTime, driver);
         }
 
         /// <inheritdoc />
@@ -127,7 +121,6 @@ namespace AK.F1.Timing.Model.Session
             var driver = GetDriver(message.DriverId);
 
             driver.LapTimes.Laps.ReplaceCurrent(message.Replacement);
-            TrySetFastestLap(message.Replacement, driver);
         }
 
         /// <inheritdoc />
@@ -171,42 +164,6 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <inheritdoc />
-        public override void Visit(SetAirTemperatureMessage message) {
-
-            Session.Weather.AirTemperature.Add(message.Temperature);
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetTrackTemperatureMessage message) {
-
-            Session.Weather.TrackTemperature.Add(message.Temperature);
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetWindSpeedMessage message) {
-
-            Session.Weather.WindSpeed.Add(message.Speed);
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetAtmosphericPressureMessage message) {
-
-            Session.Weather.Pressure.Add(message.Pressure);
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetHumidityMessage message) {
-
-            Session.Weather.Humidity.Add(message.Humidity);
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetWindAngleMessage message) {
-
-            Session.Weather.WindAngle.Add(message.Angle);
-        }
-
-        /// <inheritdoc />
         public override void Visit(SetDriverPitCountMessage message) {
 
             GetDriver(message.DriverId).PitCount = message.PitCount;
@@ -242,36 +199,6 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <inheritdoc />
-        public override void Visit(AddCommentaryMessage message) {
-
-            Session.Messages.AddCommentary(message.Commentary);
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetSystemMessageMessage message) {
-
-            Session.Messages.System = message.Message;                
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetPingIntervalMessage message) {
-
-            Session.Feed.PingInterval = message.PingInterval;
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetKeyframeMessage message) {
-
-            Session.Feed.KeyframeNumber = message.Keyframe;
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetCopyrightMessage message) {
-
-            Session.Feed.Copyright = message.Copyright;
-        }
-
-        /// <inheritdoc />
         public override void Visit(StartSessionTimeCountdownMessage message) {
 
             Session.DecrementRemainingSessionTime = true;
@@ -281,12 +208,6 @@ namespace AK.F1.Timing.Model.Session
         public override void Visit(StopSessionTimeCountdownMessage message) {
 
             Session.DecrementRemainingSessionTime = false;
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetIsWetMessage message) {
-
-            Session.Weather.IsWet = message.IsWet;
         }
 
         /// <inheritdoc />
@@ -318,25 +239,6 @@ namespace AK.F1.Timing.Model.Session
 
         #region Private Impl.
 
-        private void TrySetFastestLap(PostedTime time, DriverModel driver) {
-
-            // TODO does this belong here?
-
-            var times = Session.FastestTimes;
-            var isSessionBest = time.Type == PostedTimeType.SessionBest ||
-                (Session.SessionType != SessionType.Race && (times.Lap == null || time.Time < times.Lap.Time));
-
-            if(isSessionBest) {
-                times.SetLap(driver, time.Time, time.LapNumber);
-            }
-        }
-
-        private void TrySetFastestSector(int sectorNumber, PostedTime time, DriverModel driver) {
-
-            if(time.Type == PostedTimeType.SessionBest) {
-                Session.FastestTimes.SetSector(sectorNumber, driver, time.Time, time.LapNumber);
-            }
-        }
 
         #endregion
     }
