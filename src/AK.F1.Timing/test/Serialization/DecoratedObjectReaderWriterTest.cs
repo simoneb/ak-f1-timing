@@ -190,6 +190,16 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
+        [TypeId(48247595)]
+        private class BooleanHolder : PrimitiveHolder<Boolean>
+        {
+            public BooleanHolder() {
+
+                Min = false;
+                Max = true;
+            }
+        }
+
         [TypeId(68102379)]
         private class CharHolder : PrimitiveHolder<Char>
         {
@@ -530,7 +540,8 @@ namespace AK.F1.Timing.Serialization
                 yield return A(new DateTimeHolder());
                 yield return A(new TimeSpanHolder());
                 yield return A(new CharHolder());
-                yield return A(new StringHolder());  
+                yield return A(new StringHolder());
+                yield return A(new BooleanHolder());                  
             }
 
             public static IEnumerable<object> GetData() {
@@ -538,13 +549,14 @@ namespace AK.F1.Timing.Serialization
                 return new PrimitiveDataProvider().Select(x => x[0]);
             }
 
+            IEnumerator IEnumerable.GetEnumerator() {
+
+                return GetEnumerator();
+            }
+
             private static object[] A(object value) {
 
                 return new object[] { value };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-                throw new NotImplementedException();
             }
         }
 
@@ -595,13 +607,14 @@ namespace AK.F1.Timing.Serialization
                 return new PrimitiveDataProvider().Select(x => x[0]);
             }
 
+            IEnumerator IEnumerable.GetEnumerator() {
+
+                return GetEnumerator();
+            }
+
             private static object[] A(object value) {
 
                 return new object[] { value };
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-                throw new NotImplementedException();
             }
         }
     }
