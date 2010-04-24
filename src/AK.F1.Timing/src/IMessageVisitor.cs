@@ -22,7 +22,7 @@ using AK.F1.Timing.Messages.Weather;
 namespace AK.F1.Timing
 {    
     /// <summary>
-    /// 
+    /// A <see cref="AK.F1.Timing.Message"/> visitor.
     /// </summary>
     public interface IMessageVisitor
     {
