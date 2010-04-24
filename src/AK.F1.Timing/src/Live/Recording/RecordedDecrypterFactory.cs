@@ -21,11 +21,11 @@ using AK.F1.Timing.Live.Encryption;
 namespace AK.F1.Timing.Live.Recording
 {
     /// <summary>
-    /// An <see cref="AK.F1.Timing.Live.Encryption.IDecryptorFactory"/> implementation
-    /// that creates decryptors with seeds that have been persisted on the file system. This
+    /// An <see cref="AK.F1.Timing.Live.Encryption.IDecrypterFactory"/> implementation
+    /// that creates decrypters with seeds that have been persisted on the file system. This
     /// class cannot be inherited.
     /// </summary>
-    public sealed class RecordedDecryptorFactory : DecryptorFactoryBase
+    public sealed class RecordedDecrypterFactory : DecrypterFactoryBase
     {
         #region Private Fields.
         
@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Live.Recording
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="RecordedDecryptorFactory"/> class and
+        /// Initialises a new instance of the <see cref="RecordedDecrypterFactory"/> class and
         /// specifies the directory which contains the persisted seeds.
         /// </summary>
         /// <param name="directory">The directory which contains the persisted seeds.</param>
@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Live.Recording
         /// <exception cref="System.IO.DirectoryNotFoundException">
         /// Thrown when <paramref name="directory"/> does not exist.
         /// </exception>
-        public RecordedDecryptorFactory(string directory) {
+        public RecordedDecrypterFactory(string directory) {
 
             Guard.NotNull(directory, "directory");
             Guard.DirectoryExists(directory, "directory");
@@ -80,9 +80,9 @@ namespace AK.F1.Timing.Live.Recording
         }
 
         /// <inheritdoc />
-        protected override IDecryptor CreateWithSeed(int seed) {
+        protected override IDecrypter CreateWithSeed(int seed) {
 
-            return new LiveDecryptor(seed);
+            return new LiveDecrypter(seed);
         }
 
         #endregion

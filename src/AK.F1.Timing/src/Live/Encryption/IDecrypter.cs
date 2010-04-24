@@ -17,9 +17,9 @@ using System;
 namespace AK.F1.Timing.Live.Encryption
 {    
     /// <summary>
-    /// Defines a decryptor.
+    /// Defines a decrypter.
     /// </summary>
-    public interface IDecryptor
+    public interface IDecrypter
     {
         /// <summary>
         /// Decrypts the specified buffer in place.
@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Live.Encryption
         void Decrypt(byte[] buffer, int offset, int count);
         
         /// <summary>
-        /// Resets the state of the decryptor.
+        /// Resets the state of the decrypter.
         /// </summary>
         void Reset();
     }

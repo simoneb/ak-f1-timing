@@ -156,9 +156,9 @@
     <Compile Include="Live\IO\LiveMessageStreamEndpointTest.cs" />
     <Compile Include="Live\IO\LiveSocketMessageStreamTest.cs" />
     <Compile Include="Live\IO\MessageStreamDelegateTest.cs" />
-    <Compile Include="Live\Encryption\DecryptorFactoryBaseTest.cs" />
-    <Compile Include="Live\Encryption\LiveDecryptorTest.cs" />
-    <Compile Include="Live\Encryption\LiveDecryptorFactoryTest.cs" />
+    <Compile Include="Live\Encryption\DecrypterFactoryBaseTest.cs" />
+    <Compile Include="Live\Encryption\LiveDecrypterTest.cs" />
+    <Compile Include="Live\Encryption\LiveDecrypterFactoryTest.cs" />
     <Compile Include="Extensions\StreamExtensionsTest.cs" />
   </ItemGroup>
   <ItemGroup>

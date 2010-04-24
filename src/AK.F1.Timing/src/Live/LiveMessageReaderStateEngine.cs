@@ -76,23 +76,23 @@ namespace AK.F1.Timing.Live
         }
 
         /// <summary>
-        /// Sets the current reader session type and creates a new decryptor for the session
+        /// Sets the current reader session type and creates a new decrypter for the session
         /// identifier specified by the message.
         /// </summary>
         /// <param name="message">The message.</param>
         public override void Visit(SetSessionTypeMessage message) {
 
             _reader.SessionType = message.SessionType;
-            _reader.Decryptor = _reader.DecryptorFactory.Create(message.SessionId);            
+            _reader.Decrypter = _reader.DecrypterFactory.Create(message.SessionId);            
         }
 
         /// <summary>
-        /// Resets the current decryptor.
+        /// Resets the current decrypter.
         /// </summary>
         /// <param name="message">The message.</param>
         public override void Visit(SetKeyframeMessage message) {
 
-            _reader.Decryptor.Reset();
+            _reader.Decrypter.Reset();
         }
 
         #endregion

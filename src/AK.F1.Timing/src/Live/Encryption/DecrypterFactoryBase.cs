@@ -18,7 +18,7 @@ using System.Collections.Generic;
 namespace AK.F1.Timing.Live.Encryption
 {    
     /// <summary>
-    /// Defines a base class for <see cref="AK.F1.Timing.Live.Encryption.IDecryptorFactory"/>
+    /// Defines a base class for <see cref="AK.F1.Timing.Live.Encryption.IDecrypterFactory"/>
     /// implementations which provides seed caching capabilities. This class is
     /// <see langword="abstract"/>.
     /// </summary>
@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Live.Encryption
     /// comparer.
     /// </remarks>
     [Serializable]
-    public abstract class DecryptorFactoryBase : IDecryptorFactory
+    public abstract class DecrypterFactoryBase : IDecrypterFactory
     {
         #region Private Fields.
 
@@ -43,15 +43,15 @@ namespace AK.F1.Timing.Live.Encryption
         public const int DefaultSeed = 0;
 
         /// <inheritdoc />
-        public virtual IDecryptor Create() {
+        public virtual IDecrypter Create() {
 
-            Log.Info("creating decryptor with default seed");
+            Log.Info("creating decrypter with default seed");
 
-            return CreateWithSeed(DecryptorFactoryBase.DefaultSeed);
+            return CreateWithSeed(DecrypterFactoryBase.DefaultSeed);
         }
 
         /// <inheritdoc />
-        public IDecryptor Create(string sessionId) {
+        public IDecrypter Create(string sessionId) {
 
             Guard.NotNullOrEmpty(sessionId, "sessionId");
 
@@ -64,7 +64,7 @@ namespace AK.F1.Timing.Live.Encryption
                 Log.InfoFormat("cache hit for session {0} with seed {1}", sessionId, seed);
             }
 
-            Log.InfoFormat("creating decryptor for session {0} with seed {1}", sessionId, seed);
+            Log.InfoFormat("creating decrypter for session {0} with seed {1}", sessionId, seed);
 
             return CreateWithSeed(seed);
         }
@@ -74,9 +74,9 @@ namespace AK.F1.Timing.Live.Encryption
         #region Protected Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="DecryptorFactoryBase"/> class.
+        /// Initialises a new instance of the <see cref="DecrypterFactoryBase"/> class.
         /// </summary>
-        protected DecryptorFactoryBase() {
+        protected DecrypterFactoryBase() {
 
             SeedCache = new Dictionary<string, int>(StringComparer.Ordinal);
         }
@@ -98,13 +98,13 @@ namespace AK.F1.Timing.Live.Encryption
 
         /// <summary>
         /// When overriden in a derived class; creates a new
-        /// <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/> using the specified
+        /// <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/> using the specified
         /// <paramref name="seed"/>.
         /// </summary>
         /// <param name="seed">The decryption seed.</param>
-        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/> using the specified
+        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/> using the specified
         /// <paramref name="seed"/>.</returns>
-        protected abstract IDecryptor CreateWithSeed(int seed);        
+        protected abstract IDecrypter CreateWithSeed(int seed);        
 
         /// <summary>
         /// Gets the <see cref="log4net.ILog"/> for this type.

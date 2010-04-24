@@ -17,10 +17,10 @@ using System;
 namespace AK.F1.Timing.Live.Encryption
 {    
     /// <summary>
-    /// An <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/> implementation which implements
+    /// An <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/> implementation which implements
     /// the 2009 decryption algorithm. This class cannot be inherited.
     /// </summary>
-    public sealed class LiveDecryptor : IDecryptor
+    public sealed class LiveDecrypter : IDecrypter
     {
         #region Private Fields.
 
@@ -34,11 +34,11 @@ namespace AK.F1.Timing.Live.Encryption
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="LiveDecryptor"/> class and specifies the
+        /// Initialises a new instance of the <see cref="LiveDecrypter"/> class and specifies the
         /// initial hash <paramref name="seed"/>
         /// </summary>
         /// <param name="seed">The initial hash seed.</param>
-        public LiveDecryptor(int seed) {
+        public LiveDecrypter(int seed) {
 
             _seed = seed;
             _mask = DEFAULT_MASK;

@@ -107,7 +107,7 @@
     <Compile Include="Messages\Driver\SetDriverPitCountMessage.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Utility\DisposableCallback.cs" />
-    <Compile Include="Live\Encryption\DecryptorFactoryBase.cs" />
+    <Compile Include="Live\Encryption\DecrypterFactoryBase.cs" />
     <Compile Include="Messages\CompositeMessage.cs" />
     <Compile Include="Messages\Session\SetElapsedSessionTimeMessage.cs" />
     <Compile Include="Messages\Weather\SetIsWetMessage.cs" />
@@ -123,10 +123,10 @@
     <Compile Include="Extensions\HttpMethod.cs" />
     <Compile Include="Live\IO\IMessageStream.cs" />
     <Compile Include="Extensions\UriExtensions.cs" />
-    <Compile Include="Live\Encryption\LiveDecryptorFactory.cs" />
-    <Compile Include="Live\Encryption\LiveDecryptor.cs" />
-    <Compile Include="Live\Encryption\IDecryptorFactory.cs" />
-    <Compile Include="Live\Recording\RecordedDecryptorFactory.cs" />
+    <Compile Include="Live\Encryption\LiveDecrypterFactory.cs" />
+    <Compile Include="Live\Encryption\LiveDecrypter.cs" />
+    <Compile Include="Live\Encryption\IDecrypterFactory.cs" />
+    <Compile Include="Live\Recording\RecordedDecrypterFactory.cs" />
     <Compile Include="Live\Recording\RecordedMessageStreamEndpoint.cs" />
     <Compile Include="MessageReaderBase.cs" />
     <Compile Include="Messages\Feed\SetCopyrightMessage.cs" />
@@ -137,7 +137,7 @@
     </Compile>
     <Compile Include="Extensions\StreamExtensions.cs" />
     <Compile Include="Live\IO\LiveMessageStreamEndpoint.cs" />
-    <Compile Include="Live\Encryption\IDecryptor.cs" />
+    <Compile Include="Live\Encryption\IDecrypter.cs" />
     <Compile Include="Messages\Driver\DriverStatus.cs" />
     <Compile Include="Messages\Feed\SetPingIntervalMessage.cs" />
     <Compile Include="Messages\Driver\SetDriverQuallyTimeMessage.cs" />

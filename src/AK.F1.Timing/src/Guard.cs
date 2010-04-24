@@ -234,14 +234,14 @@ namespace AK.F1.Timing
             return new ArgumentException(Format(Resource.PostedTime_InvalidCompareToArgument, typeof(PostedTime).FullName, obj.GetType().FullName), "obj");
         }
 
-        internal static SerializationException LiveDecryptorFactory_UnableToParseSeed(string s) {
+        internal static SerializationException LiveDecrypterFactory_UnableToParseSeed(string s) {
 
-            return new SerializationException(Format(Resource.LiveDecryptorFactory_UnableToParseSeed, s));
+            return new SerializationException(Format(Resource.LiveDecrypterFactory_UnableToParseSeed, s));
         }
 
-        internal static AuthenticationException LiveDecryptorFactory_CredentialsRejected() {
+        internal static AuthenticationException LiveDecrypterFactory_CredentialsRejected() {
 
-            return new AuthenticationException(Resource.LiveDecryptorFactory_CredentialsRejected);
+            return new AuthenticationException(Resource.LiveDecrypterFactory_CredentialsRejected);
         }
 
         internal static AuthenticationException LiveAuthenticationService_CredentialsRejected() {
@@ -329,9 +329,9 @@ namespace AK.F1.Timing
             return new IOException(Format(Resource.LiveAuthenticationService_FailedToFetchAuthToken, exc.Message), exc);
         }
 
-        internal static IOException LiveDecryptorFactory_FailedToFetchSessionSeed(IOException exc) {
+        internal static IOException LiveDecrypterFactory_FailedToFetchSessionSeed(IOException exc) {
 
-            return new IOException(Format(Resource.LiveDecryptorFactory_FailedToFetchSessionSeed, exc.Message), exc);
+            return new IOException(Format(Resource.LiveDecrypterFactory_FailedToFetchSessionSeed, exc.Message), exc);
         }
 
         #endregion

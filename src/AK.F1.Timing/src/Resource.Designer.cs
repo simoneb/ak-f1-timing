@@ -234,27 +234,27 @@ namespace AK.F1.Timing {
         /// <summary>
         ///   Looks up a localized string similar to Failed to fetch the session decryption seed from the live-timing service as the user&apos;s authentication token has been rejected..
         /// </summary>
-        internal static string LiveDecryptorFactory_CredentialsRejected {
+        internal static string LiveDecrypterFactory_CredentialsRejected {
             get {
-                return ResourceManager.GetString("LiveDecryptorFactory_CredentialsRejected", resourceCulture);
+                return ResourceManager.GetString("LiveDecrypterFactory_CredentialsRejected", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Failed to fetch the session decryption seed from the live-timing service: &apos;{0}&apos;.
         /// </summary>
-        internal static string LiveDecryptorFactory_FailedToFetchSessionSeed {
+        internal static string LiveDecrypterFactory_FailedToFetchSessionSeed {
             get {
-                return ResourceManager.GetString("LiveDecryptorFactory_FailedToFetchSessionSeed", resourceCulture);
+                return ResourceManager.GetString("LiveDecrypterFactory_FailedToFetchSessionSeed", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Unable to parse decryption seed from &apos;{0}&apos;..
         /// </summary>
-        internal static string LiveDecryptorFactory_UnableToParseSeed {
+        internal static string LiveDecrypterFactory_UnableToParseSeed {
             get {
-                return ResourceManager.GetString("LiveDecryptorFactory_UnableToParseSeed", resourceCulture);
+                return ResourceManager.GetString("LiveDecrypterFactory_UnableToParseSeed", resourceCulture);
             }
         }
         

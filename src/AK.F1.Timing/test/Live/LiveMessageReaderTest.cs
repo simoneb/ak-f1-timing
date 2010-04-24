@@ -27,12 +27,12 @@ namespace AK.F1.Timing.Live
         public void ctor_throws_if_message_stream_endpoint_is_null() {
 
             Assert.Throws<ArgumentNullException>(() => {
-                new LiveMessageReader(null, new Mock<IDecryptorFactory>().Object);
+                new LiveMessageReader(null, new Mock<IDecrypterFactory>().Object);
             });
         }
 
         [Fact]
-        public void ctor_throws_if_decryptor_factory_is_null() {
+        public void ctor_throws_if_decrypter_factory_is_null() {
 
             Assert.Throws<ArgumentNullException>(() => {
                 new LiveMessageReader(new Mock<IMessageStreamEndpoint>().Object, null);

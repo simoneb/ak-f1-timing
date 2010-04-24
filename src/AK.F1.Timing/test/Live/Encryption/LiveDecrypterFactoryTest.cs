@@ -15,13 +15,14 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Live.Encryption;
-
 namespace AK.F1.Timing.Live.Encryption
 {
-
-
-    public class LiveDecryptorTest
+    public class LiveDecrypterFactoryTest
     {
+        [Fact]
+        public void ctor_throws_if_authentication_token_is_null() {
+
+            Assert.Throws<ArgumentNullException>(() => new LiveDecrypterFactory(null));
+        }
     }
 }

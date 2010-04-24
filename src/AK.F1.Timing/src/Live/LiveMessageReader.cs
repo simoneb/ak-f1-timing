@@ -50,15 +50,15 @@ namespace AK.F1.Timing.Live
         /// 
         /// </summary>        
         /// <param name="messageStreamEndpoint"></param>
-        /// <param name="decryptorFactory"></param>
+        /// <param name="decrypterFactory"></param>
         public LiveMessageReader(IMessageStreamEndpoint messageStreamEndpoint,
-            IDecryptorFactory decryptorFactory) {
+            IDecrypterFactory decrypterFactory) {
             
             Guard.NotNull(messageStreamEndpoint, "messageStreamEndpoint");
-            Guard.NotNull(decryptorFactory, "decryptorFactory");
+            Guard.NotNull(decrypterFactory, "decrypterFactory");
             
             MessageStreamEndpoint = messageStreamEndpoint;
-            DecryptorFactory = decryptorFactory;
+            DecrypterFactory = decrypterFactory;
             QueuedMessages = new Queue<Message>();            
             SessionType = SessionType.None;
             State = LiveMessageReaderState.Uninitialised;
@@ -126,14 +126,14 @@ namespace AK.F1.Timing.Live
         internal SessionType SessionType { get; set; }
 
         /// <summary>
-        /// Gets the current decryptor factory being used by the reader.
+        /// Gets the current decrypter factory being used by the reader.
         /// </summary>
-        internal IDecryptorFactory DecryptorFactory { get; private set; }
+        internal IDecrypterFactory DecrypterFactory { get; private set; }
 
         /// <summary>
-        /// Gets or sets the current decryptor being used by the reader.
+        /// Gets or sets the current decrypter being used by the reader.
         /// </summary>
-        internal IDecryptor Decryptor { get; set; }
+        internal IDecrypter Decrypter { get; set; }
 
         /// <summary>
         /// Gets or sets the state of the reader.
@@ -168,7 +168,7 @@ namespace AK.F1.Timing.Live
             Log.Info("initialising");
 
             Buffer = CreateBuffer();
-            Decryptor = DecryptorFactory.Create();
+            Decrypter = DecrypterFactory.Create();
             MessageStream = MessageStreamEndpoint.Open();
 
             try {
@@ -193,7 +193,7 @@ namespace AK.F1.Timing.Live
             Log.InfoFormat("enqueuing messages from keyframe {0}", keyframe);
 
             using(StreamAndBufferBackup()) {
-                Decryptor.Reset();
+                Decrypter.Reset();
                 MessageStream = MessageStreamEndpoint.OpenKeyframe(keyframe);                
                 try {
                     do {
@@ -217,7 +217,7 @@ namespace AK.F1.Timing.Live
                 }
             }
 
-            Decryptor.Reset();
+            Decrypter.Reset();
 
             Log.InfoFormat("enqueued {0} messages from keyframe {1}",
                 QueuedMessages.Count, keyframe);
@@ -530,7 +530,7 @@ namespace AK.F1.Timing.Live
         private void ReadAndDecryptBytes(int count) {
 
             ReadBytes(count);
-            Decryptor.Decrypt(Buffer, 0, count);
+            Decrypter.Decrypt(Buffer, 0, count);
         }
 
         private string GetUtf8(int offset, int count) {

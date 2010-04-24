@@ -17,27 +17,27 @@ using System;
 namespace AK.F1.Timing.Live.Encryption
 {
     /// <summary>
-    /// Defines the means of creating <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>
+    /// Defines the means of creating <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/>
     /// instances.
     /// </summary>
-    public interface IDecryptorFactory
+    public interface IDecrypterFactory
     {
         /// <summary>
-        /// Creates a new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>.
+        /// Creates a new <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/>.
         /// </summary>
-        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>.</returns>
-        IDecryptor Create();
+        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/>.</returns>
+        IDecrypter Create();
 
         /// <summary>
-        /// Creates a new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>.
+        /// Creates a new <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/>.
         /// </summary>
-        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecryptor"/>.</returns>
+        /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/>.</returns>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="sessionId"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="System.ArgumentException">
         /// Thrown when <paramref name="sessionId"/> is empty.
         /// </exception>
-        IDecryptor Create(string sessionId);
+        IDecrypter Create(string sessionId);
     }
 }

@@ -75,7 +75,7 @@ namespace AK.F1.Timing
 
                 return new LiveMessageReader(
                     new LiveMessageStreamEndpoint(),
-                    new LiveDecryptorFactory(token));
+                    new LiveDecrypterFactory(token));
             }
 
             /// <summary>

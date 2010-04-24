@@ -168,10 +168,10 @@
   <data name="LiveAuthenticationService_FailedToFetchAuthToken" xml:space="preserve">
     <value>Failed to fetch an authentication token from the live-timing service: '{0}'</value>
   </data>
-  <data name="LiveDecryptorFactory_FailedToFetchSessionSeed" xml:space="preserve">
+  <data name="LiveDecrypterFactory_FailedToFetchSessionSeed" xml:space="preserve">
     <value>Failed to fetch the session decryption seed from the live-timing service: '{0}'</value>
   </data>
-  <data name="LiveDecryptorFactory_UnableToParseSeed" xml:space="preserve">
+  <data name="LiveDecrypterFactory_UnableToParseSeed" xml:space="preserve">
     <value>Unable to parse decryption seed from '{0}'.</value>
   </data>
   <data name="LiveMessageReader_MessageClassification_Driver" xml:space="preserve">
@@ -230,7 +230,7 @@ Message Classification: '{1}'</value>
   <data name="TypeDescriptor_TypeIsNotDecorated" xml:space="preserve">
     <value>The '{0}' type cannot be serialized as it is not decorated with the '{1}' attribute.</value>
   </data>
-  <data name="LiveDecryptorFactory_CredentialsRejected" xml:space="preserve">
+  <data name="LiveDecrypterFactory_CredentialsRejected" xml:space="preserve">
     <value>Failed to fetch the session decryption seed from the live-timing service as the user's authentication token has been rejected.</value>
   </data>
   <data name="DecoratedObjectWriter_CirularReferencesAreNotSupported" xml:space="preserve">
