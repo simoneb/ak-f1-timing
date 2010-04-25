@@ -36,7 +36,7 @@ namespace AK.F1.Timing.Model.Session
             /// the <paramref name="model"/> to build.
             /// </summary>
             /// <param name="model">The model to build.</param>
-            /// <exception cref="System.ArgumentNullException">
+            /// <exception cref="T:System.ArgumentNullException">
             /// Thrown when <paramref name="model"/> is <see langword="null"/>.
             /// </exception>
             public MessageModelBuilder(MessageModel model) {
