@@ -128,10 +128,10 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_is_wet_property_raise_the_property_changed_event() {
 
             var model = new WeatherModel();
-            var tracker = new PropertyChangeTracker<WeatherModel>(model);
+            var observer = new PropertyChangeObserver<WeatherModel>(model);
 
             model.Process(new SetIsWetMessage(true));
-            Assert.Equal(1, tracker.GetChangeCount(x => x.IsWet));
+            Assert.Equal(1, observer.GetChangeCount(x => x.IsWet));
         }
 
         private static WeatherModel CreateModel(Message messageToProcess) {

@@ -64,10 +64,10 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_system_property_raise_the_property_changed_event() {
 
             var model = new MessageModel();
-            var tracker = new PropertyChangeTracker<MessageModel>(model);
+            var observer = new PropertyChangeObserver<MessageModel>(model);
 
             model.Process(new SetSystemMessageMessage("message"));
-            Assert.Equal(1, tracker.GetChangeCount(x => x.System));
+            Assert.Equal(1, observer.GetChangeCount(x => x.System));
         }
 
         [Fact]
@@ -88,10 +88,10 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_commentary_property_raise_the_property_changed_event() {
 
             var model = new MessageModel();
-            var tracker = new PropertyChangeTracker<MessageModel>(model);
+            var observer = new PropertyChangeObserver<MessageModel>(model);
 
             model.Process(new AddCommentaryMessage("commentary"));
-            Assert.Equal(1, tracker.GetChangeCount(x => x.Commentary));
+            Assert.Equal(1, observer.GetChangeCount(x => x.Commentary));
         }
 
         private static MessageModel CreateModel(params Message[] messagesToProcess) {

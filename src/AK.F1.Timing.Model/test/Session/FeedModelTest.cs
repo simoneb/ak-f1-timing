@@ -67,10 +67,10 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_message_count_property_raise_the_property_changed_event() {
 
             var model = new FeedModel();
-            var tracker = new PropertyChangeTracker<FeedModel>(model);
+            var observer = new PropertyChangeObserver<FeedModel>(model);
 
             model.Process(new SetStreamValidityMessage(false));
-            Assert.Equal(1, tracker.GetChangeCount(x => x.MessageCount));
+            Assert.Equal(1, observer.GetChangeCount(x => x.MessageCount));
         }
 
         [Fact]
@@ -86,10 +86,10 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_copyright_property_raise_the_property_changed_event() {
 
             var model = new FeedModel();
-            var tracker = new PropertyChangeTracker<FeedModel>(model);
+            var observer = new PropertyChangeObserver<FeedModel>(model);
 
             model.Process(new SetCopyrightMessage("1"));
-            Assert.Equal(1, tracker.GetChangeCount(x => x.Copyright));
+            Assert.Equal(1, observer.GetChangeCount(x => x.Copyright));
         }
 
         [Fact]
@@ -105,10 +105,10 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_keyframe_property_raise_the_property_changed_event() {
 
             var model = new FeedModel();
-            var tracker = new PropertyChangeTracker<FeedModel>(model);
+            var observer = new PropertyChangeObserver<FeedModel>(model);
 
             model.Process(new SetKeyframeMessage(1));
-            Assert.Equal(1, tracker.GetChangeCount(x => x.KeyframeNumber));
+            Assert.Equal(1, observer.GetChangeCount(x => x.KeyframeNumber));
         }
 
         [Fact]
@@ -124,10 +124,10 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_ping_interval_property_raise_the_property_changed_event() {
 
             var model = new FeedModel();
-            var tracker = new PropertyChangeTracker<FeedModel>(model);
+            var observer = new PropertyChangeObserver<FeedModel>(model);
 
             model.Process(new SetPingIntervalMessage(TimeSpan.FromSeconds(1D)));
-            Assert.Equal(1, tracker.GetChangeCount(x => x.PingInterval));
+            Assert.Equal(1, observer.GetChangeCount(x => x.PingInterval));
         }
 
         private static FeedModel CreateModel(params Message[] messagesToProcess) {

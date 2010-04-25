@@ -97,9 +97,11 @@ namespace AK.F1.Timing.Model.Session
 
             #region Private Impl.
 
-            private void TrySetFastestLap(PostedTime time, int driverId) {
+            private void TrySetFastestLap(PostedTime time, int driverId) {                
                 
                 var isSessionBest = time.Type == PostedTimeType.SessionBest ||
+                    // We only receive session best lap times during a race session so we determine here
+                    // if the specified time should be promoted.
                     (CurrentSessionType != SessionType.Race && (Model.Lap == null || time.Time < Model.Lap.Time));
 
                 if(isSessionBest) {

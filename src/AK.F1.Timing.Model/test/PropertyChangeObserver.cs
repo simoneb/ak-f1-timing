@@ -22,12 +22,12 @@ using AK.F1.Timing.Messages.Feed;
 
 namespace AK.F1.Timing.Model.Session
 {
-    public sealed class PropertyChangeTracker<T> where T : INotifyPropertyChanged
+    public sealed class PropertyChangeObserver<T> where T : INotifyPropertyChanged
     {
         private readonly T _model;
         private readonly IDictionary<string, int> _changes = new Dictionary<string, int>();
 
-        public PropertyChangeTracker(T model) {
+        public PropertyChangeObserver(T model) {
 
             _model = model;
             _model.PropertyChanged += OnPropertyChanged;
@@ -35,8 +35,17 @@ namespace AK.F1.Timing.Model.Session
 
         public int GetChangeCount<TResult>(Expression<Func<T, TResult>> expression) {
 
+            return GetChangeCount(((MemberExpression)expression.Body).Member.Name);
+        }
+
+        public void ClearChanges() {
+
+            _changes.Clear();
+        }
+
+        public int GetChangeCount(string propertyName) {
+
             int count = 0;
-            var propertyName = ((MemberExpression)expression.Body).Member.Name;
 
             _changes.TryGetValue(propertyName, out count);
 
