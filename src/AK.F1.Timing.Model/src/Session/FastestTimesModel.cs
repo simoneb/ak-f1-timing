@@ -19,10 +19,11 @@ using AK.F1.Timing.Model.Driver;
 namespace AK.F1.Timing.Model.Session
 {
     /// <summary>
-    /// Contains information relating to the fastest times set during a session.
+    /// Contains information relating to the fastest times set during a session. This class cannot
+    /// be inherited.
     /// </summary>
     [Serializable]
-    public partial class FastestTimesModel : ModelBase
+    public sealed partial class FastestTimesModel : ModelBase
     {
         #region Private Fields.
 
@@ -91,11 +92,11 @@ namespace AK.F1.Timing.Model.Session
             Guard.NotNull(driver, "driver");
 
             if(sectorNumber == 1) {
-                S1 = CreateFastestTime(time, driver, lapNumber, S1);
+                S1 = CreateFastestTime(driver, time, lapNumber, S1);
             } else if(sectorNumber == 2) {
-                S2 = CreateFastestTime(time, driver, lapNumber, S2);
+                S2 = CreateFastestTime(driver, time, lapNumber, S2);
             } else if(sectorNumber == 3) {
-                S3 = CreateFastestTime(time, driver, lapNumber, S3);
+                S3 = CreateFastestTime(driver, time, lapNumber, S3);
             } else {
                 throw Guard.ArgumentOutOfRange("sectorNumber");
             }
@@ -114,7 +115,7 @@ namespace AK.F1.Timing.Model.Session
 
             Guard.NotNull(driver, "driver");
 
-            Lap = CreateFastestTime(time, driver, lapNumber, Lap);
+            Lap = CreateFastestTime(driver, time, lapNumber, Lap);
         }
 
         /// <summary>
@@ -199,10 +200,11 @@ namespace AK.F1.Timing.Model.Session
 
         #region Private Impl.
 
-        private static FastestTimeModel CreateFastestTime(TimeSpan time, DriverModel driver,
+        private static FastestTimeModel CreateFastestTime(DriverModel driver, TimeSpan time,
             int lapNumber, FastestTimeModel previous) {
 
-            return new FastestTimeModel(driver, time, lapNumber, previous != null ? new TimeSpan?(time - previous.Time) : null);
+            return new FastestTimeModel(driver, time, lapNumber,
+                previous != null ? new TimeSpan?(time - previous.Time) : null);
         }
 
         private void ComputePossible() {
@@ -212,17 +214,9 @@ namespace AK.F1.Timing.Model.Session
             } else {
                 var newPossibleTime = S1.Time + S2.Time + S3.Time;
                 // TODO this is a bit hackish.
-                Possible = new FastestTimeModel(null, newPossibleTime, 0, ComputeDiffFromLap(newPossibleTime));
+                Possible = new FastestTimeModel(null, newPossibleTime, 0,
+                    Lap != null ? new TimeSpan?(Lap.Time - newPossibleTime) : null);
             }            
-        }
-
-        private TimeSpan? ComputeDiffFromLap(TimeSpan value) {
-
-            if(Lap == null) {
-                return null;
-            }
-
-            return Lap.Time - value;
         }
 
         private void NotifyIsEmptyChanged() {

@@ -175,7 +175,7 @@ namespace AK.F1.Timing.Model.Session
         public void when_all_sector_times_have_been_set_the_possible_property_is_computed_and_the_property_changed_event_is_raised() {
 
             var model = CreateModel();
-            var sectorTime = new PostedTime(TimeSpan.FromSeconds(1D), PostedTimeType.SessionBest, 1);
+            var sectorTime = new PostedTime(TimeSpan.FromSeconds(2D), PostedTimeType.SessionBest, 1);
             var observer = new PropertyChangeObserver<FastestTimesModel>(model);
 
             model.Process(new SetDriverSectorTimeMessage(1, 1, sectorTime));
@@ -185,12 +185,16 @@ namespace AK.F1.Timing.Model.Session
             model.Process(new SetDriverSectorTimeMessage(1, 3, sectorTime));
             Assert.NotNull(model.Possible);
             Assert.Null(model.Possible.Delta);
-            // The possible is not set by a driver, it is computed.
             Assert.Null(model.Possible.Driver);
             // TODO perhaps the lap number should define the latest change made? 
             Assert.Equal(0, model.Possible.LapNumber);
-            Assert.Equal(TimeSpan.FromSeconds(3D), model.Possible.Time);
+            Assert.Equal(TimeSpan.FromSeconds(6D), model.Possible.Time);
             Assert.Equal(1, observer.GetChangeCount(x => x.Possible));
+            // Post a lap time assert the delta is computed.
+            model.Process(new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromSeconds(8D), PostedTimeType.SessionBest, 1)));
+            Assert.NotNull(model.Possible.Delta);
+            Assert.Equal(TimeSpan.FromSeconds(2D), model.Possible.Delta.Value);
+            Assert.Equal(2, observer.GetChangeCount(x => x.Possible));
         }
 
         [Fact]
