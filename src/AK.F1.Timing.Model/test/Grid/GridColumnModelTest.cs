@@ -48,46 +48,30 @@ namespace AK.F1.Timing.Model.Grid
 
         [Fact]
         public void setting_the_text_property_raises_the_change_event_if_is_has_changed() {
-
-            int changeCount = 0;
-            string propertyName = null;
+            
             var column = new GridColumnModel(GridColumn.DriverName);
-
-            column.PropertyChanged += (s, e) => {
-                ++changeCount;
-                propertyName = e.PropertyName;
-            };
+            var observer = new PropertyChangeObserver<GridColumnModel>(column);
 
             column.Text = "Andy";
-            Assert.Equal(1, changeCount);
-            Assert.Equal("Text", propertyName);
+            Assert.Equal(1, observer.GetChangeCount(x => x.Text));            
             column.Text = "Andy";
-            Assert.Equal(1, changeCount);
+            Assert.Equal(1, observer.GetChangeCount(x => x.Text));
             column.Text = null;
-            Assert.Equal(2, changeCount);
-            Assert.Equal("Text", propertyName);
+            Assert.Equal(2, observer.GetChangeCount(x => x.Text));
         }
 
         [Fact]
         public void setting_the_text_colour_property_raises_the_change_event_if_is_has_changed() {
 
-            int changeCount = 0;
-            string propertyName = null;
             var column = new GridColumnModel(GridColumn.DriverName);
-
-            column.PropertyChanged += (s, e) => {
-                ++changeCount;
-                propertyName = e.PropertyName;
-            };
+            var observer = new PropertyChangeObserver<GridColumnModel>(column);
 
             column.TextColour = GridColumnColour.Green;
-            Assert.Equal(1, changeCount);
-            Assert.Equal("TextColour", propertyName);
+            Assert.Equal(1, observer.GetChangeCount(x => x.TextColour));
             column.TextColour = GridColumnColour.Green;
-            Assert.Equal(1, changeCount);
+            Assert.Equal(1, observer.GetChangeCount(x => x.TextColour));
             column.TextColour = GridColumnColour.Black;
-            Assert.Equal(2, changeCount);
-            Assert.Equal("TextColour", propertyName);
+            Assert.Equal(2, observer.GetChangeCount(x => x.TextColour));
         }
 
         private static void assert_properties_have_default_values(GridColumnModel column) {

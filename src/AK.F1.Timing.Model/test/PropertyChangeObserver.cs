@@ -16,11 +16,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
-using Xunit;
 
-using AK.F1.Timing.Messages.Feed;
-
-namespace AK.F1.Timing.Model.Session
+namespace AK.F1.Timing.Model
 {
     public sealed class PropertyChangeObserver<T> where T : INotifyPropertyChanged
     {

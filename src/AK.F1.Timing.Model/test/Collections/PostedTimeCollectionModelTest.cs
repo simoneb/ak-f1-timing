@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Xunit;
 
 using AK.F1.Timing.Messages.Driver;
@@ -91,7 +92,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(PT(35d, PostedTimeType.Normal, 5));
             Assert.Equal(2, model.Count);
 
-            Assert.Equal(2, context.GetChangeCount("Count"));
+            Assert.Equal(2, context.GetChangeCount(x => x.Count));
         }
 
         [Fact]
@@ -103,7 +104,7 @@ namespace AK.F1.Timing.Model.Collections
 
             Assert.Equal(1, context.Model.Count);
 
-            Assert.Equal(0, context.GetChangeCount("Count"));
+            Assert.Equal(0, context.GetChangeCount(x => x.Count));
         }
 
         [Fact]
@@ -119,7 +120,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(current);
             Assert.Equal(current, model.Current);
 
-            Assert.Equal(2, context.GetChangeCount("Current"));
+            Assert.Equal(2, context.GetChangeCount(x => x.Current));
         }
 
         [Fact]
@@ -131,7 +132,7 @@ namespace AK.F1.Timing.Model.Collections
             context.Model.Add(replacement);
             Assert.Equal(replacement, context.Model.Current);
 
-            Assert.Equal(1, context.GetChangeCount("Current"));
+            Assert.Equal(1, context.GetChangeCount(x => x.Current));
         }
 
         [Fact]
@@ -149,7 +150,7 @@ namespace AK.F1.Timing.Model.Collections
                 Assert.Equal(item, model.Maximum);
             }
 
-            Assert.Equal(5, context.GetChangeCount("Maximum"));
+            Assert.Equal(5, context.GetChangeCount(x => x.Maximum));
         }
 
         [Fact]
@@ -165,7 +166,7 @@ namespace AK.F1.Timing.Model.Collections
             context.Model.ReplaceCurrent(replacement);
             Assert.Equal(replacement, context.Model.Maximum);
 
-            Assert.Equal(1, context.GetChangeCount("Maximum"));
+            Assert.Equal(1, context.GetChangeCount(x => x.Maximum));
         }
 
         [Fact]
@@ -183,7 +184,7 @@ namespace AK.F1.Timing.Model.Collections
                 Assert.Equal(item, model.Minimum);
             }
 
-            Assert.Equal(6, context.GetChangeCount("Minimum"));
+            Assert.Equal(6, context.GetChangeCount(x => x.Minimum));
         }
 
         [Fact]
@@ -199,7 +200,7 @@ namespace AK.F1.Timing.Model.Collections
             context.Model.ReplaceCurrent(replacement);
             Assert.Equal(replacement, context.Model.Minimum);
 
-            Assert.Equal(1, context.GetChangeCount("Minimum"));
+            Assert.Equal(1, context.GetChangeCount(x => x.Minimum));
         }
 
         [Fact]
@@ -215,7 +216,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(PT(4d, PostedTimeType.Normal, 1));
             Assert.Equal(TS(2d), model.Mean);
 
-            Assert.Equal(2, context.GetChangeCount("Mean"));
+            Assert.Equal(2, context.GetChangeCount(x => x.Mean));
         }
 
         [Fact]
@@ -239,7 +240,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(PT(10d, PostedTimeType.Normal, 1));
             Assert.Equal(TS(9d), model.Range);
 
-            Assert.Equal(2, context.GetChangeCount("Range"));
+            Assert.Equal(2, context.GetChangeCount(x => x.Range));
         }
 
         [Fact]
@@ -256,7 +257,7 @@ namespace AK.F1.Timing.Model.Collections
             model.ReplaceCurrent(PT(10, PostedTimeType.Normal, 1));
             Assert.Equal(TS(10), model.Range);
 
-            Assert.Equal(2, context.GetChangeCount("Range"));
+            Assert.Equal(2, context.GetChangeCount(x => x.Range));
         }
 
         [Fact]
@@ -268,7 +269,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(PT(15, PostedTimeType.PersonalBest, 1));            
             Assert.Equal(1, model.PersonalBestCount);
 
-            Assert.Equal(1, context.GetChangeCount("PersonalBestCount"));
+            Assert.Equal(1, context.GetChangeCount(x => x.PersonalBestCount));
         }
 
         [Fact]
@@ -288,7 +289,7 @@ namespace AK.F1.Timing.Model.Collections
             model.ReplaceCurrent(PT(15, PostedTimeType.SessionBest, 1));
             Assert.Equal(0, model.PersonalBestCount);
 
-            Assert.Equal(4, context.GetChangeCount("PersonalBestCount"));
+            Assert.Equal(4, context.GetChangeCount(x => x.PersonalBestCount));
         }
 
         [Fact]
@@ -300,7 +301,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(PT(15, PostedTimeType.SessionBest, 1));
             Assert.Equal(1, model.SessionBestCount);
 
-            Assert.Equal(1, context.GetChangeCount("SessionBestCount"));
+            Assert.Equal(1, context.GetChangeCount(x => x.SessionBestCount));
         }
 
         [Fact]
@@ -320,7 +321,7 @@ namespace AK.F1.Timing.Model.Collections
             model.ReplaceCurrent(PT(15, PostedTimeType.PersonalBest, 1));
             Assert.Equal(0, model.SessionBestCount);
 
-            Assert.Equal(4, context.GetChangeCount("SessionBestCount"));
+            Assert.Equal(4, context.GetChangeCount(x => x.SessionBestCount));
         }
 
         [Fact]
@@ -349,7 +350,7 @@ namespace AK.F1.Timing.Model.Collections
             var context = new TestContext();
 
             context.Model.Add(PT(1, PostedTimeType.Normal, 1));
-            context.Changes.Clear();
+            context.Observer.ClearChanges();
 
             return context;
         }
@@ -366,25 +367,18 @@ namespace AK.F1.Timing.Model.Collections
 
         private sealed class TestContext
         {
-            public readonly PostedTimeCollectionModel Model = new PostedTimeCollectionModel();
-            public readonly IDictionary<string, int> Changes = new Dictionary<string, int>(StringComparer.Ordinal);
+            public readonly PostedTimeCollectionModel Model;
+            public readonly PropertyChangeObserver<PostedTimeCollectionModel> Observer;
 
             public TestContext() {
 
-                Model.PropertyChanged += (s, e) => {
-                    int count;
-                    Changes.TryGetValue(e.PropertyName, out count);
-                    Changes[e.PropertyName] = count + 1;
-                };
+                Model = new PostedTimeCollectionModel();
+                Observer = new PropertyChangeObserver<PostedTimeCollectionModel>(Model);
             }
 
-            public int GetChangeCount(string propertyName) {
+            public int GetChangeCount<TResult>(Expression<Func<PostedTimeCollectionModel, TResult>> expression) {
 
-                int count;
-
-                Changes.TryGetValue(propertyName, out count);
-
-                return count;
+                return Observer.GetChangeCount(expression);
             }
         }
     }

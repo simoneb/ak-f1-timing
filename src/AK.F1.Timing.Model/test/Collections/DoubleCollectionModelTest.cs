@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace AK.F1.Timing.Model.Collections
@@ -94,7 +95,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(1d);
             Assert.Equal(2, model.Count);
 
-            Assert.Equal(2, context.Changes["Count"]);
+            Assert.Equal(2, context.GetChangeCount(x => x.Count));
         }
 
         [Fact]
@@ -108,7 +109,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(2d);
             Assert.Equal(2d, model.Current);
 
-            Assert.Equal(2, context.Changes["Current"]);
+            Assert.Equal(2, context.GetChangeCount(x => x.Current));
         }
 
         [Fact]
@@ -126,7 +127,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(1d);
             Assert.Equal(DeltaType.None, model.CurrentDeltaType);
 
-            Assert.Equal(3, context.Changes["CurrentDeltaType"]);
+            Assert.Equal(3, context.GetChangeCount(x => x.CurrentDeltaType));
         }
 
         [Fact]
@@ -142,7 +143,7 @@ namespace AK.F1.Timing.Model.Collections
                 Assert.Equal(item, model.Maximum);
             }
 
-            Assert.Equal(10, context.Changes["Maximum"]);
+            Assert.Equal(10, context.GetChangeCount(x => x.Maximum));
         }
 
         [Fact]
@@ -158,7 +159,7 @@ namespace AK.F1.Timing.Model.Collections
                 Assert.Equal(item, model.Minimum);
             }
 
-            Assert.Equal(10, context.Changes["Minimum"]);
+            Assert.Equal(10, context.GetChangeCount(x => x.Minimum));
         }
 
         [Fact]
@@ -174,7 +175,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(4d);
             Assert.Equal(2d, model.Mean);
 
-            Assert.Equal(2, context.Changes["Mean"]);
+            Assert.Equal(2, context.GetChangeCount(x => x.Mean));
         }
 
         [Fact]
@@ -190,9 +191,9 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(20d);
             Assert.Equal(DeltaType.Increase, model.MeanDeltaType);
             model.Add(5d);
-            Assert.Equal(DeltaType.Decrease, model.MeanDeltaType);            
+            Assert.Equal(DeltaType.Decrease, model.MeanDeltaType);
 
-            Assert.Equal(2, context.Changes["MeanDeltaType"]);
+            Assert.Equal(2, context.GetChangeCount(x => x.MeanDeltaType));
         }
 
         [Fact]
@@ -206,7 +207,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(10d);
             Assert.Equal(9d, model.Range);
 
-            Assert.Equal(2, context.Changes["Range"]);
+            Assert.Equal(2, context.GetChangeCount(x => x.Range));
 
             context = new TestContext();
             model = context.Model;
@@ -220,7 +221,7 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(10d);
             Assert.Equal(30d, model.Range);
 
-            Assert.Equal(4, context.Changes["Range"]);
+            Assert.Equal(4, context.GetChangeCount(x => x.Range));
         }
 
         [Fact]
@@ -234,7 +235,7 @@ namespace AK.F1.Timing.Model.Collections
             }
 
             Assert.Equal(2.8722813232690143, model.StandardDeviation);
-            Assert.Equal(10, context.Changes["StandardDeviation"]);
+            Assert.Equal(10, context.GetChangeCount(x => x.StandardDeviation));
         }
 
         [Fact]
@@ -249,16 +250,18 @@ namespace AK.F1.Timing.Model.Collections
 
         private sealed class TestContext
         {
-            public readonly DoubleCollectionModel Model = new DoubleCollectionModel();
-            public readonly IDictionary<string, int> Changes = new Dictionary<string, int>(StringComparer.Ordinal);
+            public readonly DoubleCollectionModel Model;
+            public readonly PropertyChangeObserver<DoubleCollectionModel> Observer;
 
             public TestContext() {
 
-                Model.PropertyChanged += (s, e) => {
-                    int count;
-                    Changes.TryGetValue(e.PropertyName, out count);
-                    Changes[e.PropertyName] = count + 1;
-                };
+                Model = new DoubleCollectionModel();
+                Observer = new PropertyChangeObserver<DoubleCollectionModel>(Model);
+            }
+
+            public int GetChangeCount<TResult>(Expression<Func<DoubleCollectionModel, TResult>> expression) {
+
+                return Observer.GetChangeCount(expression);
             }
         }
     }
