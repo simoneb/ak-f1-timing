@@ -44,8 +44,7 @@ namespace AK.F1.Timing.Model.Session
 
                 Guard.NotNull(model, "model");
 
-                Model = model;
-                CurrentSessionType = SessionType.None;
+                Model = model;                
             }
 
             /// <inheritdoc/>
@@ -56,72 +55,43 @@ namespace AK.F1.Timing.Model.Session
 
             /// <inheritdoc />
             public override void Visit(SetDriverSectorTimeMessage message) {
-                
-                TrySetFastestSector(message.SectorNumber, message.SectorTime, message.DriverId);
+
+                Model.TrySetSector(message.SectorNumber, message.DriverId, message.SectorTime);
             }
 
             /// <inheritdoc />
             public override void Visit(ReplaceDriverSectorTimeMessage message) {
 
-                TrySetFastestSector(message.SectorNumber, message.Replacement, message.DriverId);
+                Model.TrySetSector(message.SectorNumber, message.DriverId, message.Replacement);
             }
 
             /// <inheritdoc />
             public override void Visit(SetDriverQuallyTimeMessage message) {
 
-                var driver = GetDriver(message.DriverId);
-                var postedTime = new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted);
-
-                TrySetFastestLap(postedTime, message.DriverId);
+                Model.TrySetLapUsingQuallyTime(message.DriverId, message.QuallyTime);
             }
 
             /// <inheritdoc />
             public override void Visit(SetDriverLapTimeMessage message) {
 
-                TrySetFastestLap(message.LapTime, message.DriverId);
+                Model.TrySetLap(message.DriverId, message.LapTime);
             }
 
             /// <inheritdoc />
             public override void Visit(ReplaceDriverLapTimeMessage message) {
 
-                TrySetFastestLap(message.Replacement, message.DriverId);
+                Model.TrySetLap(message.DriverId, message.Replacement);
             }
 
             /// <inheritdoc />
             public override void Visit(SetSessionTypeMessage message) {
 
-                CurrentSessionType = message.SessionType;
+                Model.CurrentSessionType = message.SessionType;
             }
 
             #endregion
 
             #region Private Impl.
-
-            private void TrySetFastestLap(PostedTime time, int driverId) {                
-                
-                var isSessionBest = time.Type == PostedTimeType.SessionBest ||
-                    // We only receive session best lap times during a race session so we determine here
-                    // if the specified time should be promoted.
-                    (CurrentSessionType != SessionType.Race && (Model.Lap == null || time.Time < Model.Lap.Time));
-
-                if(isSessionBest) {
-                    Model.SetLap(GetDriver(driverId), time.Time, time.LapNumber);
-                }
-            }
-
-            private void TrySetFastestSector(int sectorNumber, PostedTime time, int driverId) {
-
-                if(time.Type == PostedTimeType.SessionBest) {
-                    Model.SetSector(sectorNumber, GetDriver(driverId), time.Time, time.LapNumber);
-                }
-            }
-
-            private DriverModel GetDriver(int id) {
-
-                return Model.DriverLocator.GetDriver(id);
-            }
-
-            private SessionType CurrentSessionType { get; set; }
 
             private FastestTimesModel Model { get; set; }
 

@@ -15,6 +15,8 @@
 using System;
 
 using AK.F1.Timing.Model.Driver;
+using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -31,7 +33,7 @@ namespace AK.F1.Timing.Model.Session
         private FastestTimeModel _s1;
         private FastestTimeModel _s2;
         private FastestTimeModel _s3;
-        private FastestTimeModel _possible;        
+        private FastestTimeModel _possible;
 
         #endregion
 
@@ -50,7 +52,7 @@ namespace AK.F1.Timing.Model.Session
             Guard.NotNull(driverLocator, "driverLocator");
 
             DriverLocator = driverLocator;
-            Reset();
+            Builder = new FastestTimesModelBuilder(this);
         }
 
         /// <inheritdoc/>        
@@ -71,51 +73,6 @@ namespace AK.F1.Timing.Model.Session
             S2 = null;
             S3 = null;
             Possible = null;
-            Builder = new FastestTimesModelBuilder(this);
-        }
-
-        /// <summary>
-        /// Sets the new fastest sector time for the one-based specified sector number.
-        /// </summary>
-        /// <param name="sectorNumber">The one-based sector time to set.</param>
-        /// <param name="driver">The driver which posted the time.</param>        
-        /// <param name="time">The time.</param>
-        /// <param name="lapNumber">The lap number on which the time was set.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Throw when <paramref name="driver"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="sectorNumber"/> is less than one or greater than three.
-        /// </exception>
-        public void SetSector(int sectorNumber, DriverModel driver, TimeSpan time, int lapNumber) {
-
-            Guard.NotNull(driver, "driver");
-
-            if(sectorNumber == 1) {
-                S1 = CreateFastestTime(driver, time, lapNumber, S1);
-            } else if(sectorNumber == 2) {
-                S2 = CreateFastestTime(driver, time, lapNumber, S2);
-            } else if(sectorNumber == 3) {
-                S3 = CreateFastestTime(driver, time, lapNumber, S3);
-            } else {
-                throw Guard.ArgumentOutOfRange("sectorNumber");
-            }
-        }
-
-        /// <summary>
-        /// Sets the new fastest lap time.
-        /// </summary>
-        /// <param name="driver">The driver which posted the time.</param>        
-        /// <param name="time">The time.</param>
-        /// <param name="lapNumber">The lap number on which the time was set.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Throw when <paramref name="driver"/> is <see langword="null"/>.
-        /// </exception>
-        public void SetLap(DriverModel driver, TimeSpan time, int lapNumber) {
-
-            Guard.NotNull(driver, "driver");
-
-            Lap = CreateFastestTime(driver, time, lapNumber, Lap);
         }
 
         /// <summary>
@@ -125,7 +82,7 @@ namespace AK.F1.Timing.Model.Session
 
             get { return _lap; }
             private set {
-                if(SetProperty("Lap", ref _lap, value)) {                    
+                if(SetProperty("Lap", ref _lap, value)) {
                     ComputePossible();
                     NotifyIsEmptyChanged();
                 }
@@ -153,7 +110,7 @@ namespace AK.F1.Timing.Model.Session
 
             get { return _s2; }
             private set {
-                if(SetProperty("S2", ref _s2, value)) {                    
+                if(SetProperty("S2", ref _s2, value)) {
                     ComputePossible();
                     NotifyIsEmptyChanged();
                 }
@@ -167,7 +124,7 @@ namespace AK.F1.Timing.Model.Session
 
             get { return _s3; }
             private set {
-                if(SetProperty("S3", ref _s3, value)) {                    
+                if(SetProperty("S3", ref _s3, value)) {
                     ComputePossible();
                     NotifyIsEmptyChanged();
                 }
@@ -200,23 +157,94 @@ namespace AK.F1.Timing.Model.Session
 
         #region Private Impl.
 
-        private static FastestTimeModel CreateFastestTime(DriverModel driver, TimeSpan time,
-            int lapNumber, FastestTimeModel previous) {
+        /// <summary>
+        /// Tries to set the new fastest lap time using the given qually time.
+        /// </summary>
+        /// <param name="driverId">The Id of the driver which posted the time.</param>        
+        /// <param name="quallyTime">The qually time.</param>        
+        private void TrySetLapUsingQuallyTime(int driverId, TimeSpan quallyTime) {
 
-            return new FastestTimeModel(driver, time, lapNumber,
-                previous != null ? new TimeSpan?(time - previous.Time) : null);
+            var driver = DriverLocator.GetDriver(driverId);
+            var postedTime = new PostedTime(quallyTime, PostedTimeType.Normal, driver.LapsCompleted);
+
+            TrySetLap(driverId, postedTime);
+        }
+
+        /// <summary>
+        /// Tries to set the new fastest lap time.
+        /// </summary>
+        /// <param name="driverId">The Id of the driver which posted the time.</param>        
+        /// <param name="time">The time.</param>
+        /// <param name="lapNumber">The lap number on which the time was set.</param>
+        private void TrySetLap(int driverId, PostedTime time) {
+
+            var isSessionBest = time.Type == PostedTimeType.SessionBest ||
+                // We only receive session best lap times during a race session so we determine here
+                // if the specified time should be promoted.
+                (CurrentSessionType != SessionType.Race && (Lap == null || time.Time < Lap.Time));
+
+            if(isSessionBest) {
+                SetLap(driverId, time.Time, time.LapNumber);
+            }
+        }
+
+        /// <summary>
+        /// Sets the new fastest lap time.
+        /// </summary>
+        /// <param name="driverId">The Id of the driver which posted the time.</param>        
+        /// <param name="time">The time.</param>
+        /// <param name="lapNumber">The lap number on which the time was set.</param>
+        private void SetLap(int driverId, TimeSpan time, int lapNumber) {
+
+            Lap = CreateFastestTime(DriverLocator.GetDriver(driverId), time, lapNumber, Lap);
+        }
+
+        /// <summary>
+        /// Tries to set the new fastest sector time for the one-based specified sector number.
+        /// </summary>
+        /// <param name="sectorNumber">The one-based sector time to set.</param>
+        /// <param name="driverId">The Id of the driver which posted the time.</param>        
+        /// <param name="time">The time.</param>
+        /// <param name="lapNumber">The lap number on which the time was set.</param>
+        private void TrySetSector(int sectorNumber, int driverId, PostedTime time) {
+
+            if(time.Type == PostedTimeType.SessionBest) {
+                SetSector(sectorNumber, driverId, time.Time, time.LapNumber);
+            }
+        }
+
+        /// <summary>
+        /// Sets the new fastest sector time for the one-based specified sector number.
+        /// </summary>
+        /// <param name="sectorNumber">The one-based sector time to set.</param>
+        /// <param name="driverId">The Id of the driver which posted the time.</param>        
+        /// <param name="time">The time.</param>
+        /// <param name="lapNumber">The lap number on which the time was set.</param>
+        private void SetSector(int sectorNumber, int driverId, TimeSpan time, int lapNumber) {
+
+            var driver = DriverLocator.GetDriver(driverId);
+
+            if(sectorNumber == 1) {
+                S1 = CreateFastestTime(driver, time, lapNumber, S1);
+            } else if(sectorNumber == 2) {
+                S2 = CreateFastestTime(driver, time, lapNumber, S2);
+            } else if(sectorNumber == 3) {
+                S3 = CreateFastestTime(driver, time, lapNumber, S3);
+            } else {
+                throw Guard.ArgumentOutOfRange("sectorNumber");
+            }
         }
 
         private void ComputePossible() {
 
             if(S1 == null || S2 == null || S3 == null) {
-                Possible = null;                
+                Possible = null;
             } else {
                 var newPossibleTime = S1.Time + S2.Time + S3.Time;
                 // TODO this is a bit hackish.
                 Possible = new FastestTimeModel(null, newPossibleTime, 0,
                     Lap != null ? new TimeSpan?(Lap.Time - newPossibleTime) : null);
-            }            
+            }
         }
 
         private void NotifyIsEmptyChanged() {
@@ -224,9 +252,18 @@ namespace AK.F1.Timing.Model.Session
             OnPropertyChanged("IsEmpty");
         }
 
+        private static FastestTimeModel CreateFastestTime(DriverModel driver, TimeSpan time,
+            int lapNumber, FastestTimeModel previous) {
+
+            return new FastestTimeModel(driver, time, lapNumber,
+                previous != null ? new TimeSpan?(time - previous.Time) : null);
+        }
+
         private IMessageProcessor Builder { get; set; }
 
         private IDriverModelLocator DriverLocator { get; set; }
+
+        private SessionType CurrentSessionType { get; set; }
 
         #endregion
     }
