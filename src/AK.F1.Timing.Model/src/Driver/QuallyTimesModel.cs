@@ -35,16 +35,7 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Initialises a new instance of the <see cref="QuallyTimesModel"/> class.
         /// </summary>
-        /// <param name="driver">The driver model which owns this model.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="driver"/> is <see langword="null"/>.
-        /// </exception>
-        public QuallyTimesModel(DriverModel driver) {
-
-            Guard.NotNull(driver, "driver");
-
-            Driver = driver;            
-        }
+        public QuallyTimesModel() { }
 
         /// <summary>
         /// Sets the qually time for the specified one-based qually number.
@@ -93,11 +84,6 @@ namespace AK.F1.Timing.Model.Driver
             get { return _q3; }
             set { SetProperty("Q3", ref _q3, value); }
         }
-
-        /// <summary>
-        /// Gets the <see cref="DriverModel"/> which owns this model.
-        /// </summary>
-        public DriverModel Driver { get; private set; }
 
         #endregion
     }

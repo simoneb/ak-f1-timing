@@ -30,7 +30,13 @@ namespace AK.F1.Timing.Model.Driver
         /// <param name="time">The pit time. Note: this time includes the time taken to travel
         /// the pit lane.</param>
         /// <param name="lapNumber">The lap number on which the pit time was set.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="time"/> or <paramref name="lapNumber"/> is negative.
+        /// </exception>
         public PitTimeModel(TimeSpan time, int lapNumber) {
+
+            Guard.InRange(time >= TimeSpan.Zero, "time");
+            Guard.InRange(lapNumber >= 0, "lapNumber");
 
             Time = time;
             LapNumber = lapNumber;

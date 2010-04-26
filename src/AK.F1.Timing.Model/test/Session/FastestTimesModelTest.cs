@@ -189,7 +189,7 @@ namespace AK.F1.Timing.Model.Session
             // TODO perhaps the lap number should define the latest change made? 
             Assert.Equal(0, model.Possible.LapNumber);
             Assert.Equal(TimeSpan.FromSeconds(6D), model.Possible.Time);
-            Assert.Equal(1, observer.GetChangeCount(x => x.Possible));
+            Assert.True(observer.HasChanged(x => x.Possible));
             // Post a lap time assert the delta is computed.
             model.Process(new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromSeconds(8D), PostedTimeType.SessionBest, 1)));
             Assert.NotNull(model.Possible.Delta);
@@ -207,7 +207,7 @@ namespace AK.F1.Timing.Model.Session
             for(int sectorNumber = 1; sectorNumber <= 3; ++sectorNumber) {                
                 model.Process(new SetDriverSectorTimeMessage(1, sectorNumber, postedTime));
                 Assert.False(model.IsEmpty);
-                Assert.Equal(1, observer.GetChangeCount(x => x.IsEmpty));
+                Assert.True(observer.HasChanged(x => x.IsEmpty));
                 model.Reset();                
                 observer.ClearChanges();
             }
@@ -216,7 +216,7 @@ namespace AK.F1.Timing.Model.Session
             observer.ClearChanges();
             model.Process(new SetDriverLapTimeMessage(1, postedTime));
             Assert.False(model.IsEmpty);
-            Assert.Equal(1, observer.GetChangeCount(x => x.IsEmpty));
+            Assert.True(observer.HasChanged(x => x.IsEmpty));
         }
 
         [Theory]
@@ -230,7 +230,7 @@ namespace AK.F1.Timing.Model.Session
 
             model.Process(new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(32.4), PostedTimeType.SessionBest, 1)));
 
-            Assert.Equal(1, observer.GetChangeCount("S" + sectorNumber.ToString(CultureInfo.InvariantCulture)));
+            Assert.True(observer.HasChanged("S" + sectorNumber.ToString(CultureInfo.InvariantCulture)));
         }
 
         [Fact]        
@@ -241,7 +241,7 @@ namespace AK.F1.Timing.Model.Session
 
             model.Process(new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromSeconds(123.624), PostedTimeType.SessionBest, 1)));
 
-            Assert.Equal(1, observer.GetChangeCount(x => x.Lap));
+            Assert.True(observer.HasChanged(x => x.Lap));
         }
 
         private void assert_properties_have_default_values(FastestTimesModel model) {

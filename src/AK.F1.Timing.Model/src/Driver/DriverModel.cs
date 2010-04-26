@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Model.Driver
     /// Driver model.
     /// </summary>
     [Serializable]
-    public class DriverModel : ModelBase
+    public partial class DriverModel : ModelBase, IMessageProcessor
     {
         #region Private Fields.
 
@@ -47,10 +47,19 @@ namespace AK.F1.Timing.Model.Driver
         public DriverModel(int id) {
 
             Id = id;
-            LapTimes = new LapTimesModel(this);
-            PitTimes = new PitTimesModel(this);            
-            QuallyTimes = new QuallyTimesModel(this);
-            Status = DriverStatus.InPits;            
+            LapTimes = new LapTimesModel();
+            PitTimes = new PitTimesModel();            
+            QuallyTimes = new QuallyTimesModel();
+            Status = DriverStatus.InPits;
+            Builder = new DriverModelBuilder(this);
+        }
+
+        /// <inheritdoc/>        
+        public void Process(Message message) {
+
+            Guard.NotNull(message, "message");
+
+            Builder.Process(message);
         }
 
         /// <inheritdoc />
@@ -150,6 +159,12 @@ namespace AK.F1.Timing.Model.Driver
             get { return _status; }
             set { SetProperty("Status", ref _status, value); }
         }
+
+        #endregion
+
+        #region Private Impl.
+
+        private IMessageProcessor Builder { get; set; }
 
         #endregion
     }

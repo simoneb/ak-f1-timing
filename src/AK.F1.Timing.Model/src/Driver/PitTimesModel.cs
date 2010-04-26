@@ -30,16 +30,10 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Initialises a new instance of the <see cref="PitTimesModel"/> class.
         /// </summary>
-        /// <param name="driver">The driver model which owns this model.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="driver"/> is <see langword="null"/>.
-        /// </exception>
-        public PitTimesModel(DriverModel driver) {
+        public PitTimesModel() {
 
-            Guard.NotNull(driver, "driver");
-
-            Driver = driver;
-            Values = new ObservableCollection<PitTimeModel>();
+            InnerItems = new ObservableCollection<PitTimeModel>();
+            Items = new ReadOnlyObservableCollection<PitTimeModel>(InnerItems);
         }
 
         /// <summary>
@@ -53,18 +47,19 @@ namespace AK.F1.Timing.Model.Driver
 
             Guard.NotNull(item, "item");
 
-            Values.Add(item);
+            InnerItems.Add(item);
         }
 
         /// <summary>
         /// Gets the collection of <see cref="PitTimeModel"/>s.
         /// </summary>
-        public ObservableCollection<PitTimeModel> Values { get; private set; }
+        public ReadOnlyObservableCollection<PitTimeModel> Items { get; private set; }
 
-        /// <summary>
-        /// Gets the <see cref="DriverModel"/> which owns this model.
-        /// </summary>
-        public DriverModel Driver { get; private set; }
+        #endregion
+
+        #region Private Impl.
+
+        private ObservableCollection<PitTimeModel> InnerItems { get; set; }
 
         #endregion
     }

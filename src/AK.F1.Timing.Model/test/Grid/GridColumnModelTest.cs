@@ -53,9 +53,9 @@ namespace AK.F1.Timing.Model.Grid
             var observer = new PropertyChangeObserver<GridColumnModel>(column);
 
             column.Text = "Andy";
-            Assert.Equal(1, observer.GetChangeCount(x => x.Text));            
+            Assert.True(observer.HasChanged(x => x.Text));            
             column.Text = "Andy";
-            Assert.Equal(1, observer.GetChangeCount(x => x.Text));
+            Assert.True(observer.HasChanged(x => x.Text));
             column.Text = null;
             Assert.Equal(2, observer.GetChangeCount(x => x.Text));
         }
@@ -67,9 +67,9 @@ namespace AK.F1.Timing.Model.Grid
             var observer = new PropertyChangeObserver<GridColumnModel>(column);
 
             column.TextColour = GridColumnColour.Green;
-            Assert.Equal(1, observer.GetChangeCount(x => x.TextColour));
+            Assert.True(observer.HasChanged(x => x.TextColour));
             column.TextColour = GridColumnColour.Green;
-            Assert.Equal(1, observer.GetChangeCount(x => x.TextColour));
+            Assert.True(observer.HasChanged(x => x.TextColour));
             column.TextColour = GridColumnColour.Black;
             Assert.Equal(2, observer.GetChangeCount(x => x.TextColour));
         }

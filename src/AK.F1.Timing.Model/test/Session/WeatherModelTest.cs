@@ -131,7 +131,7 @@ namespace AK.F1.Timing.Model.Session
             var observer = new PropertyChangeObserver<WeatherModel>(model);
 
             model.Process(new SetIsWetMessage(true));
-            Assert.Equal(1, observer.GetChangeCount(x => x.IsWet));
+            Assert.True(observer.HasChanged(x => x.IsWet));
         }
 
         private static WeatherModel CreateModel(Message messageToProcess) {

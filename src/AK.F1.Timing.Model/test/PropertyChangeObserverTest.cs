@@ -38,7 +38,35 @@ namespace AK.F1.Timing.Model
 
             Assert.Equal(2, observer.GetChangeCount("Property"));
             Assert.Equal(2, observer.GetChangeCount(x => x.Property));
-        }        
+        }
+
+        [Fact]
+        public void can_determine_if_a_property_has_changed() {
+
+            var observable = new Observable();
+            var observer = new PropertyChangeObserver<Observable>(observable);
+
+            Assert.False(observer.HasChanged("Property"));
+            Assert.False(observer.HasChanged(x => x.Property));
+
+            observable.OnPropertyChanged("Property");
+
+            Assert.True(observer.HasChanged("Property"));
+            Assert.True(observer.HasChanged(x => x.Property));
+        }
+
+        [Fact]
+        public void can_clear_the_observed_changed() {
+
+            var observable = new Observable();
+            var observer = new PropertyChangeObserver<Observable>(observable);            
+
+            observable.OnPropertyChanged("Property");
+
+            observer.ClearChanges();
+
+            Assert.False(observer.HasChanged(x => x.Property));
+        }
 
         private sealed class Observable : INotifyPropertyChanged
         {

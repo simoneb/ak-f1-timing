@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Model.Session
     public partial class WeatherModel
     {
         /// <summary>
-        /// A <see cref="AK.F1.Timing.IMessageProcessor"/> which builds a
+        /// An <see cref="AK.F1.Timing.IMessageProcessor"/> which builds a
         /// <see cref="AK.F1.Timing.Model.Session.WeatherModel"/> as it processes
         /// <see cref="AK.F1.Timing.Message"/>s. This class cannot be inherited.
         /// </summary>

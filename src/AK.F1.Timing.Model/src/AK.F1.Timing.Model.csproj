@@ -54,6 +54,7 @@
     <Compile Include="Collections\DeltaType.cs" />
     <Compile Include="Collections\PostedTimeCollectionModel.cs" />
     <Compile Include="Collections\DelegateComparer.cs" />
+    <Compile Include="Driver\DriverModelBuilder.cs" />
     <Compile Include="Driver\LapHistoryEntry.cs" />
     <Compile Include="Driver\PitTimesModel.cs" />
     <Compile Include="Driver\PitTimeModel.cs" />

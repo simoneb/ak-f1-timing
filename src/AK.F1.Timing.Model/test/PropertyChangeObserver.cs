@@ -30,14 +30,19 @@ namespace AK.F1.Timing.Model
             _model.PropertyChanged += OnPropertyChanged;
         }
 
-        public int GetChangeCount<TResult>(Expression<Func<T, TResult>> expression) {
+        public bool HasChanged<TResult>(Expression<Func<T, TResult>> expression) {
 
-            return GetChangeCount(((MemberExpression)expression.Body).Member.Name);
+            return HasChanged(GetPropertyName(expression));
         }
 
-        public void ClearChanges() {
+        public bool HasChanged(string propertyName) {
 
-            _changes.Clear();
+            return GetChangeCount(propertyName) > 0;
+        }
+
+        public int GetChangeCount<TResult>(Expression<Func<T, TResult>> expression) {
+
+            return GetChangeCount(GetPropertyName(expression));
         }
 
         public int GetChangeCount(string propertyName) {
@@ -47,6 +52,16 @@ namespace AK.F1.Timing.Model
             _changes.TryGetValue(propertyName, out count);
 
             return count;
+        }
+
+        public void ClearChanges() {
+
+            _changes.Clear();
+        }
+
+        private static string GetPropertyName<TResult>(Expression<Func<T, TResult>> expression) {
+
+            return ((MemberExpression)expression.Body).Member.Name;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e) {

@@ -174,8 +174,7 @@ namespace AK.F1.Timing.Model.Session
         /// Tries to set the new fastest lap time.
         /// </summary>
         /// <param name="driverId">The Id of the driver which posted the time.</param>        
-        /// <param name="time">The time.</param>
-        /// <param name="lapNumber">The lap number on which the time was set.</param>
+        /// <param name="time">The time.</param>        
         private void TrySetLap(int driverId, PostedTime time) {
 
             var isSessionBest = time.Type == PostedTimeType.SessionBest ||
@@ -204,8 +203,7 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         /// <param name="sectorNumber">The one-based sector time to set.</param>
         /// <param name="driverId">The Id of the driver which posted the time.</param>        
-        /// <param name="time">The time.</param>
-        /// <param name="lapNumber">The lap number on which the time was set.</param>
+        /// <param name="time">The time.</param>        
         private void TrySetSector(int sectorNumber, int driverId, PostedTime time) {
 
             if(time.Type == PostedTimeType.SessionBest) {

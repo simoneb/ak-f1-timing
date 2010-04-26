@@ -70,7 +70,7 @@ namespace AK.F1.Timing.Model.Session
             var observer = new PropertyChangeObserver<FeedModel>(model);
 
             model.Process(new SetStreamValidityMessage(false));
-            Assert.Equal(1, observer.GetChangeCount(x => x.MessageCount));
+            Assert.True(observer.HasChanged(x => x.MessageCount));
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace AK.F1.Timing.Model.Session
             var observer = new PropertyChangeObserver<FeedModel>(model);
 
             model.Process(new SetCopyrightMessage("1"));
-            Assert.Equal(1, observer.GetChangeCount(x => x.Copyright));
+            Assert.True(observer.HasChanged(x => x.Copyright));
         }
 
         [Fact]
@@ -108,7 +108,7 @@ namespace AK.F1.Timing.Model.Session
             var observer = new PropertyChangeObserver<FeedModel>(model);
 
             model.Process(new SetKeyframeMessage(1));
-            Assert.Equal(1, observer.GetChangeCount(x => x.KeyframeNumber));
+            Assert.True(observer.HasChanged(x => x.KeyframeNumber));
         }
 
         [Fact]
@@ -127,7 +127,7 @@ namespace AK.F1.Timing.Model.Session
             var observer = new PropertyChangeObserver<FeedModel>(model);
 
             model.Process(new SetPingIntervalMessage(TimeSpan.FromSeconds(1D)));
-            Assert.Equal(1, observer.GetChangeCount(x => x.PingInterval));
+            Assert.True(observer.HasChanged(x => x.PingInterval));
         }
 
         private static FeedModel CreateModel(params Message[] messagesToProcess) {

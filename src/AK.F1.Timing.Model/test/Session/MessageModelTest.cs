@@ -67,7 +67,7 @@ namespace AK.F1.Timing.Model.Session
             var observer = new PropertyChangeObserver<MessageModel>(model);
 
             model.Process(new SetSystemMessageMessage("message"));
-            Assert.Equal(1, observer.GetChangeCount(x => x.System));
+            Assert.True(observer.HasChanged(x => x.System));
         }
 
         [Fact]
@@ -91,7 +91,7 @@ namespace AK.F1.Timing.Model.Session
             var observer = new PropertyChangeObserver<MessageModel>(model);
 
             model.Process(new AddCommentaryMessage("commentary"));
-            Assert.Equal(1, observer.GetChangeCount(x => x.Commentary));
+            Assert.True(observer.HasChanged(x => x.Commentary));
         }
 
         private static MessageModel CreateModel(params Message[] messagesToProcess) {

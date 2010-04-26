@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Model.Session
     /// <summary>
     /// Provides detailed information about a single F1 timing session.
     /// </summary>
-    public class SessionModel : ModelBase, IMessageProcessor, IDriverModelLocator
+    public partial class SessionModel : ModelBase, IMessageProcessor, IDriverModelLocator
     {
         #region Private Fields.
 
@@ -37,7 +37,7 @@ namespace AK.F1.Timing.Model.Session
         private TimeSpan _remainingSessionTime;        
         private int _raceLapNumber;
         private GridModelBase _grid;
-        private SessionModelBuilder _builder;
+        private IMessageProcessor _builder;
 
         private static readonly TimeSpan ONE_SECOND = TimeSpan.FromSeconds(1d);
 
@@ -217,12 +217,12 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <summary>
-        /// Gets or sets the instance which builds this session.
+        /// Gets or sets the <see cref="AK.F1.Timing.IMessageProcessor"/> which builds this model.
         /// </summary>
         /// <exception cref="System.ArgumentNullException">
         /// Throw when <paramref name="value"/> is <see langword="null"/>.
         /// </exception>
-        protected SessionModelBuilder Builder {
+        protected IMessageProcessor Builder {
 
             get { return _builder; }
             set {
@@ -233,28 +233,52 @@ namespace AK.F1.Timing.Model.Session
 
         #endregion
 
-        #region Internal Interface.
-
-        /// <summary>
-        /// Gets the one second dispatch timer.
-        /// </summary>
-        internal DispatcherTimer OneSecondTimer { get; private set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating if the
-        /// <see cref="P:SessionModel.RemainingSessionTime"/> should be decremented when the
-        /// <see cref="P:SessionModel.OneSecondTimer"/> ticks.
-        /// </summary>
-        internal bool DecrementRemainingSessionTime { get; set; }
-
-        /// <summary>
-        /// Gets the inner collection of drivers.
-        /// </summary>
-        internal SortableObservableCollection<DriverModel> InnerDrivers { get; set; }
-
-        #endregion
-
         #region Private Impl.
+
+        private void SortDrivers() {
+
+            InnerDrivers.Sort();
+        }
+
+        private void OnSessionTimeCountDownStopped() {
+
+            DecrementRemainingSessionTime = false;
+        }
+
+        private void OnSessionTimeCountDownStarted() {
+
+            DecrementRemainingSessionTime = true;
+        }
+
+        private void OnSessionEnded() {
+
+            OneSecondTimer.Stop();
+        }
+
+        private void UpdateElapsedSessionTime(TimeSpan elapsed) {
+
+            ElapsedSessionTime = elapsed;
+            if(elapsed > TimeSpan.Zero) {
+                OneSecondTimer.Start();
+            } else {
+                OneSecondTimer.Stop();
+            }
+        }
+
+        private void ChangeSessionType(SessionType newSessionType) {
+
+            if(SessionType != newSessionType) {
+                Reset();
+                SessionType = newSessionType;
+                Grid = GridModelBase.Create(newSessionType);
+            }
+        }
+        
+        private DispatcherTimer OneSecondTimer { get; set; }
+        
+        private bool DecrementRemainingSessionTime { get; set; }
+        
+        private SortableObservableCollection<DriverModel> InnerDrivers { get; set; }
 
         private IDictionary<int, DriverModel> DriversById { get; set; }
 

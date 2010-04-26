@@ -31,15 +31,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Initialises a new instance of the <see cref="LapTimesModel"/> class.
         /// </summary>
-        /// <param name="driver">The driver model which owns this model.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="driver"/> is <see langword="null"/>.
-        /// </exception>
-        public LapTimesModel(DriverModel driver) {            
+        public LapTimesModel() {
 
-            Guard.NotNull(driver, "driver");            
-
-            Driver = driver;
             S1 = new PostedTimeCollectionModel();
             S2 = new PostedTimeCollectionModel();
             S3 = new PostedTimeCollectionModel();
@@ -86,11 +79,6 @@ namespace AK.F1.Timing.Model.Driver
         /// Gets the sector three times.
         /// </summary>
         public PostedTimeCollectionModel S3 { get; private set; }
-
-        /// <summary>
-        /// Gets the <see cref="DriverModel"/> which owns this model.
-        /// </summary>
-        public DriverModel Driver { get; private set; }
 
         #endregion
     }
