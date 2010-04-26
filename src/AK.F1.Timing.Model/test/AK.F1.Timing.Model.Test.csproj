@@ -57,6 +57,7 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="PropertyChangeObserverTest.cs" />
     <Compile Include="Collections\PostedTimeCollectionModelTest.cs" />
     <Compile Include="Collections\DoubleCollectionModelTest.cs" />
     <Compile Include="Collections\DelegateComparerTest.cs" />

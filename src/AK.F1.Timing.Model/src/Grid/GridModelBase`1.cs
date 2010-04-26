@@ -30,7 +30,7 @@ namespace AK.F1.Timing.Model.Grid
     {
         #region Private Fields.
 
-        private GridModelBuilder<TRow> _builder;
+        private IMessageProcessor _builder;
 
         #endregion
 
@@ -41,7 +41,7 @@ namespace AK.F1.Timing.Model.Grid
 
             Guard.NotNull(message, "message");
 
-            message.Accept(Builder);
+            Builder.Process(message);
         }
         
         /// <summary>
@@ -106,12 +106,12 @@ namespace AK.F1.Timing.Model.Grid
         protected abstract TRow CreateRow(int driverId);
 
         /// <summary>
-        /// Gets or sets the instance which builds the grid model.
+        /// Gets or sets the <see cref="AK.F1.Timing.IMessageProcessor"/> which builds this grid model.
         /// </summary>
         /// <exception cref="System.ArgumentNullException">
         /// Throw when <paramref name="value"/> is <see langword="null"/>.
         /// </exception>
-        protected GridModelBuilder<TRow> Builder {
+        protected IMessageProcessor Builder {
 
             get { return _builder; }
             set {

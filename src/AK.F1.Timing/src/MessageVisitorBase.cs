@@ -22,8 +22,8 @@ using AK.F1.Timing.Messages.Weather;
 namespace AK.F1.Timing
 {
     /// <summary>
-    /// Defines a base class for <see cref="AK.F1.Timing.IMessageVisitor"/> implementations were
-    /// all visit methods are no-ops. This class is <see langword="abstract"/>.
+    /// Defines a base class for <see cref="AK.F1.Timing.IMessageVisitor"/> implementations.
+    /// All <code>Visit</code> methods are no-ops. This class is <see langword="abstract"/>.
     /// </summary>
     [Serializable]
     public abstract class MessageVisitorBase : IMessageVisitor
