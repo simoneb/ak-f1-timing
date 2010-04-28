@@ -22,9 +22,15 @@ namespace AK.F1.Timing.Model.Driver
     /// Contains information relating to a pit time.
     /// </summary>
     [Serializable]
-    [DebuggerDisplay("Count = {Values.Count}")]
+    [DebuggerDisplay("Count = {Count}")]
     public class PitTimesModel : ModelBase
-    {       
+    {
+        #region Private Impl.
+
+        private int _count;
+
+        #endregion
+
         #region Public Interface.
 
         /// <summary>
@@ -48,6 +54,18 @@ namespace AK.F1.Timing.Model.Driver
             Guard.NotNull(item, "item");
 
             InnerItems.Add(item);
+            Count = Math.Max(Count, Items.Count);
+        }
+
+        /// <summary>
+        /// Gets or sets the number of pits. Note that this is may be greater than the number of items
+        /// in the <see cref="P:PitTimesModel.Items"/> collection as pit times are not generated during
+        /// non-race sessions or for drivers which pit and then retire.
+        /// </summary>
+        public int Count {
+
+            get { return _count; }
+            set { SetProperty("Count", ref _count, value); }
         }
 
         /// <summary>

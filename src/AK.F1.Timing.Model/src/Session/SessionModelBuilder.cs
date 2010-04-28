@@ -14,9 +14,8 @@
 
 using System;
 
-using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
-using AK.F1.Timing.Model.Driver;
+using DriverMessageBase = AK.F1.Timing.Messages.Driver.DriverMessageBase;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -52,6 +51,7 @@ namespace AK.F1.Timing.Model.Session
                 Guard.NotNull(message, "message");
 
                 message.Accept(this);
+                TryDispatchToDriver(message);
                 Model.Feed.Process(message);
                 Model.FastestTimes.Process(message);
                 Model.Grid.Process(message);
@@ -60,78 +60,16 @@ namespace AK.F1.Timing.Model.Session
             }
 
             /// <inheritdoc />
-            public override void Visit(SetDriverCarNumberMessage message) {
+            public override void Visit(AK.F1.Timing.Messages.Driver.SetDriverPositionMessage message) {
 
-                GetDriver(message).CarNumber = message.CarNumber;
-            }
+                // TODO
 
-            /// <inheritdoc />
-            public override void Visit(SetDriverNameMessage message) {
+                //var driver = GetDriver(message);
 
-                GetDriver(message).Name = message.DriverName;
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverPositionMessage message) {
-
-                var driver = GetDriver(message);
-
-                if(driver.Position != message.Position) {
-                    driver.Position = message.Position;
-                    Model.SortDrivers();
-                }
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverSectorTimeMessage message) {
-
-                GetDriver(message).LapTimes.GetSector(message.SectorNumber).Add(message.SectorTime);
-            }
-
-            /// <inheritdoc />
-            public override void Visit(ReplaceDriverSectorTimeMessage message) {
-
-                GetDriver(message).LapTimes.GetSector(message.SectorNumber).ReplaceCurrent(message.Replacement);
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverQuallyTimeMessage message) {
-
-                var driver = GetDriver(message);
-                var postedTime = new PostedTime(message.QuallyTime, PostedTimeType.Normal, driver.LapsCompleted);
-
-                driver.QuallyTimes.Set(message.QuallyNumber, message.QuallyTime);
-                driver.LapTimes.Laps.Add(postedTime);
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverLapTimeMessage message) {
-
-                GetDriver(message).LapTimes.Laps.Add(message.LapTime);
-            }
-
-            /// <inheritdoc />
-            public override void Visit(ReplaceDriverLapTimeMessage message) {
-
-                GetDriver(message).LapTimes.Laps.ReplaceCurrent(message.Replacement);
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverCompletedLapsMessage message) {
-
-                GetDriver(message).LapsCompleted = message.CompletedLaps;
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverGapMessage message) {
-
-                GetDriver(message).Gap = message.Gap;
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverIntervalMessage message) {
-
-                GetDriver(message).Interval = message.Interval;
+                //if(driver.Position != message.Position) {
+                //    driver.Position = message.Position;
+                //    Model.SortDrivers();
+                //}
             }
 
             /// <inheritdoc />
@@ -144,24 +82,6 @@ namespace AK.F1.Timing.Model.Session
             public override void Visit(SetSessionStatusMessage message) {
 
                 Model.SessionStatus = message.SessionStatus;
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverStatusMessage message) {
-
-                GetDriver(message).Status = message.DriverStatus;
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverPitCountMessage message) {
-
-                GetDriver(message).PitCount = message.PitCount;
-            }
-
-            /// <inheritdoc />
-            public override void Visit(SetDriverPitTimeMessage message) {
-
-                GetDriver(message).PitTimes.Add(new PitTimeModel(message.Time, message.LapNumber));
             }
 
             /// <inheritdoc />
@@ -204,9 +124,13 @@ namespace AK.F1.Timing.Model.Session
 
             #region Private Impl.
 
-            private DriverModel GetDriver(DriverMessageBase message) {
+            private void TryDispatchToDriver(Message message) {
 
-                return Model.GetDriver(message.DriverId);
+                var driverMessage = message as DriverMessageBase;
+
+                if(driverMessage != null) {
+                    Model.GetDriver(driverMessage.DriverId).Process(message);
+                }
             }
 
             private SessionModel Model { get; set; }

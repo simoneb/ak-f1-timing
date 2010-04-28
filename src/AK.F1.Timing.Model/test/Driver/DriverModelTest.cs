@@ -15,11 +15,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using AK.F1.Timing.Messages.Driver;
 using Xunit;
 using Xunit.Extensions;
-
-using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Driver
 {
@@ -97,6 +95,34 @@ namespace AK.F1.Timing.Model.Driver
             model.Process(new SetDriverGapMessage(DriverId, new LapGap(2)));
 
             Assert.True(observer.HasChanged(x => x.Gap));
+        }
+
+        [Fact]
+        public void processing_a_set_driver_interval_message_for_the_driver_updates_the_interval_property() {
+
+            var interval = new LapGap(2);
+            var model = CreateModel(new SetDriverIntervalMessage(DriverId, interval));
+
+            Assert.Equal(interval, model.Interval);
+        }
+
+        [Fact]
+        public void processing_a_set_driver_interval_message_for_another_driver_does_not_update_the_interval_property() {
+
+            var model = CreateModel(new SetDriverIntervalMessage(DriverId + 1, new LapGap(2)));
+
+            Assert.Null(model.Interval);
+        }
+
+        [Fact]
+        public void changes_to_the_interval_property_raise_the_property_changed_event() {
+
+            var model = CreateModel();
+            var observer = new PropertyChangeObserver<DriverModel>(model);
+
+            model.Process(new SetDriverIntervalMessage(DriverId, new LapGap(2)));
+
+            Assert.True(observer.HasChanged(x => x.Interval));
         }
 
         [Fact]
@@ -181,30 +207,39 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         [Fact]
-        public void processing_a_set_driver_pit_count_message_for_the_driver_updates_the_pit_count_property() {
+        public void processing_a_set_driver_pit_count_message_for_the_driver_updates_the_pit_times_model() {
 
             var model = CreateModel(new SetDriverPitCountMessage(DriverId, 3));
 
-            Assert.Equal(3, model.PitCount);
+            Assert.Equal(3, model.PitTimes.Count);
         }
 
         [Fact]
-        public void processing_a_set_driver_pit_count_message_for_another_driver_does_not_update_the_pit_count_property() {
+        public void processing_a_set_driver_pit_count_message_for_another_driver_does_not_update_the_pit_times_model() {
 
             var model = CreateModel(new SetDriverPitCountMessage(DriverId + 1, 5));
 
-            Assert.Equal(0, model.PitCount);
+            Assert.Equal(0, model.PitTimes.Count);
         }
 
         [Fact]
-        public void changes_to_the_pit_count_property_raise_the_property_changed_event() {
+        public void processing_a_set_driver_pit_time_message_for_the_driver_adds_it_to_the_pit_times() {
 
-            var model = CreateModel();
-            var observer = new PropertyChangeObserver<DriverModel>(model);
+            var lapNumber = 15;
+            var time = TimeSpan.FromSeconds(45.5);
+            var model = CreateModel(new SetDriverPitTimeMessage(DriverId, time, lapNumber));
 
-            model.Process(new SetDriverPitCountMessage(DriverId, 7));
+            Assert.NotEmpty(model.PitTimes.Items);
+            Assert.Equal(lapNumber, model.PitTimes.Items[0].LapNumber);
+            Assert.Equal(time, model.PitTimes.Items[0].Time);
+        }
 
-            Assert.True(observer.HasChanged(x => x.PitCount));
+        [Fact]
+        public void processing_a_set_driver_pit_time_message_for_another_driver_does_not_add_it_to_the_pit_times() {
+
+            var model = CreateModel(new SetDriverPitTimeMessage(DriverId + 1, TimeSpan.FromSeconds(43.7), 12));
+
+            Assert.Empty(model.PitTimes.Items);
         }
 
         [Fact]
@@ -253,6 +288,32 @@ namespace AK.F1.Timing.Model.Driver
             Assert.Empty(model.LapTimes.Laps);
         }
 
+        [Fact]
+        public void processing_a_replace_driver_lap_time_message_replaces_the_previous_lap_time() {
+
+            var replacementTime = new PostedTime(TimeSpan.FromSeconds(62.3), PostedTimeType.PersonalBest, 15);
+            var model = CreateModel(
+                new SetDriverLapTimeMessage(DriverId, new PostedTime(TimeSpan.FromSeconds(62.3), PostedTimeType.Normal, 15)),
+                new ReplaceDriverLapTimeMessage(DriverId, replacementTime)
+            );
+
+            Assert.NotEmpty(model.LapTimes.Laps);
+            Assert.Same(replacementTime, model.LapTimes.Laps.Items[0]);
+        }
+
+        [Fact]
+        public void processing_a_replace_driver_lap_time_message_for_another_driver_does_not_replace_the_previous_lap_time() {
+
+            var time = new PostedTime(TimeSpan.FromSeconds(62.3), PostedTimeType.Normal, 15);
+            var model = CreateModel(
+                new SetDriverLapTimeMessage(DriverId, time),
+                new ReplaceDriverLapTimeMessage(DriverId + 1, new PostedTime(TimeSpan.FromSeconds(62.3), PostedTimeType.PersonalBest, 15))
+            );
+
+            Assert.NotEmpty(model.LapTimes.Laps);
+            Assert.Same(time, model.LapTimes.Laps.Items[0]);
+        }
+
         [Theory]
         [ClassData(typeof(AllSectorNumbers))]
         public void processing_a_set_driver_sector_time_message_adds_it_to_the_sector_times(int sectorNumber) {
@@ -274,6 +335,53 @@ namespace AK.F1.Timing.Model.Driver
             Assert.Empty(model.LapTimes.GetSector(sectorNumber));
         }
 
+        [Theory]
+        [ClassData(typeof(AllSectorNumbers))]
+        public void processing_a_replace_driver_sector_time_message_replaces_the_previous_sector_time(int sectorNumber) {
+
+            var replacementTime = new PostedTime(TimeSpan.FromSeconds(34.5), PostedTimeType.PersonalBest, 15);
+            var model = CreateModel(
+                new SetDriverSectorTimeMessage(DriverId, sectorNumber, new PostedTime(TimeSpan.FromSeconds(34.5), PostedTimeType.Normal, 15)),
+                new ReplaceDriverSectorTimeMessage(DriverId, sectorNumber, replacementTime)
+            );
+
+            Assert.NotEmpty(model.LapTimes.GetSector(sectorNumber));
+            Assert.Same(replacementTime, model.LapTimes.GetSector(sectorNumber).Items[0]);
+        }
+
+        [Theory]
+        [ClassData(typeof(AllSectorNumbers))]
+        public void processing_a_replace_driver_sector_time_message_for_another_driver_does_not_replace_the_previous_sector_time(int sectorNumber) {
+
+            var time = new PostedTime(TimeSpan.FromSeconds(34.5), PostedTimeType.Normal, 15);
+            var model = CreateModel(
+                new SetDriverSectorTimeMessage(DriverId, sectorNumber, time),
+                new ReplaceDriverSectorTimeMessage(DriverId + 1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(34.5), PostedTimeType.SessionBest, 15))
+            );
+
+            Assert.NotEmpty(model.LapTimes.GetSector(sectorNumber));
+            Assert.Same(time, model.LapTimes.GetSector(sectorNumber).Items[0]);
+        }
+
+        [Theory]
+        [ClassData(typeof(AllQuallyNumbers))]
+        public void processing_a_set_driver_qually_time_message_adds_it_to_the_qually_times(int quallyNumber) {
+
+            var quallyTime = TimeSpan.FromSeconds(34.5);
+            var model = CreateModel(new SetDriverQuallyTimeMessage(DriverId, quallyNumber, quallyTime));
+
+            Assert.Equal(quallyTime, model.QuallyTimes.GetTime(quallyNumber));            
+        }
+
+        [Theory]
+        [ClassData(typeof(AllQuallyNumbers))]
+        public void processing_a_set_driver_qually_time_message_for_another_driver_does_not_add_it_to_the_qually_times(int quallyNumber) {
+
+            var model = CreateModel(new SetDriverQuallyTimeMessage(DriverId + 1, quallyNumber, TimeSpan.FromSeconds(34.5)));
+
+            Assert.Null(model.QuallyTimes.GetTime(quallyNumber));
+        }
+
         private static DriverModel CreateModel(params Message[] messagesToProcess) {
 
             var model = new DriverModel(DriverId);
@@ -286,6 +394,26 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         public sealed class AllSectorNumbers : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator() {
+
+                yield return A(1);
+                yield return A(2);
+                yield return A(3);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() {
+
+                return GetEnumerator();
+            }
+
+            private static object[] A(params object[] args) {
+
+                return args;
+            }
+        }
+
+        public sealed class AllQuallyNumbers : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator() {
 

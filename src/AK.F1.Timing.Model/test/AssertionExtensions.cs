@@ -29,8 +29,7 @@ namespace AK.F1.Timing.Model.Driver
             assert.Null(model.Interval);
             assert.Equal(0, model.LapsCompleted);
             assert.Empty(model.LapTimes);            
-            assert.Null(model.Name);
-            assert.Equal(0, model.PitCount);
+            assert.Null(model.Name);            
             assert.Empty(model.PitTimes);
             assert.Equal(0, model.Position);
             assert.Empty(model.QuallyTimes);
@@ -40,6 +39,7 @@ namespace AK.F1.Timing.Model.Driver
         public static void Empty(this Assertions assert, PitTimesModel model) {
 
             assert.Empty(model.Items);
+            assert.Equal(0, model.Count);
         }
 
         public static void Empty(this Assertions assert, QuallyTimesModel model) {

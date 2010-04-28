@@ -28,8 +28,7 @@ namespace AK.F1.Timing.Model.Driver
 
         private string _name;
         private int _position;
-        private int _carNumber;
-        private int _pitCount;
+        private int _carNumber;        
         private int _lapsCompleted;        
         private DriverStatus _status;
         private Gap _gap;
@@ -98,15 +97,6 @@ namespace AK.F1.Timing.Model.Driver
 
             get { return _lapsCompleted; }
             set { SetProperty("LapsCompleted", ref _lapsCompleted, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the number of times this driver has pitted.
-        /// </summary>
-        public int PitCount {
-
-            get { return _pitCount; }
-            set { SetProperty("PitCount", ref _pitCount, value); }
         }
 
         /// <summary>

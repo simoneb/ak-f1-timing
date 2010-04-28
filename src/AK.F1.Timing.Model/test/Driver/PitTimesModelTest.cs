@@ -46,5 +46,36 @@ namespace AK.F1.Timing.Model.Driver
 
             Assert.Throws<ArgumentNullException>(() => model.Add(null));
         }
+
+        [Fact]
+        public void adding_an_item_updates_the_count_property_if_it_is_less_than_the_number_of_items() {
+
+            var model = new PitTimesModel();
+            var time = new PitTimeModel(TimeSpan.FromSeconds(28.9), 14);
+
+            model.Add(time);
+
+            Assert.Equal(1, model.Count);
+
+            model.Count = 3;
+            model.Add(time);
+
+            Assert.Equal(3, model.Count);
+
+            model.Add(time);
+            model.Add(time);
+
+            Assert.Equal(4, model.Count);
+        }
+
+        [Fact]
+        public void changes_to_the_count_property_raise_the_property_changed_event() {
+
+            var model = new PitTimesModel();
+            var observer = new PropertyChangeObserver<PitTimesModel>(model);
+
+            model.Count = 1;
+            Assert.True(observer.HasChanged(x => x.Count));
+        }
     }
 }

@@ -14,6 +14,8 @@
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>AK.F1.Timing.snk</AssemblyOriginatorKeyFile>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,6 +64,8 @@
     <Compile Include="Driver\PitTimesModelTest.cs" />
     <Compile Include="Driver\PitTimeModelTest.cs" />
     <Compile Include="Driver\DriverModelTest.cs" />
+    <Compile Include="Driver\QuallyTimesModel.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="PropertyChangeObserverTest.cs" />
     <Compile Include="Collections\PostedTimeCollectionModelTest.cs" />
     <Compile Include="Collections\DoubleCollectionModelTest.cs" />

@@ -45,7 +45,7 @@ namespace AK.F1.Timing.Model.Driver
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="quallyNumber"/> is not positive or is greater than three.
         /// </exception>
-        public void Set(int quallyNumber, TimeSpan? value) {
+        public void SetTime(int quallyNumber, TimeSpan? value) {
 
             if(quallyNumber == 1) {
                 Q1 = value;
@@ -53,6 +53,27 @@ namespace AK.F1.Timing.Model.Driver
                 Q2 = value;
             } else if(quallyNumber == 3) {
                 Q3 = value;
+            } else {
+                throw Guard.ArgumentOutOfRange("quallyNumber");
+            }
+        }
+
+        /// <summary>
+        /// Gets the qually time for the specified one-based qually number.
+        /// </summary>
+        /// <param name="quallyNumber">The one-based qually number.</param>
+        /// <returns>The qually time for the specified one-based qually number.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="quallyNumber"/> is not positive or is greater than three.
+        /// </exception>
+        public TimeSpan? GetTime(int quallyNumber) {
+
+            if(quallyNumber == 1) {
+                return Q1;
+            } else if(quallyNumber == 2) {
+                return Q2;
+            } else if(quallyNumber == 3) {
+                return Q3;
             } else {
                 throw Guard.ArgumentOutOfRange("quallyNumber");
             }
