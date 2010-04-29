@@ -376,11 +376,21 @@ namespace AK.F1.Timing.Live
                 return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Stopped);
             }
 
+            TimeSpan time = LiveData.ParseTime(message.Value);
+            PostedTimeType type = LiveData.ToPostedTimeType(message.Colour);
+            // As of China-2010 the feed sends value updates to previous columns with completely different
+            // times and types. We can detect this when we receive an update for the previously completed
+            // sector. If the sector number is not the one previously completed we process the message
+            // as per normal (this can occur when we join a session part way through).
+            if(driver.IsPreviousSectorNumber(sectorNumber)) {
+                _log.DebugFormat("received out of order sector update: {0}", message);
+                return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
+                    new PostedTime(time, type, driver.LastSectors[sectorNumber - 1].LapNumber));
+            }
+
             return TranslateSetDriverSectorTimeMessage(
-                new SetDriverSectorTimeMessage(driver.Id, sectorNumber, new PostedTime(
-                LiveData.ParseTime(message.Value),
-                LiveData.ToPostedTimeType(message.Colour),
-                driver.LapNumber)));
+                new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
+                    new PostedTime(time, type, driver.LapNumber)));
         }
 
         private Message TranslateSetSectorTimeColour(SetGridColumnColourMessage message, int sectorNumber) {

@@ -290,6 +290,48 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
+        public void when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message() {
+
+            when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message(GridColumn.S1, 1);
+            when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message(GridColumn.S2, 2);
+            when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message(GridColumn.S3, 3);
+        }
+        
+        private void when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message(
+            GridColumn sectorColumn, int sectorNumber) {
+
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1"),
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "41.1")
+            ).Expect(
+                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(41.1D), PostedTimeType.Normal, 5))
+            ).InAllSessions()
+            .Assert();
+
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1"),
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Green, "41.1")
+            ).Expect(
+                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(41.1D), PostedTimeType.PersonalBest, 5))
+            ).InAllSessions()
+            .Assert();
+
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1"),
+                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Magenta, "41.1")
+            ).Expect(
+                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(41.1D), PostedTimeType.SessionBest, 5))
+            ).InAllSessions()
+            .Assert();
+        }
+
+        [Fact]
         public void when_a_driver_pits_and_the_sector_3_column_receives_a_value_update_it_is_translated_into_a_set_pit_pit_time_message() {
 
             Translate(
