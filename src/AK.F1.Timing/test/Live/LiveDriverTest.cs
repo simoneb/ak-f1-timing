@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Live
             var driver = new LiveDriver(1);
 
             Assert.Equal(1, driver.Id);
-            AssertHasDefaultState(driver);
+            assert_properties_have_default_values(driver);
         }
 
         [Fact]
@@ -158,6 +158,21 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
+        public void can_get_the_drivers_previous_sector_number() {
+
+            var driver = new LiveDriver(1);
+
+            driver.CurrentSectorNumber = 1;
+            Assert.Equal(3, driver.PreviousSectorNumber);
+
+            driver.CurrentSectorNumber = 2;
+            Assert.Equal(1, driver.PreviousSectorNumber);
+
+            driver.CurrentSectorNumber = 3;
+            Assert.Equal(2, driver.PreviousSectorNumber);
+        }
+
+        [Fact]
         public void can_reset_the_driver_state() {
 
             var driver = new LiveDriver(1);
@@ -181,12 +196,13 @@ namespace AK.F1.Timing.Live
 
             Assert.Equal(1, driver.Id);
 
-            AssertHasDefaultState(driver);
+            assert_properties_have_default_values(driver);
         }
 
-        private void AssertHasDefaultState(LiveDriver driver) {
+        private void assert_properties_have_default_values(LiveDriver driver) {
 
             Assert.Equal(0, driver.CarNumber);
+            Assert.Equal(0, driver.CurrentSectorNumber);
             Assert.False(driver.IsRaceLeader);
             Assert.Equal(0, driver.LapNumber);
             Assert.Null(driver.LastGapMessage);
@@ -195,8 +211,8 @@ namespace AK.F1.Timing.Live
             foreach(var sector in driver.LastSectors) {
                 Assert.Null(sector);
             }
-            Assert.Null(driver.Name);
-            Assert.Equal(0, driver.CurrentSectorNumber);
+            Assert.Null(driver.Name);            
+            Assert.Equal(0, driver.PreviousSectorNumber);
             Assert.Equal(0, driver.PitTimeSectorCount);
             Assert.Equal(0, driver.Position);
             Assert.Equal(DriverStatus.InPits, driver.Status);

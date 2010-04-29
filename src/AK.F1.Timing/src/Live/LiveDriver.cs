@@ -60,7 +60,7 @@ namespace AK.F1.Timing.Live
             LastLapTime = null;
             LastSectors = new PostedTime[3];
             Name = null;
-            CurrentSectorNumber = 0;
+            CurrentSectorNumber = 0;            
             PitTimeSectorCount = 0;
             Position = 0;
             Status = DriverStatus.InPits;
@@ -109,11 +109,7 @@ namespace AK.F1.Timing.Live
         /// otherwise; <see langword="false"/>.</returns>
         public bool IsCurrentSectorNumber(int sectorNumber) {
 
-            if(!HaveCurrentSectorNumber) {
-                return false;
-            }
-
-            return sectorNumber == CurrentSectorNumber;
+            return HaveCurrentSectorNumber && sectorNumber == CurrentSectorNumber;
         }
 
         /// <summary>
@@ -125,11 +121,7 @@ namespace AK.F1.Timing.Live
         /// completed, otherwise; <see langword="false"/>.</returns>
         public bool IsPreviousSectorNumber(int sectorNumber) {
 
-            if(!HaveCurrentSectorNumber) {
-                return false;
-            }
-
-            return sectorNumber == (CurrentSectorNumber == 1 ? 3 : CurrentSectorNumber - 1);
+            return HavePreviousSectorNumber && sectorNumber == PreviousSectorNumber;
         }
 
         /// <inheritdoc />
@@ -194,11 +186,26 @@ namespace AK.F1.Timing.Live
         public int PitTimeSectorCount { get; set; }
 
         /// <summary>
-        /// Gets or sets the one-based sector number this driver is currently completing.
+        /// Gets or sets the one-based sector number this driver is currently completing. Returns
+        /// zero if this driver is not completing a sector.
         /// </summary>
         public int CurrentSectorNumber { 
             // TODO this need to be re-worked, this shouldn't be public.
             get; set; 
+        }
+
+        /// <summary>
+        /// Gets or sets the one-based sector number this driver previously completed. Returns zero
+        /// if this driver has not completed a sector.
+        /// </summary>
+        public int PreviousSectorNumber {
+
+            get {
+                if(!HaveCurrentSectorNumber) {
+                    return 0;
+                }
+                return CurrentSectorNumber == 1 ? 3 : CurrentSectorNumber - 1;
+            }
         }
 
         /// <summary>
@@ -238,6 +245,11 @@ namespace AK.F1.Timing.Live
         private bool HaveCurrentSectorNumber {
 
             get { return CurrentSectorNumber != 0; }
+        }
+
+        private bool HavePreviousSectorNumber {
+
+            get { return PreviousSectorNumber != 0; }
         }
 
         private Gap Gap {
