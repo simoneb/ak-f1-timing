@@ -45,7 +45,7 @@ namespace AK.F1.Timing.Model.Driver
         /// <inheritdoc/>        
         public override string ToString() {
 
-            return string.Format("LapNumber={0}, Time={1}", LapNumber, Time);
+            return string.Format("LapNumber={0}, Time='{1}'", LapNumber, Time);
         }
 
         /// <summary>
