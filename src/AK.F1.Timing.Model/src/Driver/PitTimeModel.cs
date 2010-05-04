@@ -42,6 +42,12 @@ namespace AK.F1.Timing.Model.Driver
             LapNumber = lapNumber;
         }
 
+        /// <inheritdoc/>        
+        public override string ToString() {
+
+            return string.Format("LapNumber={0}, Time={1}", LapNumber, Time);
+        }
+
         /// <summary>
         /// Gets the time spent in the pit. Note: this time includes the time taken to travel
         /// the pit lane.
