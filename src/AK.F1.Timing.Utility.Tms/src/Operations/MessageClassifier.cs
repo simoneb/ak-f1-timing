@@ -56,7 +56,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             Result = true;
         }
 
-        public void Visit(SetDriverCompletedLapsMessage message) {
+        public void Visit(SetDriverLapNumberMessage message) {
 
             Result = true;
         }
@@ -67,11 +67,6 @@ namespace AK.F1.Timing.Utility.Tms.Operations
         }
 
         public void Visit(SetDriverIntervalMessage message) {
-
-            Result = true;
-        }
-
-        public void Visit(SetDriverLapNumberMessage message) {
 
             Result = true;
         }

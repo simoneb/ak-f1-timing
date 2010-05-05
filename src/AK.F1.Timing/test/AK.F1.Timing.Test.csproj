@@ -134,7 +134,6 @@
     <Compile Include="Messages\Driver\ReplaceDriverLapTimeMessageTest.cs" />
     <Compile Include="Messages\Driver\ReplaceDriverSectorTimeMessageTest.cs" />
     <Compile Include="Messages\Driver\SetDriverCarNumberMessageTest.cs" />
-    <Compile Include="Messages\Driver\SetDriverCompletedLapsMessageTest.cs" />
     <Compile Include="Messages\Driver\SetDriverGapMessageTest.cs" />
     <Compile Include="Messages\Driver\SetDriverIntervalMessageTest.cs" />
     <Compile Include="Messages\Driver\SetDriverLapNumberMessageTest.cs" />

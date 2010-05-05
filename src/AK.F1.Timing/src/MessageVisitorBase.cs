@@ -73,7 +73,7 @@ namespace AK.F1.Timing
         public virtual void Visit(SetDriverLapTimeMessage message) { }
 
         /// <inheritdoc />
-        public virtual void Visit(SetDriverCompletedLapsMessage message) { }        
+        public virtual void Visit(SetDriverLapNumberMessage message) { }        
 
         /// <inheritdoc />
         public virtual void Visit(SetDriverGapMessage message) { }
@@ -86,9 +86,6 @@ namespace AK.F1.Timing
 
         /// <inheritdoc />
         public virtual void Visit(SetDriverNameMessage message) { }
-
-        /// <inheritdoc />
-        public virtual void Visit(SetDriverLapNumberMessage message) { }
 
         /// <inheritdoc />
         public virtual void Visit(SetDriverPitCountMessage message) { }

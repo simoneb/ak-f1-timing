@@ -272,7 +272,7 @@ namespace AK.F1.Timing.Live
 
         private Message TranslateSetCompletedLapsValue(SetGridColumnValueMessage message) {            
 
-            return new SetDriverCompletedLapsMessage(message.DriverId, LiveData.ParseInt32(message.Value));
+            return new SetDriverLapNumberMessage(message.DriverId, LiveData.ParseInt32(message.Value));
         }
 
         private Message TranslateSetGapTimeValue(SetGridColumnValueMessage message) {
@@ -446,7 +446,7 @@ namespace AK.F1.Timing.Live
             // We do not receive lap messages during a race session so we infer it from the
             // current race lap number and the driver's current gap.
             return new CompositeMessage(message,
-                new SetDriverCompletedLapsMessage(message.DriverId, GetDriver(message).ComputeLapNumber(RaceLapNumber)));
+                new SetDriverLapNumberMessage(message.DriverId, GetDriver(message).ComputeLapNumber(RaceLapNumber)));
         }
 
         private Message TranslateSetNameValue(SetGridColumnValueMessage message) {

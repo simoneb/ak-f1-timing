@@ -148,9 +148,9 @@ namespace AK.F1.Timing.Live
         }
 
         /// <inheritdoc />
-        public override void Visit(SetDriverCompletedLapsMessage message) {
+        public override void Visit(SetDriverLapNumberMessage message) {
 
-            GetDriver(message).LapNumber = message.CompletedLaps;
+            GetDriver(message).LapNumber = message.LapNumber;
         }
 
         #endregion

@@ -117,7 +117,6 @@
     <Compile Include="Messages\Weather\SetWindSpeedMessage.cs" />
     <Compile Include="Messages\Weather\SetTrackTemperatureMessage.cs" />
     <Compile Include="Messages\Weather\SetAirTemperatureMessage.cs" />
-    <Compile Include="Messages\Driver\SetDriverCompletedLapsMessage.cs" />
     <Compile Include="Messages\Driver\SetDriverGapMessage.cs" />
     <Compile Include="Messages\Driver\SetDriverLapTimeMessage.cs" />
     <Compile Include="Extensions\HttpMethod.cs" />

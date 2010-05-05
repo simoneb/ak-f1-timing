@@ -40,14 +40,14 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throws_if_laps_number_is_not_positive() {
+        public void ctor_throws_if_lap_number_is_negative() {
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverLapNumberMessage(1, 0);
-            });
             Assert.Throws<ArgumentOutOfRangeException>(() => {
                 new SetDriverLapNumberMessage(1, -1);
             });
+            Assert.DoesNotThrow(() => {
+                new SetDriverLapNumberMessage(1, 0);
+            });            
         }
 
         protected override SetDriverLapNumberMessage CreateMessage() {

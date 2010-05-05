@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which sets a driver's current lap number. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(3549681)]
+    [TypeId(59519632)]
     public sealed class SetDriverLapNumberMessage : DriverMessageBase
     {
         #region Public Interface.
@@ -33,12 +33,12 @@ namespace AK.F1.Timing.Messages.Driver
         /// <param name="driverId">The Id of the driver.</param>
         /// <param name="lapNumber">The driver's new lap number.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="driverId"/> or <paramref name="lapNumber"/> is not positive.
+        /// Thrown when <paramref name="driverId"/> or <paramref name="lapNumber"/> is negative.
         /// </exception>  
         public SetDriverLapNumberMessage(int driverId, int lapNumber)
             : base(driverId) {
 
-            Guard.InRange(lapNumber > 0, "lapNumber");
+            Guard.InRange(lapNumber >= 0, "lapNumber");
 
             LapNumber = lapNumber;
         }
