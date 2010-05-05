@@ -54,14 +54,14 @@ namespace AK.F1.Timing.Live
 
             Drivers = new Dictionary<int, LiveDriver>(25);
             SessionType = SessionType.None;
-            StateEngine = new LiveMessageTranslatorStateEngine(this);            
+            StateEngine = new LiveMessageTranslatorStateEngine(this);
         }
 
         /// <summary>
         /// Resets all state information associated with this translator.
         /// </summary>
         public void Reset() {
-            
+
             RaceLapNumber = 0;
             SessionType = SessionType.None;
             foreach(var driver in Drivers.Values) {
@@ -83,7 +83,7 @@ namespace AK.F1.Timing.Live
             message.Accept(this);
             StateEngine.Process(message);
             if(Translated != null) {
-                StateEngine.Process(Translated);                
+                StateEngine.Process(Translated);
             }
 
             return Translated;
@@ -92,8 +92,8 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         public override void Visit(SetPingIntervalMessage message) {
 
-            Translated = TranslateSetPingIntervalMessage(message);         
-        }        
+            Translated = TranslateSetPingIntervalMessage(message);
+        }
 
         /// <inheritdoc />
         public override void Visit(SetGridColumnColourMessage message) {
@@ -176,39 +176,40 @@ namespace AK.F1.Timing.Live
                         return TranslateSetSectorClear(message, 2);
                     case GridColumn.S3:
                         return TranslateSetSectorClear(message, 3);
-                }
-            } else {
-                switch(message.Column) {
-                    case GridColumn.CarNumber:
-                        return TranslateSetCarNumberValue(message);
-                    case GridColumn.DriverName:
-                        return TranslateSetNameValue(message);
-                    case GridColumn.LapTime:
-                        return TranslateSetLapTimeValue(message);
-                    case GridColumn.Gap:
-                        return TranslateSetGapTimeValue(message);
-                    case GridColumn.S1:
-                        return TranslateSetSectorTimeValue(message, 1);
-                    case GridColumn.S2:
-                        return TranslateSetSectorTimeValue(message, 2);
-                    case GridColumn.S3:
-                        return TranslateSetSectorTimeValue(message, 3);
-                    case GridColumn.Laps:
-                        return TranslateSetCompletedLapsValue(message);
-                    case GridColumn.Interval:
-                        return TranslateSetIntervalTimeValue(message);
-                    case GridColumn.Q1:
-                        return TranslateSetQuallyTimeValue(message, 1);
-                    case GridColumn.Q2:
-                        return TranslateSetQuallyTimeValue(message, 2);
-                    case GridColumn.Q3:
-                        return TranslateSetQuallyTimeValue(message, 3);
-                    case GridColumn.PitCount:
-                        return TranslateSetPitCountValue(message);
+                    default:
+                        return null;
                 }
             }
-
-            return null;
+            switch(message.Column) {
+                case GridColumn.CarNumber:
+                    return TranslateSetCarNumberValue(message);
+                case GridColumn.DriverName:
+                    return TranslateSetNameValue(message);
+                case GridColumn.LapTime:
+                    return TranslateSetLapTimeValue(message);
+                case GridColumn.Gap:
+                    return TranslateSetGapTimeValue(message);
+                case GridColumn.S1:
+                    return TranslateSetSectorTimeValue(message, 1);
+                case GridColumn.S2:
+                    return TranslateSetSectorTimeValue(message, 2);
+                case GridColumn.S3:
+                    return TranslateSetSectorTimeValue(message, 3);
+                case GridColumn.Laps:
+                    return TranslateSetCompletedLapsValue(message);
+                case GridColumn.Interval:
+                    return TranslateSetIntervalTimeValue(message);
+                case GridColumn.Q1:
+                    return TranslateSetQuallyTimeValue(message, 1);
+                case GridColumn.Q2:
+                    return TranslateSetQuallyTimeValue(message, 2);
+                case GridColumn.Q3:
+                    return TranslateSetQuallyTimeValue(message, 3);
+                case GridColumn.PitCount:
+                    return TranslateSetPitCountValue(message);
+                default:
+                    return null;
+            }
         }
 
         private Message TranslateSetGridColumnColourMessage(SetGridColumnColourMessage message) {
@@ -220,7 +221,7 @@ namespace AK.F1.Timing.Live
             }
             // The feed often seeds colour updates to columns which have no value.
             if(!GetDriver(message).ColumnHasValue(message.Column)) {
-                return Ignored("column has no value", message);
+                return Ignored(message, "column has no value");
             }
             switch(message.Column) {
                 case GridColumn.CarNumber:
@@ -255,12 +256,11 @@ namespace AK.F1.Timing.Live
                     new SetRaceLapNumberMessage(LiveData.ParseInt32(message.Value)),
                     new SetDriverIntervalMessage(message.DriverId, TimeGap.Zero));
             }
-
+            // An L suffix indicates a lap interval, e.g. 1L
             if(message.Value.OrdinalEndsWith("L")) {
                 string s = message.Value.Substring(0, message.Value.Length - 1);
                 return new SetDriverIntervalMessage(message.DriverId, new LapGap(LiveData.ParseInt32(s)));
             }
-
             return new SetDriverIntervalMessage(message.DriverId,
                 new TimeGap(LiveData.ParseTime(message.Value)));
         }
@@ -270,7 +270,7 @@ namespace AK.F1.Timing.Live
             return message.Colour == GridColumnColour.White ? GetDriver(message).LastIntervalMessage : null;
         }
 
-        private Message TranslateSetCompletedLapsValue(SetGridColumnValueMessage message) {            
+        private Message TranslateSetCompletedLapsValue(SetGridColumnValueMessage message) {
 
             return new SetDriverLapNumberMessage(message.DriverId, LiveData.ParseInt32(message.Value));
         }
@@ -281,7 +281,7 @@ namespace AK.F1.Timing.Live
             if(message.Value.OrdinalEquals("LAP")) {
                 return new SetDriverGapMessage(message.DriverId, TimeGap.Zero);
             }
-
+            // An L suffix indicates a lap gap, e.g. 4L
             if(message.Value.OrdinalEndsWith("L")) {
                 string s = message.Value.Substring(0, message.Value.Length - 1);
                 return new SetDriverGapMessage(message.DriverId, new LapGap(LiveData.ParseInt32(s)));
@@ -298,7 +298,7 @@ namespace AK.F1.Timing.Live
         private Message TranslateSetLapTimeValue(SetGridColumnValueMessage message) {
 
             if(!HasSessionStarted) {
-                return Ignored("session has not started", message);
+                return Ignored(message, "session has not started");
             }
 
             LiveDriver driver = GetDriver(message);
@@ -306,15 +306,12 @@ namespace AK.F1.Timing.Live
             if(message.Value.OrdinalEquals("OUT")) {
                 return CreateStatusMessageIfStatusChanged(driver, DriverStatus.OnTrack);
             }
-
             if(message.Value.OrdinalEquals("IN PIT")) {
                 return CreateStatusMessageIfStatusChanged(driver, DriverStatus.InPits);
             }
-
             if(message.Value.OrdinalEquals("RETIRED")) {
                 return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Retired);
             }
-
             return new SetDriverLapTimeMessage(driver.Id,
                 new PostedTime(
                     LiveData.ParseTime(message.Value),
@@ -328,7 +325,6 @@ namespace AK.F1.Timing.Live
 
             switch(message.Colour) {
                 case GridColumnColour.White:
-                    _log.DebugFormat("using previous lap time: {0}", message);
                     return new SetDriverLapTimeMessage(driver.Id,
                         new PostedTime(driver.LastLapTime.Time,
                             LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
@@ -337,7 +333,6 @@ namespace AK.F1.Timing.Live
                     // The feed often sends a colour update for the previous lap time to indicate
                     // that it was a PB or SB. To hack this we publish a replacement when we receive
                     // such a message.
-                    _log.DebugFormat("received out of order lap time colour update: {0}", message);
                     return new ReplaceDriverLapTimeMessage(driver.Id,
                         new PostedTime(driver.LastLapTime.Time,
                             LiveData.ToPostedTimeType(message.Colour),
@@ -359,20 +354,12 @@ namespace AK.F1.Timing.Live
             if(message.Value.OrdinalEquals("OUT")) {
                 return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Out);
             }
-
             if(message.Value.OrdinalEquals("STOP")) {
                 return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Stopped);
             }
-
             if(driver.IsPitTimeSector(SessionType)) {
-                if(sectorNumber != 3) {
-                    return Ignored("irrelevant pit time sector update", message);
-                }
-                // After a driver pits, the pit times are displayed and the S3 column always displays the
-                // length of the last pit stop.
-                return new SetDriverPitTimeMessage(driver.Id, LiveData.ParseTime(message.Value), driver.LapNumber);
+                return TranslateSetPitTimeValue(message, sectorNumber);
             }
-
             TimeSpan time = LiveData.ParseTime(message.Value);
             PostedTimeType type = LiveData.ToPostedTimeType(message.Colour);
             // As of China-2010 the feed sends value updates to previous columns with completely different
@@ -380,13 +367,23 @@ namespace AK.F1.Timing.Live
             // sector. If the sector number is not the one previously completed we process the message
             // as per normal (this can occur when we join a session part way through).
             if(driver.IsPreviousSectorNumber(sectorNumber)) {
-                _log.DebugFormat("received out of order sector update: {0}", message);
                 return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
                     new PostedTime(time, type, driver.LastSectors[sectorNumber - 1].LapNumber));
             }
-
-            return TranslateSetDriverSectorTimeMessage(new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
+            return TranslateSetDriverSectorTime(new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
                 new PostedTime(time, type, driver.LapNumber)));
+        }
+
+        private Message TranslateSetPitTimeValue(SetGridColumnValueMessage message, int sectorNumber) {
+
+            if(sectorNumber != 3) {
+                return Ignored(message, "pit time update");
+            }
+            LiveDriver driver = GetDriver(message);
+            // After a driver pits, the pit times are displayed and the S3 column always displays the
+            // length of the last pit stop. We subtract one as the lap number will have been incremented
+            // when the driver pitted.
+            return new SetDriverPitTimeMessage(driver.Id, LiveData.ParseTime(message.Value), driver.LapNumber - 1);
         }
 
         private Message TranslateSetSectorTimeColour(SetGridColumnColourMessage message, int sectorNumber) {
@@ -396,7 +393,6 @@ namespace AK.F1.Timing.Live
             if(driver.IsPitTimeSector(SessionType)) {
                 return null;
             }
-
             PostedTime lastSectorTime = driver.LastSectors[sectorNumber - 1];
             PostedTimeType newTimeType = LiveData.ToPostedTimeType(message.Colour);
             // The feed often sends a colour update for the previous sector time to indicate that
@@ -409,14 +405,10 @@ namespace AK.F1.Timing.Live
                         driver.CurrentSectorNumber, message);
                     return null;
                 }
-                _log.DebugFormat("received out of order sector update: {0}", message);
                 return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
                     new PostedTime(lastSectorTime.Time, newTimeType, lastSectorTime.LapNumber));
             }
-
-            _log.DebugFormat("using previous sector time with new colour: {0}", message);
-
-            return TranslateSetDriverSectorTimeMessage(new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
+            return TranslateSetDriverSectorTime(new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
                 new PostedTime(lastSectorTime.Time, newTimeType, driver.LapNumber)));
         }
 
@@ -428,17 +420,15 @@ namespace AK.F1.Timing.Live
             // can detect this when the S2 time is cleared and we are expecting an S1 update. Note
             // that an S2 clear can be received when we do not have a previous S1 time, usually
             // at the start of a session.
-            if(driver.IsCurrentSectorNumber(1) && sectorNumber == 2 &&
-                (lastS1Time = driver.LastSectors[0]) != null) {
-                _log.Debug("received clear S2 before S1 set, using previous posted time");
-                return TranslateSetDriverSectorTimeMessage(new SetDriverSectorTimeMessage(driver.Id, 1,
+            if(driver.IsCurrentSectorNumber(1) && sectorNumber == 2 && (lastS1Time = driver.LastSectors[0]) != null) {
+                return TranslateSetDriverSectorTime(new SetDriverSectorTimeMessage(driver.Id, 1,
                     new PostedTime(lastS1Time.Time, lastS1Time.Type, driver.LapNumber)));
             }
 
             return null;
         }
 
-        private Message TranslateSetDriverSectorTimeMessage(SetDriverSectorTimeMessage message) {
+        private Message TranslateSetDriverSectorTime(SetDriverSectorTimeMessage message) {
 
             if(message.SectorNumber != 3 || SessionType != SessionType.Race) {
                 return message;
@@ -455,12 +445,12 @@ namespace AK.F1.Timing.Live
         }
 
         private Message TranslateSetCarNumberValue(SetGridColumnValueMessage message) {
-            
-            Message translated = null;            
+
+            Message translated = null;
             LiveDriver driver = GetDriver(message);
             int carNumber = LiveData.ParseInt32(message.Value);
             DriverStatus status = LiveData.ToDriverStatus(message.Colour);
-            
+
             if(driver.CarNumber != carNumber) {
                 translated = new SetDriverCarNumberMessage(driver.Id, carNumber);
             }
@@ -479,22 +469,12 @@ namespace AK.F1.Timing.Live
 
         private static Message CreateStatusMessageIfStatusChanged(LiveDriver driver, DriverStatus status) {
 
-            if(driver.Status != status) {
-                return new SetDriverStatusMessage(driver.Id, status);
-            }
-
-            return null;
+            return driver.Status != status ? new SetDriverStatusMessage(driver.Id, status) : null;
         }
 
-        private static Message Ignored(string reason, Message message) {
+        private static Message Ignored(Message message, string reason) {
 
-            if(_log.IsDebugEnabled) {
-                _log.Debug(new StringBuilder()
-                    .Append("ignored, ")
-                    .Append(reason)
-                    .Append(": ")
-                    .Append(message));
-            }
+            _log.DebugFormat("ignored, {0}: {1}", reason, message);
 
             return null;
         }
