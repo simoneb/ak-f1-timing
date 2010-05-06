@@ -25,8 +25,7 @@ namespace AK.F1.Timing.Messages.Driver
             var message = CreateMessage();
 
             Assert.Equal(1, message.DriverId);
-            Assert.Equal(PostedTime.LapNumber, message.LapNumber);
-            Assert.Equal(PostedTime.Time, message.Time);
+            Assert.Same(PostedTime, message.PitTime);            
         }
 
         [Fact]
@@ -41,30 +40,17 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throws_if_time_is_negative() {
+        public void ctor_throws_if_time_is_null() {
 
-            Assert.DoesNotThrow(() => {
-                new SetDriverPitTimeMessage(1, TimeSpan.Zero, 1);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverPitTimeMessage(1, TimeSpan.FromMilliseconds(-1), -1);
-            });
-        }
-
-        [Fact]
-        public void ctor_throws_if_lap_number_is_negative() {
-
-            Assert.DoesNotThrow(() => {
-                new SetDriverPitTimeMessage(1, TimeSpan.Zero, 0);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverPitTimeMessage(1, TimeSpan.Zero, -1);
+            
+            Assert.Throws<ArgumentNullException>(() => {
+                new SetDriverPitTimeMessage(1, null);
             });
         }
 
         protected override SetDriverPitTimeMessage CreateMessage() {
 
-            return new SetDriverPitTimeMessage(1, PostedTime.Time, PostedTime.LapNumber);
+            return new SetDriverPitTimeMessage(1, PostedTime);
         }
     }
 }

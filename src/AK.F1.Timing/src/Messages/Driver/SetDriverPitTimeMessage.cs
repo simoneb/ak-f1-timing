@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which sets the length of a driver's pit stop. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(24683217)]
+    [TypeId(24683216)]
     public sealed class SetDriverPitTimeMessage : DriverMessageBase
     {
         #region Public Interface.
@@ -32,20 +32,19 @@ namespace AK.F1.Timing.Messages.Driver
         /// driver pitted.
         /// </summary>
         /// <param name="driverId">The Id of the driver.</param>
-        /// <param name="time">The pit time, inclusive of the time taken to travel the pit lane.</param>
-        /// <param name="lapNumber">The lap number on which the driver pitted.</param>
+        /// <param name="pitTime">The pit time, inclusive of the time taken to travel the pit lane.</param>        
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="driverId"/> or <paramref name="lapNumber"/> is not positive or
-        /// <paramref name="time"/> is negative.
+        /// Thrown when <paramref name="driverId"/> is not positive.
         /// </exception>
-        public SetDriverPitTimeMessage(int driverId, TimeSpan time, int lapNumber)
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="pitTime"/> is <see langword="null"/>.
+        /// </exception>
+        public SetDriverPitTimeMessage(int driverId, PostedTime pitTime)
             : base(driverId) {
 
-            Guard.InRange(time >= TimeSpan.Zero, "time");
-            Guard.InRange(lapNumber >= 0, "lapNumber");
+            Guard.NotNull(pitTime, "pitTime");
 
-            Time = time;
-            LapNumber = lapNumber;
+            PitTime = pitTime;
         }
 
         /// <inheritdoc />
@@ -59,20 +58,14 @@ namespace AK.F1.Timing.Messages.Driver
         /// <inheritdoc />
         public override string ToString() {
 
-            return Repr("DriverId={0}, Time='{1}', LapNumber={2}", DriverId, Time, LapNumber);
+            return Repr("DriverId={0}, PitTime={1}", DriverId, PitTime);
         }
 
         /// <summary>
-        /// Gets the pit time. This time includes the time taken to travel the length of the pit.
+        /// Gets the pit time. The time includes the time taken to travel the length of the pit.
         /// </summary>
         [PropertyId(1)]
-        public TimeSpan Time { get; private set; }
-
-        /// <summary>
-        /// Gets the lap number on which the driver pitted.
-        /// </summary>
-        [PropertyId(2)]
-        public int LapNumber { get; private set; }
+        public PostedTime PitTime { get; private set; }
 
         #endregion
     }

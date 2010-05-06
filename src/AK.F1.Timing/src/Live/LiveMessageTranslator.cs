@@ -313,10 +313,8 @@ namespace AK.F1.Timing.Live
                 return CreateStatusMessageIfStatusChanged(driver, DriverStatus.Retired);
             }
             return new SetDriverLapTimeMessage(driver.Id,
-                new PostedTime(
-                    LiveData.ParseTime(message.Value),
-                    LiveData.ToPostedTimeType(message.Colour),
-                    driver.LapNumber));
+                new PostedTime(LiveData.ParseTime(message.Value),
+                    LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
         }
 
         private Message TranslateSetLapTimeColour(SetGridColumnColourMessage message) {
@@ -370,8 +368,9 @@ namespace AK.F1.Timing.Live
                 return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
                     new PostedTime(time, type, driver.LastSectors[sectorNumber - 1].LapNumber));
             }
-            return TranslateSetDriverSectorTime(new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
-                new PostedTime(time, type, driver.LapNumber)));
+            return TranslateSetDriverSectorTime(
+                new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
+                    new PostedTime(time, type, driver.LapNumber)));
         }
 
         private Message TranslateSetPitTimeValue(SetGridColumnValueMessage message, int sectorNumber) {
@@ -383,7 +382,8 @@ namespace AK.F1.Timing.Live
             // After a driver pits, the pit times are displayed and the S3 column always displays the
             // length of the last pit stop. We subtract one as the lap number will have been incremented
             // when the driver pitted.
-            return new SetDriverPitTimeMessage(driver.Id, LiveData.ParseTime(message.Value), driver.LapNumber - 1);
+            return new SetDriverPitTimeMessage(driver.Id,
+                new PostedTime(LiveData.ParseTime(message.Value), PostedTimeType.Normal, driver.LapNumber - 1));
         }
 
         private Message TranslateSetSectorTimeColour(SetGridColumnColourMessage message, int sectorNumber) {
@@ -408,8 +408,9 @@ namespace AK.F1.Timing.Live
                 return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
                     new PostedTime(lastSectorTime.Time, newTimeType, lastSectorTime.LapNumber));
             }
-            return TranslateSetDriverSectorTime(new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
-                new PostedTime(lastSectorTime.Time, newTimeType, driver.LapNumber)));
+            return TranslateSetDriverSectorTime(
+                new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
+                    new PostedTime(lastSectorTime.Time, newTimeType, driver.LapNumber)));
         }
 
         private Message TranslateSetSectorClear(SetGridColumnValueMessage message, int sectorNumber) {
@@ -421,8 +422,9 @@ namespace AK.F1.Timing.Live
             // that an S2 clear can be received when we do not have a previous S1 time, usually
             // at the start of a session.
             if(driver.IsCurrentSectorNumber(1) && sectorNumber == 2 && (lastS1Time = driver.LastSectors[0]) != null) {
-                return TranslateSetDriverSectorTime(new SetDriverSectorTimeMessage(driver.Id, 1,
-                    new PostedTime(lastS1Time.Time, lastS1Time.Type, driver.LapNumber)));
+                return TranslateSetDriverSectorTime(
+                    new SetDriverSectorTimeMessage(driver.Id, 1,
+                        new PostedTime(lastS1Time.Time, lastS1Time.Type, driver.LapNumber)));
             }
 
             return null;

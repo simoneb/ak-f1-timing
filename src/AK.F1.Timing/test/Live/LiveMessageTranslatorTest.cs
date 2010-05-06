@@ -342,7 +342,7 @@ namespace AK.F1.Timing.Live
                 new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "1"),
                 new SetGridColumnValueMessage(1, GridColumn.S3, GridColumnColour.White, "25.7")
             ).Expect(
-                new SetDriverPitTimeMessage(1, TimeSpan.FromSeconds(25.7), 0)
+                new SetDriverPitTimeMessage(1, new PostedTime(TimeSpan.FromSeconds(25.7), PostedTimeType.Normal, 0))
             ).InRaceSession()
             .Assert();
         }
