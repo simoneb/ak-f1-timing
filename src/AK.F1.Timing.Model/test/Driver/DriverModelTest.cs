@@ -207,14 +207,6 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         [Fact]
-        public void processing_a_set_driver_pit_count_message_for_the_driver_updates_the_pit_times_model() {
-
-            var model = CreateModel(new SetDriverPitCountMessage(DriverId, 3));
-
-            Assert.Equal(3, model.PitTimes.Count);
-        }
-
-        [Fact]
         public void processing_a_set_driver_pit_count_message_for_another_driver_does_not_update_the_pit_times_model() {
 
             var model = CreateModel(new SetDriverPitCountMessage(DriverId + 1, 5));
@@ -225,19 +217,18 @@ namespace AK.F1.Timing.Model.Driver
         [Fact]
         public void processing_a_set_driver_pit_time_message_for_the_driver_adds_it_to_the_pit_times() {
 
-            var lapNumber = 15;
-            var time = TimeSpan.FromSeconds(45.5);
-            var model = CreateModel(new SetDriverPitTimeMessage(DriverId, time, lapNumber));
+            var time = new PostedTime(TimeSpan.FromSeconds(45.5), PostedTimeType.Normal, 1);
+            var model = CreateModel(new SetDriverPitTimeMessage(DriverId, time));
 
             Assert.NotEmpty(model.PitTimes.Items);
-            Assert.Equal(lapNumber, model.PitTimes.Items[0].LapNumber);
-            Assert.Equal(time, model.PitTimes.Items[0].Time);
+            Assert.Same(time, model.PitTimes.Items[0]);
         }
 
         [Fact]
         public void processing_a_set_driver_pit_time_message_for_another_driver_does_not_add_it_to_the_pit_times() {
 
-            var model = CreateModel(new SetDriverPitTimeMessage(DriverId + 1, TimeSpan.FromSeconds(43.7), 12));
+            var time = new PostedTime(TimeSpan.FromSeconds(45.5), PostedTimeType.Normal, 1);
+            var model = CreateModel(new SetDriverPitTimeMessage(DriverId + 1, time));
 
             Assert.Empty(model.PitTimes.Items);
         }

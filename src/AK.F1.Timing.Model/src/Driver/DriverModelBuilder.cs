@@ -108,18 +108,10 @@ namespace AK.F1.Timing.Model.Driver
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverPitCountMessage message) {
-
-                if(IsForMyDriver(message)) {
-                    Model.PitTimes.Count = message.PitCount;
-                }
-            }
-
-            /// <inheritdoc/>
             public override void Visit(SetDriverPitTimeMessage message) {
 
                 if(IsForMyDriver(message)) {
-                    Model.PitTimes.Add(new PitTimeModel(message.Time, message.LapNumber));
+                    Model.PitTimes.Add(message.PitTime);
                 }
             }
 

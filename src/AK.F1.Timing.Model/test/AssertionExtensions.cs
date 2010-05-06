@@ -36,12 +36,6 @@ namespace AK.F1.Timing.Model.Driver
             assert.Equal(DriverStatus.InPits, model.Status);
         }
 
-        public static void Empty(this Assertions assert, PitTimesModel model) {
-
-            assert.Empty(model.Items);
-            assert.Equal(0, model.Count);
-        }
-
         public static void Empty(this Assertions assert, QuallyTimesModel model) {
 
             assert.Null(model.Q1);

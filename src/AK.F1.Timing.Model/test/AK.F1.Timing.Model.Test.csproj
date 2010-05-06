@@ -61,8 +61,6 @@
     </Compile>
     <Compile Include="AssertionExtensions.cs" />
     <Compile Include="Driver\LapTimesModelTest.cs" />
-    <Compile Include="Driver\PitTimesModelTest.cs" />
-    <Compile Include="Driver\PitTimeModelTest.cs" />
     <Compile Include="Driver\DriverModelTest.cs" />
     <Compile Include="Driver\QuallyTimesModel.cs" />
     <Compile Include="Program.cs" />

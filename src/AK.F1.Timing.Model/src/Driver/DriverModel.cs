@@ -15,6 +15,7 @@
 using System;
 
 using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Model.Collections;
 
 namespace AK.F1.Timing.Model.Driver
 {
@@ -47,7 +48,7 @@ namespace AK.F1.Timing.Model.Driver
 
             Id = id;
             LapTimes = new LapTimesModel();
-            PitTimes = new PitTimesModel();            
+            PitTimes = new PostedTimeCollectionModel();
             QuallyTimes = new QuallyTimesModel();
             Status = DriverStatus.InPits;
             Builder = new DriverModelBuilder(this);
@@ -139,7 +140,7 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets the pit times model.
         /// </summary>
-        public PitTimesModel PitTimes { get; private set; }
+        public PostedTimeCollectionModel PitTimes { get; private set; }
 
         /// <summary>
         /// Gets or sets the status of this driver.
