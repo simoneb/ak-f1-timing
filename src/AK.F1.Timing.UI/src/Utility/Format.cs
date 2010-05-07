@@ -85,7 +85,7 @@ namespace AK.F1.Timing.UI.Utility
 
             TimeSpan time = value.Value;
 
-            return F("{0}:{1}.{2:000}", time.Minutes, time.Seconds, time.Milliseconds);
+            return F("{0}:{1:00}.{2:000}", time.Minutes, time.Seconds, time.Milliseconds);
         }
 
         public static string LapTimeDelta(TimeSpan? value) {
