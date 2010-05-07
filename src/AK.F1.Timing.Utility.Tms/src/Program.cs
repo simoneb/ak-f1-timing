@@ -58,6 +58,8 @@ namespace AK.F1.Timing.Utility.Tms
                 new WriteStatisticsOperation(options.Path).Run();
             } else if(options.Dump) {
                 new DumpOperation(options.Path).Run();
+            } else if(options.DumpSession) {
+                new DumpSessionOperation(options.Path).Run();
             } else if(options.Fixup) {
                 new FixupOperation(options.Path).Run();
             } else {

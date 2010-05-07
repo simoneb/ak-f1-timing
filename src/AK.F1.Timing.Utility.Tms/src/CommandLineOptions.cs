@@ -32,21 +32,28 @@ namespace AK.F1.Timing.Utility.Tms
             MatchPosition = true)]
         public string Path;
 
-        [CommandLineParser.ValueUsage("Fixup the TMS by filtering out translated messages and replaying the session.",
+        [CommandLineParser.FlagUsage("Fixup the TMS by filtering out translated messages and replaying the session.",
             Category = "op",
             Name = "fixup",
             AlternateName1 = "f",
             Optional = true)]
         public bool Fixup;
 
-        [CommandLineParser.ValueUsage("Dump the TMS to the standard out.",
+        [CommandLineParser.FlagUsage("Dump the TMS to the standard out.",            
             Category = "op",
             Name = "dump",
             AlternateName1 = "d",
             Optional = true)]
         public bool Dump;
 
-        [CommandLineParser.ValueUsage("Generate TMS statistics.",
+        [CommandLineParser.FlagUsage("Dump the session to the standard out.",
+            Category = "op",
+            Name = "dump-session",
+            AlternateName1 = "ds",
+            Optional = true)]
+        public bool DumpSession;
+
+        [CommandLineParser.FlagUsage("Generate TMS statistics.",
             Category = "op",
             Name = "stats",
             AlternateName1 = "s",
@@ -65,7 +72,7 @@ namespace AK.F1.Timing.Utility.Tms
             if(!File.Exists(Path)) {
                 throw Usage("path", "specified path does not exist or the device is not ready.");
             }
-            if(!(Fixup ^ Dump ^ Stats)) {
+            if(!(Fixup ^ Dump ^ DumpSession ^ Stats)) {
                 throw Usage("fixup|dump|stats", "one operation must be selected.");
             }
         }
