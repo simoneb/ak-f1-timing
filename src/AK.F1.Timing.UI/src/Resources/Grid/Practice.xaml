@@ -31,7 +31,7 @@
                 </DataTemplate>
             </GridViewColumn.CellTemplate>
         </GridViewColumn>
-        <GridViewColumn Width="30" Header="Gap">
+        <GridViewColumn Width="38" Header="Gap">
             <GridViewColumn.CellTemplate>
                 <DataTemplate>
                     <Control DataContext="{Binding Gap}" Style="{StaticResource StandardColumn}"/>
