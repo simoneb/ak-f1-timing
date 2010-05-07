@@ -92,7 +92,7 @@ namespace AK.F1.Timing.UI.Screens
                 if(_selectedGridRow != value) {
                     _selectedGridRow = value;
                     NotifyOfPropertyChange(() => SelectedGridRow);
-                    SelectedDriver = value != null ? Session.GetDriver(value.DriverId) : null;
+                    SelectedDriver = value != null ? Session.GetDriver(value.Id) : null;
                 }
             }
         }
