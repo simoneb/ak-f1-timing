@@ -29,12 +29,9 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Initialises a new instance of the <see cref="PracticeGridRowModel"/>.
         /// </summary>
-        /// <param name="driverId">The Id of the driver the row is for.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="driverId"/> is not positive.
-        /// </exception>
-        public PracticeGridRowModel(int driverId)
-            : base(driverId) {
+        /// <param name="id">The row Id.</param>
+        public PracticeGridRowModel(int id)
+            : base(id) {
 
             Best = new GridColumnModel(GridColumn.LapTime);
             Gap = new GridColumnModel(GridColumn.Gap);

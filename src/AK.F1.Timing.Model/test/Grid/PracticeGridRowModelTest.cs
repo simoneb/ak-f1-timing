@@ -21,9 +21,9 @@ namespace AK.F1.Timing.Model.Grid
 {
     public class PracticeGridRowModelTest : GridRowModelTestBase<PracticeGridRowModel>
     {
-        protected override PracticeGridRowModel CreateRow(int driverId) {
+        protected override PracticeGridRowModel CreateRow(int id) {
 
-            return new PracticeGridRowModel(driverId);
+            return new PracticeGridRowModel(id);
         }
 
         protected override IEnumerable<GridColumn> GetColumns() {

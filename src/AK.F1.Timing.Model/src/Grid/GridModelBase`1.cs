@@ -45,20 +45,17 @@ namespace AK.F1.Timing.Model.Grid
         }
         
         /// <summary>
-        /// Gets the row model with the specified driver Id.
+        /// Gets the row model with the specified Id.
         /// </summary>
-        /// <param name="driverId">The driver Id.</param>
-        /// <returns>The row model with the specified driver Id.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Throw when <paramref name="driverId"/> is not positive.
-        /// </exception>
-        public virtual TRow GetRow(int driverId) {
+        /// <param name="id">The row Id.</param>
+        /// <returns>The row model with the Id.</returns>
+        public virtual TRow GetRow(int id) {
 
             TRow row;
 
-            if(!RowsById.TryGetValue(driverId, out row)) {
-                row = CreateRow(driverId);
-                RowsById.Add(driverId, row);
+            if(!RowsById.TryGetValue(id, out row)) {
+                row = CreateRow(id);
+                RowsById.Add(id, row);
                 InnerRows.Add(row);
             }
 
@@ -96,14 +93,11 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         /// <summary>
-        /// When override in a derived class; creates a new grid row with the specified driver Id.
+        /// When override in a derived class; creates a new grid row with the specified Id.
         /// </summary>
-        /// <param name="driverId">The driver Id.</param>
-        /// <returns>A new grid row with the specified driver Id.</returns>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Throw when <paramref name="driverId"/> is not positive.
-        /// </exception>
-        protected abstract TRow CreateRow(int driverId);
+        /// <param name="id">The row Id.</param>
+        /// <returns>A new grid row with the specified Id.</returns>
+        protected abstract TRow CreateRow(int id);
 
         /// <summary>
         /// Gets or sets the <see cref="AK.F1.Timing.IMessageProcessor"/> which builds this grid model.

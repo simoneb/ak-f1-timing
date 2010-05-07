@@ -25,9 +25,9 @@ namespace AK.F1.Timing.Model.Grid
         #region Qually Interface.
 
         /// <inheritdoc />
-        protected override QuallyGridRowModel CreateRow(int driverId) {
+        protected override QuallyGridRowModel CreateRow(int id) {
 
-            return new QuallyGridRowModel(driverId);
+            return new QuallyGridRowModel(id);
         }
 
         #endregion

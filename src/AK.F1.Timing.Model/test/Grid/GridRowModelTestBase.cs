@@ -28,7 +28,7 @@ namespace AK.F1.Timing.Model.Grid
 
             var row = CreateRow(1);
 
-            Assert.Equal(1, row.DriverId);
+            Assert.Equal(1, row.Id);
             Assert.Equal(0, row.RowIndex);
         }
 
@@ -104,7 +104,7 @@ namespace AK.F1.Timing.Model.Grid
             Assert.DoesNotThrow(() => row.RowIndex = 0);
         }
 
-        protected abstract TRow CreateRow(int driverId);
+        protected abstract TRow CreateRow(int id);
 
         private IEnumerable<GridColumn> GetColumnsCore() {
 

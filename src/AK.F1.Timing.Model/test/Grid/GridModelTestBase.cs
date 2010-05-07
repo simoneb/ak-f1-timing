@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Model.Grid
             var row = grid.GetRow(1);
 
             Assert.NotNull(row);
-            Assert.Equal(1, row.DriverId);
+            Assert.Equal(1, row.Id);
         }
 
         [Fact]
@@ -57,7 +57,7 @@ namespace AK.F1.Timing.Model.Grid
             grid.GetRow(1);
             grid.GetRow(2);
 
-            Assert.Equal(2, grid.Rows[1].DriverId);
+            Assert.Equal(2, grid.Rows[1].Id);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ namespace AK.F1.Timing.Model.Grid
             var row = grid.GetRow(1);
 
             Assert.NotNull(row);
-            Assert.Equal(1, row.DriverId);
+            Assert.Equal(1, row.Id);
             Assert.Equal(GridColumnColour.Green, row.DriverName.TextColour);
             Assert.Equal("Name", row.DriverName.Text);
         }
@@ -111,7 +111,7 @@ namespace AK.F1.Timing.Model.Grid
             var row = grid.GetRow(1);
 
             Assert.NotNull(row);
-            Assert.Equal(1, row.DriverId);
+            Assert.Equal(1, row.Id);
             Assert.Equal(GridColumnColour.Red, row.CarNumber.TextColour);            
         }
 
@@ -136,7 +136,7 @@ namespace AK.F1.Timing.Model.Grid
             var row = grid.GetRow(1);
 
             Assert.NotNull(row);
-            Assert.Equal(1, row.DriverId);
+            Assert.Equal(1, row.Id);
             Assert.Equal(GridColumnColour.Black, row.S1.TextColour);
             Assert.Null(row.S1.Text);
         }

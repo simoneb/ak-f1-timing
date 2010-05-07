@@ -104,9 +104,9 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         /// <summary>
-        /// Gets the Id of the driver for this grid row.
+        /// Gets the row Id.
         /// </summary>
-        public int DriverId { get; private set; }
+        public int Id { get; private set; }
 
         /// <summary>
         /// Gets the position column.
@@ -160,15 +160,10 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Initialises a new instance of the <see cref="GridRowModelBase"/>.
         /// </summary>
-        /// <param name="driverId">The Id of the driver the row is for.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="driverId"/> is not positive.
-        /// </exception>
-        protected GridRowModelBase(int driverId) {
+        /// <param name="id">The row Id.</param>
+        protected GridRowModelBase(int id) {
 
-            Guard.InRange(driverId > 0, "driverId");
-
-            DriverId = driverId;
+            Id = id;
             Position = new GridColumnModel(GridColumn.Position);
             CarNumber = new GridColumnModel(GridColumn.CarNumber);
             DriverName = new GridColumnModel(GridColumn.DriverName);

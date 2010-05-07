@@ -29,12 +29,9 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Initialises a new instance of the <see cref="RaceGridRowModel"/>.
         /// </summary>
-        /// <param name="driverId">The Id of the driver the row is for.</param>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="driverId"/> is not positive.
-        /// </exception>
-        public RaceGridRowModel(int driverId)
-            : base(driverId) {
+        /// <param name="id">The row Id.</param>
+        public RaceGridRowModel(int id)
+            : base(id) {
 
             Gap = new GridColumnModel(GridColumn.Gap);
             Interval = new GridColumnModel(GridColumn.Interval);

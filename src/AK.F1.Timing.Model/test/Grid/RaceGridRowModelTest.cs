@@ -21,9 +21,9 @@ namespace AK.F1.Timing.Model.Grid
 {
     public class RaceGridRowModelTest : GridRowModelTestBase<RaceGridRowModel>
     {
-        protected override RaceGridRowModel CreateRow(int driverId) {
+        protected override RaceGridRowModel CreateRow(int id) {
 
-            return new RaceGridRowModel(driverId);
+            return new RaceGridRowModel(id);
         }
 
         protected override IEnumerable<GridColumn> GetColumns() {

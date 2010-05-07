@@ -21,9 +21,9 @@ namespace AK.F1.Timing.Model.Grid
 {
     public class QuallyGridRowModelTest : GridRowModelTestBase<QuallyGridRowModel>
     {
-        protected override QuallyGridRowModel CreateRow(int driverId) {
+        protected override QuallyGridRowModel CreateRow(int id) {
 
-            return new QuallyGridRowModel(driverId);
+            return new QuallyGridRowModel(id);
         }
 
         protected override IEnumerable<GridColumn> GetColumns() {
