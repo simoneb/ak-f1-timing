@@ -29,8 +29,6 @@ namespace AK.F1.Timing.Live
     {
         #region Private Fields.
 
-        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;
-
         private static readonly string[] TIME_FORMATS = new[] {
             "ss.f",         // Sector or qually time.
             "m:ss.fff",     // Lap time.
@@ -109,14 +107,14 @@ namespace AK.F1.Timing.Live
 
             DateTime date;
 
-            if(DateTime.TryParseExact(s, TIME_FORMATS, INV_CULTURE, DateTimeStyles.None, out date)) {
+            if(DateTime.TryParseExact(s, TIME_FORMATS, CultureInfo.InvariantCulture, DateTimeStyles.None, out date)) {
                 return date.TimeOfDay;
             }
 
             double seconds;
             // Sector times may be greater than 60 seconds in which case they are formatted as 73.7
             // This format cannot be expressed as a time format so revert to parsing it as a double.
-            if(Double.TryParse(s, NumberStyles.Float, INV_CULTURE, out seconds)) {
+            if(Double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out seconds)) {
                 return TimeSpan.FromSeconds(seconds);
             }
 
@@ -135,7 +133,7 @@ namespace AK.F1.Timing.Live
 
             int value;
 
-            if(Int32.TryParse(s, NumberStyles.Integer, INV_CULTURE, out value)) {
+            if(Int32.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out value)) {
                 return value;
             }
 
@@ -154,7 +152,7 @@ namespace AK.F1.Timing.Live
 
             double value;
 
-            if(Double.TryParse(s, NumberStyles.Float, INV_CULTURE, out value)) {
+            if(Double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out value)) {
                 return value;
             }
 
