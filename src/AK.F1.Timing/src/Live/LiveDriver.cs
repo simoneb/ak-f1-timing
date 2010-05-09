@@ -53,15 +53,15 @@ namespace AK.F1.Timing.Live
         public void Reset() {
 
             CarNumber = 0;
-            _columnsWithValue = new BitVector32();            
+            _columnsWithValue = new BitVector32();
+            CurrentSectorNumber = 0;
+            IsExpectingPitTimes = false;
             LapNumber = 0;
             LastGapMessage = null;
             LastIntervalMessage = null;
             LastLapTime = null;
             LastSectors = new PostedTime[3];
-            Name = null;
-            CurrentSectorNumber = 0;            
-            ExpectedPitTimeCount = 0;
+            Name = null;                        
             Position = 0;
             Status = DriverStatus.InPits;
         }
@@ -203,17 +203,9 @@ namespace AK.F1.Timing.Live
         public PostedTime LastLapTime { get; set; }
 
         /// <summary>
-        /// Gets or set the number of pit time sector updates that are expected for the driver.
+        /// Gets or sets a value indicating if this driver is expecting pit time sector updates.
         /// </summary>
-        public int ExpectedPitTimeCount { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating if this driver is expecting pit time sector updates.
-        /// </summary>
-        public bool IsExpectingPitTimes {
-
-            get { return ExpectedPitTimeCount > 0; }
-        }
+        public bool IsExpectingPitTimes { get; set; }
 
         /// <summary>
         /// Gets or sets the one-based sector number this driver is currently completing. Returns

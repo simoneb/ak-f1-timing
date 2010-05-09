@@ -118,11 +118,21 @@ namespace AK.F1.Timing.Live
         /// <returns>The driver that the specified message related to.</returns>
         internal LiveDriver GetDriver(DriverMessageBase message) {
 
+            return GetDriver(message.DriverId);
+        }
+
+        /// <summary>
+        /// Returns the driver with the specified Id.
+        /// </summary>
+        /// <param name="id">The driver Id.</param>
+        /// <returns>The driver with the specified Id.</returns>
+        internal LiveDriver GetDriver(int id) {
+
             LiveDriver driver;
 
-            if(!Drivers.TryGetValue(message.DriverId, out driver)) {
-                driver = new LiveDriver(message.DriverId);
-                Drivers.Add(message.DriverId, driver);
+            if(!Drivers.TryGetValue(id, out driver)) {
+                driver = new LiveDriver(id);
+                Drivers.Add(id, driver);
             }
 
             return driver;
@@ -163,7 +173,7 @@ namespace AK.F1.Timing.Live
         /// <summary>
         /// Gets a value indicating if the session has started.
         /// </summary>
-        internal bool HasSessionStarted {
+        internal bool IsSessionStarted {
 
             get {
                 return !IsRaceSession || RaceLapNumber > 0;
@@ -312,20 +322,15 @@ namespace AK.F1.Timing.Live
 
         private Message TranslateSetLapTimeValue(SetGridColumnValueMessage message) {
 
-            // TODO this needs removing.
-            if(!HasSessionStarted) {
-                return null;
-            }
-
             var driver = GetDriver(message);
 
             if(message.Value.OrdinalEquals("OUT")) {
-                return CreateStatusMessageIfChanged(driver, DriverStatus.OnTrack);
+                return CreateStatusMessageIfChanged(driver, DriverStatus.Out);
             } else if(message.Value.OrdinalEquals("IN PIT")) {
                 return CreateStatusMessageIfChanged(driver, DriverStatus.InPits);
             } else if(message.Value.OrdinalEquals("RETIRED")) {
                 return CreateStatusMessageIfChanged(driver, DriverStatus.Retired);
-            } else if(driver.IsOnTrack) {
+            } else if(driver.IsOnTrack && IsSessionStarted) {
                 return new SetDriverLapTimeMessage(driver.Id,
                     new PostedTime(LiveData.ParseTime(message.Value),
                         LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
@@ -338,23 +343,23 @@ namespace AK.F1.Timing.Live
 
             var driver = GetDriver(message);
 
-            switch(message.Colour) {
-                case GridColumnColour.White:
-                    return new SetDriverLapTimeMessage(driver.Id,
-                        new PostedTime(driver.LastLapTime.Time,
-                            LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
-                case GridColumnColour.Green:
-                case GridColumnColour.Magenta:
-                    // The feed often sends a colour update for the previous lap time to indicate
-                    // that it was a PB or SB. To hack this we publish a replacement when we receive
-                    // such a message.
-                    return new ReplaceDriverLapTimeMessage(driver.Id,
-                        new PostedTime(driver.LastLapTime.Time,
-                            LiveData.ToPostedTimeType(message.Colour),
-                            driver.LastLapTime.LapNumber));
-                default:
-                    return null;
+            if(driver.IsOnTrack) {
+                switch(message.Colour) {
+                    case GridColumnColour.White:
+                        return new SetDriverLapTimeMessage(driver.Id,
+                            new PostedTime(driver.LastLapTime.Time,
+                                LiveData.ToPostedTimeType(message.Colour), driver.LapNumber));
+                    case GridColumnColour.Green:
+                    case GridColumnColour.Magenta:
+                        // The feed often sends a colour update for the previous lap time to indicate
+                        // that it was a PB or SB, in which case we publish a replacement time.
+                        return new ReplaceDriverLapTimeMessage(driver.Id,
+                            new PostedTime(driver.LastLapTime.Time,
+                                LiveData.ToPostedTimeType(message.Colour), driver.LastLapTime.LapNumber));
+                }
             }
+
+            return null;
         }
 
         private Message TranslateSetQuallyTimeValue(SetGridColumnValueMessage message, int quallyNumber) {

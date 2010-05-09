@@ -110,18 +110,6 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void can_determine_if_the_driver_is_expecting_pit_time_updates() {
-
-            var driver = new LiveDriver(1);
-
-            Assert.False(driver.IsExpectingPitTimes);
-            driver.ExpectedPitTimeCount = 1;
-            Assert.True(driver.IsExpectingPitTimes);
-            driver.ExpectedPitTimeCount = 0;
-            Assert.False(driver.IsExpectingPitTimes);
-        }
-
-        [Fact]
         public void can_determine_if_the_driver_is_on_the_track() {
 
             var driver = new LiveDriver(1);
@@ -248,7 +236,7 @@ namespace AK.F1.Timing.Live
             var driver = new LiveDriver(1);
 
             driver.CarNumber = 21;
-            driver.ExpectedPitTimeCount = 3;
+            driver.IsExpectingPitTimes = true;
             driver.LapNumber = 4;            
             driver.LastGapMessage = new SetDriverGapMessage(1, LapGap.Zero);
             driver.LastIntervalMessage = new SetDriverIntervalMessage(1, LapGap.Zero);
@@ -257,8 +245,7 @@ namespace AK.F1.Timing.Live
                 driver.LastSectors[i] = driver.LastLapTime;
             }
             driver.Name = "Name";
-            driver.CurrentSectorNumber = 2;
-            driver.ExpectedPitTimeCount = 1;
+            driver.CurrentSectorNumber = 2;            
             driver.Position = 5;
             driver.ChangeStatus(DriverStatus.OnTrack);
             driver.SetColumnHasValue(GridColumn.DriverName, true);
@@ -273,8 +260,7 @@ namespace AK.F1.Timing.Live
         private void assert_properties_have_default_values(LiveDriver driver) {
 
             Assert.Equal(0, driver.CarNumber);
-            Assert.Equal(0, driver.CurrentSectorNumber);
-            Assert.Equal(0, driver.ExpectedPitTimeCount);
+            Assert.Equal(0, driver.CurrentSectorNumber);            
             Assert.False(driver.IsExpectingPitTimes);
             Assert.False(driver.IsRaceLeader);
             Assert.Equal(0, driver.LapNumber);
@@ -285,8 +271,7 @@ namespace AK.F1.Timing.Live
                 Assert.Null(sector);
             }
             Assert.Null(driver.Name);            
-            Assert.Equal(0, driver.PreviousSectorNumber);
-            Assert.Equal(0, driver.ExpectedPitTimeCount);
+            Assert.Equal(0, driver.PreviousSectorNumber);            
             Assert.Equal(0, driver.Position);
             Assert.Equal(DriverStatus.InPits, driver.Status);
             foreach(GridColumn column in Enum.GetValues(typeof(GridColumn))) {

@@ -21,7 +21,12 @@ namespace AK.F1.Timing
 {
     public static class AssertionExtensions
     {
-        public static void PropertiesAreEqual<T>(this Assertions assert, T expected, T actual) {
+        public static void Zero(this Assertions assert, int value) {
+
+            assert.Equal(0, value);
+        }
+
+        public static void MessagesAreEqual(this Assertions assert, Message expected, Message actual) {
 
             if(expected == null) {
                 assert.Null(actual);
@@ -32,7 +37,7 @@ namespace AK.F1.Timing
             foreach(var method in GetPublicPropertyGetMethods(expected.GetType())) {                
                 assert.Equal(method.Invoke(expected, null), method.Invoke(actual, null));
             }
-        }
+        }       
 
         private static IEnumerable<MethodInfo> GetPublicPropertyGetMethods(Type type) {
 

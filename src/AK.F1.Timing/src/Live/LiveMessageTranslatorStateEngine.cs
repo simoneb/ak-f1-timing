@@ -87,9 +87,15 @@ namespace AK.F1.Timing.Live
 
             if(Translator.IsRaceSession) {
                 LiveDriver driver = GetDriver(message);
-                // Ensure we can identify when a sector update is actually a pit time.
-                driver.ExpectedPitTimeCount = driver.IsInPits ? Math.Min(message.PitCount, 3) : 0;
+                // We only expect pit times when the driver is pitted.
+                driver.IsExpectingPitTimes = driver.IsInPits;                
             }
+        }
+
+        /// <inheritdoc />
+        public override void Visit(SetDriverPitTimeMessage message) {
+
+            GetDriver(message).IsExpectingPitTimes = false;
         }
 
         /// <inheritdoc />
@@ -131,20 +137,7 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         public override void Visit(SetGridColumnValueMessage message) {
 
-            LiveDriver driver = GetDriver(message);
-            
-            if(IsSetSectorValueMessage(message)) {
-                --driver.ExpectedPitTimeCount;
-            }
-            driver.SetColumnHasValue(message.Column, !message.ClearColumn);
-        }
-
-        /// <inheritdoc />
-        public override void Visit(SetGridColumnColourMessage message) {
-
-            if(IsSetSectorColourMessage(message)) {
-                --GetDriver(message).ExpectedPitTimeCount;
-            }
+            GetDriver(message).SetColumnHasValue(message.Column, !message.ClearColumn);
         }
 
         /// <inheritdoc />

@@ -26,7 +26,7 @@ using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.Live
 {
-    public class LiveMessageTranslatorTest : TestBase
+    public partial class LiveMessageTranslatorTest : TestBase
     {
         [Fact]
         public void can_create() {
@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Live
 
             Assert.Equal(0, translator.RaceLapNumber);            
             Assert.Equal(SessionType.None, translator.SessionType);
-            Assert.True(translator.HasSessionStarted);
+            Assert.True(translator.IsSessionStarted);
         }
 
         [Fact]
@@ -74,18 +74,18 @@ namespace AK.F1.Timing.Live
             var translator = new LiveMessageTranslator();
 
             translator.ChangeSessionType(SessionType.None);
-            Assert.True(translator.HasSessionStarted);
+            Assert.True(translator.IsSessionStarted);
 
             translator.ChangeSessionType(SessionType.Practice);
-            Assert.True(translator.HasSessionStarted);
+            Assert.True(translator.IsSessionStarted);
 
             translator.ChangeSessionType(SessionType.Qually);
-            Assert.True(translator.HasSessionStarted);
+            Assert.True(translator.IsSessionStarted);
 
             translator.ChangeSessionType(SessionType.Race);
-            Assert.False(translator.HasSessionStarted);
+            Assert.False(translator.IsSessionStarted);
             translator.RaceLapNumber = 1;
-            Assert.True(translator.HasSessionStarted);
+            Assert.True(translator.IsSessionStarted);
         }
 
         [Fact]
@@ -105,128 +105,31 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
+        public void can_get_a_driver() {
+
+            var translator = new LiveMessageTranslator();
+
+            Assert.NotNull(translator.GetDriver(1));
+            Assert.NotNull(translator.GetDriver(new SetDriverPositionMessage(1, 1)));
+        }
+
+        [Fact]
+        public void get_driver_returns_the_same_driver_given_the_same_id_or_message() {
+
+            var translator = new LiveMessageTranslator();
+            var message = new SetDriverPositionMessage(1, 1);
+
+            Assert.Same(translator.GetDriver(1), translator.GetDriver(1));
+            Assert.Same(translator.GetDriver(message), translator.GetDriver(message));
+            Assert.Same(translator.GetDriver(1), translator.GetDriver(message));
+        }
+
+        [Fact]
         public void translate_throws_if_message_is_null() {
 
             var translator = new LiveMessageTranslator();
 
             Assert.Throws<ArgumentNullException>(() => translator.Translate(null));
-        }
-
-        [Fact]
-        public void colour_updates_to_a_column_with_no_value_are_not_translated() {
-
-            foreach(GridColumn column in Enum.GetValues(typeof(GridColumn))) {
-                foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
-                    Translate(
-                        new SetGridColumnColourMessage(1, column, colour)
-                    ).ExpectNull()
-                    .InAllSessions()
-                    .Assert();
-                }
-            }
-        }
-
-        [Fact]
-        public void unknown_column_values_are_not_translated() {
-
-            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
-                Translate(
-                    new SetGridColumnValueMessage(1, GridColumn.Unknown, colour, "Unknown")
-                ).ExpectNull()
-                .InAllSessions()
-                .Assert();
-                // Assert that clear columns are not translated.
-                Translate(
-                    new SetGridColumnValueMessage(1, GridColumn.Unknown, colour, null)
-                ).ExpectNull()
-                .InAllSessions()
-                .Assert();
-            }
-        }
-
-        [Fact]
-        public void unknown_column_colours_are_not_translated() {
-
-            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
-                Translate(
-                    new SetGridColumnColourMessage(1, GridColumn.Unknown, colour)
-                ).ExpectNull()
-                .InAllSessions()
-                .Assert();
-            }
-        }
-
-        [Fact]
-        public void lap_time_column_values_are_not_translated_into_set_lap_time_messages_when_the_driver_is_not_on_the_track() {
-
-            // In pits.
-            Translate(            
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
-            ).ExpectNull()
-            .InAllSessions()
-            .Assert();
-            // Retired.
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "RETIRED"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
-            ).ExpectNull()
-            .InAllSessions()
-            .Assert();
-            // Out
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "OUT"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
-            ).ExpectNull()
-            .InAllSessions()
-            .Assert();
-            // Stopped.
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "STOP"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
-            ).ExpectNull()
-            .InAllSessions()
-            .Assert();
-        }
-
-        [Fact]
-        public void lap_time_column_values_are_translated_into_set_lap_time_messages() {
-
-            Translate(
-                new SetDriverPositionMessage(1, 1),
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
-            ).Expect(
-                new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromMilliseconds(95571D), PostedTimeType.Normal, 5))
-            ).InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetDriverPositionMessage(1, 1),
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "10"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Green, "1:35.571")
-            ).Expect(
-                new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromMilliseconds(95571D), PostedTimeType.PersonalBest, 10))
-            ).InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetDriverPositionMessage(1, 1),
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "15"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Magenta, "1:35.571")
-            ).Expect(
-                new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromMilliseconds(95571D), PostedTimeType.SessionBest, 15))
-            ).InAllSessions()
-            .Assert();
         }
 
         [Fact]
@@ -239,252 +142,63 @@ namespace AK.F1.Timing.Live
             Assert.Equal(message.SessionType, translator.SessionType);
         }
 
-        [Fact]
-        public void car_number_column_values_are_translated_into_set_car_number_and_set_status_messages() {
+        [Theory]
+        [ClassData(typeof(AllSessionTypes))]
+        public void colour_updates_to_a_column_with_no_value_are_not_translated(SessionType session) {
 
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1")
-            ).Expect(
-                new SetDriverCarNumberMessage(1, 1),
-                new SetDriverStatusMessage(1, DriverStatus.OnTrack)
-            ).InAllSessions(
-            ).Assert();
+            var combinations = from column in Enum.GetValues(typeof(GridColumn)).Cast<GridColumn>()
+                               from colour in Enum.GetValues(typeof(GridColumnColour)).Cast<GridColumnColour>()
+                               select new { Column = column, Colour = colour };
+
+            foreach(var combination in combinations) {
+                In(session).Assert(translator => {
+                    Assert.Null(translator.Translate(new SetGridColumnColourMessage(1, combination.Column, combination.Colour)));
+                });
+            }
         }
 
-        [Fact]
-        public void driver_name_column_values_are_translated_into_set_driver_name_messages() {
+        [Theory]
+        [ClassData(typeof(AllSessionTypes))]
+        public void unknown_column_values_are_not_translated(SessionType session) {
 
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.White, "Name")
-            ).Expect(
-                new SetDriverNameMessage(1, "Name")
-            ).InAllSessions(
-            ).Assert();
+            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
+                In(session).Assert(translator => {
+                    Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Unknown, colour, null)));
+                    Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Unknown, colour, "Unknown")));
+                });
+            }
         }
 
-        [Fact]
-        public void position_column_is_not_translated_as_it_is_provided_by_the_feed() {
+        [Theory]
+        [ClassData(typeof(AllSessionTypes))]
+        public void unknown_column_colours_are_not_translated(SessionType session) {
 
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.Yellow, "10")
-            ).ExpectNull()
-            .InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.Yellow, "10"),
-                new SetGridColumnColourMessage(1, GridColumn.Position, GridColumnColour.White)
-            ).ExpectNull()
-            .InAllSessions()
-            .Assert();
+            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
+                In(session).Assert(translator => {
+                    Assert.Null(translator.Translate(new SetGridColumnColourMessage(1, GridColumn.Unknown, colour)));
+                });
+            }
         }
 
-        [Fact]
-        public void when_a_sector_1_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message() {
+        [Theory]
+        [ClassData(typeof(AllSessionTypes))]
+        public void driver_name_column_values_are_translated_into_set_driver_name_messages(SessionType session) {
 
-            when_a_sector_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message(GridColumn.S1, 1);
+            In(session).Assert(translator => {
+                Assert.MessagesAreEqual(
+                    new SetDriverNameMessage(1, "A. DRIVER"),
+                    translator.Translate(new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.White, "A. DRIVER"))
+                );
+            });
         }
 
-        [Fact]
-        public void when_a_sector_2_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message() {
+        [Theory]
+        [ClassData(typeof(AllSessionTypes))]
+        public void position_column_values_are_not_translated_as_positions_are_provided_by_the_feed(SessionType session) {
 
-            when_a_sector_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message(GridColumn.S2, 2);
-        }
-
-        [Fact]
-        public void when_a_sector_3_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message() {
-
-            when_a_sector_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message(GridColumn.S3, 3);
-        }
-
-        private void when_a_sector_column_receives_a_colour_update_it_is_translated_into_a_replace_sector_time_message(GridColumn sectorColumn, int sectorNumber) {
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "35.5"),
-                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.White)
-            ).Expect(
-                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.Normal, 1))
-            ).InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "35.5"),
-                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.Green)
-            ).Expect(
-                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.PersonalBest, 1))
-            ).InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "35.5"),
-                new SetGridColumnColourMessage(1, sectorColumn, GridColumnColour.Magenta)
-            ).Expect(
-                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.5D), PostedTimeType.SessionBest, 1))
-            ).InAllSessions()
-            .Assert();
-        }
-
-        [Fact]
-        public void sector_1_column_values_are_translated_into_set_sector_time_messages() {
-
-            sector_column_values_are_translated_into_set_sector_time_messages(GridColumn.S1, 1);
-        }
-
-        [Fact]
-        public void sector_2_column_values_are_translated_into_set_sector_time_messages() {
-
-            sector_column_values_are_translated_into_set_sector_time_messages(GridColumn.S2, 2);
-        }
-
-        [Fact]
-        public void sector_3_column_values_in_a_race_session_are_translated_into_set_sector_time_and_set_driver_completed_laps_messages() {
-
-
-        }
-
-        private void sector_column_values_are_translated_into_set_sector_time_messages(GridColumn sectorColumn, int sectorNumber) {
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1")
-            ).Expect(
-                new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.Normal, 5))
-            ).InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Green, "31.1")
-            ).Expect(
-                new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.PersonalBest, 5))
-            ).InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Magenta, "31.1")
-            ).Expect(
-                new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(31.1D), PostedTimeType.SessionBest, 5))
-            ).InAllSessions()
-            .Assert();
-        }
-
-        [Fact]
-        public void when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message() {
-
-            when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message(GridColumn.S1, 1);
-            when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message(GridColumn.S2, 2);
-            when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message(GridColumn.S3, 3);
-        }
-        
-        private void when_the_sector_column_for_the_previously_completed_sector_is_updated_it_is_transated_into_a_replace_sector_time_message(
-            GridColumn sectorColumn, int sectorNumber) {
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "41.1")
-            ).Expect(
-                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(41.1D), PostedTimeType.Normal, 5))
-            ).InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Green, "41.1")
-            ).Expect(
-                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(41.1D), PostedTimeType.PersonalBest, 5))
-            ).InAllSessions()
-            .Assert();
-
-            Translate(
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.White, "31.1"),
-                new SetGridColumnValueMessage(1, sectorColumn, GridColumnColour.Magenta, "41.1")
-            ).Expect(
-                new ReplaceDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(41.1D), PostedTimeType.SessionBest, 5))
-            ).InAllSessions()
-            .Assert();
-        }
-
-        [Fact]
-        public void when_a_driver_pits_and_the_sector_3_column_receives_a_value_update_it_is_translated_into_a_set_pit_pit_time_message() {
-
-            Translate(
-                new SetDriverPositionMessage(1, 1),
-                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Red, "IN PIT"),
-                new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.S3, GridColumnColour.White, "25.7")
-            ).Expect(
-                new SetDriverPitTimeMessage(1, new PostedTime(TimeSpan.FromSeconds(25.7), PostedTimeType.Normal, 0))
-            ).InRaceSession()
-            .Assert();
-        }
-
-        [Fact]
-        public void when_a_driver_pits_for_the_second_time_the_next_sector_2_update_is_ignored() {
-
-            Translate(
-                new SetDriverPositionMessage(1, 1),
-                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Red, "IN PIT"),
-                new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "2"),
-                new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, "25.7")
-            ).ExpectNull()
-            .InRaceSession()
-            .Assert();
-        }
-
-        [Fact]
-        public void when_a_driver_pits_for_the_third_time_the_next_sector_1_and_2_values_updates_are_ignored() {
-
-            Translate(
-                new SetDriverPositionMessage(1, 1),
-                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Red, "IN PIT"),
-                new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "3"),
-                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "25.7"),
-                new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, "25.7")
-            ).ExpectNull()
-            .InRaceSession()
-            .Assert();
-        }
-
-        [Fact]
-        public void when_a_driver_pits_for_the_fourth_time_the_next_three_sector_updates_are_ignored_and_the_next_sector_1_update_is_tranlated_into_a_set_sector_time_message() {
-
-            Translate(
-                new SetDriverPositionMessage(1, 1),
-                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Red, "IN PIT"),
-                new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "4"),
-                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "25.7"),
-                new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, "26.7"),                
-                new SetGridColumnValueMessage(1, GridColumn.S3, GridColumnColour.White, "35.7"),
-                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "OUT"),
-                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "40.5")
-            ).Expect(
-                new SetDriverSectorTimeMessage(1, 1, new PostedTime(TimeSpan.FromSeconds(40.5), PostedTimeType.Normal, 1))
-            ).InRaceSession()
-            .Assert();
+            In(session).Assert(translator => {
+                Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.White, "10")));
+            });
         }
 
         #region Translation
@@ -513,7 +227,7 @@ namespace AK.F1.Timing.Live
 
             public Translation Expect(Message expectation) {
 
-                _validator = actual => _assert.PropertiesAreEqual(expectation, actual);
+                _validator = actual => _assert.MessagesAreEqual(expectation, actual);
 
                 return this;
             }
@@ -525,7 +239,7 @@ namespace AK.F1.Timing.Live
                     var actuals = ((CompositeMessage)actual).Messages;
                     _assert.Equal(expectations.Length, actuals.Count);
                     for(int i = 0; i < expectations.Length; ++i) {
-                        _assert.PropertiesAreEqual(expectations[i], actuals[i]);
+                        _assert.MessagesAreEqual(expectations[i], actuals[i]);
                     }
                 };
 
@@ -590,6 +304,91 @@ namespace AK.F1.Timing.Live
                     }
                     validator(translation);
                 }
+            }
+        }
+
+        private static PostedTime PT(double seconds, PostedTimeType type, int lapNumber) {
+
+            return new PostedTime(TimeSpan.FromSeconds(seconds), type, lapNumber);
+        }
+
+        private static Scenario In(SessionType session) {
+
+            return new Scenario(session);
+        }
+
+        private sealed class Scenario
+        {
+            private readonly LiveMessageTranslator _translator;
+
+            public Scenario(SessionType inSession) {
+                
+                _translator = new LiveMessageTranslator();
+                _translator.ChangeSessionType(inSession);
+            }            
+
+            public Scenario OnLap(int raceLapNumber) {
+
+                _translator.RaceLapNumber = raceLapNumber;
+
+                return this;
+            }
+
+            public void Assert(Action<LiveMessageTranslator> assertions) {
+
+                assertions(_translator);
+            }
+        }
+
+        private sealed class AllSessionTypes : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator() {
+
+                foreach(SessionType type in Enum.GetValues(typeof(SessionType))) {
+                    yield return new object[] { type };
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() {
+
+                return GetEnumerator();
+            }
+        }
+
+        private sealed class AllSessionTypesExceptRace : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator() {
+
+                foreach(SessionType type in Enum.GetValues(typeof(SessionType))) {
+                    if(type != SessionType.Race) {
+                        yield return new object[] { type };
+                    }
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() {
+
+                return GetEnumerator();
+            }
+        }
+
+        private sealed class AllSectorGridColumns_AllSessionTypes : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator() {
+
+                return (from sector in A(GridColumn.S1, GridColumn.S2, GridColumn.S3)
+                        from session in Enum.GetValues(typeof(SessionType)).Cast<object>()
+                        select A(sector, session)).GetEnumerator();
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() {
+
+                return GetEnumerator();
+            }
+
+            private static object[] A(params object[] args) {
+
+                return args;
             }
         }
 

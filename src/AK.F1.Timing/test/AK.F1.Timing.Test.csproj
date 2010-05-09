@@ -69,6 +69,12 @@
     <Compile Include="ComparableContractAssertionExtensions.cs" />
     <Compile Include="EqualityContractAssertionExtensions.cs" />
     <Compile Include="AuthenticationTokenTest.cs" />
+    <Compile Include="Live\LiveMessageTranslatorTest.PitCount.cs" />
+    <Compile Include="Live\LiveMessageTranslatorTest.Status.cs" />
+    <Compile Include="Live\LiveMessageTranslatorTest.LapTime.cs" />
+    <Compile Include="Live\LiveMessageTranslatorTest.SectorTime.cs" />
+    <Compile Include="Live\LiveMessageTranslatorTest.PitTime.cs" />
+    <Compile Include="Live\LiveMessageTranslatorTest.cs" />
     <Compile Include="Live\LiveAuthenticationServiceTest.cs" />
     <Compile Include="Live\LiveMessageHeaderTest.cs" />
     <Compile Include="Messages\Driver\GapTest.cs" />
@@ -151,7 +157,6 @@
     <Compile Include="Live\LiveDataTest.cs" />
     <Compile Include="Live\LiveDriverTest.cs" />
     <Compile Include="Live\LiveMessageReaderTest.cs" />
-    <Compile Include="Live\LiveMessageTranslatorTest.cs" />
     <Compile Include="Live\IO\LiveMessageStreamEndpointTest.cs" />
     <Compile Include="Live\IO\LiveSocketMessageStreamTest.cs" />
     <Compile Include="Live\IO\MessageStreamDelegateTest.cs" />
