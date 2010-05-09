@@ -77,64 +77,113 @@
                         <TextBlock Grid.Column="5" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Laps.PersonalBestCount}"/>
                         <TextBlock Grid.Column="6" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Laps.SessionBestCount}"/>
                     </Grid>
-                    <vc:Chart Theme="Theme3" Height="175" DataContext="{Binding LapTimes}" AnimationEnabled="False" Background="{StaticResource ControlBackgroundBrush}" Margin="-2,4,-2,-2" ScrollingEnabled="False">
-                        <vc:Chart.Resources>
-                            <Style TargetType="vc:DataSeries" BasedOn="{StaticResource {x:Type vc:DataSeries}}" x:Key="SectorSeries">
-                                <Setter Property="RenderAs" Value="Line"/>
-                                <Setter Property="LineThickness" Value="1.5"/>
-                                <Setter Property="MarkerEnabled" Value="False"/>
-                            </Style>
-                        </vc:Chart.Resources>
-                        <vc:Chart.Legends>
-                            <vc:Legend Enabled="False"/>
-                        </vc:Chart.Legends>
-                        <vc:Chart.AxesX>
-                            <vc:Axis Enabled="True" StartFromZero="True">
-                                <vc:Axis.AxisLabels>
-                                    <vc:AxisLabels Enabled="False"/>
-                                </vc:Axis.AxisLabels>
-                                <vc:Axis.Ticks>
-                                    <vc:Ticks Enabled="False"/>
-                                </vc:Axis.Ticks>
-                            </vc:Axis>
-                        </vc:Chart.AxesX>
-                        <vc:Chart.AxesY>
-                            <vc:Axis Enabled="True" AxisType="Primary" StartFromZero="False">
-                                <vc:Axis.AxisLabels>
-                                    <vc:AxisLabels Enabled="False"/>
-                                </vc:Axis.AxisLabels>
-                                <vc:Axis.Ticks>
-                                    <vc:Ticks Enabled="False"/>
-                                </vc:Axis.Ticks>
-                            </vc:Axis>
-                        </vc:Chart.AxesY>
-                        <vc:Chart.Series>
-                            <vc:DataSeries DataSource="{Binding S1.Items}" Style="{StaticResource SectorSeries}">
-                                <vc:DataSeries.DataMappings>
-                                    <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
-                                    <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
-                                </vc:DataSeries.DataMappings>
-                            </vc:DataSeries>
-                            <vc:DataSeries DataSource="{Binding S2.Items}" Style="{StaticResource SectorSeries}">
-                                <vc:DataSeries.DataMappings>
-                                    <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
-                                    <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
-                                </vc:DataSeries.DataMappings>
-                            </vc:DataSeries>
-                            <vc:DataSeries DataSource="{Binding S3.Items}" Style="{StaticResource SectorSeries}">
-                                <vc:DataSeries.DataMappings>
-                                    <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
-                                    <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
-                                </vc:DataSeries.DataMappings>
-                            </vc:DataSeries>
-                            <vc:DataSeries DataSource="{Binding Laps.Items}" Style="{StaticResource SectorSeries}">
-                                <vc:DataSeries.DataMappings>
-                                    <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
-                                    <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
-                                </vc:DataSeries.DataMappings>
-                            </vc:DataSeries>
-                        </vc:Chart.Series>
-                    </vc:Chart>
+                    <TabControl TabStripPlacement="Bottom" Margin="-2,0,-2,0">
+                        <TabItem Header="Times">
+                            <vc:Chart Theme="Theme3" Height="175" DataContext="{Binding LapTimes}" AnimationEnabled="False" Background="{StaticResource ControlBackgroundBrush}" Margin="-2,4,-2,-2" ScrollingEnabled="False">
+                                <vc:Chart.Resources>
+                                    <Style TargetType="vc:DataSeries" BasedOn="{StaticResource {x:Type vc:DataSeries}}" x:Key="SectorSeries">
+                                        <Setter Property="RenderAs" Value="Line"/>
+                                        <Setter Property="LineThickness" Value="1.5"/>
+                                        <Setter Property="MarkerEnabled" Value="False"/>
+                                    </Style>
+                                </vc:Chart.Resources>
+                                <vc:Chart.Legends>
+                                    <vc:Legend Enabled="False"/>
+                                </vc:Chart.Legends>
+                                <vc:Chart.AxesX>
+                                    <vc:Axis Enabled="True" StartFromZero="True">
+                                        <vc:Axis.AxisLabels>
+                                            <vc:AxisLabels Enabled="False"/>
+                                        </vc:Axis.AxisLabels>
+                                        <vc:Axis.Ticks>
+                                            <vc:Ticks Enabled="False"/>
+                                        </vc:Axis.Ticks>
+                                    </vc:Axis>
+                                </vc:Chart.AxesX>
+                                <vc:Chart.AxesY>
+                                    <vc:Axis Enabled="True" AxisType="Primary" StartFromZero="False">
+                                        <vc:Axis.AxisLabels>
+                                            <vc:AxisLabels Enabled="False"/>
+                                        </vc:Axis.AxisLabels>
+                                        <vc:Axis.Ticks>
+                                            <vc:Ticks Enabled="False"/>
+                                        </vc:Axis.Ticks>
+                                    </vc:Axis>
+                                </vc:Chart.AxesY>
+                                <vc:Chart.Series>
+                                    <vc:DataSeries DataSource="{Binding S1.Items}" Style="{StaticResource SectorSeries}">
+                                        <vc:DataSeries.DataMappings>
+                                            <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
+                                            <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
+                                        </vc:DataSeries.DataMappings>
+                                    </vc:DataSeries>
+                                    <vc:DataSeries DataSource="{Binding S2.Items}" Style="{StaticResource SectorSeries}">
+                                        <vc:DataSeries.DataMappings>
+                                            <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
+                                            <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
+                                        </vc:DataSeries.DataMappings>
+                                    </vc:DataSeries>
+                                    <vc:DataSeries DataSource="{Binding S3.Items}" Style="{StaticResource SectorSeries}">
+                                        <vc:DataSeries.DataMappings>
+                                            <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
+                                            <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
+                                        </vc:DataSeries.DataMappings>
+                                    </vc:DataSeries>
+                                    <vc:DataSeries DataSource="{Binding Laps.Items}" Style="{StaticResource SectorSeries}">
+                                        <vc:DataSeries.DataMappings>
+                                            <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
+                                            <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
+                                        </vc:DataSeries.DataMappings>
+                                    </vc:DataSeries>
+                                </vc:Chart.Series>
+                            </vc:Chart>
+                        </TabItem>
+                        <TabItem Header="History">
+                            <Border Height="169" BorderThickness="1,1,0,1" Margin="2,6,2,2" CornerRadius="0" BorderBrush="{StaticResource NormalBrush}">
+                                <ListView BorderThickness="0" ItemsSource="{Binding LapTimes.History}">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn Header="Lap" Width="30" HeaderContainerStyle="{StaticResource LeftAlignedHeader}">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="0,0,-6,0" Text="{Binding Path=LapNumber, Converter={StaticResource LapNumberToStringConverter}}" TextAlignment="Left"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="S1" HeaderContainerStyle="{StaticResource SectorHeader}">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="-5,0,-6,0" Foreground="{Binding Path=S1.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding Path=S1.Time, Converter={StaticResource SectorTimeToStringConverter}}" TextAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="S2" HeaderContainerStyle="{StaticResource SectorHeader}">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="-5,0,-6,0" Foreground="{Binding Path=S2.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding Path=S2.Time, Converter={StaticResource SectorTimeToStringConverter}}" TextAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="S3" HeaderContainerStyle="{StaticResource SectorHeader}">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="-5,0,-6,0" Foreground="{Binding Path=S3.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding Path=S3.Time, Converter={StaticResource SectorTimeToStringConverter}}" TextAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Header="Lap" Width="55">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Margin="-5,0,-6,0" Foreground="{Binding Path=Lap.Type, Converter={StaticResource PostedTimeTypeToBrushConverter}}" Text="{Binding Path=Lap.Time, Converter={StaticResource LapTimeToStringConverter}}" TextAlignment="Right"/>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                                </Border>
+                        </TabItem>
+                    </TabControl>
                 </StackPanel>
             </Grid>
             <Grid Visibility="{Binding Path=., Converter={StaticResource CollapsedWhenNotNullConverter}}">
