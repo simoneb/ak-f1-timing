@@ -325,7 +325,7 @@ namespace AK.F1.Timing.Live
             var driver = GetDriver(message);
 
             if(message.Value.OrdinalEquals("OUT")) {
-                return CreateStatusMessageIfChanged(driver, DriverStatus.Out);
+                return CreateStatusMessageIfChanged(driver, DriverStatus.OnTrack);
             } else if(message.Value.OrdinalEquals("IN PIT")) {
                 return CreateStatusMessageIfChanged(driver, DriverStatus.InPits);
             } else if(message.Value.OrdinalEquals("RETIRED")) {

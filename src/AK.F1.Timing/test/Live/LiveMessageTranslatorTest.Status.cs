@@ -100,13 +100,13 @@ namespace AK.F1.Timing.Live
             In(session).Assert(translator => {
                 SetGridColumnValueMessage message;
                 LiveDriver driver = translator.GetDriver(1);
-                // Out.
+                // On track. Note that OUT is displayed when a driver exits the pit and is on thier OUT lap.
                 message = new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "OUT");
                 Assert.MessagesAreEqual(
-                    new SetDriverStatusMessage(1, DriverStatus.Out),
+                    new SetDriverStatusMessage(1, DriverStatus.OnTrack),
                     translator.Translate(message)
                 );
-                Assert.Equal(DriverStatus.Out, driver.Status);
+                Assert.Equal(DriverStatus.OnTrack, driver.Status);
                 Assert.Null(translator.Translate(message));
                 // In pit.
                 message = new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "IN PIT");
