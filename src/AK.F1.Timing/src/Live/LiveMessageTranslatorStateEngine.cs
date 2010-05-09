@@ -26,13 +26,6 @@ namespace AK.F1.Timing.Live
     [Serializable]
     internal sealed class LiveMessageTranslatorStateEngine : MessageVisitorBase, IMessageProcessor
     {
-        #region Private Fields.
-
-        private static readonly log4net.ILog _log =
-            log4net.LogManager.GetLogger(typeof(LiveMessageTranslatorStateEngine));
-
-        #endregion
-
         #region Public Interface.
 
         /// <summary>
@@ -43,7 +36,6 @@ namespace AK.F1.Timing.Live
         public LiveMessageTranslatorStateEngine(LiveMessageTranslator translator) {
 
             Translator = translator;
-            translator.SessionType = SessionType.None;
         }
 
         /// <inheritdoc />
@@ -55,7 +47,7 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         public override void Visit(SetDriverStatusMessage message) {
 
-            GetDriver(message).Status = message.DriverStatus;
+            GetDriver(message).ChangeStatus(message.DriverStatus);
         }
 
         /// <inheritdoc />
@@ -93,12 +85,11 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         public override void Visit(SetDriverPitCountMessage message) {
 
-            LiveDriver driver = GetDriver(message);
-
-            ++driver.LapNumber;
-            driver.CurrentSectorNumber = 1;
-            // Ensure we can identify when a sector update is actually a pit lap time update.
-            driver.PitTimeSectorCount = driver.Status == DriverStatus.InPits ? Math.Min(message.PitCount, 3) : 0;            
+            if(Translator.IsRaceSession) {
+                LiveDriver driver = GetDriver(message);
+                // Ensure we can identify when a sector update is actually a pit time.
+                driver.ExpectedPitTimeCount = driver.IsInPits ? Math.Min(message.PitCount, 3) : 0;
+            }
         }
 
         /// <inheritdoc />
@@ -128,11 +119,7 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         public override void Visit(SetSessionTypeMessage message) {
 
-            if(Translator.SessionType != message.SessionType) {
-                _log.InfoFormat("session type changing to {0}, resetting", message.SessionType);
-                Translator.Reset();
-                Translator.SessionType = message.SessionType;
-            }
+            Translator.ChangeSessionType(message.SessionType);
         }
 
         /// <inheritdoc />
@@ -144,7 +131,20 @@ namespace AK.F1.Timing.Live
         /// <inheritdoc />
         public override void Visit(SetGridColumnValueMessage message) {
 
-            GetDriver(message).SetColumnHasValue(message.Column, !message.ClearColumn);
+            LiveDriver driver = GetDriver(message);
+            
+            if(IsSetSectorValueMessage(message)) {
+                --driver.ExpectedPitTimeCount;
+            }
+            driver.SetColumnHasValue(message.Column, !message.ClearColumn);
+        }
+
+        /// <inheritdoc />
+        public override void Visit(SetGridColumnColourMessage message) {
+
+            if(IsSetSectorColourMessage(message)) {
+                --GetDriver(message).ExpectedPitTimeCount;
+            }
         }
 
         /// <inheritdoc />
@@ -160,6 +160,21 @@ namespace AK.F1.Timing.Live
         private LiveDriver GetDriver(DriverMessageBase message) {
 
             return Translator.GetDriver(message);
+        }
+
+        private static bool IsSetSectorValueMessage(SetGridColumnValueMessage message) {
+
+            return !message.ClearColumn && IsSectorColumn(message.Column);
+        }
+
+        private static bool IsSetSectorColourMessage(SetGridColumnColourMessage message) {
+
+            return IsSectorColumn(message.Column);
+        }
+
+        private static bool IsSectorColumn(GridColumn column) {
+
+            return column == GridColumn.S1 || column == GridColumn.S2 || column == GridColumn.S3;
         }
 
         private LiveMessageTranslator Translator { get; set; }

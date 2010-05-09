@@ -33,9 +33,39 @@ namespace AK.F1.Timing.Live
 
             var translator = new LiveMessageTranslator();
 
-            Assert.False(translator.HasSessionStarted);
-            Assert.Equal(0, translator.RaceLapNumber);
+            Assert.Equal(0, translator.RaceLapNumber);            
             Assert.Equal(SessionType.None, translator.SessionType);
+            Assert.True(translator.HasSessionStarted);
+        }
+
+        [Fact]
+        public void can_change_the_session_type() {
+
+            var translator = new LiveMessageTranslator();
+
+            translator.ChangeSessionType(SessionType.Practice);
+            Assert.Equal(SessionType.Practice, translator.SessionType);
+        }
+
+        [Fact]
+        public void changing_the_session_type_resets_the_translator() {
+
+            var translator = new LiveMessageTranslator();
+            
+            translator.RaceLapNumber = 5;
+            translator.ChangeSessionType(SessionType.Qually);
+            Assert.Equal(0, translator.RaceLapNumber);
+        }
+
+        [Fact]
+        public void changing_to_the_same_session_type_does_not_reset_the_translator() {
+
+            var translator = new LiveMessageTranslator();
+
+            translator.ChangeSessionType(SessionType.Practice);
+            translator.RaceLapNumber = 5;            
+            translator.ChangeSessionType(SessionType.Practice);
+            Assert.Equal(5, translator.RaceLapNumber);
         }
 
         [Fact]
@@ -43,18 +73,35 @@ namespace AK.F1.Timing.Live
 
             var translator = new LiveMessageTranslator();
 
-            Assert.False(translator.HasSessionStarted);
-
-            translator.SessionType = SessionType.Practice;
+            translator.ChangeSessionType(SessionType.None);
             Assert.True(translator.HasSessionStarted);
 
-            translator.SessionType = SessionType.Qually;
+            translator.ChangeSessionType(SessionType.Practice);
             Assert.True(translator.HasSessionStarted);
 
-            translator.SessionType = SessionType.Race;
+            translator.ChangeSessionType(SessionType.Qually);
+            Assert.True(translator.HasSessionStarted);
+
+            translator.ChangeSessionType(SessionType.Race);
             Assert.False(translator.HasSessionStarted);
             translator.RaceLapNumber = 1;
             Assert.True(translator.HasSessionStarted);
+        }
+
+        [Fact]
+        public void can_determine_if_it_a_race_session() {
+
+            var translator = new LiveMessageTranslator();
+
+            translator.ChangeSessionType(SessionType.Race);
+            Assert.True(translator.IsRaceSession);
+
+            translator.ChangeSessionType(SessionType.None);
+            Assert.False(translator.IsRaceSession);
+            translator.ChangeSessionType(SessionType.Practice);
+            Assert.False(translator.IsRaceSession);
+            translator.ChangeSessionType(SessionType.Qually);
+            Assert.False(translator.IsRaceSession);
         }
 
         [Fact]
@@ -110,10 +157,48 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
+        public void lap_time_column_values_are_not_translated_into_set_lap_time_messages_when_the_driver_is_not_on_the_track() {
+
+            // In pits.
+            Translate(            
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
+            ).ExpectNull()
+            .InAllSessions()
+            .Assert();
+            // Retired.
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "RETIRED"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
+            ).ExpectNull()
+            .InAllSessions()
+            .Assert();
+            // Out
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
+                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "OUT"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
+            ).ExpectNull()
+            .InAllSessions()
+            .Assert();
+            // Stopped.
+            Translate(
+                new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
+                new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "STOP"),
+                new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
+            ).ExpectNull()
+            .InAllSessions()
+            .Assert();
+        }
+
+        [Fact]
         public void lap_time_column_values_are_translated_into_set_lap_time_messages() {
 
             Translate(
-                new SetSessionTypeMessage(SessionType.Practice, "SessionId"),
+                new SetDriverPositionMessage(1, 1),
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "5"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "5"),
                 new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.White, "1:35.571")
             ).Expect(
@@ -122,7 +207,9 @@ namespace AK.F1.Timing.Live
             .Assert();
 
             Translate(
-                new SetSessionTypeMessage(SessionType.Practice, "SessionId"),
+                new SetDriverPositionMessage(1, 1),
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "5"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "10"),
                 new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Green, "1:35.571")
             ).Expect(
@@ -131,7 +218,9 @@ namespace AK.F1.Timing.Live
             .Assert();
 
             Translate(
-                new SetSessionTypeMessage(SessionType.Practice, "SessionId"),
+                new SetDriverPositionMessage(1, 1),
+                new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "1"),
+                new SetGridColumnValueMessage(1, GridColumn.Interval, GridColumnColour.White, "5"),
                 new SetGridColumnValueMessage(1, GridColumn.Laps, GridColumnColour.White, "15"),
                 new SetGridColumnValueMessage(1, GridColumn.LapTime, GridColumnColour.Magenta, "1:35.571")
             ).Expect(
@@ -495,7 +584,7 @@ namespace AK.F1.Timing.Live
 
                 foreach(var sessionType in _sessionTypes) {
                     translator = new LiveMessageTranslator();
-                    translator.SessionType = sessionType;
+                    translator.ChangeSessionType(sessionType);
                     foreach(var message in _messages) {
                         translation = translator.Translate(message);
                     }

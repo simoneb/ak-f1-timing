@@ -61,21 +61,27 @@ namespace AK.F1.Timing.Live
             LastSectors = new PostedTime[3];
             Name = null;
             CurrentSectorNumber = 0;            
-            PitTimeSectorCount = 0;
+            ExpectedPitTimeCount = 0;
             Position = 0;
             Status = DriverStatus.InPits;
         }
 
         /// <summary>
-        /// Returns a value indicating if the next sector update should be ignored for this driver.
+        /// Tries to change the status of this driver.
         /// </summary>
-        /// <param name="currentSessionType">The current session.</param>
-        /// <returns><see langword="true"/> if the next sector update should be ignored, otherwise;
-        /// <see langword="false"/>.</returns>
-        public bool IsPitTimeSector(SessionType currentSessionType) {
+        /// <param name="newStatus">The new driver status.</param>
+        public void ChangeStatus(DriverStatus newStatus) {
 
-            return currentSessionType == SessionType.Race &&
-                (PitTimeSectorCount-- > 0 || Status != DriverStatus.OnTrack);
+            if(Status == newStatus) {
+                return;
+            }
+            switch(newStatus) {
+                case DriverStatus.InPits:
+                    ++LapNumber;
+                    CurrentSectorNumber = 1;
+                    break;
+            }
+            Status = newStatus;
         }
 
         /// <summary>
@@ -93,7 +99,7 @@ namespace AK.F1.Timing.Live
         /// Sets a value indicating if the specified <paramref name="column"/> has a value.
         /// </summary>
         /// <param name="column">The column to set.</param>
-        /// <param name="value">><see langword="true"/> if the specified column has a value,
+        /// <param name="value"><see langword="true"/> if the specified column has a value,
         /// otherwise; <see langword="false"/></param>
         public void SetColumnHasValue(GridColumn column, bool value) {
 
@@ -153,9 +159,25 @@ namespace AK.F1.Timing.Live
         public int Id { get; private set; }
 
         /// <summary>
-        /// Gets or sets the current status of this driver.
+        /// Gets the current status of this driver.
         /// </summary>
-        public DriverStatus Status { get; set; }
+        public DriverStatus Status { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating if this driver is on the track.
+        /// </summary>
+        public bool IsOnTrack {
+
+            get { return Status == DriverStatus.OnTrack; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if this driver is in the pits.
+        /// </summary>
+        public bool IsInPits {
+
+            get { return Status == DriverStatus.InPits; }
+        }
 
         /// <summary>
         /// Gets a value indicating if this driver is the race leader.
@@ -183,7 +205,15 @@ namespace AK.F1.Timing.Live
         /// <summary>
         /// Gets or set the number of pit time sector updates that are expected for the driver.
         /// </summary>
-        public int PitTimeSectorCount { get; set; }
+        public int ExpectedPitTimeCount { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating if this driver is expecting pit time sector updates.
+        /// </summary>
+        public bool IsExpectingPitTimes {
+
+            get { return ExpectedPitTimeCount > 0; }
+        }
 
         /// <summary>
         /// Gets or sets the one-based sector number this driver is currently completing. Returns
