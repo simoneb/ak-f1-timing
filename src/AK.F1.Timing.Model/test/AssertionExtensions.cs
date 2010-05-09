@@ -49,6 +49,7 @@ namespace AK.F1.Timing.Model.Driver
             assert.Empty(model.S1);
             assert.Empty(model.S2);
             assert.Empty(model.S3);
+            assert.Empty(model.History);
         }
 
         public static void Empty(this Assertions assert, PostedTimeCollectionModel model) {

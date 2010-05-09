@@ -120,6 +120,12 @@
   <data name="ArgEmptyString" xml:space="preserve">
     <value>Expected non-empty string.</value>
   </data>
+  <data name="LapHistoryEntry_AllTimesMustBeForSameLap" xml:space="preserve">
+    <value>All times must be for the same lap.</value>
+  </data>
+  <data name="LapHistoryEntry_AtLeastOneTimeMustBeSpecified" xml:space="preserve">
+    <value>At least one time must be specified.</value>
+  </data>
   <data name="ModelBase_InvalidPropertyName" xml:space="preserve">
     <value>Invalid property name '{0}'.</value>
   </data>

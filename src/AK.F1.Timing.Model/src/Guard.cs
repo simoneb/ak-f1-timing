@@ -54,6 +54,21 @@ namespace AK.F1.Timing.Model
             return new ArgumentException(Format(Resource.ModelBase_InvalidPropertyName, propertyName), paramName);
         }
 
+        internal static ArgumentNullException LapHistoryEntry_AtLeastOneTimeMustBeSpecified() {
+
+            throw new ArgumentNullException("*", Resource.LapHistoryEntry_AtLeastOneTimeMustBeSpecified);
+        }
+
+        internal static InvalidOperationException PostedTimeCollectionModel_CurrentCannotBeReplaced() {
+
+            return new InvalidOperationException(Resource.PostedTimeCollectionModel_CurrentCannotBeReplaced);
+        }
+
+        internal static ArgumentException LapHistoryEntry_AllTimesMustBeForSameLap(string paramName) {
+
+            return new ArgumentException(Resource.LapHistoryEntry_AllTimesMustBeForSameLap, paramName);
+        }
+
         internal static void ObjectDisposed(object instance) {
 
             throw new ObjectDisposedException(instance.GetType().Name);
@@ -67,11 +82,6 @@ namespace AK.F1.Timing.Model
         internal static NotImplementedException NotImplemented() {
 
             return new NotImplementedException();
-        }
-
-        internal static InvalidOperationException PostedTimeCollectionModel_CurrentCannotBeReplaced() {
-
-            return new InvalidOperationException(Resource.PostedTimeCollectionModel_CurrentCannotBeReplaced);
         }
 
         private static string Format(string format, params object[] args) {

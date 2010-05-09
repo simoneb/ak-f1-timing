@@ -13,8 +13,13 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Linq;
 
+using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Model.Collections;
 
 namespace AK.F1.Timing.Model.Driver
@@ -33,10 +38,13 @@ namespace AK.F1.Timing.Model.Driver
         /// </summary>
         public LapTimesModel() {
 
-            S1 = new PostedTimeCollectionModel();
-            S2 = new PostedTimeCollectionModel();
+            S1 = new PostedTimeCollectionModel();            
+            S2 = new PostedTimeCollectionModel();            
             S3 = new PostedTimeCollectionModel();
-            Laps = new PostedTimeCollectionModel();
+            Subscribe(S3.Items, OnCollectionChanged);
+            Laps = new PostedTimeCollectionModel();            
+            InnerHistory = new ObservableCollection<LapHistoryEntry>();
+            History = new ReadOnlyObservableCollection<LapHistoryEntry>(InnerHistory);            
         }
 
         /// <summary>
@@ -79,6 +87,61 @@ namespace AK.F1.Timing.Model.Driver
         /// Gets the sector three times.
         /// </summary>
         public PostedTimeCollectionModel S3 { get; private set; }
+
+        /// <summary>
+        /// Gets the complete lap history.
+        /// </summary>
+        public ReadOnlyObservableCollection<LapHistoryEntry> History { get; private set; }
+
+        #endregion
+
+        #region Private Impl.
+
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+
+            InnerHistory.Clear();            
+
+            int minLapNumber = 0;
+            int maxLapNumber = 0;
+            bool collectionsAreEmpty = true;
+
+            foreach(var time in S1.Items.Concat(S2.Items).Concat(S3.Items).Concat(Laps.Items)) {
+                minLapNumber = Math.Min(time.LapNumber, minLapNumber);
+                maxLapNumber = Math.Max(time.LapNumber, maxLapNumber);
+                collectionsAreEmpty = false;
+            }
+
+            if(collectionsAreEmpty) {
+                return;
+            }
+
+            for(int lapNumber = maxLapNumber; lapNumber >= minLapNumber; --lapNumber) {
+                try {
+                    InnerHistory.Add(new LapHistoryEntry(
+                        S1.Items.Where(x => x.LapNumber == lapNumber).FirstOrDefault(),
+                        S2.Items.Where(x => x.LapNumber == lapNumber).FirstOrDefault(),
+                        S3.Items.Where(x => x.LapNumber == lapNumber).FirstOrDefault(),
+                        Laps.Items.Where(x => x.LapNumber == lapNumber).FirstOrDefault()));
+                } catch { }
+            }
+        }
+
+        private static PostedTime Get(IDictionary<int, PostedTime> times, int lapNumber) {
+
+            PostedTime time;
+
+            times.TryGetValue(lapNumber, out time);
+
+            return time;
+        }
+
+        private static void Subscribe(INotifyCollectionChanged collection,
+            NotifyCollectionChangedEventHandler handler) {
+
+            collection.CollectionChanged += handler;
+        }
+
+        private ObservableCollection<LapHistoryEntry> InnerHistory { get; set; }
 
         #endregion
     }

@@ -70,6 +70,24 @@ namespace AK.F1.Timing.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All times must be for the same lap..
+        /// </summary>
+        internal static string LapHistoryEntry_AllTimesMustBeForSameLap {
+            get {
+                return ResourceManager.GetString("LapHistoryEntry_AllTimesMustBeForSameLap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to At least one time must be specified..
+        /// </summary>
+        internal static string LapHistoryEntry_AtLeastOneTimeMustBeSpecified {
+            get {
+                return ResourceManager.GetString("LapHistoryEntry_AtLeastOneTimeMustBeSpecified", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid property name &apos;{0}&apos;..
         /// </summary>
         internal static string ModelBase_InvalidPropertyName {

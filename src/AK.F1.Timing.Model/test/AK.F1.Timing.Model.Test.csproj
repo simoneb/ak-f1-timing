@@ -60,6 +60,7 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="AssertionExtensions.cs" />
+    <Compile Include="Driver\LapHistoryEntryTest.cs" />
     <Compile Include="Driver\LapTimesModelTest.cs" />
     <Compile Include="Driver\DriverModelTest.cs" />
     <Compile Include="Driver\QuallyTimesModel.cs" />
