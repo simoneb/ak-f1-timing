@@ -15,7 +15,6 @@
 using System;
 
 using AK.F1.Timing.Messages.Session;
-using DriverMessageBase = AK.F1.Timing.Messages.Driver.DriverMessageBase;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -43,6 +42,7 @@ namespace AK.F1.Timing.Model.Session
                 Guard.NotNull(session, "session");
 
                 Model = session;
+                Drivers = new DriverMessageDispatcher(session);
             }
 
             /// <inheritdoc/>        
@@ -51,7 +51,7 @@ namespace AK.F1.Timing.Model.Session
                 Guard.NotNull(message, "message");
 
                 message.Accept(this);
-                TryDispatchToDriver(message);
+                Drivers.Process(message);
                 Model.Feed.Process(message);
                 Model.FastestTimes.Process(message);
                 Model.Grid.Process(message);
@@ -124,16 +124,9 @@ namespace AK.F1.Timing.Model.Session
 
             #region Private Impl.
 
-            private void TryDispatchToDriver(Message message) {
-
-                var driverMessage = message as DriverMessageBase;
-
-                if(driverMessage != null) {
-                    Model.GetDriver(driverMessage.DriverId).Process(message);
-                }
-            }
-
             private SessionModel Model { get; set; }
+
+            private IMessageProcessor Drivers { get; set; }
 
             #endregion
         }
