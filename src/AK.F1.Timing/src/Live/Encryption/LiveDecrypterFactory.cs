@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Live.Encryption
         /// </summary>
         /// <param name="token">The user's <see cref="AuthenticationToken"/>.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="authenticationToken"/> is  <see langword="null"/>.
+        /// Thrown when <paramref name="token"/> is <see langword="null"/>.
         /// </exception>
         public LiveDecrypterFactory(AuthenticationToken token) {
 

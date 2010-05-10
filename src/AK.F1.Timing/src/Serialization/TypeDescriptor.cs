@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Serialization
         /// </summary>
         /// <param name="assembly">The assembly to search.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="type"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="assembly"/> is <see langword="null"/>.
         /// </exception>
         /// <remarks>
         /// This method does not keep track of which assemblies have been searched; it is the

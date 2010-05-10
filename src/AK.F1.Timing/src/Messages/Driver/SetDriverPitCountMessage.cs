@@ -33,8 +33,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <param name="driverId">The Id of the driver.</param>
         /// <param name="pitCount">The driver's new pit count.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when <paramref name="driverId"/> or is not positive or <paramref name="carNumber"/>
-        /// is negative.
+        /// Thrown when <paramref name="driverId"/> is not positive.
         /// </exception>  
         public SetDriverPitCountMessage(int driverId, int pitCount)
             : base(driverId) {

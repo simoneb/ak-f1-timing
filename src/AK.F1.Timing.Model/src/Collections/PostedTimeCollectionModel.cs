@@ -76,7 +76,7 @@ namespace AK.F1.Timing.Model.Collections
         /// </summary>
         /// <param name="replacement">The replacement item.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="item"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="replacement"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="System.InvalidOperationException">
         /// Thrown when the collection is empty.
