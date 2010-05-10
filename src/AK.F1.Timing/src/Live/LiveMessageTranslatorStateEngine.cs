@@ -155,21 +155,6 @@ namespace AK.F1.Timing.Live
             return Translator.GetDriver(message);
         }
 
-        private static bool IsSetSectorValueMessage(SetGridColumnValueMessage message) {
-
-            return !message.ClearColumn && IsSectorColumn(message.Column);
-        }
-
-        private static bool IsSetSectorColourMessage(SetGridColumnColourMessage message) {
-
-            return IsSectorColumn(message.Column);
-        }
-
-        private static bool IsSectorColumn(GridColumn column) {
-
-            return column == GridColumn.S1 || column == GridColumn.S2 || column == GridColumn.S3;
-        }
-
         private LiveMessageTranslator Translator { get; set; }
 
         #endregion
