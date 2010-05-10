@@ -15,19 +15,14 @@
 using System;
 using Xunit.Extensions;
 
+using AK.F1.Timing.Messages.Session;
+
 namespace AK.F1.Timing
 {
     public static class Program
     {
         public static void Main(string[] arg) {
-
-            var t = new Serialization.PropertyDescriptorTest();
-
-            t.implements_equality_contract();
-
-            var tt = typeof(Serialization.TypeDescriptor);
-
-            
+        
         }
     }
 }
