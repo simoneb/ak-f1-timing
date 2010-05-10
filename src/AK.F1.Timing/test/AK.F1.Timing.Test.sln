@@ -1,14 +1,14 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Test", "AK.F1.Timing.Test.csproj", "{70BA1438-6E08-48BB-86D5-9DC277671EF8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing", "..\src\AK.F1.Timing.csproj", "{52334AE8-7F11-404B-AD45-4519F9229F4A}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2C1EC8F1-C7AF-4057-89C8-0F459CC4A0CA}"
 	ProjectSection(SolutionItems) = preProject
 		RunTests.bat = RunTests.bat
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Test", "AK.F1.Timing.Test.csproj", "{70BA1438-6E08-48BB-86D5-9DC277671EF8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing", "..\src\AK.F1.Timing.csproj", "{52334AE8-7F11-404B-AD45-4519F9229F4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
