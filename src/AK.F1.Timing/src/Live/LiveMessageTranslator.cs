@@ -388,7 +388,7 @@ namespace AK.F1.Timing.Live
                     return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
                         new PostedTime(newTime, newTimeType, driver.LastSectors[sectorNumber - 1].LapNumber));
                 } else {
-                    return TranslateSetDriverSectorTime(
+                    return TranslateSetDriverSectorTimeMessage(
                         new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
                             new PostedTime(newTime, newTimeType, driver.LapNumber)));
                 }
@@ -406,7 +406,7 @@ namespace AK.F1.Timing.Live
                 var newTimeType = LiveData.ToPostedTimeType(message.Colour);
 
                 if(driver.IsCurrentSectorNumber(sectorNumber)) {
-                    return TranslateSetDriverSectorTime(
+                    return TranslateSetDriverSectorTimeMessage(
                         new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
                             new PostedTime(lastSectorTime.Time, newTimeType, driver.LapNumber)));
                 } else if(driver.IsPreviousSectorNumber(sectorNumber)) {
@@ -430,11 +430,15 @@ namespace AK.F1.Timing.Live
             var driver = GetDriver(message);
             var lastSectorTime = driver.LastSectors[0];
             // The feed will only send a value / colour update for S1 if the value has changed. We
-            // can detect this when the S2 time is cleared and we are expecting an S1 update. Note
-            // that an S2 clear can be received when we do not have a previous S1 time, usually
-            // at the start of a session.
-            if(driver.IsOnTrack && driver.IsCurrentSectorNumber(1) && sectorNumber == 2 && lastSectorTime != null) {
-                return TranslateSetDriverSectorTime(
+            // can detect this when the S2 time is cleared and we are expecting an S1 update.
+            // Note that we do not translate the message when the S1 column is currently cleared,
+            // this usually occurs during practice as the driver exits the pits and the previous
+            // times are cleared.
+            // Also, note that an S2 clear can be received when we do not have a previous S1 time,
+            // usually at the start of a session.
+            if(driver.IsOnTrack && driver.IsCurrentSectorNumber(1) && sectorNumber == 2 &&
+                driver.ColumnHasValue(GridColumn.S1) && lastSectorTime != null) {
+                return TranslateSetDriverSectorTimeMessage(
                     new SetDriverSectorTimeMessage(driver.Id, 1,
                         new PostedTime(lastSectorTime.Time, lastSectorTime.Type, driver.LapNumber)));
             }
@@ -442,15 +446,17 @@ namespace AK.F1.Timing.Live
             return null;
         }
 
-        private Message TranslateSetDriverSectorTime(SetDriverSectorTimeMessage message) {
+        private Message TranslateSetDriverSectorTimeMessage(SetDriverSectorTimeMessage message) {
 
-            if(!(IsRaceSession && message.SectorNumber == 3)) {
-                return message;
+            if(IsRaceSession && message.SectorNumber == 3) {
+                // We do not receive lap messages during a race session so we infer it from the current race
+                // lap number and the driver's current gap.
+                return new CompositeMessage(message,
+                    new SetDriverLapNumberMessage(message.DriverId,
+                        GetDriver(message).ComputeLapNumber(RaceLapNumber)));
             }
-            // We do not receive lap messages during a race session so we infer it from the current race
-            // lap number and the driver's current gap.
-            return new CompositeMessage(message,
-                new SetDriverLapNumberMessage(message.DriverId, GetDriver(message).ComputeLapNumber(RaceLapNumber)));
+
+            return message;
         }
 
         private Message TranslateSetPitTimeValue(SetGridColumnValueMessage message, int sectorNumber) {
