@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
-
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Model.Collections;
 
@@ -30,21 +29,21 @@ namespace AK.F1.Timing.Model.Driver
     [Serializable]
     [DebuggerDisplay("Count = {Laps.Count}")]
     public class LapTimesModel : ModelBase
-    {       
+    {
         #region Public Interface.
 
         /// <summary>
         /// Initialises a new instance of the <see cref="LapTimesModel"/> class.
         /// </summary>
-        public LapTimesModel() {
-
-            S1 = new PostedTimeCollectionModel();            
-            S2 = new PostedTimeCollectionModel();            
+        public LapTimesModel()
+        {
+            S1 = new PostedTimeCollectionModel();
+            S2 = new PostedTimeCollectionModel();
             S3 = new PostedTimeCollectionModel();
             Subscribe(S3.Items, OnCollectionChanged);
-            Laps = new PostedTimeCollectionModel();            
+            Laps = new PostedTimeCollectionModel();
             InnerHistory = new ObservableCollection<LapHistoryEntry>();
-            History = new ReadOnlyObservableCollection<LapHistoryEntry>(InnerHistory);            
+            History = new ReadOnlyObservableCollection<LapHistoryEntry>(InnerHistory);
         }
 
         /// <summary>
@@ -55,13 +54,18 @@ namespace AK.F1.Timing.Model.Driver
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="sectorNumber"/> is not positive or is greater than three.
         /// </exception>
-        public PostedTimeCollectionModel GetSector(int sectorNumber) {
-
-            if(sectorNumber == 1) {
+        public PostedTimeCollectionModel GetSector(int sectorNumber)
+        {
+            if(sectorNumber == 1)
+            {
                 return S1;
-            } else if(sectorNumber == 2) {
+            }
+            else if(sectorNumber == 2)
+            {
                 return S2;
-            } else if(sectorNumber == 3) {
+            }
+            else if(sectorNumber == 3)
+            {
                 return S3;
             }
 
@@ -97,37 +101,42 @@ namespace AK.F1.Timing.Model.Driver
 
         #region Private Impl.
 
-        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
-
-            InnerHistory.Clear();            
+        private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            InnerHistory.Clear();
 
             int minLapNumber = 0;
             int maxLapNumber = 0;
             bool collectionsAreEmpty = true;
 
-            foreach(var time in S1.Items.Concat(S2.Items).Concat(S3.Items).Concat(Laps.Items)) {
+            foreach(var time in S1.Items.Concat(S2.Items).Concat(S3.Items).Concat(Laps.Items))
+            {
                 minLapNumber = Math.Min(time.LapNumber, minLapNumber);
                 maxLapNumber = Math.Max(time.LapNumber, maxLapNumber);
                 collectionsAreEmpty = false;
             }
 
-            if(collectionsAreEmpty) {
+            if(collectionsAreEmpty)
+            {
                 return;
             }
 
-            for(int lapNumber = maxLapNumber; lapNumber >= minLapNumber; --lapNumber) {
-                try {
+            for(int lapNumber = maxLapNumber; lapNumber >= minLapNumber; --lapNumber)
+            {
+                try
+                {
                     InnerHistory.Add(new LapHistoryEntry(
                         S1.Items.Where(x => x.LapNumber == lapNumber).FirstOrDefault(),
                         S2.Items.Where(x => x.LapNumber == lapNumber).FirstOrDefault(),
                         S3.Items.Where(x => x.LapNumber == lapNumber).FirstOrDefault(),
                         Laps.Items.Where(x => x.LapNumber == lapNumber).FirstOrDefault()));
-                } catch { }
+                }
+                catch {}
             }
         }
 
-        private static PostedTime Get(IDictionary<int, PostedTime> times, int lapNumber) {
-
+        private static PostedTime Get(IDictionary<int, PostedTime> times, int lapNumber)
+        {
             PostedTime time;
 
             times.TryGetValue(lapNumber, out time);
@@ -136,8 +145,8 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         private static void Subscribe(INotifyCollectionChanged collection,
-            NotifyCollectionChangedEventHandler handler) {
-
+            NotifyCollectionChangedEventHandler handler)
+        {
             collection.CollectionChanged += handler;
         }
 

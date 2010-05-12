@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit;
 
 namespace AK.F1.Timing.Messages.Session
@@ -20,16 +19,16 @@ namespace AK.F1.Timing.Messages.Session
     public class SetSessionStatusMessageTest : MessageTestBase<SetSessionStatusMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(SessionStatus.SafetyCarDeployed, message.SessionStatus);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -38,8 +37,8 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
-        protected override SetSessionStatusMessage CreateMessage() {
-
+        protected override SetSessionStatusMessage CreateMessage()
+        {
             return new SetSessionStatusMessage(SessionStatus.SafetyCarDeployed);
         }
     }

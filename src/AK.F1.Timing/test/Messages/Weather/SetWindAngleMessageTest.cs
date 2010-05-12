@@ -20,16 +20,16 @@ namespace AK.F1.Timing.Messages.Weather
     public class SetWindAngleMessageTest : MessageTestBase<SetWindAngleMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1, message.Angle);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -39,32 +39,27 @@ namespace AK.F1.Timing.Messages.Weather
         }
 
         [Fact]
-        public void ctor_throws_if_angle_is_negative_or_greater_than_360() {
-
-            Assert.DoesNotThrow(() => {
-                new SetWindAngleMessage(0);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetWindAngleMessage(-1);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetWindAngleMessage(361);
-            });
+        public void ctor_throws_if_angle_is_negative_or_greater_than_360()
+        {
+            Assert.DoesNotThrow(() => { new SetWindAngleMessage(0); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetWindAngleMessage(-1); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetWindAngleMessage(361); });
         }
 
         [Fact]
-        public void can_validiate_a_wind_angle() {
-
+        public void can_validiate_a_wind_angle()
+        {
             Assert.False(SetWindAngleMessage.IsValidAngle(-1));
-            for(int i = 0; i <= 360; ++i) {
+            for(int i = 0; i <= 360; ++i)
+            {
                 Assert.True(SetWindAngleMessage.IsValidAngle(i));
             }
             Assert.False(SetWindAngleMessage.IsValidAngle(361));
         }
 
-        protected override SetWindAngleMessage CreateMessage() {
-
+        protected override SetWindAngleMessage CreateMessage()
+        {
             return new SetWindAngleMessage(1);
-        } 
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using log4net;
+using log4net.Config;
 
 namespace AK.F1.Timing.Utility.LiveRecorder
 {
@@ -24,33 +25,35 @@ namespace AK.F1.Timing.Utility.LiveRecorder
     public static class Program
     {
         #region Fields.
-        
-        private static readonly ILog _log = LogManager.GetLogger(typeof(Program));
-        
+
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+
         #endregion
-        
+
         #region Public Interface.
 
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
         [STAThread]
-        public static void Main(string[] args) {            
-
+        public static void Main(string[] args)
+        {
             var options = new CommandLineOptions();
 
-            if(!options.ParseAndContinue(args)) {
+            if(!options.ParseAndContinue(args))
+            {
                 return;
             }
-            
+
             AuthenticationToken token;
-            
-            if(!TryAuthenticate(options.Username, options.Password, out token)) {
+
+            if(!TryAuthenticate(options.Username, options.Password, out token))
+            {
                 return;
             }
 
             string path = Path.Combine(Environment.CurrentDirectory, options.Session + ".tms");
-            
+
             Directory.CreateDirectory(Path.GetDirectoryName(path));
             RecordMessages(token, path);
         }
@@ -58,53 +61,61 @@ namespace AK.F1.Timing.Utility.LiveRecorder
         #endregion
 
         #region Private Impl.
-        
-        static Program() {
-        
-            log4net.Config.XmlConfigurator.Configure();
+
+        static Program()
+        {
+            XmlConfigurator.Configure();
         }
-        
-        private static bool TryAuthenticate(string username, string password, out AuthenticationToken token) {
-        
+
+        private static bool TryAuthenticate(string username, string password, out AuthenticationToken token)
+        {
             WriteLine("authenticating...");
-        
-            token = null;        
-            try {
+
+            token = null;
+            try
+            {
                 token = F1Timing.Live.Login(username, password);
                 WriteLine("authenticated {0}", username);
-            } catch(Exception exc) {
+            }
+            catch(Exception exc)
+            {
                 WriteLine(exc);
             }
-            
+
             return token != null;
         }
 
-        private static void RecordMessages(AuthenticationToken token, string path) {
-
+        private static void RecordMessages(AuthenticationToken token, string path)
+        {
             Message message;
 
             WriteLine("connecting...");
 
-            try {
-                using(var reader = F1Timing.Live.ReadAndRecord(token, path)) {
-                    while((message = reader.Read()) != null) {
+            try
+            {
+                using(var reader = F1Timing.Live.ReadAndRecord(token, path))
+                {
+                    while((message = reader.Read()) != null)
+                    {
                         WriteLine(message.ToString());
                     }
                 }
-                WriteLine("disconnected");                
-            } catch(Exception exc) {                
+                WriteLine("disconnected");
+            }
+            catch(Exception exc)
+            {
                 WriteLine(exc);
             }
         }
-        
-        private static void WriteLine(Exception exception) {
-        
-            _log.Error(exception);        
+
+        private static void WriteLine(Exception exception)
+        {
+            Log.Error(exception);
             WriteLine("{0} - {1}", exception.GetType().Name, exception.Message);
         }
 
-        private static void WriteLine(string format, params object[] args) {
-
+        private static void WriteLine(string format, params object[] args)
+        {
             Console.Write(DateTime.Now.ToString("HH:mm:ss.fff"));
             Console.Write(": ");
             Console.WriteLine(format, args);

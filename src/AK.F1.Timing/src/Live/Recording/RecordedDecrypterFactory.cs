@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Globalization;
 using System.IO;
-
 using AK.F1.Timing.Live.Encryption;
 
 namespace AK.F1.Timing.Live.Recording
@@ -28,14 +26,8 @@ namespace AK.F1.Timing.Live.Recording
     public sealed class RecordedDecrypterFactory : DecrypterFactoryBase
     {
         #region Private Fields.
-        
-        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;
 
-        #endregion
-
-        #region Interval Fields.
-
-        internal const string FILE_EXT = ".seed";
+        private const string FileExt = ".seed";
 
         #endregion
 
@@ -52,8 +44,8 @@ namespace AK.F1.Timing.Live.Recording
         /// <exception cref="System.IO.DirectoryNotFoundException">
         /// Thrown when <paramref name="directory"/> does not exist.
         /// </exception>
-        public RecordedDecrypterFactory(string directory) {
-
+        public RecordedDecrypterFactory(string directory)
+        {
             Guard.NotNull(directory, "directory");
             Guard.DirectoryExists(directory, "directory");
 
@@ -65,23 +57,23 @@ namespace AK.F1.Timing.Live.Recording
         #region Protected Interface.
 
         /// <inheritdoc />
-        protected override int GetSeedForSession(string sessionId) {
-
+        protected override int GetSeedForSession(string sessionId)
+        {
             Guard.NotNullOrEmpty(sessionId, "sessionId");
 
             int seed;
             string seedPath = BuildSeedPath(sessionId);
 
             Log.InfoFormat("opening: {0}", seedPath);
-            seed = (int)(long.Parse(File.ReadAllText(seedPath), NumberStyles.HexNumber, INV_CULTURE) & 0xFFFFFFFF);
+            seed = (int)(long.Parse(File.ReadAllText(seedPath), NumberStyles.HexNumber, CultureInfo.InvariantCulture) & 0xFFFFFFFF);
             Log.InfoFormat("opened, seed: {0}", seed);
 
             return seed;
         }
 
         /// <inheritdoc />
-        protected override IDecrypter CreateWithSeed(int seed) {
-
+        protected override IDecrypter CreateWithSeed(int seed)
+        {
             return new LiveDecrypter(seed);
         }
 
@@ -89,10 +81,10 @@ namespace AK.F1.Timing.Live.Recording
 
         #region Private Impl.
 
-        private string BuildSeedPath(string sessionId) {
-
-            return Path.Combine(Directory, sessionId + FILE_EXT);
-        }       
+        private string BuildSeedPath(string sessionId)
+        {
+            return Path.Combine(Directory, sessionId + FileExt);
+        }
 
         private string Directory { get; set; }
 

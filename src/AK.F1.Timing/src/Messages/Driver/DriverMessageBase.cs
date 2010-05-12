@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,8 +43,8 @@ namespace AK.F1.Timing.Messages.Driver
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="driverId"/> is not positive.
         /// </exception>
-        protected DriverMessageBase(int driverId) {            
-
+        protected DriverMessageBase(int driverId)
+        {
             Guard.InRange(driverId > 0, "driverId");
 
             DriverId = driverId;

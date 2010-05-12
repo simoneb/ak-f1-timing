@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
-
 using AK.F1.Timing.Live.IO;
+using log4net;
 
 namespace AK.F1.Timing.Live.Recording
 {
@@ -30,17 +29,11 @@ namespace AK.F1.Timing.Live.Recording
     {
         #region Internal Fields.
 
-        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;
-        private static readonly log4net.ILog _log =
-            log4net.LogManager.GetLogger(typeof(RecordedMessageStreamEndpoint));
+        private const string StreamFileName = "stream.bin";
+        private const string KeyframeFileName = "keyframe";
+        private const string KeyframeFileExt = ".bin";
 
-        #endregion
-
-        #region Internal Fields.
-
-        internal const string STREAM_FILE_NAME = "stream.bin";
-        internal const string KEYFRAME_FILE_NAME = "keyframe";
-        internal const string KEYFRAME_FILE_EXT = ".bin";
+        private static readonly ILog Log = LogManager.GetLogger(typeof(RecordedMessageStreamEndpoint));
 
         #endregion
 
@@ -57,19 +50,19 @@ namespace AK.F1.Timing.Live.Recording
         /// <exception cref="System.IO.DirectoryNotFoundException">
         /// Thrown when <paramref name="directory"/> does not exist.
         /// </exception>
-        public RecordedMessageStreamEndpoint(string directory) {
-
+        public RecordedMessageStreamEndpoint(string directory)
+        {
             Guard.NotNull(directory, "directory");
             Guard.DirectoryExists(directory, "directory");
 
             Directory = directory;
-            StreamFilePath = Path.Combine(directory, STREAM_FILE_NAME);
+            StreamFilePath = Path.Combine(directory, StreamFileName);
         }
 
         /// <inheritdoc />
-        public IMessageStream Open() {
-
-            _log.DebugFormat("opening stream {0}", StreamFilePath);
+        public IMessageStream Open()
+        {
+            Log.DebugFormat("opening stream {0}", StreamFilePath);
 
             FileStream fileStream = File.Open(StreamFilePath, FileMode.Open,
                 FileAccess.Read, FileShare.None);
@@ -78,16 +71,16 @@ namespace AK.F1.Timing.Live.Recording
         }
 
         /// <inheritdoc />
-        public IMessageStream OpenKeyframe(int keyframe) {
-
+        public IMessageStream OpenKeyframe(int keyframe)
+        {
             Guard.InRange(keyframe >= 0, "keyframe");
 
             FileStream stream;
             string keyframePath = BuildKeyframePath(keyframe);
 
-            _log.InfoFormat("opening keyframe {0}", keyframePath);
+            Log.InfoFormat("opening keyframe {0}", keyframePath);
             stream = File.Open(keyframePath, FileMode.Open, FileAccess.Read, FileShare.None);
-            _log.InfoFormat("opened keyframe, length: {0}", stream.Length);
+            Log.InfoFormat("opened keyframe, length: {0}", stream.Length);
 
             return new MessageStreamDelegate(stream);
         }
@@ -96,20 +89,25 @@ namespace AK.F1.Timing.Live.Recording
 
         #region Private Impl.
 
-        private string BuildKeyframePath(int keyframe) {
-
+        private string BuildKeyframePath(int keyframe)
+        {
             StringBuilder sb = new StringBuilder();
 
-            sb.Append(KEYFRAME_FILE_NAME);
-            if(keyframe == 0) {
-                if(KeyframeCount > 0) {
-                    sb.AppendFormat(INV_CULTURE, "_{0}", KeyframeCount);
+            sb.Append(KeyframeFileName);
+            var invCulture = CultureInfo.InvariantCulture;
+            if(keyframe == 0)
+            {
+                if(KeyframeCount > 0)
+                {
+                    sb.AppendFormat(invCulture, "_{0}", KeyframeCount);
                 }
-                sb.Append(KEYFRAME_FILE_EXT);
+                sb.Append(KeyframeFileExt);
                 ++KeyframeCount;
-            } else {
-                sb.Append("_").AppendFormat(INV_CULTURE, "{0:00000}", keyframe);
-                sb.Append(KEYFRAME_FILE_EXT);
+            }
+            else
+            {
+                sb.Append("_").AppendFormat(invCulture, "{0:00000}", keyframe);
+                sb.Append(KeyframeFileExt);
                 KeyframeCount = 0;
             }
 

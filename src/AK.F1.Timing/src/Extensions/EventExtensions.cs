@@ -31,11 +31,12 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="sender"/> is <see langword="null"/>.
         /// </exception>
-        public static void Raise(this EventHandler @event, object sender) {
+        public static void Raise(this EventHandler @event, object sender)
+        {
+            Guard.NotNull(sender, "sender");
 
-            Guard.NotNull(sender, "sender");            
-
-            if(@event != null) {
+            if(@event != null)
+            {
                 @event(sender, EventArgs.Empty);
             }
         }
@@ -49,11 +50,12 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="sender"/> is <see langword="null"/>.
         /// </exception>
-        public static void RaiseAsync(this EventHandler @event, object sender) {
+        public static void RaiseAsync(this EventHandler @event, object sender)
+        {
+            Guard.NotNull(sender, "sender");
 
-            Guard.NotNull(sender, "sender");            
-
-            if(@event != null) {
+            if(@event != null)
+            {
                 @event.BeginInvoke(sender, EventArgs.Empty, null, null);
             }
         }
@@ -69,12 +71,13 @@ namespace AK.F1.Timing.Extensions
         /// Thrown when <paramref name="sender"/> or <paramref name="e"/> is <see langword="null"/>.
         /// </exception>
         public static void Raise<T>(this EventHandler<T> @event, object sender, T e)
-            where T : EventArgs {
-
+            where T : EventArgs
+        {
             Guard.NotNull(sender, "sender");
             Guard.NotNull(e, "e");
 
-            if(@event != null) {
+            if(@event != null)
+            {
                 @event(sender, e);
             }
         }
@@ -91,12 +94,13 @@ namespace AK.F1.Timing.Extensions
         /// Thrown when <paramref name="sender"/> or <paramref name="e"/> is <see langword="null"/>.
         /// </exception>
         public static void RaiseAsync<T>(this EventHandler<T> @event, object sender, T e)
-            where T : EventArgs {
-
+            where T : EventArgs
+        {
             Guard.NotNull(sender, "sender");
             Guard.NotNull(e, "e");
 
-            if(@event != null) {
+            if(@event != null)
+            {
                 @event.BeginInvoke(sender, e, null, null);
             }
         }

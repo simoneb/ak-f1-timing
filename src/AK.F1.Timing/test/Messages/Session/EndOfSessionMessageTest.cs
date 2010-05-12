@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit;
 
 namespace AK.F1.Timing.Messages.Session
@@ -20,20 +19,20 @@ namespace AK.F1.Timing.Messages.Session
     public class EndOfSessionMessageTest : MessageTestBase<EndOfSessionMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             Assert.NotNull(EndOfSessionMessage.Instance);
         }
 
         [Fact]
-        public void maintains_identity_when_serialized() {
-
+        public void maintains_identity_when_serialized()
+        {
             Assert.Same(EndOfSessionMessage.Instance, EndOfSessionMessage.Instance.DeepClone());
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -42,8 +41,8 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
-        protected override EndOfSessionMessage CreateMessage() {
-
+        protected override EndOfSessionMessage CreateMessage()
+        {
             return EndOfSessionMessage.Instance;
         }
     }

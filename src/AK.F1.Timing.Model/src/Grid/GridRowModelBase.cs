@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Grid
@@ -37,8 +36,8 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         /// <param name="column">The coloumn to update.</param>
         /// <param name="colour">The new column colour.</param>
-        public void Update(GridColumn column, GridColumnColour colour) {
-
+        public void Update(GridColumn column, GridColumnColour colour)
+        {
             GetColumn(column).TextColour = colour;
         }
 
@@ -48,8 +47,8 @@ namespace AK.F1.Timing.Model.Grid
         /// <param name="column">The coloumn to update.</param>        
         /// <param name="colour">The new column colour.</param>
         /// <param name="text">The new column text.</param>
-        public void Update(GridColumn column, GridColumnColour colour, string text) {
-
+        public void Update(GridColumn column, GridColumnColour colour, string text)
+        {
             var model = GetColumn(column);
 
             model.Text = text;
@@ -59,8 +58,8 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Resets all the columns specified by this row.
         /// </summary>
-        public virtual void Reset() {
-            
+        public virtual void Reset()
+        {
             /*CarNumber.Reset();
             DriverName.Reset();
             Position.Reset();*/
@@ -77,9 +76,10 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when the specified <paramref name="column"/> is not contained by the row.
         /// </exception>
-        public virtual GridColumnModel GetColumn(GridColumn column) {
-
-            switch(column) {
+        public virtual GridColumnModel GetColumn(GridColumn column)
+        {
+            switch(column)
+            {
                 case GridColumn.Position:
                     return Position;
                 case GridColumn.CarNumber:
@@ -98,8 +98,8 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return DriverName.Text ?? base.ToString();
         }
 
@@ -144,10 +144,11 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="value"/> is negative.
         /// </exception>
-        public int RowIndex {
-
+        public int RowIndex
+        {
             get { return _rowIndex; }
-            set {
+            set
+            {
                 Guard.InRange(value >= 0, "value");
                 SetProperty("RowIndex", ref _rowIndex, value);
             }
@@ -161,8 +162,8 @@ namespace AK.F1.Timing.Model.Grid
         /// Initialises a new instance of the <see cref="GridRowModelBase"/>.
         /// </summary>
         /// <param name="id">The row Id.</param>
-        protected GridRowModelBase(int id) {
-
+        protected GridRowModelBase(int id)
+        {
             Id = id;
             Position = new GridColumnModel(GridColumn.Position);
             CarNumber = new GridColumnModel(GridColumn.CarNumber);

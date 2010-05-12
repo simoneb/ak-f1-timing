@@ -22,29 +22,35 @@ namespace AK.F1.Timing
     public static class ComparableContractAssertionExtensions
     {
         public static void ComparableContract<T>(this Assertions assert,
-               IEnumerable<T> equivalentInstances,
-               IEnumerable<T> distinctInstances)
-               where T : class, IComparable {
-
+            IEnumerable<T> equivalentInstances,
+            IEnumerable<T> distinctInstances)
+            where T : class, IComparable
+        {
             DoEquivalentAssertions(assert, equivalentInstances);
             DoDistinctAssertions(assert, distinctInstances);
         }
 
         private static void DoDistinctAssertions<T>(Assertions assert, IEnumerable<T> distinctInstances)
-            where T : class, IComparable {
-
+            where T : class, IComparable
+        {
             int xIndex = 0;
             int yIndex = 0;
             var distinctInstancesCopy = distinctInstances.ToArray();
 
-            foreach(var x in distinctInstancesCopy) {
+            foreach(var x in distinctInstancesCopy)
+            {
                 DoGeneralInstanceAssertions(assert, x);
-                foreach(var y in distinctInstancesCopy) {
-                    if(yIndex != xIndex) {
+                foreach(var y in distinctInstancesCopy)
+                {
+                    if(yIndex != xIndex)
+                    {
                         assert.False(x.CompareTo(y) == 0);
-                        if(x.CompareTo(y) > 0) {
+                        if(x.CompareTo(y) > 0)
+                        {
                             assert.True(y.CompareTo(x) < 0);
-                        } else {
+                        }
+                        else
+                        {
                             assert.True(y.CompareTo(x) > 0);
                         }
                     }
@@ -56,21 +62,23 @@ namespace AK.F1.Timing
         }
 
         private static void DoEquivalentAssertions<T>(Assertions assert, IEnumerable<T> equivalentInstances)
-            where T : class, IComparable {
-
+            where T : class, IComparable
+        {
             var equivalentInstancesCopy = equivalentInstances.ToArray();
 
-            foreach(var x in equivalentInstancesCopy) {
+            foreach(var x in equivalentInstancesCopy)
+            {
                 DoGeneralInstanceAssertions(assert, x);
-                foreach(var y in equivalentInstancesCopy) {
+                foreach(var y in equivalentInstancesCopy)
+                {
                     assert.True(x.CompareTo(y) == 0);
                 }
             }
         }
 
         private static void DoGeneralInstanceAssertions<T>(Assertions assert, T x)
-            where T : class, IComparable {
-
+            where T : class, IComparable
+        {
             assert.True(x.CompareTo(x) == 0);
             assert.True(x.CompareTo(null) > 0);
             assert.Throws<ArgumentException>(() => x.CompareTo(new object()));

@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,16 @@ namespace AK.F1.Timing.Model.Driver
     public class LapTimesModelTest : TestClass
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var model = new LapTimesModel();
 
             Assert.Empty(model);
         }
 
         [Fact]
-        public void can_get_the_times_for_a_sector() {
-            
+        public void can_get_the_times_for_a_sector()
+        {
             var model = new LapTimesModel();
 
             Assert.Same(model.S1, model.GetSector(1));
@@ -39,8 +39,8 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         [Fact]
-        public void get_sector_throws_if_sector_number_is_not_positive_or_greater_than_three() {
-
+        public void get_sector_throws_if_sector_number_is_not_positive_or_greater_than_three()
+        {
             var model = new LapTimesModel();
 
             Assert.Throws<ArgumentOutOfRangeException>(() => model.GetSector(0));

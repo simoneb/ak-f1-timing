@@ -26,8 +26,8 @@ namespace AK.F1.Timing.Extensions
     {
         #region Private Fields.
 
-        private const int BUFFER_SIZE = 32;
-        private const int TIMEOUT = 10 * 1000;        
+        private const int BufferSize = 32;
+        private const int Timeout = 10 * 1000;
         private static readonly Action<HttpWebRequest> EmptyConfigurator = r => { };
 
         #endregion
@@ -49,9 +49,9 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.IO.IOException">
         /// An IO exception occurred whilst fetching the cookies.
         /// </exception>
-        public static CookieCollection GetResponseCookies(this Uri uri, HttpMethod method) {
-
-            return GetResponseCookies(uri, method, UriExtensions.EmptyConfigurator);
+        public static CookieCollection GetResponseCookies(this Uri uri, HttpMethod method)
+        {
+            return GetResponseCookies(uri, method, EmptyConfigurator);
         }
 
         /// <summary>
@@ -72,21 +72,21 @@ namespace AK.F1.Timing.Extensions
         /// An IO exception occurred whilst fetching the cookies.
         /// </exception>
         public static CookieCollection GetResponseCookies(this Uri uri, HttpMethod method,
-            Action<HttpWebRequest> configurator) {            
-
+            Action<HttpWebRequest> configurator)
+        {
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
 
-            return WrapCommonWebExceptions(() => {
-
+            return WrapCommonWebExceptions(() =>
+            {
                 HttpWebRequest request = CreateRequest(uri, method);
 
                 request.CookieContainer = new CookieContainer();
                 configurator(request);
-                using(HttpWebResponse response = GetResponse(request)) {
+                using(HttpWebResponse response = GetResponse(request))
+                {
                     return request.CookieContainer.GetCookies(uri);
                 }
-
             });
         }
 
@@ -105,9 +105,9 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.IO.IOException">
         /// An IO exception occurred whilst fetching the response string.
         /// </exception>
-        public static string GetResponseString(this Uri uri, HttpMethod method) {
-
-            return GetResponseString(uri, method, UriExtensions.EmptyConfigurator);
+        public static string GetResponseString(this Uri uri, HttpMethod method)
+        {
+            return GetResponseString(uri, method, EmptyConfigurator);
         }
 
         /// <summary>
@@ -128,27 +128,32 @@ namespace AK.F1.Timing.Extensions
         /// An IO exception occurred whilst fetching the response string.
         /// </exception>
         public static string GetResponseString(this Uri uri, HttpMethod method,
-            Action<HttpWebRequest> configurator) {
-
+            Action<HttpWebRequest> configurator)
+        {
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
 
-            return WrapCommonWebExceptions(() => {
-
+            return WrapCommonWebExceptions(() =>
+            {
                 int read;
-                byte[] buffer = new byte[BUFFER_SIZE];
+                byte[] buffer = new byte[BufferSize];
                 HttpWebRequest request = CreateRequest(uri, method);
 
                 configurator(request);
                 using(HttpWebResponse response = GetResponse(request))
-                using(Stream stream = response.GetResponseStream())
-                using(MemoryStream ms = new MemoryStream()) {
-                    while((read = stream.Read(buffer, 0, buffer.Length)) > 0) {
-                        ms.Write(buffer, 0, read);
+                {
+                    using(Stream stream = response.GetResponseStream())
+                    {
+                        using(MemoryStream ms = new MemoryStream())
+                        {
+                            while((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                ms.Write(buffer, 0, read);
+                            }
+                            return GetEncoding(response).GetString(ms.GetBuffer(), 0, (int)ms.Length);
+                        }
                     }
-                    return GetEncoding(response).GetString(ms.GetBuffer(), 0, (int)ms.Length);
                 }
-
             });
         }
 
@@ -167,9 +172,9 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.IO.IOException">
         /// An IO exception occurred whilst fetching the response stream.
         /// </exception>
-        public static Stream GetResponseStream(this Uri uri, HttpMethod method) {
-
-            return GetResponseStream(uri, method, UriExtensions.EmptyConfigurator);
+        public static Stream GetResponseStream(this Uri uri, HttpMethod method)
+        {
+            return GetResponseStream(uri, method, EmptyConfigurator);
         }
 
         /// <summary>
@@ -190,29 +195,32 @@ namespace AK.F1.Timing.Extensions
         /// An IO exception occurred whilst fetching the response stream.
         /// </exception>
         public static Stream GetResponseStream(this Uri uri, HttpMethod method,
-            Action<HttpWebRequest> configurator) {
-
+            Action<HttpWebRequest> configurator)
+        {
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
 
-            return WrapCommonWebExceptions(() => {
-
+            return WrapCommonWebExceptions(() =>
+            {
                 int read;
-                byte[] buffer = new byte[BUFFER_SIZE];
+                byte[] buffer = new byte[BufferSize];
                 MemoryStream ms = new MemoryStream();
                 HttpWebRequest request = CreateRequest(uri, method);
 
                 configurator(request);
                 using(HttpWebResponse response = GetResponse(request))
-                using(Stream stream = response.GetResponseStream()) {
-                    while((read = stream.Read(buffer, 0, buffer.Length)) > 0) {
-                        ms.Write(buffer, 0, read);
+                {
+                    using(Stream stream = response.GetResponseStream())
+                    {
+                        while((read = stream.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            ms.Write(buffer, 0, read);
+                        }
                     }
                 }
                 ms.Position = 0;
 
                 return ms;
-
             });
         }
 
@@ -220,40 +228,46 @@ namespace AK.F1.Timing.Extensions
 
         #region Private Impl.
 
-        private static T WrapCommonWebExceptions<T>(Func<T> body) {
-
-            try {
+        private static T WrapCommonWebExceptions<T>(Func<T> body)
+        {
+            try
+            {
                 return body();
-            } catch(WebException exc) {
+            }
+            catch(WebException exc)
+            {
                 throw WrapException(exc);
-            } catch(ProtocolViolationException exc) {
+            }
+            catch(ProtocolViolationException exc)
+            {
                 throw WrapException(exc);
             }
         }
 
-        private static IOException WrapException(Exception exc) {
-
+        private static IOException WrapException(Exception exc)
+        {
             return new IOException(exc.Message, exc);
         }
 
-        private static HttpWebRequest CreateRequest(Uri uri, HttpMethod method) {
-
-            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
+        private static HttpWebRequest CreateRequest(Uri uri, HttpMethod method)
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
 
             request.Method = ToString(method);
-            request.Timeout = TIMEOUT;
+            request.Timeout = Timeout;
 
             return request;
         }
 
-        private static HttpWebResponse GetResponse(WebRequest request) {
-
+        private static HttpWebResponse GetResponse(WebRequest request)
+        {
             return (HttpWebResponse)request.GetResponse();
         }
 
-        private static string ToString(HttpMethod method) {
-
-            switch(method) {
+        private static string ToString(HttpMethod method)
+        {
+            switch(method)
+            {
                 case HttpMethod.Get:
                     return "GET";
                 case HttpMethod.Post:
@@ -263,14 +277,17 @@ namespace AK.F1.Timing.Extensions
             }
         }
 
-        private static Encoding GetEncoding(HttpWebResponse response) {
-
+        private static Encoding GetEncoding(HttpWebResponse response)
+        {
             Encoding encoding = Encoding.UTF8;
 
-            if(!string.IsNullOrEmpty(response.ContentEncoding)) {
-                try {
+            if(!string.IsNullOrEmpty(response.ContentEncoding))
+            {
+                try
+                {
                     encoding = Encoding.GetEncoding(response.ContentEncoding);
-                } catch(ArgumentException) { }
+                }
+                catch(ArgumentException) {}
             }
 
             return encoding;

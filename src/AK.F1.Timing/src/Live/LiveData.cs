@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
 
 using System;
 using System.Globalization;
-using System.Runtime.Serialization;
-
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
 
@@ -29,21 +27,23 @@ namespace AK.F1.Timing.Live
     {
         #region Private Fields.
 
-        private static readonly string[] TIME_FORMATS = new[] {
-            "ss.f",         // Sector or qually time.
-            "m:ss.fff",     // Lap time.
-            "mm:ss.fff",    // Lap time.
-            "s.fff",        // Gap time.
-            "ss.fff",       // Gap time.
-            "h:mm:ss.fff",  // Huge lap time.
-            "h:mm:ss",      // Remaining session time.
-            "mm:ss",        // Remaining session time.
-            "m:ss",         // Remaining session time.
+        private static readonly string[] TimeFormats = new[]
+        {
+            "ss.f", // Sector or qually time.
+            "m:ss.fff", // Lap time.
+            "mm:ss.fff", // Lap time.
+            "s.fff", // Gap time.
+            "ss.fff", // Gap time.
+            "h:mm:ss.fff", // Huge lap time.
+            "h:mm:ss", // Remaining session time.
+            "mm:ss", // Remaining session time.
+            "m:ss", // Remaining session time.
         };
 
-        private static readonly GridColumn[][] GRID_COLUMN_MAP = {
+        private static readonly GridColumn[][] GridColumnMap = {
             // Practice.
-            new GridColumn[] {
+            new[]
+            {
                 GridColumn.Position,
                 GridColumn.CarNumber,
                 GridColumn.DriverName,
@@ -56,7 +56,8 @@ namespace AK.F1.Timing.Live
                 GridColumn.Unknown
             },
             // Qually.
-            new GridColumn[] {
+            new[]
+            {
                 GridColumn.Position,
                 GridColumn.CarNumber,
                 GridColumn.DriverName,
@@ -69,7 +70,8 @@ namespace AK.F1.Timing.Live
                 GridColumn.Laps
             },
             // Race
-            new GridColumn[] {
+            new[]
+            {
                 GridColumn.Position,
                 GridColumn.CarNumber,
                 GridColumn.DriverName,
@@ -103,18 +105,20 @@ namespace AK.F1.Timing.Live
         /// interval gap, elapsed session and remaining session times. It will not parse interval
         /// or gaps times in the ##L format.
         /// </remarks>
-        public static TimeSpan ParseTime(string s) {
-
+        public static TimeSpan ParseTime(string s)
+        {
             DateTime date;
 
-            if(DateTime.TryParseExact(s, TIME_FORMATS, CultureInfo.InvariantCulture, DateTimeStyles.None, out date)) {
+            if(DateTime.TryParseExact(s, TimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out date))
+            {
                 return date.TimeOfDay;
             }
 
             double seconds;
             // Sector times may be greater than 60 seconds in which case they are formatted as 73.7
             // This format cannot be expressed as a time format so revert to parsing it as a double.
-            if(Double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out seconds)) {
+            if(Double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out seconds))
+            {
                 return TimeSpan.FromSeconds(seconds);
             }
 
@@ -129,11 +133,12 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="s"/> is incorrectly formatted.
         /// </exception>
-        public static int ParseInt32(string s) {
-
+        public static int ParseInt32(string s)
+        {
             int value;
 
-            if(Int32.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out value)) {
+            if(Int32.TryParse(s, NumberStyles.Integer, CultureInfo.InvariantCulture, out value))
+            {
                 return value;
             }
 
@@ -148,11 +153,12 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="s"/> is incorrectly formatted.
         /// </exception>
-        public static double ParseDouble(string s) {
-
+        public static double ParseDouble(string s)
+        {
             double value;
 
-            if(Double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out value)) {
+            if(Double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out value))
+            {
                 return value;
             }
 
@@ -168,9 +174,10 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
-        public static PostedTimeType ToPostedTimeType(GridColumnColour colour) {
-
-            switch(colour) {
+        public static PostedTimeType ToPostedTimeType(GridColumnColour colour)
+        {
+            switch(colour)
+            {
                 case GridColumnColour.Green:
                     return PostedTimeType.PersonalBest;
                 case GridColumnColour.Magenta:
@@ -192,9 +199,10 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="value"/> could not be converted.
         /// </exception>
-        public static SessionType ToSessionType(int value) {
-
-            switch(value) {
+        public static SessionType ToSessionType(int value)
+        {
+            switch(value)
+            {
                 case 0:
                     return SessionType.None;
                 case 1:
@@ -219,10 +227,12 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="s"/> could not be converted.
         /// </exception>
-        public static SessionStatus ToSessionStatus(string s) {            
-
-            if(s != null && s.Length == 1) {
-                switch(s[0]) {
+        public static SessionStatus ToSessionStatus(string s)
+        {
+            if(s != null && s.Length == 1)
+            {
+                switch(s[0])
+                {
                     case '1':
                         return SessionStatus.Green;
                     case '2':
@@ -235,7 +245,7 @@ namespace AK.F1.Timing.Live
                         return SessionStatus.Red;
                 }
             }
-            
+
             throw Guard.LiveData_UnableToConvertToSessionStatus(s);
         }
 
@@ -248,9 +258,10 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
-        public static DriverStatus ToDriverStatus(GridColumnColour colour) {
-
-            switch(colour) {
+        public static DriverStatus ToDriverStatus(GridColumnColour colour)
+        {
+            switch(colour)
+            {
                 case GridColumnColour.White:
                 case GridColumnColour.Magenta:
                 case GridColumnColour.Yellow:
@@ -269,11 +280,14 @@ namespace AK.F1.Timing.Live
         /// <param name="column">The value to convert.</param>
         /// <param name="currentSessionType">The current session.</param>
         /// <returns>The converted value.</returns>
-        public static GridColumn ToGridColumn(byte column, SessionType currentSessionType) {
-
-            try {
-                return GRID_COLUMN_MAP[(int)currentSessionType - 1][column - 1];
-            } catch(IndexOutOfRangeException) {
+        public static GridColumn ToGridColumn(byte column, SessionType currentSessionType)
+        {
+            try
+            {
+                return GridColumnMap[(int)currentSessionType - 1][column - 1];
+            }
+            catch(IndexOutOfRangeException)
+            {
                 throw Guard.LiveData_UnableToConvertToGridColumn(column, currentSessionType);
             }
         }
@@ -287,9 +301,10 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when <paramref name="colour"/> could not be converted.
         /// </exception>
-        public static GridColumnColour ToGridColumnColour(byte colour) {
-
-            switch(colour) {
+        public static GridColumnColour ToGridColumnColour(byte colour)
+        {
+            switch(colour)
+            {
                 case 0:
                     return GridColumnColour.Black;
                 case 1:

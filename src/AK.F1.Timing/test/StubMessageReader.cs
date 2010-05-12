@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,22 +19,23 @@ namespace AK.F1.Timing
 {
     public class StubMessageReader : IMessageReader
     {
-        public StubMessageReader(params Message[] messages) {
-
+        public StubMessageReader(params Message[] messages)
+        {
             MessageQueue = new Queue<Message>(messages);
         }
 
-        public Message Read() {
-
-            if(IsDisposed) {
+        public Message Read()
+        {
+            if(IsDisposed)
+            {
                 throw new ObjectDisposedException(GetType().Name);
             }
 
             return MessageQueue.Count > 0 ? MessageQueue.Dequeue() : null;
         }
 
-        public void Dispose() {
-
+        public void Dispose()
+        {
             IsDisposed = true;
         }
 

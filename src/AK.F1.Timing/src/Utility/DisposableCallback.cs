@@ -26,7 +26,7 @@ namespace AK.F1.Timing.Utility
         #region Private Fields.
 
         private volatile bool _isDisposed;
-        private readonly Action _callback;        
+        private readonly Action _callback;
 
         #endregion
 
@@ -41,19 +41,20 @@ namespace AK.F1.Timing.Utility
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="callback"/> is <see langword="null"/>.
         /// </exception>        
-        public DisposableCallback(Action callback) {
-
+        public DisposableCallback(Action callback)
+        {
             Guard.NotNull(callback, "callback");
 
-            _callback = callback;            
+            _callback = callback;
         }
 
         /// <summary>
         /// Disposes of this instance.
         /// </summary>
-        public void Dispose() {
-
-            if(!_isDisposed) {
+        public void Dispose()
+        {
+            if(!_isDisposed)
+            {
                 _isDisposed = true;
                 _callback();
             }

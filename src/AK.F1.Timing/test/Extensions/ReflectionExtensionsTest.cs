@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,74 +15,68 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Extensions;
-
 namespace AK.F1.Timing.Extensions
 {
     public class ReflectionExtensionsTest
     {
         [Fact]
-        public void has_attribute_respects_the_inherit_argument() {
-
+        public void has_attribute_respects_the_inherit_argument()
+        {
             // inherit should be true by default.
-            Assert.True(ReflectionExtensions.HasAttribute<InheritedAttribute>(typeof(Child)));
-            Assert.True(ReflectionExtensions.HasAttribute<InheritedAttribute>(typeof(Child), true));
+            Assert.True(typeof(Child).HasAttribute<InheritedAttribute>());
+            Assert.True(typeof(Child).HasAttribute<InheritedAttribute>(true));
 
-            Assert.False(ReflectionExtensions.HasAttribute<InheritedAttribute>(typeof(Child), false));
+            Assert.False(typeof(Child).HasAttribute<InheritedAttribute>(false));
         }
 
         [Fact]
-        public void get_attribute_respects_the_inherit_argument() {
-
+        public void get_attribute_respects_the_inherit_argument()
+        {
             // inherit should be true by default.
-            Assert.NotNull(ReflectionExtensions.GetAttribute<InheritedAttribute>(typeof(Child)));
-            Assert.NotNull(ReflectionExtensions.GetAttribute<InheritedAttribute>(typeof(Child), true));
+            Assert.NotNull(typeof(Child).GetAttribute<InheritedAttribute>());
+            Assert.NotNull(typeof(Child).GetAttribute<InheritedAttribute>(true));
 
-            Assert.Null(ReflectionExtensions.GetAttribute<InheritedAttribute>(typeof(Child), false));
+            Assert.Null(typeof(Child).GetAttribute<InheritedAttribute>(false));
         }
 
         [Fact]
-        public void get_attribute_returns_first_attribute() {
-
-            Assert.Equal(1, ReflectionExtensions.GetAttribute<MultipleAttribute>(typeof(Child)).Order);
+        public void get_attribute_returns_first_attribute()
+        {
+            Assert.Equal(1, typeof(Child).GetAttribute<MultipleAttribute>().Order);
         }
 
         [Fact]
-        public void get_attributes_respects_the_inherit_argument() {
-
+        public void get_attributes_respects_the_inherit_argument()
+        {
             // inherit should be true by default.
-            Assert.NotEmpty(ReflectionExtensions.GetAttributes<InheritedAttribute>(typeof(Child)));
-            Assert.NotEmpty(ReflectionExtensions.GetAttributes<InheritedAttribute>(typeof(Child), true));
+            Assert.NotEmpty(typeof(Child).GetAttributes<InheritedAttribute>());
+            Assert.NotEmpty(typeof(Child).GetAttributes<InheritedAttribute>(true));
 
-            Assert.Empty(ReflectionExtensions.GetAttributes<InheritedAttribute>(typeof(Child), false));
+            Assert.Empty(typeof(Child).GetAttributes<InheritedAttribute>(false));
         }
 
         [Fact]
-        public void get_attributes_returns_all_attributes() {
+        public void get_attributes_returns_all_attributes()
+        {
+            Assert.Equal(1, typeof(Parent).GetAttributes<InheritedAttribute>().Length);
+            Assert.Equal(1, typeof(Parent).GetAttributes<MultipleAttribute>().Length);
 
-            Assert.Equal(1, ReflectionExtensions.GetAttributes<InheritedAttribute>(typeof(Parent)).Length);
-            Assert.Equal(1, ReflectionExtensions.GetAttributes<MultipleAttribute>(typeof(Parent)).Length);
-            
-            Assert.Equal(1, ReflectionExtensions.GetAttributes<InheritedAttribute>(typeof(Child)).Length);
-            Assert.Equal(2, ReflectionExtensions.GetAttributes<MultipleAttribute>(typeof(Child)).Length);            
+            Assert.Equal(1, typeof(Child).GetAttributes<InheritedAttribute>().Length);
+            Assert.Equal(2, typeof(Child).GetAttributes<MultipleAttribute>().Length);
         }
 
         [Inherited]
-        [Multiple(0)]        
-        private class Parent
-        {
-        }
+        [Multiple(0)]
+        private class Parent {}
 
         [Multiple(1)]
-        private class Child : Parent
-        {
-        }
+        private class Child : Parent {}
 
         [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
         private sealed class MultipleAttribute : Attribute
         {
-            public MultipleAttribute(int order) {
-
+            public MultipleAttribute(int order)
+            {
                 Order = order;
             }
 
@@ -90,6 +84,6 @@ namespace AK.F1.Timing.Extensions
         }
 
         [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-        private sealed class InheritedAttribute : Attribute { }
+        private sealed class InheritedAttribute : Attribute {}
     }
 }

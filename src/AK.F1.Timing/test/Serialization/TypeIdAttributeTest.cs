@@ -15,15 +15,13 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Serialization;
-
 namespace AK.F1.Timing.Serialization
 {
     public class TypeIdAttributeTest
     {
         [Fact]
-        public void ctor_should_set_the_id_property() {
-
+        public void ctor_should_set_the_id_property()
+        {
             int id = 10;
             var attribute = new TypeIdAttribute(id);
 
@@ -31,14 +29,10 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void ctor_should_allow_entire_id_range() {
-
-            Assert.DoesNotThrow(() => {
-                new TypeIdAttribute(Int32.MinValue);
-            });
-            Assert.DoesNotThrow(() => {
-                new TypeIdAttribute(Int32.MaxValue);
-            });
+        public void ctor_should_allow_entire_id_range()
+        {
+            Assert.DoesNotThrow(() => { new TypeIdAttribute(Int32.MinValue); });
+            Assert.DoesNotThrow(() => { new TypeIdAttribute(Int32.MaxValue); });
         }
     }
 }

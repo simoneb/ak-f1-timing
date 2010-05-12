@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,24 +35,24 @@ namespace AK.F1.Timing.Messages.Weather
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="pressure"/> is negative.
         /// </exception>
-        public SetAtmosphericPressureMessage(double pressure) {
-
+        public SetAtmosphericPressureMessage(double pressure)
+        {
             Guard.InRange(pressure > 0D, "pressure");
 
-            Pressure = pressure;            
+            Pressure = pressure;
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("Pressure={0}", Pressure);
         }
 

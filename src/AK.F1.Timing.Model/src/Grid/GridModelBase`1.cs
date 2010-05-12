@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
 using AK.F1.Timing.Model.Collections;
 
 namespace AK.F1.Timing.Model.Grid
@@ -25,8 +24,8 @@ namespace AK.F1.Timing.Model.Grid
     /// </summary>
     /// <typeparam name="TRow">The type of <see cref="GridRowModelBase"/> that the grid is
     /// composed of.</typeparam>
-    [Serializable]    
-    public abstract class GridModelBase<TRow> : GridModelBase where TRow: GridRowModelBase
+    [Serializable]
+    public abstract class GridModelBase<TRow> : GridModelBase where TRow : GridRowModelBase
     {
         #region Private Fields.
 
@@ -37,23 +36,24 @@ namespace AK.F1.Timing.Model.Grid
         #region Public Interface.
 
         /// <inheritdoc />
-        public override void Process(Message message) {
-
+        public override void Process(Message message)
+        {
             Guard.NotNull(message, "message");
 
             Builder.Process(message);
         }
-        
+
         /// <summary>
         /// Gets the row model with the specified Id.
         /// </summary>
         /// <param name="id">The row Id.</param>
         /// <returns>The row model with the Id.</returns>
-        public virtual TRow GetRow(int id) {
-
+        public virtual TRow GetRow(int id)
+        {
             TRow row;
 
-            if(!RowsById.TryGetValue(id, out row)) {
+            if(!RowsById.TryGetValue(id, out row))
+            {
                 row = CreateRow(id);
                 RowsById.Add(id, row);
                 InnerRows.Add(row);
@@ -65,8 +65,8 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Sorts the grid.
         /// </summary>
-        public void Sort() {
-
+        public void Sort()
+        {
             InnerRows.Sort();
         }
 
@@ -82,12 +82,10 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Initialises a new instance of the <see cref="GridModelBase"/> class.
         /// </summary>
-        protected GridModelBase() {
-
+        protected GridModelBase()
+        {
             RowsById = new Dictionary<int, TRow>(25);
-            InnerRows = new SortableObservableCollection<TRow>((x, y) => {
-                return x.RowIndex.CompareTo(y.RowIndex);
-            });
+            InnerRows = new SortableObservableCollection<TRow>((x, y) => { return x.RowIndex.CompareTo(y.RowIndex); });
             Rows = new ReadOnlyObservableCollection<TRow>(InnerRows);
             Builder = new GridModelBuilder<TRow>(this);
         }
@@ -105,17 +103,18 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentNullException">
         /// Throw when <paramref name="value"/> is <see langword="null"/>.
         /// </exception>
-        protected IMessageProcessor Builder {
-
+        protected IMessageProcessor Builder
+        {
             get { return _builder; }
-            set {
+            set
+            {
                 Guard.NotNull(value, "value");
                 _builder = value;
             }
         }
 
         #endregion
-        
+
         #region Private Impl.
 
         private IDictionary<int, TRow> RowsById { get; set; }

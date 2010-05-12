@@ -20,17 +20,17 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverPositionMessageTest : MessageTestBase<SetDriverPositionMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
-            
+
             Assert.Equal(1, message.DriverId);
             Assert.Equal(1, message.Position);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -40,18 +40,14 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throws_if_position_is_not_positive() {
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverPositionMessage(1, 0);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverPositionMessage(1, -1);
-            });
+        public void ctor_throws_if_position_is_not_positive()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverPositionMessage(1, 0); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverPositionMessage(1, -1); });
         }
 
-        protected override SetDriverPositionMessage CreateMessage() {
-
+        protected override SetDriverPositionMessage CreateMessage()
+        {
             return new SetDriverPositionMessage(1, 1);
         }
     }

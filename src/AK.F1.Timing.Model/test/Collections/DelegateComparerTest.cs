@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,15 +20,16 @@ namespace AK.F1.Timing.Model.Collections
     public class DelegateComparerTest
     {
         [Fact]
-        public void ctor_throws_if_comparison_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => new DelegateComparer<int>(null));            
+        public void ctor_throws_if_comparison_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => new DelegateComparer<int>(null));
         }
 
         [Fact]
-        public void compare_delegates_to_comparison_method() {
-            
-            var comparer = new DelegateComparer<int>((x, y) => {
+        public void compare_delegates_to_comparison_method()
+        {
+            var comparer = new DelegateComparer<int>((x, y) =>
+            {
                 Assert.Equal(x, 1);
                 Assert.Equal(y, 2);
                 return 3;

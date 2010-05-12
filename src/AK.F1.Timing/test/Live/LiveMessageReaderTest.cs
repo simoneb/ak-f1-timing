@@ -13,30 +13,25 @@
 // limitations under the License.
 
 using System;
-using Moq;
-using Xunit;
-
 using AK.F1.Timing.Live.Encryption;
 using AK.F1.Timing.Live.IO;
+using Moq;
+using Xunit;
 
 namespace AK.F1.Timing.Live
 {
     public class LiveMessageReaderTest
     {
         [Fact]
-        public void ctor_throws_if_message_stream_endpoint_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                new LiveMessageReader(null, new Mock<IDecrypterFactory>().Object);
-            });
+        public void ctor_throws_if_message_stream_endpoint_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { new LiveMessageReader(null, new Mock<IDecrypterFactory>().Object); });
         }
 
         [Fact]
-        public void ctor_throws_if_decrypter_factory_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                new LiveMessageReader(new Mock<IMessageStreamEndpoint>().Object, null);
-            });
+        public void ctor_throws_if_decrypter_factory_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { new LiveMessageReader(new Mock<IMessageStreamEndpoint>().Object, null); });
         }
     }
 }

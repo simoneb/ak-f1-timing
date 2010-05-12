@@ -31,15 +31,15 @@ namespace AK.F1.Timing.Extensions
         /// <param name="exc">The exception.</param>
         /// <returns><see langword="true"/> if the specified exception is fatal,
         /// otherwise; <see langword="false"/>.</returns>
-        public static bool IsFatal(this Exception exc) {
-
+        public static bool IsFatal(this Exception exc)
+        {
             return exc != null &&
                 (exc is StackOverflowException ||
-                exc is ThreadAbortException ||
-                exc is OutOfMemoryException ||
-                exc is ExecutionEngineException ||
-                exc is ArgumentException);
-        }        
+                    exc is ThreadAbortException ||
+                        exc is OutOfMemoryException ||
+                            exc is ExecutionEngineException ||
+                                exc is ArgumentException);
+        }
 
         #endregion
     }

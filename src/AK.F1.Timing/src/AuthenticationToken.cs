@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,34 +24,36 @@ namespace AK.F1.Timing
         #region Fields.
 
         private readonly string _token;
-        private static readonly StringComparer _comparer = StringComparer.Ordinal;
+        private static readonly StringComparer Comparer = StringComparer.Ordinal;
 
         #endregion
 
         #region Public Interface.
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) {
-
+        public override bool Equals(object obj)
+        {
             return Equals(obj as AuthenticationToken);
         }
 
         /// <inheritdoc/>
-        public bool Equals(AuthenticationToken other) {
-
-            if(other == this) {
+        public bool Equals(AuthenticationToken other)
+        {
+            if(other == this)
+            {
                 return true;
             }
-            if(other == null) {
+            if(other == null)
+            {
                 return false;
             }
-            return _comparer.Equals(other.Token, Token);
+            return Comparer.Equals(other.Token, Token);
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode() {
-
-            return _comparer.GetHashCode(Token);
+        public override int GetHashCode()
+        {
+            return Comparer.GetHashCode(Token);
         }
 
         #endregion
@@ -69,8 +71,8 @@ namespace AK.F1.Timing
         /// <exception cref="System.ArgumentException">
         /// Thrown when <paramref name="token"/> is of zero length.
         /// </exception>
-        internal AuthenticationToken(string token) {
-
+        internal AuthenticationToken(string token)
+        {
             Guard.NotNullOrEmpty(token, "token");
 
             _token = token;
@@ -79,8 +81,8 @@ namespace AK.F1.Timing
         /// <summary>
         /// Gets the authentication token.
         /// </summary>
-        internal string Token {
-
+        internal string Token
+        {
             get { return _token; }
         }
 

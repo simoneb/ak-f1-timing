@@ -20,18 +20,18 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverSectorTimeMessageTest : MessageTestBase<SetDriverSectorTimeMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
-            Assert.Equal(1, message.DriverId);            
+            Assert.Equal(1, message.DriverId);
             Assert.Equal(1, message.SectorNumber);
             Assert.Equal(PostedTime, message.SectorTime);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -41,26 +41,20 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throws_if_sector_time_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                new SetDriverSectorTimeMessage(1, 1, null);
-            });
+        public void ctor_throws_if_sector_time_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { new SetDriverSectorTimeMessage(1, 1, null); });
         }
 
         [Fact]
-        public void ctor_throws_if_sector_number_is_not_positive() {
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverSectorTimeMessage(1, 0, PostedTime);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverSectorTimeMessage(1, -1, PostedTime);
-            });
+        public void ctor_throws_if_sector_number_is_not_positive()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverSectorTimeMessage(1, 0, PostedTime); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverSectorTimeMessage(1, -1, PostedTime); });
         }
 
-        protected override SetDriverSectorTimeMessage CreateMessage() {
-
+        protected override SetDriverSectorTimeMessage CreateMessage()
+        {
             return new SetDriverSectorTimeMessage(1, 1, PostedTime);
         }
     }

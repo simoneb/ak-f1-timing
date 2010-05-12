@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Threading;
-using AK.F1.Timing.Extensions;
 using Xunit;
 
 namespace AK.F1.Timing.Extensions
@@ -24,25 +23,27 @@ namespace AK.F1.Timing.Extensions
     public class ExceptionExtensionsTest
     {
         [Fact]
-        public void is_fatal_correctly_identifies_fatal_exceptions() {
-
-            foreach(var exception in GetFatalExceptions()) {
-                Assert.True(ExceptionExtensions.IsFatal(exception),
+        public void is_fatal_correctly_identifies_fatal_exceptions()
+        {
+            foreach(var exception in GetFatalExceptions())
+            {
+                Assert.True(exception.IsFatal(),
                     "a " + exception.GetType() + " exception should be fatal");
             }
         }
 
         [Fact]
-        public void is_fatal_correctly_identifies_non_fatal_exceptions() {
-
-            foreach(var exception in GetNonFatalExceptions()) {
-                Assert.False(ExceptionExtensions.IsFatal(exception),
+        public void is_fatal_correctly_identifies_non_fatal_exceptions()
+        {
+            foreach(var exception in GetNonFatalExceptions())
+            {
+                Assert.False(exception.IsFatal(),
                     "a " + (exception != null ? exception.GetType().FullName : "(null)") + " exception should not be fatal");
             }
         }
 
-        private IEnumerable<Exception> GetFatalExceptions() {
-
+        private IEnumerable<Exception> GetFatalExceptions()
+        {
             yield return (Exception)FormatterServices.GetUninitializedObject(typeof(ThreadAbortException));
             yield return new StackOverflowException();
             yield return new OutOfMemoryException();
@@ -50,8 +51,8 @@ namespace AK.F1.Timing.Extensions
             yield return new ArgumentException();
         }
 
-        private IEnumerable<Exception> GetNonFatalExceptions() {
-
+        private IEnumerable<Exception> GetNonFatalExceptions()
+        {
             yield return null;
             yield return new Exception();
             yield return new InvalidOperationException();

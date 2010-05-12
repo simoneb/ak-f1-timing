@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-
 using AK.F1.Timing.Extensions;
 
 namespace AK.F1.Timing.Serialization
@@ -31,8 +30,7 @@ namespace AK.F1.Timing.Serialization
     {
         #region Private Impl.
 
-        private static readonly IDictionary<int, TypeDescriptor> _cache =
-            new Dictionary<int, TypeDescriptor>();
+        private static readonly IDictionary<int, TypeDescriptor> Cache = new Dictionary<int, TypeDescriptor>();
 
         #endregion
 
@@ -41,8 +39,8 @@ namespace AK.F1.Timing.Serialization
         /// <summary>
         /// <see cref="TypeDescriptor"/> class constructor.
         /// </summary>
-        static TypeDescriptor() {
-
+        static TypeDescriptor()
+        {
             LoadFrom(Assembly.GetExecutingAssembly());
         }
 
@@ -61,14 +59,16 @@ namespace AK.F1.Timing.Serialization
         /// although doing so will not have any adverse effects, it is not recommended in the
         /// interest of performance.
         /// </remarks>
-        public static void LoadFrom(Assembly assembly) {
-
+        public static void LoadFrom(Assembly assembly)
+        {
             // TODO is this method named correctly?
 
             Guard.NotNull(assembly, "assembly");
 
-            foreach(var type in assembly.GetExportedTypes()) {
-                if(type.HasAttribute<TypeIdAttribute>()) {
+            foreach(var type in assembly.GetExportedTypes())
+            {
+                if(type.HasAttribute<TypeIdAttribute>())
+                {
                     CreateAndCacheDescriptor(type);
                 }
             }
@@ -83,11 +83,12 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when the <see cref="TypeDescriptor"/> could not be located.
         /// </exception>
-        public static TypeDescriptor For(int typeId) {
-
+        public static TypeDescriptor For(int typeId)
+        {
             TypeDescriptor descriptor;
 
-            if(_cache.TryGetValue(typeId, out descriptor)) {
+            if(Cache.TryGetValue(typeId, out descriptor))
+            {
                 return descriptor;
             }
 
@@ -106,22 +107,26 @@ namespace AK.F1.Timing.Serialization
         /// Thrown when the specified <paramref name="type"/> has not been decorated with the
         /// <see cref="TypeIdAttribute"/>.
         /// </exception>
-        public static TypeDescriptor For(Type type) {
-
+        public static TypeDescriptor For(Type type)
+        {
             Guard.NotNull(type, "type");
 
             TypeDescriptor descriptor;
             int typeId = GetTypeId(type);
 
-            if(!_cache.TryGetValue(typeId, out descriptor)) {
-                lock(_cache) {
-                    if(!_cache.TryGetValue(typeId, out descriptor)) {
+            if(!Cache.TryGetValue(typeId, out descriptor))
+            {
+                lock(Cache)
+                {
+                    if(!Cache.TryGetValue(typeId, out descriptor))
+                    {
                         descriptor = CreateAndCacheDescriptor(type);
                     }
                 }
             }
 
-            if(!descriptor.Type.Equals(type)) {
+            if(!descriptor.Type.Equals(type))
+            {
                 throw Guard.TypeDescriptor_DuplicateTypeId(descriptor, type);
             }
 
@@ -129,29 +134,30 @@ namespace AK.F1.Timing.Serialization
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) {
-
-            if(obj == null || obj.GetType() != GetType()) {
+        public override bool Equals(object obj)
+        {
+            if(obj == null || obj.GetType() != GetType())
+            {
                 return false;
             }
             return Equals((TypeDescriptor)obj);
         }
 
         /// <inheritdoc/>
-        public bool Equals(TypeDescriptor other) {
-
+        public bool Equals(TypeDescriptor other)
+        {
             return other != null && other.Type.Equals(Type);
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode() {
-
+        public override int GetHashCode()
+        {
             return TypeId;
         }
 
         /// <inheritdoc/>
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Type.ToString();
         }
 
@@ -174,26 +180,28 @@ namespace AK.F1.Timing.Serialization
 
         #region Private Impl.
 
-        private TypeDescriptor(Type type, int typeId, PropertyDescriptorCollection properties) {
-
+        private TypeDescriptor(Type type, int typeId, PropertyDescriptorCollection properties)
+        {
             Type = type;
             TypeId = typeId;
             Properties = properties;
         }
 
-        private static TypeDescriptor CreateDescriptor(Type type) {
-
+        private static TypeDescriptor CreateDescriptor(Type type)
+        {
             return new TypeDescriptor(type, GetTypeId(type), GetPropertyDescriptorCollection(type));
         }
 
-        private static PropertyDescriptorCollection GetPropertyDescriptorCollection(Type type) {
-
+        private static PropertyDescriptorCollection GetPropertyDescriptorCollection(Type type)
+        {
             PropertyDescriptor descriptor;
             IList<PropertyDescriptor> descriptors = new List<PropertyDescriptor>();
 
-            foreach(var property in GetNonIgnoredProperties(type)) {
+            foreach(var property in GetNonIgnoredProperties(type))
+            {
                 descriptor = PropertyDescriptor.Create(property);
-                if(descriptors.Any(x => x.PropertyId == descriptor.PropertyId)) {
+                if(descriptors.Any(x => x.PropertyId == descriptor.PropertyId))
+                {
                     throw Guard.TypeDescriptor_DuplicateProperty(descriptor);
                 }
                 descriptors.Add(descriptor);
@@ -202,35 +210,39 @@ namespace AK.F1.Timing.Serialization
             return new PropertyDescriptorCollection(descriptors);
         }
 
-        private static IEnumerable<PropertyInfo> GetNonIgnoredProperties(Type type) {
-
+        private static IEnumerable<PropertyInfo> GetNonIgnoredProperties(Type type)
+        {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
-            do {
-                foreach(var property in type.GetProperties(flags)) {
-                    if(!property.HasAttribute<IgnorePropertyAttribute>()) {
+            do
+            {
+                foreach(var property in type.GetProperties(flags))
+                {
+                    if(!property.HasAttribute<IgnorePropertyAttribute>())
+                    {
                         yield return property;
                     }
                 }
             } while(!(type = type.BaseType).Equals(typeof(object)));
         }
 
-        private static int GetTypeId(Type type) {
-
+        private static int GetTypeId(Type type)
+        {
             TypeIdAttribute attribute = type.GetAttribute<TypeIdAttribute>(false);
 
-            if(attribute == null) {
+            if(attribute == null)
+            {
                 throw Guard.TypeDescriptor_TypeIsNotDecorated(type);
             }
 
             return attribute.Id;
         }
 
-        private static TypeDescriptor CreateAndCacheDescriptor(Type type) {
-
+        private static TypeDescriptor CreateAndCacheDescriptor(Type type)
+        {
             TypeDescriptor descriptor = CreateDescriptor(type);
 
-            _cache.Add(descriptor.TypeId, descriptor);
+            Cache.Add(descriptor.TypeId, descriptor);
 
             return descriptor;
         }

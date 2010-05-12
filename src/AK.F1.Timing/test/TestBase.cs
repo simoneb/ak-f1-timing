@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit.Extensions;
 
 namespace AK.F1.Timing
 {
-    public abstract class TestBase : TestClass
-    {
-    }
+    public abstract class TestBase : TestClass {}
 }

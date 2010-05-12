@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,16 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Windows;
-using Caliburn.Core.IoC;
-using Caliburn.PresentationFramework.Screens;
-
 using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Model.Grid;
 using AK.F1.Timing.Model.Session;
 using AK.F1.Timing.UI.Services.Session;
 using AK.F1.Timing.UI.Utility;
+using Caliburn.Core.IoC;
+using Caliburn.PresentationFramework.Screens;
 
 namespace AK.F1.Timing.UI.Screens
 {
@@ -33,7 +31,7 @@ namespace AK.F1.Timing.UI.Screens
     {
         #region Fields.
 
-        private ISessionPlayer _player;        
+        private ISessionPlayer _player;
         private DriverModel _selectedDriver;
         private GridRowModelBase _selectedGridRow;
         private readonly IShellScreen _shellScreen;
@@ -50,20 +48,23 @@ namespace AK.F1.Timing.UI.Screens
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="shellScreen"/> is <see langword="null"/>.
         /// </exception>
-        public SessionScreen(IShellScreen shellScreen) {
-
+        public SessionScreen(IShellScreen shellScreen)
+        {
             Guard.NotNull(shellScreen, "shellScreen");
 
             _shellScreen = shellScreen;
         }
 
         /// <inheritdoc/>
-        public ISessionPlayer Player {
-
+        public ISessionPlayer Player
+        {
             get { return _player; }
-            set {
-                if(_player != value) {
-                    if(_player != null) {
+            set
+            {
+                if(_player != value)
+                {
+                    if(_player != null)
+                    {
                         _player.Exception -= OnPlayerException;
                     }
                     _player = value;
@@ -77,19 +78,21 @@ namespace AK.F1.Timing.UI.Screens
         /// <summary>
         /// Gets the <see cref="AK.F1.Timing.Model.Session.SessionModel"/>
         /// </summary>
-        public SessionModel Session {
-
+        public SessionModel Session
+        {
             get { return Player.Session; }
         }
 
         /// <summary>
         /// Gets or sets the selected grid row.
         /// </summary>
-        public GridRowModelBase SelectedGridRow {
-
+        public GridRowModelBase SelectedGridRow
+        {
             get { return _selectedGridRow; }
-            set {
-                if(_selectedGridRow != value) {
+            set
+            {
+                if(_selectedGridRow != value)
+                {
                     _selectedGridRow = value;
                     NotifyOfPropertyChange(() => SelectedGridRow);
                     SelectedDriver = value != null ? Session.GetDriver(value.Id) : null;
@@ -100,11 +103,13 @@ namespace AK.F1.Timing.UI.Screens
         /// <summary>
         /// Gets or sets the selected driver.
         /// </summary>
-        public DriverModel SelectedDriver {
-
+        public DriverModel SelectedDriver
+        {
             get { return _selectedDriver; }
-            private set {
-                if(_selectedDriver != value) {
+            private set
+            {
+                if(_selectedDriver != value)
+                {
                     _selectedDriver = value;
                     NotifyOfPropertyChange(() => SelectedDriver);
                 }
@@ -116,19 +121,19 @@ namespace AK.F1.Timing.UI.Screens
         #region Protected Interface.
 
         /// <inheritdoc/>
-        protected override void OnActivate() {
-
+        protected override void OnActivate()
+        {
             Player.Start();
 
-            base.OnActivate();            
+            base.OnActivate();
         }
 
         #endregion
 
         #region Private Impl.
 
-        private void OnPlayerException(object sender, ExceptionEventArgs e) {
-
+        private void OnPlayerException(object sender, ExceptionEventArgs e)
+        {
             MessageBox.Show(e.Exception.Message, e.Exception.GetType().Name,
                 MessageBoxButton.OK, MessageBoxImage.Error);
         }

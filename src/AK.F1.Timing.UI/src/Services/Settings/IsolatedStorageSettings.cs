@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Caliburn.Core.IoC;
 using Caliburn.PresentationFramework.ApplicationModel;
 
@@ -25,7 +24,7 @@ namespace AK.F1.Timing.UI.Services.Settings
     public class IsolatedStorageSettings : IsolatedStorageStateManager, ISettings
     {
         #region Fields.
-        
+
         private const string EmailProperty = "Email";
         private const string PasswordProperty = "Password";
         private const string FileName = "settings.xml";
@@ -37,34 +36,36 @@ namespace AK.F1.Timing.UI.Services.Settings
         /// <summary>
         /// Initialises a new instance of the <see cref="IsolatedStorageSettings"/> class.
         /// </summary>
-        public IsolatedStorageSettings() {
-
+        public IsolatedStorageSettings()
+        {
             Initialize(FileName);
         }
 
         /// <inheritdoc/>
-        public string Username {
-
+        public string Username
+        {
             get { return Get(EmailProperty); }
-            set {
+            set
+            {
                 InsertOrUpdate(EmailProperty, value);
                 NotifyOfPropertyChange(EmailProperty);
             }
         }
 
         /// <inheritdoc/>
-        public string Password {
-
+        public string Password
+        {
             get { return Get(PasswordProperty); }
-            set {
+            set
+            {
                 InsertOrUpdate(PasswordProperty, value);
                 NotifyOfPropertyChange(PasswordProperty);
             }
         }
 
         /// <inheritdoc/>
-        public void Save() {
-
+        public void Save()
+        {
             CommitChanges(FileName);
         }
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Grid
@@ -31,8 +30,8 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>
         /// <param name="id">The row Id.</param>
         public QuallyGridRowModel(int id)
-            : base(id) {
-
+            : base(id)
+        {
             Q1 = new GridColumnModel(GridColumn.Q1);
             Q2 = new GridColumnModel(GridColumn.Q2);
             Q3 = new GridColumnModel(GridColumn.Q3);
@@ -40,8 +39,8 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         /// <inheritdoc />
-        public override void Reset() {
-
+        public override void Reset()
+        {
             base.Reset();
             Q1.Reset();
             Q2.Reset();
@@ -51,9 +50,10 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         /// <inheritdoc />
-        public override GridColumnModel GetColumn(GridColumn column) {
-
-            switch(column) {
+        public override GridColumnModel GetColumn(GridColumn column)
+        {
+            switch(column)
+            {
                 case GridColumn.Q1:
                     return Q1;
                 case GridColumn.Q2:

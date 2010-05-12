@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit;
 
 namespace AK.F1.Timing.Messages.Session
@@ -20,21 +19,21 @@ namespace AK.F1.Timing.Messages.Session
     public class StopSessionTimeCountdownMessageTest : MessageTestBase<StopSessionTimeCountdownMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             Assert.NotNull(StopSessionTimeCountdownMessage.Instance);
         }
 
         [Fact]
-        public void maintains_identity_when_serialized() {
-
+        public void maintains_identity_when_serialized()
+        {
             Assert.Same(StopSessionTimeCountdownMessage.Instance,
                 StopSessionTimeCountdownMessage.Instance.DeepClone());
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -43,8 +42,8 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
-        protected override StopSessionTimeCountdownMessage CreateMessage() {
-
+        protected override StopSessionTimeCountdownMessage CreateMessage()
+        {
             return StopSessionTimeCountdownMessage.Instance;
         }
     }

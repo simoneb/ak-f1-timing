@@ -34,9 +34,9 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="x"/> is <see langword="null"/>.
         /// </exception>
-        public static bool OrdinalEquals(this string x, string y) {
-
-            Guard.NotNull(x, "x");            
+        public static bool OrdinalEquals(this string x, string y)
+        {
+            Guard.NotNull(x, "x");
 
             return x.Equals(y, StringComparison.Ordinal);
         }
@@ -52,8 +52,8 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="x"/> is <see langword="null"/>.
         /// </exception>
-        public static bool OrdinalEndsWith(this string x, string y) {
-
+        public static bool OrdinalEndsWith(this string x, string y)
+        {
             Guard.NotNull(x, "x");
 
             return x.EndsWith(y, StringComparison.Ordinal);

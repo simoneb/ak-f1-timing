@@ -21,8 +21,8 @@ namespace AK.F1.Timing.Messages.Driver
     public class GapTest : TestBase
     {
         [Fact]
-        public void lap_and_time_gap_implement_a_special_comparable_contract_with_each_other() {
-
+        public void lap_and_time_gap_implement_a_special_comparable_contract_with_each_other()
+        {
             // A lap gap should always be greater than any time gap.
 
             var lapLap = new LapGap(0);
@@ -33,7 +33,8 @@ namespace AK.F1.Timing.Messages.Driver
 
             // Given the above, the following should pass.
 
-            Assert.ComparableContract(Enumerable.Empty<Gap>(), new Gap[] {
+            Assert.ComparableContract(Enumerable.Empty<Gap>(), new Gap[]
+            {
                 new LapGap(0), new TimeGap(TimeSpan.Zero),
                 new LapGap(1), new TimeGap(TimeSpan.FromSeconds(1)),
                 new LapGap(2), new TimeGap(TimeSpan.FromSeconds(2)),

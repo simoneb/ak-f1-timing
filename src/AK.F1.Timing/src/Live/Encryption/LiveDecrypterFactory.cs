@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,9 +15,6 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Net;
-using System.Text;
-
 using AK.F1.Timing.Extensions;
 
 namespace AK.F1.Timing.Live.Encryption
@@ -31,7 +28,7 @@ namespace AK.F1.Timing.Live.Encryption
     {
         #region Private Fields.
 
-        private const string SEED_URL_FORMAT = "http://live-timing.formula1.com/reg/getkey/{0}.asp?auth={1}";
+        private const string SeedUrlFormat = "http://live-timing.formula1.com/reg/getkey/{0}.asp?auth={1}";
 
         #endregion
 
@@ -45,8 +42,8 @@ namespace AK.F1.Timing.Live.Encryption
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="token"/> is <see langword="null"/>.
         /// </exception>
-        public LiveDecrypterFactory(AuthenticationToken token) {
-
+        public LiveDecrypterFactory(AuthenticationToken token)
+        {
             Guard.NotNull(token, "token");
 
             AuthToken = token.Token;
@@ -57,26 +54,31 @@ namespace AK.F1.Timing.Live.Encryption
         #region Protected Interface.
 
         /// <inheritdoc />
-        protected override int GetSeedForSession(string sessionId) {
-
+        protected override int GetSeedForSession(string sessionId)
+        {
             Guard.NotNullOrEmpty(sessionId, "sessionId");
-            
+
             int seed;
             string response;
             Uri seedUri = MakeSeedUri(sessionId);
 
             Log.InfoFormat("fetching seed from {0}", seedUri);
-            try {
+            try
+            {
                 response = seedUri.GetResponseString(HttpMethod.Get);
-            } catch(IOException exc) {
+            }
+            catch(IOException exc)
+            {
                 Log.Error(exc);
                 throw Guard.LiveDecrypterFactory_FailedToFetchSessionSeed(exc);
             }
-            if(response.Equals("invalid", StringComparison.OrdinalIgnoreCase)) {
+            if(response.Equals("invalid", StringComparison.OrdinalIgnoreCase))
+            {
                 Log.Error("failed to fetch the seed as the user's credentials have been rejected");
                 throw Guard.LiveAuthenticationService_CredentialsRejected();
             }
-            if(!int.TryParse(response, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out seed)) {
+            if(!int.TryParse(response, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out seed))
+            {
                 Log.ErrorFormat("failed to parse seed from {0}", response);
                 throw Guard.LiveDecrypterFactory_UnableToParseSeed(response);
             }
@@ -85,8 +87,8 @@ namespace AK.F1.Timing.Live.Encryption
         }
 
         /// <inheritdoc />
-        protected override IDecrypter CreateWithSeed(int seed) {
-
+        protected override IDecrypter CreateWithSeed(int seed)
+        {
             return new LiveDecrypter(seed);
         }
 
@@ -94,9 +96,9 @@ namespace AK.F1.Timing.Live.Encryption
 
         #region Private Impl. 
 
-        private Uri MakeSeedUri(string sessionId) {
-
-            return new Uri(string.Format(SEED_URL_FORMAT, sessionId, AuthToken), UriKind.Absolute);
+        private Uri MakeSeedUri(string sessionId)
+        {
+            return new Uri(string.Format(SeedUrlFormat, sessionId, AuthToken), UriKind.Absolute);
         }
 
         private string AuthToken { get; set; }

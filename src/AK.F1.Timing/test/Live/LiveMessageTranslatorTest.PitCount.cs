@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using Xunit;
-using Xunit.Extensions;
-
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
+using Xunit.Extensions;
 
 namespace AK.F1.Timing.Live
 {
@@ -25,13 +22,14 @@ namespace AK.F1.Timing.Live
     {
         [Theory]
         [ClassData(typeof(AllSessionTypes))]
-        public void pit_count_columns_values_are_translated_into_set_pit_count_messages(SessionType session) {
-
-            In(session).Assert(translator => {
+        public void pit_count_columns_values_are_translated_into_set_pit_count_messages(SessionType session)
+        {
+            In(session).Assert(translator =>
+            {
                 Assert.MessagesAreEqual(
                     new SetDriverPitCountMessage(1, 2),
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "2"))
-                );
+                    );
             });
         }
     }

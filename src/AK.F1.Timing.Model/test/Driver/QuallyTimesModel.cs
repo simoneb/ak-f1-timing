@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,16 +21,16 @@ namespace AK.F1.Timing.Model.Driver
     public class QuallyTimesModelTest : TestClass
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var model = new QuallyTimesModel();
 
             Assert.Empty(model);
         }
 
         [Fact]
-        public void can_set_a_qually_time() {
-
+        public void can_set_a_qually_time()
+        {
             TimeSpan time;
             var model = new QuallyTimesModel();
 
@@ -54,8 +54,8 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         [Fact]
-        public void changes_to_the_qually_time_properties_raise_the_property_changed_event() {
-
+        public void changes_to_the_qually_time_properties_raise_the_property_changed_event()
+        {
             var model = new QuallyTimesModel();
             var observer = new PropertyChangeObserver<QuallyTimesModel>(model);
 
@@ -70,8 +70,8 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         [Fact]
-        public void can_get_a_qually_time() {
-
+        public void can_get_a_qually_time()
+        {
             TimeSpan time;
             var model = new QuallyTimesModel();
 
@@ -85,7 +85,7 @@ namespace AK.F1.Timing.Model.Driver
 
             time = TimeSpan.FromSeconds(3d);
             model.SetTime(3, time);
-            Assert.Equal(time, model.GetTime(3));  
+            Assert.Equal(time, model.GetTime(3));
         }
     }
 }

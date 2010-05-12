@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
-
 using Genghis;
 
 // Disable warning indicating fields are never assigned.
@@ -26,19 +24,19 @@ namespace AK.F1.Timing.Utility.LiveRecorder
     {
         #region Public Interface.
 
-        [CommandLineParser.ValueUsage("The name of the session to record.",
+        [ValueUsage("The name of the session to record.",
             Name = "session",
             AlternateName1 = "s",
             MatchPosition = true)]
         public string Session;
 
-        [CommandLineParser.ValueUsage("A valid www.formula1.com username.",
+        [ValueUsage("A valid www.formula1.com username.",
             Name = "username",
             AlternateName1 = "u",
             MatchPosition = true)]
         public string Username;
 
-        [CommandLineParser.ValueUsage("The corresponding password.",
+        [ValueUsage("The corresponding password.",
             Name = "password",
             AlternateName1 = "p",
             MatchPosition = true)]
@@ -49,11 +47,12 @@ namespace AK.F1.Timing.Utility.LiveRecorder
         #region Protected Interface.
 
         /// <inheritdoc/>        
-        protected override void Parse(string[] args, bool ignoreFirstArg) {
-
+        protected override void Parse(string[] args, bool ignoreFirstArg)
+        {
             base.Parse(args, ignoreFirstArg);
 
-            if(Session.IndexOfAny(Path.GetInvalidPathChars()) > -1) {
+            if(Session.IndexOfAny(Path.GetInvalidPathChars()) > -1)
+            {
                 throw Usage("session", "must not contain any invalid path characters");
             }
         }
@@ -62,8 +61,8 @@ namespace AK.F1.Timing.Utility.LiveRecorder
 
         #region Private Impl.
 
-        private static UsageException Usage(string argName, string format, params object[] args) {
-
+        private static UsageException Usage(string argName, string format, params object[] args)
+        {
             return new UsageException(argName, string.Format(format, args));
         }
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
 namespace AK.F1.Timing.Live.Encryption
-{    
+{
     /// <summary>
     /// Defines a decrypter.
     /// </summary>
@@ -33,7 +31,7 @@ namespace AK.F1.Timing.Live.Encryption
         /// Thrown when <paramref name="buffer"/> is <see langword="null"/>.
         /// </exception>
         void Decrypt(byte[] buffer, int offset, int count);
-        
+
         /// <summary>
         /// Resets the state of the decrypter.
         /// </summary>

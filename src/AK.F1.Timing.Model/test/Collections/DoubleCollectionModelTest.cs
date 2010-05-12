@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 using Xunit;
 
@@ -22,16 +21,16 @@ namespace AK.F1.Timing.Model.Collections
     public class DoubleCollectionModelTest
     {
         [Fact]
-        public void can_create() {
-
-            var model = new DoubleCollectionModel();            
+        public void can_create()
+        {
+            var model = new DoubleCollectionModel();
 
             assert_has_default_property_values(model);
         }
 
         [Fact]
-        public void can_reset() {
-
+        public void can_reset()
+        {
             var model = new DoubleCollectionModel();
 
             model.Add(1d);
@@ -41,18 +40,20 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void reset_raises_begin_and_end_events() {
-            
+        public void reset_raises_begin_and_end_events()
+        {
             var resetBeginRaised = false;
             var resetCompleteRaised = false;
             var model = new DoubleCollectionModel();
 
-            model.ResetBegin += delegate {
+            model.ResetBegin += delegate
+            {
                 Assert.False(resetBeginRaised);
                 Assert.False(resetCompleteRaised);
                 resetBeginRaised = true;
             };
-            model.ResetComplete += delegate {
+            model.ResetComplete += delegate
+            {
                 Assert.True(resetBeginRaised);
                 Assert.False(resetCompleteRaised);
                 resetCompleteRaised = true;
@@ -62,15 +63,15 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void add_throws_if_item_a_not_a_number() {
-
+        public void add_throws_if_item_a_not_a_number()
+        {
             var model = new DoubleCollectionModel();
 
             Assert.Throws<ArgumentOutOfRangeException>(() => model.Add(Double.NaN));
         }
 
-        private static void assert_has_default_property_values(DoubleCollectionModel model) {
-
+        private static void assert_has_default_property_values(DoubleCollectionModel model)
+        {
             Assert.Equal(0, model.Count);
             Assert.Null(model.Current);
             Assert.Equal(DeltaType.None, model.CurrentDeltaType);
@@ -84,8 +85,8 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_count() {
-
+        public void adding_an_item_updates_the_count()
+        {
             var context = new TestContext();
             var model = context.Model;
 
@@ -99,8 +100,8 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_current() {
-
+        public void adding_an_item_updates_the_current()
+        {
             var context = new TestContext();
             var model = context.Model;
 
@@ -113,8 +114,8 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_current_delta_type_if_it_has_changed() {
-
+        public void adding_an_item_updates_the_current_delta_type_if_it_has_changed()
+        {
             var context = new TestContext();
             var model = context.Model;
 
@@ -131,12 +132,13 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_maximum_if_it_has_changed() {
-
+        public void adding_an_item_updates_the_maximum_if_it_has_changed()
+        {
             var context = new TestContext();
             var model = context.Model;
 
-            for(double item = -5d; item < 5d; ++item) {
+            for(double item = -5d; item < 5d; ++item)
+            {
                 model.Add(item);
                 Assert.Equal(item, model.Maximum);
                 model.Add(item - 1);
@@ -147,12 +149,13 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_minimum_if_it_has_changed() {
-
+        public void adding_an_item_updates_the_minimum_if_it_has_changed()
+        {
             var context = new TestContext();
             var model = context.Model;
 
-            for(double item = 5d; item > -5d; --item) {
+            for(double item = 5d; item > -5d; --item)
+            {
                 model.Add(item);
                 Assert.Equal(item, model.Minimum);
                 model.Add(item + 1);
@@ -163,8 +166,8 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_mean() {
-
+        public void adding_an_item_updates_the_mean()
+        {
             var context = new TestContext();
             var model = context.Model;
 
@@ -179,8 +182,8 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_mean_delta_type_if_it_has_changed() {
-
+        public void adding_an_item_updates_the_mean_delta_type_if_it_has_changed()
+        {
             var context = new TestContext();
             var model = context.Model;
 
@@ -197,8 +200,8 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_range() {
-
+        public void adding_an_item_updates_the_range()
+        {
             var context = new TestContext();
             var model = context.Model;
 
@@ -225,12 +228,13 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_updates_the_standard_deviation() {
-
+        public void adding_an_item_updates_the_standard_deviation()
+        {
             var context = new TestContext();
             var model = context.Model;
 
-            for(double item = 0d; item < 10d; ++item) {
+            for(double item = 0d; item < 10d; ++item)
+            {
                 context.Model.Add(item);
             }
 
@@ -239,8 +243,8 @@ namespace AK.F1.Timing.Model.Collections
         }
 
         [Fact]
-        public void adding_an_item_adds_it_to_the_items() {
-
+        public void adding_an_item_adds_it_to_the_items()
+        {
             var model = new DoubleCollectionModel();
 
             model.Add(1d);
@@ -253,14 +257,14 @@ namespace AK.F1.Timing.Model.Collections
             public readonly DoubleCollectionModel Model;
             public readonly PropertyChangeObserver<DoubleCollectionModel> Observer;
 
-            public TestContext() {
-
+            public TestContext()
+            {
                 Model = new DoubleCollectionModel();
                 Observer = new PropertyChangeObserver<DoubleCollectionModel>(Model);
             }
 
-            public int GetChangeCount<TResult>(Expression<Func<DoubleCollectionModel, TResult>> expression) {
-
+            public int GetChangeCount<TResult>(Expression<Func<DoubleCollectionModel, TResult>> expression)
+            {
                 return Observer.GetChangeCount(expression);
             }
         }

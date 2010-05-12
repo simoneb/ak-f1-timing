@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit;
 
 namespace AK.F1.Timing.Live
@@ -20,8 +19,8 @@ namespace AK.F1.Timing.Live
     public class LiveMessageHeaderTest : TestBase
     {
         [Fact]
-        public void can_determine_if_the_header_is_a_system_message() {
-
+        public void can_determine_if_the_header_is_a_system_message()
+        {
             var header = new LiveMessageHeader();
 
             header.DriverId = 0;
@@ -30,13 +29,13 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void can_determine_if_the_header_is_a_driver_message() {
-
+        public void can_determine_if_the_header_is_a_driver_message()
+        {
             var header = new LiveMessageHeader();
 
             header.DriverId = 1;
             Assert.True(header.IsDriverMessage);
-            Assert.False(header.IsSystemMessage);            
+            Assert.False(header.IsSystemMessage);
         }
     }
 }

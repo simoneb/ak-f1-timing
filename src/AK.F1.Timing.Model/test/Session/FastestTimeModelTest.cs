@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,17 +13,16 @@
 // limitations under the License.
 
 using System;
-using Xunit;
-
 using AK.F1.Timing.Model.Driver;
+using Xunit;
 
 namespace AK.F1.Timing.Model.Session
 {
     public class FastestTimeModelTest
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var driver = new DriverModel(1);
             var time = TimeSpan.FromSeconds(31.1);
             var lapNumber = 10;
@@ -38,8 +37,8 @@ namespace AK.F1.Timing.Model.Session
         }
 
         [Fact]
-        public void can_create_without_a_driver() {
-
+        public void can_create_without_a_driver()
+        {
             DriverModel driver = null;
             var time = TimeSpan.FromSeconds(31.1);
             var lapNumber = 10;

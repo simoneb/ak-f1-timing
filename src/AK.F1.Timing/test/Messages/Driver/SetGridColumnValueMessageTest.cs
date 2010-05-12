@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit;
 
 namespace AK.F1.Timing.Messages.Driver
@@ -20,8 +19,8 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetGridColumnValueMessageTest : MessageTestBase<SetGridColumnValueMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1, message.DriverId);
@@ -31,8 +30,8 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -42,8 +41,8 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void clear_column_is_true_when_value_is_null() {
-
+        public void clear_column_is_true_when_value_is_null()
+        {
             var message = new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.Black, null);
 
             Assert.True(message.ClearColumn);
@@ -53,8 +52,8 @@ namespace AK.F1.Timing.Messages.Driver
             Assert.False(message.ClearColumn);
         }
 
-        protected override SetGridColumnValueMessage CreateMessage() {
-
+        protected override SetGridColumnValueMessage CreateMessage()
+        {
             return new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.Blue, "Value");
         }
     }

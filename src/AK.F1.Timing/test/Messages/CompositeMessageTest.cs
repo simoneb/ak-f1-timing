@@ -12,18 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using Xunit;
-
 using AK.F1.Timing.Messages.Weather;
+using Xunit;
 
 namespace AK.F1.Timing.Messages
 {
     public class CompositeMessageTest : MessageTestBase<CompositeMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.NotNull(message.Messages);
@@ -33,8 +31,8 @@ namespace AK.F1.Timing.Messages
         }
 
         [Fact]
-        public override void can_visit() {
-            
+        public override void can_visit()
+        {
             var visitor = CreateMockMessageVisitor();
             var message = new CompositeMessage(
                 new SetAirTemperatureMessage(28.3),
@@ -46,9 +44,9 @@ namespace AK.F1.Timing.Messages
             visitor.VerifyAll();
         }
 
-        protected override CompositeMessage CreateMessage() {
-
+        protected override CompositeMessage CreateMessage()
+        {
             return new CompositeMessage(Message.Empty, Message.Empty);
-        } 
+        }
     }
 }

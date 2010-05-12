@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,8 +18,8 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-
 using AK.F1.Timing.Extensions;
+using log4net;
 
 namespace AK.F1.Timing.Live.IO
 {
@@ -31,35 +31,33 @@ namespace AK.F1.Timing.Live.IO
     {
         #region Private Fields.
 
-        private const int STREAM_PORT = 4321;
-        private const string STREAM_HOST = "live-timing.formula1.com";
-        private const string KEYFRAME_URL = "http://live-timing.formula1.com/keyframe";
-        private const string KEYFRAME_EXT = ".bin";
-        private static readonly log4net.ILog _log =
-            log4net.LogManager.GetLogger(typeof(LiveMessageStreamEndpoint));
+        private const int StreamPort = 4321;
+        private const string StreamHost = "live-timing.formula1.com";
+        private const string KeyframeUrl = "http://live-timing.formula1.com/keyframe";
+        private const string KeyframeExt = ".bin";
+
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LiveMessageStreamEndpoint));
 
         #endregion
 
         #region Public Interface.
 
-        /// <summary>
-        /// Initialises a new instance of the <see cref="LiveMessageStreamEndpoint"/> class.
-        /// </summary>
-        public LiveMessageStreamEndpoint() { }
-
         /// <inheritdoc />
-        public IMessageStream Open() {
-
+        public IMessageStream Open()
+        {
             var endpoint = ResolveStreamEndpoint();
             var socket = CreateStreamingSocket();
 
-            _log.InfoFormat("connecting: {0}", endpoint);
+            Log.InfoFormat("connecting: {0}", endpoint);
 
-            try {
+            try
+            {
                 socket.Connect(endpoint);
-                _log.Info("connected");
-            } catch(SocketException exc) {
-                _log.ErrorFormat("unable to connect to {0}: {1}", endpoint, exc.Message);
+                Log.Info("connected");
+            }
+            catch(SocketException exc)
+            {
+                Log.ErrorFormat("unable to connect to {0}: {1}", endpoint, exc.Message);
                 ((IDisposable)socket).Dispose();
                 throw Guard.LiveMessageStreamEndpoint_FailedToOpenStream(exc);
             }
@@ -68,20 +66,23 @@ namespace AK.F1.Timing.Live.IO
         }
 
         /// <inheritdoc />
-        public IMessageStream OpenKeyframe(int keyframe) {
-
+        public IMessageStream OpenKeyframe(int keyframe)
+        {
             Guard.InRange(keyframe >= 0, "keyframe");
 
             Stream stream;
             Uri keyframeUri = BuildKeyframeUri(keyframe);
 
-            _log.InfoFormat("opening keyframe: {0}", keyframeUri);
-            try {
+            Log.InfoFormat("opening keyframe: {0}", keyframeUri);
+            try
+            {
                 stream = keyframeUri.GetResponseStream(HttpMethod.Get);
-                _log.InfoFormat("opened keyframe, length: {0}bytes", stream.Length);
+                Log.InfoFormat("opened keyframe, length: {0}bytes", stream.Length);
                 return new MessageStreamDelegate(stream);
-            } catch(IOException exc) {
-                _log.Error(exc);
+            }
+            catch(IOException exc)
+            {
+                Log.Error(exc);
                 throw Guard.LiveMessageStreamEndpoint_FailedToOpenKeyframe(exc);
             }
         }
@@ -90,36 +91,41 @@ namespace AK.F1.Timing.Live.IO
 
         #region Private Impl.
 
-        private static Socket CreateStreamingSocket() {
-
+        private static Socket CreateStreamingSocket()
+        {
             return new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
 
-        private static IPEndPoint ResolveStreamEndpoint() {
-
+        private static IPEndPoint ResolveStreamEndpoint()
+        {
             IPHostEntry entry;
 
-            try {
-                entry = Dns.GetHostEntry(STREAM_HOST);
-                if(entry.AddressList.Length > 0) {
-                    return new IPEndPoint(entry.AddressList[0], STREAM_PORT);
+            try
+            {
+                entry = Dns.GetHostEntry(StreamHost);
+                if(entry.AddressList.Length > 0)
+                {
+                    return new IPEndPoint(entry.AddressList[0], StreamPort);
                 }
-                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(STREAM_HOST);
-            } catch(SocketException exc) {
-                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(STREAM_HOST, exc);
+                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(StreamHost);
+            }
+            catch(SocketException exc)
+            {
+                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(StreamHost, exc);
             }
         }
 
-        private static Uri BuildKeyframeUri(int keyframe) {
-
+        private static Uri BuildKeyframeUri(int keyframe)
+        {
             var sb = new StringBuilder();
 
-            sb.Append(KEYFRAME_URL);
-            if(keyframe != 0) {
+            sb.Append(KeyframeUrl);
+            if(keyframe != 0)
+            {
                 sb.Append("_");
                 sb.AppendFormat(CultureInfo.InvariantCulture, "{0:00000}", keyframe);
             }
-            sb.Append(KEYFRAME_EXT);
+            sb.Append(KeyframeExt);
 
             return new Uri(sb.ToString(), UriKind.Absolute);
         }

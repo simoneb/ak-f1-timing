@@ -20,8 +20,8 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverQuallyTimeMessageTest : MessageTestBase<SetDriverQuallyTimeMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1, message.DriverId);
@@ -30,8 +30,8 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -41,29 +41,21 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throws_if_qually_time_is_not_positive() {
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverQuallyTimeMessage(1, 1, TimeSpan.Zero);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverQuallyTimeMessage(1, 1, TimeSpan.FromMilliseconds(-1));
-            });
+        public void ctor_throws_if_qually_time_is_not_positive()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverQuallyTimeMessage(1, 1, TimeSpan.Zero); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverQuallyTimeMessage(1, 1, TimeSpan.FromMilliseconds(-1)); });
         }
 
         [Fact]
-        public void ctor_throws_if_qually_number_is_not_positive() {
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverQuallyTimeMessage(1, 0, PostedTime.Time);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetDriverQuallyTimeMessage(1, -1, PostedTime.Time);
-            });
+        public void ctor_throws_if_qually_number_is_not_positive()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverQuallyTimeMessage(1, 0, PostedTime.Time); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverQuallyTimeMessage(1, -1, PostedTime.Time); });
         }
 
-        protected override SetDriverQuallyTimeMessage CreateMessage() {
-
+        protected override SetDriverQuallyTimeMessage CreateMessage()
+        {
             return new SetDriverQuallyTimeMessage(1, 1, PostedTime.Time);
         }
     }

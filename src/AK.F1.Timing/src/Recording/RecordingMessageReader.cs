@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.Serialization;
-
 using AK.F1.Timing.Messages;
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Serialization;
@@ -36,7 +34,7 @@ namespace AK.F1.Timing.Recording
         /// The minimum delay to insert between messages. Delays smaller than this value are
         /// ignored. This field is <see langword="readonly"/>.
         /// </summary>
-        private static readonly TimeSpan MIN_MESSAGE_DELAY = TimeSpan.FromMilliseconds(5);
+        private static readonly TimeSpan MinMessageDelay = TimeSpan.FromMilliseconds(5);
 
         #endregion
 
@@ -56,8 +54,8 @@ namespace AK.F1.Timing.Recording
         /// Thrown when an IO error occurs whilst creating the internal
         /// <see cref="System.IO.FileStream"/> using the supplied arguments.
         /// </exception>
-        public RecordingMessageReader(IMessageReader inner, string path) {
-
+        public RecordingMessageReader(IMessageReader inner, string path)
+        {
             Guard.NotNull(inner, "inner");
 
             Initialise(inner, new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None), true);
@@ -76,8 +74,8 @@ namespace AK.F1.Timing.Recording
         /// Thrown when <paramref name="inner"/> or <paramref name="output"/> is
         /// <see langword="null"/>.
         /// </exception>
-        public RecordingMessageReader(IMessageReader inner, Stream output, bool ownsOutput) {
-
+        public RecordingMessageReader(IMessageReader inner, Stream output, bool ownsOutput)
+        {
             Guard.NotNull(inner, "inner");
             Guard.NotNull(output, "output");
 
@@ -87,14 +85,17 @@ namespace AK.F1.Timing.Recording
         #endregion
 
         /// <inheritdoc />
-        protected override Message ReadImpl() {
-
+        protected override Message ReadImpl()
+        {
             Message message;
 
-            if((message = Inner.Read()) != null) {
+            if((message = Inner.Read()) != null)
+            {
                 WriteDelay();
                 Write(message);
-            } else {
+            }
+            else
+            {
                 // An end message delay is not required.
                 Write(null);
             }
@@ -103,14 +104,17 @@ namespace AK.F1.Timing.Recording
         }
 
         /// <inheritdoc />
-        protected override void Dispose(bool disposing) {
-
-            if(IsDisposed) {
+        protected override void Dispose(bool disposing)
+        {
+            if(IsDisposed)
+            {
                 return;
             }
-            if(disposing) {
+            if(disposing)
+            {
                 DisposeOf(Writer);
-                if(OwnsOutput) {
+                if(OwnsOutput)
+                {
                     DisposeOf(Output);
                 }
                 DisposeOf(Inner);
@@ -123,8 +127,8 @@ namespace AK.F1.Timing.Recording
 
         #region Private Impl.
 
-        private void Initialise(IMessageReader inner, Stream output, bool ownsOutput) {
-
+        private void Initialise(IMessageReader inner, Stream output, bool ownsOutput)
+        {
             Inner = inner;
             Output = output;
             OwnsOutput = ownsOutput;
@@ -132,32 +136,38 @@ namespace AK.F1.Timing.Recording
             Stopwatch = new Stopwatch();
         }
 
-        private void WriteDelay() {
+        private void WriteDelay()
+        {
+            if(Stopwatch.IsRunning)
+            {
+                var elapsed = Stopwatch.Elapsed;
+                var delay = elapsed - LastElapsed;
 
-            TimeSpan delay;
-            TimeSpan elapsed;
-
-            if(Stopwatch.IsRunning) {
-                elapsed = Stopwatch.Elapsed;
-                delay = elapsed - LastElapsed;
                 LastElapsed = elapsed;
-                if(delay >= MIN_MESSAGE_DELAY) {
+                if(delay >= MinMessageDelay)
+                {
                     Write(new SetNextMessageDelayMessage(delay));
                 }
-            } else {
+            }
+            else
+            {
                 Stopwatch.Start();
             }
         }
 
-        private void Write(Message message) {
+        private void Write(Message message)
+        {
+            var composite = message as CompositeMessage;
 
-            CompositeMessage composite = message as CompositeMessage;
-
-            if(composite != null) {
-                foreach(Message component in composite.Messages) {
+            if(composite != null)
+            {
+                foreach(var component in composite.Messages)
+                {
                     Write(component);
                 }
-            } else {
+            }
+            else
+            {
                 Writer.Write(message);
             }
         }

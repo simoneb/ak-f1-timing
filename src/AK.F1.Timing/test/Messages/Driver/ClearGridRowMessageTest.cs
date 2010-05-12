@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit;
 
 namespace AK.F1.Timing.Messages.Driver
@@ -20,16 +19,16 @@ namespace AK.F1.Timing.Messages.Driver
     public class ClearGridRowMessageTest : MessageTestBase<ClearGridRowMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1, message.DriverId);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -38,8 +37,8 @@ namespace AK.F1.Timing.Messages.Driver
             visitor.VerifyAll();
         }
 
-        protected override ClearGridRowMessage CreateMessage() {
-
+        protected override ClearGridRowMessage CreateMessage()
+        {
             return new ClearGridRowMessage(1);
         }
     }

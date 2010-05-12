@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
 using AK.F1.Timing.Messages.Weather;
 
 namespace AK.F1.Timing
-{    
+{
     /// <summary>
     /// A <see cref="AK.F1.Timing.Message"/> visitor.
     /// </summary>

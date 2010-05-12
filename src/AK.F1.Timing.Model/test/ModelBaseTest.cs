@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using Xunit;
 
 namespace AK.F1.Timing.Model
@@ -22,19 +21,18 @@ namespace AK.F1.Timing.Model
     public class ModelBaseTest
     {
         [Fact]
-        public void on_property_changed_throws_if_property_name_is_null_or_empty() {
-
+        public void on_property_changed_throws_if_property_name_is_null_or_empty()
+        {
             var person = new Person();
 
             Assert.Throws<ArgumentNullException>(() => person.PublicOnPropertyChanged((string)null));
             Assert.Throws<ArgumentException>(() => person.PublicOnPropertyChanged(string.Empty));
         }
-        
-        
-#if DEBUG
-        [Fact]        
-        public void on_property_changed_throws_if_no_property_exists_with_given_name() {
 
+#if DEBUG
+        [Fact]
+        public void on_property_changed_throws_if_no_property_exists_with_given_name()
+        {
             var person = new Person();
 
             Assert.Throws<ArgumentException>(() => person.PublicOnPropertyChanged("NonExsistentProperty"));
@@ -42,18 +40,18 @@ namespace AK.F1.Timing.Model
 #endif
 
         [Fact]
-        public void on_property_changed_throws_if_e_is_null() {
-
+        public void on_property_changed_throws_if_e_is_null()
+        {
             var person = new Person();
 
             Assert.Throws<ArgumentNullException>(() => person.PublicOnPropertyChanged((PropertyChangedEventArgs)null));
         }
 
         [Fact]
-        public void set_property_raises_event_when_property_has_changed() {
-
+        public void set_property_raises_event_when_property_has_changed()
+        {
             Person person = new Person();
-            PropertyChangedEventArgs e = null;            
+            PropertyChangedEventArgs e = null;
 
             person.PropertyChanged += (s, ea) => e = ea;
 
@@ -71,16 +69,16 @@ namespace AK.F1.Timing.Model
         }
 
         [Fact]
-        public void set_property_returns_true_when_property_has_changed() {
-
+        public void set_property_returns_true_when_property_has_changed()
+        {
             var person = new Person();
 
             Assert.True(person.PublicSetProperty("Name", ref person._name, "Andy"));
         }
 
         [Fact]
-        public void set_property_returns_true_when_property_has_not_changed() {
-
+        public void set_property_returns_true_when_property_has_not_changed()
+        {
             var person = new Person();
 
             Assert.False(person.PublicSetProperty("Name", ref person._name, null));
@@ -92,24 +90,24 @@ namespace AK.F1.Timing.Model
         {
             public string _name;
 
-            public string Name {
-
+            public string Name
+            {
                 get { return _name; }
                 set { SetProperty("Name", ref _name, value); }
             }
 
-            public bool PublicSetProperty<T>(string propertyName, ref T field, T value) {
-
+            public bool PublicSetProperty<T>(string propertyName, ref T field, T value)
+            {
                 return SetProperty(propertyName, ref field, value);
             }
 
-            public void PublicOnPropertyChanged(string propertyName) {
-
+            public void PublicOnPropertyChanged(string propertyName)
+            {
                 OnPropertyChanged(propertyName);
             }
 
-            public void PublicOnPropertyChanged(PropertyChangedEventArgs e) {
-
+            public void PublicOnPropertyChanged(PropertyChangedEventArgs e)
+            {
                 OnPropertyChanged(e);
             }
         }

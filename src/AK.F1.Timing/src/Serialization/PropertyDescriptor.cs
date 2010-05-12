@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
 
 using System;
 using System.Reflection;
-using System.Runtime.Serialization;
-
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 
@@ -42,8 +40,8 @@ namespace AK.F1.Timing.Serialization
         /// Thrown when the specified <paramref name="property"/> has not been decorated with the
         /// <see cref="PropertyIdAttribute"/> or it does not define a getter and setter.
         /// </exception>
-        public static PropertyDescriptor For(PropertyInfo property) {
-
+        public static PropertyDescriptor For(PropertyInfo property)
+        {
             Guard.NotNull(property, "property");
 
             int propertyId = GetPropertyId(property);
@@ -61,9 +59,9 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="component"/> is <see langword="null"/>.
         /// </exception>
-        public object GetValue(object component) {
-
-            Guard.NotNull(component, "component");            
+        public object GetValue(object component)
+        {
+            Guard.NotNull(component, "component");
 
             return Property.GetGetMethod().Invoke(component, null);
         }
@@ -77,41 +75,42 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="component"/> is <see langword="null"/>.
         /// </exception>
-        public void SetValue(object component, object value) {
-
+        public void SetValue(object component, object value)
+        {
             Guard.NotNull(component, "component");
 
-            Property.GetSetMethod(true).Invoke(component, new[] { value });
+            Property.GetSetMethod(true).Invoke(component, new[] {value});
         }
 
         /// <inheritdoc/>
-        public override bool Equals(object obj) {
-
-            if(obj == null || obj.GetType() != GetType()) {
+        public override bool Equals(object obj)
+        {
+            if(obj == null || obj.GetType() != GetType())
+            {
                 return false;
             }
             return Equals((PropertyDescriptor)obj);
         }
 
         /// <inheritdoc/>
-        public bool Equals(PropertyDescriptor other) {
-
+        public bool Equals(PropertyDescriptor other)
+        {
             return other != null &&
                 other.PropertyId == PropertyId &&
-                other.Property.DeclaringType.Equals(Property.DeclaringType);
+                    other.Property.DeclaringType.Equals(Property.DeclaringType);
         }
 
         /// <inheritdoc/>
-        public override int GetHashCode() {
-
+        public override int GetHashCode()
+        {
             return HashCodeBuilder.New()
                 .Add(PropertyId)
                 .Add(Property.DeclaringType);
         }
 
         /// <inheritdoc/>
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Property.ToString();
         }
 
@@ -141,8 +140,8 @@ namespace AK.F1.Timing.Serialization
         /// Thrown when the specified <paramref name="property"/> has not been decorated with the
         /// <see cref="PropertyIdAttribute"/> or it does not define a getter and setter.
         /// </exception>
-        internal static PropertyDescriptor Create(PropertyInfo property) {
-
+        internal static PropertyDescriptor Create(PropertyInfo property)
+        {
             byte propertyId = GetPropertyId(property);
 
             CheckHasGetAndSetMethod(property);
@@ -154,25 +153,27 @@ namespace AK.F1.Timing.Serialization
 
         #region Private Impl.
 
-        private PropertyDescriptor(PropertyInfo property, byte propertyId) {
-
+        private PropertyDescriptor(PropertyInfo property, byte propertyId)
+        {
             Property = property;
             PropertyId = propertyId;
         }
 
-        private static void CheckHasGetAndSetMethod(PropertyInfo property) {
-
-            if(!(property.CanRead && property.CanWrite)) {
+        private static void CheckHasGetAndSetMethod(PropertyInfo property)
+        {
+            if(!(property.CanRead && property.CanWrite))
+            {
                 throw Guard.PropertyDescriptor_PropertyHaveGetAndSetMethod(property);
-            }            
+            }
         }
 
-        private static byte GetPropertyId(PropertyInfo property) {
-
+        private static byte GetPropertyId(PropertyInfo property)
+        {
             PropertyIdAttribute attribute = property.GetAttribute<PropertyIdAttribute>();
 
-            if(attribute == null) {
-                throw Guard.PropertyDescriptor_PropertyIsNotDecorated(property);                
+            if(attribute == null)
+            {
+                throw Guard.PropertyDescriptor_PropertyIsNotDecorated(property);
             }
 
             return attribute.Id;

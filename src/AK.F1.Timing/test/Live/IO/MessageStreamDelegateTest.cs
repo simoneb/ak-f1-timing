@@ -22,18 +22,19 @@ namespace AK.F1.Timing.Live.IO
     public class MessageStreamDelegateTest
     {
         [Fact]
-        public void inner_is_disposed_when_delegate_is_disposed() {
-
-            using(var inner = new MemoryStream()) {
-                var @delegate = new MessageStreamDelegate(inner);                
+        public void inner_is_disposed_when_delegate_is_disposed()
+        {
+            using(var inner = new MemoryStream())
+            {
+                var @delegate = new MessageStreamDelegate(inner);
                 ((IDisposable)@delegate).Dispose();
                 Assert.Throws<ObjectDisposedException>(() => inner.ReadByte());
             }
         }
 
         [Fact]
-        public void fully_read_delegates_to_inner() {
-
+        public void fully_read_delegates_to_inner()
+        {
             var buffer = new byte[10];
             var inner = new Mock<Stream>(MockBehavior.Strict);
             var @delegate = new MessageStreamDelegate(inner.Object);
@@ -46,34 +47,37 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void fully_read_returns_true_when_count_has_been_read() {
-
+        public void fully_read_returns_true_when_count_has_been_read()
+        {
             var buffer = new byte[10];
 
-            using(var inner = new MemoryStream(buffer)) {
+            using(var inner = new MemoryStream(buffer))
+            {
                 var @delegate = new MessageStreamDelegate(inner);
                 Assert.True(@delegate.FullyRead(buffer, 0, buffer.Length));
             }
         }
 
         [Fact]
-        public void fully_read_returns_false_when_count_has_not_been_read() {
-
+        public void fully_read_returns_false_when_count_has_not_been_read()
+        {
             var buffer = new byte[10];
 
-            using(var inner = new MemoryStream(new byte[5])) {
+            using(var inner = new MemoryStream(new byte[5]))
+            {
                 var @delegate = new MessageStreamDelegate(inner);
                 Assert.False(@delegate.FullyRead(buffer, 0, buffer.Length));
             }
         }
 
         [Fact]
-        public void fully_read_copies_data_to_buffer() {
-
+        public void fully_read_copies_data_to_buffer()
+        {
             var actual = new byte[10];
-            var expected = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var expected = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-            using(var inner = new MemoryStream(expected)) {
+            using(var inner = new MemoryStream(expected))
+            {
                 var @delegate = new MessageStreamDelegate(inner);
                 Assert.True(@delegate.FullyRead(actual, 0, actual.Length));
                 Assert.Equal(expected, actual);
@@ -81,13 +85,14 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void fully_read_copies_count_elements_to_buffer_starting_at_offset() {
-
+        public void fully_read_copies_count_elements_to_buffer_starting_at_offset()
+        {
             var actual = new byte[9];
-            var data = new byte[]     { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-            var expected = new byte[] { 0, 1, 2, 3, 4, 5, 6, 0, 0 };
+            var data = new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
+            var expected = new byte[] {0, 1, 2, 3, 4, 5, 6, 0, 0};
 
-            using(var inner = new MemoryStream(data)) {
+            using(var inner = new MemoryStream(data))
+            {
                 var @delegate = new MessageStreamDelegate(inner);
                 Assert.True(@delegate.FullyRead(actual, 1, 6));
                 Assert.Equal(expected, actual);
@@ -95,9 +100,10 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void fully_read_throws_if_delegate_has_been_disposed() {
-
-            using(var inner = new MemoryStream()) {
+        public void fully_read_throws_if_delegate_has_been_disposed()
+        {
+            using(var inner = new MemoryStream())
+            {
                 var @delegate = new MessageStreamDelegate(inner);
                 ((IDisposable)@delegate).Dispose();
                 Assert.Throws<ObjectDisposedException>(() => @delegate.FullyRead(new byte[1], 0, 1));
@@ -105,9 +111,10 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void can_determine_if_delegate_has_been_disposed() {
-
-            using(var inner = new MemoryStream()) {
+        public void can_determine_if_delegate_has_been_disposed()
+        {
+            using(var inner = new MemoryStream())
+            {
                 var @delegate = new MessageStreamDelegate(inner);
                 Assert.False(@delegate.IsDisposed);
                 ((IDisposable)@delegate).Dispose();
@@ -116,8 +123,8 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void ctor_throws_if_inner_is_null() {
-
+        public void ctor_throws_if_inner_is_null()
+        {
             Assert.Throws<ArgumentNullException>(() => new MessageStreamDelegate(null));
         }
     }

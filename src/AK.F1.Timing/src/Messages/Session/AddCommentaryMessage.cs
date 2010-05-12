@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,24 +35,24 @@ namespace AK.F1.Timing.Messages.Session
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="commentary"/> is <see langword="null"/>.
         /// </exception>
-        public AddCommentaryMessage(string commentary) {
-
+        public AddCommentaryMessage(string commentary)
+        {
             Guard.NotNull(commentary, "commentary");
 
             Commentary = commentary;
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("Commentary='{0}'", Commentary);
         }
 

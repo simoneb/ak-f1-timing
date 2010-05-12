@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -36,24 +36,24 @@ namespace AK.F1.Timing.Messages.Driver
         /// Thrown when <paramref name="driverId"/> or <paramref name="carNumber"/> is not positive.
         /// </exception>
         public SetDriverCarNumberMessage(int driverId, int carNumber)
-            : base(driverId) {
-
+            : base(driverId)
+        {
             Guard.InRange(carNumber > 0, "carNumber");
 
             CarNumber = carNumber;
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("DriverId={0}, CarNumber={1}", DriverId, CarNumber);
         }
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,16 +35,16 @@ namespace AK.F1.Timing.Messages.Session
             new StartSessionTimeCountdownMessage();
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("");
         }
 
@@ -52,16 +52,16 @@ namespace AK.F1.Timing.Messages.Session
 
         #region Explicit Interface.
 
-        object IObjectReference.GetRealObject(StreamingContext context) {
-
-            return StartSessionTimeCountdownMessage.Instance;
+        object IObjectReference.GetRealObject(StreamingContext context)
+        {
+            return Instance;
         }
 
         #endregion
 
         #region Private Impl.
-        
-        private StartSessionTimeCountdownMessage() { }
+
+        private StartSessionTimeCountdownMessage() {}
 
         #endregion
     }

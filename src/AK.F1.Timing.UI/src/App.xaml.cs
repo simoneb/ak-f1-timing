@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,12 @@
 // limitations under the License.
 
 using System;
-using Caliburn.Core.Logging;
-using Caliburn.PresentationFramework.ApplicationModel;
-
 using AK.F1.Timing.UI.Screens;
 using AK.F1.Timing.UI.Utility;
+using Caliburn.PresentationFramework.ApplicationModel;
+using log4net;
+using log4net.Config;
+using LogManager = Caliburn.Core.Logging.LogManager;
 
 namespace AK.F1.Timing.UI
 {
@@ -28,7 +29,7 @@ namespace AK.F1.Timing.UI
     {
         #region Fields.
 
-        private static readonly log4net.ILog _log;
+        private static readonly ILog Log;
 
         #endregion
 
@@ -37,8 +38,8 @@ namespace AK.F1.Timing.UI
         /// <summary>
         /// Initialises a new instance of the <see cref="App"/> class.
         /// </summary>
-        public App() {
-
+        public App()
+        {
             InitializeComponent();
         }
 
@@ -47,8 +48,8 @@ namespace AK.F1.Timing.UI
         #region Protected Interface.
 
         /// <inheritdoc/>
-        protected override object CreateRootModel() {            
-
+        protected override object CreateRootModel()
+        {
             return Container.GetInstance<IShellScreen>();
         }
 
@@ -56,18 +57,18 @@ namespace AK.F1.Timing.UI
 
         #region Private Impl.
 
-        static App() {
-
-            log4net.Config.XmlConfigurator.Configure();
+        static App()
+        {
+            XmlConfigurator.Configure();
             LogManager.Initialize(Log4NetAdapter.GetLog);
-            _log = log4net.LogManager.GetLogger(typeof(App));
+            Log = log4net.LogManager.GetLogger(typeof(App));
             AppDomain.CurrentDomain.UnhandledException += OnUnhandledException;
         }
 
-        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e) {
-
+        private static void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
             // TODO create an exception screen.
-            _log.Error(e.ExceptionObject);
+            Log.Error(e.ExceptionObject);
         }
 
         #endregion

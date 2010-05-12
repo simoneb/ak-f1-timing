@@ -15,23 +15,19 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Utility;
-
 namespace AK.F1.Timing.Utility
 {
     public class DisposableCallbackTest
     {
         [Fact]
-        public void ctor_should_throw_if_action_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                new DisposableCallback(null);
-            });
+        public void ctor_should_throw_if_action_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { new DisposableCallback(null); });
         }
 
         [Fact]
-        public void action_should_only_be_called_when_disposed() {
-
+        public void action_should_only_be_called_when_disposed()
+        {
             int count = 0;
             var callback = new DisposableCallback(() => ++count);
 
@@ -41,8 +37,8 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
-        public void action_should_only_be_called_once() {
-
+        public void action_should_only_be_called_once()
+        {
             int count = 0;
             var callback = new DisposableCallback(() => ++count);
 

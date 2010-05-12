@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,10 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Driver
-{    
+{
     public partial class DriverModel
     {
         /// <summary>
@@ -38,119 +37,132 @@ namespace AK.F1.Timing.Model.Driver
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="model"/> is <see langword="null"/>.
             /// </exception>
-            public DriverModelBuilder(DriverModel model) {
-
+            public DriverModelBuilder(DriverModel model)
+            {
                 Guard.NotNull(model, "model");
 
                 Model = model;
             }
 
             /// <inheritdoc/>
-            public void Process(Message message) {
-
+            public void Process(Message message)
+            {
                 message.Accept(this);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverCarNumberMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverCarNumberMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.CarNumber = message.CarNumber;
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverGapMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverGapMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.Gap = message.Gap;
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverIntervalMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverIntervalMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.Interval = message.Interval;
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverLapNumberMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverLapNumberMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.LapsCompleted = message.LapNumber;
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverNameMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverNameMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.Name = message.DriverName;
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverLapTimeMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverLapTimeMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.LapTimes.Laps.Add(message.LapTime);
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(ReplaceDriverLapTimeMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(ReplaceDriverLapTimeMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.LapTimes.Laps.ReplaceCurrent(message.Replacement);
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverPitTimeMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverPitTimeMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.PitTimes.Add(message.PitTime);
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverPositionMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverPositionMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.Position = message.Position;
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverSectorTimeMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverSectorTimeMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.LapTimes.GetSector(message.SectorNumber).Add(message.SectorTime);
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(ReplaceDriverSectorTimeMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(ReplaceDriverSectorTimeMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.LapTimes.GetSector(message.SectorNumber).ReplaceCurrent(message.Replacement);
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverStatusMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverStatusMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.Status = message.DriverStatus;
                 }
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetDriverQuallyTimeMessage message) {
-
-                if(IsForMyDriver(message)) {
+            public override void Visit(SetDriverQuallyTimeMessage message)
+            {
+                if(IsForMyDriver(message))
+                {
                     Model.QuallyTimes.SetTime(message.QuallyNumber, message.QuallyTime);
                 }
             }
@@ -159,8 +171,8 @@ namespace AK.F1.Timing.Model.Driver
 
             #region Private Impl.
 
-            private bool IsForMyDriver(DriverMessageBase message) {
-
+            private bool IsForMyDriver(DriverMessageBase message)
+            {
                 return message.DriverId == Model.Id;
             }
 

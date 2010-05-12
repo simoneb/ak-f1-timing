@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Windows.Controls;
 
 namespace AK.F1.Timing.UI.Views.Components
@@ -27,8 +26,8 @@ namespace AK.F1.Timing.UI.Views.Components
         /// <summary>
         /// Initialises a new instance of the <see cref="F1Logo"/> control.
         /// </summary>
-        public F1Logo() {
-
+        public F1Logo()
+        {
             InitializeComponent();
         }
 

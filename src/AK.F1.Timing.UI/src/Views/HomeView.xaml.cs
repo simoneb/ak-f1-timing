@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-
 using AK.F1.Timing.UI.Screens;
 
 namespace AK.F1.Timing.UI.Views
@@ -31,8 +30,8 @@ namespace AK.F1.Timing.UI.Views
         /// <summary>
         /// Initialises a new instance of the <see cref="HomeView"/> class.
         /// </summary>
-        public HomeView() {
-
+        public HomeView()
+        {
             InitializeComponent();
 
             DataContextChanged += OnDataContextChanged;
@@ -43,29 +42,32 @@ namespace AK.F1.Timing.UI.Views
 
         #region Private Impl.
 
-        private void OnPasswordChanged(object sender, RoutedEventArgs e) {
-
+        private void OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
             e.Handled = true;
             IgnoreScreenPropertyChanges = true;
-            Screen.Password = ((PasswordBox)e.Source).Password;            
+            Screen.Password = ((PasswordBox)e.Source).Password;
             IgnoreScreenPropertyChanges = false;
         }
 
-        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e) {            
-
-            if(Screen != null) {
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(Screen != null)
+            {
                 Screen.PropertyChanged -= OnScreenPropertyChanged;
             }
-            if(e.NewValue != null) {
+            if(e.NewValue != null)
+            {
                 Screen = (IHomeScreen)e.NewValue;
                 Screen.PropertyChanged += OnScreenPropertyChanged;
                 Password.Password = Screen.Password;
             }
         }
 
-        private void OnScreenPropertyChanged(object sender, PropertyChangedEventArgs e) {
-
-            if(!IgnoreScreenPropertyChanges && e.PropertyName.Equals("Password", StringComparison.Ordinal)) {
+        private void OnScreenPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if(!IgnoreScreenPropertyChanges && e.PropertyName.Equals("Password", StringComparison.Ordinal))
+            {
                 Password.Password = Screen.Password;
             }
         }

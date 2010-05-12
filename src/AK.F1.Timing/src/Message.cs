@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
 
 using System;
 using System.Globalization;
-using System.Text;
 using System.Runtime.Serialization;
+using System.Text;
 
 namespace AK.F1.Timing
 {
@@ -24,7 +24,7 @@ namespace AK.F1.Timing
     /// </summary>
     [Serializable]
     public abstract class Message
-    {        
+    {
         #region Public Interface.
 
         /// <summary>
@@ -46,11 +46,6 @@ namespace AK.F1.Timing
         #region Protected Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Message"/> class.
-        /// </summary>
-        protected Message() { }
-
-        /// <summary>
         /// Returns a <see cref="System.String"/> representation of this instance using the
         /// specified format <see cref="System.String"/> and format arguments.
         /// </summary>
@@ -68,8 +63,8 @@ namespace AK.F1.Timing
         /// Thrown when <paramref name="format"/> references an argument not contained within
         /// <paramref name="args"/>.
         /// </exception>
-        protected string Repr(string format, params object[] args) {
-
+        protected string Repr(string format, params object[] args)
+        {
             Guard.NotNull(format, "format");
 
             StringBuilder sb = new StringBuilder();
@@ -83,24 +78,24 @@ namespace AK.F1.Timing
         #endregion
 
         #region Private Impl.
-        
+
         [Serializable]
         private sealed class EmptyMessage : Message, IObjectReference
         {
-            public override void Accept(IMessageVisitor visitor) { }
+            public override void Accept(IMessageVisitor visitor) {}
 
-            public override string ToString() {
-
+            public override string ToString()
+            {
                 return Repr("");
             }
 
-            public object GetRealObject(StreamingContext context) {
-
+            public object GetRealObject(StreamingContext context)
+            {
                 // This is not a complete implementation of IObjectReference as an empty message
                 // will be instantiated but we are only concerned with ensuring identity in the
                 // app-domain.
 
-                return Message.Empty;
+                return Empty;
             }
         }
 

@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
 
 namespace AK.F1.Timing.Extensions
@@ -54,19 +53,23 @@ namespace AK.F1.Timing.Extensions
         /// </item>
         /// </list>
         /// </exception>
-        public static bool FullyRead(this Stream stream, byte[] buffer, int offset, int count) {
-
+        public static bool FullyRead(this Stream stream, byte[] buffer, int offset, int count)
+        {
             Guard.NotNull(stream, "stream");
 
-            if(count == 0) {
+            if(count == 0)
+            {
                 return true;
             }
 
             int read;
 
-            do {
+            do
+            {
                 if((read = stream.Read(buffer, offset, count)) == 0)
+                {
                     return false;
+                }
                 count -= read;
                 offset += read;
             } while(count > 0);

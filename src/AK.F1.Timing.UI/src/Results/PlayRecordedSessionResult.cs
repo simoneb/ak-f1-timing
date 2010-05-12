@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-using System;
 
 using AK.F1.Timing.UI.Services.Session;
 
@@ -36,8 +34,8 @@ namespace AK.F1.Timing.UI.Results
         /// <exception cref="System.ArgumentException">
         /// Thrown when <paramref name="tmsPath"/> is of zero length.
         /// </exception>
-        public PlayRecordedSessionResult(string tmsPath) {
-
+        public PlayRecordedSessionResult(string tmsPath)
+        {
             Guard.NotNullOrEmpty(tmsPath, "tmsPath");
 
             TmsPath = tmsPath;
@@ -48,9 +46,10 @@ namespace AK.F1.Timing.UI.Results
         #region Protected Interface.
 
         /// <inheritdoc/>
-        protected override ISessionPlayer CreateSessionPlayer() {
-
-            return new DefaultSessionPlayer(CreateReader) {
+        protected override ISessionPlayer CreateSessionPlayer()
+        {
+            return new DefaultSessionPlayer(CreateReader)
+            {
                 SupportsPause = true
             };
         }
@@ -58,13 +57,13 @@ namespace AK.F1.Timing.UI.Results
         #endregion
 
         #region Private Impl.
-        
-        private IMessageReader CreateReader() {
-        
+
+        private IMessageReader CreateReader()
+        {
             var reader = F1Timing.Playback.Read(TmsPath);
 
             reader.PlaybackSpeed = 50d;
-            
+
             return reader;
         }
 

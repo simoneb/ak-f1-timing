@@ -12,16 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using Xunit;
-
-using AK.F1.Timing.Live.Encryption;
-
 namespace AK.F1.Timing.Live.Encryption
 {
-
-
-    public class LiveDecrypterTest
-    {
-    }
+    public class LiveDecrypterTest {}
 }

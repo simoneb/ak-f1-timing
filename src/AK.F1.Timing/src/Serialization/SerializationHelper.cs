@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Serialization
     {
         #region Fields.
 
-        private static readonly Type TIMESPAN_TYPE = typeof(TimeSpan);
+        private static readonly Type TimespanType = typeof(TimeSpan);
 
         #endregion
 
@@ -38,14 +38,16 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="type"/> is <see langword="null"/>.
         /// </exception>
-        public static ObjectTypeCode GetObjectTypeCode(this Type type) {
-
+        public static ObjectTypeCode GetObjectTypeCode(this Type type)
+        {
             Guard.NotNull(type, "type");
 
             TypeCode clrTypeCode = Type.GetTypeCode(type);
 
-            if(clrTypeCode == TypeCode.Object) {
-                if(type == TIMESPAN_TYPE) {
+            if(clrTypeCode == TypeCode.Object)
+            {
+                if(type == TimespanType)
+                {
                     return ObjectTypeCode.TimeSpan;
                 }
             }
@@ -61,8 +63,8 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="type"/> is <see langword="null"/>.
         /// </exception>
-        public static object GetUninitializedInstance(this Type type) {
-
+        public static object GetUninitializedInstance(this Type type)
+        {
             Guard.NotNull(type, "type");
 
             return FormatterServices.GetUninitializedObject(type);

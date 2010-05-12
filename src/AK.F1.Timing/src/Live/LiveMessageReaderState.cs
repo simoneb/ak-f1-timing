@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ namespace AK.F1.Timing.Live
         Reading,
         /// <summary>
         /// The reader has read a terminal message and is closed. Any further invocations of
-        /// <see cref="M:LiveMessageReader.Read"/> will return <see langword="null"/>.
+        /// <see cref="M:AK.F1.Timing.Live.LiveMessageReader.Read"/> will return <see langword="null"/>.
         /// </summary>
         Closed
     }

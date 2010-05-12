@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
 
@@ -39,28 +38,28 @@ namespace AK.F1.Timing.Model.Session
             /// <exception cref="T:System.ArgumentNullException">
             /// Thrown when <paramref name="model"/> is <see langword="null"/>.
             /// </exception>
-            public MessageModelBuilder(MessageModel model) {
-
-                Guard.NotNull(model, "model");               
+            public MessageModelBuilder(MessageModel model)
+            {
+                Guard.NotNull(model, "model");
 
                 Model = model;
             }
 
             /// <inheritdoc/>
-            public void Process(Message message) {
-
+            public void Process(Message message)
+            {
                 message.Accept(this);
             }
 
             /// <inheritdoc/>
-            public override void Visit(AddCommentaryMessage message) {
-
+            public override void Visit(AddCommentaryMessage message)
+            {
                 Model.AddCommentary(message.Commentary);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetSystemMessageMessage message) {
-
+            public override void Visit(SetSystemMessageMessage message)
+            {
                 Model.System = message.Message;
             }
 

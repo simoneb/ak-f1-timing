@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,24 +35,24 @@ namespace AK.F1.Timing.Messages.Driver
         /// <param name="colour">The column colour value.</param>
         /// <param name="value">The column value.</param>
         public SetGridColumnValueMessage(int driverId, GridColumn column,
-            GridColumnColour colour, string value) : base(driverId) {
-
+            GridColumnColour colour, string value) : base(driverId)
+        {
             Column = column;
             Colour = colour;
             Value = value;
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("DriverId={0}, Column='{1}', Colour='{2}', Value='{3}'",
                 DriverId, Column, Colour,
                 Value != null ? Value : "(none)");
@@ -80,8 +80,8 @@ namespace AK.F1.Timing.Messages.Driver
         /// Returns a value indicating if the column should be cleared.
         /// </summary>
         [IgnoreProperty]
-        public bool ClearColumn {
-
+        public bool ClearColumn
+        {
             get { return Value == null; }
         }
 

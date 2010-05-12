@@ -16,7 +16,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Utility.Tms.Operations
@@ -25,32 +24,40 @@ namespace AK.F1.Timing.Utility.Tms.Operations
     {
         private readonly string _path;
 
-        public WriteStatisticsOperation(string path) {
-
+        public WriteStatisticsOperation(string path)
+        {
             _path = path;
         }
 
-        public override void Run() {
-
+        public override void Run()
+        {
             object obj;
             var numberOfObjects = 0L;
             var numberOfObjectByType = new Dictionary<Type, long>();
 
             using(var input = File.OpenRead(_path))
-            using(var reader = new DecoratedObjectReader(input)) {
-                while((obj = reader.Read()) != null) {
-                    ++numberOfObjects;
-                    if(numberOfObjectByType.ContainsKey(obj.GetType())) {
-                        ++numberOfObjectByType[obj.GetType()];
-                    } else {
-                        numberOfObjectByType[obj.GetType()] = 1;
+            {
+                using(var reader = new DecoratedObjectReader(input))
+                {
+                    while((obj = reader.Read()) != null)
+                    {
+                        ++numberOfObjects;
+                        if(numberOfObjectByType.ContainsKey(obj.GetType()))
+                        {
+                            ++numberOfObjectByType[obj.GetType()];
+                        }
+                        else
+                        {
+                            numberOfObjectByType[obj.GetType()] = 1;
+                        }
                     }
                 }
             }
 
             var fileInfo = new FileInfo(_path);
 
-            WriteStatistics(new Statistics() {
+            WriteStatistics(new Statistics
+            {
                 FileName = fileInfo.Name,
                 FileLength = fileInfo.Length,
                 NumberOfObjects = numberOfObjects,
@@ -58,8 +65,8 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             });
         }
 
-        private static void WriteStatistics(Statistics stats) {
-
+        private static void WriteStatistics(Statistics stats)
+        {
             int firstColumnWidth = Math.Max(stats.NumberOfObjectByType.Select(x => x.Key.Name.Length).Max(), 30);
             int secondColumnWidth = Math.Max(stats.FileName.Length, 10);
             var sectionDelimiter = string.Format("+{0}+{1}+", new string('-', firstColumnWidth), new string('-', secondColumnWidth));
@@ -74,14 +81,15 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine(sectionDelimiter);
             WriteLine(rowFormat, "Object Type", "Count");
             WriteLine(sectionDelimiter);
-            foreach(var pair in stats.NumberOfObjectByType.OrderByDescending(x => x.Value)) {
+            foreach(var pair in stats.NumberOfObjectByType.OrderByDescending(x => x.Value))
+            {
                 WriteLine(rowFormat, pair.Key.Name, pair.Value);
             }
             WriteLine(sectionDelimiter);
         }
 
-        private static void WriteLine(string format, params object[] args) {
-
+        private static void WriteLine(string format, params object[] args)
+        {
             Console.WriteLine(format, args);
         }
 

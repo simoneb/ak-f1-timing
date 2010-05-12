@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,17 +15,16 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Xunit;
-
 using AK.F1.Timing.Messages.Weather;
+using Xunit;
 
 namespace AK.F1.Timing
 {
     public class MessageReaderBaseTest
     {
         [Fact]
-        public void read_impl_should_not_be_invoked_again_having_previously_thrown_an_exception_and_same_exception_should_be_re_thrown() {
-
+        public void read_impl_should_not_be_invoked_again_having_previously_thrown_an_exception_and_same_exception_should_be_re_thrown()
+        {
             var reader = new ThrowingMessageReader();
 
             Assert.Throws<IOException>(() => reader.Read());
@@ -33,8 +32,8 @@ namespace AK.F1.Timing
         }
 
         [Fact]
-        public void read_impl_should_not_be_invoked_again_having_previously_returned_null() {
-
+        public void read_impl_should_not_be_invoked_again_having_previously_returned_null()
+        {
             var reader = new NullMessageReader();
 
             Assert.Null(reader.Read());
@@ -42,8 +41,8 @@ namespace AK.F1.Timing
         }
 
         [Fact]
-        public void read_impl_should_be_invoked_again_have_previously_returned_an_empty_message() {
-
+        public void read_impl_should_be_invoked_again_have_previously_returned_an_empty_message()
+        {
             var expected = new SetIsWetMessage(true);
             var reader = new StubMessageReader(Message.Empty, Message.Empty, expected);
 
@@ -51,8 +50,8 @@ namespace AK.F1.Timing
         }
 
         [Fact]
-        public void read_should_throw_when_it_has_been_reader_has_been_disposed() {
-
+        public void read_should_throw_when_it_has_been_reader_has_been_disposed()
+        {
             var reader = new StubMessageReader();
 
             reader.Dispose();
@@ -61,8 +60,8 @@ namespace AK.F1.Timing
         }
 
         [Fact]
-        public void is_disposed_should_reflect_the_disposed_state_of_the_reader() {
-
+        public void is_disposed_should_reflect_the_disposed_state_of_the_reader()
+        {
             var reader = new StubMessageReader();
 
             Assert.False(reader.IsDisposed);
@@ -72,30 +71,30 @@ namespace AK.F1.Timing
 
         private sealed class StubMessageReader : MessageReaderBase
         {
-            private Queue<Message> _messages;
+            private readonly Queue<Message> _messages;
 
-            public StubMessageReader(params Message[] messages) {
-
+            public StubMessageReader(params Message[] messages)
+            {
                 _messages = new Queue<Message>(messages);
             }
 
-            public void Dispose() {
-
+            public void Dispose()
+            {
                 ((IDisposable)this).Dispose();
             }
 
-            protected override Message ReadImpl() {
-
+            protected override Message ReadImpl()
+            {
                 return _messages.Count > 0 ? _messages.Dequeue() : null;
             }
         }
 
         private sealed class ThrowingMessageReader : MessageReaderBase
         {
-            private bool _readImplCalled = false;
+            private bool _readImplCalled;
 
-            protected override Message ReadImpl() {
-
+            protected override Message ReadImpl()
+            {
                 Assert.False(_readImplCalled, "ReadImpl has already been called.");
 
                 _readImplCalled = true;
@@ -106,10 +105,10 @@ namespace AK.F1.Timing
 
         private sealed class NullMessageReader : MessageReaderBase
         {
-            private bool _readImplCalled = false;
+            private bool _readImplCalled;
 
-            protected override Message ReadImpl() {
-
+            protected override Message ReadImpl()
+            {
                 Assert.False(_readImplCalled, "ReadImpl has already been called.");
 
                 _readImplCalled = true;

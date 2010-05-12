@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,56 +34,56 @@ namespace AK.F1.Timing.UI.Utility
         /// <summary>
         /// Gets the version title of the assembly.
         /// </summary>
-        public static string VersionedTitle {
-
+        public static string VersionedTitle
+        {
             get { return string.Format("{0} - v{1}", Title, Version); }
         }
 
         /// <summary>
         /// Gets the assembly title
         /// </summary>
-        public static string Title {
-
+        public static string Title
+        {
             get { return With<AssemblyTitleAttribute>(attr => attr.Title); }
         }
 
         /// <summary>
         /// Gets the assembly product.
         /// </summary>
-        public static string Product {
-
+        public static string Product
+        {
             get { return With<AssemblyProductAttribute>(attr => attr.Product); }
         }
 
         /// <summary>
         /// Gets the assembly description.
         /// </summary>
-        public static string Description {
-
+        public static string Description
+        {
             get { return With<AssemblyDescriptionAttribute>(attr => attr.Description); }
         }
 
         /// <summary>
         /// Gets the assembly copyright information.
         /// </summary>
-        public static string Copyright {
-
+        public static string Copyright
+        {
             get { return With<AssemblyCopyrightAttribute>(attr => attr.Copyright); }
         }
 
         /// <summary>
         /// Gets the assembly copyright information.
         /// </summary>
-        public static string Company {
-
+        public static string Company
+        {
             get { return With<AssemblyCompanyAttribute>(attr => attr.Company); }
         }
 
         /// <summary>
         /// Gets the assembly version.
         /// </summary>
-        public static Version Version {
-
+        public static Version Version
+        {
             get { return GetAssembly().GetName().Version; }
         }
 
@@ -91,24 +91,26 @@ namespace AK.F1.Timing.UI.Utility
 
         #region Private Impl.
 
-        private static string With<T>(Func<T, string> func) where T : Attribute {
-
+        private static string With<T>(Func<T, string> func) where T : Attribute
+        {
             T attr = GetAttribute<T>();
 
             return attr != null ? func(attr) : string.Empty;
         }
 
-        private static T GetAttribute<T>() where T : Attribute {
-
+        private static T GetAttribute<T>() where T : Attribute
+        {
             object[] attributes = GetAssembly().GetCustomAttributes(typeof(T), false);
 
             return attributes.Length > 0 ? (T)attributes[0] : null;
         }
 
-        private static Assembly GetAssembly() {
-
+        private static Assembly GetAssembly()
+        {
             if(_assembly == null)
+            {
                 _assembly = Assembly.GetExecutingAssembly();
+            }
 
             return _assembly;
         }

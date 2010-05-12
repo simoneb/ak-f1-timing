@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,47 +13,49 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
-using Xunit;
-
-using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
+using Xunit;
 
 namespace AK.F1.Timing.Recording
 {
     public class RecordingIntegrationTest : TestBase
     {
         [Fact]
-        public void can_read_recorded_messages() {
-
+        public void can_read_recorded_messages()
+        {
             Message actual;
             Message[] messages = CreateMessages();
             Stream stream = RecordMessages(messages);
 
-            using(var reader = new RecordedMessageReader(stream, true)) {
-                foreach(var expected in messages) {
+            using(var reader = new RecordedMessageReader(stream, true))
+            {
+                foreach(var expected in messages)
+                {
                     actual = reader.Read();
-                    Assert.IsType(expected.GetType(), actual);                    
+                    Assert.IsType(expected.GetType(), actual);
                 }
             }
         }
 
         [Fact(Skip = "This test fails unexpectedly.")]
-        public void messages_are_played_back_in_real_time() {
-
+        public void messages_are_played_back_in_real_time()
+        {
             Stopwatch sw = new Stopwatch();
             TimeSpan delay = TimeSpan.FromMilliseconds(15);
             TimeSpan delayLow = TimeSpan.FromMilliseconds(14);
             TimeSpan delayHigh = TimeSpan.FromMilliseconds(16);
             Stream stream = RecordMessages(delay, CreateMessages());
 
-            using(var reader = new RecordedMessageReader(stream, true)) {                
-                while(reader.Read() != null) {
+            using(var reader = new RecordedMessageReader(stream, true))
+            {
+                while(reader.Read() != null)
+                {
                     // This isn't great, the delay between the first message isn't written.
-                    if(sw.IsRunning) {
+                    if(sw.IsRunning)
+                    {
                         Assert.InRange(sw.Elapsed, delayLow, delayHigh);
                         sw.Reset();
                     }
@@ -62,18 +64,21 @@ namespace AK.F1.Timing.Recording
             }
         }
 
-        private Stream RecordMessages(params Message[] messages) {
-
+        private Stream RecordMessages(params Message[] messages)
+        {
             return RecordMessages(TimeSpan.Zero, messages);
         }
 
-        private Stream RecordMessages(TimeSpan insertDelay, params Message[] messages) {
-
+        private Stream RecordMessages(TimeSpan insertDelay, params Message[] messages)
+        {
             var output = new MemoryStream();
 
-            using(var reader = new RecordingMessageReader(new StubMessageReader(messages), output, false)) {
-                while(reader.Read() != null) {
-                    if(insertDelay > TimeSpan.Zero) {
+            using(var reader = new RecordingMessageReader(new StubMessageReader(messages), output, false))
+            {
+                while(reader.Read() != null)
+                {
+                    if(insertDelay > TimeSpan.Zero)
+                    {
                         Thread.Sleep(insertDelay);
                     }
                 }
@@ -84,9 +89,10 @@ namespace AK.F1.Timing.Recording
             return output;
         }
 
-        private static Message[] CreateMessages() {
-
-            return new Message[] {
+        private static Message[] CreateMessages()
+        {
+            return new Message[]
+            {
                 new SetSessionTypeMessage(SessionType.Race, "55378008"),
                 new SetSessionStatusMessage(SessionStatus.Green),
                 new SetRaceLapNumberMessage(15)

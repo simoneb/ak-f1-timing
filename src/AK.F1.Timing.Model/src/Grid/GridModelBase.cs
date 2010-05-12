@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.Model.Grid
@@ -43,9 +42,10 @@ namespace AK.F1.Timing.Model.Grid
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="type"/> is not a valid session type.
         /// </exception>
-        public static GridModelBase Create(SessionType type) {
-
-            switch(type) {
+        public static GridModelBase Create(SessionType type)
+        {
+            switch(type)
+            {
                 case SessionType.None:
                     return NullGridModel.Instance;
                 case SessionType.Practice:

@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,10 @@
 // limitations under the License.
 
 using System.Windows;
+using AK.F1.Timing.UI.Utility;
 using Caliburn.Core.IoC;
 using Caliburn.PresentationFramework.Screens;
 using Microsoft.Practices.ServiceLocation;
-
-using AK.F1.Timing.UI.Utility;
 
 namespace AK.F1.Timing.UI.Screens
 {
@@ -28,7 +27,7 @@ namespace AK.F1.Timing.UI.Screens
     public class ShellScreen : Navigator<IScreen>, IShellScreen
     {
         #region Fields.
-        
+
         private IScreen _dialogueModel;
 
         #endregion
@@ -43,28 +42,28 @@ namespace AK.F1.Timing.UI.Screens
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="serviceLocator"/> is <see langword="null"/>.
         /// </exception>
-        public ShellScreen(IServiceLocator serviceLocator) {
-
+        public ShellScreen(IServiceLocator serviceLocator)
+        {
             Guard.NotNull(serviceLocator, "serviceLocator");
 
             Container = serviceLocator;
         }
 
         /// <inheritdoc/>
-        public void Exit() {
-
+        public void Exit()
+        {
             Application.Current.Shutdown();
         }
 
         /// <inheritdoc/>
-        public void Open<T>() where T : IScreen {
-
+        public void Open<T>() where T : IScreen
+        {
             this.OpenScreen(Container.GetInstance<T>());
         }
 
         /// <inheritdoc/>
-        public void ShowDialogue<T>(T screen) where T : IScreenEx {
-
+        public void ShowDialogue<T>(T screen) where T : IScreenEx
+        {
             Guard.NotNull(screen, "screen");
 
             screen.WasShutdown += delegate { DialogueModel = null; };
@@ -74,16 +73,17 @@ namespace AK.F1.Timing.UI.Screens
         /// <summary>
         /// Opens the <see cref="AK.F1.Timing.UI.Screens.IHomeScreen"/>
         /// </summary>
-        public void OpenHome() {
-
+        public void OpenHome()
+        {
             Open<IHomeScreen>();
         }
 
         /// <inheritdoc/>
-        public IScreen DialogueModel {
-
+        public IScreen DialogueModel
+        {
             get { return _dialogueModel; }
-            private set {
+            private set
+            {
                 _dialogueModel = value;
                 NotifyOfPropertyChange(() => DialogueModel);
             }
@@ -92,18 +92,18 @@ namespace AK.F1.Timing.UI.Screens
         /// <summary>
         /// Gets the application's title.
         /// </summary>
-        public string ApplicationTitle {
-
+        public string ApplicationTitle
+        {
             get { return AssemblyInfoHelper.VersionedTitle; }
         }
-        
+
         #endregion
 
         #region Protected Interface.
 
         /// <inheritdoc/>
-        protected override void OnActivate() {
-
+        protected override void OnActivate()
+        {
             base.OnActivate();
 
             OpenHome();

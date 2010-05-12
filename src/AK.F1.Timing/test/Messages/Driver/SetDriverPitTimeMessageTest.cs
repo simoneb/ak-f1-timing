@@ -17,20 +17,20 @@ using Xunit;
 
 namespace AK.F1.Timing.Messages.Driver
 {
-    public class SetDriverPitTimeMessageTest :MessageTestBase<SetDriverPitTimeMessage>
+    public class SetDriverPitTimeMessageTest : MessageTestBase<SetDriverPitTimeMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1, message.DriverId);
-            Assert.Same(PostedTime, message.PitTime);            
+            Assert.Same(PostedTime, message.PitTime);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -40,16 +40,13 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throws_if_time_is_null() {
-
-            
-            Assert.Throws<ArgumentNullException>(() => {
-                new SetDriverPitTimeMessage(1, null);
-            });
+        public void ctor_throws_if_time_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { new SetDriverPitTimeMessage(1, null); });
         }
 
-        protected override SetDriverPitTimeMessage CreateMessage() {
-
+        protected override SetDriverPitTimeMessage CreateMessage()
+        {
             return new SetDriverPitTimeMessage(1, PostedTime);
         }
     }

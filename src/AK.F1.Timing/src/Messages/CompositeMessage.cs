@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,34 +38,37 @@ namespace AK.F1.Timing.Messages
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="messages"/> is empty.
         /// </exception>
-        public CompositeMessage(params Message[] messages) {
-
+        public CompositeMessage(params Message[] messages)
+        {
             Guard.NotNullOrEmpty(messages, "messages");
 
             Messages = Array.AsReadOnly(messages);
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
-            foreach(Message message in Messages) {
+            foreach(var message in Messages)
+            {
                 message.Accept(visitor);
             }
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-            
-            StringBuilder sb = new StringBuilder();
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
 
             sb.Append("[");
-            foreach(Message message in Messages) {
-                if(sb.Length > 1) {
+            foreach(var message in Messages)
+            {
+                if(sb.Length > 1)
+                {
                     sb.Append(", ");
                 }
-                sb.Append(message);                
+                sb.Append(message);
             }
             sb.Append("]");
 

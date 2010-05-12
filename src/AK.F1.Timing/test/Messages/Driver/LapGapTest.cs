@@ -16,45 +16,39 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
 namespace AK.F1.Timing.Messages.Driver
 {
     public class LapGapTest : TestBase
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var gap = new LapGap(1);
 
             Assert.Equal(1, gap.Laps);
-        }     
-
-        [Fact]
-        public void ctor_throws_if_laps_is_not_positive() {
-
-            Assert.DoesNotThrow(() => {
-                var gap = new LapGap(0);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                var gap = new LapGap(-1);
-            });
         }
 
         [Fact]
-        public void implements_equality_contract() {
+        public void ctor_throws_if_laps_is_not_positive()
+        {
+            Assert.DoesNotThrow(() => { var gap = new LapGap(0); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { var gap = new LapGap(-1); });
+        }
 
+        [Fact]
+        public void implements_equality_contract()
+        {
             Assert.EqualityContract(GetEquivalentInstances(), GetDistinctInstances());
         }
 
         [Fact]
-        public void implements_comparable_contract() {
-
+        public void implements_comparable_contract()
+        {
             Assert.ComparableContract(GetEquivalentInstances(), GetDistinctInstances());
         }
 
-        private static IEnumerable<LapGap> GetDistinctInstances() {
-
+        private static IEnumerable<LapGap> GetDistinctInstances()
+        {
             yield return new LapGap(0);
             yield return new LapGap(1);
             yield return new LapGap(2);
@@ -63,10 +57,10 @@ namespace AK.F1.Timing.Messages.Driver
             yield return new LapGap(5);
         }
 
-        private static IEnumerable<LapGap> GetEquivalentInstances() {
-
+        private static IEnumerable<LapGap> GetEquivalentInstances()
+        {
             yield return new LapGap(0);
             yield return new LapGap(0);
-        }   
+        }
     }
 }

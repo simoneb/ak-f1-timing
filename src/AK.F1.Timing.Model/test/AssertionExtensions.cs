@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,39 +12,37 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using Xunit.Extensions;
-
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Model.Collections;
+using Xunit.Extensions;
 
 namespace AK.F1.Timing.Model.Driver
 {
     public static class AssertExtensions
     {
-        public static void Empty(this Assertions assert, DriverModel model) {
-
+        public static void Empty(this Assertions assert, DriverModel model)
+        {
             assert.Equal(0, model.CarNumber);
             assert.Null(model.Gap);
             assert.Null(model.Interval);
             assert.Equal(0, model.LapsCompleted);
-            assert.Empty(model.LapTimes);            
-            assert.Null(model.Name);            
+            assert.Empty(model.LapTimes);
+            assert.Null(model.Name);
             assert.Empty(model.PitTimes);
             assert.Equal(0, model.Position);
             assert.Empty(model.QuallyTimes);
             assert.Equal(DriverStatus.InPits, model.Status);
         }
 
-        public static void Empty(this Assertions assert, QuallyTimesModel model) {
-
+        public static void Empty(this Assertions assert, QuallyTimesModel model)
+        {
             assert.Null(model.Q1);
             assert.Null(model.Q2);
             assert.Null(model.Q3);
         }
 
-        public static void Empty(this Assertions assert, LapTimesModel model) {
-
+        public static void Empty(this Assertions assert, LapTimesModel model)
+        {
             assert.Empty(model.Laps);
             assert.Empty(model.S1);
             assert.Empty(model.S2);
@@ -52,13 +50,13 @@ namespace AK.F1.Timing.Model.Driver
             assert.Empty(model.History);
         }
 
-        public static void Empty(this Assertions assert, PostedTimeCollectionModel model) {
-
+        public static void Empty(this Assertions assert, PostedTimeCollectionModel model)
+        {
             assert.Empty(model.Items);
         }
 
-        public static void NotEmpty(this Assertions assert, PostedTimeCollectionModel model) {
-
+        public static void NotEmpty(this Assertions assert, PostedTimeCollectionModel model)
+        {
             assert.NotEmpty(model.Items);
         }
     }

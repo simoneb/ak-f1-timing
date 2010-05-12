@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,8 +30,8 @@ namespace AK.F1.Timing.Live
         #region Public Interface.
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return string.Format(
                 "{0}(MessageType='{1}', DriverId='{2}', Colour='{3}', DataLength='{4}', Value='{5}')",
                 GetType().Name, MessageType, DriverId, Colour, DataLength, Value);
@@ -40,16 +40,16 @@ namespace AK.F1.Timing.Live
         /// <summary>
         /// Returns a value indicating if the message is a system message.
         /// </summary>
-        public bool IsSystemMessage {
-
+        public bool IsSystemMessage
+        {
             get { return DriverId == 0; }
         }
 
         /// <summary>
         /// Returns a value indicating if the message is a driver message.
         /// </summary>
-        public bool IsDriverMessage {
-
+        public bool IsDriverMessage
+        {
             get { return DriverId > 0; }
         }
 

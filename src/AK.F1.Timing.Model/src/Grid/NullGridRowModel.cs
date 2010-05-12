@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,6 @@
 
 using System;
 
-using AK.F1.Timing.Messages.Driver;
-
 namespace AK.F1.Timing.Model.Grid
 {
     /// <summary>
@@ -27,8 +25,8 @@ namespace AK.F1.Timing.Model.Grid
         #region Private Impl.
 
         private NullGridRowModel()
-            : base(0) {
-
+            : base(0)
+        {
             throw Guard.NotImplemented();
         }
 

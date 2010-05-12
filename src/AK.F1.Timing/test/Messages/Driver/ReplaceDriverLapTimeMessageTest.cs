@@ -20,8 +20,8 @@ namespace AK.F1.Timing.Messages.Driver
     public class ReplaceDriverLapTimeMessageTest : MessageTestBase<ReplaceDriverLapTimeMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1, message.DriverId);
@@ -29,8 +29,8 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -40,15 +40,13 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throw_is_replacement_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                new ReplaceDriverLapTimeMessage(1, null);
-            });
+        public void ctor_throw_is_replacement_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { new ReplaceDriverLapTimeMessage(1, null); });
         }
 
-        protected override ReplaceDriverLapTimeMessage CreateMessage() {
-
+        protected override ReplaceDriverLapTimeMessage CreateMessage()
+        {
             return new ReplaceDriverLapTimeMessage(1, PostedTime);
         }
     }

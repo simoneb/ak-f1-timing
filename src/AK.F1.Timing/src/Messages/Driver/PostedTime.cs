@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,8 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
-
 using AK.F1.Timing.Serialization;
 using AK.F1.Timing.Utility;
 
@@ -40,26 +38,28 @@ namespace AK.F1.Timing.Messages.Driver
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="time"/> or <paramref name="lapNumber"/> is negative.
         /// </exception>
-        public PostedTime(TimeSpan time, PostedTimeType type, int lapNumber) {
-
+        public PostedTime(TimeSpan time, PostedTimeType type, int lapNumber)
+        {
             Guard.InRange(time >= TimeSpan.Zero, "time");
             Guard.InRange(lapNumber >= 0, "lapNumber");
 
             Time = time;
             Type = type;
-            LapNumber = lapNumber;            
+            LapNumber = lapNumber;
         }
 
         /// <inheritdoc />
-        public int CompareTo(object obj) {
-
-            if(obj == null) {
+        public int CompareTo(object obj)
+        {
+            if(obj == null)
+            {
                 return 1;
             }
 
             PostedTime other = obj as PostedTime;
 
-            if(other == null) {
+            if(other == null)
+            {
                 throw Guard.PostedTime_InvalidCompareToArgument(obj);
             }
 
@@ -67,20 +67,24 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         /// <inheritdoc />
-        public int CompareTo(PostedTime other) {
-
+        public int CompareTo(PostedTime other)
+        {
             int relationship;
 
-            if(other == null) {
+            if(other == null)
+            {
                 return 1;
             }
-            if(other == this) {
+            if(other == this)
+            {
                 return 0;
             }
-            if((relationship = Time.CompareTo(other.Time)) != 0) {
+            if((relationship = Time.CompareTo(other.Time)) != 0)
+            {
                 return relationship;
             }
-            if((relationship = ((int)Type).CompareTo((int)other.Type)) != 0) {
+            if((relationship = ((int)Type).CompareTo((int)other.Type)) != 0)
+            {
                 // Times are ordered Normal(0) -> PersonalBest(1) -> SessionBest(2) so the
                 // sign relationship must be switched.
                 return -relationship;
@@ -90,29 +94,31 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj) {
-
+        public override bool Equals(object obj)
+        {
             return Equals(obj as PostedTime);
         }
 
         /// <inheritdoc />
-        public bool Equals(PostedTime other) {
-
-            if(other == null) {
+        public bool Equals(PostedTime other)
+        {
+            if(other == null)
+            {
                 return false;
             }
-            if(other == this) {
+            if(other == this)
+            {
                 return true;
             }
-            
+
             return LapNumber == other.LapNumber &&
                 Time == other.Time &&
-                Type == other.Type;
+                    Type == other.Type;
         }
 
         /// <inheritdoc />
-        public override int GetHashCode() {
-
+        public override int GetHashCode()
+        {
             return HashCodeBuilder.New()
                 .Add(LapNumber)
                 .Add(Time)
@@ -120,11 +126,11 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return string.Format("{0}(Time='{1}', Type='{2}', LapNumber={3})", GetType().Name,
                 Time, Type, LapNumber);
-        }        
+        }
 
         /// <summary>
         /// Gets the lap number on which the time was posted.
@@ -142,8 +148,8 @@ namespace AK.F1.Timing.Messages.Driver
         /// Returns the value of this posted time in seconds.
         /// </summary>
         [IgnoreProperty]
-        public double TimeInSeconds {
-
+        public double TimeInSeconds
+        {
             get { return Time.TotalSeconds; }
         }
 

@@ -22,17 +22,17 @@ namespace AK.F1.Timing.Serialization
     public class DecoratedObjectReaderTest
     {
         [Fact]
-        public void ctor_throws_if_input_is_null() {
-
+        public void ctor_throws_if_input_is_null()
+        {
             Assert.Throws<ArgumentNullException>(() => new DecoratedObjectReader(null));
         }
 
         [Fact]
-        public void input_is_not_closed_when_reader_is_disposed() {
-
+        public void input_is_not_closed_when_reader_is_disposed()
+        {
             var input = new MemoryStream();
 
-            using(var reader = new DecoratedObjectReader(input)) { }
+            using(var reader = new DecoratedObjectReader(input)) {}
 
             Assert.DoesNotThrow(() => input.Position = 0);
             input.Dispose();
@@ -40,8 +40,8 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void read_throws_when_reader_has_been_disposed() {
-
+        public void read_throws_when_reader_has_been_disposed()
+        {
             var reader = new DecoratedObjectReader(new MemoryStream());
 
             ((IDisposable)reader).Dispose();
@@ -50,11 +50,14 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void read_throws_when_end_of_input_has_been_reached() {
-
+        public void read_throws_when_end_of_input_has_been_reached()
+        {
             using(var input = new MemoryStream())
-            using(var reader = new DecoratedObjectReader(input)) {
-                Assert.Throws<SerializationException>(() => reader.Read());
+            {
+                using(var reader = new DecoratedObjectReader(input))
+                {
+                    Assert.Throws<SerializationException>(() => reader.Read());
+                }
             }
         }
     }

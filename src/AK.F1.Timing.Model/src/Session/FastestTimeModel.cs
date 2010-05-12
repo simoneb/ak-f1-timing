@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Model.Driver;
 
 namespace AK.F1.Timing.Model.Session
@@ -34,8 +33,8 @@ namespace AK.F1.Timing.Model.Session
         /// <param name="time">The time.</param>
         /// <param name="lapNumber">The lap number on which the time was set.</param>
         /// <param name="delta">The delta from the previous fastest time.</param>
-        public FastestTimeModel(DriverModel driver, TimeSpan time, int lapNumber, TimeSpan? delta) {
-
+        public FastestTimeModel(DriverModel driver, TimeSpan time, int lapNumber, TimeSpan? delta)
+        {
             Time = time;
             Delta = delta;
             Driver = driver;

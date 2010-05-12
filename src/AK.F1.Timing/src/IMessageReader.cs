@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 using System;
 
 namespace AK.F1.Timing
-{    
+{
     /// <summary>
     /// Allows <see cref="AK.F1.Timing.Message"/>s to be read from an underlying data
     /// stream.
@@ -38,6 +38,6 @@ namespace AK.F1.Timing
         /// Thrown when the format of the next message is invalid or the message itself is
         /// not recognised.
         /// </exception>
-        Message Read();        
+        Message Read();
     }
 }

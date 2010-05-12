@@ -21,31 +21,36 @@ namespace AK.F1.Timing
 {
     public static class AssertionExtensions
     {
-        public static void Zero(this Assertions assert, int value) {
-
+        public static void Zero(this Assertions assert, int value)
+        {
             assert.Equal(0, value);
         }
 
-        public static void MessagesAreEqual(this Assertions assert, Message expected, Message actual) {
-
-            if(expected == null) {
+        public static void MessagesAreEqual(this Assertions assert, Message expected, Message actual)
+        {
+            if(expected == null)
+            {
                 assert.Null(actual);
                 return;
             }
             assert.NotNull(actual);
             assert.IsType(expected.GetType(), actual);
-            foreach(var method in GetPublicPropertyGetMethods(expected.GetType())) {                
+            foreach(var method in GetPublicPropertyGetMethods(expected.GetType()))
+            {
                 assert.Equal(method.Invoke(expected, null), method.Invoke(actual, null));
             }
-        }       
+        }
 
-        private static IEnumerable<MethodInfo> GetPublicPropertyGetMethods(Type type) {
-
+        private static IEnumerable<MethodInfo> GetPublicPropertyGetMethods(Type type)
+        {
             const BindingFlags flags = BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly;
 
-            do {
-                foreach(var property in type.GetProperties(flags)) {
-                    if(property.GetGetMethod().GetParameters().Length == 0) {
+            do
+            {
+                foreach(var property in type.GetProperties(flags))
+                {
+                    if(property.GetGetMethod().GetParameters().Length == 0)
+                    {
                         yield return property.GetGetMethod();
                     }
                 }

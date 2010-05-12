@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,16 +13,15 @@
 // limitations under the License.
 
 using System;
-using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// Defines the columns found on an F1 timing grid.
     /// </summary>
-    [Serializable]    
+    [Serializable]
     public enum GridColumn
-    {        
+    {
         /// <summary>
         /// The position column.
         /// </summary>

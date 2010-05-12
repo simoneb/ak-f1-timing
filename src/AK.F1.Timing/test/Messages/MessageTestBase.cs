@@ -13,21 +13,20 @@
 // limitations under the License.
 
 using System;
+using AK.F1.Timing.Messages.Driver;
 using Moq;
 using Xunit;
 
-using AK.F1.Timing.Messages.Driver;
-
 namespace AK.F1.Timing.Messages
 {
-    public abstract class MessageTestBase<TMessage> : TestBase where TMessage: Message
+    public abstract class MessageTestBase<TMessage> : TestBase where TMessage : Message
     {
         public static readonly PostedTime PostedTime = new PostedTime(
             new TimeSpan(0, 0, 1, 55, 350),
             PostedTimeType.PersonalBest,
             12);
 
-        public static readonly Gap Gap = new LapGap(1);        
+        public static readonly Gap Gap = new LapGap(1);
 
         [Fact]
         public abstract void can_create();
@@ -36,19 +35,17 @@ namespace AK.F1.Timing.Messages
         public abstract void can_visit();
 
         [Fact]
-        public void accept_throws_if_visitor_is_null() {
-
+        public void accept_throws_if_visitor_is_null()
+        {
             var message = CreateMessage();
 
-            Assert.Throws<ArgumentNullException>(() => {
-                message.Accept(null);
-            });
+            Assert.Throws<ArgumentNullException>(() => { message.Accept(null); });
         }
 
         protected abstract TMessage CreateMessage();
 
-        protected Mock<IMessageVisitor> CreateMockMessageVisitor() {
-
+        protected Mock<IMessageVisitor> CreateMockMessageVisitor()
+        {
             return new Mock<IMessageVisitor>(MockBehavior.Strict);
         }
     }

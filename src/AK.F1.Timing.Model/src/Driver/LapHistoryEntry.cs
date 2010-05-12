@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Driver
@@ -39,8 +38,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <exception cref="System.ArgumentException">
         /// Thrown when specified times are not all for the same lap.
         /// </exception>
-        public LapHistoryEntry(PostedTime s1, PostedTime s2, PostedTime s3, PostedTime lap) {
-
+        public LapHistoryEntry(PostedTime s1, PostedTime s2, PostedTime s3, PostedTime lap)
+        {
             CheckOneIsNotNull(s1, s2, s3, lap);
             CheckLapNumbersAreEqual(s1, s2, s3, lap);
 
@@ -48,13 +47,13 @@ namespace AK.F1.Timing.Model.Driver
             S2 = s2;
             S3 = s3;
             Lap = lap;
-        } 
+        }
 
         /// <summary>
         /// Gets the lap number of this entry.
         /// </summary>
-        public int LapNumber {
-
+        public int LapNumber
+        {
             get { return (S1 ?? S2 ?? S3 ?? Lap).LapNumber; }
         }
 
@@ -82,15 +81,16 @@ namespace AK.F1.Timing.Model.Driver
 
         #region Private Impl.
 
-        private void CheckOneIsNotNull(PostedTime s1, PostedTime s2, PostedTime s3, PostedTime lap) {
-
-            if(s1 == null && s2 == null && s3 == null && lap == null) {
-                throw Guard.LapHistoryEntry_AtLeastOneTimeMustBeSpecified();                
+        private void CheckOneIsNotNull(PostedTime s1, PostedTime s2, PostedTime s3, PostedTime lap)
+        {
+            if(s1 == null && s2 == null && s3 == null && lap == null)
+            {
+                throw Guard.LapHistoryEntry_AtLeastOneTimeMustBeSpecified();
             }
         }
 
-        private void CheckLapNumbersAreEqual(PostedTime s1, PostedTime s2, PostedTime s3, PostedTime lap) {
-
+        private void CheckLapNumbersAreEqual(PostedTime s1, PostedTime s2, PostedTime s3, PostedTime lap)
+        {
             int lapNumber = (s1 ?? s2 ?? s3 ?? lap).LapNumber;
 
             CheckLapNumber(s1, lapNumber, "s1");
@@ -99,10 +99,11 @@ namespace AK.F1.Timing.Model.Driver
             CheckLapNumber(lap, lapNumber, "lap");
         }
 
-        private static void CheckLapNumber(PostedTime time, int expectedLapNumber, string paramName) {
-
-            if(time != null && time.LapNumber != expectedLapNumber) {
-                throw Guard.LapHistoryEntry_AllTimesMustBeForSameLap(paramName);                
+        private static void CheckLapNumber(PostedTime time, int expectedLapNumber, string paramName)
+        {
+            if(time != null && time.LapNumber != expectedLapNumber)
+            {
+                throw Guard.LapHistoryEntry_AllTimesMustBeForSameLap(paramName);
             }
         }
 

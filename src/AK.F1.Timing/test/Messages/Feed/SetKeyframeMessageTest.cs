@@ -20,16 +20,16 @@ namespace AK.F1.Timing.Messages.Feed
     public class SetKeyframeMessageTest : MessageTestBase<SetKeyframeMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1, message.Keyframe);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -39,18 +39,14 @@ namespace AK.F1.Timing.Messages.Feed
         }
 
         [Fact]
-        public void ctor_throws_if_keyframe_if_negative() {
-
-            Assert.DoesNotThrow(() => {
-                new SetKeyframeMessage(0);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetKeyframeMessage(-1);
-            });
+        public void ctor_throws_if_keyframe_if_negative()
+        {
+            Assert.DoesNotThrow(() => { new SetKeyframeMessage(0); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetKeyframeMessage(-1); });
         }
 
-        protected override SetKeyframeMessage CreateMessage() {
-
+        protected override SetKeyframeMessage CreateMessage()
+        {
             return new SetKeyframeMessage(1);
         }
     }

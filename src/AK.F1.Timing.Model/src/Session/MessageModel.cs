@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Text;
 
 namespace AK.F1.Timing.Model.Session
@@ -34,14 +33,14 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Initialises a new instance of the <see cref="MessageModel"/> class.
         /// </summary>
-        public MessageModel() {
-
+        public MessageModel()
+        {
             Builder = new MessageModelBuilder(this);
         }
 
         /// <inheritdoc/>        
-        public void Process(Message message) {
-
+        public void Process(Message message)
+        {
             Guard.NotNull(message, "message");
 
             Builder.Process(message);
@@ -50,8 +49,8 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Resets this message model.
         /// </summary>
-        public void Reset() {
-
+        public void Reset()
+        {
             System = null;
             _commentary = null;
             OnCommentaryChanged();
@@ -60,16 +59,16 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the running commentary.
         /// </summary>
-        public string Commentary {
-
+        public string Commentary
+        {
             get { return _commentary != null ? _commentary.ToString() : null; }
         }
 
         /// <summary>
         /// Gets the system message.
         /// </summary>
-        public string System {
-
+        public string System
+        {
             get { return _system; }
             private set { SetProperty("System", ref _system, value); }
         }
@@ -78,21 +77,23 @@ namespace AK.F1.Timing.Model.Session
 
         #region Private Impl.
 
-        private void AddCommentary(string commentary) {
-
-            if(_commentary == null) {
+        private void AddCommentary(string commentary)
+        {
+            if(_commentary == null)
+            {
                 _commentary = new StringBuilder();
             }
             _commentary.Append(commentary);
             // TODO is this correct?
-            if(commentary.EndsWith(".")) {
+            if(commentary.EndsWith("."))
+            {
                 _commentary.AppendLine().AppendLine();
             }
             OnCommentaryChanged();
         }
 
-        private void OnCommentaryChanged() {
-
+        private void OnCommentaryChanged()
+        {
             OnPropertyChanged("Commentary");
         }
 

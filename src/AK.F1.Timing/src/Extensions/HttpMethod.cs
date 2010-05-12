@@ -29,6 +29,6 @@ namespace AK.F1.Timing.Extensions
         /// <summary>
         /// The HTTP POST method.
         /// </summary>
-        Post        
+        Post
     }
 }

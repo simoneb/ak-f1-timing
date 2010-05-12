@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,9 +30,9 @@ namespace AK.F1.Timing.Serialization
         /// the identifier of the decorated property.
         /// </summary>
         /// <param name="id">The identifier of the decorated property.</param>
-        public PropertyIdAttribute(byte id) {
-
-            Id = id;            
+        public PropertyIdAttribute(byte id)
+        {
+            Id = id;
         }
 
         /// <summary>

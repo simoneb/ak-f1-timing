@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,15 +35,15 @@ namespace AK.F1.Timing.Model.Grid
         /// This method is a no-operation.
         /// </summary>
         /// <param name="message">The message to process.</param>        
-        public override void Process(Message message) { }
+        public override void Process(Message message) {}
 
         /// <summary>
         /// This method always returns <see langword="null"/>.
         /// </summary>
         /// <param name="id"></param>
         /// <returns><see langword="null"/>.</returns>
-        public override NullGridRowModel GetRow(int id) {
-
+        public override NullGridRowModel GetRow(int id)
+        {
             return null;
         }
 
@@ -56,8 +56,8 @@ namespace AK.F1.Timing.Model.Grid
         /// </summary>        
         /// <param name="id"></param>
         /// <exception cref="System.NotImplementedException"></exception>
-        protected override NullGridRowModel CreateRow(int id) {
-
+        protected override NullGridRowModel CreateRow(int id)
+        {
             throw Guard.NotImplemented();
         }
 
@@ -65,7 +65,7 @@ namespace AK.F1.Timing.Model.Grid
 
         #region Private Impl.
 
-        private NullGridModel() { }
+        private NullGridModel() {}
 
         #endregion
     }

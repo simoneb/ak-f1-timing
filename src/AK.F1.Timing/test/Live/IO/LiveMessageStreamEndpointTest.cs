@@ -21,68 +21,73 @@ namespace AK.F1.Timing.Live.IO
     public class LiveMessageStreamEndpointTest
     {
         [Fact]
-        public void can_open_stream() {
-
+        public void can_open_stream()
+        {
             var endpoint = new LiveMessageStreamEndpoint();
 
-            using(var stream = endpoint.Open()) {
+            using(var stream = endpoint.Open())
+            {
                 Assert.NotNull(stream);
-            }            
+            }
         }
 
         [Fact]
-        public void can_read_from_stream() {
-
+        public void can_read_from_stream()
+        {
             var buffer = new byte[1];
             var endpoint = new LiveMessageStreamEndpoint();
 
-            using(var stream = endpoint.Open()) {
+            using(var stream = endpoint.Open())
+            {
                 Assert.True(stream.FullyRead(buffer, 0, buffer.Length));
             }
         }
 
         [Fact]
-        public void can_open_zero_keyframe() {
-
+        public void can_open_zero_keyframe()
+        {
             var endpoint = new LiveMessageStreamEndpoint();
 
-            using(var stream = endpoint.OpenKeyframe(0)) {                
+            using(var stream = endpoint.OpenKeyframe(0))
+            {
                 Assert.NotNull(stream);
             }
         }
 
         [Fact]
-        public void can_open_first_keyframe() {
-
+        public void can_open_first_keyframe()
+        {
             var endpoint = new LiveMessageStreamEndpoint();
 
-            using(var stream = endpoint.OpenKeyframe(1)) {
+            using(var stream = endpoint.OpenKeyframe(1))
+            {
                 Assert.NotNull(stream);
             }
         }
 
         [Fact]
-        public void can_read_from_keyframe_stream() {
-
+        public void can_read_from_keyframe_stream()
+        {
             var buffer = new byte[1];
             var endpoint = new LiveMessageStreamEndpoint();
 
-            using(var stream = endpoint.OpenKeyframe(0)) {
+            using(var stream = endpoint.OpenKeyframe(0))
+            {
                 Assert.True(stream.FullyRead(buffer, 0, buffer.Length));
-            } 
+            }
         }
 
         [Fact]
-        public void open_keyframe_throws_if_keyframe_does_not_exist() {
-
+        public void open_keyframe_throws_if_keyframe_does_not_exist()
+        {
             var endpoint = new LiveMessageStreamEndpoint();
 
             Assert.Throws<IOException>(() => endpoint.OpenKeyframe(int.MaxValue).Dispose());
         }
 
         [Fact]
-        public void open_keyframe_throws_if_keyframe_is_negative() {
-
+        public void open_keyframe_throws_if_keyframe_is_negative()
+        {
             var endpoint = new LiveMessageStreamEndpoint();
 
             Assert.Throws<ArgumentOutOfRangeException>(() => endpoint.OpenKeyframe(-1).Dispose());

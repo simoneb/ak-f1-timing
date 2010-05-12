@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,47 +25,50 @@ namespace AK.F1.Timing.UI
         #region Internal Interface.
 
         [DebuggerStepThrough]
-        internal static void NotNull<T>(T instance, string paramName) {
-
-            if(instance == null) {
+        internal static void NotNull<T>(T instance, string paramName)
+        {
+            if(instance == null)
+            {
                 throw new ArgumentNullException(paramName);
             }
         }
 
         [DebuggerStepThrough]
-        internal static void InRange(bool condition, string paramName) {
-
-            if(!condition) {
+        internal static void InRange(bool condition, string paramName)
+        {
+            if(!condition)
+            {
                 throw ArgumentOutOfRange(paramName);
             }
         }
 
         [DebuggerStepThrough]
-        internal static void NotNullOrEmpty(string s, string paramName) {
-
+        internal static void NotNullOrEmpty(string s, string paramName)
+        {
             NotNull(s, paramName);
-            if(s.Length == 0) {
+            if(s.Length == 0)
+            {
                 throw new ArgumentException(Resource.ArgEmptyString, paramName);
             }
         }
 
-        internal static void ObjectDisposed(object instance) {
-
+        internal static void ObjectDisposed(object instance)
+        {
             throw new ObjectDisposedException(instance.GetType().Name);
         }
 
-        internal static ArgumentOutOfRangeException ArgumentOutOfRange(string paramName) {
-
+        internal static ArgumentOutOfRangeException ArgumentOutOfRange(string paramName)
+        {
             return new ArgumentOutOfRangeException(paramName);
         }
 
-        internal static NotImplementedException NotImplemented() {
-
+        internal static NotImplementedException NotImplemented()
+        {
             return new NotImplementedException();
         }
 
-        private static string Format(string format, params object[] args) {
-
+        private static string Format(string format, params object[] args)
+        {
             return string.Format(Resource.Culture, format, args);
         }
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,11 +33,6 @@ namespace AK.F1.Timing.Model.Driver
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="QuallyTimesModel"/> class.
-        /// </summary>
-        public QuallyTimesModel() { }
-
-        /// <summary>
         /// Sets the qually time for the specified one-based qually number.
         /// </summary>
         /// <param name="quallyNumber">The one-based qually number.</param>
@@ -45,15 +40,22 @@ namespace AK.F1.Timing.Model.Driver
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="quallyNumber"/> is not positive or is greater than three.
         /// </exception>
-        public void SetTime(int quallyNumber, TimeSpan? value) {
-
-            if(quallyNumber == 1) {
+        public void SetTime(int quallyNumber, TimeSpan? value)
+        {
+            if(quallyNumber == 1)
+            {
                 Q1 = value;
-            } else if(quallyNumber == 2) {
+            }
+            else if(quallyNumber == 2)
+            {
                 Q2 = value;
-            } else if(quallyNumber == 3) {
+            }
+            else if(quallyNumber == 3)
+            {
                 Q3 = value;
-            } else {
+            }
+            else
+            {
                 throw Guard.ArgumentOutOfRange("quallyNumber");
             }
         }
@@ -66,15 +68,22 @@ namespace AK.F1.Timing.Model.Driver
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="quallyNumber"/> is not positive or is greater than three.
         /// </exception>
-        public TimeSpan? GetTime(int quallyNumber) {
-
-            if(quallyNumber == 1) {
+        public TimeSpan? GetTime(int quallyNumber)
+        {
+            if(quallyNumber == 1)
+            {
                 return Q1;
-            } else if(quallyNumber == 2) {
+            }
+            else if(quallyNumber == 2)
+            {
                 return Q2;
-            } else if(quallyNumber == 3) {
+            }
+            else if(quallyNumber == 3)
+            {
                 return Q3;
-            } else {
+            }
+            else
+            {
                 throw Guard.ArgumentOutOfRange("quallyNumber");
             }
         }
@@ -82,8 +91,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the qually one time.
         /// </summary>
-        public TimeSpan? Q1 {
-
+        public TimeSpan? Q1
+        {
             get { return _q1; }
             set { SetProperty("Q1", ref _q1, value); }
         }
@@ -91,8 +100,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the qually two time.
         /// </summary>
-        public TimeSpan? Q2 {
-
+        public TimeSpan? Q2
+        {
             get { return _q2; }
             set { SetProperty("Q2", ref _q2, value); }
         }
@@ -100,8 +109,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the qually three time.
         /// </summary>
-        public TimeSpan? Q3 {
-
+        public TimeSpan? Q3
+        {
             get { return _q3; }
             set { SetProperty("Q3", ref _q3, value); }
         }

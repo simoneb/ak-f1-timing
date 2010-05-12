@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 
 using System;
 using System.IO;
-
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 
@@ -36,16 +35,16 @@ namespace AK.F1.Timing.Live.IO
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="inner"/> is <see langword="null"/>.
         /// </exception>
-        public MessageStreamDelegate(Stream inner) {
-
+        public MessageStreamDelegate(Stream inner)
+        {
             Guard.NotNull(inner, "inner");
 
             Inner = inner;
         }
 
         /// <inheritdoc />
-        public bool FullyRead(byte[] buffer, int offset, int count) {
-
+        public bool FullyRead(byte[] buffer, int offset, int count)
+        {
             CheckDisposed();
 
             return Inner.FullyRead(buffer, offset, count);
@@ -59,9 +58,10 @@ namespace AK.F1.Timing.Live.IO
         #region Protected Interface.
 
         /// <inheritdoc />
-        protected override void Dispose(bool disposing) {
-
-            if(disposing && !IsDisposed) {                
+        protected override void Dispose(bool disposing)
+        {
+            if(disposing && !IsDisposed)
+            {
                 DisposeOf(Inner);
                 Inner = null;
             }

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
+using log4net;
 using Moq;
 using Xunit;
 
@@ -21,16 +21,16 @@ namespace AK.F1.Timing.Live.Encryption
     public class DecrypterFactoryBaseTest
     {
         [Fact]
-        public void can_create_default_decrypter() {
-
+        public void can_create_default_decrypter()
+        {
             var factory = new StubDecrypterFactory();
 
             Assert.NotNull(factory.Create());
         }
 
         [Fact]
-        public void the_default_decrypter_is_created_with_the_default_seed() {
-
+        public void the_default_decrypter_is_created_with_the_default_seed()
+        {
             var factory = new StubDecrypterFactory();
 
             Assert.NotNull(factory.Create());
@@ -38,8 +38,8 @@ namespace AK.F1.Timing.Live.Encryption
         }
 
         [Fact]
-        public void seed_returned_by_get_seed_for_session_is_used_to_create_the_decrypter() {
-
+        public void seed_returned_by_get_seed_for_session_is_used_to_create_the_decrypter()
+        {
             var factory = new StubDecrypterFactory();
 
             Assert.NotNull(factory.Create("sessionId"));
@@ -47,8 +47,8 @@ namespace AK.F1.Timing.Live.Encryption
         }
 
         [Fact]
-        public void seeds_for_previously_resolved_sessions_are_cached() {
-
+        public void seeds_for_previously_resolved_sessions_are_cached()
+        {
             var factory = new StubDecrypterFactory();
 
             Assert.NotNull(factory.Create("sessionId"));
@@ -58,8 +58,8 @@ namespace AK.F1.Timing.Live.Encryption
         }
 
         [Fact]
-        public void the_seed_cache_is_case_sensitive() {
-
+        public void the_seed_cache_is_case_sensitive()
+        {
             var factory = new StubDecrypterFactory();
 
             Assert.NotNull(factory.Create("sessionId"));
@@ -69,8 +69,8 @@ namespace AK.F1.Timing.Live.Encryption
         }
 
         [Fact]
-        public void can_get_the_factory_log() {
-
+        public void can_get_the_factory_log()
+        {
             var factory = new StubDecrypterFactory();
 
             Assert.NotNull(factory.GetLogProperty());
@@ -78,8 +78,8 @@ namespace AK.F1.Timing.Live.Encryption
 
         private sealed class StubDecrypterFactory : DecrypterFactoryBase
         {
-            protected override int GetSeedForSession(string sessionId) {
-
+            protected override int GetSeedForSession(string sessionId)
+            {
                 ++GetSeedForSessionCount;
 
                 return 7;
@@ -87,15 +87,15 @@ namespace AK.F1.Timing.Live.Encryption
 
             public int GetSeedForSessionCount { get; set; }
 
-            protected override IDecrypter CreateWithSeed(int seed) {
-
+            protected override IDecrypter CreateWithSeed(int seed)
+            {
                 CreateWithSeed_Seed = seed;
 
                 return new Mock<IDecrypter>().Object;
             }
 
-            public log4net.ILog GetLogProperty() {
-
+            public ILog GetLogProperty()
+            {
                 return Log;
             }
 

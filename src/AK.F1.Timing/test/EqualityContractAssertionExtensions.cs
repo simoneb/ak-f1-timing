@@ -24,25 +24,28 @@ namespace AK.F1.Timing
         public static void EqualityContract<T>(this Assertions assert,
             IEnumerable<T> equivalentInstances,
             IEnumerable<T> distinctInstances)
-            where T : IEquatable<T> {
-
+            where T : IEquatable<T>
+        {
             DoEquivalentAssertions(assert, equivalentInstances);
             DoDistinctAssertions(assert, distinctInstances);
         }
 
         private static void DoEquivalentAssertions<T>(Assertions assert,
             IEnumerable<T> equivalentInstances)
-            where T : IEquatable<T> {
-
-            if(equivalentInstances == null) {
+            where T : IEquatable<T>
+        {
+            if(equivalentInstances == null)
+            {
                 throw new ArgumentNullException("equivalentInstances");
             }
 
             var equivalentInstancesCopy = equivalentInstances.ToArray();
 
-            foreach(var x in equivalentInstancesCopy) {
+            foreach(var x in equivalentInstancesCopy)
+            {
                 DoGeneralInstanceAssertions(assert, x);
-                foreach(var y in equivalentInstancesCopy) {
+                foreach(var y in equivalentInstancesCopy)
+                {
                     assert.True(x.GetHashCode() == y.GetHashCode());
                     assert.True(x.Equals(y));
                     assert.True(x.Equals((object)y));
@@ -54,9 +57,10 @@ namespace AK.F1.Timing
 
         private static void DoDistinctAssertions<T>(Assertions assert,
             IEnumerable<T> distinctInstances)
-            where T : IEquatable<T> {
-
-            if(distinctInstances == null) {
+            where T : IEquatable<T>
+        {
+            if(distinctInstances == null)
+            {
                 throw new ArgumentNullException("distinctInstances");
             }
 
@@ -64,10 +68,13 @@ namespace AK.F1.Timing
             int yIndex = 0;
             var distinctInstancesCopy = distinctInstances.ToArray();
 
-            foreach(var x in distinctInstancesCopy) {
+            foreach(var x in distinctInstancesCopy)
+            {
                 DoGeneralInstanceAssertions(assert, x);
-                foreach(var y in distinctInstancesCopy) {
-                    if(yIndex != xIndex) {
+                foreach(var y in distinctInstancesCopy)
+                {
+                    if(yIndex != xIndex)
+                    {
                         assert.False(x.GetHashCode() == y.GetHashCode());
                         assert.False(x.Equals(y));
                         assert.False(x.Equals((object)y));
@@ -82,14 +89,15 @@ namespace AK.F1.Timing
         }
 
         private static void DoGeneralInstanceAssertions<T>(Assertions assert, T x)
-            where T : IEquatable<T> {
-
-            if(!x.GetType().IsValueType) {
-                var method = x.GetType().GetMethod("Equals", new[] { typeof(T) });
-                var result = method.Invoke(x, new object[] { null });
+            where T : IEquatable<T>
+        {
+            if(!x.GetType().IsValueType)
+            {
+                var method = x.GetType().GetMethod("Equals", new[] {typeof(T)});
+                var result = method.Invoke(x, new object[] {null});
                 assert.False((bool)result);
-            }            
-            assert.False(x.Equals((object)null));
+            }
+            assert.False(x.Equals(null));
             assert.True(x.Equals(x));
             assert.True(x.Equals((object)x));
             assert.True(x.GetHashCode() == x.GetHashCode());

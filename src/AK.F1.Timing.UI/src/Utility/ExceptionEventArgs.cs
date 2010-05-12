@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -32,8 +32,8 @@ namespace AK.F1.Timing.UI.Utility
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="exception"/> is <see langword="null"/>.
         /// </exception>
-        public ExceptionEventArgs(Exception exception) {
-
+        public ExceptionEventArgs(Exception exception)
+        {
             Guard.NotNull(exception, "exception");
 
             Exception = exception;

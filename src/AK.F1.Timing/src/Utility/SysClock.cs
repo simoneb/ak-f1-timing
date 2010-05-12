@@ -28,8 +28,8 @@ namespace AK.F1.Timing.Utility
         /// Returns the current system time.
         /// </summary>
         /// <returns>The current system time.</returns>
-        public static DateTime Now() {
-
+        public static DateTime Now()
+        {
             return DateTime.UtcNow;
         }
 
@@ -37,8 +37,8 @@ namespace AK.F1.Timing.Utility
         /// Gets the current tick count.
         /// </summary>
         /// <returns>The current tick count.</returns>
-        public static TimeSpan Ticks() {
-
+        public static TimeSpan Ticks()
+        {
             return TimeSpan.FromTicks(Stopwatch.GetTimestamp());
         }
 

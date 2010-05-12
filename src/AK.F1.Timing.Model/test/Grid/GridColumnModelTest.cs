@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,29 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Linq;
-using Xunit;
-
 using AK.F1.Timing.Messages.Driver;
+using Xunit;
 
 namespace AK.F1.Timing.Model.Grid
 {
     public class GridColumnModelTest
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var column = new GridColumnModel(GridColumn.DriverName);
 
             Assert.Equal(GridColumn.DriverName, column.Type);
             assert_properties_have_default_values(column);
-            
         }
 
         [Fact]
-        public void can_reset() {
-
+        public void can_reset()
+        {
             var column = new GridColumnModel(GridColumn.DriverName);
 
             column.Text = "Text";
@@ -47,13 +43,13 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void setting_the_text_property_raises_the_change_event_if_is_has_changed() {
-            
+        public void setting_the_text_property_raises_the_change_event_if_is_has_changed()
+        {
             var column = new GridColumnModel(GridColumn.DriverName);
             var observer = new PropertyChangeObserver<GridColumnModel>(column);
 
             column.Text = "Andy";
-            Assert.True(observer.HasChanged(x => x.Text));            
+            Assert.True(observer.HasChanged(x => x.Text));
             column.Text = "Andy";
             Assert.True(observer.HasChanged(x => x.Text));
             column.Text = null;
@@ -61,8 +57,8 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void setting_the_text_colour_property_raises_the_change_event_if_is_has_changed() {
-
+        public void setting_the_text_colour_property_raises_the_change_event_if_is_has_changed()
+        {
             var column = new GridColumnModel(GridColumn.DriverName);
             var observer = new PropertyChangeObserver<GridColumnModel>(column);
 
@@ -74,8 +70,8 @@ namespace AK.F1.Timing.Model.Grid
             Assert.Equal(2, observer.GetChangeCount(x => x.TextColour));
         }
 
-        private static void assert_properties_have_default_values(GridColumnModel column) {
-
+        private static void assert_properties_have_default_values(GridColumnModel column)
+        {
             Assert.Equal(null, column.Text);
             Assert.Equal(GridColumnColour.Black, column.TextColour);
         }

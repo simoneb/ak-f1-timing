@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using AK.F1.Timing.Utility;
@@ -36,8 +35,8 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="input"/> is <see langword="null"/>.
         /// </exception>
-        public DecoratedObjectReader(Stream input) {
-
+        public DecoratedObjectReader(Stream input)
+        {
             Guard.NotNull(input, "input");
 
             Context = new StreamingContext(StreamingContextStates.All);
@@ -45,19 +44,23 @@ namespace AK.F1.Timing.Serialization
         }
 
         /// <inheritcdoc/>        
-        public object Read() {
-
+        public object Read()
+        {
             CheckDisposed();
 
             ObjectTypeCode typeCode;
 
-            try {
+            try
+            {
                 typeCode = ReadObjectTypeCode();
-                if(typeCode == ObjectTypeCode.Object) {
+                if(typeCode == ObjectTypeCode.Object)
+                {
                     return ReadObject();
                 }
                 return ReadPrimitive(typeCode);
-            } catch(EndOfStreamException exc) {
+            }
+            catch(EndOfStreamException exc)
+            {
                 throw Guard.DecoratedObjectReader_UnexpectedEndOfStream(exc);
             }
         }
@@ -66,22 +69,24 @@ namespace AK.F1.Timing.Serialization
 
         #region Private Impl.
 
-        private ObjectTypeCode ReadObjectTypeCode() {
-
+        private ObjectTypeCode ReadObjectTypeCode()
+        {
             return (ObjectTypeCode)Input.ReadByte();
         }
 
-        private object ReadObject() {
-
+        private object ReadObject()
+        {
             byte propertyId;
             PropertyDescriptor property;
             TypeDescriptor descriptor = TypeDescriptor.For(Input.ReadInt32());
             object component = descriptor.Type.GetUninitializedInstance();
             byte propertyCount = Input.ReadByte();
 
-            while(propertyCount-- > 0) {
+            while(propertyCount-- > 0)
+            {
                 propertyId = Input.ReadByte();
-                if((property = descriptor.Properties.GetById(propertyId)) == null) {
+                if((property = descriptor.Properties.GetById(propertyId)) == null)
+                {
                     throw Guard.DecoratedObjectReader_PropertyMissing(propertyId, descriptor);
                 }
                 property.SetValue(component, Read());
@@ -90,16 +95,17 @@ namespace AK.F1.Timing.Serialization
             return GetRealObject(component);
         }
 
-        private object GetRealObject(object instance) {
-
+        private object GetRealObject(object instance)
+        {
             IObjectReference reference = instance as IObjectReference;
 
             return reference != null ? reference.GetRealObject(Context) : instance;
         }
 
-        private object ReadPrimitive(ObjectTypeCode typeCode) {
-
-            switch(typeCode) {
+        private object ReadPrimitive(ObjectTypeCode typeCode)
+        {
+            switch(typeCode)
+            {
                 case ObjectTypeCode.Empty:
                     return null;
                 case ObjectTypeCode.Object:

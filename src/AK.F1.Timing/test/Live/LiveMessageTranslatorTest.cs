@@ -17,30 +17,29 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Xunit;
-using Xunit.Extensions;
-
 using AK.F1.Timing.Messages;
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
+using Xunit;
+using Xunit.Extensions;
 
 namespace AK.F1.Timing.Live
 {
     public partial class LiveMessageTranslatorTest : TestBase
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var translator = new LiveMessageTranslator();
 
-            Assert.Equal(0, translator.RaceLapNumber);            
+            Assert.Equal(0, translator.RaceLapNumber);
             Assert.Equal(SessionType.None, translator.SessionType);
             Assert.True(translator.IsSessionStarted);
         }
 
         [Fact]
-        public void can_change_the_session_type() {
-
+        public void can_change_the_session_type()
+        {
             var translator = new LiveMessageTranslator();
 
             translator.ChangeSessionType(SessionType.Practice);
@@ -48,29 +47,29 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void changing_the_session_type_resets_the_translator() {
-
+        public void changing_the_session_type_resets_the_translator()
+        {
             var translator = new LiveMessageTranslator();
-            
+
             translator.RaceLapNumber = 5;
             translator.ChangeSessionType(SessionType.Qually);
             Assert.Equal(0, translator.RaceLapNumber);
         }
 
         [Fact]
-        public void changing_to_the_same_session_type_does_not_reset_the_translator() {
-
+        public void changing_to_the_same_session_type_does_not_reset_the_translator()
+        {
             var translator = new LiveMessageTranslator();
 
             translator.ChangeSessionType(SessionType.Practice);
-            translator.RaceLapNumber = 5;            
+            translator.RaceLapNumber = 5;
             translator.ChangeSessionType(SessionType.Practice);
             Assert.Equal(5, translator.RaceLapNumber);
         }
 
         [Fact]
-        public void can_determine_if_the_session_has_started() {
-
+        public void can_determine_if_the_session_has_started()
+        {
             var translator = new LiveMessageTranslator();
 
             translator.ChangeSessionType(SessionType.None);
@@ -89,8 +88,8 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void can_determine_if_it_a_race_session() {
-
+        public void can_determine_if_it_a_race_session()
+        {
             var translator = new LiveMessageTranslator();
 
             translator.ChangeSessionType(SessionType.Race);
@@ -105,8 +104,8 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void can_get_a_driver() {
-
+        public void can_get_a_driver()
+        {
             var translator = new LiveMessageTranslator();
 
             Assert.NotNull(translator.GetDriver(1));
@@ -114,8 +113,8 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void get_driver_returns_the_same_driver_given_the_same_id_or_message() {
-
+        public void get_driver_returns_the_same_driver_given_the_same_id_or_message()
+        {
             var translator = new LiveMessageTranslator();
             var message = new SetDriverPositionMessage(1, 1);
 
@@ -125,16 +124,16 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void translate_throws_if_message_is_null() {
-
+        public void translate_throws_if_message_is_null()
+        {
             var translator = new LiveMessageTranslator();
 
             Assert.Throws<ArgumentNullException>(() => translator.Translate(null));
         }
 
         [Fact]
-        public void when_a_set_session_type_message_is_processed_the_session_type_is_updated() {
-
+        public void when_a_set_session_type_message_is_processed_the_session_type_is_updated()
+        {
             var translator = new LiveMessageTranslator();
             var message = new SetSessionTypeMessage(SessionType.Practice, "SessionId");
 
@@ -144,25 +143,26 @@ namespace AK.F1.Timing.Live
 
         [Theory]
         [ClassData(typeof(AllSessionTypes))]
-        public void colour_updates_to_a_column_with_no_value_are_not_translated(SessionType session) {
-
+        public void colour_updates_to_a_column_with_no_value_are_not_translated(SessionType session)
+        {
             var combinations = from column in Enum.GetValues(typeof(GridColumn)).Cast<GridColumn>()
                                from colour in Enum.GetValues(typeof(GridColumnColour)).Cast<GridColumnColour>()
-                               select new { Column = column, Colour = colour };
+                               select new {Column = column, Colour = colour};
 
-            foreach(var combination in combinations) {
-                In(session).Assert(translator => {
-                    Assert.Null(translator.Translate(new SetGridColumnColourMessage(1, combination.Column, combination.Colour)));
-                });
+            foreach(var combination in combinations)
+            {
+                In(session).Assert(translator => { Assert.Null(translator.Translate(new SetGridColumnColourMessage(1, combination.Column, combination.Colour))); });
             }
         }
 
         [Theory]
         [ClassData(typeof(AllSessionTypes))]
-        public void unknown_column_values_are_not_translated(SessionType session) {
-
-            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
-                In(session).Assert(translator => {
+        public void unknown_column_values_are_not_translated(SessionType session)
+        {
+            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour)))
+            {
+                In(session).Assert(translator =>
+                {
                     Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Unknown, colour, null)));
                     Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Unknown, colour, "Unknown")));
                 });
@@ -171,41 +171,40 @@ namespace AK.F1.Timing.Live
 
         [Theory]
         [ClassData(typeof(AllSessionTypes))]
-        public void unknown_column_colours_are_not_translated(SessionType session) {
-
-            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour))) {
-                In(session).Assert(translator => {
-                    Assert.Null(translator.Translate(new SetGridColumnColourMessage(1, GridColumn.Unknown, colour)));
-                });
+        public void unknown_column_colours_are_not_translated(SessionType session)
+        {
+            foreach(GridColumnColour colour in Enum.GetValues(typeof(GridColumnColour)))
+            {
+                In(session).Assert(translator => { Assert.Null(translator.Translate(new SetGridColumnColourMessage(1, GridColumn.Unknown, colour))); });
             }
         }
 
         [Theory]
         [ClassData(typeof(AllSessionTypes))]
-        public void driver_name_column_values_are_translated_into_set_driver_name_messages(SessionType session) {
-
-            In(session).Assert(translator => {
+        public void driver_name_column_values_are_translated_into_set_driver_name_messages(SessionType session)
+        {
+            In(session).Assert(translator =>
+            {
                 Assert.MessagesAreEqual(
                     new SetDriverNameMessage(1, "A. DRIVER"),
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.White, "A. DRIVER"))
-                );
+                    );
             });
         }
 
         [Theory]
         [ClassData(typeof(AllSessionTypes))]
-        public void position_column_values_are_not_translated_as_positions_are_provided_by_the_feed(SessionType session) {
-
-            In(session).Assert(translator => {
-                Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.White, "10")));
-            });
+        public void position_column_values_are_not_translated_as_positions_are_provided_by_the_feed(SessionType session)
+        {
+            In(session).Assert(translator => { Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.White, "10"))); });
         }
 
         #region Translation
 
-        private Translation Translate(params Message[] messages) {
-
-            if(messages == null || messages.Length == 0) {
+        private Translation Translate(params Message[] messages)
+        {
+            if(messages == null || messages.Length == 0)
+            {
                 throw new ArgumentNullException("messages");
             }
 
@@ -217,28 +216,30 @@ namespace AK.F1.Timing.Live
             private Action<Message> _validator;
             private readonly Message[] _messages;
             private readonly Assertions _assert;
-            private readonly ICollection<SessionType> _sessionTypes = new HashSet<SessionType>();            
+            private readonly ICollection<SessionType> _sessionTypes = new HashSet<SessionType>();
 
-            public Translation(Assertions assert, params Message[] messages) {
-
+            public Translation(Assertions assert, params Message[] messages)
+            {
                 _messages = messages;
                 _assert = assert;
             }
 
-            public Translation Expect(Message expectation) {
-
+            public Translation Expect(Message expectation)
+            {
                 _validator = actual => _assert.MessagesAreEqual(expectation, actual);
 
                 return this;
             }
 
-            public Translation Expect(params Message[] expectations) {
-
-                _validator = actual => {
+            public Translation Expect(params Message[] expectations)
+            {
+                _validator = actual =>
+                {
                     _assert.IsType<CompositeMessage>(actual);
                     var actuals = ((CompositeMessage)actual).Messages;
                     _assert.Equal(expectations.Length, actuals.Count);
-                    for(int i = 0; i < expectations.Length; ++i) {
+                    for(int i = 0; i < expectations.Length; ++i)
+                    {
                         _assert.MessagesAreEqual(expectations[i], actuals[i]);
                     }
                 };
@@ -246,60 +247,63 @@ namespace AK.F1.Timing.Live
                 return this;
             }
 
-            public Translation ExpectNull() {
-
+            public Translation ExpectNull()
+            {
                 _validator = actual => _assert.Null(actual);
 
                 return this;
             }
 
-            public Translation InAllSessions() {
-
-                foreach(SessionType sessionType in Enum.GetValues(typeof(SessionType))) {
+            public Translation InAllSessions()
+            {
+                foreach(SessionType sessionType in Enum.GetValues(typeof(SessionType)))
+                {
                     _sessionTypes.Add(sessionType);
                 }
 
                 return this;
             }
 
-            public Translation InPracticeSession() {
-
+            public Translation InPracticeSession()
+            {
                 _sessionTypes.Add(SessionType.Practice);
 
                 return this;
             }
 
-            public Translation InQuallySession() {
-
+            public Translation InQuallySession()
+            {
                 _sessionTypes.Add(SessionType.Qually);
 
                 return this;
             }
 
-            public Translation InRaceSession() {
-
+            public Translation InRaceSession()
+            {
                 _sessionTypes.Add(SessionType.Race);
 
                 return this;
             }
 
-            public void Assert() {
-
+            public void Assert()
+            {
                 Debug.Assert(_validator != null);
                 Debug.Assert(_sessionTypes.Count > 0);
 
                 ValidateTranslationInEachSessionType(_validator);
             }
 
-            private void ValidateTranslationInEachSessionType(Action<Message> validator) {
-
+            private void ValidateTranslationInEachSessionType(Action<Message> validator)
+            {
                 Message translation = null;
                 LiveMessageTranslator translator;
 
-                foreach(var sessionType in _sessionTypes) {
+                foreach(var sessionType in _sessionTypes)
+                {
                     translator = new LiveMessageTranslator();
                     translator.ChangeSessionType(sessionType);
-                    foreach(var message in _messages) {
+                    foreach(var message in _messages)
+                    {
                         translation = translator.Translate(message);
                     }
                     validator(translation);
@@ -307,13 +311,13 @@ namespace AK.F1.Timing.Live
             }
         }
 
-        private static PostedTime PT(double seconds, PostedTimeType type, int lapNumber) {
-
+        private static PostedTime PT(double seconds, PostedTimeType type, int lapNumber)
+        {
             return new PostedTime(TimeSpan.FromSeconds(seconds), type, lapNumber);
         }
 
-        private static Scenario In(SessionType session) {
-
+        private static Scenario In(SessionType session)
+        {
             return new Scenario(session);
         }
 
@@ -321,73 +325,76 @@ namespace AK.F1.Timing.Live
         {
             private readonly LiveMessageTranslator _translator;
 
-            public Scenario(SessionType inSession) {
-                
+            public Scenario(SessionType inSession)
+            {
                 _translator = new LiveMessageTranslator();
                 _translator.ChangeSessionType(inSession);
-            }            
+            }
 
-            public Scenario OnLap(int raceLapNumber) {
-
+            public Scenario OnLap(int raceLapNumber)
+            {
                 _translator.RaceLapNumber = raceLapNumber;
 
                 return this;
             }
 
-            public void Assert(Action<LiveMessageTranslator> assertions) {
-
+            public void Assert(Action<LiveMessageTranslator> assertions)
+            {
                 assertions(_translator);
             }
         }
 
         private sealed class AllSessionTypes : IEnumerable<object[]>
         {
-            public IEnumerator<object[]> GetEnumerator() {
-
-                foreach(SessionType type in Enum.GetValues(typeof(SessionType))) {
-                    yield return new object[] { type };
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                foreach(SessionType type in Enum.GetValues(typeof(SessionType)))
+                {
+                    yield return new object[] {type};
                 }
             }
 
-            IEnumerator IEnumerable.GetEnumerator() {
-
+            IEnumerator IEnumerable.GetEnumerator()
+            {
                 return GetEnumerator();
             }
         }
 
         private sealed class AllSessionTypesExceptRace : IEnumerable<object[]>
         {
-            public IEnumerator<object[]> GetEnumerator() {
-
-                foreach(SessionType type in Enum.GetValues(typeof(SessionType))) {
-                    if(type != SessionType.Race) {
-                        yield return new object[] { type };
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                foreach(SessionType type in Enum.GetValues(typeof(SessionType)))
+                {
+                    if(type != SessionType.Race)
+                    {
+                        yield return new object[] {type};
                     }
                 }
             }
 
-            IEnumerator IEnumerable.GetEnumerator() {
-
+            IEnumerator IEnumerable.GetEnumerator()
+            {
                 return GetEnumerator();
             }
         }
 
         private sealed class AllSectorGridColumns_AllSessionTypes : IEnumerable<object[]>
         {
-            public IEnumerator<object[]> GetEnumerator() {
-
+            public IEnumerator<object[]> GetEnumerator()
+            {
                 return (from sector in A(GridColumn.S1, GridColumn.S2, GridColumn.S3)
                         from session in Enum.GetValues(typeof(SessionType)).Cast<object>()
                         select A(sector, session)).GetEnumerator();
             }
 
-            IEnumerator IEnumerable.GetEnumerator() {
-
+            IEnumerator IEnumerable.GetEnumerator()
+            {
                 return GetEnumerator();
             }
 
-            private static object[] A(params object[] args) {
-
+            private static object[] A(params object[] args)
+            {
                 return args;
             }
         }

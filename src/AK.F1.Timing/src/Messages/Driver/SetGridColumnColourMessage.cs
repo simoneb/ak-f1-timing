@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,23 +33,23 @@ namespace AK.F1.Timing.Messages.Driver
         /// <param name="column">The column whose value is to be set.</param>
         /// <param name="colour">The column colour value.</param>
         public SetGridColumnColourMessage(int driverId, GridColumn column,
-            GridColumnColour colour) : base(driverId) {
-
+            GridColumnColour colour) : base(driverId)
+        {
             Column = column;
-            Colour = colour;            
+            Colour = colour;
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("DriverId={0}, Column='{1}', Colour='{2}'",
                 DriverId, Column, Colour);
         }
@@ -64,7 +64,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// Gets the colour which to set the column.
         /// </summary>
         [PropertyId(2)]
-        public GridColumnColour Colour { get; private set; }        
+        public GridColumnColour Colour { get; private set; }
 
         #endregion
     }

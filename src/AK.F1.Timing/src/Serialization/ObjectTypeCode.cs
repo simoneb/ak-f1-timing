@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ namespace AK.F1.Timing.Serialization
         /// <summary>
         /// A <see cref="System.UInt32"/>.
         /// </summary>
-        UInt32 = 10,        
+        UInt32 = 10,
         /// <summary>
         /// A <see cref="System.Int64"/>.
         /// </summary>

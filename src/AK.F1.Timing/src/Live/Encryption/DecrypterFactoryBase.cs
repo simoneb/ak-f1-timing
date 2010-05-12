@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,9 +14,10 @@
 
 using System;
 using System.Collections.Generic;
+using log4net;
 
 namespace AK.F1.Timing.Live.Encryption
-{    
+{
     /// <summary>
     /// Defines a base class for <see cref="AK.F1.Timing.Live.Encryption.IDecrypterFactory"/>
     /// implementations which provides seed caching capabilities. This class is
@@ -31,7 +32,7 @@ namespace AK.F1.Timing.Live.Encryption
     {
         #region Private Fields.
 
-        private log4net.ILog _log;
+        private ILog _log;
 
         #endregion
 
@@ -43,24 +44,27 @@ namespace AK.F1.Timing.Live.Encryption
         public const int DefaultSeed = 0;
 
         /// <inheritdoc />
-        public virtual IDecrypter Create() {
-
+        public virtual IDecrypter Create()
+        {
             Log.Info("creating decrypter with default seed");
 
-            return CreateWithSeed(DecrypterFactoryBase.DefaultSeed);
+            return CreateWithSeed(DefaultSeed);
         }
 
         /// <inheritdoc />
-        public IDecrypter Create(string sessionId) {
-
+        public IDecrypter Create(string sessionId)
+        {
             Guard.NotNullOrEmpty(sessionId, "sessionId");
 
             int seed;
 
-            if(!SeedCache.TryGetValue(sessionId, out seed)) {
+            if(!SeedCache.TryGetValue(sessionId, out seed))
+            {
                 seed = GetSeedForSession(sessionId);
                 SeedCache.Add(sessionId, seed);
-            } else {
+            }
+            else
+            {
                 Log.InfoFormat("cache hit for session {0} with seed {1}", sessionId, seed);
             }
 
@@ -76,8 +80,8 @@ namespace AK.F1.Timing.Live.Encryption
         /// <summary>
         /// Initialises a new instance of the <see cref="DecrypterFactoryBase"/> class.
         /// </summary>
-        protected DecrypterFactoryBase() {
-
+        protected DecrypterFactoryBase()
+        {
             SeedCache = new Dictionary<string, int>(StringComparer.Ordinal);
         }
 
@@ -104,16 +108,18 @@ namespace AK.F1.Timing.Live.Encryption
         /// <param name="seed">The decryption seed.</param>
         /// <returns>A new <see cref="AK.F1.Timing.Live.Encryption.IDecrypter"/> using the specified
         /// <paramref name="seed"/>.</returns>
-        protected abstract IDecrypter CreateWithSeed(int seed);        
+        protected abstract IDecrypter CreateWithSeed(int seed);
 
         /// <summary>
         /// Gets the <see cref="log4net.ILog"/> for this type.
         /// </summary>
-        protected log4net.ILog Log {
-
-            get {
-                if(_log == null) {
-                    _log = log4net.LogManager.GetLogger(GetType());
+        protected ILog Log
+        {
+            get
+            {
+                if(_log == null)
+                {
+                    _log = LogManager.GetLogger(GetType());
                 }
                 return _log;
             }

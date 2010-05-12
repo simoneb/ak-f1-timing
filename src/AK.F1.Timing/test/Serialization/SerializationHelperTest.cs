@@ -16,71 +16,64 @@ using System;
 using System.Linq;
 using Xunit;
 
-using AK.F1.Timing.Serialization;
-
 namespace AK.F1.Timing.Serialization
 {
     public class SerializationHelperTest
     {
         [Fact]
-        public void get_uninitialised_instance_throws_if_type_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                SerializationHelper.GetUninitializedInstance(null);
-            });
+        public void get_uninitialised_instance_throws_if_type_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { SerializationHelper.GetUninitializedInstance(null); });
         }
 
         [Fact]
-        public void get_uninitialised_instance_does_not_require_a_public_parameterless_ctor() {
-
-            Assert.DoesNotThrow(() => {
-                var obj = SerializationHelper.GetUninitializedInstance(typeof(ClassWithPrivateCtor));
-            });            
+        public void get_uninitialised_instance_does_not_require_a_public_parameterless_ctor()
+        {
+            Assert.DoesNotThrow(() => { var obj = typeof(ClassWithPrivateCtor).GetUninitializedInstance(); });
         }
 
         [Fact]
-        public void get_uninitialised_instance_does_not_invoke_the_parameterless_ctor() {
-
-            var obj = (ClassWithPublicCtor)SerializationHelper.GetUninitializedInstance(typeof(ClassWithPublicCtor));
+        public void get_uninitialised_instance_does_not_invoke_the_parameterless_ctor()
+        {
+            var obj = (ClassWithPublicCtor)typeof(ClassWithPublicCtor).GetUninitializedInstance();
 
             Assert.False(obj.Initialised);
         }
 
         [Fact]
-        public void get_object_type_code_throws_if_type_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                SerializationHelper.GetObjectTypeCode(null);
-            });
+        public void get_object_type_code_throws_if_type_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { SerializationHelper.GetObjectTypeCode(null); });
         }
 
         [Fact]
-        public void get_object_type_code_returns_correct_code_for_all_defined_values() {
-
+        public void get_object_type_code_returns_correct_code_for_all_defined_values()
+        {
             Type type;
             var names = Enum.GetNames(typeof(ObjectTypeCode))
-                .Except(new[] { "Empty" })
+                .Except(new[] {"Empty"})
                 .ToList();
             var values = Enum.GetValues(typeof(ObjectTypeCode))
                 .Cast<ObjectTypeCode>()
-                .Except(new[] { ObjectTypeCode.Empty })
+                .Except(new[] {ObjectTypeCode.Empty})
                 .ToList();
 
-            foreach(var i in Enumerable.Range(0, names.Count())) {
+            foreach(var i in Enumerable.Range(0, names.Count()))
+            {
                 type = Type.GetType(string.Format("System.{0}", names[i]), true);
-                Assert.Equal(values[i], SerializationHelper.GetObjectTypeCode(type));
+                Assert.Equal(values[i], type.GetObjectTypeCode());
             }
         }
 
         private sealed class ClassWithPrivateCtor
         {
-            private ClassWithPrivateCtor() { }
+            private ClassWithPrivateCtor() {}
         }
 
         private sealed class ClassWithPublicCtor
         {
-            public ClassWithPublicCtor() {
-
+            public ClassWithPublicCtor()
+            {
                 Initialised = true;
             }
 

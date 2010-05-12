@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,27 +14,23 @@
 
 using System;
 using System.Diagnostics;
-using System.Collections.Generic;
+using AK.F1.Timing.Messages.Feed;
 using Moq;
 using Xunit;
-
-using AK.F1.Timing.Messages.Feed;
 
 namespace AK.F1.Timing.Recording
 {
     public class RecordedMessageDelayEngineTest : TestBase
     {
         [Fact]
-        public void ctor_throws_if_reader_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                var engine = new RecordedMessageDelayEngine(null);
-            });
+        public void ctor_throws_if_reader_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { var engine = new RecordedMessageDelayEngine(null); });
         }
 
         [Fact]
-        public void engine_should_delay_by_amount_specified_in_message() {
-
+        public void engine_should_delay_by_amount_specified_in_message()
+        {
             var playbackSpeed = 1D;
             var delay = TimeSpan.FromSeconds(1D);
             var actual = ProcessDelay(delay, playbackSpeed);
@@ -43,8 +39,8 @@ namespace AK.F1.Timing.Recording
         }
 
         [Fact]
-        public void engine_should_scale_delay_using_the_read_reader_playback_speed() {
-
+        public void engine_should_scale_delay_using_the_read_reader_playback_speed()
+        {
             var playbackSpeed = 2D;
             var delay = TimeSpan.FromSeconds(1D);
             var actual = ProcessDelay(delay, playbackSpeed);
@@ -52,8 +48,8 @@ namespace AK.F1.Timing.Recording
             Assert.InRange(actual, TimeSpan.FromMilliseconds(450), TimeSpan.FromMilliseconds(550));
         }
 
-        private TimeSpan ProcessDelay(TimeSpan delay, double playbackSpeed) {
-
+        private TimeSpan ProcessDelay(TimeSpan delay, double playbackSpeed)
+        {
             var sw = new Stopwatch();
             var reader = new Mock<IRecordedMessageReader>();
             var engine = new RecordedMessageDelayEngine(reader.Object);

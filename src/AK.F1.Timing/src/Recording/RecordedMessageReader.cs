@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
-
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Recording
@@ -46,8 +44,8 @@ namespace AK.F1.Timing.Recording
         /// Thrown when an IO error occurs whilst creating the internal
         /// <see cref="System.IO.FileStream"/> using the supplied arguments.
         /// </exception>
-        public RecordedMessageReader(string path) {
-
+        public RecordedMessageReader(string path)
+        {
             Initialise(new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read), true);
         }
 
@@ -59,18 +57,19 @@ namespace AK.F1.Timing.Recording
         /// <param name="input">The input stream.</param>
         /// <param name="ownsInput"><see langword="true"/> if the reader owns the specified
         /// <paramref name="input"/> stream, otherwise; <see langword="false"/>.</param>
-        public RecordedMessageReader(Stream input, bool ownsInput) {
-
+        public RecordedMessageReader(Stream input, bool ownsInput)
+        {
             Guard.NotNull(input, "output");
 
             Initialise(input, ownsInput);
         }
 
         /// <inheritdoc />
-        public double PlaybackSpeed {
-
+        public double PlaybackSpeed
+        {
             get { return _playbackSpeed; }
-            set {
+            set
+            {
                 Guard.InRange(value > 0d, "value");
                 _playbackSpeed = value;
             }
@@ -79,12 +78,14 @@ namespace AK.F1.Timing.Recording
         #endregion
 
         /// <inheritdoc />
-        protected override Message ReadImpl() {
-
+        protected override Message ReadImpl()
+        {
             Message message;
 
-            if((message = (Message)Reader.Read()) != null) {
-                if(DelayEngine.Process(message)) {
+            if((message = (Message)Reader.Read()) != null)
+            {
+                if(DelayEngine.Process(message))
+                {
                     // The engine processed a delay message, let our base class handle the re-read.
                     // See MessageReaderBase#Read.
                     message = Message.Empty;
@@ -95,26 +96,29 @@ namespace AK.F1.Timing.Recording
         }
 
         /// <inheritdoc />
-        protected override void Dispose(bool disposing) {
-
-            if(IsDisposed) {
+        protected override void Dispose(bool disposing)
+        {
+            if(IsDisposed)
+            {
                 return;
             }
-            if(disposing) {
+            if(disposing)
+            {
                 DisposeOf(Reader);
-                if(OwnsInput) {
+                if(OwnsInput)
+                {
                     DisposeOf(Input);
-                }                
+                }
             }
             Reader = null;
-            Input = null;            
+            Input = null;
             base.Dispose(disposing);
         }
 
         #region Private Impl.
 
-        private void Initialise(Stream input, bool ownsInput) {
-
+        private void Initialise(Stream input, bool ownsInput)
+        {
             Input = input;
             OwnsInput = ownsInput;
             Reader = new DecoratedObjectReader(input);

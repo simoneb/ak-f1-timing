@@ -1,4 +1,3 @@
-﻿
 // Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -46,13 +45,17 @@ namespace AK.F1.Timing.Model
         /// <returns><see langword="true"/> if the property value has changed and the changed event
         /// was raised, otherwise; <see langword="false"/> to indicate that the property value has
         /// not changed.</returns>
-        protected bool SetProperty<T>(string propertyName, ref T field, T value) {            
-
-            if(field == null) {
-                if(value == null) {
+        protected bool SetProperty<T>(string propertyName, ref T field, T value)
+        {
+            if(field == null)
+            {
+                if(value == null)
+                {
                     return false;
                 }
-            } else if(field.Equals(value)) {
+            }
+            else if(field.Equals(value))
+            {
                 return false;
             }
 
@@ -73,12 +76,13 @@ namespace AK.F1.Timing.Model
         /// Thrown when <paramref name="propertyName"/> is an empty string or if DEBUG is defined
         /// and no such property exists.
         /// </exception>
-        protected virtual void OnPropertyChanged(string propertyName) {
-
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
             Guard.NotNullOrEmpty(propertyName, "propertyName");
             CheckPropertyExists(propertyName);
 
-            if(PropertyChanged != null) {
+            if(PropertyChanged != null)
+            {
                 OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
             }
         }
@@ -90,13 +94,14 @@ namespace AK.F1.Timing.Model
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="e"/> is <see langword="null"/>.
         /// </exception>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e) {
-
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
             Guard.NotNull(e, "e");
 
             PropertyChangedEventHandler @event = PropertyChanged;
 
-            if(@event != null) {
+            if(@event != null)
+            {
                 @event(this, e);
             }
         }
@@ -106,9 +111,10 @@ namespace AK.F1.Timing.Model
         #region Private Impl.
 
         [Conditional("DEBUG")]
-        private void CheckPropertyExists(string propertyName) {
-
-            if(TypeDescriptor.GetProperties(this)[propertyName] == null) {
+        private void CheckPropertyExists(string propertyName)
+        {
+            if(TypeDescriptor.GetProperties(this)[propertyName] == null)
+            {
                 throw Guard.ModelBase_InvalidPropertyName(propertyName, "propertyName");
             }
         }

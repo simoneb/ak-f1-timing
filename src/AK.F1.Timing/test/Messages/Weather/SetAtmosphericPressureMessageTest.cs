@@ -20,16 +20,16 @@ namespace AK.F1.Timing.Messages.Weather
     public class SetAtmosphericPressureMessageTest : MessageTestBase<SetAtmosphericPressureMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1D, message.Pressure);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -39,19 +39,15 @@ namespace AK.F1.Timing.Messages.Weather
         }
 
         [Fact]
-        public void ctor_throws_if_pressure_is_not_positive() {
-
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetAtmosphericPressureMessage(0D);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetAtmosphericPressureMessage(-1D);
-            });
+        public void ctor_throws_if_pressure_is_not_positive()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetAtmosphericPressureMessage(0D); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetAtmosphericPressureMessage(-1D); });
         }
 
-        protected override SetAtmosphericPressureMessage CreateMessage() {
-
+        protected override SetAtmosphericPressureMessage CreateMessage()
+        {
             return new SetAtmosphericPressureMessage(1D);
-        } 
+        }
     }
 }

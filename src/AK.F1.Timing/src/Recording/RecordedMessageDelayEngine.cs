@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 
 using System;
 using System.Threading;
-
 using AK.F1.Timing.Messages.Feed;
 
 namespace AK.F1.Timing.Recording
@@ -36,8 +35,8 @@ namespace AK.F1.Timing.Recording
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="reader"/> is <see langword="null"/>.
         /// </exception>
-        public RecordedMessageDelayEngine(IRecordedMessageReader reader) {
-
+        public RecordedMessageDelayEngine(IRecordedMessageReader reader)
+        {
             Guard.NotNull(reader, "reader");
 
             Reader = reader;
@@ -52,8 +51,8 @@ namespace AK.F1.Timing.Recording
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="message"/> is <see langword="null"/>.
         /// </exception>
-        public bool Process(Message message) {
-
+        public bool Process(Message message)
+        {
             Guard.NotNull(message, "message");
 
             Delayed = false;
@@ -64,12 +63,13 @@ namespace AK.F1.Timing.Recording
         }
 
         /// <inheritdoc />
-        public override void Visit(SetNextMessageDelayMessage message) {
-            
+        public override void Visit(SetNextMessageDelayMessage message)
+        {
             TimeSpan delay = ScaleDelay(message.Delay);
 
-            if(delay > TimeSpan.Zero) {                
-                Thread.Sleep(delay);                
+            if(delay > TimeSpan.Zero)
+            {
+                Thread.Sleep(delay);
             }
 
             Delayed = true;
@@ -79,10 +79,10 @@ namespace AK.F1.Timing.Recording
 
         #region Private Impl.
 
-        private TimeSpan ScaleDelay(TimeSpan delay) {
-
+        private TimeSpan ScaleDelay(TimeSpan delay)
+        {
             double millis = delay.TotalMilliseconds * 1d / Reader.PlaybackSpeed;
-            
+
             return TimeSpan.FromMilliseconds(millis);
         }
 

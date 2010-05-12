@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,11 +13,8 @@
 // limitations under the License.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
-
 using AK.F1.Timing.Messages.Driver;
-using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.Live
 {
@@ -41,8 +38,8 @@ namespace AK.F1.Timing.Live
         /// <summary>
         /// Initialises a new instance of the <see cref="LiveDriver"/> class.
         /// </summary>        
-        public LiveDriver(int id) {
-            
+        public LiveDriver(int id)
+        {
             Reset();
             Id = id;
         }
@@ -50,8 +47,8 @@ namespace AK.F1.Timing.Live
         /// <summary>
         /// Resets all state information associated with this driver.
         /// </summary>
-        public void Reset() {
-
+        public void Reset()
+        {
             CarNumber = 0;
             _columnsWithValue = new BitVector32();
             CurrentSectorNumber = 0;
@@ -61,7 +58,7 @@ namespace AK.F1.Timing.Live
             LastIntervalMessage = null;
             LastLapTime = null;
             LastSectors = new PostedTime[3];
-            Name = null;                        
+            Name = null;
             Position = 0;
             Status = DriverStatus.InPits;
         }
@@ -70,12 +67,14 @@ namespace AK.F1.Timing.Live
         /// Tries to change the status of this driver.
         /// </summary>
         /// <param name="newStatus">The new driver status.</param>
-        public void ChangeStatus(DriverStatus newStatus) {
-
-            if(Status == newStatus) {
+        public void ChangeStatus(DriverStatus newStatus)
+        {
+            if(Status == newStatus)
+            {
                 return;
             }
-            switch(newStatus) {
+            switch(newStatus)
+            {
                 case DriverStatus.InPits:
                     ++LapNumber;
                     CurrentSectorNumber = 1;
@@ -90,8 +89,8 @@ namespace AK.F1.Timing.Live
         /// <param name="column">The column to test.</param>
         /// <returns><see langword="true"/> if the specified column has a value, otherwise;
         /// <see langword="false"/>.</returns>
-        public bool ColumnHasValue(GridColumn column) {
-
+        public bool ColumnHasValue(GridColumn column)
+        {
             return _columnsWithValue[GetBitForColumn(column)];
         }
 
@@ -101,8 +100,8 @@ namespace AK.F1.Timing.Live
         /// <param name="column">The column to set.</param>
         /// <param name="value"><see langword="true"/> if the specified column has a value,
         /// otherwise; <see langword="false"/></param>
-        public void SetColumnHasValue(GridColumn column, bool value) {
-
+        public void SetColumnHasValue(GridColumn column, bool value)
+        {
             _columnsWithValue[GetBitForColumn(column)] = value;
         }
 
@@ -113,8 +112,8 @@ namespace AK.F1.Timing.Live
         /// <param name="sectorNumber">The one-based sector number.</param>
         /// <returns><see langword="true"/> if the sector number is the one currently being completed,
         /// otherwise; <see langword="false"/>.</returns>
-        public bool IsCurrentSectorNumber(int sectorNumber) {
-
+        public bool IsCurrentSectorNumber(int sectorNumber)
+        {
             return HaveCurrentSectorNumber && sectorNumber == CurrentSectorNumber;
         }
 
@@ -125,14 +124,14 @@ namespace AK.F1.Timing.Live
         /// <param name="sectorNumber">The one-based sector number.</param>
         /// <returns><see langword="true"/> if the sector number is the one previous to that
         /// completed, otherwise; <see langword="false"/>.</returns>
-        public bool IsPreviousSectorNumber(int sectorNumber) {
-
+        public bool IsPreviousSectorNumber(int sectorNumber)
+        {
             return HavePreviousSectorNumber && sectorNumber == PreviousSectorNumber;
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Name ?? base.ToString();
         }
 
@@ -144,8 +143,8 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="raceLapNumber"/> is negative.
         /// </exception>
-        public int ComputeLapNumber(int raceLapNumber) {
-
+        public int ComputeLapNumber(int raceLapNumber)
+        {
             Guard.InRange(raceLapNumber >= 0, "raceLapNumber");
 
             LapGap gap = Gap as LapGap;
@@ -166,24 +165,24 @@ namespace AK.F1.Timing.Live
         /// <summary>
         /// Gets a value indicating if this driver is on the track.
         /// </summary>
-        public bool IsOnTrack {
-
+        public bool IsOnTrack
+        {
             get { return Status == DriverStatus.OnTrack; }
         }
 
         /// <summary>
         /// Gets a value indicating if this driver is in the pits.
         /// </summary>
-        public bool IsInPits {
-
+        public bool IsInPits
+        {
             get { return Status == DriverStatus.InPits; }
         }
 
         /// <summary>
         /// Gets a value indicating if this driver is the race leader.
         /// </summary>
-        public bool IsRaceLeader {
-
+        public bool IsRaceLeader
+        {
             get { return Position == 1; }
         }
 
@@ -211,19 +210,19 @@ namespace AK.F1.Timing.Live
         /// Gets or sets the one-based sector number this driver is currently completing. Returns
         /// zero if this driver is not completing a sector.
         /// </summary>
-        public int CurrentSectorNumber { 
-            // TODO this need to be re-worked, this shouldn't be public.
-            get; set; 
-        }
+        public int CurrentSectorNumber { // TODO this need to be re-worked, this shouldn't be public.
+            get; set; }
 
         /// <summary>
         /// Gets or sets the one-based sector number this driver previously completed. Returns zero
         /// if this driver has not completed a sector.
         /// </summary>
-        public int PreviousSectorNumber {
-
-            get {
-                if(!HaveCurrentSectorNumber) {
+        public int PreviousSectorNumber
+        {
+            get
+            {
+                if(!HaveCurrentSectorNumber)
+                {
                     return 0;
                 }
                 return CurrentSectorNumber == 1 ? 3 : CurrentSectorNumber - 1;
@@ -259,23 +258,23 @@ namespace AK.F1.Timing.Live
 
         #region Private Impl.
 
-        private static int GetBitForColumn(GridColumn column) {
-
+        private static int GetBitForColumn(GridColumn column)
+        {
             return 1 << (int)column;
         }
 
-        private bool HaveCurrentSectorNumber {
-
+        private bool HaveCurrentSectorNumber
+        {
             get { return CurrentSectorNumber != 0; }
         }
 
-        private bool HavePreviousSectorNumber {
-
+        private bool HavePreviousSectorNumber
+        {
             get { return PreviousSectorNumber != 0; }
         }
 
-        private Gap Gap {
-
+        private Gap Gap
+        {
             get { return LastGapMessage != null ? LastGapMessage.Gap : null; }
         }
 

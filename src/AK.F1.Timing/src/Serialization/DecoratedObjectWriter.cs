@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Text;
 using AK.F1.Timing.Utility;
 
@@ -31,7 +30,7 @@ namespace AK.F1.Timing.Serialization
     {
         #region Fields.
 
-        private static readonly Encoding TEXT_ENCODING = Encoding.UTF8;
+        private static readonly Encoding TextEncoding = Encoding.UTF8;
 
         #endregion
 
@@ -42,9 +41,9 @@ namespace AK.F1.Timing.Serialization
         /// </summary>
         /// <param name="input">The underlying input stream.</param>
         /// <returns>A <see cref="System.IO.BinaryReader"/>.</returns>
-        internal static BinaryReader CreateBinaryReader(Stream input) {
-
-            return new BinaryReader(input, TEXT_ENCODING);
+        internal static BinaryReader CreateBinaryReader(Stream input)
+        {
+            return new BinaryReader(input, TextEncoding);
         }
 
         /// <summary>
@@ -52,15 +51,15 @@ namespace AK.F1.Timing.Serialization
         /// </summary>
         /// <param name="output">The underlying output stream.</param>
         /// <returns>A <see cref="System.IO.BinaryWriter"/>.</returns>
-        internal static BinaryWriter CreateBinaryWriter(Stream output) {
-
+        internal static BinaryWriter CreateBinaryWriter(Stream output)
+        {
             // TODO consider compression:
             // - is it supported on .NETCF?
             // - is it worth the memory overhead?
             //   - average race session is < 1MiB
             //   - what is the average tms compression ratio?
             // - is the format likely to change? backwards compatibility is essential
-            return new BinaryWriter(output, TEXT_ENCODING);
+            return new BinaryWriter(output, TextEncoding);
         }
 
         #endregion
@@ -75,8 +74,8 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="output"/> is <see langword="null"/>.
         /// </exception>
-        public DecoratedObjectWriter(Stream output) {
-
+        public DecoratedObjectWriter(Stream output)
+        {
             Guard.NotNull(output, "output");
 
             Output = CreateBinaryWriter(output);
@@ -84,13 +83,16 @@ namespace AK.F1.Timing.Serialization
         }
 
         /// <inheritdoc/>        
-        public void Write(object graph) {
-
+        public void Write(object graph)
+        {
             CheckDisposed();
 
-            try {
+            try
+            {
                 WriteRoot(graph);
-            } finally {
+            }
+            finally
+            {
                 SeenHashCodes.Clear();
             }
         }
@@ -99,54 +101,61 @@ namespace AK.F1.Timing.Serialization
 
         #region Private Impl.
 
-        private void WriteRoot(object root) {
-
+        private void WriteRoot(object root)
+        {
             var context = CreateContext(root);
 
             if(context.TypeCode != ObjectTypeCode.Empty &&
-                context.TypeCode != ObjectTypeCode.Object) {
+                context.TypeCode != ObjectTypeCode.Object)
+            {
                 throw Guard.DecoratedObjectWriter_RootGraphMustBeAnObject(root);
             }
 
             WriteGraph(context);
-        } 
+        }
 
-        private void WriteDescendant(object descendant) {
-
+        private void WriteDescendant(object descendant)
+        {
             WriteGraph(CreateContext(descendant));
         }
 
-        private void WriteGraph(GraphContext context) {
-
-            if(context.TypeCode == ObjectTypeCode.Object) {
+        private void WriteGraph(GraphContext context)
+        {
+            if(context.TypeCode == ObjectTypeCode.Object)
+            {
                 AssertGraphHasNotBeenSeen(context.Graph);
                 WriteComplex(ref context);
-            } else {
+            }
+            else
+            {
                 WritePrimitive(ref context);
             }
         }
 
-        private void AssertGraphHasNotBeenSeen(object graph) {
-
-            if(!SeenHashCodes.Add(RuntimeHelpers.GetHashCode(graph))) {
+        private void AssertGraphHasNotBeenSeen(object graph)
+        {
+            if(!SeenHashCodes.Add(RuntimeHelpers.GetHashCode(graph)))
+            {
                 throw Guard.DecoratedObjectWriter_CirularReferencesAreNotSupported(graph);
             }
         }
 
-        private void WriteComplex(ref GraphContext context) {
-
+        private void WriteComplex(ref GraphContext context)
+        {
             WriteObjectTypeCode(context.TypeCode);
             Output.Write(context.Descriptor.TypeId);
             Output.Write((byte)context.Descriptor.Properties.Count);
-            foreach(var property in context.Descriptor.Properties) {
+            foreach(var property in context.Descriptor.Properties)
+            {
                 Output.Write(property.PropertyId);
                 WriteDescendant(property.GetValue(context.Graph));
             }
         }
 
-        private void WritePrimitive(ref GraphContext context) {
-
-            switch(context.TypeCode) {
+        private void WritePrimitive(ref GraphContext context)
+        {
+            switch(context.TypeCode)
+            {
                 case ObjectTypeCode.Empty:
                     WriteEmpty();
                     break;
@@ -209,106 +218,114 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        private void WriteEmpty() {
-
+        private void WriteEmpty()
+        {
             WriteObjectTypeCode(ObjectTypeCode.Empty);
         }
 
-        private void WriteDBNull() {
-
+        private void WriteDBNull()
+        {
             WriteObjectTypeCode(ObjectTypeCode.DBNull);
         }
 
-        private void WriteObjectTypeCode(ObjectTypeCode value) {
-
+        private void WriteObjectTypeCode(ObjectTypeCode value)
+        {
             Output.Write((byte)value);
         }
 
-        private void WriteBoolean(bool value) {
-
+        private void WriteBoolean(bool value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.Boolean);
             Output.Write(value);
         }
 
-        private void WriteChar(char value) {
-
+        private void WriteChar(char value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.Char);
             Output.Write(value);
         }
 
-        private void WriteSByte(sbyte value) {
-
+        private void WriteSByte(sbyte value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.SByte);
             Output.Write(value);
         }
 
-        private void WriteByte(byte value) {
-
+        private void WriteByte(byte value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.Byte);
             Output.Write(value);
         }
 
-        private void WriteSingle(float value) {
-
+        private void WriteSingle(float value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.Single);
             Output.Write(value);
         }
 
-        private void WriteTimeSpan(TimeSpan value) {
-
+        private void WriteTimeSpan(TimeSpan value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.TimeSpan);
             Output.Write(value.Ticks);
         }
 
-        private void WriteString(string value) {
-
+        private void WriteString(string value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.String);
             Output.Write(value);
         }
 
-        private void WriteDateTime(DateTime value) {
-
+        private void WriteDateTime(DateTime value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.DateTime);
             Output.Write(value.ToBinary());
         }
 
-        private void WriteDecimal(decimal value) {
-
+        private void WriteDecimal(decimal value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.Decimal);
             Output.Write(value);
         }
 
-        private void WriteDouble(double value) {
-
+        private void WriteDouble(double value)
+        {
             WriteObjectTypeCode(ObjectTypeCode.Double);
             Output.Write(value);
         }
 
-        private void WriteInt16(short value) {
-
+        private void WriteInt16(short value)
+        {
             WriteInt64(value);
         }
 
-        private void WriteInt32(int value) {
-
+        private void WriteInt32(int value)
+        {
             WriteInt64(value);
         }
 
-        private void WriteInt64(long value) {
-
+        private void WriteInt64(long value)
+        {
 #if DEBUG
-            checked {
+            checked
+            {
 #endif
-                if(value >= byte.MinValue && value <= byte.MaxValue) {
+                if(value >= byte.MinValue && value <= byte.MaxValue)
+                {
                     WriteObjectTypeCode(ObjectTypeCode.Byte);
                     Output.Write((byte)value);
-                } else if(value >= short.MinValue && value <= short.MaxValue) {
+                }
+                else if(value >= short.MinValue && value <= short.MaxValue)
+                {
                     WriteObjectTypeCode(ObjectTypeCode.Int16);
                     Output.Write((short)value);
-                } else if(value >= int.MinValue && value <= int.MaxValue) {
+                }
+                else if(value >= int.MinValue && value <= int.MaxValue)
+                {
                     WriteObjectTypeCode(ObjectTypeCode.Int32);
                     Output.Write((int)value);
-                } else {
+                }
+                else
+                {
                     WriteObjectTypeCode(ObjectTypeCode.Int64);
                     Output.Write(value);
                 }
@@ -317,31 +334,39 @@ namespace AK.F1.Timing.Serialization
 #endif
         }
 
-        private void WriteUInt16(ushort value) {
-
+        private void WriteUInt16(ushort value)
+        {
             WriteUInt64(value);
         }
 
-        private void WriteUInt32(uint value) {
-
+        private void WriteUInt32(uint value)
+        {
             WriteUInt64(value);
         }
 
-        private void WriteUInt64(ulong value) {
-
+        private void WriteUInt64(ulong value)
+        {
 #if DEBUG
-            checked {
+            checked
+            {
 #endif
-                if(value <= byte.MaxValue) {
+                if(value <= byte.MaxValue)
+                {
                     WriteObjectTypeCode(ObjectTypeCode.Byte);
                     Output.Write((byte)value);
-                } else if(value <= ushort.MaxValue) {
+                }
+                else if(value <= ushort.MaxValue)
+                {
                     WriteObjectTypeCode(ObjectTypeCode.UInt16);
                     Output.Write((ushort)value);
-                } else if(value <= uint.MaxValue) {
+                }
+                else if(value <= uint.MaxValue)
+                {
                     WriteObjectTypeCode(ObjectTypeCode.UInt32);
                     Output.Write((uint)value);
-                } else {
+                }
+                else
+                {
                     WriteObjectTypeCode(ObjectTypeCode.UInt64);
                     Output.Write(value);
                 }
@@ -350,10 +375,12 @@ namespace AK.F1.Timing.Serialization
 #endif
         }
 
-        private static GraphContext CreateContext(object graph) {
-
-            if(graph == null) {
-                return new GraphContext {
+        private static GraphContext CreateContext(object graph)
+        {
+            if(graph == null)
+            {
+                return new GraphContext
+                {
                     TypeCode = ObjectTypeCode.Empty
                 };
             }
@@ -361,11 +388,13 @@ namespace AK.F1.Timing.Serialization
             TypeDescriptor descriptor = null;
             ObjectTypeCode typeCode = graph.GetType().GetObjectTypeCode();
 
-            if(typeCode == ObjectTypeCode.Object) {
+            if(typeCode == ObjectTypeCode.Object)
+            {
                 descriptor = TypeDescriptor.For(graph.GetType());
             }
 
-            return new GraphContext {
+            return new GraphContext
+            {
                 Descriptor = descriptor,
                 Graph = graph,
                 TypeCode = typeCode

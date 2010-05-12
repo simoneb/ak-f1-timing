@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Grid
@@ -26,7 +25,7 @@ namespace AK.F1.Timing.Model.Grid
     {
         #region Private Fields.
 
-        private string _text;        
+        private string _text;
         private GridColumnColour _textColour;
 
         #endregion
@@ -38,15 +37,15 @@ namespace AK.F1.Timing.Model.Grid
         /// the <see cref="AK.F1.Timing.Messages.Driver.GridColumn"/> type.
         /// </summary>
         /// <param name="type">The grid column type.</param>
-        public GridColumnModel(GridColumn type) {
-
+        public GridColumnModel(GridColumn type)
+        {
             Type = type;
             TextColour = GridColumnColour.Black;
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return string.Format("Type='{0}', Text='{1}', TextColour='{2}'", Type,
                 Text, TextColour);
         }
@@ -54,8 +53,8 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Resets this column.
         /// </summary>
-        public void Reset() {
-
+        public void Reset()
+        {
             Text = null;
             TextColour = GridColumnColour.Black;
         }
@@ -69,8 +68,8 @@ namespace AK.F1.Timing.Model.Grid
         /// Gets or sets the <see cref="AK.F1.Timing.Messages.Driver.GridColumnColour"/>
         /// of this column.
         /// </summary>
-        public GridColumnColour TextColour {
-
+        public GridColumnColour TextColour
+        {
             get { return _textColour; }
             set { SetProperty("TextColour", ref _textColour, value); }
         }
@@ -78,8 +77,8 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Gets or sets the text of this column.
         /// </summary>
-        public string Text {
-
+        public string Text
+        {
             get { return _text; }
             set { SetProperty("Text", ref _text, value); }
         }

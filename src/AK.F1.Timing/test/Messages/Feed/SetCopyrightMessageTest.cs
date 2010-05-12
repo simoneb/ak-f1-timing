@@ -20,16 +20,16 @@ namespace AK.F1.Timing.Messages.Feed
     public class SetCopyrightMessageTest : MessageTestBase<SetCopyrightMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal("Copyright", message.Copyright);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -39,23 +39,19 @@ namespace AK.F1.Timing.Messages.Feed
         }
 
         [Fact]
-        public void copyright_can_be_blank() {
-
-            Assert.DoesNotThrow(() => {
-                new SetCopyrightMessage(string.Empty);
-            });
+        public void copyright_can_be_blank()
+        {
+            Assert.DoesNotThrow(() => { new SetCopyrightMessage(string.Empty); });
         }
 
         [Fact]
-        public void ctor_throws_if_copyright_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                new SetCopyrightMessage(null);
-            });
+        public void ctor_throws_if_copyright_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { new SetCopyrightMessage(null); });
         }
 
-        protected override SetCopyrightMessage CreateMessage() {
-
+        protected override SetCopyrightMessage CreateMessage()
+        {
             return new SetCopyrightMessage("Copyright");
         }
     }

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.IO;
-
 using Genghis;
 
 // Disable warning indicating fields are never assigned.
@@ -26,34 +24,34 @@ namespace AK.F1.Timing.Utility.Tms
     {
         #region Public Interface.
 
-        [CommandLineParser.ValueUsage("The path of the TMS file to process.",
+        [ValueUsage("The path of the TMS file to process.",
             Name = "path",
             AlternateName1 = "p",
             MatchPosition = true)]
         public string Path;
 
-        [CommandLineParser.FlagUsage("Fixup the TMS by filtering out translated messages and replaying the session.",
+        [FlagUsage("Fixup the TMS by filtering out translated messages and replaying the session.",
             Category = "op",
             Name = "fixup",
             AlternateName1 = "f",
             Optional = true)]
         public bool Fixup;
 
-        [CommandLineParser.FlagUsage("Dump the TMS to the standard out.",            
+        [FlagUsage("Dump the TMS to the standard out.",
             Category = "op",
             Name = "dump",
             AlternateName1 = "d",
             Optional = true)]
         public bool Dump;
 
-        [CommandLineParser.FlagUsage("Dump the session to the standard out.",
+        [FlagUsage("Dump the session to the standard out.",
             Category = "op",
             Name = "dump-session",
             AlternateName1 = "ds",
             Optional = true)]
         public bool DumpSession;
 
-        [CommandLineParser.FlagUsage("Generate TMS statistics.",
+        [FlagUsage("Generate TMS statistics.",
             Category = "op",
             Name = "stats",
             AlternateName1 = "s",
@@ -65,14 +63,16 @@ namespace AK.F1.Timing.Utility.Tms
         #region Protected Interface.
 
         /// <inheritdoc/>        
-        protected override void Parse(string[] args, bool ignoreFirstArg) {
-
+        protected override void Parse(string[] args, bool ignoreFirstArg)
+        {
             base.Parse(args, ignoreFirstArg);
 
-            if(!File.Exists(Path)) {
+            if(!File.Exists(Path))
+            {
                 throw Usage("path", "specified path does not exist or the device is not ready.");
             }
-            if(!(Fixup ^ Dump ^ DumpSession ^ Stats)) {
+            if(!(Fixup ^ Dump ^ DumpSession ^ Stats))
+            {
                 throw Usage("fixup|dump|stats", "one operation must be selected.");
             }
         }
@@ -81,8 +81,8 @@ namespace AK.F1.Timing.Utility.Tms
 
         #region Private Impl.
 
-        private static UsageException Usage(string argName, string format, params object[] args) {
-
+        private static UsageException Usage(string argName, string format, params object[] args)
+        {
             return new UsageException(argName, string.Format(format, args));
         }
 

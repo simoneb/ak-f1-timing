@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,41 +40,45 @@ namespace AK.F1.Timing.Messages.Driver
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="laps"/> is negative.
         /// </exception>
-        public LapGap(int laps) {
-
+        public LapGap(int laps)
+        {
             Guard.InRange(laps >= 0, "laps");
 
             Laps = laps;
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj) {
-
-            if(obj == null || obj.GetType() != GetType()) {
+        public override bool Equals(object obj)
+        {
+            if(obj == null || obj.GetType() != GetType())
+            {
                 return false;
             }
             return Equals((LapGap)obj);
         }
 
         /// <inheritdoc />
-        public bool Equals(LapGap other) {
-
+        public bool Equals(LapGap other)
+        {
             return other != null && other.Laps == Laps;
         }
 
         /// <inheritdoc />
-        public override int CompareTo(object obj) {
-
-            if(obj == null) {
+        public override int CompareTo(object obj)
+        {
+            if(obj == null)
+            {
                 return 1;
             }
 
             LapGap other = obj as LapGap;
 
-            if(other != null) {
+            if(other != null)
+            {
                 return Laps.CompareTo(other.Laps);
             }
-            if(obj is TimeGap) {
+            if(obj is TimeGap)
+            {
                 // We are always greater than any TimeGap.
                 return 1;
             }
@@ -83,16 +87,16 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         /// <inheritdoc />
-        public override int GetHashCode() {
-        
+        public override int GetHashCode()
+        {
             return HashCodeBuilder.New()
                 .Add(GetType())
                 .Add(Laps);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("Laps={0}", Laps);
         }
 

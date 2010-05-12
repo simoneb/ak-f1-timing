@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,10 +18,9 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
-
 using AK.F1.Timing.Model.Session;
-using AK.F1.Timing.Recording;
 using AK.F1.Timing.UI.Utility;
+using log4net;
 
 namespace AK.F1.Timing.UI.Services.Session
 {
@@ -32,8 +31,7 @@ namespace AK.F1.Timing.UI.Services.Session
     {
         #region Fields.
 
-        private static readonly log4net.ILog _log =
-            log4net.LogManager.GetLogger(typeof(DefaultSessionPlayer));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(DefaultSessionPlayer));
 
         #endregion
 
@@ -56,33 +54,35 @@ namespace AK.F1.Timing.UI.Services.Session
         /// </summary>
         /// <param name="readerFactory">The message reader factory.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="reader"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="readerFactory"/> is <see langword="null"/>.
         /// </exception>
-        public DefaultSessionPlayer(Func<IMessageReader> readerFactory) {
-
+        public DefaultSessionPlayer(Func<IMessageReader> readerFactory)
+        {
             Guard.NotNull(readerFactory, "readerFactory");
 
             ReaderFactory = readerFactory;
             Session = new SessionModel();
             Dispatcher = Application.Current.Dispatcher;
-            Worker = new Thread(ReadAndDispatchMessages) {
+            Worker = new Thread(ReadAndDispatchMessages)
+            {
                 IsBackground = true
             };
             CachedDispatchMessageCallback = (Action<Message>)DispatchMessageCallback;
         }
 
         /// <inheritdoc/>
-        public void Start() {
-
-            lock(Worker) {
+        public void Start()
+        {
+            lock(Worker)
+            {
                 // TODO this should throw if worker is not unstarted or running.
                 Worker.Start();
             }
         }
 
         /// <inheritdoc/>
-        public void Pause() {
-
+        public void Pause()
+        {
             throw new NotSupportedException();
         }
 
@@ -96,58 +96,70 @@ namespace AK.F1.Timing.UI.Services.Session
 
         #region Private Impl.
 
-        private void ReadAndDispatchMessages() {
-
+        private void ReadAndDispatchMessages()
+        {
             Message message;
 
-            try {
-                using(var reader = ReaderFactory()) {
+            try
+            {
+                using(var reader = ReaderFactory())
+                {
                     message = reader.Read();
                     DispatchEvent(Started);
-                    if(message != null) {
-                        do {
+                    if(message != null)
+                    {
+                        do
+                        {
                             DispatchMessage(message);
                         } while((message = reader.Read()) != null);
                     }
                 }
-            } catch(IOException exc) {
+            }
+            catch(IOException exc)
+            {
                 LogAndDispatchException(exc);
-            } catch(SerializationException exc) {
+            }
+            catch(SerializationException exc)
+            {
                 LogAndDispatchException(exc);
-            } catch(Exception exc) {
-                _log.Fatal(exc);
+            }
+            catch(Exception exc)
+            {
+                Log.Fatal(exc);
                 throw;
             }
 
             DispatchEvent(Stopped);
         }
 
-        private void DispatchMessage(Message message) {
-
+        private void DispatchMessage(Message message)
+        {
             Dispatcher.BeginInvoke(CachedDispatchMessageCallback, message);
         }
 
-        private void DispatchMessageCallback(Message message) {
-
+        private void DispatchMessageCallback(Message message)
+        {
             Session.Process(message);
         }
 
-        private void LogAndDispatchException(Exception exc) {
-
-            _log.Error(exc);
+        private void LogAndDispatchException(Exception exc)
+        {
+            Log.Error(exc);
             DispatchEvent(Exception, new ExceptionEventArgs(exc));
         }
 
-        private void DispatchEvent(EventHandler @event) {
-
-            if(@event != null) {
+        private void DispatchEvent(EventHandler @event)
+        {
+            if(@event != null)
+            {
                 Dispatcher.BeginInvoke(@event, this, EventArgs.Empty);
             }
         }
 
-        private void DispatchEvent<T>(EventHandler<T> @event, T e) where T: EventArgs {
-
-            if(@event != null) {
+        private void DispatchEvent<T>(EventHandler<T> @event, T e) where T : EventArgs
+        {
+            if(@event != null)
+            {
                 Dispatcher.BeginInvoke(@event, this, e);
             }
         }

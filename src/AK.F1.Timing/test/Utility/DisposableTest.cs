@@ -15,23 +15,21 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Utility;
-
 namespace AK.F1.Timing.Utility
 {
     public class DisposableTest
     {
         [Fact]
-        public void is_disposed_is_false_when_not_disposed() {
-
+        public void is_disposed_is_false_when_not_disposed()
+        {
             var obj = new DisposableObject();
 
             Assert.False(obj.IsDisposed);
         }
 
         [Fact]
-        public void is_disposed_is_true_when_disposed() {
-
+        public void is_disposed_is_true_when_disposed()
+        {
             var obj = new DisposableObject();
 
             obj.Dispose();
@@ -39,8 +37,8 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
-        public void dispose_is_called_with_true_when_explicitly_disposed() {
-
+        public void dispose_is_called_with_true_when_explicitly_disposed()
+        {
             var obj = new DisposableObject();
 
             Assert.False(obj.Disposing);
@@ -49,14 +47,14 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
-        public void dispose_of_accepts_null() {
-
+        public void dispose_of_accepts_null()
+        {
             Disposable.DisposeOf(null);
         }
 
         [Fact]
-        public void dispose_of_disposes_of_disposable() {
-
+        public void dispose_of_disposes_of_disposable()
+        {
             var obj = new DisposableObject();
 
             Assert.False(obj.IsDisposed);
@@ -66,13 +64,13 @@ namespace AK.F1.Timing.Utility
 
         private sealed class DisposableObject : Disposable
         {
-            public void Dispose() {
-
+            public void Dispose()
+            {
                 ((IDisposable)this).Dispose();
             }
 
-            protected override void Dispose(bool disposing) {
-
+            protected override void Dispose(bool disposing)
+            {
                 Disposing = disposing;
                 base.Dispose(disposing);
             }

@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using Moq;
 using Xunit;
 
 namespace AK.F1.Timing.Live.Encryption
@@ -21,37 +20,37 @@ namespace AK.F1.Timing.Live.Encryption
     public class AuthenticationTokenTest : TestBase
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var token = new AuthenticationToken("token");
 
             Assert.Equal("token", token.Token);
         }
 
         [Fact]
-        public void cannot_serialize_token() {
-
+        public void cannot_serialize_token()
+        {
             Assert.False(typeof(AuthenticationToken).IsSerializable);
         }
 
         [Fact]
-        public void implements_equality_contract() {
-
+        public void implements_equality_contract()
+        {
             Assert.EqualityContract(
-                new[] { new AuthenticationToken("token"), new AuthenticationToken("token") },
-                new[] { new AuthenticationToken("token"), new AuthenticationToken("Token") }
-            );
+                new[] {new AuthenticationToken("token"), new AuthenticationToken("token")},
+                new[] {new AuthenticationToken("token"), new AuthenticationToken("Token")}
+                );
         }
 
         [Fact]
-        public void ctor_throws_if_token_is_null() {
-
+        public void ctor_throws_if_token_is_null()
+        {
             Assert.Throws<ArgumentNullException>(() => new AuthenticationToken(null));
         }
 
         [Fact]
-        public void ctor_throws_if_token_is_empty() {
-
+        public void ctor_throws_if_token_is_empty()
+        {
             Assert.Throws<ArgumentException>(() => new AuthenticationToken(string.Empty));
         }
     }

@@ -20,16 +20,16 @@ namespace AK.F1.Timing.Messages.Weather
     public class SetWindSpeedMessageTest : MessageTestBase<SetWindSpeedMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1D, message.Speed);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -39,19 +39,15 @@ namespace AK.F1.Timing.Messages.Weather
         }
 
         [Fact]
-        public void ctor_throws_if_speed_is_negative() {
-
-            Assert.DoesNotThrow(() => {
-                new SetWindSpeedMessage(0D);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetWindSpeedMessage(-1D);
-            });
+        public void ctor_throws_if_speed_is_negative()
+        {
+            Assert.DoesNotThrow(() => { new SetWindSpeedMessage(0D); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetWindSpeedMessage(-1D); });
         }
 
-        protected override SetWindSpeedMessage CreateMessage() {
-
+        protected override SetWindSpeedMessage CreateMessage()
+        {
             return new SetWindSpeedMessage(1D);
-        } 
+        }
     }
 }

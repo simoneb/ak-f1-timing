@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -38,8 +38,8 @@ namespace AK.F1.Timing.Model.Collections
         /// <exception cref="System.ArgumentNullException">
         /// Throw when <paramref name="comparison"/> is <see langword="null"/>.
         /// </exception>
-        public SortableObservableCollection(Comparison<T> comparison) {
-
+        public SortableObservableCollection(Comparison<T> comparison)
+        {
             Guard.NotNull(comparison, "comparison");
 
             Comparer = new DelegateComparer<T>(comparison);
@@ -48,9 +48,10 @@ namespace AK.F1.Timing.Model.Collections
         /// <summary>
         /// Sorts the collection.
         /// </summary>
-        public void Sort() {
-
-            if(Items.Count > 1) {
+        public void Sort()
+        {
+            if(Items.Count > 1)
+            {
                 SyncOrderWith(Items.OrderBy(item => item, Comparer));
             }
         }
@@ -59,22 +60,26 @@ namespace AK.F1.Timing.Model.Collections
 
         #region Private Impl.
 
-        private void SyncOrderWith(IEnumerable<T> sortedItems) {
-
+        private void SyncOrderWith(IEnumerable<T> sortedItems)
+        {
             int i = 0;
 
-            foreach(var item in sortedItems) {
-                if(Comparer.Compare(item, this[i]) != 0) {
+            foreach(var item in sortedItems)
+            {
+                if(Comparer.Compare(item, this[i]) != 0)
+                {
                     Move(IndexOf(item, i), i);
                 }
                 ++i;
             }
         }
 
-        private int IndexOf(T item, int index) {
-
-            for(int i = index; i < Items.Count; ++i) {
-                if(Comparer.Compare(item, Items[i]) == 0) {
+        private int IndexOf(T item, int index)
+        {
+            for(int i = index; i < Items.Count; ++i)
+            {
+                if(Comparer.Compare(item, Items[i]) == 0)
+                {
                     return i;
                 }
             }

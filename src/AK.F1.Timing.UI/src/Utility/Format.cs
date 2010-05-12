@@ -1,4 +1,4 @@
-ï»¿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 
 using System;
 using System.Globalization;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.UI.Utility
@@ -24,62 +23,64 @@ namespace AK.F1.Timing.UI.Utility
     /// </summary>
     internal static class Format
     {
-        #region Fields.
-
-        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;
-
-        #endregion
-
         #region Public Interface.
 
-        public static string SectorTime(TimeSpan? value) {
-
-            if(value == null) {
+        public static string SectorTime(TimeSpan? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
-            
+
             TimeSpan time = value.Value;
 
             return F("{0}.{1:0}", time.Minutes * 60 + time.Seconds, time.Milliseconds / 100);
         }
 
-        public static string SectorTimeDelta(TimeSpan? value) {
-
-            if(value == null) {
+        public static string SectorTimeDelta(TimeSpan? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
             string signSymbol;
             TimeSpan time = value.Value;
 
-            if(time <= TimeSpan.Zero) {
+            if(time <= TimeSpan.Zero)
+            {
                 signSymbol = "-";
                 time = TimeSpan.FromTicks(Math.Abs(time.Ticks));
-            } else {
+            }
+            else
+            {
                 signSymbol = "+";
             }
 
             return F("{0}{1}.{2:00}", signSymbol, time.Minutes * 60 + time.Seconds, time.Milliseconds / 10);
         }
 
-        public static string GapTime(Gap value) {
-
-            if(value == null) {
+        public static string GapTime(Gap value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
             TimeGap time = value as TimeGap;
 
-            if(time != null) {
+            if(time != null)
+            {
                 return GapTime(time);
             }
 
             return GapTime((LapGap)value);
         }
 
-        public static string LapTime(TimeSpan? value) {
-
-            if(value == null) {
+        public static string LapTime(TimeSpan? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
@@ -88,83 +89,93 @@ namespace AK.F1.Timing.UI.Utility
             return F("{0}:{1:00}.{2:000}", time.Minutes, time.Seconds, time.Milliseconds);
         }
 
-        public static string LapTimeDelta(TimeSpan? value) {
-
-            if(value == null) {
+        public static string LapTimeDelta(TimeSpan? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
             string signSymbol;
             TimeSpan time = value.Value;
 
-            if(time <= TimeSpan.Zero) {
+            if(time <= TimeSpan.Zero)
+            {
                 signSymbol = "-";
                 time = TimeSpan.FromTicks(Math.Abs(time.Ticks));
-            } else {
+            }
+            else
+            {
                 signSymbol = "+";
             }
 
             return F("{0}{1}.{2:000}", signSymbol, time.Minutes * 60 + time.Seconds, time.Milliseconds);
         }
 
-        public static string LapTime(PostedTime value) {
-
-            if(value == null) {
+        public static string LapTime(PostedTime value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
             return LapTime(value.Time);
         }
 
-        public static string Temperature(double? value) {
-
-            if(value == null) {
+        public static string Temperature(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
-            return F("{0:0.0}Â°C", value.Value);
+            return F("{0:0.0}°C", value.Value);
         }
 
-        public static string Pressure(double? value) {
-
-            if(value == null) {
+        public static string Pressure(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
             return F("{0:0.0}mBar", value.Value);
         }
 
-        public static string WindSpeed(double? value) {
-
-            if(value == null) {
+        public static string WindSpeed(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
             return F("{0:0.00}m/s", value.Value);
         }
 
-        public static string WindDirection(double? value) {
-
-            if(value == null) {
+        public static string WindDirection(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
-            return F("{0:#}Â°", value.Value);
+            return F("{0:#}°", value.Value);
         }
 
-        public static string Laps(int value) {
-
-            return value.ToString(INV_CULTURE);
+        public static string Laps(int value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public static string PitCount(int value) {
-
-            return value.ToString(INV_CULTURE);
+        public static string PitCount(int value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public static object Humidity(double? value) {
-
-            if(value == null) {
+        public static object Humidity(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
@@ -175,19 +186,19 @@ namespace AK.F1.Timing.UI.Utility
 
         #region Private Impl.
 
-        private static string GapTime(LapGap value) {
-
-            return value.Laps > 0 ? value.Laps.ToString(INV_CULTURE) + "L" : String.Empty;
+        private static string GapTime(LapGap value)
+        {
+            return value.Laps > 0 ? value.Laps.ToString(CultureInfo.InvariantCulture) + "L" : String.Empty;
         }
 
-        private static string GapTime(TimeGap value) {
-
+        private static string GapTime(TimeGap value)
+        {
             return value.Time > TimeSpan.Zero ? SectorTime(value.Time) : String.Empty;
         }
 
-        private static string F(string format, params object[] args) {
-
-            return string.Format(INV_CULTURE, format, args);
+        private static string F(string format, params object[] args)
+        {
+            return string.Format(CultureInfo.InvariantCulture, format, args);
         }
 
         #endregion

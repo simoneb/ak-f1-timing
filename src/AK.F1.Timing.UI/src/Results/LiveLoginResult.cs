@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -49,8 +49,8 @@ namespace AK.F1.Timing.UI.Results
         /// <exception cref="System.ArgumentException">
         /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
         /// </exception>
-        public LiveLoginResult(string username, string password) {
-
+        public LiveLoginResult(string username, string password)
+        {
             Guard.NotNullOrEmpty(username, "username");
             Guard.NotNullOrEmpty(password, "password");
 
@@ -59,30 +59,34 @@ namespace AK.F1.Timing.UI.Results
         }
 
         /// <inheritdoc/>
-        public void Execute(ResultExecutionContext context) {
-
+        public void Execute(ResultExecutionContext context)
+        {
             Guard.NotNull(context, "context");
 
             var dispatcher = context.ServiceLocator.GetInstance<IDispatcher>();
 
-            dispatcher.ExecuteOnBackgroundThread(() => {
-                try {
+            dispatcher.ExecuteOnBackgroundThread(() =>
+            {
+                try
+                {
                     AuthenticationToken = F1Timing.Live.Login(_username, _password);
-                } catch(AuthenticationException exc) {
-                    Exception = exc;
-                } catch(IOException exc) {
+                }
+                catch(AuthenticationException exc)
+                {
                     Exception = exc;
                 }
-            }, delegate {
-                Completed(this, new ResultCompletionEventArgs());
-            }, null);
+                catch(IOException exc)
+                {
+                    Exception = exc;
+                }
+            }, delegate { Completed(this, new ResultCompletionEventArgs()); }, null);
         }
 
         /// <summary>
         /// Returns a value indicating if the action completed successfully.
         /// </summary>
-        public bool Success {
-
+        public bool Success
+        {
             get { return Exception == null; }
         }
 

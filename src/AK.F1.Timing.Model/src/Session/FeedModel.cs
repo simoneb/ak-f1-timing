@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Text;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -27,7 +26,7 @@ namespace AK.F1.Timing.Model.Session
         private string _copyright;
         private int _messageCount;
         private int _keyframeNumber;
-        private TimeSpan _pingInterval;        
+        private TimeSpan _pingInterval;
 
         #endregion
 
@@ -36,14 +35,14 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Initialises a new instance of the <see cref="FeedModel"/> class.
         /// </summary>
-        public FeedModel() {
-
+        public FeedModel()
+        {
             Builder = new FeedModelBuilder(this);
         }
 
         /// <inheritdoc/>        
-        public void Process(Message message) {
-
+        public void Process(Message message)
+        {
             Guard.NotNull(message, "message");
 
             Builder.Process(message);
@@ -52,19 +51,19 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Resets this feed model.
         /// </summary>
-        public void Reset() {
-
+        public void Reset()
+        {
             Copyright = null;
             KeyframeNumber = 0;
             MessageCount = 0;
-            PingInterval = TimeSpan.Zero;            
+            PingInterval = TimeSpan.Zero;
         }
 
         /// <summary>
         /// Gets the current feed ping interval.
         /// </summary>
-        public TimeSpan PingInterval {
-
+        public TimeSpan PingInterval
+        {
             get { return _pingInterval; }
             private set { SetProperty("PingInterval", ref _pingInterval, value); }
         }
@@ -72,8 +71,8 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the number of read from the feed.
         /// </summary>
-        public int MessageCount {
-
+        public int MessageCount
+        {
             get { return _messageCount; }
             private set { SetProperty("MessageCount", ref _messageCount, value); }
         }
@@ -81,8 +80,8 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the current keyframe number.
         /// </summary>
-        public int KeyframeNumber {
-
+        public int KeyframeNumber
+        {
             get { return _keyframeNumber; }
             private set { SetProperty("KeyframeNumber", ref _keyframeNumber, value); }
         }
@@ -90,8 +89,8 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the copyright message.
         /// </summary>
-        public string Copyright {
-
+        public string Copyright
+        {
             get { return _copyright; }
             private set { SetProperty("Copyright", ref _copyright, value); }
         }

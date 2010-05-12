@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// Represents a gap. This class is <see langword="abstract"/>.
     /// </summary>
-    [Serializable]    
+    [Serializable]
     public abstract class Gap : IComparable
     {
         #region Public Interface
@@ -47,8 +47,8 @@ namespace AK.F1.Timing.Messages.Driver
         /// Thrown when <paramref name="format"/> references an argument not contained within
         /// <paramref name="args"/>.
         /// </exception>
-        protected string Repr(string format, params object[] args) {
-
+        protected string Repr(string format, params object[] args)
+        {
             Guard.NotNull(format, "format");
 
             StringBuilder sb = new StringBuilder();
@@ -66,7 +66,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// <summary>
         /// Prevent this class being inherited outside this library.
         /// </summary>
-        internal Gap() { }
+        internal Gap() {}
 
         #endregion
     }

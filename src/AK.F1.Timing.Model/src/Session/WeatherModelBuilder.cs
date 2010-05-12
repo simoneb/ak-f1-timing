@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Weather;
 
 namespace AK.F1.Timing.Model.Session
@@ -38,58 +37,58 @@ namespace AK.F1.Timing.Model.Session
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="model"/> is <see langword="null"/>.
             /// </exception>
-            public WeatherModelBuilder(WeatherModel model) {
-
+            public WeatherModelBuilder(WeatherModel model)
+            {
                 Guard.NotNull(model, "model");
 
                 Model = model;
             }
 
             /// <inheritdoc/>
-            public void Process(Message message) {
-
+            public void Process(Message message)
+            {
                 message.Accept(this);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetAirTemperatureMessage message) {
-
+            public override void Visit(SetAirTemperatureMessage message)
+            {
                 Model.AirTemperature.Add(message.Temperature);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetTrackTemperatureMessage message) {
-
+            public override void Visit(SetTrackTemperatureMessage message)
+            {
                 Model.TrackTemperature.Add(message.Temperature);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetAtmosphericPressureMessage message) {
-
+            public override void Visit(SetAtmosphericPressureMessage message)
+            {
                 Model.Pressure.Add(message.Pressure);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetHumidityMessage message) {
-
+            public override void Visit(SetHumidityMessage message)
+            {
                 Model.Humidity.Add(message.Humidity);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetWindSpeedMessage message) {
-
+            public override void Visit(SetWindSpeedMessage message)
+            {
                 Model.WindSpeed.Add(message.Speed);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetWindAngleMessage message) {
-
+            public override void Visit(SetWindAngleMessage message)
+            {
                 Model.WindAngle.Add(message.Angle);
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetIsWetMessage message) {
-
+            public override void Visit(SetIsWetMessage message)
+            {
                 Model.IsWet = message.IsWet;
             }
 

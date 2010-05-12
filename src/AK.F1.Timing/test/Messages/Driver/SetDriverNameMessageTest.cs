@@ -20,8 +20,8 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverNameMessageTest : MessageTestBase<SetDriverNameMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(1, message.DriverId);
@@ -29,8 +29,8 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -40,18 +40,14 @@ namespace AK.F1.Timing.Messages.Driver
         }
 
         [Fact]
-        public void ctor_throw_if_driver_name_is_null_or_empty() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                new SetDriverNameMessage(1, null);
-            });
-            Assert.Throws<ArgumentException>(() => {
-                new SetDriverNameMessage(1, string.Empty);
-            });
+        public void ctor_throw_if_driver_name_is_null_or_empty()
+        {
+            Assert.Throws<ArgumentNullException>(() => { new SetDriverNameMessage(1, null); });
+            Assert.Throws<ArgumentException>(() => { new SetDriverNameMessage(1, string.Empty); });
         }
 
-        protected override SetDriverNameMessage CreateMessage() {
-
+        protected override SetDriverNameMessage CreateMessage()
+        {
             return new SetDriverNameMessage(1, "DriverName");
         }
     }

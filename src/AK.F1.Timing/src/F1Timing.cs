@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -11,8 +11,6 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-
-using System;
 
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Live.Encryption;
@@ -54,8 +52,8 @@ namespace AK.F1.Timing
             /// <exception cref="System.Security.Authentication.AuthenticationException">
             /// Thrown when the supplied credentials were rejected by the live-timing site.
             /// </exception>
-            public static AuthenticationToken Login(string username, string password) {                
-
+            public static AuthenticationToken Login(string username, string password)
+            {
                 return LiveAuthenticationService.Login(username, password);
             }
 
@@ -71,11 +69,9 @@ namespace AK.F1.Timing
             /// <exception cref="System.IO.IOException">
             /// Thrown when an IO error whilst connecting to the live-timing message stream.
             /// </exception>
-            public static IMessageReader Read(AuthenticationToken token) {
-
-                return new LiveMessageReader(
-                    new LiveMessageStreamEndpoint(),
-                    new LiveDecrypterFactory(token));
+            public static IMessageReader Read(AuthenticationToken token)
+            {
+                return new LiveMessageReader(new LiveMessageStreamEndpoint(), new LiveDecrypterFactory(token));
             }
 
             /// <summary>
@@ -97,8 +93,8 @@ namespace AK.F1.Timing
             /// Thrown when an IO error occurs whilst creating the output file or connecting to the
             /// live-timing message stream.
             /// </exception>
-            public static IMessageReader ReadAndRecord(AuthenticationToken token, string path) {
-
+            public static IMessageReader ReadAndRecord(AuthenticationToken token, string path)
+            {
                 return new RecordingMessageReader(Read(token), path);
             }
         }
@@ -124,8 +120,8 @@ namespace AK.F1.Timing
             /// <exception cref="System.IO.IOException">
             /// Thrown when an IO error occurs whilst opening the specified <paramref name="path"/>.
             /// </exception>
-            public static IRecordedMessageReader Read(string path) {
-
+            public static IRecordedMessageReader Read(string path)
+            {
                 return new RecordedMessageReader(path);
             }
         }

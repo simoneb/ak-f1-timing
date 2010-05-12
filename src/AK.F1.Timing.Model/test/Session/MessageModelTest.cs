@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,47 +13,46 @@
 // limitations under the License.
 
 using System;
-using Xunit;
-
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
+using Xunit;
 
 namespace AK.F1.Timing.Model.Session
 {
     public class MessageModelTest
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var model = new MessageModel();
 
             assert_properties_have_default_values(model);
         }
 
         [Fact]
-        public void can_reset() {
-
+        public void can_reset()
+        {
             var model = CreateModel(
                 new SetSystemMessageMessage("message"),
                 new AddCommentaryMessage("commentary")
-            );
-            
+                );
+
             model.Reset();
 
             assert_properties_have_default_values(model);
         }
 
         [Fact]
-        public void process_throws_when_message_is_null() {
-
+        public void process_throws_when_message_is_null()
+        {
             var model = new MessageModel();
 
             Assert.Throws<ArgumentNullException>(() => model.Process(null));
         }
 
         [Fact]
-        public void processing_a_set_system_message_message_updates_the_system_property() {
-
+        public void processing_a_set_system_message_message_updates_the_system_property()
+        {
             var message = "message";
             var model = CreateModel(new SetSystemMessageMessage(message));
 
@@ -61,8 +60,8 @@ namespace AK.F1.Timing.Model.Session
         }
 
         [Fact]
-        public void changes_to_the_system_property_raise_the_property_changed_event() {
-
+        public void changes_to_the_system_property_raise_the_property_changed_event()
+        {
             var model = new MessageModel();
             var observer = new PropertyChangeObserver<MessageModel>(model);
 
@@ -71,22 +70,22 @@ namespace AK.F1.Timing.Model.Session
         }
 
         [Fact]
-        public void processing_an_add_commentary_message_adds_it_to_the_commentary_property() {
-
+        public void processing_an_add_commentary_message_adds_it_to_the_commentary_property()
+        {
             var commentary1 = "commentary1";
             var commentary2 = "commentary2";
             var expectedCommentary = commentary1 + commentary2;
             var model = CreateModel(
                 new AddCommentaryMessage(commentary1),
                 new AddCommentaryMessage(commentary2)
-            );
+                );
 
             Assert.Equal(expectedCommentary, model.Commentary);
         }
 
         [Fact]
-        public void changes_to_the_commentary_property_raise_the_property_changed_event() {
-
+        public void changes_to_the_commentary_property_raise_the_property_changed_event()
+        {
             var model = new MessageModel();
             var observer = new PropertyChangeObserver<MessageModel>(model);
 
@@ -94,19 +93,20 @@ namespace AK.F1.Timing.Model.Session
             Assert.True(observer.HasChanged(x => x.Commentary));
         }
 
-        private static MessageModel CreateModel(params Message[] messagesToProcess) {
-
+        private static MessageModel CreateModel(params Message[] messagesToProcess)
+        {
             var model = new MessageModel();
 
-            foreach(var message in messagesToProcess) {
+            foreach(var message in messagesToProcess)
+            {
                 model.Process(message);
             }
 
             return model;
         }
 
-        private void assert_properties_have_default_values(MessageModel model) {
-
+        private void assert_properties_have_default_values(MessageModel model)
+        {
             Assert.Null(model.Commentary);
             Assert.Null(model.System);
         }

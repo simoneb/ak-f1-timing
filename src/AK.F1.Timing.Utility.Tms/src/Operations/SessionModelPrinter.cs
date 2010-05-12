@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use session file except in compliance with the License.
@@ -14,7 +14,6 @@
 
 using System;
 using System.Linq;
-
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
 using AK.F1.Timing.Model.Grid;
@@ -24,9 +23,10 @@ namespace AK.F1.Timing.Utility.Tms.Operations
 {
     internal static class SessionModelPrinter
     {
-        public static void Print(this SessionModel session) {
-
-            switch(session.SessionType) {
+        public static void Print(this SessionModel session)
+        {
+            switch(session.SessionType)
+            {
                 case SessionType.Practice:
                     WritePractice(session);
                     break;
@@ -44,12 +44,13 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteSessionStatistics(session);
         }
 
-        private static void WriteQually(SessionModel session) {
-
+        private static void WriteQually(SessionModel session)
+        {
             WriteLine("+---+---+---+--------------------+-----------+-----------+-----------+-------+-------+-------+----+");
             WriteLine("| I | P | C | DRIVER             |     Q1    |     Q2    |     Q3    |    S1 |    S2 |    S3 |  L |");
             WriteLine("+---+---+---+--------------------+-----------+-----------+-----------+-------+-------+-------+----+");
-            foreach(var row in ((QuallyGridModel)session.Grid).Rows.OrderBy(r => r.RowIndex)) {
+            foreach(var row in ((QuallyGridModel)session.Grid).Rows.OrderBy(r => r.RowIndex))
+            {
                 Write("|");
                 Write("{0,3}", row.Id);
                 Write("|");
@@ -78,12 +79,13 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+-------------------------------------------------------------------------------------------------+");
         }
 
-        private static void WriteRace(SessionModel session) {
-
+        private static void WriteRace(SessionModel session)
+        {
             WriteLine("+---+---+---+--------------------+-------+-------+-----------+-------+-------+-------+----+");
             WriteLine("| I | P | C | DRIVER             |   GAP |   INT |      TIME |    S1 |    S2 |    S3 |  P |");
             WriteLine("+---+---+---+--------------------+-------+-------+-----------+-------+-------+-------+----+");
-            foreach(var row in ((RaceGridModel)session.Grid).Rows.OrderBy(r => r.RowIndex)) {
+            foreach(var row in ((RaceGridModel)session.Grid).Rows.OrderBy(r => r.RowIndex))
+            {
                 Write("|");
                 Write("{0,3}", row.Id);
                 Write("|");
@@ -112,24 +114,25 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+-------------------------------------------------------------------------------------------+");
         }
 
-        private static void Write(string s) {
-
+        private static void Write(string s)
+        {
             Console.Write(s);
         }
 
-        private static void Write(string format, object arg0) {
-
+        private static void Write(string format, object arg0)
+        {
             Console.Write(format, arg0);
-        }        
+        }
 
-        private static void Write(string format, GridColumnModel column) {
-
+        private static void Write(string format, GridColumnModel column)
+        {
             Write(format, column.Text, column.TextColour);
         }
 
-        private static void Write(string format, object arg0, GridColumnColour colour) {
-
-            switch(colour) {
+        private static void Write(string format, object arg0, GridColumnColour colour)
+        {
+            switch(colour)
+            {
                 case GridColumnColour.White:
                     Console.ForegroundColor = ConsoleColor.White;
                     break;
@@ -158,22 +161,23 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             Console.ResetColor();
         }
 
-        private static void WriteLine() {
-
+        private static void WriteLine()
+        {
             Console.WriteLine();
         }
 
-        private static void WriteLine(string format, params object[] args) {
-
+        private static void WriteLine(string format, params object[] args)
+        {
             Console.WriteLine(format, args);
         }
 
-        private static void WritePractice(SessionModel session) {
-
+        private static void WritePractice(SessionModel session)
+        {
             WriteLine("+---+---+---+---------------------+-----------+--------+-------+-------+-------+----+");
             WriteLine("| I | P | C | DRIVER              |      BEST |    GAP |    S1 |    S2 |    S3 |  L |");
             WriteLine("+---+---+---+---------------------+-----------+--------+-------+-------+-------+----+");
-            foreach(var row in ((PracticeGridModel)session.Grid).Rows.OrderBy(r => r.RowIndex)) {
+            foreach(var row in ((PracticeGridModel)session.Grid).Rows.OrderBy(r => r.RowIndex))
+            {
                 Write("|");
                 Write("{0,3}", row.Id);
                 Write("|");
@@ -200,8 +204,8 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+----------------------------------------------------------------------------------+");
         }
 
-        private static void WriteTrackStatistics(SessionModel session) {
-
+        private static void WriteTrackStatistics(SessionModel session)
+        {
             WriteLine();
             WriteLine("+------------------------------------------------------------------------------------------+");
             WriteLine("|                                  WEATHER STATISTICS                                      |");
@@ -253,8 +257,8 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+------------------+---------------------------------------------------------------------+");
         }
 
-        private static void WriteSessionStatistics(SessionModel session) {
-
+        private static void WriteSessionStatistics(SessionModel session)
+        {
             WriteLine();
             WriteLine("+---------------------------------------+");
             WriteLine("|          SESSION STATISTICS           |");
@@ -273,7 +277,8 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+--------------------+-----------+-------+-------+-------+-----------+");
             WriteLine("| DRIVER             |      BEST |    S1 |    S2 |    S3 |      POSS |");
             WriteLine("+--------------------+-----------+-------+-------+-------+-----------+");
-            foreach(var driver in session.Drivers) {
+            foreach(var driver in session.Drivers)
+            {
                 var times = driver.LapTimes;
                 Write("|{0,-20}|", driver.Name);
                 Write("{0,11}|", Format.LapTime(times.Laps.Minimum));
@@ -281,7 +286,8 @@ namespace AK.F1.Timing.Utility.Tms.Operations
                 Write("{0,7}|", Format.SectorTime(times.S2.Minimum));
                 Write("{0,7}|", Format.SectorTime(times.S3.Minimum));
                 TimeSpan? possible = null;
-                if(times.S1.Minimum != null && times.S2.Minimum != null && times.S3.Minimum != null) {
+                if(times.S1.Minimum != null && times.S2.Minimum != null && times.S3.Minimum != null)
+                {
                     possible = times.S1.Minimum.Time + times.S2.Minimum.Time + times.S3.Minimum.Time;
                 }
                 Write("{0,11}|", Format.LapTime(possible));
@@ -295,7 +301,8 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+--------------------+----+----+----+----+----+");
             WriteLine("| DRIVER             | S1 | S2 | S3 |  L |  P |");
             WriteLine("+--------------------+----+----+----+----+----+");
-            foreach(var driver in session.Drivers) {
+            foreach(var driver in session.Drivers)
+            {
                 Write("|{0,-20}|", driver.Name);
                 Write("{0,4}|", driver.LapTimes.S1.Items.Count);
                 Write("{0,4}|", driver.LapTimes.S2.Items.Count);

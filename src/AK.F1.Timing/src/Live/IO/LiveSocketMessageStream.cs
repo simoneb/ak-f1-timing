@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@ using System;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
-
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
+using log4net;
 
 namespace AK.F1.Timing.Live.IO
 {
@@ -33,10 +33,10 @@ namespace AK.F1.Timing.Live.IO
 
         private TimeSpan _pingInterval = TimeSpan.Zero;
 
-        private static readonly byte[] PING_PACKET = { 16 };
-        private static readonly log4net.ILog _log = log4net.LogManager.GetLogger(typeof(LiveSocketMessageStream));
+        private static readonly byte[] PingPacket = {16};
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LiveSocketMessageStream));
 
-        #endregion        
+        #endregion
 
         /// <summary>
         /// Initialises a new instance of the <see cref="LiveSocketMessageStream"/> class.
@@ -45,22 +45,23 @@ namespace AK.F1.Timing.Live.IO
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="socket"/> is <see langword="null"/>.
         /// </exception>
-        public LiveSocketMessageStream(Socket socket) {
-
+        public LiveSocketMessageStream(Socket socket)
+        {
             Guard.NotNull(socket, "socket");
 
             Socket = socket;
-            Socket.NoDelay = true;            
+            Socket.NoDelay = true;
             Input = new BufferedStream(new NetworkStream(socket, FileAccess.Read, true));
             PingTimer = new Timer(s => MaybePing());
         }
 
         /// <inheritdoc />
-        public bool FullyRead(byte[] buffer, int offset, int count) {
-
+        public bool FullyRead(byte[] buffer, int offset, int count)
+        {
             CheckDisposed();
 
-            if(!Input.FullyRead(buffer, offset, count)) {
+            if(!Input.FullyRead(buffer, offset, count))
+            {
                 return false;
             }
             LastRead = SysClock.Ticks();
@@ -68,15 +69,17 @@ namespace AK.F1.Timing.Live.IO
         }
 
         /// <inheritdoc />
-        public TimeSpan PingInterval {
-
-            get {
+        public TimeSpan PingInterval
+        {
+            get
+            {
                 CheckDisposed();
                 return _pingInterval;
             }
-            set {
+            set
+            {
                 CheckDisposed();
-                Guard.InRange(value >= TimeSpan.Zero, "value");                
+                Guard.InRange(value >= TimeSpan.Zero, "value");
                 _pingInterval = value;
                 ChangePingTimerInterval();
             }
@@ -85,9 +88,10 @@ namespace AK.F1.Timing.Live.IO
         #region Protected Interface.
 
         /// <inheritdoc />
-        protected override void Dispose(bool disposing) {
-
-            if(disposing && !IsDisposed) {
+        protected override void Dispose(bool disposing)
+        {
+            if(disposing && !IsDisposed)
+            {
                 DisposeOf(PingTimer);
                 DisposeOf(Input);
             }
@@ -98,25 +102,32 @@ namespace AK.F1.Timing.Live.IO
 
         #region Private Impl.
 
-        private void ChangePingTimerInterval() {
-
-            if(PingInterval > TimeSpan.Zero) {
+        private void ChangePingTimerInterval()
+        {
+            if(PingInterval > TimeSpan.Zero)
+            {
                 PingTimer.Change(PingInterval, PingInterval);
-            } else {
+            }
+            else
+            {
                 PingTimer.Change(Timeout.Infinite, Timeout.Infinite);
             }
-            _log.InfoFormat("ping interval set: {0}", PingInterval);
+            Log.InfoFormat("ping interval set: {0}", PingInterval);
         }
 
-        private void MaybePing() {            
-
-            try {
-                if(SysClock.Ticks() - LastRead >= PingInterval) {                    
-                    Socket.Send(PING_PACKET);                    
+        private void MaybePing()
+        {
+            try
+            {
+                if(SysClock.Ticks() - LastRead >= PingInterval)
+                {
+                    Socket.Send(PingPacket);
                 }
-            } catch(ObjectDisposedException) {
-            } catch(IOException exc) {
-                _log.Info("failed to ping", exc);                
+            }
+            catch(ObjectDisposedException) {}
+            catch(IOException exc)
+            {
+                Log.Info("failed to ping", exc);
             }
         }
 

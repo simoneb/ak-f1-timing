@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Feed;
 
 namespace AK.F1.Timing.Model.Session
@@ -38,36 +37,36 @@ namespace AK.F1.Timing.Model.Session
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="model"/> is <see langword="null"/>.
             /// </exception>
-            public FeedModelBuilder(FeedModel model) {
-
+            public FeedModelBuilder(FeedModel model)
+            {
                 Guard.NotNull(model, "model");
 
                 Model = model;
             }
 
             /// <inheritdoc/>
-            public void Process(Message message) {
-
+            public void Process(Message message)
+            {
                 message.Accept(this);
 
                 ++Model.MessageCount;
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetCopyrightMessage message) {
-
+            public override void Visit(SetCopyrightMessage message)
+            {
                 Model.Copyright = message.Copyright;
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetKeyframeMessage message) {
-
+            public override void Visit(SetKeyframeMessage message)
+            {
                 Model.KeyframeNumber = message.Keyframe;
             }
 
             /// <inheritdoc/>
-            public override void Visit(SetPingIntervalMessage message) {
-
+            public override void Visit(SetPingIntervalMessage message)
+            {
                 Model.PingInterval = message.PingInterval;
             }
 

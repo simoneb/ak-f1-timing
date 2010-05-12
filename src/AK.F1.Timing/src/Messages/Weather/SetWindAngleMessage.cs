@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,35 +34,35 @@ namespace AK.F1.Timing.Messages.Weather
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="angle"/> is negative or greater than 360.
         /// </exception>
-        public SetWindAngleMessage(int angle) {
-            
+        public SetWindAngleMessage(int angle)
+        {
             Guard.InRange(IsValidAngle(angle), "angle");
-            
+
             Angle = angle;
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("Angle={0}", Angle);
         }
-        
+
         /// <summary>
         /// Returns a value indicating if the specified <paramref name="angle"/> is valid.
         /// </summary>
         /// <param name="angle">The angle to test.</param>
         /// <returns><see langword="true"/> if the specified <paramref name="angle"/> is valid,
         /// otherwise; <see langword="false"/>.</returns>
-        public static bool IsValidAngle(int angle) {
-        
+        public static bool IsValidAngle(int angle)
+        {
             return angle >= 0 && angle <= 360;
         }
 

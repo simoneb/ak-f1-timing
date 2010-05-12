@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit;
 
 namespace AK.F1.Timing.Messages.Feed
@@ -20,15 +19,15 @@ namespace AK.F1.Timing.Messages.Feed
     public class SetStreamValidityMessageTest : MessageTestBase<SetStreamValidityMessage>
     {
         [Fact]
-        public override void can_create() {            
-
+        public override void can_create()
+        {
             Assert.True(new SetStreamValidityMessage(true).IsValid);
             Assert.False(new SetStreamValidityMessage(false).IsValid);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -37,9 +36,9 @@ namespace AK.F1.Timing.Messages.Feed
             visitor.VerifyAll();
         }
 
-        protected override SetStreamValidityMessage CreateMessage() {
-
+        protected override SetStreamValidityMessage CreateMessage()
+        {
             return new SetStreamValidityMessage(true);
-        }           
+        }
     }
 }

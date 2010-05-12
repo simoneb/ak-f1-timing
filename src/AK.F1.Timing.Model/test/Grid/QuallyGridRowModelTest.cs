@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,30 +12,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Grid
 {
     public class QuallyGridRowModelTest : GridRowModelTestBase<QuallyGridRowModel>
     {
-        protected override QuallyGridRowModel CreateRow(int id) {
-
+        protected override QuallyGridRowModel CreateRow(int id)
+        {
             return new QuallyGridRowModel(id);
         }
 
-        protected override IEnumerable<GridColumn> GetColumns() {
-
+        protected override IEnumerable<GridColumn> GetColumns()
+        {
             yield return GridColumn.Q1;
             yield return GridColumn.Q2;
             yield return GridColumn.Q3;
             yield return GridColumn.Laps;
         }
 
-        protected override IEnumerable<GridColumn> GetResettableColumns() {
-
+        protected override IEnumerable<GridColumn> GetResettableColumns()
+        {
             yield return GridColumn.Q1;
             yield return GridColumn.Q2;
             yield return GridColumn.Q3;

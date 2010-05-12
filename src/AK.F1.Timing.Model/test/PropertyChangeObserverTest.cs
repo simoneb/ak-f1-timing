@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.ComponentModel;
 using Xunit;
 
@@ -21,8 +20,8 @@ namespace AK.F1.Timing.Model
     public class PropertyChangeObserverTest
     {
         [Fact]
-        public void can_get_the_number_of_times_a_property_has_changed() {
-
+        public void can_get_the_number_of_times_a_property_has_changed()
+        {
             var observable = new Observable();
             var observer = new PropertyChangeObserver<Observable>(observable);
 
@@ -41,8 +40,8 @@ namespace AK.F1.Timing.Model
         }
 
         [Fact]
-        public void can_determine_if_a_property_has_changed() {
-
+        public void can_determine_if_a_property_has_changed()
+        {
             var observable = new Observable();
             var observer = new PropertyChangeObserver<Observable>(observable);
 
@@ -56,10 +55,10 @@ namespace AK.F1.Timing.Model
         }
 
         [Fact]
-        public void can_clear_the_observed_changed() {
-
+        public void can_clear_the_observed_changed()
+        {
             var observable = new Observable();
-            var observer = new PropertyChangeObserver<Observable>(observable);            
+            var observer = new PropertyChangeObserver<Observable>(observable);
 
             observable.OnPropertyChanged("Property");
 
@@ -74,11 +73,12 @@ namespace AK.F1.Timing.Model
 
             public string Property { get; set; }
 
-            public void OnPropertyChanged(string propertyName) {
-
+            public void OnPropertyChanged(string propertyName)
+            {
                 var @event = PropertyChanged;
 
-                if(@event != null) {
+                if(@event != null)
+                {
                     @event(this, new PropertyChangedEventArgs(propertyName));
                 }
             }

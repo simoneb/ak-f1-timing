@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,14 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-
-using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Model.Session;
-using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Utility.Tms.Operations
@@ -28,20 +22,24 @@ namespace AK.F1.Timing.Utility.Tms.Operations
     {
         private readonly string _path;
 
-        public DumpSessionOperation(string path) {
-
+        public DumpSessionOperation(string path)
+        {
             _path = path;
         }
 
-        public override void Run() {
-
+        public override void Run()
+        {
             Message message;
             SessionModel session = new SessionModel();
 
             using(var input = File.OpenRead(_path))
-            using(var reader = new DecoratedObjectReader(input)) {
-                while((message = (Message)reader.Read()) != null) {
-                    session.Process(message);
+            {
+                using(var reader = new DecoratedObjectReader(input))
+                {
+                    while((message = (Message)reader.Read()) != null)
+                    {
+                        session.Process(message);
+                    }
                 }
             }
 

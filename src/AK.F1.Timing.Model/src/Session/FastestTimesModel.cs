@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,9 @@
 // limitations under the License.
 
 using System;
-
-using AK.F1.Timing.Model.Driver;
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
+using AK.F1.Timing.Model.Driver;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -47,8 +46,8 @@ namespace AK.F1.Timing.Model.Session
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="driverLocator"/> is <see langword="null"/>.
         /// </exception>
-        public FastestTimesModel(IDriverModelLocator driverLocator) {
-
+        public FastestTimesModel(IDriverModelLocator driverLocator)
+        {
             Guard.NotNull(driverLocator, "driverLocator");
 
             DriverLocator = driverLocator;
@@ -56,8 +55,8 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <inheritdoc/>        
-        public void Process(Message message) {
-
+        public void Process(Message message)
+        {
             Guard.NotNull(message, "message");
 
             Builder.Process(message);
@@ -66,8 +65,8 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Resets this model.
         /// </summary>
-        public void Reset() {
-
+        public void Reset()
+        {
             Lap = null;
             S1 = null;
             S2 = null;
@@ -78,11 +77,13 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the fastest lap time set.
         /// </summary>
-        public FastestTimeModel Lap {
-
+        public FastestTimeModel Lap
+        {
             get { return _lap; }
-            private set {
-                if(SetProperty("Lap", ref _lap, value)) {
+            private set
+            {
+                if(SetProperty("Lap", ref _lap, value))
+                {
                     ComputePossible();
                     NotifyIsEmptyChanged();
                 }
@@ -92,11 +93,13 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the fastest S1 time set.
         /// </summary>
-        public FastestTimeModel S1 {
-
+        public FastestTimeModel S1
+        {
             get { return _s1; }
-            private set {
-                if(SetProperty("S1", ref _s1, value)) {
+            private set
+            {
+                if(SetProperty("S1", ref _s1, value))
+                {
                     ComputePossible();
                     NotifyIsEmptyChanged();
                 }
@@ -106,11 +109,13 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the fastest S2 time set.
         /// </summary>
-        public FastestTimeModel S2 {
-
+        public FastestTimeModel S2
+        {
             get { return _s2; }
-            private set {
-                if(SetProperty("S2", ref _s2, value)) {
+            private set
+            {
+                if(SetProperty("S2", ref _s2, value))
+                {
                     ComputePossible();
                     NotifyIsEmptyChanged();
                 }
@@ -120,11 +125,13 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets the fastest S3 time set.
         /// </summary>
-        public FastestTimeModel S3 {
-
+        public FastestTimeModel S3
+        {
             get { return _s3; }
-            private set {
-                if(SetProperty("S3", ref _s3, value)) {
+            private set
+            {
+                if(SetProperty("S3", ref _s3, value))
+                {
                     ComputePossible();
                     NotifyIsEmptyChanged();
                 }
@@ -136,8 +143,8 @@ namespace AK.F1.Timing.Model.Session
         /// <see cref="FastestTimeModel.Delta"/> property represents the difference between the sum
         /// of the S1-S3 times and the the current fastest lap.
         /// </summary>
-        public FastestTimeModel Possible {
-
+        public FastestTimeModel Possible
+        {
             get { return _possible; }
             private set { SetProperty("Possible", ref _possible, value); }
         }
@@ -145,9 +152,10 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets a value indicating if this model is empty.
         /// </summary>
-        public bool IsEmpty {
-
-            get {
+        public bool IsEmpty
+        {
+            get
+            {
                 // Possible is not included as it's computed base on S1-S3 and Lap.
                 return S1 == null && S2 == null && S3 == null && Lap == null;
             }
@@ -162,8 +170,8 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         /// <param name="driverId">The Id of the driver which posted the time.</param>        
         /// <param name="quallyTime">The qually time.</param>        
-        private void TrySetLapUsingQuallyTime(int driverId, TimeSpan quallyTime) {
-
+        private void TrySetLapUsingQuallyTime(int driverId, TimeSpan quallyTime)
+        {
             var driver = DriverLocator.GetDriver(driverId);
             var postedTime = new PostedTime(quallyTime, PostedTimeType.Normal, driver.LapsCompleted);
 
@@ -175,14 +183,15 @@ namespace AK.F1.Timing.Model.Session
         /// </summary>
         /// <param name="driverId">The Id of the driver which posted the time.</param>        
         /// <param name="time">The time.</param>        
-        private void TrySetLap(int driverId, PostedTime time) {
-
+        private void TrySetLap(int driverId, PostedTime time)
+        {
             var isSessionBest = time.Type == PostedTimeType.SessionBest ||
                 // We only receive session best lap times during a race session so we determine here
                 // if the specified time should be promoted.
                 (CurrentSessionType != SessionType.Race && (Lap == null || time.Time < Lap.Time));
 
-            if(isSessionBest) {
+            if(isSessionBest)
+            {
                 SetLap(driverId, time.Time, time.LapNumber);
             }
         }
@@ -193,8 +202,8 @@ namespace AK.F1.Timing.Model.Session
         /// <param name="driverId">The Id of the driver which posted the time.</param>        
         /// <param name="time">The time.</param>
         /// <param name="lapNumber">The lap number on which the time was set.</param>
-        private void SetLap(int driverId, TimeSpan time, int lapNumber) {
-
+        private void SetLap(int driverId, TimeSpan time, int lapNumber)
+        {
             Lap = CreateFastestTime(DriverLocator.GetDriver(driverId), time, lapNumber, Lap);
         }
 
@@ -204,9 +213,10 @@ namespace AK.F1.Timing.Model.Session
         /// <param name="sectorNumber">The one-based sector time to set.</param>
         /// <param name="driverId">The Id of the driver which posted the time.</param>        
         /// <param name="time">The time.</param>        
-        private void TrySetSector(int sectorNumber, int driverId, PostedTime time) {
-
-            if(time.Type == PostedTimeType.SessionBest) {
+        private void TrySetSector(int sectorNumber, int driverId, PostedTime time)
+        {
+            if(time.Type == PostedTimeType.SessionBest)
+            {
                 SetSector(sectorNumber, driverId, time.Time, time.LapNumber);
             }
         }
@@ -218,26 +228,36 @@ namespace AK.F1.Timing.Model.Session
         /// <param name="driverId">The Id of the driver which posted the time.</param>        
         /// <param name="time">The time.</param>
         /// <param name="lapNumber">The lap number on which the time was set.</param>
-        private void SetSector(int sectorNumber, int driverId, TimeSpan time, int lapNumber) {
-
+        private void SetSector(int sectorNumber, int driverId, TimeSpan time, int lapNumber)
+        {
             var driver = DriverLocator.GetDriver(driverId);
 
-            if(sectorNumber == 1) {
+            if(sectorNumber == 1)
+            {
                 S1 = CreateFastestTime(driver, time, lapNumber, S1);
-            } else if(sectorNumber == 2) {
+            }
+            else if(sectorNumber == 2)
+            {
                 S2 = CreateFastestTime(driver, time, lapNumber, S2);
-            } else if(sectorNumber == 3) {
+            }
+            else if(sectorNumber == 3)
+            {
                 S3 = CreateFastestTime(driver, time, lapNumber, S3);
-            } else {
+            }
+            else
+            {
                 throw Guard.ArgumentOutOfRange("sectorNumber");
             }
         }
 
-        private void ComputePossible() {
-
-            if(S1 == null || S2 == null || S3 == null) {
+        private void ComputePossible()
+        {
+            if(S1 == null || S2 == null || S3 == null)
+            {
                 Possible = null;
-            } else {
+            }
+            else
+            {
                 var newPossibleTime = S1.Time + S2.Time + S3.Time;
                 // TODO this is a bit hackish.
                 Possible = new FastestTimeModel(null, newPossibleTime, 0,
@@ -245,14 +265,14 @@ namespace AK.F1.Timing.Model.Session
             }
         }
 
-        private void NotifyIsEmptyChanged() {
-
+        private void NotifyIsEmptyChanged()
+        {
             OnPropertyChanged("IsEmpty");
         }
 
         private static FastestTimeModel CreateFastestTime(DriverModel driver, TimeSpan time,
-            int lapNumber, FastestTimeModel previous) {
-
+            int lapNumber, FastestTimeModel previous)
+        {
             return new FastestTimeModel(driver, time, lapNumber,
                 previous != null ? new TimeSpan?(time - previous.Time) : null);
         }

@@ -14,7 +14,6 @@
 
 using System;
 using System.Diagnostics;
-
 using AK.F1.Timing.Extensions;
 
 namespace AK.F1.Timing.Utility
@@ -31,16 +30,21 @@ namespace AK.F1.Timing.Utility
         /// Helper method to safely dispose of the specified disposable instance.
         /// </summary>
         /// <param name="disposable">The disposable instance. Can be <see langword="null"/>.</param>
-        public static void DisposeOf(IDisposable disposable) {
-
-            if(disposable == null) {
+        public static void DisposeOf(IDisposable disposable)
+        {
+            if(disposable == null)
+            {
                 return;
             }
 
-            try {
+            try
+            {
                 disposable.Dispose();
-            } catch(Exception exc) {
-                if(exc.IsFatal()) {
+            }
+            catch(Exception exc)
+            {
+                if(exc.IsFatal())
+                {
                     throw;
                 }
             }
@@ -60,13 +64,16 @@ namespace AK.F1.Timing.Utility
         /// </summary>
         /// <param name="disposing"><see langword="true"/> if being called explicitly, otherwise;
         /// <see langword="false"/> to indicate being called implicitly by the GC.</param>
-        protected virtual void Dispose(bool disposing) {
-
-            if(!IsDisposed) {
+        protected virtual void Dispose(bool disposing)
+        {
+            if(!IsDisposed)
+            {
                 IsDisposed = true;
                 // No point calling SuppressFinalize if were are being called from the finalizer.
                 if(disposing)
+                {
                     GC.SuppressFinalize(this);
+                }
             }
         }
 
@@ -78,18 +85,20 @@ namespace AK.F1.Timing.Utility
         /// Thrown when this instance has been disposed of.
         /// </exception>
         [DebuggerStepThrough]
-        protected void CheckDisposed() {
-
+        protected void CheckDisposed()
+        {
             if(IsDisposed)
+            {
                 throw Guard.ObjectDisposed(this);
+            }
         }
 
         #endregion
 
         #region Explicit Interface.
 
-        void IDisposable.Dispose() {
-
+        void IDisposable.Dispose()
+        {
             Dispose(true);
         }
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,8 @@
 
 using System;
 using System.Diagnostics;
-
 using AK.F1.Timing.Utility.Tms.Operations;
+using log4net.Config;
 
 namespace AK.F1.Timing.Utility.Tms
 {
@@ -30,14 +30,18 @@ namespace AK.F1.Timing.Utility.Tms
         /// Application entry point.
         /// </summary>
         /// <param name="args">The application arguments.</param>
-        public static void Main(string[] args) {
-
+        public static void Main(string[] args)
+        {
             var options = new CommandLineOptions();
 
-            if(options.ParseAndContinue(args)) {
-                try {
+            if(options.ParseAndContinue(args))
+            {
+                try
+                {
                     Run(options);
-                } catch(Exception exc) {
+                }
+                catch(Exception exc)
+                {
                     Console.WriteLine("{0} - {1}", exc.GetType().Name, exc.Message);
                 }
             }
@@ -46,23 +50,32 @@ namespace AK.F1.Timing.Utility.Tms
         #endregion
 
         #region Private Impl.
-        
-        static Program() {
-        
-            log4net.Config.XmlConfigurator.Configure();
+
+        static Program()
+        {
+            XmlConfigurator.Configure();
         }
 
-        private static void Run(CommandLineOptions options) {
-
-            if(options.Stats) {
+        private static void Run(CommandLineOptions options)
+        {
+            if(options.Stats)
+            {
                 new WriteStatisticsOperation(options.Path).Run();
-            } else if(options.Dump) {
+            }
+            else if(options.Dump)
+            {
                 new DumpOperation(options.Path).Run();
-            } else if(options.DumpSession) {
+            }
+            else if(options.DumpSession)
+            {
                 new DumpSessionOperation(options.Path).Run();
-            } else if(options.Fixup) {
+            }
+            else if(options.Fixup)
+            {
                 new FixupOperation(options.Path).Run();
-            } else {
+            }
+            else
+            {
                 Debug.Fail("no operation has been specified");
             }
         }

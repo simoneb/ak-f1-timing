@@ -16,39 +16,38 @@ using System;
 using System.IO;
 using Xunit;
 
-using AK.F1.Timing.Extensions;
-
 namespace AK.F1.Timing.Extensions
 {
     public class StreamExtensionsTest
     {
         [Fact]
-        public void fully_read_returns_true_if_count_is_zero() {
-
+        public void fully_read_returns_true_if_count_is_zero()
+        {
             var buffer = new byte[1];
             var stream = CreateStream(buffer.Length);
 
-            Assert.True(StreamExtensions.FullyRead(stream, buffer, 0, 0));
+            Assert.True(stream.FullyRead(buffer, 0, 0));
         }
 
         [Fact]
-        public void fully_read_returns_true_if_all_data_was_written_to_buffer() {
-
+        public void fully_read_returns_true_if_all_data_was_written_to_buffer()
+        {
             var buffer = new byte[10];
             var stream = CreateStream(buffer.Length);
 
-            Assert.True(StreamExtensions.FullyRead(stream, buffer, 0, buffer.Length));
+            Assert.True(stream.FullyRead(buffer, 0, buffer.Length));
         }
 
         [Fact]
-        public void fully_read_copies_data_to_buffer_and_leaves_stream_in_correct_position() {
-
+        public void fully_read_copies_data_to_buffer_and_leaves_stream_in_correct_position()
+        {
             var buffer = new byte[10];
             var stream = CreateStream(buffer.Length);
 
-            Assert.True(StreamExtensions.FullyRead(stream, buffer, 0, buffer.Length));
+            Assert.True(stream.FullyRead(buffer, 0, buffer.Length));
 
-            for(int i = 0; i < buffer.Length; ++i) {
+            for(int i = 0; i < buffer.Length; ++i)
+            {
                 Assert.Equal(i, buffer[i]);
             }
 
@@ -56,23 +55,25 @@ namespace AK.F1.Timing.Extensions
         }
 
         [Fact]
-        public void fully_read_returns_false_if_end_of_stream_was_reached_before_count_was_written_to_buffer() {
-
+        public void fully_read_returns_false_if_end_of_stream_was_reached_before_count_was_written_to_buffer()
+        {
             var buffer = new byte[10];
             var stream = CreateStream(buffer.Length / 2);
 
-            Assert.False(StreamExtensions.FullyRead(stream, buffer, 0, buffer.Length));
-        }        
+            Assert.False(stream.FullyRead(buffer, 0, buffer.Length));
+        }
 
-        private static Stream CreateStream(int length) {
-
-            if(length > byte.MaxValue) {
+        private static Stream CreateStream(int length)
+        {
+            if(length > byte.MaxValue)
+            {
                 throw new ArgumentOutOfRangeException("length");
             }
 
             var stream = new MemoryStream(length);
 
-            for(int i = 0; i < length; ++i) {
+            for(int i = 0; i < length; ++i)
+            {
                 stream.WriteByte((byte)i);
             }
 

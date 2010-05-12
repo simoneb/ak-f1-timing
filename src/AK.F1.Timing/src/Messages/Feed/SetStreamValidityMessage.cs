@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -33,22 +33,22 @@ namespace AK.F1.Timing.Messages.Feed
         /// </summary>
         /// <param name="isValid"><see langword="true"/> if the stream is valid, otherwise;
         /// <see langword="false"/>.</param>
-        public SetStreamValidityMessage(bool isValid) {
-
+        public SetStreamValidityMessage(bool isValid)
+        {
             IsValid = isValid;
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("IsValid='{0}'", IsValid);
         }
 

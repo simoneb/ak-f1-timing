@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
 // limitations under the License.
 
 using System;
-using log4net;
+using Caliburn.Core.Logging;
+using LogManager = log4net.LogManager;
 
 namespace AK.F1.Timing.UI.Utility
 {
@@ -21,11 +22,11 @@ namespace AK.F1.Timing.UI.Utility
     /// A <see cref="log4net"/> <see cref="Caliburn.Core.Logging.ILog"/> adapter. This class 
     /// cannot be inherited.
     /// </summary>
-    public sealed class Log4NetAdapter : Caliburn.Core.Logging.ILog
+    public sealed class Log4NetAdapter : ILog
     {
         #region Fields.
 
-        private readonly ILog _inner;
+        private readonly log4net.ILog _inner;
 
         #endregion
 
@@ -38,8 +39,8 @@ namespace AK.F1.Timing.UI.Utility
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="inner"/> is <see langword="null"/>.
         /// </exception>
-        public Log4NetAdapter(ILog inner) {
-
+        public Log4NetAdapter(log4net.ILog inner)
+        {
             Guard.NotNull(inner, "inner");
 
             _inner = inner;
@@ -53,28 +54,28 @@ namespace AK.F1.Timing.UI.Utility
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="type"/> is <see langword="null"/>.
         /// </exception>
-        public static Log4NetAdapter GetLog(Type type) {
-
+        public static Log4NetAdapter GetLog(Type type)
+        {
             Guard.NotNull(type, "type");
 
             return new Log4NetAdapter(LogManager.GetLogger(type));
         }
 
         /// <inheritdoc/>
-        public void Error(Exception exception) {
-
+        public void Error(Exception exception)
+        {
             _inner.Error(exception);
         }
 
         /// <inheritdoc/>
-        public void Info(string message) {
-
+        public void Info(string message)
+        {
             _inner.Info(message);
         }
 
         /// <inheritdoc/>
-        public void Warn(string message) {
-
+        public void Warn(string message)
+        {
             _inner.Warn(message);
         }
 

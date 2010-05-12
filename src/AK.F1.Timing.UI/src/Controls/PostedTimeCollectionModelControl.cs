@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,7 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -29,19 +28,17 @@ namespace AK.F1.Timing.UI.Controls
                 typeof(string),
                 typeof(PostedTimeCollectionModelControl));
 
-        static PostedTimeCollectionModelControl() {
-
+        static PostedTimeCollectionModelControl()
+        {
             DefaultStyleKeyProperty.OverrideMetadata(
                 typeof(PostedTimeCollectionModelControl),
                 new FrameworkPropertyMetadata(typeof(PostedTimeCollectionModelControl)));
         }
 
-        public string Title {
-
+        public string Title
+        {
             get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
         }
-
-        public PostedTimeCollectionModelControl() { }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,24 +28,24 @@ namespace AK.F1.Timing.UI.Views
         /// <summary>
         /// Initialises a new instance of the <see cref="ShellView"/> class.
         /// </summary>
-        public ShellView() {
-
-            InitializeComponent();                        
+        public ShellView()
+        {
+            InitializeComponent();
         }
 
         #endregion
 
         #region Private Impl.
 
-        private void BeginDragMove(object sender, MouseButtonEventArgs e) {
-
+        private void BeginDragMove(object sender, MouseButtonEventArgs e)
+        {
             DragMove();
         }
 
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e) {
-
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
             MinWidth = Math.Max(MinWidth, e.NewSize.Width);
-            MinHeight = Math.Max(MinHeight, e.NewSize.Height);            
+            MinHeight = Math.Max(MinHeight, e.NewSize.Height);
         }
 
         #endregion

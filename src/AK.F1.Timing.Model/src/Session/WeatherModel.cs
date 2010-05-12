@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
 using AK.F1.Timing.Model.Collections;
-using AK.F1.Timing.Model.Driver;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -35,8 +32,8 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Initialises a new instance of the <see cref="WeatherModel"/> class.
         /// </summary>
-        public WeatherModel() {
-            
+        public WeatherModel()
+        {
             AirTemperature = new DoubleCollectionModel();
             TrackTemperature = new DoubleCollectionModel();
             Humidity = new DoubleCollectionModel();
@@ -47,8 +44,8 @@ namespace AK.F1.Timing.Model.Session
         }
 
         /// <inheritdoc/>        
-        public void Process(Message message) {
-
+        public void Process(Message message)
+        {
             Guard.NotNull(message, "message");
 
             Builder.Process(message);
@@ -57,8 +54,8 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Resets this weather model.
         /// </summary>
-        public void Reset() {
-
+        public void Reset()
+        {
             AirTemperature.Reset();
             Pressure.Reset();
             Humidity.Reset();
@@ -101,9 +98,9 @@ namespace AK.F1.Timing.Model.Session
         /// <summary>
         /// Gets a value indicating if the track is wet.
         /// </summary>      
-        public bool IsWet {
-
-            get { return _isWet; }            
+        public bool IsWet
+        {
+            get { return _isWet; }
             private set { SetProperty("IsWet", ref _isWet, value); }
         }
 

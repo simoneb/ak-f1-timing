@@ -37,9 +37,10 @@ namespace AK.F1.Timing.Utility
         /// Creates and initialises a new <see cref="HashCodeBuilder"/>.
         /// </summary>
         /// <returns>A a new <see cref="HashCodeBuilder"/></returns>
-        public static HashCodeBuilder New() {
-
-            return new HashCodeBuilder {
+        public static HashCodeBuilder New()
+        {
+            return new HashCodeBuilder
+            {
                 _hashCode = 7
             };
         }
@@ -50,9 +51,10 @@ namespace AK.F1.Timing.Utility
         /// <param name="obj">The object whose hash code will be added to the builder. Can be
         /// <see langword="null"/>.</param>
         /// <returns>This builder.</returns>
-        public HashCodeBuilder Add<T>(T obj) {
-
-            if(obj != null) {
+        public HashCodeBuilder Add<T>(T obj)
+        {
+            if(obj != null)
+            {
                 _hashCode = 31 * _hashCode + obj.GetHashCode();
             }
 
@@ -60,29 +62,30 @@ namespace AK.F1.Timing.Utility
         }
 
         /// <inhetitdoc/>
-        public override bool Equals(object obj) {
-
-            if(obj == null || obj.GetType() != GetType()) {
+        public override bool Equals(object obj)
+        {
+            if(obj == null || obj.GetType() != GetType())
+            {
                 return false;
             }
             return Equals((HashCodeBuilder)obj);
         }
 
         /// <inhetitdoc/>
-        public bool Equals(HashCodeBuilder other) {
-            
+        public bool Equals(HashCodeBuilder other)
+        {
             return other._hashCode == _hashCode;
         }
 
         /// <inhetitdoc/>        
-        public override int GetHashCode() {
-
+        public override int GetHashCode()
+        {
             return _hashCode;
         }
 
         /// <inhetitdoc/>
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return _hashCode.ToString();
         }
 
@@ -91,8 +94,8 @@ namespace AK.F1.Timing.Utility
         /// </summary>
         /// <param name="builder">The builder to convert.</param>
         /// <returns>The specified <paramref name="builder"/> to an <see cref="System.Int32"/>.</returns>
-        public static implicit operator int(HashCodeBuilder builder) {
-
+        public static implicit operator int(HashCodeBuilder builder)
+        {
             return builder._hashCode;
         }
 

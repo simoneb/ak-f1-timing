@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Model.Collections;
 
@@ -29,11 +28,11 @@ namespace AK.F1.Timing.Model.Driver
 
         private string _name;
         private int _position;
-        private int _carNumber;        
-        private int _lapsCompleted;        
+        private int _carNumber;
+        private int _lapsCompleted;
         private DriverStatus _status;
         private Gap _gap;
-        private Gap _interval;        
+        private Gap _interval;
 
         #endregion
 
@@ -44,8 +43,8 @@ namespace AK.F1.Timing.Model.Driver
         /// driver's Id.
         /// </summary>
         /// <param name="id">The driver's Id.</param>
-        public DriverModel(int id) {
-
+        public DriverModel(int id)
+        {
             Id = id;
             LapTimes = new LapTimesModel();
             PitTimes = new PostedTimeCollectionModel();
@@ -55,16 +54,16 @@ namespace AK.F1.Timing.Model.Driver
         }
 
         /// <inheritdoc/>        
-        public void Process(Message message) {
-
+        public void Process(Message message)
+        {
             Guard.NotNull(message, "message");
 
             Builder.Process(message);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Name ?? base.ToString();
         }
 
@@ -76,8 +75,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the gap between this driver and the leader.
         /// </summary>
-        public Gap Gap {
-
+        public Gap Gap
+        {
             get { return _gap; }
             set { SetProperty("Gap", ref _gap, value); }
         }
@@ -85,8 +84,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the interval between this driver and the driver in front.
         /// </summary>
-        public Gap Interval {
-
+        public Gap Interval
+        {
             get { return _interval; }
             set { SetProperty("Interval", ref _interval, value); }
         }
@@ -94,8 +93,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the number of laps completed by this driver.
         /// </summary>
-        public int LapsCompleted {
-
+        public int LapsCompleted
+        {
             get { return _lapsCompleted; }
             set { SetProperty("LapsCompleted", ref _lapsCompleted, value); }
         }
@@ -103,8 +102,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the name of this driver.
         /// </summary>
-        public string Name {
-
+        public string Name
+        {
             get { return _name; }
             set { SetProperty("Name", ref _name, value); }
         }
@@ -112,8 +111,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the driver's car number.
         /// </summary>
-        public int CarNumber {
-
+        public int CarNumber
+        {
             get { return _carNumber; }
             set { SetProperty("CarNumber", ref _carNumber, value); }
         }
@@ -121,8 +120,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the position of this driver.
         /// </summary>
-        public int Position {
-
+        public int Position
+        {
             get { return _position; }
             set { SetProperty("Position", ref _position, value); }
         }
@@ -145,8 +144,8 @@ namespace AK.F1.Timing.Model.Driver
         /// <summary>
         /// Gets or sets the status of this driver.
         /// </summary>
-        public DriverStatus Status {
-
+        public DriverStatus Status
+        {
             get { return _status; }
             set { SetProperty("Status", ref _status, value); }
         }

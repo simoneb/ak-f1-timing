@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Serialization
         /// Thrown when <paramref name="list"/> is <see langword="null"/>.
         /// </exception>
         public PropertyDescriptorCollection(IList<PropertyDescriptor> list)
-            : base(list) { }
+            : base(list) {}
 
         /// <summary>
         /// Returns the property with the specified <paramref name="id"/>, or <see langword="null"/>
@@ -44,12 +44,14 @@ namespace AK.F1.Timing.Serialization
         /// <param name="id">The identifier of the property to match.</param>
         /// <returns>The property with the specified <paramref name="id"/>, or <see langword="null"/>
         /// if no property is matched.</returns>
-        public PropertyDescriptor GetById(int id) {
-
+        public PropertyDescriptor GetById(int id)
+        {
             var items = Items;
 
-            for(int i = 0; i < items.Count; ++i) {
-                if(items[i].PropertyId == id) {
+            for(int i = 0; i < items.Count; ++i)
+            {
+                if(items[i].PropertyId == id)
+                {
                     return items[i];
                 }
             }

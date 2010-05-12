@@ -14,28 +14,27 @@
 
 using System;
 using System.IO;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-
-using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing
 {
     public static class TestExtensions
     {
-        public static T DeepClone<T>(this T graph) {
-
-            if(graph == null) {
+        public static T DeepClone<T>(this T graph)
+        {
+            if(graph == null)
+            {
                 throw new ArgumentNullException("graph");
-            }            
+            }
 
             var formatter = new BinaryFormatter();
 
-            using(var stream = new MemoryStream()) {
+            using(var stream = new MemoryStream())
+            {
                 formatter.Serialize(stream, graph);
                 stream.Position = 0L;
                 return (T)formatter.Deserialize(stream);
-            }            
+            }
         }
     }
 }

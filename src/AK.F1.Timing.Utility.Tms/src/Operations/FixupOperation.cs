@@ -14,7 +14,6 @@
 
 using System;
 using System.IO;
-
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Messages;
 using AK.F1.Timing.Serialization;
@@ -25,13 +24,13 @@ namespace AK.F1.Timing.Utility.Tms.Operations
     {
         private readonly string _path;
 
-        public FixupOperation(string path) {
-
+        public FixupOperation(string path)
+        {
             _path = path;
         }
 
-        public override void Run() {
-
+        public override void Run()
+        {
             var tempPath = _path + ".tmp";
 
             Fixup(_path, tempPath);
@@ -39,43 +38,58 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             File.Replace(tempPath, _path, null, true);
         }
 
-        private void Fixup(string srcPath, string dstPath) {
-
+        private void Fixup(string srcPath, string dstPath)
+        {
             Message message;
             var stats = new Stats();
             var classifier = new MessageClassifier();
             var translator = new LiveMessageTranslator();
 
             using(var input = File.OpenRead(srcPath))
-            using(var reader = new DecoratedObjectReader(input))
-            using(var output = File.Create(dstPath))
-            using(var writer = new DecoratedObjectWriter(output)) {
-                while(true) {
-                    if((message = (Message)reader.Read()) == null) {
-                        break;
-                    }
-                    ++stats.Read;
-                    if(classifier.IsTranslated(message)) {                        
-                        ++stats.OrgTranslated;
-                        continue;
-                    }
-                    writer.Write(message);
-                    ++stats.Written;
-                    if((message = translator.Translate(message)) != null) {
-                        if(message is CompositeMessage) {
-                            foreach(var component in ((CompositeMessage)message).Messages) {
-                                writer.Write(component);
+            {
+                using(var reader = new DecoratedObjectReader(input))
+                {
+                    using(var output = File.Create(dstPath))
+                    {
+                        using(var writer = new DecoratedObjectWriter(output))
+                        {
+                            while(true)
+                            {
+                                if((message = (Message)reader.Read()) == null)
+                                {
+                                    break;
+                                }
+                                ++stats.Read;
+                                if(classifier.IsTranslated(message))
+                                {
+                                    ++stats.OrgTranslated;
+                                    continue;
+                                }
+                                writer.Write(message);
                                 ++stats.Written;
-                                ++stats.NewTranslated;                                
+                                if((message = translator.Translate(message)) != null)
+                                {
+                                    if(message is CompositeMessage)
+                                    {
+                                        foreach(var component in ((CompositeMessage)message).Messages)
+                                        {
+                                            writer.Write(component);
+                                            ++stats.Written;
+                                            ++stats.NewTranslated;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        writer.Write(message);
+                                        ++stats.Written;
+                                        ++stats.NewTranslated;
+                                    }
+                                }
                             }
-                        } else {
-                            writer.Write(message);
-                            ++stats.Written;
-                            ++stats.NewTranslated;
+                            writer.Write(null);
                         }
                     }
                 }
-                writer.Write(null);
             }
 
             stats.Print();
@@ -86,15 +100,15 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             public int Read;
             public int Written;
             public int OrgTranslated;
-            public int NewTranslated;            
+            public int NewTranslated;
 
-            public int RWDiff {
-
+            public int RWDiff
+            {
                 get { return Written - Read; }
             }
 
-            public void Print() {
-
+            public void Print()
+            {
                 Console.WriteLine("read={0}, org-translated={1}, new-tranlated={2}, written={3}, {4}={5}",
                     Read,
                     OrgTranslated,

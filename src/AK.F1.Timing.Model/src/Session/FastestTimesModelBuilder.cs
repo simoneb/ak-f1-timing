@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,8 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
-using AK.F1.Timing.Model.Driver;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -40,52 +38,52 @@ namespace AK.F1.Timing.Model.Session
             /// <exception cref="System.ArgumentNullException">
             /// Thrown when <paramref name="model"/> is <see langword="null"/>.
             /// </exception>
-            public FastestTimesModelBuilder(FastestTimesModel model) {
-
+            public FastestTimesModelBuilder(FastestTimesModel model)
+            {
                 Guard.NotNull(model, "model");
 
-                Model = model;                
+                Model = model;
             }
 
             /// <inheritdoc/>
-            public void Process(Message message) {
-
+            public void Process(Message message)
+            {
                 message.Accept(this);
             }
 
             /// <inheritdoc />
-            public override void Visit(SetDriverSectorTimeMessage message) {
-
+            public override void Visit(SetDriverSectorTimeMessage message)
+            {
                 Model.TrySetSector(message.SectorNumber, message.DriverId, message.SectorTime);
             }
 
             /// <inheritdoc />
-            public override void Visit(ReplaceDriverSectorTimeMessage message) {
-
+            public override void Visit(ReplaceDriverSectorTimeMessage message)
+            {
                 Model.TrySetSector(message.SectorNumber, message.DriverId, message.Replacement);
             }
 
             /// <inheritdoc />
-            public override void Visit(SetDriverQuallyTimeMessage message) {
-
+            public override void Visit(SetDriverQuallyTimeMessage message)
+            {
                 Model.TrySetLapUsingQuallyTime(message.DriverId, message.QuallyTime);
             }
 
             /// <inheritdoc />
-            public override void Visit(SetDriverLapTimeMessage message) {
-
+            public override void Visit(SetDriverLapTimeMessage message)
+            {
                 Model.TrySetLap(message.DriverId, message.LapTime);
             }
 
             /// <inheritdoc />
-            public override void Visit(ReplaceDriverLapTimeMessage message) {
-
+            public override void Visit(ReplaceDriverLapTimeMessage message)
+            {
                 Model.TrySetLap(message.DriverId, message.Replacement);
             }
 
             /// <inheritdoc />
-            public override void Visit(SetSessionTypeMessage message) {
-
+            public override void Visit(SetSessionTypeMessage message)
+            {
                 Model.CurrentSessionType = message.SessionType;
             }
 

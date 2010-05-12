@@ -20,16 +20,16 @@ namespace AK.F1.Timing.Messages.Feed
     public class SetPingIntervalMessageTest : MessageTestBase<SetPingIntervalMessage>
     {
         [Fact]
-        public override void can_create() {
-
+        public override void can_create()
+        {
             var message = CreateMessage();
 
             Assert.Equal(TimeSpan.FromMilliseconds(1), message.PingInterval);
         }
 
         [Fact]
-        public override void can_visit() {
-
+        public override void can_visit()
+        {
             var message = CreateMessage();
             var visitor = CreateMockMessageVisitor();
 
@@ -39,18 +39,14 @@ namespace AK.F1.Timing.Messages.Feed
         }
 
         [Fact]
-        public void ctor_throws_if_ping_interval_is_negative() {
-
-            Assert.DoesNotThrow(() => {
-                new SetPingIntervalMessage(TimeSpan.Zero);
-            });
-            Assert.Throws<ArgumentOutOfRangeException>(() => {
-                new SetPingIntervalMessage(TimeSpan.FromMilliseconds(-1));
-            });
+        public void ctor_throws_if_ping_interval_is_negative()
+        {
+            Assert.DoesNotThrow(() => { new SetPingIntervalMessage(TimeSpan.Zero); });
+            Assert.Throws<ArgumentOutOfRangeException>(() => { new SetPingIntervalMessage(TimeSpan.FromMilliseconds(-1)); });
         }
 
-        protected override SetPingIntervalMessage CreateMessage() {
-
+        protected override SetPingIntervalMessage CreateMessage()
+        {
             return new SetPingIntervalMessage(TimeSpan.FromMilliseconds(1));
         }
     }

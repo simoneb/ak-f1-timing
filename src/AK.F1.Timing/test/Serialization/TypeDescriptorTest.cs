@@ -16,24 +16,22 @@ using System;
 using System.Runtime.Serialization;
 using Xunit;
 
-using AK.F1.Timing.Serialization;
-
 namespace AK.F1.Timing.Serialization
 {
     public class TypeDescriptorTest : TestBase
     {
         [Fact]
-        public void implements_equality_contract() {
-
+        public void implements_equality_contract()
+        {
             Assert.EqualityContract(
-                new[] { TypeDescriptor.For(typeof(TypeWithTwoProperties)), TypeDescriptor.For(typeof(TypeWithTwoProperties)) },
-                new[] { TypeDescriptor.For(typeof(TypeWithProperty)), TypeDescriptor.For(typeof(TypeWithTwoProperties)) }
-            );
+                new[] {TypeDescriptor.For(typeof(TypeWithTwoProperties)), TypeDescriptor.For(typeof(TypeWithTwoProperties))},
+                new[] {TypeDescriptor.For(typeof(TypeWithProperty)), TypeDescriptor.For(typeof(TypeWithTwoProperties))}
+                );
         }
 
         [Fact]
-        public void can_get_the_descriptor_for_a_type() {
-
+        public void can_get_the_descriptor_for_a_type()
+        {
             var type = typeof(TypeWithTwoProperties);
             var descriptor = TypeDescriptor.For(type);
 
@@ -44,82 +42,64 @@ namespace AK.F1.Timing.Serialization
         }
 
         [Fact]
-        public void for_returns_the_same_descriptor_for_the_same_type() {
-
+        public void for_returns_the_same_descriptor_for_the_same_type()
+        {
             var type = typeof(TypeWithTwoProperties);
 
             Assert.Same(TypeDescriptor.For(type), TypeDescriptor.For(type));
         }
 
         [Fact]
-        public void properties_decorated_with_ignore_property_are_ignored() {
-
+        public void properties_decorated_with_ignore_property_are_ignored()
+        {
             var descriptor = TypeDescriptor.For(typeof(TypeWithIgnoredProperty));
 
             Assert.Empty(descriptor.Properties);
         }
 
         [Fact]
-        public void for_throws_if_type_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                TypeDescriptor.For(null);
-            });
+        public void for_throws_if_type_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { TypeDescriptor.For(null); });
         }
 
         [Fact]
-        public void for_throws_if_type_is_not_decorated() {
-
-            Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(UndecoratedType));
-            });
+        public void for_throws_if_type_is_not_decorated()
+        {
+            Assert.Throws<SerializationException>(() => { TypeDescriptor.For(typeof(UndecoratedType)); });
         }
 
         [Fact]
-        public void for_throws_if_type_is_not_decorated_with_type_id_attribute() {
-
-            Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(string));
-            });
+        public void for_throws_if_type_is_not_decorated_with_type_id_attribute()
+        {
+            Assert.Throws<SerializationException>(() => { TypeDescriptor.For(typeof(string)); });
         }
 
         [Fact]
-        public void for_throws_if_type_is_decorated_but_one_or_more_properties_are_not() {
-
-            Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(TypeWithAnUndecoratedProperty));
-            });
-            Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(TypeWithAnUndecoratedAndDecoratedProperty));
-            });
+        public void for_throws_if_type_is_decorated_but_one_or_more_properties_are_not()
+        {
+            Assert.Throws<SerializationException>(() => { TypeDescriptor.For(typeof(TypeWithAnUndecoratedProperty)); });
+            Assert.Throws<SerializationException>(() => { TypeDescriptor.For(typeof(TypeWithAnUndecoratedAndDecoratedProperty)); });
         }
 
         [Fact]
-        public void for_throws_if_type_has_duplicate_properties() {
-
-            Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(TypeWithDuplicateProperties));
-            });
-            Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(ChildTypeWithSamePropertyAsParent));
-            });
+        public void for_throws_if_type_has_duplicate_properties()
+        {
+            Assert.Throws<SerializationException>(() => { TypeDescriptor.For(typeof(TypeWithDuplicateProperties)); });
+            Assert.Throws<SerializationException>(() => { TypeDescriptor.For(typeof(ChildTypeWithSamePropertyAsParent)); });
         }
 
         [Fact]
-        public void for_throws_if_base_type_is_decorated_but_type_is_not() {
-
-            Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(UndecoratedChildOfDecoratedType));
-            });
+        public void for_throws_if_base_type_is_decorated_but_type_is_not()
+        {
+            Assert.Throws<SerializationException>(() => { TypeDescriptor.For(typeof(UndecoratedChildOfDecoratedType)); });
         }
 
         [Fact]
-        public void for_throws_if_type_has_already_been_registered_with_the_same_id() {
-
+        public void for_throws_if_type_has_already_been_registered_with_the_same_id()
+        {
             TypeDescriptor.For(typeof(TypeWithProperty));
-            Assert.Throws<SerializationException>(() => {
-                TypeDescriptor.For(typeof(TypeWithDuplicateTypeId));
-            });
+            Assert.Throws<SerializationException>(() => { TypeDescriptor.For(typeof(TypeWithDuplicateTypeId)); });
         }
 
         private sealed class UndecoratedType
@@ -191,8 +171,6 @@ namespace AK.F1.Timing.Serialization
             public int Property1 { get; set; }
         }
 
-        private sealed class UndecoratedChildOfDecoratedType : TypeWithProperty
-        {
-        }
+        private sealed class UndecoratedChildOfDecoratedType : TypeWithProperty {}
     }
 }

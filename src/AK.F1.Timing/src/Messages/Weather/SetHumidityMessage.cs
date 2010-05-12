@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,24 +34,24 @@ namespace AK.F1.Timing.Messages.Weather
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="humidity"/> is negative or greater than one hundred.
         /// </exception>
-        public SetHumidityMessage(double humidity) {
-
+        public SetHumidityMessage(double humidity)
+        {
             Guard.InRange(humidity >= 0d && humidity < 100d, "humidity");
 
-            Humidity = humidity;            
+            Humidity = humidity;
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("Humidity={0}", Humidity);
         }
 

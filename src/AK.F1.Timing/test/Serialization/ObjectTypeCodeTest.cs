@@ -15,34 +15,34 @@
 using System;
 using Xunit;
 
-using AK.F1.Timing.Serialization;
-
 namespace AK.F1.Timing.Serialization
 {
     public class ObjectTypeCodeTest
     {
         [Fact]
-        public void enum_defines_the_same_names_as_the_clr_type_code_enum() {
-
+        public void enum_defines_the_same_names_as_the_clr_type_code_enum()
+        {
             var expected = Enum.GetNames(typeof(TypeCode));
             var actual = Enum.GetNames(typeof(ObjectTypeCode));
 
             Assert.True(actual.Length > expected.Length);
 
-            for(int i = 0; i < expected.Length; ++i) {
+            for(int i = 0; i < expected.Length; ++i)
+            {
                 Assert.Equal(expected[i], actual[i], StringComparer.Ordinal);
             }
         }
 
         [Fact]
-        public void enum_defines_the_same_values_as_the_clr_type_code_enum() {
-
+        public void enum_defines_the_same_values_as_the_clr_type_code_enum()
+        {
             var expected = (int[])Enum.GetValues(typeof(TypeCode));
             var actual = (int[])Enum.GetValues(typeof(ObjectTypeCode));
 
             Assert.True(actual.Length > expected.Length);
 
-            for(int i = 0; i < expected.Length; ++i) {
+            for(int i = 0; i < expected.Length; ++i)
+            {
                 Assert.Equal(expected[i], actual[i]);
             }
         }

@@ -12,44 +12,41 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using Xunit;
-
-using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Utility
 {
     public class HashCodeBuilderTest : TestBase
     {
         [Fact]
-        public void builder_should_use_algorithm_detailed_in_effective_java() {
-
+        public void builder_should_use_algorithm_detailed_in_effective_java()
+        {
             int expected = 7;
             var builder = HashCodeBuilder.New();
 
-            for(int i = 0; i < 10; ++i) {
+            for(int i = 0; i < 10; ++i)
+            {
                 Assert.Equal(expected, builder.GetHashCode());
                 expected = 31 * expected + i.GetHashCode();
-                builder.Add(i);                
-            }            
+                builder.Add(i);
+            }
         }
 
         [Fact]
-        public void implements_equality_contract() {
-
+        public void implements_equality_contract()
+        {
             Assert.EqualityContract(GetEquivalentInstances(), GetDistinctInstances());
         }
 
-        private static IEnumerable<HashCodeBuilder> GetEquivalentInstances() {
-
+        private static IEnumerable<HashCodeBuilder> GetEquivalentInstances()
+        {
             yield return HashCodeBuilder.New().Add(0).Add(1);
             yield return HashCodeBuilder.New().Add(0).Add(1);
         }
 
-        private static IEnumerable<HashCodeBuilder> GetDistinctInstances() {
-
+        private static IEnumerable<HashCodeBuilder> GetDistinctInstances()
+        {
             yield return HashCodeBuilder.New();
             yield return HashCodeBuilder.New().Add(0);
             yield return HashCodeBuilder.New().Add(0).Add(0);
@@ -61,16 +58,16 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
-        public void to_string_returns_string_representation_of_hashcode() {
-
+        public void to_string_returns_string_representation_of_hashcode()
+        {
             var builder = HashCodeBuilder.New().Add(0).Add(1);
 
             Assert.Equal(builder.GetHashCode().ToString(), builder.ToString());
         }
 
         [Fact]
-        public void add_should_accept_null_and_not_alter_the_hashcode() {
-
+        public void add_should_accept_null_and_not_alter_the_hashcode()
+        {
             var builder = HashCodeBuilder.New();
             int hash = builder.GetHashCode();
 
@@ -79,10 +76,10 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
-        public void implicit_int32_conversion_operator_returns_hashcode() {
-
+        public void implicit_int32_conversion_operator_returns_hashcode()
+        {
             var builder = HashCodeBuilder.New().Add(1).Add(2);
-            
+
             Assert.Equal(builder.GetHashCode(), builder);
         }
     }

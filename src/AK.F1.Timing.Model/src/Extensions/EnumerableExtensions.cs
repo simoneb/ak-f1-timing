@@ -34,8 +34,8 @@ namespace AK.F1.Timing.Model.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="source"/> is <see langword="null"/>.
         /// </exception>
-        public static TimeSpan Average(this IEnumerable<TimeSpan> source) {
-
+        public static TimeSpan Average(this IEnumerable<TimeSpan> source)
+        {
             Guard.NotNull(source, "collection");
 
             return TimeSpan.FromMilliseconds(source.Average(item => item.TotalMilliseconds));
@@ -53,8 +53,8 @@ namespace AK.F1.Timing.Model.Extensions
         /// <see langword="null"/>.
         /// </exception>
         public static TimeSpan Average<TSource>(this IEnumerable<TSource> source,
-            Func<TSource, TimeSpan> selector) {
-
+            Func<TSource, TimeSpan> selector)
+        {
             Guard.NotNull(source, "collection");
             Guard.NotNull(selector, "selector");
 

@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,22 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using System.Collections.Generic;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Model.Grid
 {
     public class RaceGridRowModelTest : GridRowModelTestBase<RaceGridRowModel>
     {
-        protected override RaceGridRowModel CreateRow(int id) {
-
+        protected override RaceGridRowModel CreateRow(int id)
+        {
             return new RaceGridRowModel(id);
         }
 
-        protected override IEnumerable<GridColumn> GetColumns() {
-
+        protected override IEnumerable<GridColumn> GetColumns()
+        {
             yield return GridColumn.Gap;
             yield return GridColumn.Interval;
             yield return GridColumn.LapTime;
@@ -37,8 +35,8 @@ namespace AK.F1.Timing.Model.Grid
             yield return GridColumn.PitLap3;
         }
 
-        protected override IEnumerable<GridColumn> GetResettableColumns() {
-
+        protected override IEnumerable<GridColumn> GetResettableColumns()
+        {
             return GetColumns();
         }
     }

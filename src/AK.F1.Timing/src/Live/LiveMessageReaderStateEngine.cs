@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
 
@@ -39,14 +38,14 @@ namespace AK.F1.Timing.Live
         /// and specified the <paramref name="reader"/> to update.
         /// </summary>
         /// <param name="reader">The reader to update.</param>
-        public LiveMessageReaderStateEngine(LiveMessageReader reader) {            
-
+        public LiveMessageReaderStateEngine(LiveMessageReader reader)
+        {
             _reader = reader;
         }
 
         /// <inheritdoc />
-        public void Process(Message message) {
-
+        public void Process(Message message)
+        {
             message.Accept(this);
         }
 
@@ -54,23 +53,24 @@ namespace AK.F1.Timing.Live
         /// Updates the ping internal on the current message reader.
         /// </summary>
         /// <param name="message">The message.</param>
-        public override void Visit(SetPingIntervalMessage message) {
-
+        public override void Visit(SetPingIntervalMessage message)
+        {
             var interval = TimeSpan.FromMilliseconds(250d);
             // I am not sure this the correct location for this logic but the quicker we ping the
             // message stream the quicker we get pushed the data.
-            if(message.PingInterval < interval) {
+            if(message.PingInterval < interval)
+            {
                 interval = message.PingInterval;
             }
             _reader.MessageStream.PingInterval = interval;
         }
 
         /// <summary>
-        /// Updates the reader state to <see cref="P:LiveMessageReaderState.Closed"/>.
+        /// Updates the reader state to <see cref="LiveMessageReaderState.Closed"/>.
         /// </summary>
         /// <param name="message">The message.</param>
-        public override void Visit(EndOfSessionMessage message) {
-
+        public override void Visit(EndOfSessionMessage message)
+        {
             _reader.DisposeOfMessageStream();
             _reader.State = LiveMessageReaderState.Closed;
         }
@@ -80,18 +80,18 @@ namespace AK.F1.Timing.Live
         /// identifier specified by the message.
         /// </summary>
         /// <param name="message">The message.</param>
-        public override void Visit(SetSessionTypeMessage message) {
-
+        public override void Visit(SetSessionTypeMessage message)
+        {
             _reader.SessionType = message.SessionType;
-            _reader.Decrypter = _reader.DecrypterFactory.Create(message.SessionId);            
+            _reader.Decrypter = _reader.DecrypterFactory.Create(message.SessionId);
         }
 
         /// <summary>
         /// Resets the current decrypter.
         /// </summary>
         /// <param name="message">The message.</param>
-        public override void Visit(SetKeyframeMessage message) {
-
+        public override void Visit(SetKeyframeMessage message)
+        {
             _reader.Decrypter.Reset();
         }
 

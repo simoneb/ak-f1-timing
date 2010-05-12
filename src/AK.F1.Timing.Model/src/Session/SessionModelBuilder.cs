@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
-
+using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
 
 namespace AK.F1.Timing.Model.Session
@@ -37,8 +36,8 @@ namespace AK.F1.Timing.Model.Session
             /// <exception cref="System.ArgumentNullException">
             /// Throw when <paramref name="session"/> is <see langword="null"/>.
             /// </exception>
-            public SessionModelBuilder(SessionModel session) {
-
+            public SessionModelBuilder(SessionModel session)
+            {
                 Guard.NotNull(session, "session");
 
                 Model = session;
@@ -46,8 +45,8 @@ namespace AK.F1.Timing.Model.Session
             }
 
             /// <inheritdoc/>        
-            public void Process(Message message) {
-
+            public void Process(Message message)
+            {
                 Guard.NotNull(message, "message");
 
                 message.Accept(this);
@@ -60,8 +59,8 @@ namespace AK.F1.Timing.Model.Session
             }
 
             /// <inheritdoc />
-            public override void Visit(AK.F1.Timing.Messages.Driver.SetDriverPositionMessage message) {
-
+            public override void Visit(SetDriverPositionMessage message)
+            {
                 // TODO
 
                 //var driver = GetDriver(message);
@@ -73,51 +72,51 @@ namespace AK.F1.Timing.Model.Session
             }
 
             /// <inheritdoc />
-            public override void Visit(SetSessionTypeMessage message) {                
-
+            public override void Visit(SetSessionTypeMessage message)
+            {
                 Model.ChangeSessionType(message.SessionType);
             }
 
             /// <inheritdoc />
-            public override void Visit(SetSessionStatusMessage message) {
-
+            public override void Visit(SetSessionStatusMessage message)
+            {
                 Model.SessionStatus = message.SessionStatus;
             }
 
             /// <inheritdoc />
-            public override void Visit(SetElapsedSessionTimeMessage message) {
-
+            public override void Visit(SetElapsedSessionTimeMessage message)
+            {
                 Model.UpdateElapsedSessionTime(message.Elapsed);
             }
 
             /// <inheritdoc />
-            public override void Visit(SetRemainingSessionTimeMessage message) {
-
+            public override void Visit(SetRemainingSessionTimeMessage message)
+            {
                 Model.RemainingSessionTime = message.Remaining;
             }
 
             /// <inheritdoc />
-            public override void Visit(SetRaceLapNumberMessage message) {
-
+            public override void Visit(SetRaceLapNumberMessage message)
+            {
                 Model.RaceLapNumber = message.LapNumber;
             }
 
             /// <inheritdoc />
-            public override void Visit(StartSessionTimeCountdownMessage message) {
-
-                Model.OnSessionTimeCountDownStarted();                
+            public override void Visit(StartSessionTimeCountdownMessage message)
+            {
+                Model.OnSessionTimeCountDownStarted();
             }
 
             /// <inheritdoc />
-            public override void Visit(StopSessionTimeCountdownMessage message) {
-
+            public override void Visit(StopSessionTimeCountdownMessage message)
+            {
                 Model.OnSessionTimeCountDownStopped();
             }
 
             /// <inheritdoc />
-            public override void Visit(EndOfSessionMessage message) {
-
-                Model.OnSessionEnded();                
+            public override void Visit(EndOfSessionMessage message)
+            {
+                Model.OnSessionEnded();
             }
 
             #endregion

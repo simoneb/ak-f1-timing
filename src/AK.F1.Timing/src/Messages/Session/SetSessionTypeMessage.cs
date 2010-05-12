@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -35,8 +35,8 @@ namespace AK.F1.Timing.Messages.Session
         /// <param name="sessionType">The current
         /// <see cref="AK.F1.Timing.Messages.Session.SessionType"/>.</param>
         /// <param name="sessionId">The session identifier.</param>
-        public SetSessionTypeMessage(SessionType sessionType, string sessionId) {
-
+        public SetSessionTypeMessage(SessionType sessionType, string sessionId)
+        {
             Guard.NotNull(sessionId, "sessionId");
 
             SessionType = sessionType;
@@ -44,16 +44,16 @@ namespace AK.F1.Timing.Messages.Session
         }
 
         /// <inheritdoc />
-        public override void Accept(IMessageVisitor visitor) {
-
+        public override void Accept(IMessageVisitor visitor)
+        {
             Guard.NotNull(visitor, "visitor");
 
             visitor.Visit(this);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("SessionType='{0}', SessionId='{1}'", SessionType, SessionId);
         }
 

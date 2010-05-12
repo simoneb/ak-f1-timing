@@ -16,34 +16,33 @@ using System;
 using System.IO;
 using Xunit;
 
-using AK.F1.Timing.Recording;
-
 namespace AK.F1.Timing.Recording
 {
     public class RecordedMessageReaderTest
     {
         [Fact]
-        public void ctor_throws_if_a_input_is_null() {
-
+        public void ctor_throws_if_a_input_is_null()
+        {
             Assert.Throws<ArgumentNullException>(() => new RecordedMessageReader(null, false));
         }
 
         [Fact]
-        public void reader_closes_path_when_disposed() {
-
+        public void reader_closes_path_when_disposed()
+        {
             var path = Path.GetTempFileName();
 
-            using(var reader = new RecordedMessageReader(path)) { }
+            using(var reader = new RecordedMessageReader(path)) {}
 
             Assert.DoesNotThrow(() => File.Delete(path));
         }
 
         [Fact]
-        public void path_be_opened_whilst_reader_has_it_open() {
-
+        public void path_be_opened_whilst_reader_has_it_open()
+        {
             var path = Path.GetTempFileName();
 
-            using(var reader = new RecordedMessageReader(path)) {
+            using(var reader = new RecordedMessageReader(path))
+            {
                 Assert.DoesNotThrow(() => File.OpenRead(path).Dispose());
             }
 
@@ -51,11 +50,12 @@ namespace AK.F1.Timing.Recording
         }
 
         [Fact]
-        public void path_cannot_be_modified_whilst_reader_has_it_open() {
-
+        public void path_cannot_be_modified_whilst_reader_has_it_open()
+        {
             var path = Path.GetTempFileName();
 
-            using(var reader = new RecordedMessageReader(path)) {
+            using(var reader = new RecordedMessageReader(path))
+            {
                 Assert.Throws<IOException>(() => File.Delete(path));
                 Assert.Throws<IOException>(() => File.OpenWrite(path).Dispose());
             }
@@ -64,19 +64,21 @@ namespace AK.F1.Timing.Recording
         }
 
         [Fact]
-        public void reader_closes_input_when_disposed_if_it_owns_it() {
-
-            using(var input = new MemoryStream()) {
-                using(var reader = new RecordedMessageReader(input, true)) { }
+        public void reader_closes_input_when_disposed_if_it_owns_it()
+        {
+            using(var input = new MemoryStream())
+            {
+                using(var reader = new RecordedMessageReader(input, true)) {}
                 Assert.Throws<ObjectDisposedException>(() => input.WriteByte(0));
             }
         }
 
         [Fact]
-        public void reader_does_not_close_input_when_disposed_if_it_does_not_own_it() {
-
-            using(var input = new MemoryStream()) {
-                using(var reader = new RecordedMessageReader(input, false)) { }
+        public void reader_does_not_close_input_when_disposed_if_it_does_not_own_it()
+        {
+            using(var input = new MemoryStream())
+            {
+                using(var reader = new RecordedMessageReader(input, false)) {}
                 Assert.DoesNotThrow(() => input.WriteByte(0));
             }
         }

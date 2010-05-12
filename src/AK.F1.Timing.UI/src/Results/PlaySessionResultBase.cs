@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,10 +13,9 @@
 // limitations under the License.
 
 using System;
-using Caliburn.PresentationFramework.RoutedMessaging;
-
 using AK.F1.Timing.UI.Screens;
 using AK.F1.Timing.UI.Services.Session;
+using Caliburn.PresentationFramework.RoutedMessaging;
 
 namespace AK.F1.Timing.UI.Results
 {
@@ -32,8 +31,8 @@ namespace AK.F1.Timing.UI.Results
         public event EventHandler<ResultCompletionEventArgs> Completed = delegate { };
 
         /// <inheritdoc/>
-        public void Execute(ResultExecutionContext context) {
-
+        public void Execute(ResultExecutionContext context)
+        {
             Guard.NotNull(context, "context");
 
             var shellScreen = context.ServiceLocator.GetInstance<IShellScreen>();

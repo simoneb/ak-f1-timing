@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -16,8 +16,8 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
-
 using AK.F1.Timing.Extensions;
+using log4net;
 
 namespace AK.F1.Timing.Live
 {
@@ -28,11 +28,11 @@ namespace AK.F1.Timing.Live
     {
         #region Private Fields.
 
-        private const string AUTH_COOKIE_NAME = "USER";
-        private const string AUTH_CONTENT_TYPE = "application/x-www-form-urlencoded; charset=utf-8";
-        private static readonly Uri LOGIN_URI = new Uri("https://secure.formula1.com/reg/login");
+        private const string AuthCookieName = "USER";
+        private const string AuthContentType = "application/x-www-form-urlencoded; charset=utf-8";
+        private static readonly Uri LoginUri = new Uri("https://secure.formula1.com/reg/login");
 
-        private static log4net.ILog _log = log4net.LogManager.GetLogger(typeof(LiveAuthenticationService));
+        private static readonly ILog Log = LogManager.GetLogger(typeof(LiveAuthenticationService));
 
         #endregion
 
@@ -57,25 +57,26 @@ namespace AK.F1.Timing.Live
         /// <exception cref="System.Security.Authentication.AuthenticationException">
         /// Thrown when the supplied credentials have been rejected by the live-timing site.
         /// </exception>
-        public static AuthenticationToken Login(string username, string password) {
-
+        public static AuthenticationToken Login(string username, string password)
+        {
             Guard.NotNullOrEmpty(username, "username");
             Guard.NotNullOrEmpty(password, "password");
 
             Cookie cookie;
             CookieCollection cookies;
 
-            _log.InfoFormat("fetching auth token from {0} for user {1}", LOGIN_URI, username);
+            Log.InfoFormat("fetching auth token from {0} for user {1}", LoginUri, username);
 
             cookies = FetchLoginResponseCookies(username, password);
-            if((cookie = cookies[AUTH_COOKIE_NAME]) == null) {
-                _log.ErrorFormat("failed to fetch the auth token as no cookie named {0} was found" +
+            if((cookie = cookies[AuthCookieName]) == null)
+            {
+                Log.ErrorFormat("failed to fetch the auth token as no cookie named {0} was found" +
                     " in the response to the login request, assuming the credentials have been rejected",
-                    AUTH_COOKIE_NAME);
+                    AuthCookieName);
                 throw Guard.LiveAuthenticationService_CredentialsRejected();
             }
 
-            _log.InfoFormat("fetched auth token {0}", cookie.Value);
+            Log.InfoFormat("fetched auth token {0}", cookie.Value);
 
             return new AuthenticationToken(cookie.Value);
         }
@@ -84,25 +85,30 @@ namespace AK.F1.Timing.Live
 
         #region Private Impl.
 
-        private static CookieCollection FetchLoginResponseCookies(string username, string password) {
-
-            try {
-                return LOGIN_URI.GetResponseCookies(HttpMethod.Post, request => {
+        private static CookieCollection FetchLoginResponseCookies(string username, string password)
+        {
+            try
+            {
+                return LoginUri.GetResponseCookies(HttpMethod.Post, request =>
+                {
                     byte[] content = GetLoginRequestContent(username, password);
-                    request.ContentType = AUTH_CONTENT_TYPE;
+                    request.ContentType = AuthContentType;
                     request.ContentLength = content.Length;
-                    using(var stream = request.GetRequestStream()) {
+                    using(var stream = request.GetRequestStream())
+                    {
                         stream.Write(content, 0, content.Length);
                     }
                 });
-            } catch(IOException exc) {
-                _log.Error(exc);
+            }
+            catch(IOException exc)
+            {
+                Log.Error(exc);
                 throw Guard.LiveAuthenticationService_FailedToFetchAuthToken(exc);
             }
         }
 
-        private static byte[] GetLoginRequestContent(string email, string password) {
-
+        private static byte[] GetLoginRequestContent(string email, string password)
+        {
             return Encoding.UTF8.GetBytes(string.Format("email={0}&password={1}",
                 Uri.EscapeDataString(email), Uri.EscapeDataString(password)));
         }

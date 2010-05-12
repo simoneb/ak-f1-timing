@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,27 +13,26 @@
 // limitations under the License.
 
 using System;
-using Xunit;
-
 using AK.F1.Timing.Messages.Driver;
+using Xunit;
 
 namespace AK.F1.Timing.Model.Grid
 {
     public abstract class GridModelTestBase<TGrid, TRow>
-        where TGrid: GridModelBase<TRow>, new()
-        where TRow: GridRowModelBase
+        where TGrid : GridModelBase<TRow>, new()
+        where TRow : GridRowModelBase
     {
         [Fact]
-        public void can_create() {
-
+        public void can_create()
+        {
             var grid = CreateGrid();
 
             Assert.Empty(grid.Rows);
         }
 
         [Fact]
-        public void can_get_the_row_for_a_driver_id() {
-
+        public void can_get_the_row_for_a_driver_id()
+        {
             var grid = CreateGrid();
             var row = grid.GetRow(1);
 
@@ -42,16 +41,16 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void get_row_returns_the_same_row_for_the_same_driver_id() {
-
+        public void get_row_returns_the_same_row_for_the_same_driver_id()
+        {
             var grid = CreateGrid();
 
             Assert.Same(grid.GetRow(1), grid.GetRow(1));
         }
 
         [Fact]
-        public void get_rows_adds_drivers_to_the_back_of_the_grid() {
-
+        public void get_rows_adds_drivers_to_the_back_of_the_grid()
+        {
             var grid = CreateGrid();
 
             grid.GetRow(1);
@@ -61,14 +60,14 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void process_throws_if_message_is_null() {
-
+        public void process_throws_if_message_is_null()
+        {
             Assert.Throws<ArgumentNullException>(() => CreateGrid().Process(null));
         }
 
         [Fact]
-        public void a_set_grid_column_value_message_creates_the_corresponding_driver_row() {
-
+        public void a_set_grid_column_value_message_creates_the_corresponding_driver_row()
+        {
             var grid = CreateGrid();
 
             grid.Process(new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.Green, "Name"));
@@ -77,8 +76,8 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void when_a_set_grid_column_value_message_is_processed_the_corresponding_driver_row_column_is_set() {
-
+        public void when_a_set_grid_column_value_message_is_processed_the_corresponding_driver_row_column_is_set()
+        {
             var grid = CreateGrid();
 
             grid.Process(new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.Green, "Name"));
@@ -92,8 +91,8 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void a_set_grid_column_colour_message_creates_the_corresponding_driver_row() {
-
+        public void a_set_grid_column_colour_message_creates_the_corresponding_driver_row()
+        {
             var grid = CreateGrid();
 
             grid.Process(new SetGridColumnColourMessage(1, GridColumn.CarNumber, GridColumnColour.Red));
@@ -102,8 +101,8 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void when_a_set_grid_column_colour_message_is_processed_the_corresponding_driver_row_column_is_set() {
-
+        public void when_a_set_grid_column_colour_message_is_processed_the_corresponding_driver_row_column_is_set()
+        {
             var grid = CreateGrid();
 
             grid.Process(new SetGridColumnColourMessage(1, GridColumn.CarNumber, GridColumnColour.Red));
@@ -112,12 +111,12 @@ namespace AK.F1.Timing.Model.Grid
 
             Assert.NotNull(row);
             Assert.Equal(1, row.Id);
-            Assert.Equal(GridColumnColour.Red, row.CarNumber.TextColour);            
+            Assert.Equal(GridColumnColour.Red, row.CarNumber.TextColour);
         }
 
         [Fact]
-        public void a_clear_row_message_creates_the_corresponding_driver_row() {
-
+        public void a_clear_row_message_creates_the_corresponding_driver_row()
+        {
             var grid = CreateGrid();
 
             grid.Process(new ClearGridRowMessage(1));
@@ -126,8 +125,8 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void when_a_clear_row_message_is_processed_the_corresponding_driver_row_is_reset() {
-
+        public void when_a_clear_row_message_is_processed_the_corresponding_driver_row_is_reset()
+        {
             var grid = CreateGrid();
 
             grid.Process(new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.Magenta, "32.2"));
@@ -142,8 +141,8 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void can_sort() {
-
+        public void can_sort()
+        {
             var grid = CreateGrid();
             var random = new Random();
 
@@ -164,8 +163,8 @@ namespace AK.F1.Timing.Model.Grid
             Assert.Equal(5, grid.Rows[5].RowIndex);
         }
 
-        private TGrid CreateGrid() {
-
+        private TGrid CreateGrid()
+        {
             return new TGrid();
         }
     }

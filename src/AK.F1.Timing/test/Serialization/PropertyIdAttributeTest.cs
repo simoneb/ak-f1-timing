@@ -12,18 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-using System;
 using Xunit;
-
-using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Serialization
 {
     public class PropertyIdAttributeTest
     {
         [Fact]
-        public void ctor_should_set_the_id_property() {
-
+        public void ctor_should_set_the_id_property()
+        {
             var attribute = new PropertyIdAttribute(10);
 
             Assert.Equal(10, attribute.Id);

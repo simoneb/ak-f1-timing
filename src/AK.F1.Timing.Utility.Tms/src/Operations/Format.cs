@@ -1,4 +1,4 @@
-ï»¿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,7 +14,6 @@
 
 using System;
 using System.Globalization;
-
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Utility.Tms.Operations
@@ -24,17 +23,12 @@ namespace AK.F1.Timing.Utility.Tms.Operations
     /// </summary>
     internal static class Format
     {
-        #region Fields.
-
-        private static readonly CultureInfo INV_CULTURE = CultureInfo.InvariantCulture;
-
-        #endregion
-
         #region Public Interface.
 
-        public static string SectorTime(PostedTime value) {
-
-            if(value == null) {
+        public static string SectorTime(PostedTime value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
@@ -43,14 +37,15 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             return F("{0}.{1:0}", time.Minutes * 60 + time.Seconds, time.Milliseconds / 100);
         }
 
-        public static string LapTime(PostedTime value) {
-
+        public static string LapTime(PostedTime value)
+        {
             return value != null ? LapTime(value.Time) : String.Empty;
         }
 
-        public static string LapTime(TimeSpan? value) {
-
-            if(value == null) {
+        public static string LapTime(TimeSpan? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
@@ -59,55 +54,60 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             return F("{0}:{1:00}.{2:000}", time.Minutes, time.Seconds, time.Milliseconds);
         }
 
-        public static string Temperature(double? value) {
-
-            if(value == null) {
+        public static string Temperature(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
-            return F("{0:0.0}Â°C", value.Value);
+            return F("{0:0.0}°C", value.Value);
         }
 
-        public static string Pressure(double? value) {
-
-            if(value == null) {
+        public static string Pressure(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
             return F("{0:0.0}mBar", value.Value);
         }
 
-        public static string WindSpeed(double? value) {
-
-            if(value == null) {
+        public static string WindSpeed(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
             return F("{0:0.00}m/s", value.Value);
         }
 
-        public static string WindDirection(double? value) {
-
-            if(value == null) {
+        public static string WindDirection(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
-            return F("{0:#}Â°", value.Value);
+            return F("{0:#}°", value.Value);
         }
 
-        public static string Laps(int value) {
-
-            return value.ToString(INV_CULTURE);
+        public static string Laps(int value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public static string PitCount(int value) {
-
-            return value.ToString(INV_CULTURE);
+        public static string PitCount(int value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture);
         }
 
-        public static object Humidity(double? value) {
-
-            if(value == null) {
+        public static object Humidity(double? value)
+        {
+            if(value == null)
+            {
                 return String.Empty;
             }
 
@@ -118,9 +118,9 @@ namespace AK.F1.Timing.Utility.Tms.Operations
 
         #region Private Impl.
 
-        private static string F(string format, params object[] args) {
-
-            return string.Format(INV_CULTURE, format, args);
+        private static string F(string format, params object[] args)
+        {
+            return string.Format(CultureInfo.InvariantCulture, format, args);
         }
 
         #endregion

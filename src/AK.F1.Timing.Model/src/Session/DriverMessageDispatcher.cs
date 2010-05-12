@@ -1,4 +1,4 @@
-﻿// Copyright 2010 Andy Kernahan
+// Copyright 2010 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,13 +13,10 @@
 // limitations under the License.
 
 using System;
-
-using AK.F1.Timing.Messages;
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
 using AK.F1.Timing.Messages.Weather;
-using AK.F1.Timing.Model.Session;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -38,16 +35,16 @@ namespace AK.F1.Timing.Model.Session
         /// specifies the driver model locator.
         /// </summary>
         /// <param name="driverLocator">The driver model locator.</param>
-        public DriverMessageDispatcher(IDriverModelLocator driverLocator) {
-
+        public DriverMessageDispatcher(IDriverModelLocator driverLocator)
+        {
             Guard.NotNull(driverLocator, "driverLocator");
 
             DriverLocator = driverLocator;
         }
 
         /// <inheritdoc/>        
-        public void Process(Message message) {
-
+        public void Process(Message message)
+        {
             message.Accept(this);
         }
 
@@ -55,141 +52,141 @@ namespace AK.F1.Timing.Model.Session
 
         #region Explicit Interface.
 
-        void IMessageVisitor.Visit(SetDriverPitTimeMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverPitTimeMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(ClearGridRowMessage message) {
-
+        void IMessageVisitor.Visit(ClearGridRowMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetGridColumnColourMessage message) {
-
+        void IMessageVisitor.Visit(SetGridColumnColourMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetGridColumnValueMessage message) {
-
+        void IMessageVisitor.Visit(SetGridColumnValueMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(ReplaceDriverLapTimeMessage message) {
-
+        void IMessageVisitor.Visit(ReplaceDriverLapTimeMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(ReplaceDriverSectorTimeMessage message) {
-
+        void IMessageVisitor.Visit(ReplaceDriverSectorTimeMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverLapTimeMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverLapTimeMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverLapNumberMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverLapNumberMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverGapMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverGapMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverCarNumberMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverCarNumberMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverIntervalMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverIntervalMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverNameMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverNameMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverPitCountMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverPitCountMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverPositionMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverPositionMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverQuallyTimeMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverQuallyTimeMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverSectorTimeMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverSectorTimeMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(SetDriverStatusMessage message) {
-
+        void IMessageVisitor.Visit(SetDriverStatusMessage message)
+        {
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(StartSessionTimeCountdownMessage message) { }
+        void IMessageVisitor.Visit(StartSessionTimeCountdownMessage message) {}
 
-        void IMessageVisitor.Visit(EndOfSessionMessage message) { }
+        void IMessageVisitor.Visit(EndOfSessionMessage message) {}
 
-        void IMessageVisitor.Visit(StopSessionTimeCountdownMessage message) { }
+        void IMessageVisitor.Visit(StopSessionTimeCountdownMessage message) {}
 
-        void IMessageVisitor.Visit(SetElapsedSessionTimeMessage message) { }
+        void IMessageVisitor.Visit(SetElapsedSessionTimeMessage message) {}
 
-        void IMessageVisitor.Visit(SetAirTemperatureMessage message) { }
+        void IMessageVisitor.Visit(SetAirTemperatureMessage message) {}
 
-        void IMessageVisitor.Visit(SetAtmosphericPressureMessage message) { }
+        void IMessageVisitor.Visit(SetAtmosphericPressureMessage message) {}
 
-        void IMessageVisitor.Visit(AddCommentaryMessage message) { }
+        void IMessageVisitor.Visit(AddCommentaryMessage message) {}
 
-        void IMessageVisitor.Visit(SetCopyrightMessage message) { }
+        void IMessageVisitor.Visit(SetCopyrightMessage message) {}
 
-        void IMessageVisitor.Visit(SetKeyframeMessage message) { }
+        void IMessageVisitor.Visit(SetKeyframeMessage message) {}
 
-        void IMessageVisitor.Visit(SetHumidityMessage message) { }
+        void IMessageVisitor.Visit(SetHumidityMessage message) {}
 
-        void IMessageVisitor.Visit(SetRemainingSessionTimeMessage message) { }
+        void IMessageVisitor.Visit(SetRemainingSessionTimeMessage message) {}
 
-        void IMessageVisitor.Visit(SetRaceLapNumberMessage message) { }
+        void IMessageVisitor.Visit(SetRaceLapNumberMessage message) {}
 
-        void IMessageVisitor.Visit(SetSessionStatusMessage message) { }
+        void IMessageVisitor.Visit(SetSessionStatusMessage message) {}
 
-        void IMessageVisitor.Visit(SetPingIntervalMessage message) { }
+        void IMessageVisitor.Visit(SetPingIntervalMessage message) {}
 
-        void IMessageVisitor.Visit(SetSystemMessageMessage message) { }
+        void IMessageVisitor.Visit(SetSystemMessageMessage message) {}
 
-        void IMessageVisitor.Visit(SetSessionTypeMessage message) { }
+        void IMessageVisitor.Visit(SetSessionTypeMessage message) {}
 
-        void IMessageVisitor.Visit(SetStreamValidityMessage message) { }
+        void IMessageVisitor.Visit(SetStreamValidityMessage message) {}
 
-        void IMessageVisitor.Visit(SetTrackTemperatureMessage message) { }
+        void IMessageVisitor.Visit(SetTrackTemperatureMessage message) {}
 
-        void IMessageVisitor.Visit(SetIsWetMessage message) { }
+        void IMessageVisitor.Visit(SetIsWetMessage message) {}
 
-        void IMessageVisitor.Visit(SetWindAngleMessage message) { }
+        void IMessageVisitor.Visit(SetWindAngleMessage message) {}
 
-        void IMessageVisitor.Visit(SetWindSpeedMessage message) { }
+        void IMessageVisitor.Visit(SetWindSpeedMessage message) {}
 
-        void IMessageVisitor.Visit(SetNextMessageDelayMessage message) { }
+        void IMessageVisitor.Visit(SetNextMessageDelayMessage message) {}
 
         #endregion
 
         #region Private Impl.
 
-        private void Dispatch(DriverMessageBase message) {
-
+        private void Dispatch(DriverMessageBase message)
+        {
             DriverLocator.GetDriver(message.DriverId).Process(message);
         }
 

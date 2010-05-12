@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,59 +40,63 @@ namespace AK.F1.Timing.Messages.Driver
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="time"/> is negative.
         /// </exception>
-        public TimeGap(TimeSpan time) {
-
+        public TimeGap(TimeSpan time)
+        {
             Guard.InRange(time >= TimeSpan.Zero, "time");
 
             Time = time;
         }
 
         /// <inheritdoc />
-        public override bool Equals(object obj) {
-
-            if(obj == null || obj.GetType() != GetType()) {
+        public override bool Equals(object obj)
+        {
+            if(obj == null || obj.GetType() != GetType())
+            {
                 return false;
             }
             return Equals((TimeGap)obj);
         }
 
         /// <inheritdoc />
-        public bool Equals(TimeGap other) {
-
+        public bool Equals(TimeGap other)
+        {
             return other != null && other.Time == Time;
         }
 
         /// <inheritdoc />
-        public override int CompareTo(object obj) {
-
-            if(obj == null) {
+        public override int CompareTo(object obj)
+        {
+            if(obj == null)
+            {
                 return 1;
             }
 
             TimeGap other = obj as TimeGap;
 
-            if(other != null) {
+            if(other != null)
+            {
                 return Time.CompareTo(other.Time);
             }
-            if(obj is LapGap) {
+            if(obj is LapGap)
+            {
                 // We are always less than any LapGap.
                 return -1;
             }
 
-            throw Guard.LapGap_InvalidCompareToArgument(obj);
+            throw Guard.TimeGap_InvalidCompareToArgument(obj);
         }
 
         /// <inheritdoc />
-        public override int GetHashCode() {
-        
+        public override int GetHashCode()
+        {
             return HashCodeBuilder.New()
                 .Add(GetType())
                 .Add(Time);
         }
 
         /// <inheritdoc />
-        public override string ToString() {
-
+        public override string ToString()
+        {
             return Repr("Time='{0}'", Time.ToString());
         }
 

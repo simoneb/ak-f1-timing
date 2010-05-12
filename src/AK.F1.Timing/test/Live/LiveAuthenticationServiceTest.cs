@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,33 +21,23 @@ namespace AK.F1.Timing.Live
     public class LiveAuthenticationServiceTest
     {
         [Fact]
-        public void login_throws_if_credentials_have_been_rejected() {
-
-            Assert.Throws<AuthenticationException>(() => {
-                LiveAuthenticationService.Login(Guid.NewGuid().ToString(), "password");
-            });
+        public void login_throws_if_credentials_have_been_rejected()
+        {
+            Assert.Throws<AuthenticationException>(() => { LiveAuthenticationService.Login(Guid.NewGuid().ToString(), "password"); });
         }
 
         [Fact]
-        public void login_throws_if_username_or_password_is_null() {
-
-            Assert.Throws<ArgumentNullException>(() => {
-                LiveAuthenticationService.Login(null, "password");
-            });
-            Assert.Throws<ArgumentNullException>(() => {
-                LiveAuthenticationService.Login("username", null);
-            });
+        public void login_throws_if_username_or_password_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => { LiveAuthenticationService.Login(null, "password"); });
+            Assert.Throws<ArgumentNullException>(() => { LiveAuthenticationService.Login("username", null); });
         }
 
         [Fact]
-        public void login_throws_if_username_or_password_is_empty() {
-
-            Assert.Throws<ArgumentException>(() => {
-                LiveAuthenticationService.Login(string.Empty, "password");
-            });
-            Assert.Throws<ArgumentException>(() => {
-                LiveAuthenticationService.Login("username", string.Empty);
-            });
+        public void login_throws_if_username_or_password_is_empty()
+        {
+            Assert.Throws<ArgumentException>(() => { LiveAuthenticationService.Login(string.Empty, "password"); });
+            Assert.Throws<ArgumentException>(() => { LiveAuthenticationService.Login("username", string.Empty); });
         }
     }
 }

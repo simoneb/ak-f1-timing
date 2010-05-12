@@ -20,16 +20,16 @@ namespace AK.F1.Timing.Utility
     public class SysClockTest
     {
         [Fact]
-        public void now_returns_utc_now() {
-
+        public void now_returns_utc_now()
+        {
             Assert.Equal(DateTimeKind.Utc, SysClock.Now().Kind);
         }
 
         [Fact]
-        public void now_returns_now() {
-
+        public void now_returns_now()
+        {
             var actual = SysClock.Now();
-            var expected = DateTime.UtcNow;            
+            var expected = DateTime.UtcNow;
 
             Assert.InRange(actual, expected.AddMilliseconds(-5D), expected);
         }

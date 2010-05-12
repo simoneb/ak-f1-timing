@@ -14,7 +14,6 @@
 
 using System;
 using System.IO;
-
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Utility.Tms.Operations
@@ -23,19 +22,23 @@ namespace AK.F1.Timing.Utility.Tms.Operations
     {
         private readonly string _path;
 
-        public DumpOperation(string path) {
-
+        public DumpOperation(string path)
+        {
             _path = path;
         }
 
-        public override void Run() {
-
+        public override void Run()
+        {
             object obj;
 
             using(var input = File.OpenRead(_path))
-            using(var reader = new DecoratedObjectReader(input)) {
-                while((obj = reader.Read()) != null) {
-                    Console.WriteLine("{0}", obj);
+            {
+                using(var reader = new DecoratedObjectReader(input))
+                {
+                    while((obj = reader.Read()) != null)
+                    {
+                        Console.WriteLine("{0}", obj);
+                    }
                 }
             }
         }

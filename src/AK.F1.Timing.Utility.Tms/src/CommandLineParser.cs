@@ -1,7 +1,9 @@
-ï»¿//#define NUNIT
+//#define NUNIT
 // CommandLineParser.cs: Contributed by Chris Sells [csells@sellsbrothers.com]
 // A command line parser class -- see the sample for usage
-#region Copyright Â© 2002-2007 The Genghis Group
+
+#region Copyright © 2002-2007 The Genghis Group
+
 /*
  * This software is provided 'as-is', without any express or implied warranty.
  * In no event will the authors be held liable for any damages arising from the
@@ -14,14 +16,17 @@
  * that you wrote the original software. If you use this software in a product,
  * an acknowledgment in the product documentation is required, as shown here:
  *
- * Portions Copyright Â© 2002-2007 The Genghis Group (http://www.genghisgroup.com/).
+ * Portions Copyright © 2002-2007 The Genghis Group (http://www.genghisgroup.com/).
  *
  * 2. No substantial portion of the source code of this library may be redistributed
  * without the express written permission of the copyright holders, where
  * "substantial" is defined as enough code to be recognizably from this library.
 */
+
 #endregion
+
 #region Features
+
 /*
  * -Parsing command line args from an array of strings or a file
  * -Simple flags and flag/arg pairs
@@ -31,8 +36,11 @@
  * -Automatically generates the banner logo from the version attributes
  * -Case insensitive flag comparisions by default, case sensitive as an option
 */
+
 #endregion
+
 #region Limitations
+
 /*
  * -Flags should support +/- at the end to turn on/off
  * -Requires flags to be space separated, e.g.
@@ -47,8 +55,11 @@
  * -There is no equivalent (yet) of FileNameValue or
  *  PairValue from the unmanaged code.
 */
+
 #endregion
+
 #region History
+
 /*
  * 11/20/03 (Ethan J. Brown)
  * - Fixed a crash when 0 arguments were supplied on the command line
@@ -95,8 +106,11 @@
  * 3/27/01:
  * -Initial port from unmanaged C++ (http://www.sellsbrothers.com/tools/commandlineparser.zip)
 */
+
 #endregion
+
 #region TODO
+
 //TODO ?default delimiter set in attrib / decide on best default (currently default=all)?
 //TODO reading from environ variable: need to pass param to Parse(string[]) to indicate that required variables are not required
 //TODO what is a PairValue?
@@ -108,16 +122,17 @@
 //  -?categories for variables: only group if current var has same cat as previous. So cats could be shown multiple times.
 //      this could be improved, e.g. sorting between MatchPosition items
 //  -?when showing default values show actual default or the default after parsing the environ var (or both?)
+
 #endregion
 
 using System;
-using System.IO;
-using System.Text;
-using System.Diagnostics;
-using System.ComponentModel;
-using System.Reflection;
 using System.Collections;
-using System.Runtime.InteropServices;
+using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Genghis
@@ -135,26 +150,33 @@ namespace Genghis
         [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
         public class ParserUsageAttribute : Attribute
         {
-            public ParserUsageAttribute(string description) { Description = description; }
+            public ParserUsageAttribute(string description)
+            {
+                Description = description;
+            }
+
             public string Description;
             public string PreferredPrefix = "/";
             public bool AllowArgumentFile = true;
             public string EnvironmentDefaults = "";
             public int MaxHelpLineLength = 79;
-            public bool ShowCategories = false;
+            public bool ShowCategories;
         }
 
         [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
         public abstract class UsageAttribute : Attribute
         {
-            public UsageAttribute(string description) { Description = description; }
+            public UsageAttribute(string description)
+            {
+                Description = description;
+            }
 
             public string Description = "";
             public string Name = "";
             public bool IgnoreCase = true;
-            public bool Optional = false;
+            public bool Optional;
             public string ValueName = "value";
-            public bool MatchPosition = false;
+            public bool MatchPosition;
             public string Category = "";
             public string LegalValues; // case-insensitive comparison
 
@@ -163,136 +185,182 @@ namespace Genghis
             public string AlternateName1 = "";
             public string AlternateName2 = "";
 
-            protected bool found = false;
+            protected bool found;
 
-            protected bool Flag {
+            protected bool Flag
+            {
                 get { return !MatchPosition; }
             }
 
-            public bool Matches(string name, string defaultName) {
+            public bool Matches(string name, string defaultName)
+            {
                 Debug.Assert(defaultName.Length > 0);
                 return (string.Compare(name, (Name.Length == 0 ? defaultName : Name), IgnoreCase) == 0) ||
-                  (string.Compare(name, AlternateName1, IgnoreCase) == 0) ||
-                  (string.Compare(name, AlternateName2, IgnoreCase) == 0);
+                    (string.Compare(name, AlternateName1, IgnoreCase) == 0) ||
+                        (string.Compare(name, AlternateName2, IgnoreCase) == 0);
             }
 
             // HACK :
-            protected internal virtual bool IsFound {
+            protected internal virtual bool IsFound
+            {
                 get { return found; }
                 set { found = value; }
             }
 
-            protected internal abstract bool ExpectsValue {
-                get;
-            }
+            protected internal abstract bool ExpectsValue { get; }
 
             protected internal abstract void ConsumeValue(string s, object container, MemberInfo info);
+
             protected internal abstract string GetShortUsage(string prefix, string defaultName, object container, MemberInfo info);
+
             protected internal abstract string GetLongUsage(string prefix, string defaultName, object container, MemberInfo info);
 
-            protected void ConsumeValueHelper(string s, object container, MemberInfo info) {
+            protected void ConsumeValueHelper(string s, object container, MemberInfo info)
+            {
                 // TODO: Read value from string into array (efficiently?)
                 // TODO: Indexed properties?
-                try {
-                    PropertyInfo prop = info as PropertyInfo;
-                    FieldInfo field = info as FieldInfo;
-                    Debug.Assert((prop != null) || (field != null));
-
-                    if(field != null) {
-                        // Collection field
-                        IList list = field.GetValue(container) as IList;
-                        if(list != null) {
-                            list.Add(s);
-                        }
-                            // Simple field
-                        else {
-                            field.SetValue(container, ReadFromString(s, field.FieldType));
-                        }
-                    }
-                        // Property
-                    else {
-                        Debug.Assert(prop != null);
-                        prop.SetValue(container, ReadFromString(s, prop.PropertyType), null);
-                    }
-                } catch(TargetInvocationException e) {
-                    throw e.InnerException;
-                }
-            }
-
-            protected object GetValueHelper(object container, MemberInfo info) {
-                try {
+                try
+                {
                     PropertyInfo prop = info as PropertyInfo;
                     FieldInfo field = info as FieldInfo;
                     Debug.Assert((prop != null) || (field != null));
 
                     if(field != null)
+                    {
+                        // Collection field
+                        IList list = field.GetValue(container) as IList;
+                        if(list != null)
+                        {
+                            list.Add(s);
+                        }
+                            // Simple field
+                        else
+                        {
+                            field.SetValue(container, ReadFromString(s, field.FieldType));
+                        }
+                    }
+                        // Property
+                    else
+                    {
+                        Debug.Assert(prop != null);
+                        prop.SetValue(container, ReadFromString(s, prop.PropertyType), null);
+                    }
+                }
+                catch(TargetInvocationException e)
+                {
+                    throw e.InnerException;
+                }
+            }
+
+            protected object GetValueHelper(object container, MemberInfo info)
+            {
+                try
+                {
+                    PropertyInfo prop = info as PropertyInfo;
+                    FieldInfo field = info as FieldInfo;
+                    Debug.Assert((prop != null) || (field != null));
+
+                    if(field != null)
+                    {
                         return field.GetValue(container);
-                    else {
+                    }
+                    else
+                    {
                         Debug.Assert(prop != null);
                         return prop.GetValue(container, null);
                     }
-                } catch(TargetInvocationException) {
+                }
+                catch(TargetInvocationException)
+                {
                     return null;
                 }
             }
 
             // Normally, prefix == "/"
             // defaultName is the name of the field or property obtained via reflection
-            protected string GetShortUsageHelper(string prefix, string defaultName, string valueName, object container, MemberInfo info) {
+            protected string GetShortUsageHelper(string prefix, string defaultName, string valueName, object container, MemberInfo info)
+            {
                 StringBuilder usage = new StringBuilder();
                 if(Optional)
+                {
                     usage.Append("[");
+                }
                 usage.Append(prefix);
 
                 // If there's no prefix, assume a param instead of a flag,
                 // and wrap the name (great for names with spaces, e.g. "min value" in [/minX <min value>])
                 bool wrapName = prefix.Length == 0;
                 if(wrapName && !Optional)
+                {
                     usage.Append("<");
+                }
 
                 Debug.Assert(defaultName.Length > 0);
                 if(Name.Length != 0)
+                {
                     usage.Append(Name);
+                }
                 else
+                {
                     usage.Append(defaultName);
+                }
                 if(AlternateName1.Length > 0)
+                {
                     usage.Append("|").Append(AlternateName1);
+                }
                 if(AlternateName2.Length > 0)
+                {
                     usage.Append("|").Append(AlternateName2);
+                }
 
                 if(valueName.Length != 0)
+                {
                     usage.Append(" <").Append(ValueName).Append(">");
+                }
                 if(wrapName && !Optional)
+                {
                     usage.Append(">");
+                }
                 if(Optional)
+                {
                     usage.Append("]");
+                }
                 return usage.ToString();
             }
 
-
-            protected string GetLongUsageHelper(string prefix, string defaultName, string valueName, object container, MemberInfo info) {
+            protected string GetLongUsageHelper(string prefix, string defaultName, string valueName, object container, MemberInfo info)
+            {
                 StringBuilder usage = new StringBuilder();
 
                 if(Description.Length == 0)
+                {
                     return "";
+                }
 
                 usage.Append(prefix);
 
                 Debug.Assert(defaultName.Length > 0);
                 if(Name.Length != 0)
+                {
                     usage.Append(Name);
+                }
                 else
+                {
                     usage.Append(defaultName);
+                }
 
                 if(valueName.Length != 0)
+                {
                     usage.Append(" <").Append(ValueName).Append(">");
+                }
 
                 usage.Append('\t').Append(Description);
 
                 return usage.ToString();
             }
 
-            protected object ReadFromString(string s, Type type) {
+            protected object ReadFromString(string s, Type type)
+            {
                 TypeConverter converter = TypeDescriptor.GetConverter(type);
                 return converter.ConvertFromString(s);
             }
@@ -302,27 +370,35 @@ namespace Genghis
         [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
         public class FlagUsageAttribute : UsageAttribute
         {
-            public FlagUsageAttribute(string description) : base(description) { }
+            public FlagUsageAttribute(string description) : base(description) {}
+
             public bool AllowOnOff = true;
 
-            protected internal override bool ExpectsValue {
+            protected internal override bool ExpectsValue
+            {
                 get { return false; }
             }
 
-            protected internal override void ConsumeValue(string s, object container, MemberInfo info) {
+            protected internal override void ConsumeValue(string s, object container, MemberInfo info)
+            {
                 Debug.Assert((s.ToLower() == "true") || (s.ToLower() == "false"), "Flags only consume boolean values");
 
                 ConsumeValueHelper(s, container, info);
                 found = true;
             }
 
-            protected internal override string GetShortUsage(string prefix, string defaultName, object container, MemberInfo info) {
+            protected internal override string GetShortUsage(string prefix, string defaultName, object container, MemberInfo info)
+            {
                 string usage = GetShortUsageHelper(prefix, defaultName, "", container, info);
-                if(AllowOnOff) {
-                    if(usage.EndsWith("]")) {
+                if(AllowOnOff)
+                {
+                    if(usage.EndsWith("]"))
+                    {
                         usage = usage.Remove(usage.Length - 1, 1);
                         usage += "[+|-]]";
-                    } else {
+                    }
+                    else
+                    {
                         usage += "[+|-]";
                     }
                 }
@@ -330,20 +406,27 @@ namespace Genghis
                 return usage;
             }
 
-            protected internal override string GetLongUsage(string prefix, string defaultName, object container, MemberInfo info) {
+            protected internal override string GetLongUsage(string prefix, string defaultName, object container, MemberInfo info)
+            {
                 string usage = GetLongUsageHelper(prefix, defaultName, "", container, info);
-                if(AllowOnOff) {
+                if(AllowOnOff)
+                {
                     //Find the 1st tab char and insert "[+|-]"
                     int i = usage.IndexOf("\t");
                     if(-1 != i)
+                    {
                         usage = usage.Substring(0, i) + "[+|-]" + usage.Substring(i);
+                    }
 
-                    if(!Optional) {
+                    if(!Optional)
+                    {
                         //Show the default value
                         object defaultValue = GetValueHelper(container, info);
-                        System.Diagnostics.Debug.Assert(defaultValue is bool, "Expecting bool type");
+                        Debug.Assert(defaultValue is bool, "Expecting bool type");
                         if(defaultValue is bool)
+                        {
                             usage += string.Format(" ({0} by default)", (bool)defaultValue ? "On" : "Off");
+                        }
                     }
                 }
 
@@ -356,20 +439,23 @@ namespace Genghis
         [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
         public class ValueUsageAttribute : UsageAttribute
         {
-            public ValueUsageAttribute(string description) : base(description) { }
+            public ValueUsageAttribute(string description) : base(description) {}
 
             public ValueDelimiters Delimiters = ValueDelimiters.Colon | ValueDelimiters.Equals | ValueDelimiters.Space;
 
-            protected internal override bool ExpectsValue {
+            protected internal override bool ExpectsValue
+            {
                 get { return true; }
             }
 
-            protected internal override void ConsumeValue(string s, object container, MemberInfo info) {
+            protected internal override void ConsumeValue(string s, object container, MemberInfo info)
+            {
                 ConsumeValueHelper(s, container, info);
                 found = true;
             }
 
-            protected internal override string GetShortUsage(string prefix, string defaultName, object container, MemberInfo info) {
+            protected internal override string GetShortUsage(string prefix, string defaultName, object container, MemberInfo info)
+            {
                 bool flag = (prefix != null) && (prefix.Length != 0);
                 // Get the usage string, assuming it will return string whith format of "name <value>" for any
                 // arg that takes a value
@@ -378,17 +464,24 @@ namespace Genghis
                 // Select a delimiter to show in the usage.
                 string delimiter;
                 if(0 != (Delimiters & ValueDelimiters.Colon))
+                {
                     delimiter = ":";
+                }
                 else if(0 != (Delimiters & ValueDelimiters.Equals))
+                {
                     delimiter = "=";
+                }
                 else
+                {
                     delimiter = " ";
+                }
 
                 // Replace the space between the arg name and the first '<' char with the appropriate delimiter
                 return usage.Replace(" ", delimiter);
             }
 
-            protected internal override string GetLongUsage(string prefix, string defaultName, object container, MemberInfo info) {
+            protected internal override string GetLongUsage(string prefix, string defaultName, object container, MemberInfo info)
+            {
                 // TODO: If we're filling an array or collection, append "..." to ValueName
                 // return UsageHelper(sPrefix, true, bFlag ? __T("value") : __T("")) + __T("...");
                 string usage = GetLongUsageHelper(prefix, defaultName, Flag ? ValueName : "", container, info);
@@ -396,22 +489,31 @@ namespace Genghis
                 // Select a delimiter to show in the usage.
                 string delimiter;
                 if(0 != (Delimiters & ValueDelimiters.Colon))
+                {
                     delimiter = ":";
+                }
                 else if(0 != (Delimiters & ValueDelimiters.Equals))
+                {
                     delimiter = "=";
+                }
                 else
+                {
                     delimiter = " ";
+                }
 
                 usage = Regex.Replace(usage, " \\<value\\>\t", delimiter + "<value>\t");
 
                 // HACK :
-                if(Optional) {
+                if(Optional)
+                {
                     // Get the default value - only display for primitive types and strings
                     // Create a new instance to retrieve default values (and not what the user typed)
                     object newContainer = Activator.CreateInstance(container.GetType());
                     object defaultValue = GetValueHelper(newContainer, info);
                     if((null != defaultValue) && (defaultValue.GetType().IsPrimitive || (defaultValue is string)))
-                        usage += " (Default is \"" + defaultValue.ToString() + "\")";
+                    {
+                        usage += " (Default is \"" + defaultValue + "\")";
+                    }
                 }
 
                 return usage;
@@ -427,30 +529,43 @@ namespace Genghis
         [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
         public class NoUsageAttribute : UsageAttribute
         {
-            public NoUsageAttribute() : base(null) { }
+            public NoUsageAttribute() : base(null) {}
 
-            protected internal override bool ExpectsValue {
+            protected internal override bool ExpectsValue
+            {
                 get { return false; }
             }
 
-            protected internal override void ConsumeValue(string s, object container, MemberInfo info) { }
-            protected internal override string GetShortUsage(string prefix, string defaultName, object container, MemberInfo info) { return ""; }
-            protected internal override string GetLongUsage(string prefix, string defaultName, object container, MemberInfo info) { return ""; }
+            protected internal override void ConsumeValue(string s, object container, MemberInfo info) {}
+
+            protected internal override string GetShortUsage(string prefix, string defaultName, object container, MemberInfo info)
+            {
+                return "";
+            }
+
+            protected internal override string GetLongUsage(string prefix, string defaultName, object container, MemberInfo info)
+            {
+                return "";
+            }
         }
 
         public class UsageException : ApplicationException
         {
-            public UsageException(string arg, string error) : base(error) { arg = arg.Trim(); }
+            public UsageException(string arg, string error) : base(error)
+            {
+                arg = arg.Trim();
+            }
+
             protected string arg = "";
-            public string Argument {
+
+            public string Argument
+            {
                 get { return arg; }
             }
 
-            public override string Message {
-
-                get {
-                    return arg + (!arg.EndsWith(":") ? ": " : string.Empty) + base.Message;
-                }
+            public override string Message
+            {
+                get { return arg + (!arg.EndsWith(":") ? ": " : string.Empty) + base.Message; }
             }
         }
 
@@ -459,7 +574,8 @@ namespace Genghis
             public MemberInfo info;
             public UsageAttribute usage;
 
-            public MemberInfoUsage(MemberInfo info, UsageAttribute usage) {
+            public MemberInfoUsage(MemberInfo info, UsageAttribute usage)
+            {
                 this.info = info;
                 this.usage = usage;
             }
@@ -468,40 +584,51 @@ namespace Genghis
         [NoUsage]
         protected MemberInfoUsage[] members;
 
-        protected MemberInfoUsage[] GetMembers() {
+        protected MemberInfoUsage[] GetMembers()
+        {
             // Return cached members
             if(members != null)
+            {
                 return members;
+            }
 
             // Cache members
             ArrayList memberList = new ArrayList();
 
             // TODO: Parse base class first to get /v and /h shown first
             BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
-            foreach(MemberInfo info in GetType().GetMembers(flags)) {
+            foreach(MemberInfo info in GetType().GetMembers(flags))
+            {
                 // Only doing fields and properties
                 if((info.MemberType != MemberTypes.Field) && (info.MemberType != MemberTypes.Property))
+                {
                     continue;
+                }
 
                 // Skip variables w/o usage
                 object[] attribs = info.GetCustomAttributes(typeof(UsageAttribute), true);
                 UsageAttribute usage = (UsageAttribute)(attribs.Length != 0 ? attribs[0] : null);
                 if(usage is NoUsageAttribute)
+                {
                     continue;
+                }
 
                 // Default settings with no attribute
-                if(usage == null) {
+                if(usage == null)
+                {
                     PropertyInfo prop = info as PropertyInfo;
                     FieldInfo field = info as FieldInfo;
                     Debug.Assert((prop != null) || (field != null));
 
                     // If the type is bool, it's probably just a flag
                     if(((prop != null) && (prop.PropertyType == typeof(bool))) ||
-                      ((field != null) && (field.FieldType == typeof(bool)))) {
+                        ((field != null) && (field.FieldType == typeof(bool))))
+                    {
                         usage = new FlagUsageAttribute(info.Name);
                     }
                         // If the type is not a bool, it probably also have a value
-                    else {
+                    else
+                    {
                         usage = new ValueUsageAttribute(info.Name);
                     }
                 }
@@ -513,22 +640,28 @@ namespace Genghis
             return members;
         }
 
-        public string GetUsage() {
+        public string GetUsage()
+        {
             return GetUsage("");
         }
 
         // Splits a string containing new lines (assumed to be \n or \r\n) and passes each
         // line to FormatSingleLineMaxChars and returns the resulting string array
-        public static string[] FormatMultiLineMaxChars(int maxLen, string sLine) {
-            System.Diagnostics.Debug.Assert(maxLen > 0, "Max must be at least 1");
+        public static string[] FormatMultiLineMaxChars(int maxLen, string sLine)
+        {
+            Debug.Assert(maxLen > 0, "Max must be at least 1");
             if(maxLen <= 0)
+            {
                 return null;
+            }
 
-            string[] lines = sLine.Replace("\r", "").Split(new char[] { '\n' });
-            System.Collections.Specialized.StringCollection formattedLines = new System.Collections.Specialized.StringCollection();
+            string[] lines = sLine.Replace("\r", "").Split(new[] {'\n'});
+            StringCollection formattedLines = new StringCollection();
 
             foreach(string line in lines)
+            {
                 formattedLines.AddRange(FormatSingleLineMaxChars(maxLen, line));
+            }
 
             string[] multi = new string[formattedLines.Count];
             formattedLines.CopyTo(multi, 0);
@@ -538,34 +671,46 @@ namespace Genghis
         // Formats a string so that no line will have more than maxLen characters.
         // Input strings may not contain a \r or \n. To format multi-line strings call
         // FormatMultiLineMaxChars
-        public static string[] FormatSingleLineMaxChars(int maxLen, string sLine) {
-            System.Diagnostics.Debug.Assert(maxLen > 0, "Max must be at least 1");
-            System.Diagnostics.Debug.Assert(-1 == sLine.IndexOf('\r'));
-            System.Diagnostics.Debug.Assert(-1 == sLine.IndexOf('\n'));
+        public static string[] FormatSingleLineMaxChars(int maxLen, string sLine)
+        {
+            Debug.Assert(maxLen > 0, "Max must be at least 1");
+            Debug.Assert(-1 == sLine.IndexOf('\r'));
+            Debug.Assert(-1 == sLine.IndexOf('\n'));
 
             if(maxLen <= 0)
+            {
                 return null;
+            }
             if(0 == sLine.Length)
-                return new String[] { "" };
+            {
+                return new[] {""};
+            }
 
             int currentStart = 0;
             int currentEnd;
-            System.Collections.Specialized.StringCollection txt = new System.Collections.Specialized.StringCollection();
+            StringCollection txt = new StringCollection();
 
-            while(currentStart < sLine.Length) {
-                if(currentStart + maxLen < sLine.Length) {
+            while(currentStart < sLine.Length)
+            {
+                if(currentStart + maxLen < sLine.Length)
+                {
                     currentEnd = Math.Min(currentStart + maxLen, sLine.Length - 1);
 
                     int spaceIdx = sLine.LastIndexOf(" ", currentEnd, currentEnd - currentStart);
 
-                    if(-1 == spaceIdx) {
+                    if(-1 == spaceIdx)
+                    {
                         txt.Add(sLine.Substring(currentStart, currentEnd - currentStart));
                         currentStart += maxLen;
-                    } else {
+                    }
+                    else
+                    {
                         txt.Add(sLine.Substring(currentStart, spaceIdx - currentStart));
                         currentStart = spaceIdx + 1;
                     }
-                } else {
+                }
+                else
+                {
                     txt.Add(sLine.Substring(currentStart));
                     currentStart += maxLen;
                 }
@@ -576,12 +721,14 @@ namespace Genghis
             return lines;
         }
 
-        public string GetUsage(string err) {
+        public string GetUsage(string err)
+        {
             StringBuilder usage = new StringBuilder();
 
             // Logo
             string logo = GetLogo();
-            if(logo.Length != 0) {
+            if(logo.Length != 0)
+            {
                 usage.Append(logo).Append(Environment.NewLine);
             }
 
@@ -592,7 +739,8 @@ namespace Genghis
             bool allowArgFile = (parser != null ? parser.AllowArgumentFile : true);
 
             // Error string
-            if(err.Length != 0) {
+            if(err.Length != 0)
+            {
                 usage.Append(err).Append(Environment.NewLine).Append(Environment.NewLine);
             }
 
@@ -606,7 +754,8 @@ namespace Genghis
             // TODO there must be a better way of doing this than looping through the MemberInfo...
             // Find the right-most tab char. 
             int maxTabPos = 0;
-            foreach(MemberInfoUsage member in GetMembers()) {
+            foreach(MemberInfoUsage member in GetMembers())
+            {
                 string prefix = (member.usage.MatchPosition ? "" : preferredPrefix);
                 string tmpLongUsage = member.usage.GetLongUsage(prefix, member.info.Name, this, member.info);
                 maxTabPos = Math.Max(maxTabPos, tmpLongUsage.IndexOf("\t"));
@@ -618,7 +767,8 @@ namespace Genghis
             // Max length for the descriptions
             int maxLen = ((null != parser) ? parser.MaxHelpLineLength : 79) - maxTabPos;
 
-            if(allowArgFile) {
+            if(allowArgFile)
+            {
                 shortUsage.Append("[@argfile]");
                 //TODO format line using FormatSingleLineMaxChars
                 longUsage.AppendFormat("{0,-" + maxTabPos + ":S}{1}", "@argfile", "Read arguments from a file.").Append(Environment.NewLine);
@@ -629,7 +779,8 @@ namespace Genghis
 
             string lastCategory = "";
 
-            foreach(MemberInfoUsage member in GetMembers()) {
+            foreach(MemberInfoUsage member in GetMembers())
+            {
                 // NOTE: When matching by position, only the value will be present
                 // on the commandline, e.g. "fooness"
                 string prefix = (member.usage.MatchPosition ? "" : preferredPrefix);
@@ -645,10 +796,12 @@ namespace Genghis
                 // Replace all \r chars
                 Match m = regexUsage.Match(tmpLongUsage);
 
-                if(null != m) {
+                if(null != m)
+                {
                     // If categories are being displayed and the category has changed then display the category
                     // An empty category is not concidered to be a category change
-                    if((null != parser) && (parser.ShowCategories) && (0 != member.usage.Category.Length) && (member.usage.Category != lastCategory)) {
+                    if((null != parser) && (parser.ShowCategories) && (0 != member.usage.Category.Length) && (member.usage.Category != lastCategory))
+                    {
                         longUsage.Append(Environment.NewLine).AppendFormat("{0,-" + maxTabPos + ":S}- {1} -", "", member.usage.Category).Append(Environment.NewLine);
                         lastCategory = member.usage.Category;
                     }
@@ -660,12 +813,18 @@ namespace Genghis
                     string[] formattedLines = FormatMultiLineMaxChars(maxLen, m.Groups["desc"].Value);
 
                     if(formattedLines.Length > 0)
+                    {
                         longUsage.Append(formattedLines[0]).Append(Environment.NewLine);
+                    }
                     else
+                    {
                         longUsage.Append(Environment.NewLine);
+                    }
 
                     for(int g = 1; g < formattedLines.Length; ++g)
+                    {
                         longUsage.AppendFormat("{0,-" + maxTabPos + ":S}{1}", "", formattedLines[g]).Append(Environment.NewLine);
+                    }
                 }
             }
 
@@ -674,17 +833,24 @@ namespace Genghis
             shortUsage.Length = 0;
 
             if(shortLines.Length > 0)
+            {
                 shortUsage.Append(shortLines[0]).Append(Environment.NewLine);
+            }
             else
+            {
                 shortUsage.Append(Environment.NewLine);
+            }
 
             //subsequent short usage lines to align up under "Usage: " string
             for(int g = 1; g < shortLines.Length; ++g)
+            {
                 shortUsage.AppendFormat("{0,-7:S}{1}", "", shortLines[g]).Append(Environment.NewLine);
+            }
 
             usage.Append(shortUsage).Append(Environment.NewLine).Append(Environment.NewLine).Append(longUsage).Append(Environment.NewLine);
 
-            if((null != parser) && ("" != parser.EnvironmentDefaults)) {
+            if((null != parser) && ("" != parser.EnvironmentDefaults))
+            {
                 usage.Append(Environment.NewLine);
                 usage.AppendFormat("Switches may be preset in the {0} environment variable.", parser.EnvironmentDefaults).Append(Environment.NewLine);
                 usage.Append("Override preset switches by prefixing switches with a - (hyphen)").Append(Environment.NewLine);
@@ -693,9 +859,12 @@ namespace Genghis
             return usage.ToString();
         }
 
-        MemberInfoUsage FindFlag(string name) {
-            foreach(MemberInfoUsage member in GetMembers()) {
-                if(!member.usage.MatchPosition && member.usage.Matches(name, member.info.Name)) {
+        private MemberInfoUsage FindFlag(string name)
+        {
+            foreach(MemberInfoUsage member in GetMembers())
+            {
+                if(!member.usage.MatchPosition && member.usage.Matches(name, member.info.Name))
+                {
                     return member;
                 }
             }
@@ -703,49 +872,62 @@ namespace Genghis
             return null;
         }
 
-        MemberInfoUsage GetNextParam() {
-            foreach(MemberInfoUsage info in GetMembers()) {
+        private MemberInfoUsage GetNextParam()
+        {
+            foreach(MemberInfoUsage info in GetMembers())
+            {
                 // HACK :
                 if(!info.usage.IsFound && info.usage.MatchPosition)
+                {
                     return info;
+                }
             }
 
             return null;
         }
 
-        public void Parse() {
+        public void Parse()
+        {
             //FIX: Ethan J. Brown - why pass the entire CommandLine when it can be parsed for you?
             Parse(Environment.GetCommandLineArgs(), true);
         }
 
-        public void Parse(String commandLine) {
+        public void Parse(String commandLine)
+        {
             Parse(commandLine, false);
         }
 
-
         //TODO: this needs to be fixed -- it's broken -- for now, GetCommandLineArgs() subverts the problem 
-        public void Parse(string commandLine, bool ignoreFirstArg) {
-
+        public void Parse(string commandLine, bool ignoreFirstArg)
+        {
             ArrayList args = new ArrayList();
             string arg = "";
             bool inQuotes = false;
 
-            for(int i = 0; i != commandLine.Length; ++i) {
+            for(int i = 0; i != commandLine.Length; ++i)
+            {
                 char c = commandLine[i];
 
-                if(c == '"') {
-                    if(inQuotes) {
+                if(c == '"')
+                {
+                    if(inQuotes)
+                    {
                         // Read ahead to check for doublequote pairs
                         ++i;
                         if(i == commandLine.Length)
+                        {
                             break;
-                        if(commandLine[i] == '"') {
+                        }
+                        if(commandLine[i] == '"')
+                        {
                             arg += c;
                             continue;
                         }
                         --i;
                         inQuotes = false;
-                    } else {
+                    }
+                    else
+                    {
                         inQuotes = true;
                     }
 
@@ -753,38 +935,48 @@ namespace Genghis
                 }
             }
 
-
             // Add last arg and parse the list
             if(arg.Length != 0)
+            {
                 args.Add(arg);
+            }
             Parse((string[])args.ToArray(typeof(string)), ignoreFirstArg);
         }
 
-        void Parse(string[] args) {
+        private void Parse(string[] args)
+        {
             Parse(args, false);
         }
 
         // Return the index of the first inline delimiter - i.e. a ':' or a '='
         // that are passed in as part of the arg name. e.g. "/autoexec:c:\autoexec.bat"
         // Returns -1 if no delimiter is found
-        int FindValueInlineDeliminter(string name) {
+        private int FindValueInlineDeliminter(string name)
+        {
             int delimiterPos = name.IndexOf(':');
 
             if(delimiterPos == -1)
+            {
                 return name.IndexOf('=');
+            }
             else
+            {
                 return delimiterPos;
+            }
         }
 
-        static bool Empty(string s) { return s == null || s.Length == 0; }
+        private static bool Empty(string s)
+        {
+            return s == null || s.Length == 0;
+        }
 
         /// <summary>
         /// Does the actual parsing. Good place to hook up for custom pre/post-parsing.
         /// </summary>
         /// <param name="args">array of arguments to parse</param>
         /// <param name="ignoreFirstArg">whether to ignore first argument or not (it could be the name of the exe)</param>
-        protected virtual void Parse(string[] args, bool ignoreFirstArg) {
-
+        protected virtual void Parse(string[] args, bool ignoreFirstArg)
+        {
             object[] attribs = GetType().GetCustomAttributes(typeof(ParserUsageAttribute), true);
             ParserUsageAttribute parser = (ParserUsageAttribute)(attribs.Length != 0 ? attribs[0] : null);
             bool allowArgFile = (parser != null ? parser.AllowArgumentFile : true);
@@ -794,28 +986,32 @@ namespace Genghis
             MemberInfoUsage member = null;
 
             //FIX: Ethan J. Brown -- used to crash with 0 arguments
-            for(int i = ignoreFirstArg ? 1 : 0; i < args.Length; ++i) {
+            for(int i = ignoreFirstArg ? 1 : 0; i < args.Length; ++i)
+            {
                 string arg = args[i];
                 Debug.WriteLine("Processing arg: " + arg);
 
                 bool isFlag = false;
 
                 // It's a flag
-                if((arg.Length > 1) && ((arg[0] == '/') || (arg[0] == '-'))) {
+                if((arg.Length > 1) && ((arg[0] == '/') || (arg[0] == '-')))
+                {
                     // HACK :
                     member = null;
                     bool hasOnOff;
                     string flagName;
 
-
                     // Flags can have a '+' or '-' suffix. If this arg has a prefix remove it,
                     // else just remove the '/' or '-'
                     hasOnOff = arg.EndsWith("-") || arg.EndsWith("+");
                     if(hasOnOff)
+                    {
                         flagName = arg.Substring(1, arg.Length - 2);
+                    }
                     else
+                    {
                         flagName = arg.Substring(1);
-
+                    }
 
                     // Flags can be passed in one of two ways
                     //  a) With a param name in 1 arg and a value in the next. e.g. "/flag myValue"
@@ -823,11 +1019,11 @@ namespace Genghis
                     // If using the single arg (a) method extract the arg name
                     int delimiterPos = FindValueInlineDeliminter(flagName);
 
-
                     //default delimiter. A space which is not a delimiter (space delimted values are split into seperate args)
                     // will thus have a delimiter value of '\0'
                     char delimiter = '\0';
-                    if(delimiterPos != -1) {
+                    if(delimiterPos != -1)
+                    {
                         delimiter = flagName[delimiterPos];
                         flagName = flagName.Substring(0, delimiterPos);
                     }
@@ -835,120 +1031,167 @@ namespace Genghis
                     // Find the argument by name
                     member = FindFlag(flagName);
 
-                    if(member != null) {
+                    if(member != null)
+                    {
                         isFlag = true;
 
-
                         //OnOff toggle only allowed if: member.usage is FlagUsage and FlagUsage.AllowOnOff is true
-                        if(hasOnOff) {
+                        if(hasOnOff)
+                        {
                             FlagUsageAttribute flag = member.usage as FlagUsageAttribute;
 
                             if(null == flag)
+                            {
                                 throw new UsageException(arg, "Only flags support on/off toggles");
+                            }
                             else if(!flag.AllowOnOff)
+                            {
                                 throw new UsageException(arg, "Flag does not allow on/off toggle");
+                            }
                         }
 
-
                         //Check that only value args have a delimiter and that the correct delimiter has been used
-                        if(member.usage is ValueUsageAttribute) {
+                        if(member.usage is ValueUsageAttribute)
+                        {
                             ValueUsageAttribute val = (ValueUsageAttribute)member.usage;
 
-                            switch(delimiter) {
+                            switch(delimiter)
+                            {
                                 case ':':
                                     if(0 == (val.Delimiters & ValueDelimiters.Colon))
+                                    {
                                         throw new UsageException(arg, "This value param does not support a ':' delimiter");
+                                    }
                                     break;
                                 case '=':
                                     if(0 == (val.Delimiters & ValueDelimiters.Equals))
+                                    {
                                         throw new UsageException(arg, "This value param does not support a '=' delimiter");
+                                    }
                                     break;
                                 case '\0':
                                     if(0 == (val.Delimiters & ValueDelimiters.Space))
+                                    {
                                         throw new UsageException(arg, "This value param does not support a ' ' delimiter");
+                                    }
                                     break;
                                 default:
                                     throw new UsageException(arg, "Unknown delimiter");
                             }
-                        } else if('\0' != delimiter)
+                        }
+                        else if('\0' != delimiter)
+                        {
                             throw new UsageException(arg, "Only value params support delimiters");
+                        }
                     }
                 }
                     // It's a file name to process parameters from
-                else if((arg.Length > 1) && (arg[0] == '@') && allowArgFile) {
+                else if((arg.Length > 1) && (arg[0] == '@') && allowArgFile)
+                {
                     // HACK :
                     member = null;
                     ParseFromFile(arg.Substring(1));
                     continue;
                 }
                     // It's a parameter
-                else {
+                else
+                {
                     // HACK :
-                    if(member != null) {
+                    if(member != null)
+                    {
                         FieldInfo field = member.info as FieldInfo;
-                        if(field != null) {
+                        if(field != null)
+                        {
                             IList list = field.GetValue(this) as IList;
-                            if(list == null) {
+                            if(list == null)
+                            {
                                 member.usage.IsFound = true;
                                 // Find the argument by offset
                                 member = GetNextParam();
                             }
                         }
-                    } else
+                    }
+                    else
+                    {
                         member = GetNextParam();
+                    }
                 }
 
                 if(member == null)
+                {
                     throw new UsageException(arg, "Unrecognized argument");
+                }
 
                 // Argument with a value, e.g. /foo bar
-                if(member.usage.ExpectsValue) {
+                if(member.usage.ExpectsValue)
+                {
                     string value;
 
                     // If the arg has an inline delimiter (e.g. "/flag:myValue") 
                     // then read the value from the current arg else get the value from the next arg
                     // HACK : only search delimiters when we have a beginning slash
-                    if(arg[0] == '/') {
+                    if(arg[0] == '/')
+                    {
                         int delimiterPos = FindValueInlineDeliminter(arg);
-                        if(delimiterPos == -1) {
+                        if(delimiterPos == -1)
+                        {
                             if(isFlag && (++i == args.Length))
+                            {
                                 throw new UsageException(arg, "Argument expects a parameter");
+                            }
                             value = args[i];
-                        } else {
+                        }
+                        else
+                        {
                             if((arg.Length - 1) == delimiterPos)
+                            {
                                 throw new UsageException(arg, "Argument expects a parameter");
+                            }
                             value = arg.Substring(delimiterPos + 1);
                         }
-                    } else { // positional parameter
+                    }
+                    else
+                    {
+                        // positional parameter
                         value = args[i];
                     }
                     member.usage.ConsumeValue(value, this, member.info);
                 }
                     // Argument w/o a value, e.g. /foo
-                else {
+                else
+                {
                     string value;
 
                     if(isFlag && arg.EndsWith("-"))
+                    {
                         value = "false";
+                    }
                     else
+                    {
                         value = "true";
+                    }
 
                     member.usage.ConsumeValue(value, this, member.info);
                 }
                 // Test legal values
-                if(member.usage.LegalValues != null) {
+                if(member.usage.LegalValues != null)
+                {
                     FieldInfo field = member.info as FieldInfo;
                     object val = field.GetValue(this);
                     Regex myRegex = new Regex(member.usage.LegalValues);
                     if(!myRegex.IsMatch(val.ToString()))
+                    {
                         throw new UsageException(arg, "The value doesn't match one of the legal values");
+                    }
                 }
             }
 
             // HACK :
             // Check for missing required arguments
-            foreach(MemberInfoUsage mbr in members) {
-                if(!mbr.usage.Optional && !mbr.usage.IsFound) {
+            foreach(MemberInfoUsage mbr in members)
+            {
+                if(!mbr.usage.Optional && !mbr.usage.IsFound)
+                {
                     throw new UsageException(!Empty(mbr.usage.Name) ? mbr.usage.Name : mbr.info.Name, "Required argument not found");
                 }
             }
@@ -969,35 +1212,45 @@ namespace Genghis
         // full path names, the CWD has already been reset...
         protected class CurrentDir : IDisposable
         {
-            public CurrentDir(string newDir) {
+            public CurrentDir(string newDir)
+            {
                 oldDir = Environment.CurrentDirectory;
                 Environment.CurrentDirectory = newDir;
             }
 
             #region Implementation of IDisposable
-            public void Dispose() {
+
+            public void Dispose()
+            {
                 Environment.CurrentDirectory = oldDir;
             }
+
             #endregion
 
-            private string oldDir = "";
+            private readonly string oldDir = "";
         }
 
-        void ParseFromFile(string fileName) {
+        private void ParseFromFile(string fileName)
+        {
             // Check if file exists
-            if(!(new FileInfo(fileName)).Exists) {
+            if(!(new FileInfo(fileName)).Exists)
+            {
                 throw new UsageException("argfile", fileName + " not found");
             }
 
             // Point current directory at the input file
             string argDir = Path.GetDirectoryName(Path.GetFullPath(fileName));
             using(CurrentDir cd = new CurrentDir(argDir))
-            using(StreamReader reader = new StreamReader(fileName)) {
-                Parse(reader.ReadToEnd());
+            {
+                using(StreamReader reader = new StreamReader(fileName))
+                {
+                    Parse(reader.ReadToEnd());
+                }
             }
         }
 
-        protected virtual string GetLogo() {
+        protected virtual string GetLogo()
+        {
             // TODO: Refactor this ugly code!
             StringBuilder logo = new StringBuilder();
             string nl = Environment.NewLine;
@@ -1005,14 +1258,18 @@ namespace Genghis
 
             Assembly assem = Assembly.GetEntryAssembly();
             if(null == assem)
-                assem = System.Reflection.Assembly.GetExecutingAssembly();
+            {
+                assem = Assembly.GetExecutingAssembly();
+            }
             AssemblyName assemName = assem.GetName();
 
             // Title: try AssemblyTitle first, use module name if AssemblyTitle is missing
             attribs = assem.GetCustomAttributes(typeof(AssemblyTitleAttribute), true);
             string title = (attribs.Length != 0 ? ((AssemblyTitleAttribute)attribs[0]).Title : "");
             if(title.Length == 0)
+            {
                 title = GetModuleName();
+            }
 
             // Version
             string version = assem.GetName().Version.ToString();
@@ -1024,7 +1281,8 @@ namespace Genghis
             // Layout
             logo.Append(title).Append(" v").Append(version).Append(nl);
 
-            if(copyright.Length != 0) {
+            if(copyright.Length != 0)
+            {
                 logo.Append(copyright).Append(nl);
             }
 
@@ -1033,58 +1291,69 @@ namespace Genghis
 
         public enum ImageSubsystem
         {
-            Native = 0x0001,   // Currently not supported
-            GUI = 0x0002,   // Windows EXE or DLL
-            CUI = 0x0003,   // Console EXE
+            Native = 0x0001, // Currently not supported
+            GUI = 0x0002, // Windows EXE or DLL
+            CUI = 0x0003, // Console EXE
         }
 
         // This code heavily inspired by Brent Rector [brent@wiseowl.com]. Thanks, Brent!
-        public static ImageSubsystem GetImageSubsystem(string filename) {
+        public static ImageSubsystem GetImageSubsystem(string filename)
+        {
             using(FileStream fs = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using(BinaryReader reader = new BinaryReader(fs)) {
-                // Seek to the beginning of the PE signature offset
-                reader.BaseStream.Seek(0x3c, System.IO.SeekOrigin.Begin);
+            {
+                using(BinaryReader reader = new BinaryReader(fs))
+                {
+                    // Seek to the beginning of the PE signature offset
+                    reader.BaseStream.Seek(0x3c, SeekOrigin.Begin);
 
-                // Get the offset to the PE signature
-                uint e_lfanew = reader.ReadUInt32();
+                    // Get the offset to the PE signature
+                    uint e_lfanew = reader.ReadUInt32();
 
-                // Seek to the beginning of the PE Header
-                reader.BaseStream.Seek(e_lfanew, SeekOrigin.Begin);
+                    // Seek to the beginning of the PE Header
+                    reader.BaseStream.Seek(e_lfanew, SeekOrigin.Begin);
 
-                // Read the PE signature
-                uint PE_SIGNATURE = 0x00004550;
-                uint PESignature = reader.ReadUInt32();
-                if(PESignature != PE_SIGNATURE)
-                    throw new BadImageFormatException("Bad PE signature: " + filename);
+                    // Read the PE signature
+                    uint PE_SIGNATURE = 0x00004550;
+                    uint PESignature = reader.ReadUInt32();
+                    if(PESignature != PE_SIGNATURE)
+                    {
+                        throw new BadImageFormatException("Bad PE signature: " + filename);
+                    }
 
-                // Seek past the file header
-                reader.BaseStream.Seek(0x14, SeekOrigin.Current);
+                    // Seek past the file header
+                    reader.BaseStream.Seek(0x14, SeekOrigin.Current);
 
-                // Seek to the subsystem in the optional header
-                reader.BaseStream.Seek(0x44, SeekOrigin.Current);
+                    // Seek to the subsystem in the optional header
+                    reader.BaseStream.Seek(0x44, SeekOrigin.Current);
 
-                switch(reader.ReadUInt16()) {
-                    case (ushort)ImageSubsystem.Native:
-                        return ImageSubsystem.Native;
-                    case (ushort)ImageSubsystem.GUI:
-                        return ImageSubsystem.GUI;
-                    case (ushort)ImageSubsystem.CUI:
-                        return ImageSubsystem.CUI;
-                    default:
-                        throw new BadImageFormatException("Invalid subsystem: " + filename);
+                    switch(reader.ReadUInt16())
+                    {
+                        case (ushort)ImageSubsystem.Native:
+                            return ImageSubsystem.Native;
+                        case (ushort)ImageSubsystem.GUI:
+                            return ImageSubsystem.GUI;
+                        case (ushort)ImageSubsystem.CUI:
+                            return ImageSubsystem.CUI;
+                        default:
+                            throw new BadImageFormatException("Invalid subsystem: " + filename);
+                    }
                 }
             }
         }
 
-        public static bool IsConsole() {
+        public static bool IsConsole()
+        {
             Assembly assem = Assembly.GetEntryAssembly();
             if(null == assem)
-                assem = System.Reflection.Assembly.GetExecutingAssembly();
+            {
+                assem = Assembly.GetExecutingAssembly();
+            }
 
             return GetImageSubsystem(assem.Location) == ImageSubsystem.CUI;
         }
 
         #region P/Invoke implemention of IsConsole
+
         /*
         struct SHFILEINFO
         {
@@ -1119,48 +1388,62 @@ namespace Genghis
             return (LOWORD(exeType) == IMAGE_NT_SIGNATURE) && (HIWORD(exeType) == 0);
         }
         */
+
         #endregion
 
-        public static string GetModuleName() {
+        public static string GetModuleName()
+        {
             Assembly assem = Assembly.GetEntryAssembly();
             if(null == assem)
-                assem = System.Reflection.Assembly.GetExecutingAssembly();
+            {
+                assem = Assembly.GetExecutingAssembly();
+            }
 
             return Path.GetFileName(assem.Location);
         }
 
-        void Show(string s) {
-            if(IsConsole()) {
+        private void Show(string s)
+        {
+            if(IsConsole())
+            {
 #if NUNIT
-					// use this with the nunit gui :
+    // use this with the nunit gui :
 					Console.Error.WriteLine(s);
 #else
                 // Always send usage to stdout so it's easy to capture the output
                 Console.WriteLine(s);
 #endif
-            } else {
-                try {
+            }
+            else
+            {
+                try
+                {
                     // FIX: Don't require project to reference System.Windows.Forms.dll
 #pragma warning disable 618
                     Assembly assem = Assembly.LoadWithPartialName("System.Windows.Forms");
 #pragma warning restore 618
                     Type type = assem.GetType("System.Windows.Forms.MessageBox");
-                    MethodInfo method = type.GetMethod("Show", new Type[] { typeof(string), typeof(string) });
-                    method.Invoke(null, new Object[] { s, GetModuleName() });
+                    MethodInfo method = type.GetMethod("Show", new[] {typeof(string), typeof(string)});
+                    method.Invoke(null, new Object[] {s, GetModuleName()});
                     //System.Windows.Forms.MessageBox.Show(s, GetModuleName());
-                } catch(Exception e) {
+                }
+                catch(Exception e)
+                {
                     e.ToString();
                 }
             }
         }
 
-        bool Continue(string err) {
-            if(version) {
+        private bool Continue(string err)
+        {
+            if(version)
+            {
                 Show(GetLogo());
                 return false;
             }
 
-            if((err.Length > 0) || help) {
+            if((err.Length > 0) || help)
+            {
                 Show(GetUsage(help ? "" : err));
                 return false;
             }
@@ -1168,24 +1451,37 @@ namespace Genghis
             return true;
         }
 
-        public bool ParseAndContinue(string[] args) {
+        public bool ParseAndContinue(string[] args)
+        {
             string err = "";
 
-            try {
-
+            try
+            {
                 object[] attribs = GetType().GetCustomAttributes(typeof(ParserUsageAttribute), true);
                 ParserUsageAttribute parser = (ParserUsageAttribute)(attribs.Length != 0 ? attribs[0] : null);
 
                 //TODO relying on exception being generated last (i.e. after values have been read and assigned) should pass param  
                 //Load defaults from the environmental variable
                 if(parser != null)
+                {
                     if("" != parser.EnvironmentDefaults)
-                        try { Parse(Environment.GetEnvironmentVariable(parser.EnvironmentDefaults)); } catch { }
+                    {
+                        try
+                        {
+                            Parse(Environment.GetEnvironmentVariable(parser.EnvironmentDefaults));
+                        }
+                        catch {}
+                    }
+                }
                 //--------------------------------------------------------
 
                 //Parse the command line
                 Parse(args);
-            } catch(Exception e) { err = e.Message; }
+            }
+            catch(Exception e)
+            {
+                err = e.Message;
+            }
             return Continue(err);
         }
 

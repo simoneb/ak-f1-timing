@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,9 +14,9 @@
 
 using System;
 using System.Diagnostics;
-
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
+using log4net;
 
 namespace AK.F1.Timing
 {
@@ -28,30 +28,36 @@ namespace AK.F1.Timing
     {
         #region Private Fields.
 
-        private log4net.ILog _log;
+        private ILog _log;
 
         #endregion
 
         #region Public Interface.
 
         /// <inheritdoc/>        
-        public Message Read() {
-
+        public Message Read()
+        {
             CheckDisposed();
             ThrowReadException();
 
-            if(EndOfStreamReached) {
+            if(EndOfStreamReached)
+            {
                 return null;
             }
 
             Message message;
 
-            try {
-                while((message = ReadImpl()) == Message.Empty) {
+            try
+            {
+                while((message = ReadImpl()) == Message.Empty)
+                {
                     // Void.
                 }
-            } catch(Exception exc) {
-                if(!exc.IsFatal()) {
+            }
+            catch(Exception exc)
+            {
+                if(!exc.IsFatal())
+                {
                     ProcessReadException(exc);
                 }
                 throw;
@@ -62,8 +68,8 @@ namespace AK.F1.Timing
             return message;
         }
 
-        #endregion  
-      
+        #endregion
+
         #region Protected Interface.
 
         /// <summary>
@@ -81,37 +87,33 @@ namespace AK.F1.Timing
         /// <summary>
         /// Gets the <see cref="log4net.ILog"/> for this type.
         /// </summary>        
-        protected log4net.ILog Log {
-
+        protected ILog Log
+        {
             [DebuggerStepThrough]
-            get {
-                if(_log == null) {
-                    _log = log4net.LogManager.GetLogger(GetType());
+            get
+            {
+                if(_log == null)
+                {
+                    _log = LogManager.GetLogger(GetType());
                 }
                 return _log;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the last exception thrown in the read method. Further calls to read will
-        /// result in this exception being rethrown (after the disposed state of this instance is
-        /// checked).
-        /// </summary>
-        protected Exception ReadException { get; set; }
-
+        
         #endregion
 
         #region Private Impl.
 
-        private void ThrowReadException() {
-
-            if(ReadException != null) {
+        private void ThrowReadException()
+        {
+            if(ReadException != null)
+            {
                 throw ReadException;
             }
         }
 
-        private void ProcessReadException(Exception exc) {
-
+        private void ProcessReadException(Exception exc)
+        {
             Debug.Assert(ReadException == null);
 
             Log.Error(exc);
@@ -120,6 +122,8 @@ namespace AK.F1.Timing
 
         private bool EndOfStreamReached { get; set; }
 
+        private Exception ReadException { get; set; }
+
         #endregion
-    }    
+    }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Reflection;
 
 namespace AK.F1.Timing.Serialization
 {
@@ -26,11 +25,6 @@ namespace AK.F1.Timing.Serialization
     public sealed class IgnorePropertyAttribute : Attribute
     {
         #region Public Interface.
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="IgnorePropertyAttribute"/> class.
-        /// </summary>
-        public IgnorePropertyAttribute() { }
 
         #endregion
     }

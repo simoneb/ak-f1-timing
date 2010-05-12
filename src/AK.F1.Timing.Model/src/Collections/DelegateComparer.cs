@@ -1,4 +1,4 @@
-﻿// Copyright 2009 Andy Kernahan
+// Copyright 2009 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AK.F1.Timing.Model
+namespace AK.F1.Timing.Model.Collections
 {
     [Serializable]
     internal sealed class DelegateComparer<T> : IComparer<T>
@@ -28,15 +28,15 @@ namespace AK.F1.Timing.Model
 
         #region Public Interface.
 
-        public DelegateComparer(Comparison<T> comparison) {
-
+        public DelegateComparer(Comparison<T> comparison)
+        {
             Guard.NotNull(comparison, "comparison");
 
             _comparison = comparison;
         }
 
-        public int Compare(T x, T y) {
-
+        public int Compare(T x, T y)
+        {
             return _comparison(x, y);
         }
 
