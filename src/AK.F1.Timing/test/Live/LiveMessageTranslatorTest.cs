@@ -197,119 +197,7 @@ namespace AK.F1.Timing.Live
         public void position_column_values_are_not_translated_as_positions_are_provided_by_the_feed(SessionType session)
         {
             In(session).Assert(translator => { Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.White, "10"))); });
-        }
-
-        #region Translation
-
-        private Translation Translate(params Message[] messages)
-        {
-            if(messages == null || messages.Length == 0)
-            {
-                throw new ArgumentNullException("messages");
-            }
-
-            return new Translation(Assert, messages);
-        }
-
-        private sealed class Translation
-        {
-            private Action<Message> _validator;
-            private readonly Message[] _messages;
-            private readonly Assertions _assert;
-            private readonly ICollection<SessionType> _sessionTypes = new HashSet<SessionType>();
-
-            public Translation(Assertions assert, params Message[] messages)
-            {
-                _messages = messages;
-                _assert = assert;
-            }
-
-            public Translation Expect(Message expectation)
-            {
-                _validator = actual => _assert.MessagesAreEqual(expectation, actual);
-
-                return this;
-            }
-
-            public Translation Expect(params Message[] expectations)
-            {
-                _validator = actual =>
-                {
-                    _assert.IsType<CompositeMessage>(actual);
-                    var actuals = ((CompositeMessage)actual).Messages;
-                    _assert.Equal(expectations.Length, actuals.Count);
-                    for(int i = 0; i < expectations.Length; ++i)
-                    {
-                        _assert.MessagesAreEqual(expectations[i], actuals[i]);
-                    }
-                };
-
-                return this;
-            }
-
-            public Translation ExpectNull()
-            {
-                _validator = actual => _assert.Null(actual);
-
-                return this;
-            }
-
-            public Translation InAllSessions()
-            {
-                foreach(SessionType sessionType in Enum.GetValues(typeof(SessionType)))
-                {
-                    _sessionTypes.Add(sessionType);
-                }
-
-                return this;
-            }
-
-            public Translation InPracticeSession()
-            {
-                _sessionTypes.Add(SessionType.Practice);
-
-                return this;
-            }
-
-            public Translation InQuallySession()
-            {
-                _sessionTypes.Add(SessionType.Qually);
-
-                return this;
-            }
-
-            public Translation InRaceSession()
-            {
-                _sessionTypes.Add(SessionType.Race);
-
-                return this;
-            }
-
-            public void Assert()
-            {
-                Debug.Assert(_validator != null);
-                Debug.Assert(_sessionTypes.Count > 0);
-
-                ValidateTranslationInEachSessionType(_validator);
-            }
-
-            private void ValidateTranslationInEachSessionType(Action<Message> validator)
-            {
-                Message translation = null;
-                LiveMessageTranslator translator;
-
-                foreach(var sessionType in _sessionTypes)
-                {
-                    translator = new LiveMessageTranslator();
-                    translator.ChangeSessionType(sessionType);
-                    foreach(var message in _messages)
-                    {
-                        translation = translator.Translate(message);
-                    }
-                    validator(translation);
-                }
-            }
-        }
+        }        
 
         private static PostedTime PT(double seconds, PostedTimeType type, int lapNumber)
         {
@@ -398,7 +286,5 @@ namespace AK.F1.Timing.Live
                 return args;
             }
         }
-
-        #endregion
     }
 }
