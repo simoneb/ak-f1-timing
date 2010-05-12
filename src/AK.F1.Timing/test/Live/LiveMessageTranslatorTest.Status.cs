@@ -41,12 +41,12 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     new SetDriverCarNumberMessage(1, 2),
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.White, "2"))
-                    );
+                );
                 // Change the status.
                 Assert.MessagesAreEqual(
                     new SetDriverStatusMessage(1, DriverStatus.InPits),
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.CarNumber, GridColumnColour.Red, "2"))
-                    );
+                );
                 Assert.Equal(DriverStatus.InPits, driver.Status);
             });
         }
@@ -78,7 +78,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     new SetDriverStatusMessage(1, DriverStatus.Out),
                     translator.Translate(message)
-                    );
+                );
                 Assert.Equal(DriverStatus.Out, driver.Status);
                 Assert.Null(translator.Translate(message));
                 // Stopped.
@@ -86,7 +86,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     new SetDriverStatusMessage(1, DriverStatus.Stopped),
                     translator.Translate(message)
-                    );
+                );
                 Assert.Equal(DriverStatus.Stopped, driver.Status);
                 Assert.Null(translator.Translate(message));
             });
@@ -105,7 +105,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     new SetDriverStatusMessage(1, DriverStatus.OnTrack),
                     translator.Translate(message)
-                    );
+                );
                 Assert.Equal(DriverStatus.OnTrack, driver.Status);
                 Assert.Null(translator.Translate(message));
                 // In pit.
@@ -113,7 +113,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     new SetDriverStatusMessage(1, DriverStatus.InPits),
                     translator.Translate(message)
-                    );
+                );
                 Assert.Equal(DriverStatus.InPits, driver.Status);
                 Assert.Null(translator.Translate(message));
                 // Retired.
@@ -121,7 +121,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     new SetDriverStatusMessage(1, DriverStatus.Retired),
                     translator.Translate(message)
-                    );
+                );
                 Assert.Equal(DriverStatus.Retired, driver.Status);
                 Assert.Null(translator.Translate(message));
             });

@@ -29,7 +29,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     new SetDriverPitCountMessage(1, 2),
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.PitCount, GridColumnColour.White, "2"))
-                    );
+                );
             });
         }
     }

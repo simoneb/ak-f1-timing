@@ -63,7 +63,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "23.5"))
-                    );
+                );
                 Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
                 Assert.Equal(2, driver.CurrentSectorNumber);
                 // Personal best lap time.
@@ -72,7 +72,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.Green, "23.5"))
-                    );
+                );
                 Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
                 Assert.Equal(2, driver.CurrentSectorNumber);
                 // Session best lap time.
@@ -81,7 +81,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.Magenta, "23.5"))
-                    );
+                );
                 Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
                 Assert.Equal(2, driver.CurrentSectorNumber);
             });
@@ -101,7 +101,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, "23.5"))
-                    );
+                );
                 Assert.Equal(expected.SectorTime, driver.LastSectors[1]);
                 Assert.Equal(3, driver.CurrentSectorNumber);
                 // We don't assert the other types here as it is sufficiently covered by the sector 1 test.
@@ -134,7 +134,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnColourMessage(1, GridColumn.S1, GridColumnColour.White))
-                    );
+                );
                 Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
                 Assert.Equal(2, driver.CurrentSectorNumber);
             });
@@ -175,7 +175,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnColourMessage(1, GridColumn.S3, GridColumnColour.Green))
-                    );
+                );
                 Assert.Equal(expected.Replacement, driver.LastSectors[2]);
             });
         }
@@ -198,7 +198,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnColourMessage(1, GridColumn.S1, GridColumnColour.Green))
-                    );
+                );
                 Assert.Equal(expected.Replacement, driver.LastSectors[0]);
             });
         }
@@ -221,7 +221,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, null))
-                    );
+                );
                 Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
                 Assert.Equal(2, driver.CurrentSectorNumber);
             });

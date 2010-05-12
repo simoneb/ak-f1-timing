@@ -188,7 +188,7 @@ namespace AK.F1.Timing.Live
                 Assert.MessagesAreEqual(
                     new SetDriverNameMessage(1, "A. DRIVER"),
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.White, "A. DRIVER"))
-                    );
+                );
             });
         }
 

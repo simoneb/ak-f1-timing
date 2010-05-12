@@ -88,7 +88,7 @@ namespace AK.F1.Timing.Live
                     // Note that we expect the time for lap 4, not 5, as the lap number reflects the current lap.
                     new SetDriverPitTimeMessage(1, new PostedTime(TimeSpan.FromSeconds(23.8), PostedTimeType.Normal, 4)),
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S3, GridColumnColour.White, "23.8"))
-                    );
+                );
                 Assert.False(driver.IsExpectingPitTimes);
             });
         }
