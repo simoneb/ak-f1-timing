@@ -10,4 +10,3 @@ goto End
 %windir%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe src\AK.F1.Timing.msbuild /p:Configuration=Release;BuildType=Release /t:%*
 
 :End
-l
