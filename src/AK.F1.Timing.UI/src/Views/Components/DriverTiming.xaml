@@ -2,7 +2,8 @@
 <UserControl x:Class="AK.F1.Timing.UI.Views.Components.DriverTiming"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:vc="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts">
+    xmlns:vc="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts"
+    xmlns:vcc="clr-namespace:Visifire.Commons.Controls;assembly=WPFVisifire.Charts">
     <GroupBox Width="285">
         <GroupBox.Header>
             <Grid>
@@ -78,23 +79,31 @@
                         <TextBlock Grid.Column="6" Grid.Row="4" HorizontalAlignment="Right" Text="{Binding Laps.SessionBestCount}"/>
                     </Grid>
                     <TabControl TabStripPlacement="Bottom" Margin="-2,0,-2,0">
-                        <TabItem Header="Times">
-                            <vc:Chart Theme="Theme3" Height="175" DataContext="{Binding LapTimes}" AnimationEnabled="False" Background="{StaticResource ControlBackgroundBrush}" Margin="-2,4,-2,-2" ScrollingEnabled="False">
-                                <vc:Chart.Resources>
-                                    <Style TargetType="vc:DataSeries" BasedOn="{StaticResource {x:Type vc:DataSeries}}" x:Key="SectorSeries">
-                                        <Setter Property="RenderAs" Value="Line"/>
-                                        <Setter Property="LineThickness" Value="1.5"/>
-                                        <Setter Property="MarkerEnabled" Value="False"/>
-                                    </Style>
-                                </vc:Chart.Resources>
+                        <TabControl.Resources>
+                            <Style TargetType="vc:DataSeries" BasedOn="{StaticResource {x:Type vc:DataSeries}}">
+                                <Setter Property="RenderAs" Value="Line"/>
+                                <Setter Property="LineThickness" Value="1.5"/>
+                                <Setter Property="MarkerEnabled" Value="False"/>
+                            </Style>
+                            <Style TargetType="vc:Chart" BasedOn="{StaticResource {x:Type vc:Chart}}">
+                                <Setter Property="Theme" Value="Theme3"/>
+                                <Setter Property="Height" Value="175"/>
+                                <Setter Property="Margin" Value="-2,4,-2,-2"/>
+                                <Setter Property="ScrollingEnabled" Value="False"/>
+                                <Setter Property="AnimationEnabled" Value="False"/>
+                                <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+                            </Style>
+                            <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource NuclearScrollViewer}">
+                                <Setter Property="HorizontalScrollBarVisibility" Value="Visible"/>
+                            </Style>
+                        </TabControl.Resources>
+                        <TabItem Header="Sectors">
+                            <vc:Chart DataContext="{Binding LapTimes}">
                                 <vc:Chart.Legends>
                                     <vc:Legend Enabled="False"/>
                                 </vc:Chart.Legends>
                                 <vc:Chart.AxesX>
-                                    <vc:Axis Enabled="True" StartFromZero="True">
-                                        <vc:Axis.AxisLabels>
-                                            <vc:AxisLabels Enabled="False"/>
-                                        </vc:Axis.AxisLabels>
+                                    <vc:Axis Enabled="True" StartFromZero="False">
                                         <vc:Axis.Ticks>
                                             <vc:Ticks Enabled="False"/>
                                         </vc:Axis.Ticks>
@@ -102,34 +111,54 @@
                                 </vc:Chart.AxesX>
                                 <vc:Chart.AxesY>
                                     <vc:Axis Enabled="True" AxisType="Primary" StartFromZero="False">
-                                        <vc:Axis.AxisLabels>
-                                            <vc:AxisLabels Enabled="False"/>
-                                        </vc:Axis.AxisLabels>
                                         <vc:Axis.Ticks>
                                             <vc:Ticks Enabled="False"/>
                                         </vc:Axis.Ticks>
                                     </vc:Axis>
                                 </vc:Chart.AxesY>
                                 <vc:Chart.Series>
-                                    <vc:DataSeries DataSource="{Binding S1.Items}" Style="{StaticResource SectorSeries}">
+                                    <vc:DataSeries DataSource="{Binding S1.Items}">
                                         <vc:DataSeries.DataMappings>
                                             <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
                                             <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
                                         </vc:DataSeries.DataMappings>
                                     </vc:DataSeries>
-                                    <vc:DataSeries DataSource="{Binding S2.Items}" Style="{StaticResource SectorSeries}">
+                                    <vc:DataSeries DataSource="{Binding S2.Items}">
                                         <vc:DataSeries.DataMappings>
                                             <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
                                             <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
                                         </vc:DataSeries.DataMappings>
                                     </vc:DataSeries>
-                                    <vc:DataSeries DataSource="{Binding S3.Items}" Style="{StaticResource SectorSeries}">
+                                    <vc:DataSeries DataSource="{Binding S3.Items}">
                                         <vc:DataSeries.DataMappings>
                                             <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
                                             <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
                                         </vc:DataSeries.DataMappings>
                                     </vc:DataSeries>
-                                    <vc:DataSeries DataSource="{Binding Laps.Items}" Style="{StaticResource SectorSeries}">
+                                </vc:Chart.Series>
+                            </vc:Chart>
+                        </TabItem>
+                        <TabItem Header="Laps">
+                            <vc:Chart DataContext="{Binding LapTimes}">
+                                <vc:Chart.Legends>
+                                    <vc:Legend Enabled="False"/>
+                                </vc:Chart.Legends>
+                                <vc:Chart.AxesX>
+                                    <vc:Axis Enabled="True" StartFromZero="False">
+                                        <vc:Axis.Ticks>
+                                            <vc:Ticks Enabled="False"/>
+                                        </vc:Axis.Ticks>
+                                    </vc:Axis>
+                                </vc:Chart.AxesX>
+                                <vc:Chart.AxesY>
+                                    <vc:Axis Enabled="True" AxisType="Primary" StartFromZero="False">
+                                        <vc:Axis.Ticks>
+                                            <vc:Ticks Enabled="False"/>
+                                        </vc:Axis.Ticks>
+                                    </vc:Axis>
+                                </vc:Chart.AxesY>
+                                <vc:Chart.Series>
+                                    <vc:DataSeries DataSource="{Binding Laps.Items}">
                                         <vc:DataSeries.DataMappings>
                                             <vc:DataMapping MemberName="XValue" Path="LapNumber"/>
                                             <vc:DataMapping MemberName="YValue" Path="TimeInSeconds"/>
