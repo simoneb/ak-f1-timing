@@ -22,66 +22,20 @@
     
     <Converters:BooleanToWetDryConverter x:Key="BooleanToWetDryConverter"/>
 
+    <Style TargetType="{x:Type Window}" x:Key="WindowStyle">
+        <Setter Property="MinHeight" Value="440"/>
+        <Setter Property="MinWidth" Value="600"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="SizeToContent" Value="WidthAndHeight"/>
+        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
+    </Style>
+
     <Style x:Key="Border" TargetType="{x:Type Border}">
         <Setter Property="CornerRadius" Value="3"/>
         <Setter Property="Padding" Value="4"/>
         <Setter Property="BorderThickness" Value="3"/>
         <Setter Property="BorderBrush" Value="{StaticResource NormalBrush}"/>
     </Style>
-
-    <Style TargetType="{x:Type Window}" x:Key="WindowStyle">
-        <Setter Property="MinHeight" Value="440"/>
-        <Setter Property="MinWidth" Value="600"/>                
-        <Setter Property="ResizeMode" Value="NoResize"/>
-        <Setter Property="SizeToContent" Value="WidthAndHeight"/>        
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="AllowsTransparency" Value="True"/>        
-    </Style>
-
-    <Style x:Key="WindowBorder" TargetType="Border">
-        <Setter Property="CornerRadius" Value="10,10,0,0"/>        
-        <Setter Property="BorderBrush" Value="{StaticResource NormalBrush}"/>
-        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-    </Style>
-
-    <Style x:Key="ChromeBorder" TargetType="Border">
-        <Setter Property="Height" Value="26"/>
-        <Setter Property="CornerRadius" Value="10,10,0,0"/>        
-        <Setter Property="Background">
-            <Setter.Value>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FFABABAB"/>
-                    <GradientStop Color="#FF202020" Offset="1"/>
-                </LinearGradientBrush>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ChromeExitButton" TargetType="Button">
-        <Setter Property="Width" Value="10"/>
-        <Setter Property="Height" Value="10"/>
-    </Style>
-
-    <Style BasedOn="{StaticResource Border}" TargetType="{x:Type Border}" x:Key="WindowBodyStyle">        
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="Background" Value="{StaticResource ControlBackgroundBrush}"/>
-    </Style>
-    
-    <Style TargetType="{x:Type Border}" x:Key="WindowHeaderStyle">        
-        <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
-    </Style>
-    
-    <Style TargetType="{x:Type Button}" x:Key="ExitWindowButton">
-
-    </Style>
-
-    <!--<Style BasedOn="{StaticResource {x:Type TabControl}}" TargetType="{x:Type TabControl}">
-        <Setter Property="Background" Value="{StaticResource NormalBrush}"/>
-    </Style>-->
 
     <Style TargetType="{x:Type TextBlock}">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
@@ -204,17 +158,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-
-
-    <Style x:Key="GridSessionText" TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="White"/>
-        <Setter Property="FontSize" Value="14"/>
-    </Style>
-    
-
-    
-
 
 </ResourceDictionary>

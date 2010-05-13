@@ -4,46 +4,24 @@
         xmlns:Caliburn="http://www.caliburnproject.org"
         xmlns:Views="clr-namespace:AK.F1.Timing.UI.Views"
         WindowStartupLocation="CenterScreen"
-        SizeChanged="Window_SizeChanged"
+        Title="{Binding ApplicationTitle}"
+        SizeChanged="Window_SizeChanged" 
         Style="{StaticResource WindowStyle}">
-    <Grid>
-        <Border Style="{StaticResource WindowBorder}">
+        <Grid>
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Border Style="{StaticResource ChromeBorder}"
-                        MouseLeftButtonDown="BeginDragMove" />
-                <TextBlock Text="{Binding ApplicationTitle}"
-                           Margin="0,-2,0,0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           MouseLeftButtonDown="BeginDragMove" />
-                <StackPanel Orientation="Horizontal"
-                            Margin="0,-2,10,0"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Right">
-                    <Button x:Name="Exit" Style="{StaticResource ChromeExitButton}" />
-                </StackPanel>
-                <Grid Grid.Row="1">
-                    <Grid>
-                        <ContentControl x:Name="ActiveScreen" />
-                    </Grid>
-                    <Grid IsHitTestVisible="True"
-                          Visibility="{Binding DialogueModel, Converter={StaticResource CollapsedWhenNullConverter}}">
-                        <Grid Margin="2"
-                              HorizontalAlignment="Center">
-                            <Border Style="{StaticResource Border}">
-                                <Border.Effect>
-                                    <DropShadowEffect />
-                                </Border.Effect>
-                                <ContentControl Caliburn:View.Model="{Binding DialogueModel}" />
-                            </Border>
-                        </Grid>
-                    </Grid>
+                <ContentControl x:Name="ActiveScreen" />
+            </Grid>
+            <Grid IsHitTestVisible="True"
+                    Visibility="{Binding DialogueModel, Converter={StaticResource CollapsedWhenNullConverter}}">
+                <Grid Margin="2"
+                        HorizontalAlignment="Center">
+                    <Border Style="{StaticResource Border}">
+                        <Border.Effect>
+                            <DropShadowEffect />
+                        </Border.Effect>
+                        <ContentControl Caliburn:View.Model="{Binding DialogueModel}" />
+                    </Border>
                 </Grid>
             </Grid>
-        </Border>
-    </Grid>
+        </Grid>
 </Window>

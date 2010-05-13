@@ -15,6 +15,11 @@
     <Converters:SessionStatusToBrushConverter x:Key="SessionStatusToBrushConverter"/>
     <Converters:ObjectTypeToResourceConverter x:Key="ObjectTypeToResourceConverter"/>
 
+    <Style x:Key="GridSessionText" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="14"/>
+    </Style>
+
     <Style TargetType="{x:Type GridViewColumnHeader}">
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Foreground" Value="{StaticResource TextBrush}"/>
