@@ -107,6 +107,9 @@
                                         <vc:Axis.Ticks>
                                             <vc:Ticks Enabled="False"/>
                                         </vc:Axis.Ticks>
+                                        <vc:Axis.AxisLabels>
+                                            <vc:AxisLabels Enabled="False"/>
+                                        </vc:Axis.AxisLabels>
                                     </vc:Axis>
                                 </vc:Chart.AxesX>
                                 <vc:Chart.AxesY>
@@ -148,6 +151,9 @@
                                         <vc:Axis.Ticks>
                                             <vc:Ticks Enabled="False"/>
                                         </vc:Axis.Ticks>
+                                        <vc:Axis.AxisLabels>
+                                            <vc:AxisLabels Enabled="False"/>
+                                        </vc:Axis.AxisLabels>
                                     </vc:Axis>
                                 </vc:Chart.AxesX>
                                 <vc:Chart.AxesY>
