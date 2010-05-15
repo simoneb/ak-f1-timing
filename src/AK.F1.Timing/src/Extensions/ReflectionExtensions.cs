@@ -35,8 +35,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="provider"/> is <see langword="null"/>.
         /// </exception>
-        public static bool HasAttribute<T>(this ICustomAttributeProvider provider)
-            where T : Attribute
+        public static bool HasAttribute<T>(this ICustomAttributeProvider provider) where T : Attribute
         {
             return HasAttribute<T>(provider, true);
         }
@@ -54,8 +53,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="provider"/> is <see langword="null"/>.
         /// </exception>        
-        public static bool HasAttribute<T>(this ICustomAttributeProvider provider, bool inherit)
-            where T : Attribute
+        public static bool HasAttribute<T>(this ICustomAttributeProvider provider, bool inherit) where T : Attribute
         {
             return provider.GetCustomAttributes(typeof(T), inherit).Length > 0;
         }
@@ -71,8 +69,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="provider"/> is <see langword="null"/>.
         /// </exception>
-        public static T GetAttribute<T>(this ICustomAttributeProvider provider)
-            where T : Attribute
+        public static T GetAttribute<T>(this ICustomAttributeProvider provider) where T : Attribute
         {
             return GetAttribute<T>(provider, true);
         }
@@ -90,8 +87,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="provider"/> is <see langword="null"/>.
         /// </exception>
-        public static T GetAttribute<T>(this ICustomAttributeProvider provider, bool inherit)
-            where T : Attribute
+        public static T GetAttribute<T>(this ICustomAttributeProvider provider, bool inherit) where T : Attribute
         {
             var attributes = provider.GetCustomAttributes(typeof(T), inherit);
 
@@ -109,8 +105,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="provider"/> is <see langword="null"/>.
         /// </exception>
-        public static T[] GetAttributes<T>(this ICustomAttributeProvider provider)
-            where T : Attribute
+        public static T[] GetAttributes<T>(this ICustomAttributeProvider provider) where T : Attribute
         {
             return GetAttributes<T>(provider, true);
         }
@@ -128,8 +123,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="provider"/> is <see langword="null"/>.
         /// </exception>
-        public static T[] GetAttributes<T>(this ICustomAttributeProvider provider, bool inherit)
-            where T : Attribute
+        public static T[] GetAttributes<T>(this ICustomAttributeProvider provider, bool inherit) where T : Attribute
         {
             return (T[])provider.GetCustomAttributes(typeof(T), inherit);
         }

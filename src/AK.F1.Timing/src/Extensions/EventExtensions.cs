@@ -70,8 +70,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="sender"/> or <paramref name="e"/> is <see langword="null"/>.
         /// </exception>
-        public static void Raise<T>(this EventHandler<T> @event, object sender, T e)
-            where T : EventArgs
+        public static void Raise<T>(this EventHandler<T> @event, object sender, T e) where T : EventArgs
         {
             Guard.NotNull(sender, "sender");
             Guard.NotNull(e, "e");
@@ -93,8 +92,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="sender"/> or <paramref name="e"/> is <see langword="null"/>.
         /// </exception>
-        public static void RaiseAsync<T>(this EventHandler<T> @event, object sender, T e)
-            where T : EventArgs
+        public static void RaiseAsync<T>(this EventHandler<T> @event, object sender, T e) where T : EventArgs
         {
             Guard.NotNull(sender, "sender");
             Guard.NotNull(e, "e");

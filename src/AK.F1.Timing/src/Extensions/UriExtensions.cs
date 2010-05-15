@@ -127,8 +127,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.IO.IOException">
         /// An IO exception occurred whilst fetching the response string.
         /// </exception>
-        public static string GetResponseString(this Uri uri, HttpMethod method,
-            Action<HttpWebRequest> configurator)
+        public static string GetResponseString(this Uri uri, HttpMethod method, Action<HttpWebRequest> configurator)
         {
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
@@ -136,23 +135,19 @@ namespace AK.F1.Timing.Extensions
             return WrapCommonWebExceptions(() =>
             {
                 int read;
-                byte[] buffer = new byte[BufferSize];
-                HttpWebRequest request = CreateRequest(uri, method);
+                var buffer = new byte[BufferSize];
+                var request = CreateRequest(uri, method);
 
                 configurator(request);
                 using(HttpWebResponse response = GetResponse(request))
+                using(Stream stream = response.GetResponseStream())
+                using(MemoryStream ms = new MemoryStream())
                 {
-                    using(Stream stream = response.GetResponseStream())
+                    while((read = stream.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        using(MemoryStream ms = new MemoryStream())
-                        {
-                            while((read = stream.Read(buffer, 0, buffer.Length)) > 0)
-                            {
-                                ms.Write(buffer, 0, read);
-                            }
-                            return GetEncoding(response).GetString(ms.GetBuffer(), 0, (int)ms.Length);
-                        }
+                        ms.Write(buffer, 0, read);
                     }
+                    return GetEncoding(response).GetString(ms.GetBuffer(), 0, (int)ms.Length);
                 }
             });
         }
@@ -194,8 +189,7 @@ namespace AK.F1.Timing.Extensions
         /// <exception cref="System.IO.IOException">
         /// An IO exception occurred whilst fetching the response stream.
         /// </exception>
-        public static Stream GetResponseStream(this Uri uri, HttpMethod method,
-            Action<HttpWebRequest> configurator)
+        public static Stream GetResponseStream(this Uri uri, HttpMethod method, Action<HttpWebRequest> configurator)
         {
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
@@ -203,19 +197,17 @@ namespace AK.F1.Timing.Extensions
             return WrapCommonWebExceptions(() =>
             {
                 int read;
-                byte[] buffer = new byte[BufferSize];
-                MemoryStream ms = new MemoryStream();
-                HttpWebRequest request = CreateRequest(uri, method);
+                var buffer = new byte[BufferSize];
+                var ms = new MemoryStream();
+                var request = CreateRequest(uri, method);
 
                 configurator(request);
                 using(HttpWebResponse response = GetResponse(request))
+                using(Stream stream = response.GetResponseStream())
                 {
-                    using(Stream stream = response.GetResponseStream())
+                    while((read = stream.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        while((read = stream.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            ms.Write(buffer, 0, read);
-                        }
+                        ms.Write(buffer, 0, read);
                     }
                 }
                 ms.Position = 0;
@@ -251,7 +243,7 @@ namespace AK.F1.Timing.Extensions
 
         private static HttpWebRequest CreateRequest(Uri uri, HttpMethod method)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
+            var request = (HttpWebRequest)WebRequest.Create(uri);
 
             request.Method = ToString(method);
             request.Timeout = Timeout;
@@ -279,7 +271,7 @@ namespace AK.F1.Timing.Extensions
 
         private static Encoding GetEncoding(HttpWebResponse response)
         {
-            Encoding encoding = Encoding.UTF8;
+            var encoding = Encoding.UTF8;
 
             if(!string.IsNullOrEmpty(response.ContentEncoding))
             {
@@ -287,7 +279,7 @@ namespace AK.F1.Timing.Extensions
                 {
                     encoding = Encoding.GetEncoding(response.ContentEncoding);
                 }
-                catch(ArgumentException) {}
+                catch(ArgumentException) { }
             }
 
             return encoding;

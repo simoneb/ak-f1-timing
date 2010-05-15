@@ -35,10 +35,10 @@ namespace AK.F1.Timing.Extensions
         {
             return exc != null &&
                 (exc is StackOverflowException ||
-                    exc is ThreadAbortException ||
-                        exc is OutOfMemoryException ||
-                            exc is ExecutionEngineException ||
-                                exc is ArgumentException);
+                exc is ThreadAbortException ||
+                exc is OutOfMemoryException ||
+                exc is ExecutionEngineException ||
+                exc is ArgumentException);
         }
 
         #endregion
