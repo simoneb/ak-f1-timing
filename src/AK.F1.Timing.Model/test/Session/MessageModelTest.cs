@@ -34,8 +34,7 @@ namespace AK.F1.Timing.Model.Session
         {
             var model = CreateModel(
                 new SetSystemMessageMessage("message"),
-                new AddCommentaryMessage("commentary")
-                );
+                new AddCommentaryMessage("commentary"));
 
             model.Reset();
 
@@ -77,8 +76,7 @@ namespace AK.F1.Timing.Model.Session
             var expectedCommentary = commentary1 + commentary2;
             var model = CreateModel(
                 new AddCommentaryMessage(commentary1),
-                new AddCommentaryMessage(commentary2)
-                );
+                new AddCommentaryMessage(commentary2));
 
             Assert.Equal(expectedCommentary, model.Commentary);
         }

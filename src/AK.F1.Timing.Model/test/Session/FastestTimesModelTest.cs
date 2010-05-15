@@ -67,7 +67,7 @@ namespace AK.F1.Timing.Model.Session
         }
 
         [Theory]
-        [ClassData(typeof(AllSessionTypesAndAllSectors))]
+        [ClassData(typeof(AllSessionTypes_AllSectors))]
         public void processing_a_session_best_set_driver_sector_time_message_updates_the_sector_property(
             SessionType sessionType, int sectorNumber)
         {
@@ -75,8 +75,7 @@ namespace AK.F1.Timing.Model.Session
             var sectorTime = new PostedTime(TimeSpan.FromSeconds(35.4), PostedTimeType.SessionBest, 14);
             var model = CreateModel(
                 new SetSessionTypeMessage(sessionType, "sessionId"),
-                new SetDriverSectorTimeMessage(driverId, sectorNumber, sectorTime)
-                );
+                new SetDriverSectorTimeMessage(driverId, sectorNumber, sectorTime));
             var fastestTime = GetFastestTime(model, sectorNumber);
 
             Assert.NotNull(fastestTime);
@@ -88,7 +87,7 @@ namespace AK.F1.Timing.Model.Session
         }
 
         [Theory]
-        [ClassData(typeof(AllSessionTypesAndAllSectors))]
+        [ClassData(typeof(AllSessionTypes_AllSectors))]
         public void processing_another_session_best_set_driver_sector_time_message_updates_the_sector_property_and_computes_the_delta(
             SessionType sessionType, int sectorNumber)
         {
@@ -97,8 +96,7 @@ namespace AK.F1.Timing.Model.Session
             var model = CreateModel(
                 new SetSessionTypeMessage(sessionType, "sessionId"),
                 new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.4), PostedTimeType.SessionBest, 14)),
-                new SetDriverSectorTimeMessage(driverId, sectorNumber, sectorTime)
-                );
+                new SetDriverSectorTimeMessage(driverId, sectorNumber, sectorTime));
             var fastestTime = GetFastestTime(model, sectorNumber);
 
             Assert.NotNull(fastestTime);
@@ -118,8 +116,7 @@ namespace AK.F1.Timing.Model.Session
             var lapTime = new PostedTime(TimeSpan.FromSeconds(125.567), PostedTimeType.SessionBest, 14);
             var model = CreateModel(
                 new SetSessionTypeMessage(sessionType, "sessionId"),
-                new SetDriverLapTimeMessage(driverId, lapTime)
-                );
+                new SetDriverLapTimeMessage(driverId, lapTime));
             var fastestTime = model.Lap;
 
             Assert.NotNull(fastestTime);
@@ -142,22 +139,20 @@ namespace AK.F1.Timing.Model.Session
         {
             var model = CreateModel(
                 new SetSessionTypeMessage(SessionType.Race, "sessionId"),
-                new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.4), postedTimeType, 14))
-                );
+                new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(35.4), postedTimeType, 14)));
 
             Assert.Null(GetFastestTime(model, sectorNumber));
         }
 
         [Theory]
-        [ClassData(typeof(AllNonRaceSessionTypesAndAllNonSessionBestPostedTimeTypes))]
+        [ClassData(typeof(AllNonRaceSessionTypes_AllNonSessionBestPostedTimeTypes))]
         public void in_a_none_race_session_processing_a_non_session_best_set_driver_lap_time_that_is_less_than_the_current_updates_the_lap_property(
             SessionType sessionType, PostedTimeType postedTimeType)
         {
             var sectorTime = new PostedTime(TimeSpan.FromSeconds(145.743), postedTimeType, 4);
             var model = CreateModel(
                 new SetSessionTypeMessage(sessionType, "sessionId"),
-                new SetDriverLapTimeMessage(1, sectorTime)
-                );
+                new SetDriverLapTimeMessage(1, sectorTime));
 
             Assert.NotNull(model.Lap);
             // An equal time should not alter the property: first to set the time wins.
@@ -290,13 +285,13 @@ namespace AK.F1.Timing.Model.Session
             }
         }
 
-        public sealed class AllNonRaceSessionTypesAndAllNonSessionBestPostedTimeTypes : IEnumerable<object[]>
+        public sealed class AllNonRaceSessionTypes_AllNonSessionBestPostedTimeTypes : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
                 return (from sessionType in Enum.GetValues(typeof(SessionType))
-                    .Cast<object>()
-                    .Except(A(SessionType.Race))
+                            .Cast<object>()
+                            .Except(A(SessionType.Race))
                         from postedTimeType in Enum.GetValues(typeof(PostedTimeType))
                             .Cast<object>()
                             .Except(A(PostedTimeType.SessionBest))
@@ -314,12 +309,12 @@ namespace AK.F1.Timing.Model.Session
             }
         }
 
-        public sealed class AllSessionTypesAndAllSectors : IEnumerable<object[]>
+        public sealed class AllSessionTypes_AllSectors : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
                 return (from sessionType in Enum.GetValues(typeof(SessionType))
-                    .Cast<object>()
+                            .Cast<object>()
                         from sectorNumber in Enumerable.Range(1, 3)
                         select A(sessionType, sectorNumber)).GetEnumerator();
             }

@@ -34,8 +34,7 @@ namespace AK.F1.Timing.Model.Session
             var model = CreateModel(
                 new SetCopyrightMessage("copy"),
                 new SetKeyframeMessage(1),
-                new SetPingIntervalMessage(TimeSpan.FromSeconds(0.25D))
-                );
+                new SetPingIntervalMessage(TimeSpan.FromSeconds(0.25)));
 
             model.Reset();
 
