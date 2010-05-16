@@ -46,8 +46,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <inheritdoc />
         public override string ToString()
         {
-            return string.Format("Type='{0}', Text='{1}', TextColour='{2}'", Type,
-                Text, TextColour);
+            return string.Format("Type='{0}', Text='{1}', TextColour='{2}'", Type, Text, TextColour);
         }
 
         /// <summary>
