@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Linq.Expressions;
 using AK.F1.Timing.Messages.Driver;
 using Xunit;
 
@@ -109,14 +108,14 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void replacing_an_item_does_not_update_the_count()
         {
-            var model = CreateReplaceTestModel();
+            var model = new PostedTimeCollectionModel();
             var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
+            model.Add(PT(1, PostedTimeType.Normal, 1));
             model.ReplaceCurrent(PT(10, PostedTimeType.Normal, 1));
-
             Assert.Equal(1, model.Count);
 
-            Assert.Equal(0, observer.GetChangeCount(x => x.Count));
+            Assert.False(observer.HasChanged(x => x.Count));
         }
 
         [Fact]
@@ -138,11 +137,12 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void replacing_an_item_updates_the_current()
         {
-            var model = CreateReplaceTestModel();
+            var model = new PostedTimeCollectionModel();
             var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
             var replacement = PT(10, PostedTimeType.Normal, 1);
 
-            model.Add(replacement);
+            model.Add(PT(1, PostedTimeType.Normal, 1));
+            model.ReplaceCurrent(replacement);
             Assert.Equal(replacement, model.Current);
 
             Assert.True(observer.HasChanged(x => x.Current));
@@ -170,14 +170,16 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void replacing_an_item_updates_the_maximum_if_it_has_changed()
         {
-            var model = CreateReplaceTestModel();
+            var model = new PostedTimeCollectionModel();
             var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
-            var replacement = PT(0, PostedTimeType.Normal, 1);
+            var replacement = PT(20, PostedTimeType.Normal, 1);
 
+            model.Add(PT(10, PostedTimeType.Normal, 1));
             model.ReplaceCurrent(replacement);
-            Assert.NotEqual(replacement, model.Maximum);
+            Assert.Equal(replacement, model.Maximum);
 
-            replacement = PT(60, PostedTimeType.Normal, 1);
+            model.Add(PT(30, PostedTimeType.Normal, 1));
+            replacement = PT(40, PostedTimeType.Normal, 1);
             model.ReplaceCurrent(replacement);
             Assert.Equal(replacement, model.Maximum);
 
@@ -206,14 +208,15 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void replacing_an_item_updates_the_minimum_if_it_has_changed()
         {
-            var model = CreateReplaceTestModel();
+            var model = new PostedTimeCollectionModel();
             var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
-            var replacement = PT(2, PostedTimeType.Normal, 1);
+            var replacement = PT(20, PostedTimeType.Normal, 1);
 
+            model.Add(PT(30, PostedTimeType.Normal, 1));
             model.ReplaceCurrent(replacement);
-            Assert.NotEqual(replacement, model.Minimum);
+            Assert.Equal(replacement, model.Minimum);
 
-            replacement = PT(0, PostedTimeType.Normal, 1);
+            replacement = PT(10, PostedTimeType.Normal, 1);
             model.ReplaceCurrent(replacement);
             Assert.Equal(replacement, model.Minimum);
 
@@ -239,7 +242,7 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void replacing_an_item_updates_the_mean()
         {
-            var model = CreateReplaceTestModel();
+            var model = CreateReplaceTestModel(PT(1, PostedTimeType.Normal, 1));
             var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.ReplaceCurrent(PT(10, PostedTimeType.Normal, 1));
@@ -357,20 +360,12 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void replacing_an_item_updates_the_items()
         {
-            var model = CreateReplaceTestModel();            
+            var model = new PostedTimeCollectionModel();
             var replacement = PT(50, PostedTimeType.Normal, 1);
 
+            model.Add(PT(1, PostedTimeType.Normal, 1));
             model.ReplaceCurrent(replacement);
             Assert.Equal(replacement, model.Items[0]);
-        }
-
-        private static PostedTimeCollectionModel CreateReplaceTestModel()
-        {
-            var model = new PostedTimeCollectionModel();
-
-            model.Add(PT(1, PostedTimeType.Normal, 1));
-
-            return model;
         }
 
         private static TimeSpan TS(double seconds)
@@ -381,23 +376,6 @@ namespace AK.F1.Timing.Model.Collections
         private static PostedTime PT(double seconds, PostedTimeType type, int lapNumber)
         {
             return new PostedTime(TS(seconds), type, lapNumber);
-        }
-
-        private sealed class TestContext
-        {
-            public readonly PostedTimeCollectionModel Model;
-            public readonly PropertyChangeObserver<PostedTimeCollectionModel> Observer;
-
-            public TestContext()
-            {
-                Model = new PostedTimeCollectionModel();
-                Observer = new PropertyChangeObserver<PostedTimeCollectionModel>(Model);
-            }
-
-            public int GetChangeCount<TResult>(Expression<Func<PostedTimeCollectionModel, TResult>> expression)
-            {
-                return Observer.GetChangeCount(expression);
-            }
         }
     }
 }

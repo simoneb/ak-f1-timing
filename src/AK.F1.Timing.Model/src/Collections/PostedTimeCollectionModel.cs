@@ -20,7 +20,7 @@ using AK.F1.Timing.Messages.Driver;
 namespace AK.F1.Timing.Model.Collections
 {
     /// <summary>
-    /// A <see cref="AK.F1.Timing.Messages.Driver.PostedTime"/> collection model.
+    /// An <see cref="AK.F1.Timing.Messages.Driver.PostedTime"/> collection model.
     /// </summary>
     [Serializable]
     [DebuggerDisplay("Count = {Count}")]
@@ -322,7 +322,7 @@ namespace AK.F1.Timing.Model.Collections
 
         private void ReplaceCurrentMinimum(PostedTime replacement)
         {
-            if(replacement.CompareTo(Minimum) < 0)
+            if(InnerItems.Count == 1 || replacement.CompareTo(Minimum) < 0)
             {
                 Minimum = replacement;
             }
@@ -338,7 +338,7 @@ namespace AK.F1.Timing.Model.Collections
 
         private void ReplaceCurrentMaximum(PostedTime replacement)
         {
-            if(replacement.CompareTo(Maximum) > 0)
+            if(InnerItems.Count == 1 || replacement.CompareTo(Maximum) > 0)
             {
                 Maximum = replacement;
             }
