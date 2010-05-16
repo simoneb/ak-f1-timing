@@ -79,7 +79,7 @@ namespace AK.F1.Timing.Extensions
 
             return WrapCommonWebExceptions(() =>
             {
-                HttpWebRequest request = CreateRequest(uri, method);
+                var request = CreateRequest(uri, method);
 
                 request.CookieContainer = new CookieContainer();
                 configurator(request);

@@ -147,9 +147,9 @@ namespace AK.F1.Timing.Live
         {
             if(SessionType != newSessionType)
             {
-                Log.InfoFormat("session type changing to {0}, resetting", newSessionType);
                 Reset();
                 SessionType = newSessionType;
+                Log.InfoFormat("changed session type: {0}", newSessionType);
             }
         }
 

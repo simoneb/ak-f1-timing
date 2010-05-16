@@ -15,13 +15,11 @@
 namespace AK.F1.Timing.Live.IO
 {
     /// <summary>
-    /// Defines the means of opening message
-    /// <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>s.
+    /// Defines the means of opening message an <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// A message stream contains one or more serialized
-    /// <see cref="AK.F1.Timing.Message"/>s.
+    /// A message stream contains one or more serialized <see cref="AK.F1.Timing.Message"/>s.
     /// </para>
     /// <para>
     /// Keyframe streams are used to synchronise clients that connect after a live-timing session

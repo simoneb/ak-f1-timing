@@ -15,7 +15,7 @@
 namespace AK.F1.Timing
 {
     /// <summary>
-    /// A <see cref="AK.F1.Timing.Message"/> processor.
+    /// An <see cref="AK.F1.Timing.Message"/> processor.
     /// </summary>    
     public interface IMessageProcessor
     {

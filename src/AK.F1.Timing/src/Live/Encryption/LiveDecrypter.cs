@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Live.Encryption
     {
         #region Private Fields.
 
-        private const int DEFAULT_MASK = 1431655765;
+        private const int DefaultMask = 1431655765;
 
         private int _mask;
         private readonly int _seed;
@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Live.Encryption
         public LiveDecrypter(int seed)
         {
             _seed = seed;
-            _mask = DEFAULT_MASK;
+            _mask = DefaultMask;
         }
 
         /// <inheritdoc />
@@ -62,7 +62,7 @@ namespace AK.F1.Timing.Live.Encryption
         /// <inheritdoc />
         public void Reset()
         {
-            _mask = DEFAULT_MASK;
+            _mask = DefaultMask;
         }
 
         #endregion

@@ -18,7 +18,7 @@ using AK.F1.Timing.Serialization;
 namespace AK.F1.Timing.Recording
 {
     /// <summary>
-    /// Provides a <see cref="AK.F1.Timing.Recording.IRecordedMessageReader"/> which reads
+    /// Provides An <see cref="AK.F1.Timing.Recording.IRecordedMessageReader"/> which reads
     /// <see cref="AK.F1.Timing.Message"/>s which have been recorded by a
     /// <see cref="AK.F1.Timing.Recording.RecordingMessageReader"/>.
     /// </summary>

@@ -23,7 +23,7 @@ using log4net;
 namespace AK.F1.Timing.Live.IO
 {
     /// <summary>
-    /// A <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> implementation which
+    /// An <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> implementation which
     /// delegates to an underlying <see cref="System.Net.Sockets.Socket"/>. This implementation
     /// supports pinging. This class cannot be inherited.
     /// </summary>
