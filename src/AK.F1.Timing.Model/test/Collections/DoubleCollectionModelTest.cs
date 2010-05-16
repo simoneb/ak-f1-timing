@@ -86,9 +86,9 @@ namespace AK.F1.Timing.Model.Collections
 
         [Fact]
         public void adding_an_item_updates_the_count()
-        {
-            var context = new TestContext();
-            var model = context.Model;
+        {            
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             Assert.Equal(0, model.Count);
             model.Add(1d);
@@ -96,28 +96,28 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(1d);
             Assert.Equal(2, model.Count);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Count));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Count));
         }
 
         [Fact]
         public void adding_an_item_updates_the_current()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             model.Add(1d);
             Assert.Equal(1d, model.Current);
             model.Add(2d);
             Assert.Equal(2d, model.Current);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Current));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Current));
         }
 
         [Fact]
         public void adding_an_item_updates_the_current_delta_type_if_it_has_changed()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             model.Add(1d);
             Assert.Equal(DeltaType.None, model.CurrentDeltaType);
@@ -128,14 +128,14 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(1d);
             Assert.Equal(DeltaType.None, model.CurrentDeltaType);
 
-            Assert.Equal(3, context.GetChangeCount(x => x.CurrentDeltaType));
+            Assert.Equal(3, observer.GetChangeCount(x => x.CurrentDeltaType));
         }
 
         [Fact]
         public void adding_an_item_updates_the_maximum_if_it_has_changed()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             for(double item = -5d; item < 5d; ++item)
             {
@@ -145,14 +145,14 @@ namespace AK.F1.Timing.Model.Collections
                 Assert.Equal(item, model.Maximum);
             }
 
-            Assert.Equal(10, context.GetChangeCount(x => x.Maximum));
+            Assert.Equal(10, observer.GetChangeCount(x => x.Maximum));
         }
 
         [Fact]
         public void adding_an_item_updates_the_minimum_if_it_has_changed()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             for(double item = 5d; item > -5d; --item)
             {
@@ -162,14 +162,14 @@ namespace AK.F1.Timing.Model.Collections
                 Assert.Equal(item, model.Minimum);
             }
 
-            Assert.Equal(10, context.GetChangeCount(x => x.Minimum));
+            Assert.Equal(10, observer.GetChangeCount(x => x.Minimum));
         }
 
         [Fact]
         public void adding_an_item_updates_the_mean()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             model.Add(1d);
             Assert.Equal(1d, model.Mean);
@@ -178,14 +178,14 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(4d);
             Assert.Equal(2d, model.Mean);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Mean));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Mean));
         }
 
         [Fact]
         public void adding_an_item_updates_the_mean_delta_type_if_it_has_changed()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             model.Add(10d);
             Assert.Equal(DeltaType.None, model.MeanDeltaType);
@@ -196,24 +196,24 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(5d);
             Assert.Equal(DeltaType.Decrease, model.MeanDeltaType);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.MeanDeltaType));
+            Assert.Equal(2, observer.GetChangeCount(x => x.MeanDeltaType));
         }
 
         [Fact]
         public void adding_an_item_updates_the_range()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             model.Add(1d);
             Assert.Equal(0d, model.Range);
             model.Add(10d);
             Assert.Equal(9d, model.Range);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Range));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Range));
 
-            context = new TestContext();
-            model = context.Model;
+            model = new DoubleCollectionModel();
+            observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             model.Add(-20);
             Assert.Equal(0d, model.Range);
@@ -224,22 +224,22 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(10d);
             Assert.Equal(30d, model.Range);
 
-            Assert.Equal(4, context.GetChangeCount(x => x.Range));
+            Assert.Equal(4, observer.GetChangeCount(x => x.Range));
         }
 
         [Fact]
         public void adding_an_item_updates_the_standard_deviation()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new DoubleCollectionModel();
+            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
 
             for(double item = 0d; item < 10d; ++item)
             {
-                context.Model.Add(item);
+                model.Add(item);
             }
 
             Assert.Equal(2.8722813232690143, model.StandardDeviation);
-            Assert.Equal(10, context.GetChangeCount(x => x.StandardDeviation));
+            Assert.Equal(10, observer.GetChangeCount(x => x.StandardDeviation));
         }
 
         [Fact]
@@ -250,23 +250,6 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(1d);
             Assert.Equal(1, model.Items.Count);
             Assert.Equal(1d, model.Items[0]);
-        }
-
-        private sealed class TestContext
-        {
-            public readonly DoubleCollectionModel Model;
-            public readonly PropertyChangeObserver<DoubleCollectionModel> Observer;
-
-            public TestContext()
-            {
-                Model = new DoubleCollectionModel();
-                Observer = new PropertyChangeObserver<DoubleCollectionModel>(Model);
-            }
-
-            public int GetChangeCount<TResult>(Expression<Func<DoubleCollectionModel, TResult>> expression)
-            {
-                return Observer.GetChangeCount(expression);
-            }
         }
     }
 }

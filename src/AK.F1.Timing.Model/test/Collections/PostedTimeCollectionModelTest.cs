@@ -22,6 +22,19 @@ namespace AK.F1.Timing.Model.Collections
     public class PostedTimeCollectionModelTest
     {
         [Fact]
+        public void bug()
+        {
+            var model = new PostedTimeCollectionModel();
+            var time = PT(23.3, PostedTimeType.SessionBest, 0);
+
+            model.Add(time);
+
+            model.ReplaceCurrent(PT(23.3, PostedTimeType.PersonalBest, 0));
+
+            Assert.NotEqual(time, model.Minimum);
+        }
+
+        [Fact]
         public void can_create()
         {
             var model = new PostedTimeCollectionModel();
@@ -81,8 +94,8 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void adding_an_item_updates_the_count()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             Assert.Equal(0, model.Count);
             model.Add(PT(35d, PostedTimeType.Normal, 5));
@@ -90,26 +103,27 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(PT(35d, PostedTimeType.Normal, 5));
             Assert.Equal(2, model.Count);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Count));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Count));
         }
 
         [Fact]
         public void replacing_an_item_does_not_update_the_count()
         {
-            var context = CreateReplaceTestContext();
+            var model = CreateReplaceTestModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
-            context.Model.ReplaceCurrent(PT(10, PostedTimeType.Normal, 1));
+            model.ReplaceCurrent(PT(10, PostedTimeType.Normal, 1));
 
-            Assert.Equal(1, context.Model.Count);
+            Assert.Equal(1, model.Count);
 
-            Assert.Equal(0, context.GetChangeCount(x => x.Count));
+            Assert.Equal(0, observer.GetChangeCount(x => x.Count));
         }
 
         [Fact]
         public void adding_an_item_updates_the_current()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
             var current = PT(35d, PostedTimeType.Normal, 5);
 
             model.Add(current);
@@ -118,27 +132,28 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(current);
             Assert.Equal(current, model.Current);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Current));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Current));
         }
 
         [Fact]
         public void replacing_an_item_updates_the_current()
         {
-            var context = CreateReplaceTestContext();
+            var model = CreateReplaceTestModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
             var replacement = PT(10, PostedTimeType.Normal, 1);
 
-            context.Model.Add(replacement);
-            Assert.Equal(replacement, context.Model.Current);
+            model.Add(replacement);
+            Assert.Equal(replacement, model.Current);
 
-            Assert.Equal(1, context.GetChangeCount(x => x.Current));
+            Assert.True(observer.HasChanged(x => x.Current));
         }
 
         [Fact]
         public void adding_an_item_updates_the_maximum_if_it_has_changed()
         {
             PostedTime item;
-            TestContext context = new TestContext();
-            PostedTimeCollectionModel model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             for(double seconds = 1d; seconds < 6d; ++seconds)
             {
@@ -149,31 +164,32 @@ namespace AK.F1.Timing.Model.Collections
                 Assert.Equal(item, model.Maximum);
             }
 
-            Assert.Equal(5, context.GetChangeCount(x => x.Maximum));
+            Assert.Equal(5, observer.GetChangeCount(x => x.Maximum));
         }
 
         [Fact]
         public void replacing_an_item_updates_the_maximum_if_it_has_changed()
         {
-            var context = CreateReplaceTestContext();
+            var model = CreateReplaceTestModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
             var replacement = PT(0, PostedTimeType.Normal, 1);
 
-            context.Model.ReplaceCurrent(replacement);
-            Assert.NotEqual(replacement, context.Model.Maximum);
+            model.ReplaceCurrent(replacement);
+            Assert.NotEqual(replacement, model.Maximum);
 
             replacement = PT(60, PostedTimeType.Normal, 1);
-            context.Model.ReplaceCurrent(replacement);
-            Assert.Equal(replacement, context.Model.Maximum);
+            model.ReplaceCurrent(replacement);
+            Assert.Equal(replacement, model.Maximum);
 
-            Assert.Equal(1, context.GetChangeCount(x => x.Maximum));
+            Assert.True(observer.HasChanged(x => x.Maximum));
         }
 
         [Fact]
         public void adding_an_item_updates_the_minimum_if_it_has_changed()
         {
             PostedTime item;
-            TestContext context = new TestContext();
-            PostedTimeCollectionModel model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             for(double seconds = 5d; seconds >= 0d; --seconds)
             {
@@ -184,30 +200,31 @@ namespace AK.F1.Timing.Model.Collections
                 Assert.Equal(item, model.Minimum);
             }
 
-            Assert.Equal(6, context.GetChangeCount(x => x.Minimum));
+            Assert.Equal(6, observer.GetChangeCount(x => x.Minimum));
         }
 
         [Fact]
         public void replacing_an_item_updates_the_minimum_if_it_has_changed()
         {
-            var context = CreateReplaceTestContext();
+            var model = CreateReplaceTestModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
             var replacement = PT(2, PostedTimeType.Normal, 1);
 
-            context.Model.ReplaceCurrent(replacement);
-            Assert.NotEqual(replacement, context.Model.Minimum);
+            model.ReplaceCurrent(replacement);
+            Assert.NotEqual(replacement, model.Minimum);
 
             replacement = PT(0, PostedTimeType.Normal, 1);
-            context.Model.ReplaceCurrent(replacement);
-            Assert.Equal(replacement, context.Model.Minimum);
+            model.ReplaceCurrent(replacement);
+            Assert.Equal(replacement, model.Minimum);
 
-            Assert.Equal(1, context.GetChangeCount(x => x.Minimum));
+            Assert.True(observer.HasChanged(x => x.Minimum));
         }
 
         [Fact]
         public void adding_an_item_updates_the_mean()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.Add(PT(1d, PostedTimeType.Normal, 1));
             Assert.Equal(TS(1d), model.Mean);
@@ -216,38 +233,40 @@ namespace AK.F1.Timing.Model.Collections
             model.Add(PT(4d, PostedTimeType.Normal, 1));
             Assert.Equal(TS(2d), model.Mean);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Mean));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Mean));
         }
 
         [Fact]
         public void replacing_an_item_updates_the_mean()
         {
-            var context = CreateReplaceTestContext();
-            var model = context.Model;
+            var model = CreateReplaceTestModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.ReplaceCurrent(PT(10, PostedTimeType.Normal, 1));
             Assert.Equal(TS(10), model.Mean);
+
+            Assert.True(observer.HasChanged(x => x.Mean));
         }
 
         [Fact]
         public void adding_an_item_updates_the_range()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.Add(PT(1d, PostedTimeType.Normal, 1));
             Assert.Equal(TS(0d), model.Range);
             model.Add(PT(10d, PostedTimeType.Normal, 1));
             Assert.Equal(TS(9d), model.Range);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Range));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Range));
         }
 
         [Fact]
         public void replacing_an_item_updates_the_range()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.Add(PT(10, PostedTimeType.Normal, 1));
             Assert.Equal(TS(0), model.Range);
@@ -257,26 +276,26 @@ namespace AK.F1.Timing.Model.Collections
             model.ReplaceCurrent(PT(10, PostedTimeType.Normal, 1));
             Assert.Equal(TS(10), model.Range);
 
-            Assert.Equal(2, context.GetChangeCount(x => x.Range));
+            Assert.Equal(2, observer.GetChangeCount(x => x.Range));
         }
 
         [Fact]
         public void adding_an_item_updates_the_personal_best_count()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.Add(PT(15, PostedTimeType.PersonalBest, 1));
             Assert.Equal(1, model.PersonalBestCount);
 
-            Assert.Equal(1, context.GetChangeCount(x => x.PersonalBestCount));
+            Assert.True(observer.HasChanged(x => x.PersonalBestCount));
         }
 
         [Fact]
         public void replacing_an_item_updates_the_personal_best_count()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.Add(PT(15, PostedTimeType.PersonalBest, 1));
             Assert.Equal(1, model.PersonalBestCount);
@@ -289,26 +308,26 @@ namespace AK.F1.Timing.Model.Collections
             model.ReplaceCurrent(PT(15, PostedTimeType.SessionBest, 1));
             Assert.Equal(0, model.PersonalBestCount);
 
-            Assert.Equal(4, context.GetChangeCount(x => x.PersonalBestCount));
+            Assert.Equal(4, observer.GetChangeCount(x => x.PersonalBestCount));
         }
 
         [Fact]
         public void adding_an_item_updates_the_session_best_count()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.Add(PT(15, PostedTimeType.SessionBest, 1));
             Assert.Equal(1, model.SessionBestCount);
 
-            Assert.Equal(1, context.GetChangeCount(x => x.SessionBestCount));
+            Assert.True(observer.HasChanged(x => x.SessionBestCount));
         }
 
         [Fact]
         public void replacing_an_item_updates_the_session_best_count()
         {
-            var context = new TestContext();
-            var model = context.Model;
+            var model = new PostedTimeCollectionModel();
+            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
 
             model.Add(PT(15, PostedTimeType.SessionBest, 1));
             Assert.Equal(1, model.SessionBestCount);
@@ -321,7 +340,7 @@ namespace AK.F1.Timing.Model.Collections
             model.ReplaceCurrent(PT(15, PostedTimeType.PersonalBest, 1));
             Assert.Equal(0, model.SessionBestCount);
 
-            Assert.Equal(4, context.GetChangeCount(x => x.SessionBestCount));
+            Assert.Equal(4, observer.GetChangeCount(x => x.SessionBestCount));
         }
 
         [Fact]
@@ -338,21 +357,20 @@ namespace AK.F1.Timing.Model.Collections
         [Fact]
         public void replacing_an_item_updates_the_items()
         {
-            var context = CreateReplaceTestContext();
+            var model = CreateReplaceTestModel();            
             var replacement = PT(50, PostedTimeType.Normal, 1);
 
-            context.Model.ReplaceCurrent(replacement);
-            Assert.Equal(replacement, context.Model.Items[0]);
+            model.ReplaceCurrent(replacement);
+            Assert.Equal(replacement, model.Items[0]);
         }
 
-        private static TestContext CreateReplaceTestContext()
+        private static PostedTimeCollectionModel CreateReplaceTestModel()
         {
-            var context = new TestContext();
+            var model = new PostedTimeCollectionModel();
 
-            context.Model.Add(PT(1, PostedTimeType.Normal, 1));
-            context.Observer.ClearChanges();
+            model.Add(PT(1, PostedTimeType.Normal, 1));
 
-            return context;
+            return model;
         }
 
         private static TimeSpan TS(double seconds)
