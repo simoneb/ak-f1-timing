@@ -47,7 +47,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="Email" Style="{StaticResource FieldLabel}"/>
+                <TextBlock x:Name="Email" Text="Email" Style="{StaticResource FieldLabel}"/>
                 <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource LoginUsernameStyle}"/>
                 <TextBlock Text="Password" Grid.Row="1" Style="{StaticResource FieldLabel}"/>
                 <!-- Not sure why, but I have to explicity pass the data context. -->

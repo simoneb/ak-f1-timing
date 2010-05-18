@@ -60,8 +60,9 @@ namespace AK.F1.Timing.UI.Views
             {
                 Screen = (IHomeScreen)e.NewValue;
                 Screen.PropertyChanged += OnScreenPropertyChanged;
-                Password.Password = Screen.Password;
-            }
+                Password.Password = Screen.Password;                
+            }            
+            SetFocus();
         }
 
         private void OnScreenPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -69,6 +70,27 @@ namespace AK.F1.Timing.UI.Views
             if(!IgnoreScreenPropertyChanges && e.PropertyName.Equals("Password", StringComparison.Ordinal))
             {
                 Password.Password = Screen.Password;
+            }
+        }
+
+        private void SetFocus()
+        {
+            if(!IsLoaded)
+            {
+                Loaded += (s, e) => SetFocus();
+                return;
+            }
+            if(string.IsNullOrEmpty(Email.Text))
+            {
+                Email.Focus();
+            }
+            else if(string.IsNullOrEmpty(Password.Password))
+            {
+                Password.Focus();
+            }
+            else
+            {
+                Login.Focus();
             }
         }
 
