@@ -33,7 +33,7 @@ namespace AK.F1.Timing.Live.IO
 
         private TimeSpan _pingInterval = TimeSpan.Zero;
 
-        private static readonly byte[] PingPacket = {16};
+        private static readonly byte[] PingPacket = { 16 };
         private static readonly ILog Log = LogManager.GetLogger(typeof(LiveSocketMessageStream));
 
         #endregion
@@ -124,10 +124,10 @@ namespace AK.F1.Timing.Live.IO
                     Socket.Send(PingPacket);
                 }
             }
-            catch(ObjectDisposedException) {}
-            catch(IOException exc)
+            catch(ObjectDisposedException) { }
+            catch(SocketException exc)
             {
-                Log.Info("failed to ping", exc);
+                Log.Info("ping failed", exc);
             }
         }
 
