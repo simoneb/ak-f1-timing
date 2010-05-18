@@ -19,9 +19,6 @@
             <TabItem Header="Weather">
                 <Components:Weather DataContext="{Binding Session.Weather}"/>
             </TabItem>
-            <TabItem Header="Commentary">
-                <Components:Commentary DataContext="{Binding Session.Messages}" Margin="4,0,4,4"/>
-            </TabItem>
             <TabItem Header="Debug">
                 <Components:DebugInfo DataContext="{Binding Session}" VerticalAlignment="Top"/>
             </TabItem>
