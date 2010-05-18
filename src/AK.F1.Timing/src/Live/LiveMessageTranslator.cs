@@ -378,9 +378,23 @@ namespace AK.F1.Timing.Live
             return null;
         }
 
-        private static Message TranslateSetQuallyTimeValue(SetGridColumnValueMessage message, int quallyNumber)
+        private Message TranslateSetQuallyTimeValue(SetGridColumnValueMessage message, int quallyNumber)
         {
-            return new SetDriverQuallyTimeMessage(message.DriverId, quallyNumber, LiveData.ParseTime(message.Value));
+            var driver = GetDriver(message);
+
+            if(!(IsQuallySession && driver.IsOnTrack))
+            {
+                return null;
+            }            
+            var time = LiveData.ParseTime(message.Value);
+            // We do not receive lap times during a qually session so we simulate them using the qually times.
+            // Note that this is not a complete solution as we only receive qually times when the driver 
+            // improves upon thier time (hence the use of PostedTimeType.PersonalBest).
+            // TODO we could keep track of the best time and promote the time to session best.
+            return new CompositeMessage(
+                new SetDriverQuallyTimeMessage(message.DriverId, quallyNumber, time),
+                new SetDriverLapTimeMessage(message.DriverId,
+                    new PostedTime(time, PostedTimeType.PersonalBest, driver.LapNumber)));
         }
 
         private Message TranslateSetSectorTimeValue(SetGridColumnValueMessage message, int sectorNumber)
@@ -539,6 +553,11 @@ namespace AK.F1.Timing.Live
         private IMessageProcessor StateEngine { get; set; }
 
         private IDictionary<int, LiveDriver> Drivers { get; set; }
+
+        private bool IsQuallySession
+        {
+            get { return SessionType == SessionType.Qually; }
+        }
 
         #endregion
     }
