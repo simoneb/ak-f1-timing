@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Messages.Feed
             IsValid = isValid;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -46,7 +46,7 @@ namespace AK.F1.Timing.Messages.Feed
             visitor.Visit(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("IsValid='{0}'", IsValid);

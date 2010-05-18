@@ -48,7 +48,7 @@ namespace AK.F1.Timing.Messages.Driver
             LapNumber = lapNumber;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public int CompareTo(object obj)
         {
             if(obj == null)
@@ -66,7 +66,7 @@ namespace AK.F1.Timing.Messages.Driver
             return CompareTo(other);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public int CompareTo(PostedTime other)
         {
             int relationship;
@@ -93,13 +93,13 @@ namespace AK.F1.Timing.Messages.Driver
             return LapNumber.CompareTo(other.LapNumber);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             return Equals(obj as PostedTime);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(PostedTime other)
         {
             if(other == null)
@@ -116,7 +116,7 @@ namespace AK.F1.Timing.Messages.Driver
                     Type == other.Type;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return HashCodeBuilder.New()
@@ -125,7 +125,7 @@ namespace AK.F1.Timing.Messages.Driver
                 .Add(Type);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return string.Format("{0}(Time='{1}', Type='{2}', LapNumber={3})", GetType().Name,

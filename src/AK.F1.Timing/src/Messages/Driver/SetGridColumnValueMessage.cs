@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Messages.Driver
             Value = value;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -50,7 +50,7 @@ namespace AK.F1.Timing.Messages.Driver
             visitor.Visit(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("DriverId={0}, Column='{1}', Colour='{2}', Value='{3}'",

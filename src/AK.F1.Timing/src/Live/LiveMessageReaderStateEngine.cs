@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Live
             _reader = reader;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Process(Message message)
         {
             message.Accept(this);

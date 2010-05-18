@@ -97,7 +97,7 @@ namespace AK.F1.Timing.Model.Grid
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return DriverName.Text ?? base.ToString();

@@ -61,7 +61,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Sets the row index of the row specified by the message.
         /// </summary>
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverPositionMessage message)
         {
             int index = Math.Max(0, message.Position - 1);
@@ -77,7 +77,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Clears the row specified by the message.
         /// </summary>
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(ClearGridRowMessage message)
         {
             Grid.GetRow(message.DriverId).Reset();
@@ -86,7 +86,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Sets the colour of the column for the row specified by the message.
         /// </summary>
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetGridColumnColourMessage message)
         {
             Grid.GetRow(message.DriverId).Update(message.Column, message.Colour);
@@ -95,7 +95,7 @@ namespace AK.F1.Timing.Model.Grid
         /// <summary>
         /// Sets the column text and colour for the row specified by the message.
         /// </summary>
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetGridColumnValueMessage message)
         {
             Grid.GetRow(message.DriverId).Update(message.Column, message.Colour, message.Value);

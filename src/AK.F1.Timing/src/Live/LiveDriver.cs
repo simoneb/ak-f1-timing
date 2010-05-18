@@ -129,7 +129,7 @@ namespace AK.F1.Timing.Live
             return HavePreviousSectorNumber && sectorNumber == PreviousSectorNumber;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Name ?? base.ToString();

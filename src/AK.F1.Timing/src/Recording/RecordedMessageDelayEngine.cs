@@ -62,7 +62,7 @@ namespace AK.F1.Timing.Recording
             return Delayed;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetNextMessageDelayMessage message)
         {
             TimeSpan delay = ScaleDelay(message.Delay);

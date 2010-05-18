@@ -47,7 +47,7 @@ namespace AK.F1.Timing.Messages.Driver
             Time = time;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if(obj == null || obj.GetType() != GetType())
@@ -57,13 +57,13 @@ namespace AK.F1.Timing.Messages.Driver
             return Equals((TimeGap)obj);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(TimeGap other)
         {
             return other != null && other.Time == Time;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int CompareTo(object obj)
         {
             if(obj == null)
@@ -86,7 +86,7 @@ namespace AK.F1.Timing.Messages.Driver
             throw Guard.TimeGap_InvalidCompareToArgument(obj);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return HashCodeBuilder.New()
@@ -94,7 +94,7 @@ namespace AK.F1.Timing.Messages.Driver
                 .Add(Time);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("Time='{0}'", Time.ToString());

@@ -55,7 +55,7 @@ namespace AK.F1.Timing.Live.IO
             PingTimer = new Timer(s => MaybePing());
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool FullyRead(byte[] buffer, int offset, int count)
         {
             CheckDisposed();
@@ -68,7 +68,7 @@ namespace AK.F1.Timing.Live.IO
             return true;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public TimeSpan PingInterval
         {
             get
@@ -87,7 +87,7 @@ namespace AK.F1.Timing.Live.IO
 
         #region Protected Interface.
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if(disposing && !IsDisposed)

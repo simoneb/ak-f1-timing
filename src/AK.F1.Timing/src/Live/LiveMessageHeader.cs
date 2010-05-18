@@ -29,7 +29,7 @@ namespace AK.F1.Timing.Live
     {
         #region Public Interface.
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return string.Format(

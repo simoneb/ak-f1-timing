@@ -41,7 +41,7 @@ namespace AK.F1.Timing.Model.Grid
             PitLap3 = new GridColumnModel(GridColumn.PitLap3);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Reset()
         {
             base.Reset();
@@ -54,7 +54,7 @@ namespace AK.F1.Timing.Model.Grid
             PitLap3.Reset();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override GridColumnModel GetColumn(GridColumn column)
         {
             switch(column)

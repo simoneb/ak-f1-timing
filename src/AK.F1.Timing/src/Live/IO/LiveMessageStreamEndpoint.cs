@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Live.IO
 
         #region Public Interface.
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IMessageStream Open()
         {
             var endpoint = ResolveStreamEndpoint();
@@ -65,7 +65,7 @@ namespace AK.F1.Timing.Live.IO
             return new LiveSocketMessageStream(socket);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IMessageStream OpenKeyframe(int keyframe)
         {
             Guard.InRange(keyframe >= 0, "keyframe");

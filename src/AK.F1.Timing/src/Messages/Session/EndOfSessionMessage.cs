@@ -33,7 +33,7 @@ namespace AK.F1.Timing.Messages.Session
         /// </summary>
         public static readonly EndOfSessionMessage Instance = new EndOfSessionMessage();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -41,7 +41,7 @@ namespace AK.F1.Timing.Messages.Session
             visitor.Visit(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("");

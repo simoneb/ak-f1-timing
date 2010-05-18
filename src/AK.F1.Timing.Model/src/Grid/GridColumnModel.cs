@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Model.Grid
             TextColour = GridColumnColour.Black;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return string.Format("Type='{0}', Text='{1}', TextColour='{2}'", Type, Text, TextColour);

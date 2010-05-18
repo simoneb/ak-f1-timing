@@ -34,7 +34,7 @@ namespace AK.F1.Timing.Messages.Session
         public static readonly StartSessionTimeCountdownMessage Instance =
             new StartSessionTimeCountdownMessage();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Messages.Session
             visitor.Visit(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("");

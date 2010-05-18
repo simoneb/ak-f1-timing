@@ -59,7 +59,7 @@ namespace AK.F1.Timing.Live.Recording
             StreamFilePath = Path.Combine(directory, StreamFileName);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IMessageStream Open()
         {
             Log.DebugFormat("opening stream {0}", StreamFilePath);
@@ -70,7 +70,7 @@ namespace AK.F1.Timing.Live.Recording
             return new MessageStreamDelegate(fileStream);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IMessageStream OpenKeyframe(int keyframe)
         {
             Guard.InRange(keyframe >= 0, "keyframe");

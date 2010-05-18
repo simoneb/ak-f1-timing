@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Model.Grid
             Laps = new GridColumnModel(GridColumn.Laps);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Reset()
         {
             base.Reset();
@@ -49,7 +49,7 @@ namespace AK.F1.Timing.Model.Grid
             //Laps.Reset();            
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override GridColumnModel GetColumn(GridColumn column)
         {
             switch(column)

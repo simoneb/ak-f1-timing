@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Live.Encryption
         /// </summary>
         public const int DefaultSeed = 0;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public virtual IDecrypter Create()
         {
             Log.Info("creating decrypter with default seed");
@@ -51,7 +51,7 @@ namespace AK.F1.Timing.Live.Encryption
             return CreateWithSeed(DefaultSeed);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IDecrypter Create(string sessionId)
         {
             Guard.NotNullOrEmpty(sessionId, "sessionId");

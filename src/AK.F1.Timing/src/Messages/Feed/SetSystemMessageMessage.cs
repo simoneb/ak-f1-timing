@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Messages.Feed
             Message = message;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -50,7 +50,7 @@ namespace AK.F1.Timing.Messages.Feed
             visitor.Visit(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("Message='{0}'", Message);

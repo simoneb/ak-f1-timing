@@ -41,7 +41,7 @@ namespace AK.F1.Timing.Messages.Weather
             Humidity = humidity;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -49,7 +49,7 @@ namespace AK.F1.Timing.Messages.Weather
             visitor.Visit(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("Humidity={0}", Humidity);

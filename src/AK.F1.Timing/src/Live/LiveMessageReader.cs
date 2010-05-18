@@ -69,7 +69,7 @@ namespace AK.F1.Timing.Live
 
         #region Protected Interface.
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override Message ReadImpl()
         {
             switch(State)
@@ -90,7 +90,7 @@ namespace AK.F1.Timing.Live
             return message;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if(disposing && !IsDisposed)

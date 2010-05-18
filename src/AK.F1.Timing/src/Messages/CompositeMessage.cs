@@ -45,7 +45,7 @@ namespace AK.F1.Timing.Messages
             Messages = Array.AsReadOnly(messages);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -56,7 +56,7 @@ namespace AK.F1.Timing.Messages
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             var sb = new StringBuilder();

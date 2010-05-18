@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Model.Grid
     {
         #region Qually Interface.
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override RaceGridRowModel CreateRow(int id)
         {
             return new RaceGridRowModel(id);

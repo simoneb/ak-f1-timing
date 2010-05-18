@@ -89,19 +89,19 @@ namespace AK.F1.Timing.Live
             return Translated;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetPingIntervalMessage message)
         {
             Translated = TranslateSetPingIntervalMessage(message);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetGridColumnColourMessage message)
         {
             Translated = TranslateSetGridColumnColourMessage(message);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetGridColumnValueMessage message)
         {
             Translated = TranslateSetGridColumnValueMessage(message);

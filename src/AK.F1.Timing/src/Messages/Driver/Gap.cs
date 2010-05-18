@@ -26,7 +26,7 @@ namespace AK.F1.Timing.Messages.Driver
     {
         #region Public Interface
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public abstract int CompareTo(object obj);
 
         /// <summary>

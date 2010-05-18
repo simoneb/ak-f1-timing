@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Model.Grid
             Unknown = new GridColumnModel(GridColumn.Unknown);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Reset()
         {
             base.Reset();
@@ -48,7 +48,7 @@ namespace AK.F1.Timing.Model.Grid
             Unknown.Reset();
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override GridColumnModel GetColumn(GridColumn column)
         {
             switch(column)

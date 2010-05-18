@@ -36,7 +36,7 @@ namespace AK.F1.Timing.Messages.Weather
             IsWet = isWet;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -44,7 +44,7 @@ namespace AK.F1.Timing.Messages.Weather
             visitor.Visit(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("IsWet='{0}'", IsWet);

@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Live.IO
             Inner = inner;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool FullyRead(byte[] buffer, int offset, int count)
         {
             CheckDisposed();
@@ -50,14 +50,14 @@ namespace AK.F1.Timing.Live.IO
             return Inner.FullyRead(buffer, offset, count);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public TimeSpan PingInterval { get; set; }
 
         #endregion
 
         #region Protected Interface.
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if(disposing && !IsDisposed)

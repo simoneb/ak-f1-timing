@@ -56,7 +56,7 @@ namespace AK.F1.Timing.Live.Recording
 
         #region Protected Interface.
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override int GetSeedForSession(string sessionId)
         {
             Guard.NotNullOrEmpty(sessionId, "sessionId");
@@ -71,7 +71,7 @@ namespace AK.F1.Timing.Live.Recording
             return seed;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override IDecrypter CreateWithSeed(int seed)
         {
             return new LiveDecrypter(seed);

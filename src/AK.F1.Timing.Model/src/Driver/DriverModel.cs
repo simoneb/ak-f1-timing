@@ -61,7 +61,7 @@ namespace AK.F1.Timing.Model.Driver
             Builder.Process(message);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Name ?? base.ToString();

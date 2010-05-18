@@ -42,7 +42,7 @@ namespace AK.F1.Timing.Live.Encryption
             _mask = DefaultMask;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Decrypt(byte[] buffer, int offset, int count)
         {
             Guard.CheckBufferArgs(buffer, offset, count);
@@ -59,7 +59,7 @@ namespace AK.F1.Timing.Live.Encryption
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Reset()
         {
             _mask = DefaultMask;

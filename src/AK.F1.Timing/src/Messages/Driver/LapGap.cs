@@ -47,7 +47,7 @@ namespace AK.F1.Timing.Messages.Driver
             Laps = laps;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override bool Equals(object obj)
         {
             if(obj == null || obj.GetType() != GetType())
@@ -57,13 +57,13 @@ namespace AK.F1.Timing.Messages.Driver
             return Equals((LapGap)obj);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Equals(LapGap other)
         {
             return other != null && other.Laps == Laps;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int CompareTo(object obj)
         {
             if(obj == null)
@@ -86,7 +86,7 @@ namespace AK.F1.Timing.Messages.Driver
             throw Guard.LapGap_InvalidCompareToArgument(obj);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override int GetHashCode()
         {
             return HashCodeBuilder.New()
@@ -94,7 +94,7 @@ namespace AK.F1.Timing.Messages.Driver
                 .Add(Laps);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("Laps={0}", Laps);

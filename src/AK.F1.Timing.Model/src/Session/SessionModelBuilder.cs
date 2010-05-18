@@ -58,7 +58,7 @@ namespace AK.F1.Timing.Model.Session
                 Model.Weather.Process(message);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetDriverPositionMessage message)
             {
                 // TODO
@@ -71,49 +71,49 @@ namespace AK.F1.Timing.Model.Session
                 //}
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetSessionTypeMessage message)
             {
                 Model.ChangeSessionType(message.SessionType);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetSessionStatusMessage message)
             {
                 Model.SessionStatus = message.SessionStatus;
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetElapsedSessionTimeMessage message)
             {
                 Model.UpdateElapsedSessionTime(message.Elapsed);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetRemainingSessionTimeMessage message)
             {
                 Model.RemainingSessionTime = message.Remaining;
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetRaceLapNumberMessage message)
             {
                 Model.RaceLapNumber = message.LapNumber;
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(StartSessionTimeCountdownMessage message)
             {
                 Model.OnSessionTimeCountDownStarted();
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(StopSessionTimeCountdownMessage message)
             {
                 Model.OnSessionTimeCountDownStopped();
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(EndOfSessionMessage message)
             {
                 Model.OnSessionEnded();

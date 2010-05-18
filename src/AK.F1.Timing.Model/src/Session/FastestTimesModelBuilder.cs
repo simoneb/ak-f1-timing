@@ -51,37 +51,37 @@ namespace AK.F1.Timing.Model.Session
                 message.Accept(this);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetDriverSectorTimeMessage message)
             {
                 Model.TrySetSector(message.SectorNumber, message.DriverId, message.SectorTime);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(ReplaceDriverSectorTimeMessage message)
             {
                 Model.TrySetSector(message.SectorNumber, message.DriverId, message.Replacement);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetDriverQuallyTimeMessage message)
             {
                 Model.TrySetLapUsingQuallyTime(message.DriverId, message.QuallyTime);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetDriverLapTimeMessage message)
             {
                 Model.TrySetLap(message.DriverId, message.LapTime);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(ReplaceDriverLapTimeMessage message)
             {
                 Model.TrySetLap(message.DriverId, message.Replacement);
             }
 
-            /// <inheritdoc />
+            /// <inheritdoc/>
             public override void Visit(SetSessionTypeMessage message)
             {
                 Model.CurrentSessionType = message.SessionType;

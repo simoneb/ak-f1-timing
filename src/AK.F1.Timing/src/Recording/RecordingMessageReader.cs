@@ -84,7 +84,7 @@ namespace AK.F1.Timing.Recording
 
         #endregion
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override Message ReadImpl()
         {
             Message message;
@@ -103,7 +103,7 @@ namespace AK.F1.Timing.Recording
             return message;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if(IsDisposed)

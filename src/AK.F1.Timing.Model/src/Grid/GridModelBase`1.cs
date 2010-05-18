@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Model.Grid
 
         #region Public Interface.
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Process(Message message)
         {
             Guard.NotNull(message, "message");

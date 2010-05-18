@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Messages.Session
             SessionId = sessionId;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");
@@ -51,7 +51,7 @@ namespace AK.F1.Timing.Messages.Session
             visitor.Visit(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override string ToString()
         {
             return Repr("SessionType='{0}', SessionId='{1}'", SessionType, SessionId);

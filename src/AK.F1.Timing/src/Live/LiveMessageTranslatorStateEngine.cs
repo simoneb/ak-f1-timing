@@ -37,19 +37,19 @@ namespace AK.F1.Timing.Live
             Translator = translator;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Process(Message message)
         {
             message.Accept(this);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverStatusMessage message)
         {
             GetDriver(message).ChangeStatus(message.DriverStatus);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverPositionMessage message)
         {
             GetDriver(message).Position = message.Position;
@@ -63,25 +63,25 @@ namespace AK.F1.Timing.Live
             driver.CurrentSectorNumber = message.SectorNumber != 3 ? message.SectorNumber + 1 : 1;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(ReplaceDriverSectorTimeMessage message)
         {
             GetDriver(message).LastSectors[message.SectorNumber - 1] = message.Replacement;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverLapTimeMessage message)
         {
             GetDriver(message).LastLapTime = message.LapTime;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(ReplaceDriverLapTimeMessage message)
         {
             GetDriver(message).LastLapTime = message.Replacement;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverPitCountMessage message)
         {
             if(Translator.IsRaceSession)
@@ -92,55 +92,55 @@ namespace AK.F1.Timing.Live
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverPitTimeMessage message)
         {
             GetDriver(message).IsExpectingPitTimes = false;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverGapMessage message)
         {
             GetDriver(message).LastGapMessage = message;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverIntervalMessage message)
         {
             GetDriver(message).LastIntervalMessage = message;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverCarNumberMessage message)
         {
             GetDriver(message).CarNumber = message.CarNumber;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverNameMessage message)
         {
             GetDriver(message).Name = message.DriverName;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetSessionTypeMessage message)
         {
             Translator.ChangeSessionType(message.SessionType);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetRaceLapNumberMessage message)
         {
             Translator.RaceLapNumber = message.LapNumber;
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetGridColumnValueMessage message)
         {
             GetDriver(message).SetColumnHasValue(message.Column, !message.ClearColumn);
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public override void Visit(SetDriverLapNumberMessage message)
         {
             GetDriver(message).LapNumber = message.LapNumber;

@@ -26,7 +26,7 @@ namespace AK.F1.Timing.Model
     {
         #region Public Interface.
 
-        /// <inheritdoc />        
+        /// <inheritdoc/>        
         public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
