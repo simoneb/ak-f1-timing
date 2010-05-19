@@ -70,24 +70,29 @@ namespace AK.F1.Timing.Live.IO
             }
         }
 
-        [Fact(Skip = "This test fails unexpectedly.")]
+        [Fact]
         public void socket_is_pinged_when_no_data_has_been_read_during_interval()
         {
-            var pingWindow = TimeSpan.FromMilliseconds(5);
+            var buffer = new byte[1];
+            var pingWindow = TimeSpan.FromMilliseconds(5);            
 
             using(var context = CreateTestContext())
             {
-                var readWaitHandle = ((Action)(() => { context.Stream.FullyRead(new byte[1], 0, 1); })).BeginInvoke(null, null).AsyncWaitHandle;
+                Action read = () =>
+                {
+                    context.Stream.FullyRead(buffer, 0, buffer.Length);
+                };
+                read.BeginInvoke(null, null);
                 for(int i = 0; i < 10; ++i)
                 {
-                    readWaitHandle.WaitOne(context.Stream.PingInterval + pingWindow);
-                    Assert.Equal(1, context.Remote.Receive(new byte[1]));
+                    Thread.Sleep(context.Stream.PingInterval);
+                    Assert.Equal(1, context.Remote.Receive(buffer));
                     Assert.Equal(0, context.Remote.Available);
                 }
             }
         }
 
-        [Fact(Skip = "This test fails unexpectedly.")]
+        [Fact]
         public void socket_is_not_pinged_when_data_has_been_read_during_interval()
         {
             var buffer = new byte[1];
@@ -133,7 +138,7 @@ namespace AK.F1.Timing.Live.IO
         public void fully_read_copies_data_to_buffer()
         {
             var actual = new byte[10];
-            var expected = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+            var expected = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             using(var context = CreateTestContext())
             {
@@ -144,21 +149,21 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void fully_read_copies_data_to_buffer_repeated()
+        public void fully_read_copies_data_to_buffer_repeatedly()
         {
             int repeat = 5;
             var actual = new byte[25];
-            var data = Enumerable.Range(0, 250).Select(x => (byte)x).ToArray();
+            var data = Enumerable.Range(0, actual.Length * 100).Select(x => (byte)x).ToArray();
 
             using(var context = CreateTestContext())
             {
                 while(repeat-- > 0)
                 {
                     Assert.Equal(data.Length, context.Remote.Send(data));
-                    for(int i = 0; i < 250; i += 25)
+                    for(int i = 0; i < data.Length; i += actual.Length)
                     {
                         Assert.True(context.Stream.FullyRead(actual, 0, actual.Length));
-                        Assert.Equal(Enumerable.Range(i, 25).Select(x => (byte)x).ToArray(), actual);
+                        Assert.Equal(Enumerable.Range(i, actual.Length).Select(x => (byte)x).ToArray(), actual);
                     }
                 }
             }
@@ -168,8 +173,8 @@ namespace AK.F1.Timing.Live.IO
         public void fully_read_copies_count_elements_to_buffer_starting_at_offset()
         {
             var actual = new byte[9];
-            var data = new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
-            var expected = new byte[] {0, 1, 2, 3, 4, 5, 6, 0, 0};
+            var data = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var expected = new byte[] { 0, 1, 2, 3, 4, 5, 6, 0, 0 };
 
             using(var context = CreateTestContext())
             {

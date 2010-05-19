@@ -94,7 +94,7 @@ namespace AK.F1.Timing
         {
             NotNull(buffer, "buffer");
             InRange(offset <= buffer.Length, "offset");
-            InRange(offset + count < buffer.Length, "count");
+            InRange(offset + count <= buffer.Length, "count");
         }
 
         internal static void Fail(string message)
@@ -319,6 +319,11 @@ namespace AK.F1.Timing
         internal static IOException LiveMessageStreamEndpoint_FailedToOpenKeyframe(IOException exc)
         {
             return new IOException(Format(Resource.LiveMessageStreamEndpoint_FailedToOpenKeyframe, exc.Message), exc);
+        }
+
+        internal static IOException LiveSocketMessageStream_ReadFailed(SocketException exc)
+        {
+            return new IOException(exc.Message, exc);
         }
 
         internal static IOException LiveAuthenticationService_FailedToFetchAuthToken(IOException exc)

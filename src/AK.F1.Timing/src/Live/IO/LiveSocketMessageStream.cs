@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Sockets;
 using System.Threading;
@@ -31,8 +32,12 @@ namespace AK.F1.Timing.Live.IO
     {
         #region Private Fields.
 
+        private int _length;
+        private int _position;        
         private TimeSpan _pingInterval = TimeSpan.Zero;
+        private readonly byte[] _buffer = new byte[BufferSize];
 
+        private const int BufferSize = 256;
         private static readonly byte[] PingPacket = { 16 };
         private static readonly ILog Log = LogManager.GetLogger(typeof(LiveSocketMessageStream));
 
@@ -49,23 +54,24 @@ namespace AK.F1.Timing.Live.IO
         {
             Guard.NotNull(socket, "socket");
 
-            Socket = socket;
-            Socket.NoDelay = true;
-            Input = new BufferedStream(new NetworkStream(socket, FileAccess.Read, true));
-            PingTimer = new Timer(s => MaybePing());
+            Input = socket;
+            Input.NoDelay = true;            
         }
 
         /// <inheritdoc/>
         public bool FullyRead(byte[] buffer, int offset, int count)
         {
             CheckDisposed();
+            Guard.CheckBufferArgs(buffer, offset, count);
 
-            if(!Input.FullyRead(buffer, offset, count))
+            try
             {
-                return false;
+                return Fill(buffer, offset, count);
             }
-            LastRead = SysClock.Ticks();
-            return true;
+            catch(SocketException exc)
+            {
+                throw Guard.LiveSocketMessageStream_ReadFailed(exc);                
+            }
         }
 
         /// <inheritdoc/>
@@ -81,7 +87,7 @@ namespace AK.F1.Timing.Live.IO
                 CheckDisposed();
                 Guard.InRange(value >= TimeSpan.Zero, "value");
                 _pingInterval = value;
-                ChangePingTimerInterval();
+                Log.InfoFormat("ping interval set: {0}", value);
             }
         }
 
@@ -92,8 +98,8 @@ namespace AK.F1.Timing.Live.IO
         {
             if(disposing && !IsDisposed)
             {
-                DisposeOf(PingTimer);
                 DisposeOf(Input);
+                Input = null;
             }
             base.Dispose(disposing);
         }
@@ -102,42 +108,63 @@ namespace AK.F1.Timing.Live.IO
 
         #region Private Impl.
 
-        private void ChangePingTimerInterval()
+        private bool Fill(byte[] buffer, int offset, int count)
         {
-            if(PingInterval > TimeSpan.Zero)
-            {
-                PingTimer.Change(PingInterval, PingInterval);
-            }
-            else
-            {
-                PingTimer.Change(Timeout.Infinite, Timeout.Infinite);
-            }
-            Log.InfoFormat("ping interval set: {0}", PingInterval);
-        }
+            int available;
 
-        private void MaybePing()
-        {
-            try
+            while(count > 0)
             {
-                if(SysClock.Ticks() - LastRead >= PingInterval)
+                available = Math.Min(_length - _position, count);
+                if(available > 0)
                 {
-                    Socket.Send(PingPacket);
+                    Buffer.BlockCopy(_buffer, _position, buffer, offset, available);
+                    _position += available;
+                    offset += available;
+                    count -= available;
+                }
+                else
+                {
+                    FillBuffer();
                 }
             }
-            catch(ObjectDisposedException) { }
-            catch(SocketException exc)
-            {
-                Log.Info("ping failed", exc);
-            }
+
+            return true;
         }
 
-        private Socket Socket { get; set; }
+        private void FillBuffer()
+        {
+            Debug.Assert(_position == _length);            
+            do
+            {
+                if(Input.Poll(MicroSecondPingInterval, SelectMode.SelectRead))
+                {
+                    _length = Input.Receive(_buffer);
+                    _position = 0;
+                    break;
+                }
+                else
+                {
+                    Ping();
+                }
+            } while(true);
+        }
 
-        private Stream Input { get; set; }
+        private void Ping()
+        {
+            int sent = 0;
 
-        private Timer PingTimer { get; set; }
+            do
+            {
+                sent += Input.Send(PingPacket, sent, PingPacket.Length - sent, SocketFlags.None);
+            } while(sent != PingPacket.Length);
+        }
 
-        private TimeSpan LastRead { get; set; }
+        private Socket Input { get; set; }
+
+        private int MicroSecondPingInterval
+        {
+            get { return (int)PingInterval.Ticks / 10; }
+        }
 
         #endregion
     }
