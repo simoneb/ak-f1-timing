@@ -14,10 +14,7 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Net.Sockets;
-using System.Threading;
-using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 using log4net;
 
@@ -33,7 +30,7 @@ namespace AK.F1.Timing.Live.IO
         #region Private Fields.
 
         private int _length;
-        private int _position;        
+        private int _position;
         private TimeSpan _pingInterval = TimeSpan.Zero;
         private readonly byte[] _buffer = new byte[BufferSize];
 
@@ -55,7 +52,7 @@ namespace AK.F1.Timing.Live.IO
             Guard.NotNull(socket, "socket");
 
             Input = socket;
-            Input.NoDelay = true;            
+            Input.NoDelay = true;
         }
 
         /// <inheritdoc/>
@@ -70,7 +67,7 @@ namespace AK.F1.Timing.Live.IO
             }
             catch(SocketException exc)
             {
-                throw Guard.LiveSocketMessageStream_ReadFailed(exc);                
+                throw Guard.LiveSocketMessageStream_ReadFailed(exc);
             }
         }
 
@@ -133,19 +130,25 @@ namespace AK.F1.Timing.Live.IO
 
         private void FillBuffer()
         {
-            Debug.Assert(_position == _length);            
+            Debug.Assert(_position == _length);
+
+            int interval;
+
             do
             {
-                if(Input.Poll(MicroSecondPingInterval, SelectMode.SelectRead))
+                interval = MicroSecondPingInterval;
+                if(interval == 0)
+                {
+                    // Wait indefinitely as we are not pinging.
+                    interval = -1;
+                }
+                if(Input.Poll(interval, SelectMode.SelectRead))
                 {
                     _length = Input.Receive(_buffer);
                     _position = 0;
                     break;
                 }
-                else
-                {
-                    Ping();
-                }
+                Ping();
             } while(true);
         }
 

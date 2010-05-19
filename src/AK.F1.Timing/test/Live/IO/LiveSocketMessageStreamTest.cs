@@ -74,7 +74,7 @@ namespace AK.F1.Timing.Live.IO
         public void socket_is_pinged_when_no_data_has_been_read_during_interval()
         {
             var buffer = new byte[1];
-            var pingWindow = TimeSpan.FromMilliseconds(5);            
+            var pingWindow = TimeSpan.FromMilliseconds(5);
 
             using(var context = CreateTestContext())
             {
@@ -107,6 +107,17 @@ namespace AK.F1.Timing.Live.IO
                     Thread.Sleep(context.Stream.PingInterval - pingWindow);
                     Assert.Equal(0, context.Remote.Available);
                 }
+            }
+        }
+
+        [Fact]
+        public void fully_read_returns_true_when_count_is_zero()
+        {
+            var buffer = new byte[0];
+
+            using(var context = CreateTestContext())
+            {
+                Assert.True(context.Stream.FullyRead(buffer, 0, buffer.Length));
             }
         }
 
