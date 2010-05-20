@@ -33,7 +33,7 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void fully_read_delegates_to_inner()
+        public void fill_delegates_to_inner()
         {
             var buffer = new byte[10];
             var inner = new Mock<Stream>(MockBehavior.Strict);
@@ -42,71 +42,71 @@ namespace AK.F1.Timing.Live.IO
             inner.Setup(x => x.Read(buffer, 0, buffer.Length))
                 .Returns(buffer.Length)
                 .Verifiable();
-            @delegate.FullyRead(buffer, 0, buffer.Length);
+            @delegate.Fill(buffer, 0, buffer.Length);
             inner.VerifyAll();
         }
 
         [Fact]
-        public void fully_read_returns_true_when_count_has_been_read()
+        public void fill_returns_true_when_count_has_been_read()
         {
             var buffer = new byte[10];
 
             using(var inner = new MemoryStream(buffer))
             {
                 var @delegate = new MessageStreamDelegate(inner);
-                Assert.True(@delegate.FullyRead(buffer, 0, buffer.Length));
+                Assert.True(@delegate.Fill(buffer, 0, buffer.Length));
             }
         }
 
         [Fact]
-        public void fully_read_returns_false_when_count_has_not_been_read()
+        public void fill_returns_false_when_count_has_not_been_read()
         {
             var buffer = new byte[10];
 
             using(var inner = new MemoryStream(new byte[5]))
             {
                 var @delegate = new MessageStreamDelegate(inner);
-                Assert.False(@delegate.FullyRead(buffer, 0, buffer.Length));
+                Assert.False(@delegate.Fill(buffer, 0, buffer.Length));
             }
         }
 
         [Fact]
-        public void fully_read_copies_data_to_buffer()
+        public void fill_copies_data_to_buffer()
         {
             var actual = new byte[10];
-            var expected = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+            var expected = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
 
             using(var inner = new MemoryStream(expected))
             {
                 var @delegate = new MessageStreamDelegate(inner);
-                Assert.True(@delegate.FullyRead(actual, 0, actual.Length));
+                Assert.True(@delegate.Fill(actual, 0, actual.Length));
                 Assert.Equal(expected, actual);
             }
         }
 
         [Fact]
-        public void fully_read_copies_count_elements_to_buffer_starting_at_offset()
+        public void fill_copies_count_elements_to_buffer_starting_at_offset()
         {
             var actual = new byte[9];
-            var data = new byte[] {1, 2, 3, 4, 5, 6, 7, 8, 9};
-            var expected = new byte[] {0, 1, 2, 3, 4, 5, 6, 0, 0};
+            var data = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            var expected = new byte[] { 0, 1, 2, 3, 4, 5, 6, 0, 0 };
 
             using(var inner = new MemoryStream(data))
             {
                 var @delegate = new MessageStreamDelegate(inner);
-                Assert.True(@delegate.FullyRead(actual, 1, 6));
+                Assert.True(@delegate.Fill(actual, 1, 6));
                 Assert.Equal(expected, actual);
             }
         }
 
         [Fact]
-        public void fully_read_throws_if_delegate_has_been_disposed()
+        public void fill_throws_if_delegate_has_been_disposed()
         {
             using(var inner = new MemoryStream())
             {
                 var @delegate = new MessageStreamDelegate(inner);
                 ((IDisposable)@delegate).Dispose();
-                Assert.Throws<ObjectDisposedException>(() => @delegate.FullyRead(new byte[1], 0, 1));
+                Assert.Throws<ObjectDisposedException>(() => @delegate.Fill(new byte[1], 0, 1));
             }
         }
 

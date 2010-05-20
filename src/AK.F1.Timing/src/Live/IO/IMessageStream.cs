@@ -34,7 +34,7 @@ namespace AK.F1.Timing.Live.IO
         /// <returns><see langword="true"/> if the specified number of bytes were read into
         /// <paramref name="buffer"/>, otherwise; <see langword="false"/> to indicate that the end
         /// of the stream was reached.</returns>
-        bool FullyRead(byte[] buffer, int offset, int count);
+        bool Fill(byte[] buffer, int offset, int count);
 
         /// <summary>
         /// Gets or sets the stream ping interval.

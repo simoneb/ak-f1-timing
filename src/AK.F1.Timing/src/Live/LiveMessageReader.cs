@@ -523,7 +523,7 @@ namespace AK.F1.Timing.Live
 
         private void ReadBytes(int count)
         {
-            if(!MessageStream.FullyRead(Buffer, 0, count))
+            if(!MessageStream.Fill(Buffer, 0, count))
             {
                 throw Guard.LiveMessageReader_UnexpectedEndOfStream();
             }

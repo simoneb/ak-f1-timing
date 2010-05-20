@@ -43,11 +43,11 @@ namespace AK.F1.Timing.Live.IO
         }
 
         /// <inheritdoc/>
-        public bool FullyRead(byte[] buffer, int offset, int count)
+        public bool Fill(byte[] buffer, int offset, int count)
         {
             CheckDisposed();
 
-            return Inner.FullyRead(buffer, offset, count);
+            return Inner.Fill(buffer, offset, count);
         }
 
         /// <inheritdoc/>

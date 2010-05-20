@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Live.IO
 
             using(var stream = endpoint.Open())
             {
-                Assert.True(stream.FullyRead(buffer, 0, buffer.Length));
+                Assert.True(stream.Fill(buffer, 0, buffer.Length));
             }
         }
 
@@ -73,7 +73,7 @@ namespace AK.F1.Timing.Live.IO
 
             using(var stream = endpoint.OpenKeyframe(0))
             {
-                Assert.True(stream.FullyRead(buffer, 0, buffer.Length));
+                Assert.True(stream.Fill(buffer, 0, buffer.Length));
             }
         }
 

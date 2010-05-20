@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Extensions
         /// </item>
         /// </list>
         /// </exception>
-        public static bool FullyRead(this Stream stream, byte[] buffer, int offset, int count)
+        public static bool Fill(this Stream stream, byte[] buffer, int offset, int count)
         {
             Guard.NotNull(stream, "stream");
 

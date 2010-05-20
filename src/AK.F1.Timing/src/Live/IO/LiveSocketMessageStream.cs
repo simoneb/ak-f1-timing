@@ -51,19 +51,19 @@ namespace AK.F1.Timing.Live.IO
         {
             Guard.NotNull(socket, "socket");
 
-            Input = socket;
-            Input.NoDelay = true;
+            Socket = socket;
+            Socket.NoDelay = true;
         }
 
         /// <inheritdoc/>
-        public bool FullyRead(byte[] buffer, int offset, int count)
+        public bool Fill(byte[] buffer, int offset, int count)
         {
             CheckDisposed();
             Guard.CheckBufferArgs(buffer, offset, count);
 
             try
             {
-                return Fill(buffer, offset, count);
+                return FillCore(buffer, offset, count);
             }
             catch(SocketException exc)
             {
@@ -95,8 +95,8 @@ namespace AK.F1.Timing.Live.IO
         {
             if(disposing && !IsDisposed)
             {
-                DisposeOf(Input);
-                Input = null;
+                DisposeOf(Socket);
+                Socket = null;
             }
             base.Dispose(disposing);
         }
@@ -105,7 +105,7 @@ namespace AK.F1.Timing.Live.IO
 
         #region Private Impl.
 
-        private bool Fill(byte[] buffer, int offset, int count)
+        private bool FillCore(byte[] buffer, int offset, int count)
         {
             int available;
 
@@ -140,9 +140,9 @@ namespace AK.F1.Timing.Live.IO
                     // Wait indefinitely as we are not pinging.
                     interval = -1;
                 }
-                if(Input.Poll(interval, SelectMode.SelectRead))
+                if(Socket.Poll(interval, SelectMode.SelectRead))
                 {
-                    _length = Input.Receive(_buffer);
+                    _length = Socket.Receive(_buffer);
                     _position = 0;
                     break;
                 }
@@ -156,11 +156,11 @@ namespace AK.F1.Timing.Live.IO
 
             do
             {
-                sent += Input.Send(PingPacket, sent, PingPacket.Length - sent, SocketFlags.None);
+                sent += Socket.Send(PingPacket, sent, PingPacket.Length - sent, SocketFlags.None);
             } while(sent != PingPacket.Length);
         }
 
-        private Socket Input { get; set; }
+        private Socket Socket { get; set; }
 
         private int MicroSecondPingInterval
         {

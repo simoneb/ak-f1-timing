@@ -50,12 +50,12 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void fully_read_throws_if_stream_has_been_disposed()
+        public void fill_throws_if_stream_has_been_disposed()
         {
             using(var context = CreateTestContext())
             {
                 ((IDisposable)context.Stream).Dispose();
-                Assert.Throws<ObjectDisposedException>(() => context.Stream.FullyRead(new byte[1], 0, 1));
+                Assert.Throws<ObjectDisposedException>(() => context.Stream.Fill(new byte[1], 0, 1));
             }
         }
 
@@ -80,7 +80,7 @@ namespace AK.F1.Timing.Live.IO
             {
                 Action read = () =>
                 {
-                    context.Stream.FullyRead(buffer, 0, buffer.Length);
+                    context.Stream.Fill(buffer, 0, buffer.Length);
                 };
                 read.BeginInvoke(null, null);
                 for(int i = 0; i < 10; ++i)
@@ -103,7 +103,7 @@ namespace AK.F1.Timing.Live.IO
                 for(int i = 0; i < 10; ++i)
                 {
                     context.Remote.Send(buffer);
-                    Assert.True(context.Stream.FullyRead(buffer, 0, buffer.Length));
+                    Assert.True(context.Stream.Fill(buffer, 0, buffer.Length));
                     Thread.Sleep(context.Stream.PingInterval - pingWindow);
                     Assert.Equal(0, context.Remote.Available);
                 }
@@ -111,42 +111,42 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void fully_read_returns_true_when_count_is_zero()
+        public void fill_returns_true_when_count_is_zero()
         {
             var buffer = new byte[0];
 
             using(var context = CreateTestContext())
             {
-                Assert.True(context.Stream.FullyRead(buffer, 0, buffer.Length));
+                Assert.True(context.Stream.Fill(buffer, 0, buffer.Length));
             }
         }
 
         [Fact]
-        public void fully_read_returns_true_when_count_has_been_read()
+        public void fill_returns_true_when_count_has_been_read()
         {
             var buffer = new byte[10];
 
             using(var context = CreateTestContext())
             {
                 Assert.Equal(buffer.Length, context.Remote.Send(buffer));
-                Assert.True(context.Stream.FullyRead(buffer, 0, buffer.Length));
+                Assert.True(context.Stream.Fill(buffer, 0, buffer.Length));
             }
         }
 
         [Fact(Skip = "This never returns as the socket is not closed.")]
-        public void fully_read_returns_false_when_count_has_not_been_read()
+        public void fill_returns_false_when_count_has_not_been_read()
         {
             var buffer = new byte[10];
 
             using(var context = CreateTestContext())
             {
                 Assert.Equal(5, context.Remote.Send(buffer, 0, 5, SocketFlags.None));
-                Assert.False(context.Stream.FullyRead(buffer, 0, buffer.Length));
+                Assert.False(context.Stream.Fill(buffer, 0, buffer.Length));
             }
         }
 
         [Fact]
-        public void fully_read_copies_data_to_buffer()
+        public void fill_copies_data_to_buffer()
         {
             var actual = new byte[10];
             var expected = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -154,13 +154,13 @@ namespace AK.F1.Timing.Live.IO
             using(var context = CreateTestContext())
             {
                 Assert.Equal(expected.Length, context.Remote.Send(expected));
-                Assert.True(context.Stream.FullyRead(actual, 0, actual.Length));
+                Assert.True(context.Stream.Fill(actual, 0, actual.Length));
                 Assert.Equal(expected, actual);
             }
         }
 
         [Fact]
-        public void fully_read_copies_data_to_buffer_repeatedly()
+        public void fill_copies_data_to_buffer_repeatedly()
         {
             int repeat = 5;
             var actual = new byte[25];
@@ -173,7 +173,7 @@ namespace AK.F1.Timing.Live.IO
                     Assert.Equal(data.Length, context.Remote.Send(data));
                     for(int i = 0; i < data.Length; i += actual.Length)
                     {
-                        Assert.True(context.Stream.FullyRead(actual, 0, actual.Length));
+                        Assert.True(context.Stream.Fill(actual, 0, actual.Length));
                         Assert.Equal(Enumerable.Range(i, actual.Length).Select(x => (byte)x).ToArray(), actual);
                     }
                 }
@@ -181,7 +181,7 @@ namespace AK.F1.Timing.Live.IO
         }
 
         [Fact]
-        public void fully_read_copies_count_elements_to_buffer_starting_at_offset()
+        public void fill_copies_count_elements_to_buffer_starting_at_offset()
         {
             var actual = new byte[9];
             var data = new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
@@ -190,7 +190,7 @@ namespace AK.F1.Timing.Live.IO
             using(var context = CreateTestContext())
             {
                 Assert.Equal(data.Length, context.Remote.Send(data));
-                Assert.True(context.Stream.FullyRead(actual, 1, 6));
+                Assert.True(context.Stream.Fill(actual, 1, 6));
                 Assert.Equal(expected, actual);
             }
         }

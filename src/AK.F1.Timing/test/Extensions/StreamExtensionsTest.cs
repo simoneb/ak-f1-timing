@@ -21,30 +21,30 @@ namespace AK.F1.Timing.Extensions
     public class StreamExtensionsTest
     {
         [Fact]
-        public void fully_read_returns_true_if_count_is_zero()
+        public void fill_returns_true_if_count_is_zero()
         {
             var buffer = new byte[1];
             var stream = CreateStream(buffer.Length);
 
-            Assert.True(stream.FullyRead(buffer, 0, 0));
+            Assert.True(stream.Fill(buffer, 0, 0));
         }
 
         [Fact]
-        public void fully_read_returns_true_if_all_data_was_written_to_buffer()
+        public void fill_returns_true_if_all_data_was_written_to_buffer()
         {
             var buffer = new byte[10];
             var stream = CreateStream(buffer.Length);
 
-            Assert.True(stream.FullyRead(buffer, 0, buffer.Length));
+            Assert.True(stream.Fill(buffer, 0, buffer.Length));
         }
 
         [Fact]
-        public void fully_read_copies_data_to_buffer_and_leaves_stream_in_correct_position()
+        public void fill_copies_data_to_buffer_and_leaves_stream_in_correct_position()
         {
             var buffer = new byte[10];
             var stream = CreateStream(buffer.Length);
 
-            Assert.True(stream.FullyRead(buffer, 0, buffer.Length));
+            Assert.True(stream.Fill(buffer, 0, buffer.Length));
 
             for(int i = 0; i < buffer.Length; ++i)
             {
@@ -55,12 +55,12 @@ namespace AK.F1.Timing.Extensions
         }
 
         [Fact]
-        public void fully_read_returns_false_if_end_of_stream_was_reached_before_count_was_written_to_buffer()
+        public void fill_returns_false_if_end_of_stream_was_reached_before_count_was_written_to_buffer()
         {
             var buffer = new byte[10];
             var stream = CreateStream(buffer.Length / 2);
 
-            Assert.False(stream.FullyRead(buffer, 0, buffer.Length));
+            Assert.False(stream.Fill(buffer, 0, buffer.Length));
         }
 
         private static Stream CreateStream(int length)
