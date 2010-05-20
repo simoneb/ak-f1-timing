@@ -111,8 +111,7 @@ namespace AK.F1.Timing.Live.IO
 
             while(count > 0)
             {
-                available = Math.Min(_length - _position, count);
-                if(available > 0)
+                if((available = Math.Min(_length - _position, count)) > 0)
                 {
                     Buffer.BlockCopy(_buffer, _position, buffer, offset, available);
                     _position += available;
@@ -136,8 +135,7 @@ namespace AK.F1.Timing.Live.IO
 
             do
             {
-                interval = MicroSecondPingInterval;
-                if(interval == 0)
+                if((interval = MicroSecondPingInterval) == 0)
                 {
                     // Wait indefinitely as we are not pinging.
                     interval = -1;

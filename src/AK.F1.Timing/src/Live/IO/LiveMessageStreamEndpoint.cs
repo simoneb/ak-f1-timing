@@ -54,15 +54,14 @@ namespace AK.F1.Timing.Live.IO
             {
                 socket.Connect(endpoint);
                 Log.Info("connected");
+                return new LiveSocketMessageStream(socket);
             }
             catch(SocketException exc)
             {
-                Log.ErrorFormat("unable to connect to {0}: {1}", endpoint, exc.Message);
                 ((IDisposable)socket).Dispose();
+                Log.ErrorFormat("unable to connect to {0}: {1}", endpoint, exc.Message);
                 throw Guard.LiveMessageStreamEndpoint_FailedToOpenStream(exc);
             }
-
-            return new LiveSocketMessageStream(socket);
         }
 
         /// <inheritdoc/>
@@ -70,14 +69,13 @@ namespace AK.F1.Timing.Live.IO
         {
             Guard.InRange(keyframe >= 0, "keyframe");
 
-            Stream stream;
             Uri keyframeUri = BuildKeyframeUri(keyframe);
 
             Log.InfoFormat("opening keyframe: {0}", keyframeUri);
             try
             {
-                stream = keyframeUri.GetResponseStream(HttpMethod.Get);
-                Log.InfoFormat("opened keyframe, length: {0}bytes", stream.Length);
+                var stream = keyframeUri.GetResponseStream(HttpMethod.Get);
+                Log.InfoFormat("opened keyframe, length: {0} bytes", stream.Length);
                 return new MessageStreamDelegate(stream);
             }
             catch(IOException exc)
@@ -102,12 +100,11 @@ namespace AK.F1.Timing.Live.IO
 
             try
             {
-                entry = Dns.GetHostEntry(StreamHost);
-                if(entry.AddressList.Length > 0)
+                if((entry = Dns.GetHostEntry(StreamHost)).AddressList.Length == 0)
                 {
-                    return new IPEndPoint(entry.AddressList[0], StreamPort);
+                    throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(StreamHost);
                 }
-                throw Guard.LiveMessageStreamEndpoint_FailedToResolveStreamHost(StreamHost);
+                return new IPEndPoint(entry.AddressList[0], StreamPort);
             }
             catch(SocketException exc)
             {
