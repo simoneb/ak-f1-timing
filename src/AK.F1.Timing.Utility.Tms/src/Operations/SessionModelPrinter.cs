@@ -111,7 +111,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
                 Write("|");
                 WriteLine();
             }
-            WriteLine("+-------------------------------------------------------------------------------------------+");
+            WriteLine("+-----------------------------------------------------------------------------------------+");
         }
 
         private static void Write(string s)
@@ -201,7 +201,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
                 Write("|");
                 WriteLine();
             }
-            WriteLine("+----------------------------------------------------------------------------------+");
+            WriteLine("+-----------------------------------------------------------------------------------+");
         }
 
         private static void WriteTrackStatistics(SessionModel session)
@@ -254,7 +254,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
                 Format.Humidity(session.Weather.Humidity.Maximum),
                 Format.Humidity(session.Weather.Humidity.Range),
                 Format.Humidity(session.Weather.Humidity.StandardDeviation));
-            WriteLine("+------------------+---------------------------------------------------------------------+");
+            WriteLine("+------------------+-----------------------------------------------------------------------+");
         }
 
         private static void WriteSessionStatistics(SessionModel session)
@@ -277,7 +277,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+--------------------+-----------+-------+-------+-------+-----------+");
             WriteLine("| DRIVER             |      BEST |    S1 |    S2 |    S3 |      POSS |");
             WriteLine("+--------------------+-----------+-------+-------+-------+-----------+");
-            foreach(var driver in session.Drivers)
+            foreach(var driver in session.Drivers.OrderBy(x => x.LapTimes.Laps.Minimum))
             {
                 var times = driver.LapTimes;
                 Write("|{0,-20}|", driver.Name);
