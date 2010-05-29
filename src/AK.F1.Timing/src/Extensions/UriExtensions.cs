@@ -83,7 +83,7 @@ namespace AK.F1.Timing.Extensions
 
                 request.CookieContainer = new CookieContainer();
                 configurator(request);
-                using(HttpWebResponse response = GetResponse(request))
+                using(var response = GetResponse(request))
                 {
                     return request.CookieContainer.GetCookies(uri);
                 }
@@ -139,9 +139,9 @@ namespace AK.F1.Timing.Extensions
                 var request = CreateRequest(uri, method);
 
                 configurator(request);
-                using(HttpWebResponse response = GetResponse(request))
-                using(Stream stream = response.GetResponseStream())
-                using(MemoryStream ms = new MemoryStream())
+                using(var response = GetResponse(request))
+                using(var stream = response.GetResponseStream())
+                using(var ms = new MemoryStream())
                 {
                     while((read = stream.Read(buffer, 0, buffer.Length)) > 0)
                     {
@@ -202,8 +202,8 @@ namespace AK.F1.Timing.Extensions
                 var request = CreateRequest(uri, method);
 
                 configurator(request);
-                using(HttpWebResponse response = GetResponse(request))
-                using(Stream stream = response.GetResponseStream())
+                using(var response = GetResponse(request))
+                using(var stream = response.GetResponseStream())
                 {
                     while((read = stream.Read(buffer, 0, buffer.Length)) > 0)
                     {
