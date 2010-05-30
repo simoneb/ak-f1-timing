@@ -26,7 +26,7 @@ namespace AK.F1.Timing.Serialization
     /// Writes objects to an underlying output stream that have been decorated with a
     /// <see cref="TypeIdAttribute"/>. This class cannot be inherited.
     /// </summary>
-    public sealed class DecoratedObjectWriter : Disposable, IObjectWriter
+    public sealed class DecoratedObjectWriter : DisposableBase, IObjectWriter
     {
         #region Fields.
 

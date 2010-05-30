@@ -159,7 +159,7 @@
     <Compile Include="Messages\Feed\SetSystemMessageMessage.cs" />
     <Compile Include="Messages\Session\SetSessionStatusMessage.cs" />
     <Compile Include="Messages\Session\SessionStatus.cs" />
-    <Compile Include="Utility\Disposable.cs" />
+    <Compile Include="Utility\DisposableBase.cs" />
     <Compile Include="Extensions\EventExtensions.cs" />
     <Compile Include="Guard.cs" />
     <Compile Include="IMessageReader.cs" />

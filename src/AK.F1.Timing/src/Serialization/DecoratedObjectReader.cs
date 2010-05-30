@@ -23,7 +23,7 @@ namespace AK.F1.Timing.Serialization
     /// Reads objects that have been serialized by an <see cref="DecoratedObjectWriter"/>. This
     /// class cannot be inherited.
     /// </summary>
-    public sealed class DecoratedObjectReader : Disposable, IObjectReader
+    public sealed class DecoratedObjectReader : DisposableBase, IObjectReader
     {
         #region Public Interface.
 

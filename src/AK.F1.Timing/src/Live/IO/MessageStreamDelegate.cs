@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Live.IO
     /// delegates to an underlying <see cref="System.IO.Stream"/>. This implementation does
     /// not support pinging. This class cannot be inherited.
     /// </summary>
-    public sealed class MessageStreamDelegate : Disposable, IMessageStream
+    public sealed class MessageStreamDelegate : DisposableBase, IMessageStream
     {
         #region Public Interface.
 

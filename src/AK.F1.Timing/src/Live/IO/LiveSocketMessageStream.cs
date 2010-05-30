@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Live.IO
     /// delegates to an underlying <see cref="System.Net.Sockets.Socket"/>. This implementation
     /// supports pinging. This class cannot be inherited.
     /// </summary>
-    public sealed class LiveSocketMessageStream : Disposable, IMessageStream
+    public sealed class LiveSocketMessageStream : DisposableBase, IMessageStream
     {
         #region Private Fields.
 

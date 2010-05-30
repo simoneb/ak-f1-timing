@@ -17,7 +17,7 @@ using Xunit;
 
 namespace AK.F1.Timing.Utility
 {
-    public class DisposableTest
+    public class DisposableBaseTest
     {
         [Fact]
         public void is_disposed_is_false_when_not_disposed()
@@ -49,7 +49,7 @@ namespace AK.F1.Timing.Utility
         [Fact]
         public void dispose_of_accepts_null()
         {
-            Disposable.DisposeOf(null);
+            DisposableBase.DisposeOf(null);
         }
 
         [Fact]
@@ -58,11 +58,11 @@ namespace AK.F1.Timing.Utility
             var obj = new DisposableObject();
 
             Assert.False(obj.IsDisposed);
-            Disposable.DisposeOf(obj);
+            DisposableBase.DisposeOf(obj);
             Assert.True(obj.IsDisposed);
         }
 
-        private sealed class DisposableObject : Disposable
+        private sealed class DisposableObject : DisposableBase
         {
             public void Dispose()
             {

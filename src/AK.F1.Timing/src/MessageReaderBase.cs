@@ -24,7 +24,7 @@ namespace AK.F1.Timing
     /// Defines a useful base class for <see cref="AK.F1.Timing.IMessageReader"/>
     /// implementations. This class is <see langword="abstract"/>.
     /// </summary>
-    public abstract class MessageReaderBase : Disposable, IMessageReader
+    public abstract class MessageReaderBase : DisposableBase, IMessageReader
     {
         #region Private Fields.
 

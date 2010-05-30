@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Utility
     /// Defines a base for a class which implements the Disposable pattern. This class
     /// is <see langword="abstract"/>.
     /// </summary>    
-    public abstract class Disposable : IDisposable
+    public abstract class DisposableBase : IDisposable
     {
         #region Public Interface.
 
