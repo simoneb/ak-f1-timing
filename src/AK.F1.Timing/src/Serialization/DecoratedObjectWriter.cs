@@ -110,16 +110,17 @@ namespace AK.F1.Timing.Serialization
             {
                 throw Guard.DecoratedObjectWriter_RootGraphMustBeAnObject(root);
             }
-
-            WriteGraph(context);
+            WriteGraph(ref context);
         }
 
         private void WriteDescendant(object descendant)
         {
-            WriteGraph(CreateContext(descendant));
+            var context = CreateContext(descendant);
+
+            WriteGraph(ref context);
         }
 
-        private void WriteGraph(GraphContext context)
+        private void WriteGraph(ref GraphContext context)
         {
             if(context.TypeCode == ObjectTypeCode.Object)
             {
