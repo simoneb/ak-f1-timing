@@ -90,14 +90,10 @@ namespace AK.F1.Timing.Live
             return message;
         }
 
-        /// <inheritdoc/>
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>        
+        protected override void DisposeOfManagedResources()
         {
-            if(disposing && !IsDisposed)
-            {
-                DisposeOfMessageStream();
-            }
-            base.Dispose(disposing);
+            DisposeOfMessageStream();
         }
 
         #endregion

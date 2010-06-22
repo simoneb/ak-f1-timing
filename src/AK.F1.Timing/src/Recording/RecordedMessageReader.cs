@@ -96,23 +96,13 @@ namespace AK.F1.Timing.Recording
         }
 
         /// <inheritdoc/>
-        protected override void Dispose(bool disposing)
+        protected override void DisposeOfManagedResources()
         {
-            if(IsDisposed)
+            DisposeOf(Reader);
+            if(OwnsInput)
             {
-                return;
+                DisposeOf(Input);
             }
-            if(disposing)
-            {
-                DisposeOf(Reader);
-                if(OwnsInput)
-                {
-                    DisposeOf(Input);
-                }
-            }
-            Reader = null;
-            Input = null;
-            base.Dispose(disposing);
         }
 
         #region Private Impl.

@@ -57,15 +57,11 @@ namespace AK.F1.Timing.Live.IO
 
         #region Protected Interface.
 
-        /// <inheritdoc/>
-        protected override void Dispose(bool disposing)
+        /// <inheritdoc/>        
+        protected override void DisposeOfManagedResources()
         {
-            if(disposing && !IsDisposed)
-            {
-                DisposeOf(Inner);
-                Inner = null;
-            }
-            base.Dispose(disposing);
+            DisposeOf(Inner);
+            Inner = null;
         }
 
         #endregion

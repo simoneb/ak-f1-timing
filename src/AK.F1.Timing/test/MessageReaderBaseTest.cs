@@ -87,6 +87,8 @@ namespace AK.F1.Timing
             {
                 return _messages.Count > 0 ? _messages.Dequeue() : null;
             }
+
+            protected override void DisposeOfManagedResources() { }
         }
 
         private sealed class ThrowingMessageReader : MessageReaderBase
@@ -101,6 +103,8 @@ namespace AK.F1.Timing
 
                 throw new IOException();
             }
+
+            protected override void DisposeOfManagedResources() { }
         }
 
         private sealed class NullMessageReader : MessageReaderBase
@@ -115,6 +119,8 @@ namespace AK.F1.Timing
 
                 return null;
             }
+
+            protected override void DisposeOfManagedResources() { }
         }
     }
 }

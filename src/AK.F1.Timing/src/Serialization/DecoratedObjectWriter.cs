@@ -99,6 +99,13 @@ namespace AK.F1.Timing.Serialization
 
         #endregion
 
+        #region Protected Interface.
+
+        /// <inheritdoc/>        
+        protected override void DisposeOfManagedResources() { }
+
+        #endregion
+
         #region Private Impl.
 
         private void WriteRoot(object root)

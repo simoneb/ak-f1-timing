@@ -36,7 +36,6 @@ namespace AK.F1.Timing.Utility
             {
                 return;
             }
-
             try
             {
                 disposable.Dispose();
@@ -64,18 +63,24 @@ namespace AK.F1.Timing.Utility
         /// </summary>
         /// <param name="disposing"><see langword="true"/> if being called explicitly, otherwise;
         /// <see langword="false"/> to indicate being called implicitly by the GC.</param>
-        protected virtual void Dispose(bool disposing)
+        protected void Dispose(bool disposing)
         {
             if(!IsDisposed)
             {
                 IsDisposed = true;
-                // No point calling SuppressFinalize if were are being called from the finalizer.
                 if(disposing)
                 {
                     GC.SuppressFinalize(this);
+                    DisposeOfManagedResources();
                 }
             }
         }
+
+        /// <summary>
+        /// Disposes of the managed resources held by this instance. This method is guaranteed to
+        /// be invoked only once when this instance is initially disposed of.
+        /// </summary>
+        protected abstract void DisposeOfManagedResources();
 
         /// <summary>
         /// Helper method to throw a <see cref="System.ObjectDisposedException"/> if this instance
