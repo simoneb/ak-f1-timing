@@ -15,6 +15,7 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Security.Authentication;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
@@ -120,6 +121,10 @@ namespace AK.F1.Timing.UI.Services.Session
                 LogAndDispatchException(exc);
             }
             catch(SerializationException exc)
+            {
+                LogAndDispatchException(exc);
+            }
+            catch(AuthenticationException exc)
             {
                 LogAndDispatchException(exc);
             }
