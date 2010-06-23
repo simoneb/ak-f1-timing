@@ -38,6 +38,10 @@ namespace AK.F1.Timing
         /// Thrown when the format of the next message is invalid or the message itself is
         /// not recognised.
         /// </exception>
+        /// <exception cref="System.Security.Authentication.AuthenticationException">
+        /// Thrown when an attemp to re-authenticate the stream fails as the user's credentials
+        /// were rejected by the live-timing service.
+        /// </exception>
         Message Read();
     }
 }
