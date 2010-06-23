@@ -74,8 +74,8 @@ namespace AK.F1.Timing.Live.Encryption
             }
             if(response.Equals("invalid", StringComparison.OrdinalIgnoreCase))
             {
-                Log.Error("failed to fetch the seed as the user's credentials have been rejected");
-                throw Guard.LiveAuthenticationService_CredentialsRejected();
+                Log.Error("failed to fetch the seed as the authentication token has been rejected");
+                throw Guard.LiveDecrypterFactory_AuthenticationTokenRejected();
             }
             if(!int.TryParse(response, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out seed))
             {
@@ -94,7 +94,7 @@ namespace AK.F1.Timing.Live.Encryption
 
         #endregion
 
-        #region Private Impl. 
+        #region Private Impl.
 
         private Uri MakeSeedUri(string sessionId)
         {

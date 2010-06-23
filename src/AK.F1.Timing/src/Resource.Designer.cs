@@ -234,9 +234,9 @@ namespace AK.F1.Timing {
         /// <summary>
         ///   Looks up a localized string similar to Failed to fetch the session decryption seed from the live-timing service as the user&apos;s authentication token has been rejected..
         /// </summary>
-        internal static string LiveDecrypterFactory_CredentialsRejected {
+        internal static string LiveDecrypterFactory_AuthenticationTokenRejected {
             get {
-                return ResourceManager.GetString("LiveDecrypterFactory_CredentialsRejected", resourceCulture);
+                return ResourceManager.GetString("LiveDecrypterFactory_AuthenticationTokenRejected", resourceCulture);
             }
         }
         
@@ -250,7 +250,7 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to parse decryption seed from &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Unable to parse the session decryption seed from &apos;{0}&apos;..
         /// </summary>
         internal static string LiveDecrypterFactory_UnableToParseSeed {
             get {

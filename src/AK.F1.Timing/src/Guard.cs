@@ -241,6 +241,11 @@ namespace AK.F1.Timing
             return new SerializationException(Format(Resource.LiveDecrypterFactory_UnableToParseSeed, s));
         }
 
+        internal static AuthenticationException LiveDecrypterFactory_AuthenticationTokenRejected()
+        {
+            return new AuthenticationException(Resource.LiveDecrypterFactory_AuthenticationTokenRejected);
+        }
+
         internal static AuthenticationException LiveAuthenticationService_CredentialsRejected()
         {
             return new AuthenticationException(Resource.LiveAuthenticationService_CredentialsRejected);
