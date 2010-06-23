@@ -77,7 +77,7 @@ namespace AK.F1.Timing.Extensions
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
 
-            return WrapCommonWebExceptions(() =>
+            return TranslateCommonWebExceptions(() =>
             {
                 var request = CreateRequest(uri, method);
 
@@ -132,7 +132,7 @@ namespace AK.F1.Timing.Extensions
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
 
-            return WrapCommonWebExceptions(() =>
+            return TranslateCommonWebExceptions(() =>
             {
                 int read;
                 var buffer = new byte[BufferSize];
@@ -194,7 +194,7 @@ namespace AK.F1.Timing.Extensions
             Guard.NotNull(uri, "uri");
             Guard.NotNull(configurator, "configurator");
 
-            return WrapCommonWebExceptions(() =>
+            return TranslateCommonWebExceptions(() =>
             {
                 int read;
                 var buffer = new byte[BufferSize];
@@ -220,7 +220,7 @@ namespace AK.F1.Timing.Extensions
 
         #region Private Impl.
 
-        private static T WrapCommonWebExceptions<T>(Func<T> body)
+        private static T TranslateCommonWebExceptions<T>(Func<T> body)
         {
             try
             {
@@ -228,15 +228,15 @@ namespace AK.F1.Timing.Extensions
             }
             catch(WebException exc)
             {
-                throw WrapException(exc);
+                throw TranslateException(exc);
             }
             catch(ProtocolViolationException exc)
             {
-                throw WrapException(exc);
+                throw TranslateException(exc);
             }
         }
 
-        private static IOException WrapException(Exception exc)
+        private static IOException TranslateException(Exception exc)
         {
             return new IOException(exc.Message, exc);
         }
