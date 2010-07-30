@@ -14,6 +14,7 @@
 
 using System;
 using AK.F1.Timing.Messages.Feed;
+using AK.F1.Timing.Utility;
 using Xunit;
 
 namespace AK.F1.Timing.Model.Session
@@ -59,6 +60,15 @@ namespace AK.F1.Timing.Model.Session
             Assert.Equal(1, model.MessageCount);
             model.Process(new SetStreamValidityMessage(false));
             Assert.Equal(2, model.MessageCount);
+        }
+
+        [Fact]
+        public void processing_a_message_updates_the_last_message_received_on_property()
+        {
+            var model = new FeedModel();
+
+            model.Process(new SetStreamValidityMessage(false));
+            Assert.InRange(model.LastMessageReceivedOn, SysClock.Now().AddMilliseconds(-5), SysClock.Now());
         }
 
         [Fact]
@@ -146,6 +156,7 @@ namespace AK.F1.Timing.Model.Session
             Assert.Equal(0, model.KeyframeNumber);
             Assert.Equal(0, model.MessageCount);
             Assert.Equal(TimeSpan.Zero, model.PingInterval);
+            Assert.Null(model.LastMessageReceivedOn);
         }
     }
 }

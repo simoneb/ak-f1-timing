@@ -27,6 +27,7 @@ namespace AK.F1.Timing.Model.Session
         private int _messageCount;
         private int _keyframeNumber;
         private TimeSpan _pingInterval;
+        private DateTime? _lastMessageReceivedOn;
 
         #endregion
 
@@ -57,6 +58,7 @@ namespace AK.F1.Timing.Model.Session
             KeyframeNumber = 0;
             MessageCount = 0;
             PingInterval = TimeSpan.Zero;
+            LastMessageReceivedOn = null;
         }
 
         /// <summary>
@@ -75,6 +77,15 @@ namespace AK.F1.Timing.Model.Session
         {
             get { return _messageCount; }
             private set { SetProperty("MessageCount", ref _messageCount, value); }
+        }
+
+        /// <summary>
+        /// Gets date and time at which the last message was received.
+        /// </summary>
+        public DateTime? LastMessageReceivedOn
+        {
+            get { return _lastMessageReceivedOn; }
+            private set { SetProperty("LastMessageReceivedOn", ref _lastMessageReceivedOn, value); }
         }
 
         /// <summary>

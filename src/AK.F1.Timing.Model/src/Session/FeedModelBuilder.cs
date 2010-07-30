@@ -14,6 +14,7 @@
 
 using System;
 using AK.F1.Timing.Messages.Feed;
+using AK.F1.Timing.Utility;
 
 namespace AK.F1.Timing.Model.Session
 {
@@ -50,6 +51,7 @@ namespace AK.F1.Timing.Model.Session
                 message.Accept(this);
 
                 ++Model.MessageCount;
+                Model.LastMessageReceivedOn = SysClock.Now();
             }
 
             /// <inheritdoc/>
