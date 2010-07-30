@@ -6,10 +6,11 @@
         <GroupBox.Header>Session Debug</GroupBox.Header>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="150"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
+                <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -20,15 +21,17 @@
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Type:"/>
             <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SessionType}"/>
             <TextBlock Grid.Column="0" Grid.Row="1" Text="Lap No.:"/>
-            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding RaceLapNumber}"/>
-            <TextBlock Grid.Column="0" Grid.Row="2" Text="Messages:"/>
-            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Feed.MessageCount}"/>
-            <TextBlock Grid.Column="0" Grid.Row="3" Text="Sys Message:"/>
-            <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Messages.System}"/>
-            <TextBlock Grid.Column="0" Grid.Row="4" Text="Ping Interval:"/>
-            <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Feed.PingInterval}"/>
-            <TextBlock Grid.Column="0" Grid.Row="5" Text="Keyframe No.:"/>
-            <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding Feed.KeyframeNumber}"/>
+            <TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding RaceLapNumber}"/>            
+            <TextBlock Grid.Column="0" Grid.Row="2" Text="Sys Message:"/>
+            <TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding Messages.System}"/>
+            <TextBlock Grid.Column="0" Grid.Row="3" Text="Ping Interval:"/>
+            <TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Feed.PingInterval}"/>
+            <TextBlock Grid.Column="0" Grid.Row="4" Text="Keyframe No.:"/>
+            <TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding Feed.KeyframeNumber}"/>            
+            <TextBlock Grid.Column="0" Grid.Row="5" Text="Message Count:"/>
+            <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding Feed.MessageCount}"/>
+            <TextBlock Grid.Column="0" Grid.Row="6" Text="Last Message Received:"/>
+            <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding Feed.LastMessageReceivedOn, StringFormat='{}{0:hh:mm:ss.fff}'}" />
         </Grid>
     </GroupBox>
 </UserControl>
