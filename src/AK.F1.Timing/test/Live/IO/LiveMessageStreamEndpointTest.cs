@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Live.IO
         {
             var endpoint = new LiveMessageStreamEndpoint();
 
-            using(var stream = endpoint.Open())
+            using(var stream = endpoint.OpenStream())
             {
                 Assert.NotNull(stream);
             }
@@ -37,7 +37,7 @@ namespace AK.F1.Timing.Live.IO
             var buffer = new byte[1];
             var endpoint = new LiveMessageStreamEndpoint();
 
-            using(var stream = endpoint.Open())
+            using(var stream = endpoint.OpenStream())
             {
                 Assert.True(stream.Fill(buffer, 0, buffer.Length));
             }

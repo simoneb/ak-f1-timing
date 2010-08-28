@@ -31,20 +31,20 @@ namespace AK.F1.Timing.Live.IO
     public interface IMessageStreamEndpoint
     {
         /// <summary>
-        /// Opens a new message <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>.
+        /// Opens an <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>.
         /// </summary>        
-        /// <returns>An opened message <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>.</returns>
+        /// <returns>An <see cref="AK.F1.Timing.Live.IO.IMessageStream"/>.</returns>
         /// <exception cref="System.IO.IOException">
         /// Thrown when the message stream could not be opened.
         /// </exception>
-        IMessageStream Open();
+        IMessageStream OpenStream();
 
         /// <summary>
-        /// Opens a new keyframe <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> for
-        /// the keyframe with the specified <paramref name="keyframe"/> number.
+        /// Opens a keyframe <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> for the specified
+        /// <paramref name="keyframe"/> number.
         /// </summary>
         /// <param name="keyframe">The keyframe number.</param>
-        /// <returns>A new keyframe <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> for
+        /// <returns>An <see cref="AK.F1.Timing.Live.IO.IMessageStream"/> for
         /// the keyframe with the specified <paramref name="keyframe"/> number.</returns>
         /// <exception cref="System.ArgumentOutOfRangeException">
         /// Thrown when <paramref name="keyframe"/> is negative.

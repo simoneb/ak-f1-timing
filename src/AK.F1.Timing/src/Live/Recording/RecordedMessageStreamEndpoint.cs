@@ -60,7 +60,7 @@ namespace AK.F1.Timing.Live.Recording
         }
 
         /// <inheritdoc/>
-        public IMessageStream Open()
+        public IMessageStream OpenStream()
         {
             Log.DebugFormat("opening stream {0}", StreamFilePath);
 

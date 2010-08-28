@@ -37,9 +37,8 @@ namespace AK.F1.Timing.Live
 
         private const int BufferSize = 256;
 
-        private static readonly Encoding Utf8 = Encoding.UTF8;
-        private static readonly Encoding Utf16LE = Encoding.GetEncoding("UTF-16LE");
-        private static readonly Encoding Iso88591 = Encoding.GetEncoding("ISO-8859-1");
+        private static readonly Encoding Utf8Encoding = Encoding.UTF8;
+        private static readonly Encoding Latin1Encoding = Encoding.GetEncoding("ISO-8859-1");
 
         #endregion
 
@@ -162,7 +161,7 @@ namespace AK.F1.Timing.Live
 
             Buffer = CreateBuffer();
             Decrypter = DecrypterFactory.Create();
-            MessageStream = MessageStreamEndpoint.Open();
+            MessageStream = MessageStreamEndpoint.OpenStream();
             try
             {
                 var message = ReadMessage();
@@ -319,7 +318,7 @@ namespace AK.F1.Timing.Live
         {
             ReadAndDecryptBytes(header.DataLength);
 
-            var value = GetLatin1(0, header.DataLength);
+            var value = DecodeLatin1(header.DataLength);
 
             return new SetGridColumnValueMessage(
                 header.DriverId,
@@ -367,7 +366,7 @@ namespace AK.F1.Timing.Live
         {
             ReadAndDecryptBytes(header.DataLength);
 
-            var s = GetLatin1(0, header.DataLength);
+            var s = DecodeLatin1(header.DataLength);
 
             switch(header.Colour)
             {
@@ -416,7 +415,7 @@ namespace AK.F1.Timing.Live
         {
             ReadAndDecryptBytes(header.DataLength);
 
-            var remaining = LiveData.ParseTime(GetLatin1(0, header.DataLength));
+            var remaining = LiveData.ParseTime(DecodeLatin1(header.DataLength));
 
             return new CompositeMessage(StopSessionTimeCountdownMessage.Instance,
                 new SetRemainingSessionTimeMessage(remaining));
@@ -425,7 +424,7 @@ namespace AK.F1.Timing.Live
         private Message ReadAddCommentaryMessage(LiveMessageHeader header)
         {
             ReadAndDecryptBytes(header.Value);
-            return new AddCommentaryMessage(GetUtf8(2, header.Value - 2));
+            return new AddCommentaryMessage(DecodeUtf8(2, header.Value - 2));
         }
 
         private Message ReadApexSpeedMessage(LiveMessageHeader header)
@@ -439,14 +438,14 @@ namespace AK.F1.Timing.Live
         private Message ReadSetSessionTypeMessage(LiveMessageHeader header)
         {
             ReadBytes(header.DataLength);
-            return new SetSessionTypeMessage(LiveData.ToSessionType(header.Colour), GetLatin1(1, header.DataLength - 1));
+            return new SetSessionTypeMessage(LiveData.ToSessionType(header.Colour), DecodeLatin1(1, header.DataLength - 1));
         }
 
         private Message ReadSetSessionStatusMessage(LiveMessageHeader header)
         {
             ReadAndDecryptBytes(header.DataLength);
 
-            return new SetSessionStatusMessage(LiveData.ToSessionStatus(GetLatin1(0, header.DataLength)));
+            return new SetSessionStatusMessage(LiveData.ToSessionStatus(DecodeLatin1(header.DataLength)));
         }
 
         private Message ReadSetKeyframeMessage(LiveMessageHeader header)
@@ -473,13 +472,13 @@ namespace AK.F1.Timing.Live
         private Message ReadSetSystemMessageMessage(LiveMessageHeader header)
         {
             ReadAndDecryptBytes(header.Value);
-            return new SetSystemMessageMessage(GetUtf8(0, header.Value));
+            return new SetSystemMessageMessage(DecodeUtf8(header.Value));
         }
 
         private Message ReadSetCopyrightMessage(LiveMessageHeader header)
         {
             ReadBytes(header.Value);
-            return new SetCopyrightMessage(GetUtf8(0, header.Value));
+            return new SetCopyrightMessage(DecodeUtf8(header.Value));
         }
 
         private IDisposable StreamAndBufferBackup()
@@ -531,19 +530,24 @@ namespace AK.F1.Timing.Live
             Decrypter.Decrypt(Buffer, 0, count);
         }
 
-        private string GetUtf8(int offset, int count)
+        private string DecodeUtf8(int count)
         {
-            return Utf8.GetString(Buffer, offset, count);
+            return DecodeUtf8(0, count);
         }
 
-        private string GetLatin1(int offset, int count)
+        private string DecodeUtf8(int offset, int count)
         {
-            return Iso88591.GetString(Buffer, offset, count);
+            return Utf8Encoding.GetString(Buffer, offset, count);
         }
 
-        private string GetUtf16LE(int offset, int count)
+        private string DecodeLatin1(int count)
         {
-            return Utf16LE.GetString(Buffer, offset, count);
+            return DecodeLatin1(0, count);
+        }
+
+        private string DecodeLatin1(int offset, int count)
+        {
+            return Latin1Encoding.GetString(Buffer, offset, count);
         }
 
         private byte[] Buffer { get; set; }

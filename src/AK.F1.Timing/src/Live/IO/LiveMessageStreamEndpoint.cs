@@ -43,7 +43,7 @@ namespace AK.F1.Timing.Live.IO
         #region Public Interface.
 
         /// <inheritdoc/>
-        public IMessageStream Open()
+        public IMessageStream OpenStream()
         {
             var endpoint = ResolveStreamEndpoint();
             var socket = CreateStreamingSocket();
