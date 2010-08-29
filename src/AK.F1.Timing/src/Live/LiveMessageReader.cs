@@ -105,7 +105,6 @@ namespace AK.F1.Timing.Live
         internal void DisposeOfMessageStream()
         {
             DisposeOf(MessageStream);
-            MessageStream = null;
         }
 
         /// <summary>

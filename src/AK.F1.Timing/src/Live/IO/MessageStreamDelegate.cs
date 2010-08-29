@@ -61,7 +61,6 @@ namespace AK.F1.Timing.Live.IO
         protected override void DisposeOfManagedResources()
         {
             DisposeOf(Inner);
-            Inner = null;
         }
 
         #endregion

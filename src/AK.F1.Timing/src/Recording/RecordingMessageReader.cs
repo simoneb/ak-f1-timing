@@ -103,20 +103,15 @@ namespace AK.F1.Timing.Recording
             return message;
         }
 
-
-
         /// <inheritdoc/>
         protected override void DisposeOfManagedResources()
         {
             DisposeOf(Writer);
-            Writer = null;
             DisposeOf(Inner);
-            Inner = null;
             if(OwnsOutput)
             {
                 DisposeOf(Output);
             }
-            Output = null;
         }
 
         #region Private Impl.
