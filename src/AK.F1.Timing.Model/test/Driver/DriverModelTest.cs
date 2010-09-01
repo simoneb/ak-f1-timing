@@ -62,7 +62,7 @@ namespace AK.F1.Timing.Model.Driver
         public void changes_to_the_car_number_property_raise_the_property_changed_event()
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<DriverModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverCarNumberMessage(DriverId, 7));
 
@@ -90,7 +90,7 @@ namespace AK.F1.Timing.Model.Driver
         public void changes_to_the_gap_property_raise_the_property_changed_event()
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<DriverModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverGapMessage(DriverId, new LapGap(2)));
 
@@ -118,7 +118,7 @@ namespace AK.F1.Timing.Model.Driver
         public void changes_to_the_interval_property_raise_the_property_changed_event()
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<DriverModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverIntervalMessage(DriverId, new LapGap(2)));
 
@@ -145,7 +145,7 @@ namespace AK.F1.Timing.Model.Driver
         public void changes_to_the_laps_completed_property_raise_the_property_changed_event()
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<DriverModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverLapNumberMessage(DriverId, 7));
 
@@ -172,7 +172,7 @@ namespace AK.F1.Timing.Model.Driver
         public void changes_to_the_position_property_raise_the_property_changed_event()
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<DriverModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverPositionMessage(DriverId, 7));
 
@@ -199,7 +199,7 @@ namespace AK.F1.Timing.Model.Driver
         public void changes_to_the_name_property_raise_the_property_changed_event()
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<DriverModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverNameMessage(DriverId, "driverName"));
 
@@ -253,7 +253,7 @@ namespace AK.F1.Timing.Model.Driver
         public void changes_to_the_status_property_raise_the_property_changed_event()
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<DriverModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverStatusMessage(DriverId, DriverStatus.OnTrack));
 

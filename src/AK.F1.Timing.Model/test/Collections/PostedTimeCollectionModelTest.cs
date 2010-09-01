@@ -94,7 +94,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_count()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             Assert.Equal(0, model.Count);
             model.Add(PT(35d, PostedTimeType.Normal, 5));
@@ -109,7 +109,7 @@ namespace AK.F1.Timing.Model.Collections
         public void replacing_an_item_does_not_update_the_count()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(1, PostedTimeType.Normal, 1));
             observer.ClearChanges();
@@ -124,7 +124,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_current()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
             var current = PT(35d, PostedTimeType.Normal, 5);
 
             model.Add(current);
@@ -139,7 +139,7 @@ namespace AK.F1.Timing.Model.Collections
         public void replacing_an_item_updates_the_current()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
             var replacement = PT(10, PostedTimeType.Normal, 1);
 
             model.Add(PT(1, PostedTimeType.Normal, 1));
@@ -155,7 +155,7 @@ namespace AK.F1.Timing.Model.Collections
         {
             PostedTime item;
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             for(double seconds = 1d; seconds < 6d; ++seconds)
             {
@@ -173,7 +173,7 @@ namespace AK.F1.Timing.Model.Collections
         public void replacing_an_item_updates_the_maximum_if_it_has_changed()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
             var replacement = PT(20, PostedTimeType.Normal, 1);
 
             model.Add(PT(10, PostedTimeType.Normal, 1));
@@ -197,7 +197,7 @@ namespace AK.F1.Timing.Model.Collections
         {
             PostedTime item;
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             for(double seconds = 5d; seconds >= 0d; --seconds)
             {
@@ -215,7 +215,7 @@ namespace AK.F1.Timing.Model.Collections
         public void replacing_an_item_updates_the_minimum_if_it_has_changed()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
             var replacement = PT(20, PostedTimeType.Normal, 1);
 
             model.Add(PT(30, PostedTimeType.Normal, 1));
@@ -238,7 +238,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_mean()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(1d, PostedTimeType.Normal, 1));
             Assert.Equal(TS(1d), model.Mean);
@@ -254,7 +254,7 @@ namespace AK.F1.Timing.Model.Collections
         public void replacing_an_item_updates_the_mean()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(1, PostedTimeType.Normal, 1));
             model.ReplaceCurrent(PT(10, PostedTimeType.Normal, 1));
@@ -267,7 +267,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_range()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(1d, PostedTimeType.Normal, 1));
             Assert.Equal(TS(0d), model.Range);
@@ -281,7 +281,7 @@ namespace AK.F1.Timing.Model.Collections
         public void replacing_an_item_updates_the_range()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(10, PostedTimeType.Normal, 1));
             Assert.Equal(TS(0), model.Range);
@@ -298,7 +298,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_personal_best_count()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(15, PostedTimeType.PersonalBest, 1));
             Assert.Equal(1, model.PersonalBestCount);
@@ -310,7 +310,7 @@ namespace AK.F1.Timing.Model.Collections
         public void replacing_an_item_updates_the_personal_best_count()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(15, PostedTimeType.PersonalBest, 1));
             Assert.Equal(1, model.PersonalBestCount);
@@ -330,7 +330,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_session_best_count()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(15, PostedTimeType.SessionBest, 1));
             Assert.Equal(1, model.SessionBestCount);
@@ -342,7 +342,7 @@ namespace AK.F1.Timing.Model.Collections
         public void replacing_an_item_updates_the_session_best_count()
         {
             var model = new PostedTimeCollectionModel();
-            var observer = new PropertyChangeObserver<PostedTimeCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(PT(15, PostedTimeType.SessionBest, 1));
             Assert.Equal(1, model.SessionBestCount);

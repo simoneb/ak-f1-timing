@@ -46,7 +46,7 @@ namespace AK.F1.Timing.Model.Grid
         public void setting_the_text_property_raises_the_change_event_if_is_has_changed()
         {
             var column = new GridColumnModel(GridColumn.DriverName);
-            var observer = new PropertyChangeObserver<GridColumnModel>(column);
+            var observer = column.CreateObserver();
 
             column.Text = "Andy";
             Assert.True(observer.HasChanged(x => x.Text));
@@ -60,7 +60,7 @@ namespace AK.F1.Timing.Model.Grid
         public void setting_the_text_colour_property_raises_the_change_event_if_is_has_changed()
         {
             var column = new GridColumnModel(GridColumn.DriverName);
-            var observer = new PropertyChangeObserver<GridColumnModel>(column);
+            var observer = column.CreateObserver();
 
             column.TextColour = GridColumnColour.Green;
             Assert.True(observer.HasChanged(x => x.TextColour));

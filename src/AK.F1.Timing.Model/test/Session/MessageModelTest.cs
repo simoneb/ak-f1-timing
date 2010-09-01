@@ -62,7 +62,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_system_property_raise_the_property_changed_event()
         {
             var model = new MessageModel();
-            var observer = new PropertyChangeObserver<MessageModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetSystemMessageMessage("message"));
             Assert.True(observer.HasChanged(x => x.System));
@@ -85,7 +85,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_commentary_property_raise_the_property_changed_event()
         {
             var model = new MessageModel();
-            var observer = new PropertyChangeObserver<MessageModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new AddCommentaryMessage("commentary"));
             Assert.True(observer.HasChanged(x => x.Commentary));

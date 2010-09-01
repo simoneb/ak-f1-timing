@@ -88,7 +88,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_count()
         {            
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             Assert.Equal(0, model.Count);
             model.Add(1d);
@@ -103,7 +103,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_current()
         {
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(1d);
             Assert.Equal(1d, model.Current);
@@ -117,7 +117,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_current_delta_type_if_it_has_changed()
         {
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(1d);
             Assert.Equal(DeltaType.None, model.CurrentDeltaType);
@@ -135,7 +135,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_maximum_if_it_has_changed()
         {
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             for(double item = -5d; item < 5d; ++item)
             {
@@ -152,7 +152,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_minimum_if_it_has_changed()
         {
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             for(double item = 5d; item > -5d; --item)
             {
@@ -169,7 +169,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_mean()
         {
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(1d);
             Assert.Equal(1d, model.Mean);
@@ -185,7 +185,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_mean_delta_type_if_it_has_changed()
         {
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(10d);
             Assert.Equal(DeltaType.None, model.MeanDeltaType);
@@ -203,7 +203,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_range()
         {
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             model.Add(1d);
             Assert.Equal(0d, model.Range);
@@ -213,7 +213,7 @@ namespace AK.F1.Timing.Model.Collections
             Assert.Equal(2, observer.GetChangeCount(x => x.Range));
 
             model = new DoubleCollectionModel();
-            observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            observer = model.CreateObserver();
 
             model.Add(-20);
             Assert.Equal(0d, model.Range);
@@ -231,7 +231,7 @@ namespace AK.F1.Timing.Model.Collections
         public void adding_an_item_updates_the_standard_deviation()
         {
             var model = new DoubleCollectionModel();
-            var observer = new PropertyChangeObserver<DoubleCollectionModel>(model);
+            var observer = model.CreateObserver();
 
             for(double item = 0d; item < 10d; ++item)
             {

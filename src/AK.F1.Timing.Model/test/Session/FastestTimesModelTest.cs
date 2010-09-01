@@ -171,7 +171,7 @@ namespace AK.F1.Timing.Model.Session
         {
             var model = CreateModel();
             var sectorTime = new PostedTime(TimeSpan.FromSeconds(2D), PostedTimeType.SessionBest, 1);
-            var observer = new PropertyChangeObserver<FastestTimesModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverSectorTimeMessage(1, 1, sectorTime));
             Assert.Null(model.Possible);
@@ -197,7 +197,7 @@ namespace AK.F1.Timing.Model.Session
         {
             var model = CreateModel();
             var postedTime = new PostedTime(TimeSpan.FromSeconds(1D), PostedTimeType.SessionBest, 1);
-            var observer = new PropertyChangeObserver<FastestTimesModel>(model);
+            var observer = model.CreateObserver();
 
             for(int sectorNumber = 1; sectorNumber <= 3; ++sectorNumber)
             {
@@ -222,7 +222,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_a_sector_property_raises_the_property_changed_event(int sectorNumber)
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<FastestTimesModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverSectorTimeMessage(1, sectorNumber, new PostedTime(TimeSpan.FromSeconds(32.4), PostedTimeType.SessionBest, 1)));
 
@@ -233,7 +233,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_lap_property_raises_the_property_changed_event()
         {
             var model = CreateModel();
-            var observer = new PropertyChangeObserver<FastestTimesModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetDriverLapTimeMessage(1, new PostedTime(TimeSpan.FromSeconds(123.624), PostedTimeType.SessionBest, 1)));
 

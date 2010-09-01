@@ -72,4 +72,12 @@ namespace AK.F1.Timing.Model
             _changes[e.PropertyName] = count + 1;
         }
     }
+
+    public static class PropertyChangeObserverExtensions
+    {
+        public static PropertyChangeObserver<T> CreateObserver<T>(this T model) where T : INotifyPropertyChanged
+        {
+            return new PropertyChangeObserver<T>(model);
+        }
+    }
 }

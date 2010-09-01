@@ -57,7 +57,7 @@ namespace AK.F1.Timing.Model.Driver
         public void changes_to_the_qually_time_properties_raise_the_property_changed_event()
         {
             var model = new QuallyTimesModel();
-            var observer = new PropertyChangeObserver<QuallyTimesModel>(model);
+            var observer = model.CreateObserver();
 
             model.SetTime(1, TimeSpan.FromSeconds(1d));
             Assert.True(observer.HasChanged(x => x.Q1));

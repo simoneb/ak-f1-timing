@@ -66,7 +66,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_message_count_property_raise_the_property_changed_event()
         {
             var model = new FeedModel();
-            var observer = new PropertyChangeObserver<FeedModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetStreamValidityMessage(false));
             Assert.True(observer.HasChanged(x => x.MessageCount));
@@ -85,7 +85,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_last_message_received_on_property_raise_the_property_changed_event()
         {
             var model = new FeedModel();
-            var observer = new PropertyChangeObserver<FeedModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetStreamValidityMessage(false));
             Assert.True(observer.HasChanged(x => x.LastMessageReceivedOn));
@@ -104,7 +104,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_copyright_property_raise_the_property_changed_event()
         {
             var model = new FeedModel();
-            var observer = new PropertyChangeObserver<FeedModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetCopyrightMessage("1"));
             Assert.True(observer.HasChanged(x => x.Copyright));
@@ -123,7 +123,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_keyframe_property_raise_the_property_changed_event()
         {
             var model = new FeedModel();
-            var observer = new PropertyChangeObserver<FeedModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetKeyframeMessage(1));
             Assert.True(observer.HasChanged(x => x.KeyframeNumber));
@@ -142,7 +142,7 @@ namespace AK.F1.Timing.Model.Session
         public void changes_to_the_ping_interval_property_raise_the_property_changed_event()
         {
             var model = new FeedModel();
-            var observer = new PropertyChangeObserver<FeedModel>(model);
+            var observer = model.CreateObserver();
 
             model.Process(new SetPingIntervalMessage(TimeSpan.FromSeconds(1D)));
             Assert.True(observer.HasChanged(x => x.PingInterval));
