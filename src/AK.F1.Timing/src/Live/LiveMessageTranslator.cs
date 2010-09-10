@@ -357,7 +357,7 @@ namespace AK.F1.Timing.Live
         {
             var driver = GetDriver(message);
 
-            if(driver.IsOnTrack)
+            if(driver.IsOnTrack && driver.LastLapTime != null)
             {
                 switch(message.Colour)
                 {
@@ -385,7 +385,7 @@ namespace AK.F1.Timing.Live
             if(!(IsQuallySession && driver.IsOnTrack))
             {
                 return null;
-            }            
+            }
             var time = LiveData.ParseTime(message.Value);
             // We do not receive lap times during a qually session so we simulate them using the qually times.
             // Note that this is not a complete solution as we only receive qually times when the driver 
