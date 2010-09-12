@@ -33,13 +33,11 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             SessionModel session = new SessionModel();
 
             using(var input = File.OpenRead(_path))
+            using(var reader = new DecoratedObjectReader(input))
             {
-                using(var reader = new DecoratedObjectReader(input))
+                while((message = (Message)reader.Read()) != null)
                 {
-                    while((message = (Message)reader.Read()) != null)
-                    {
-                        session.Process(message);
-                    }
+                    session.Process(message);
                 }
             }
 

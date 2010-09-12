@@ -41,61 +41,55 @@ namespace AK.F1.Timing.Utility.Tms.Operations
         private void Fixup(string srcPath, string dstPath)
         {
             Message message;
-            var stats = new Stats();
+            var stats = new Statistics();
             var classifier = new MessageClassifier();
             var translator = new LiveMessageTranslator();
 
             using(var input = File.OpenRead(srcPath))
+            using(var reader = new DecoratedObjectReader(input))
+            using(var output = File.Create(dstPath))
+            using(var writer = new DecoratedObjectWriter(output))
             {
-                using(var reader = new DecoratedObjectReader(input))
+                while(true)
                 {
-                    using(var output = File.Create(dstPath))
+                    if((message = (Message)reader.Read()) == null)
                     {
-                        using(var writer = new DecoratedObjectWriter(output))
+                        break;
+                    }
+                    ++stats.Read;
+                    if(classifier.IsTranslated(message))
+                    {
+                        ++stats.OrgTranslated;
+                        continue;
+                    }
+                    writer.Write(message);
+                    ++stats.Written;
+                    if((message = translator.Translate(message)) != null)
+                    {
+                        if(message is CompositeMessage)
                         {
-                            while(true)
+                            foreach(var component in ((CompositeMessage)message).Messages)
                             {
-                                if((message = (Message)reader.Read()) == null)
-                                {
-                                    break;
-                                }
-                                ++stats.Read;
-                                if(classifier.IsTranslated(message))
-                                {
-                                    ++stats.OrgTranslated;
-                                    continue;
-                                }
-                                writer.Write(message);
+                                writer.Write(component);
                                 ++stats.Written;
-                                if((message = translator.Translate(message)) != null)
-                                {
-                                    if(message is CompositeMessage)
-                                    {
-                                        foreach(var component in ((CompositeMessage)message).Messages)
-                                        {
-                                            writer.Write(component);
-                                            ++stats.Written;
-                                            ++stats.NewTranslated;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        writer.Write(message);
-                                        ++stats.Written;
-                                        ++stats.NewTranslated;
-                                    }
-                                }
+                                ++stats.NewTranslated;
                             }
-                            writer.Write(null);
+                        }
+                        else
+                        {
+                            writer.Write(message);
+                            ++stats.Written;
+                            ++stats.NewTranslated;
                         }
                     }
                 }
+                writer.Write(null);
             }
 
             stats.Print();
         }
 
-        private sealed class Stats
+        private sealed class Statistics
         {
             public int Read;
             public int Written;

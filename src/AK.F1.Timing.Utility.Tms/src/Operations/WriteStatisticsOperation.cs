@@ -36,20 +36,18 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             var numberOfObjectByType = new Dictionary<Type, long>();
 
             using(var input = File.OpenRead(_path))
+            using(var reader = new DecoratedObjectReader(input))
             {
-                using(var reader = new DecoratedObjectReader(input))
+                while((obj = reader.Read()) != null)
                 {
-                    while((obj = reader.Read()) != null)
+                    ++numberOfObjects;
+                    if(numberOfObjectByType.ContainsKey(obj.GetType()))
                     {
-                        ++numberOfObjects;
-                        if(numberOfObjectByType.ContainsKey(obj.GetType()))
-                        {
-                            ++numberOfObjectByType[obj.GetType()];
-                        }
-                        else
-                        {
-                            numberOfObjectByType[obj.GetType()] = 1;
-                        }
+                        ++numberOfObjectByType[obj.GetType()];
+                    }
+                    else
+                    {
+                        numberOfObjectByType[obj.GetType()] = 1;
                     }
                 }
             }

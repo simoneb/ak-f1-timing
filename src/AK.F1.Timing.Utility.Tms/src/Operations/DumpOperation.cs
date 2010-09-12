@@ -32,13 +32,11 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             object obj;
 
             using(var input = File.OpenRead(_path))
+            using(var reader = new DecoratedObjectReader(input))
             {
-                using(var reader = new DecoratedObjectReader(input))
+                while((obj = reader.Read()) != null)
                 {
-                    while((obj = reader.Read()) != null)
-                    {
-                        Console.WriteLine("{0}", obj);
-                    }
+                    Console.WriteLine("{0}", obj);
                 }
             }
         }
