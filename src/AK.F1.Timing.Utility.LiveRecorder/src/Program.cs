@@ -14,6 +14,9 @@
 
 using System;
 using System.IO;
+using System.Runtime.Serialization;
+using System.Security.Authentication;
+using System.Threading;
 using log4net;
 using log4net.Config;
 
@@ -22,7 +25,7 @@ namespace AK.F1.Timing.Utility.LiveRecorder
     /// <summary>
     /// Application entry point container. This class is <see langword="static"/>.
     /// </summary>
-    public static class Program
+    public class Program
     {
         #region Fields.
 
@@ -40,22 +43,10 @@ namespace AK.F1.Timing.Utility.LiveRecorder
         {
             var options = new CommandLineOptions();
 
-            if(!options.ParseAndContinue(args))
+            if(options.ParseAndContinue(args))
             {
-                return;
+                new Program(options).Run();
             }
-
-            AuthenticationToken token;
-
-            if(!TryAuthenticate(options.Username, options.Password, out token))
-            {
-                return;
-            }
-
-            string path = Path.Combine(Environment.CurrentDirectory, options.Session + ".tms");
-
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
-            RecordMessages(token, path);
         }
 
         #endregion
@@ -67,29 +58,93 @@ namespace AK.F1.Timing.Utility.LiveRecorder
             XmlConfigurator.Configure();
         }
 
-        private static bool TryAuthenticate(string username, string password, out AuthenticationToken token)
+        private Program(CommandLineOptions options)
         {
-            WriteLine("authenticating...");
+            Options = options;
+        }
+
+        private void Run()
+        {
+            string path;
+
+            if(!ValidateRecordPath(out path))
+            {
+                return;
+            }
+            DoIOBoundOperation(() =>
+            {
+                AuthenticationToken token;
+
+                if(TryAuthenticate(out token))
+                {
+                    ReadAndRecord(token, path);
+                }
+            });
+        }
+
+        private bool ValidateRecordPath(out string path)
+        {
+            path = Path.Combine(Environment.CurrentDirectory, Options.Session + ".tms");
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                return true;
+            }
+            catch(IOException exc)
+            {
+                Log.Error(exc);
+            }
+            return false;
+        }
+
+        private static void DoIOBoundOperation(Action operation)
+        {
+            int attempt = 1;
+            const int maxAttempts = 6;
+            TimeSpan backoff = TimeSpan.FromSeconds(5D);
+
+            while(attempt <= maxAttempts)
+            {
+                try
+                {
+                    operation();
+                    break;
+                }
+                catch(IOException exc)
+                {
+                    Log.Error(exc);
+                }
+                ++attempt;
+                Log.InfoFormat("backing off for {0}s before attempt {1}/{2}",
+                    backoff.TotalSeconds, attempt, maxAttempts);
+                Thread.Sleep(backoff);
+                backoff += backoff;
+            }
+        }
+
+        private bool TryAuthenticate(out AuthenticationToken token)
+        {
+            Log.Info("authenticating...");
 
             token = null;
             try
             {
-                token = F1Timing.Live.Login(username, password);
-                WriteLine("authenticated {0}", username);
+                token = F1Timing.Live.Login(Options.Username, Options.Password);
+                Log.InfoFormat("authenticated {0}", Options.Username);
             }
-            catch(Exception exc)
+            catch(AuthenticationException exc)
             {
-                WriteLine(exc);
+                Log.Error(exc);
             }
 
             return token != null;
         }
 
-        private static void RecordMessages(AuthenticationToken token, string path)
+        private static void ReadAndRecord(AuthenticationToken token, string path)
         {
             Message message;
 
-            WriteLine("connecting...");
+            Log.Info("connecting...");
 
             try
             {
@@ -97,29 +152,22 @@ namespace AK.F1.Timing.Utility.LiveRecorder
                 {
                     while((message = reader.Read()) != null)
                     {
-                        WriteLine(message.ToString());
+                        Log.Info(message.ToString());
                     }
                 }
-                WriteLine("disconnected");
+                Log.Info("disconnected");
             }
-            catch(Exception exc)
+            catch(AuthenticationException exc)
             {
-                WriteLine(exc);
+                Log.Error(exc);
+            }
+            catch(SerializationException exc)
+            {
+                Log.Error(exc);
             }
         }
 
-        private static void WriteLine(Exception exception)
-        {
-            Log.Error(exception);
-            WriteLine("{0} - {1}", exception.GetType().Name, exception.Message);
-        }
-
-        private static void WriteLine(string format, params object[] args)
-        {
-            Console.Write(DateTime.Now.ToString("HH:mm:ss.fff"));
-            Console.Write(": ");
-            Console.WriteLine(format, args);
-        }
+        private CommandLineOptions Options { get; set; }
 
         #endregion
     }
