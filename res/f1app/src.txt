@@ -1,1 +1,1 @@
-http://live-timing.formula1.com/java51/f1app.jar"
+http://live-timing.formula1.com/java60/f1app.jar
