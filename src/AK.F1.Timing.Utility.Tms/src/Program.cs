@@ -15,6 +15,7 @@
 using System;
 using System.Diagnostics;
 using AK.F1.Timing.Utility.Tms.Operations;
+using log4net;
 using log4net.Config;
 
 namespace AK.F1.Timing.Utility.Tms
@@ -24,6 +25,12 @@ namespace AK.F1.Timing.Utility.Tms
     /// </summary>
     public static class Program
     {
+        #region Fields.
+
+        private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
+
+        #endregion
+
         #region Public Interface.
 
         /// <summary>
@@ -42,6 +49,7 @@ namespace AK.F1.Timing.Utility.Tms
                 }
                 catch(Exception exc)
                 {
+                    Log.Error(exc);
                     Console.WriteLine("{0} - {1}", exc.GetType().Name, exc.Message);
                 }
             }
