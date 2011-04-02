@@ -233,6 +233,50 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
+        public void can_get_and_set_a_drivers_last_sector()
+        {
+            var driver = new LiveDriver(1);
+            var s1 = new PostedTime(TimeSpan.Zero, PostedTimeType.Normal, 1);
+            var s2 = new PostedTime(TimeSpan.Zero, PostedTimeType.Normal, 1);
+            var s3 = new PostedTime(TimeSpan.Zero, PostedTimeType.Normal, 1);
+
+            driver.SetLastSector(1, s1);
+            Assert.Same(s1, driver.GetLastSector(1));
+            Assert.Null(driver.GetLastSector(2));
+            Assert.Null(driver.GetLastSector(3));
+
+            driver.SetLastSector(2, s2);
+            Assert.Same(s2, driver.GetLastSector(2));
+            Assert.Same(s1, driver.GetLastSector(1));
+            Assert.Null(driver.GetLastSector(3));
+
+            driver.SetLastSector(3, s3);
+            Assert.Same(s3, driver.GetLastSector(3));
+            Assert.Same(s2, driver.GetLastSector(2));
+            Assert.Same(s1, driver.GetLastSector(1));
+        }
+
+        [Fact]
+        public void set_last_sector_throws_if_time_is_null()
+        {
+            var driver = new LiveDriver(1);
+
+            Assert.Throws<ArgumentNullException>(() => driver.SetLastSector(1, null));
+        }
+
+        [Fact]
+        public void get_and_set_last_sector_time_throws_if_sector_number_is_out_of_range()
+        {
+            var driver = new LiveDriver(1);
+            var time = new PostedTime(TimeSpan.Zero, PostedTimeType.Normal, 1);
+
+            Assert.Throws<ArgumentOutOfRangeException>(() => driver.SetLastSector(0, time));
+            Assert.Throws<ArgumentOutOfRangeException>(() => driver.SetLastSector(4, time));
+            Assert.Throws<ArgumentOutOfRangeException>(() => driver.GetLastSector(0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => driver.GetLastSector(4));
+        }
+
+        [Fact]
         public void can_reset_the_driver_state()
         {
             var driver = new LiveDriver(1);
@@ -243,10 +287,9 @@ namespace AK.F1.Timing.Live
             driver.LastGapMessage = new SetDriverGapMessage(1, LapGap.Zero);
             driver.LastIntervalMessage = new SetDriverIntervalMessage(1, LapGap.Zero);
             driver.LastLapTime = new PostedTime(TimeSpan.FromSeconds(90), PostedTimeType.Normal, 3);
-            for(int i = 0; i < driver.LastSectors.Length; ++i)
-            {
-                driver.LastSectors[i] = driver.LastLapTime;
-            }
+            driver.SetLastSector(1, driver.LastLapTime);
+            driver.SetLastSector(2, driver.LastLapTime);
+            driver.SetLastSector(3, driver.LastLapTime);
             driver.Name = "Name";
             driver.CurrentSectorNumber = 2;
             driver.Position = 5;
@@ -270,10 +313,9 @@ namespace AK.F1.Timing.Live
             Assert.Null(driver.LastGapMessage);
             Assert.Null(driver.LastIntervalMessage);
             Assert.Null(driver.LastLapTime);
-            foreach(var sector in driver.LastSectors)
-            {
-                Assert.Null(sector);
-            }
+            Assert.Null(driver.GetLastSector(1));
+            Assert.Null(driver.GetLastSector(2));
+            Assert.Null(driver.GetLastSector(3));
             Assert.Null(driver.Name);
             Assert.Equal(0, driver.PreviousSectorNumber);
             Assert.Equal(0, driver.Position);

@@ -129,6 +129,40 @@ namespace AK.F1.Timing.Live
             return HavePreviousSectorNumber && sectorNumber == PreviousSectorNumber;
         }
 
+        /// <summary>
+        /// Sets this driver's last sector time.
+        /// </summary>
+        /// <param name="sectorNumber">The one-based sector number.</param>
+        /// <param name="time">The sector time.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="sectorNumber"/> is zero or greater than three.
+        /// </exception>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="time"/> is <see langword="null"/>.
+        /// </exception>
+        public void SetLastSector(int sectorNumber, PostedTime time)
+        {
+            Guard.InRange(IsValidSectorNumber(sectorNumber), "sectorNumber");
+            Guard.NotNull(time, "time");
+
+            LastSectors[sectorNumber - 1] = time;
+        }
+
+        /// <summary>
+        /// Gets the last sector time for the specified sector number.
+        /// </summary>
+        /// <param name="sectorNumber">The one-based sector number.</param>
+        /// <returns>The sector time.</returns>
+        /// <exception cref="System.ArgumentOutOfRangeException">
+        /// Thrown when <paramref name="sectorNumber"/> is zero or greater than three.
+        /// </exception>
+        public PostedTime GetLastSector(int sectorNumber)
+        {
+            Guard.InRange(IsValidSectorNumber(sectorNumber), "sectorNumber");
+
+            return LastSectors[sectorNumber - 1];
+        }
+
         /// <inheritdoc/>
         public override string ToString()
         {
@@ -192,11 +226,6 @@ namespace AK.F1.Timing.Live
         public int Position { get; set; }
 
         /// <summary>
-        /// Gets the list of the last sector times posted by this driver.
-        /// </summary>
-        public PostedTime[] LastSectors { get; private set; }
-
-        /// <summary>
         /// Gets the last lap time posted by the driver.
         /// </summary>
         public PostedTime LastLapTime { get; set; }
@@ -210,8 +239,12 @@ namespace AK.F1.Timing.Live
         /// Gets or sets the one-based sector number this driver is currently completing. Returns
         /// zero if this driver is not completing a sector.
         /// </summary>
-        public int CurrentSectorNumber { // TODO this need to be re-worked, this shouldn't be public.
-            get; set; }
+        public int CurrentSectorNumber
+        {
+            // TODO this need to be re-worked, this shouldn't be public.
+            get;
+            set;
+        }
 
         /// <summary>
         /// Gets or sets the one-based sector number this driver previously completed. Returns zero
@@ -263,6 +296,8 @@ namespace AK.F1.Timing.Live
             return 1 << (int)column;
         }
 
+        private PostedTime[] LastSectors { get; set; }
+
         private bool HaveCurrentSectorNumber
         {
             get { return CurrentSectorNumber != 0; }
@@ -279,5 +314,10 @@ namespace AK.F1.Timing.Live
         }
 
         #endregion
+
+        private static bool IsValidSectorNumber(int sectorNumber)
+        {
+            return sectorNumber > 0 && sectorNumber < 4;
+        }
     }
 }

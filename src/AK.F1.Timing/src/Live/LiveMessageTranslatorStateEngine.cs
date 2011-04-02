@@ -59,14 +59,14 @@ namespace AK.F1.Timing.Live
         {
             LiveDriver driver = GetDriver(message);
 
-            driver.LastSectors[message.SectorNumber - 1] = message.SectorTime;
+            driver.SetLastSector(message.SectorNumber, message.SectorTime);
             driver.CurrentSectorNumber = message.SectorNumber != 3 ? message.SectorNumber + 1 : 1;
         }
 
         /// <inheritdoc/>
         public override void Visit(ReplaceDriverSectorTimeMessage message)
         {
-            GetDriver(message).LastSectors[message.SectorNumber - 1] = message.Replacement;
+            GetDriver(message).SetLastSector(message.SectorNumber, message.Replacement);
         }
 
         /// <inheritdoc/>

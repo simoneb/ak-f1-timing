@@ -64,7 +64,7 @@ namespace AK.F1.Timing.Live
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.White, "23.5"))
                 );
-                Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
+                Assert.Equal(expected.SectorTime, driver.GetLastSector(1));
                 Assert.Equal(2, driver.CurrentSectorNumber);
                 // Personal best lap time.
                 driver.CurrentSectorNumber = 1;
@@ -73,7 +73,7 @@ namespace AK.F1.Timing.Live
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.Green, "23.5"))
                 );
-                Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
+                Assert.Equal(expected.SectorTime, driver.GetLastSector(1));
                 Assert.Equal(2, driver.CurrentSectorNumber);
                 // Session best lap time.
                 driver.CurrentSectorNumber = 1;
@@ -82,7 +82,7 @@ namespace AK.F1.Timing.Live
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.Magenta, "23.5"))
                 );
-                Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
+                Assert.Equal(expected.SectorTime, driver.GetLastSector(1));
                 Assert.Equal(2, driver.CurrentSectorNumber);
             });
         }
@@ -102,19 +102,19 @@ namespace AK.F1.Timing.Live
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, "23.5"))
                 );
-                Assert.Equal(expected.SectorTime, driver.LastSectors[1]);
+                Assert.Equal(expected.SectorTime, driver.GetLastSector(2));
                 Assert.Equal(3, driver.CurrentSectorNumber);
                 // We don't assert the other types here as it is sufficiently covered by the sector 1 test.
             });
         }
 
         [Fact(Skip = "TODO")]
-        public void sector_3_column_values_in_a_race_session_are_translated_into_set_sector_time_and_set_driver_completed_laps_messages() {}
+        public void sector_3_column_values_in_a_race_session_are_translated_into_set_sector_time_and_set_driver_completed_laps_messages() { }
 
         [Theory(Skip = "TODO")]
         [ClassData(typeof(AllSectorGridColumns_AllSessionTypes))]
         public void when_a_driver_is_not_on_the_track_then_sector_time_column_colours_are_not_translated_into_set_sector_time_messages(
-            GridColumn sector, SessionType session) {}
+            GridColumn sector, SessionType session) { }
 
         [Theory]
         [ClassData(typeof(AllSessionTypes))]
@@ -129,13 +129,13 @@ namespace AK.F1.Timing.Live
                 driver.ChangeStatus(DriverStatus.OnTrack);
                 driver.LapNumber = 5;
                 driver.CurrentSectorNumber = 1;
-                driver.LastSectors[0] = PT(23.5, PostedTimeType.Normal, 4);
+                driver.SetLastSector(1, PT(23.5, PostedTimeType.Normal, 4));
                 driver.SetColumnHasValue(GridColumn.S1, true);
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnColourMessage(1, GridColumn.S1, GridColumnColour.White))
                 );
-                Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
+                Assert.Equal(expected.SectorTime, driver.GetLastSector(1));
                 Assert.Equal(2, driver.CurrentSectorNumber);
             });
         }
@@ -170,13 +170,13 @@ namespace AK.F1.Timing.Live
                 driver.ChangeStatus(DriverStatus.OnTrack);
                 driver.LapNumber = 5;
                 driver.CurrentSectorNumber = 1;
-                driver.LastSectors[2] = PT(23.5, PostedTimeType.Normal, 4);
+                driver.SetLastSector(3, PT(23.5, PostedTimeType.Normal, 4));
                 driver.SetColumnHasValue(GridColumn.S3, true);
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnColourMessage(1, GridColumn.S3, GridColumnColour.Green))
                 );
-                Assert.Equal(expected.Replacement, driver.LastSectors[2]);
+                Assert.Equal(expected.Replacement, driver.GetLastSector(3));
             });
         }
 
@@ -193,13 +193,13 @@ namespace AK.F1.Timing.Live
                 driver.ChangeStatus(DriverStatus.OnTrack);
                 driver.LapNumber = 5;
                 driver.CurrentSectorNumber = 2;
-                driver.LastSectors[0] = PT(23.5, PostedTimeType.Normal, 4);
+                driver.SetLastSector(1, PT(23.5, PostedTimeType.Normal, 4));
                 driver.SetColumnHasValue(GridColumn.S1, true);
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnColourMessage(1, GridColumn.S1, GridColumnColour.Green))
                 );
-                Assert.Equal(expected.Replacement, driver.LastSectors[0]);
+                Assert.Equal(expected.Replacement, driver.GetLastSector(1));
             });
         }
 
@@ -216,13 +216,13 @@ namespace AK.F1.Timing.Live
                 driver.ChangeStatus(DriverStatus.OnTrack);
                 driver.LapNumber = 5;
                 driver.CurrentSectorNumber = 1;
-                driver.LastSectors[0] = PT(23.5, PostedTimeType.Normal, 4);
+                driver.SetLastSector(1, PT(23.5, PostedTimeType.Normal, 4));
                 driver.SetColumnHasValue(GridColumn.S1, true);
                 Assert.MessagesAreEqual(
                     expected,
                     translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, null))
                 );
-                Assert.Equal(expected.SectorTime, driver.LastSectors[0]);
+                Assert.Equal(expected.SectorTime, driver.GetLastSector(1));
                 Assert.Equal(2, driver.CurrentSectorNumber);
             });
         }
@@ -239,7 +239,7 @@ namespace AK.F1.Timing.Live
                 driver.ChangeStatus(DriverStatus.OnTrack);
                 driver.LapNumber = 5;
                 driver.CurrentSectorNumber = 1;
-                driver.LastSectors[0] = PT(23.5, PostedTimeType.Normal, 4);
+                driver.SetLastSector(1, PT(23.5, PostedTimeType.Normal, 4));
                 driver.SetColumnHasValue(GridColumn.S1, false);
                 Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.S2, GridColumnColour.White, null)));
             });

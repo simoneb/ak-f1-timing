@@ -426,7 +426,7 @@ namespace AK.F1.Timing.Live
             if(driver.IsPreviousSectorNumber(sectorNumber))
             {
                 return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
-                    new PostedTime(newTime, newTimeType, driver.LastSectors[sectorNumber - 1].LapNumber));
+                    new PostedTime(newTime, newTimeType, driver.GetLastSector(sectorNumber).LapNumber));
             }
             return TranslateSetDriverSectorTimeMessage(
                 new SetDriverSectorTimeMessage(driver.Id, sectorNumber,
@@ -442,7 +442,7 @@ namespace AK.F1.Timing.Live
                 return null;
             }
 
-            var lastSectorTime = driver.LastSectors[sectorNumber - 1];
+            var lastSectorTime = driver.GetLastSector(sectorNumber);
             var newTimeType = LiveData.ToPostedTimeType(message.Colour);
 
             if(driver.IsCurrentSectorNumber(sectorNumber))
@@ -468,7 +468,7 @@ namespace AK.F1.Timing.Live
         private Message TranslateSetSectorClear(SetGridColumnValueMessage message, int sectorNumber)
         {
             var driver = GetDriver(message);
-            var lastSectorTime = driver.LastSectors[0];
+            var lastSectorTime = driver.GetLastSector(1);
             // The feed will only send a value / colour update for S1 if the value has changed. We
             // can detect this when the S2 time is cleared and we are expecting an S1 update.
             // Note that we do not translate the message when the S1 column is currently cleared,
