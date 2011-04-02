@@ -130,8 +130,6 @@
     <Compile Include="Live\Encryption\LiveDecrypterFactory.cs" />
     <Compile Include="Live\Encryption\LiveDecrypter.cs" />
     <Compile Include="Live\Encryption\IDecrypterFactory.cs" />
-    <Compile Include="Live\Recording\RecordedDecrypterFactory.cs" />
-    <Compile Include="Live\Recording\RecordedMessageStreamEndpoint.cs" />
     <Compile Include="MessageReaderBase.cs" />
     <Compile Include="Messages\Feed\SetCopyrightMessage.cs" />
     <Compile Include="Resource.Designer.cs">
