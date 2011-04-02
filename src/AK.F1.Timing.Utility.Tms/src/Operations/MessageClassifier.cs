@@ -114,51 +114,53 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             Result = true;
         }
 
-        public void Visit(SetDriverPositionMessage message) {}
+        public void Visit(SetDriverPositionMessage message) { }
 
-        public void Visit(StartSessionTimeCountdownMessage message) {}
+        public void Visit(StartSessionTimeCountdownMessage message) { }
 
-        public void Visit(StopSessionTimeCountdownMessage message) {}
+        public void Visit(StopSessionTimeCountdownMessage message) { }
 
-        public void Visit(ClearGridRowMessage message) {}
+        public void Visit(ClearGridRowMessage message) { }
 
-        public void Visit(SetGridColumnColourMessage message) {}
+        public void Visit(SetGridColumnColourMessage message) { }
 
-        public void Visit(SetGridColumnValueMessage message) {}
+        public void Visit(SetGridColumnValueMessage message) { }
 
-        public void Visit(SetElapsedSessionTimeMessage message) {}
+        public void Visit(SetElapsedSessionTimeMessage message) { }
 
-        public void Visit(SetAirTemperatureMessage message) {}
+        public void Visit(SetAirTemperatureMessage message) { }
 
-        public void Visit(SetAtmosphericPressureMessage message) {}
+        public void Visit(SetAtmosphericPressureMessage message) { }
 
-        public void Visit(AddCommentaryMessage message) {}
+        public void Visit(AddCommentaryMessage message) { }
 
-        public void Visit(SetCopyrightMessage message) {}
+        public void Visit(SetCopyrightMessage message) { }
 
-        public void Visit(SetKeyframeMessage message) {}
+        public void Visit(SetKeyframeMessage message) { }
 
-        public void Visit(SetHumidityMessage message) {}
+        public void Visit(SetHumidityMessage message) { }
 
-        public void Visit(SetRemainingSessionTimeMessage message) {}
+        public void Visit(SetRemainingSessionTimeMessage message) { }
 
-        public void Visit(SetPingIntervalMessage message) {}
+        public void Visit(SetPingIntervalMessage message) { }
 
-        public void Visit(SetSystemMessageMessage message) {}
+        public void Visit(SetSystemMessageMessage message) { }
 
-        public void Visit(SetSessionTypeMessage message) {}
+        public void Visit(SetSessionTypeMessage message) { }
 
-        public void Visit(SetStreamValidityMessage message) {}
+        public void Visit(SetStreamValidityMessage message) { }
 
-        public void Visit(SetTrackTemperatureMessage message) {}
+        public void Visit(SetTrackTemperatureMessage message) { }
 
-        public void Visit(SetIsWetMessage message) {}
+        public void Visit(SetIsWetMessage message) { }
 
-        public void Visit(SetWindAngleMessage message) {}
+        public void Visit(SetWindAngleMessage message) { }
 
-        public void Visit(SetWindSpeedMessage message) {}
+        public void Visit(SetWindSpeedMessage message) { }
 
-        public void Visit(SetNextMessageDelayMessage message) {}
+        public void Visit(SetNextMessageDelayMessage message) { }
+
+        public void Visit(SetMinRequiredQuallyTimeMessage message) { }
 
         #endregion
 

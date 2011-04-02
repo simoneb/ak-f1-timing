@@ -65,6 +65,7 @@
     <Compile Include="Live\IO\LiveSocketMessageStream.cs" />
     <Compile Include="Live\IO\MessageStreamDelegate.cs" />
     <Compile Include="Messages\Driver\SetDriverPitTimeMessage.cs" />
+    <Compile Include="Messages\Session\SetMinRequiredQuallyTimeMessage.cs" />
     <Compile Include="Messages\Session\EndOfSessionMessage.cs" />
     <Compile Include="Messages\Session\StopSessionTimeCountdownMessage.cs" />
     <Compile Include="Messages\Session\StartSessionTimeCountdownMessage.cs" />

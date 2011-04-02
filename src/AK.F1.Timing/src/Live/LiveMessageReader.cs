@@ -265,17 +265,27 @@ namespace AK.F1.Timing.Live
                     {
                         return ReadSetRemainingSessionTimeMessage(header);
                     }
-                    return Message.Empty;
+                    break;
                 case 10:
                     return ReadApexSpeedMessage(header);
                 case 11:
-                    return ReadSetSessionStatusMessage(header);
+                    if(header.Colour == 1)
+                    {
+                        return ReadSetSessionStatusMessage(header);
+                    }
+                    if(header.Colour == 4)
+                    {
+                        return ReadSetMinRequiredQuallyTimeMessage(header);
+                    }
+                    break;
                 case 12:
                     return ReadSetCopyrightMessage(header);
                 default:
                     Log.ErrorFormat("unsupported system message: {0}", header);
                     throw Guard.LiveMessageReader_UnsupportedSystemMessage(header);
             }
+            Log.WarnFormat("soft-fail on unsupported system message: {0}", header);
+            return Message.Empty;
         }
 
         private Message ReadDriverMessage(LiveMessageHeader header)
@@ -443,8 +453,13 @@ namespace AK.F1.Timing.Live
         private Message ReadSetSessionStatusMessage(LiveMessageHeader header)
         {
             ReadAndDecryptBytes(header.DataLength);
-
             return new SetSessionStatusMessage(LiveData.ToSessionStatus(DecodeLatin1(header.DataLength)));
+        }
+
+        private Message ReadSetMinRequiredQuallyTimeMessage(LiveMessageHeader header)
+        {
+            ReadAndDecryptBytes(header.DataLength);
+            return new SetMinRequiredQuallyTimeMessage(LiveData.ParseTime(DecodeLatin1(header.DataLength)));
         }
 
         private Message ReadSetKeyframeMessage(LiveMessageHeader header)

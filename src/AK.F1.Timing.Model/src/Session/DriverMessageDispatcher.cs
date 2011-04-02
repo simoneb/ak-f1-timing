@@ -137,49 +137,51 @@ namespace AK.F1.Timing.Model.Session
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(StartSessionTimeCountdownMessage message) {}
+        void IMessageVisitor.Visit(StartSessionTimeCountdownMessage message) { }
 
-        void IMessageVisitor.Visit(EndOfSessionMessage message) {}
+        void IMessageVisitor.Visit(EndOfSessionMessage message) { }
 
-        void IMessageVisitor.Visit(StopSessionTimeCountdownMessage message) {}
+        void IMessageVisitor.Visit(StopSessionTimeCountdownMessage message) { }
 
-        void IMessageVisitor.Visit(SetElapsedSessionTimeMessage message) {}
+        void IMessageVisitor.Visit(SetElapsedSessionTimeMessage message) { }
 
-        void IMessageVisitor.Visit(SetAirTemperatureMessage message) {}
+        void IMessageVisitor.Visit(SetAirTemperatureMessage message) { }
 
-        void IMessageVisitor.Visit(SetAtmosphericPressureMessage message) {}
+        void IMessageVisitor.Visit(SetAtmosphericPressureMessage message) { }
 
-        void IMessageVisitor.Visit(AddCommentaryMessage message) {}
+        void IMessageVisitor.Visit(AddCommentaryMessage message) { }
 
-        void IMessageVisitor.Visit(SetCopyrightMessage message) {}
+        void IMessageVisitor.Visit(SetCopyrightMessage message) { }
 
-        void IMessageVisitor.Visit(SetKeyframeMessage message) {}
+        void IMessageVisitor.Visit(SetKeyframeMessage message) { }
 
-        void IMessageVisitor.Visit(SetHumidityMessage message) {}
+        void IMessageVisitor.Visit(SetHumidityMessage message) { }
 
-        void IMessageVisitor.Visit(SetRemainingSessionTimeMessage message) {}
+        void IMessageVisitor.Visit(SetRemainingSessionTimeMessage message) { }
 
-        void IMessageVisitor.Visit(SetRaceLapNumberMessage message) {}
+        void IMessageVisitor.Visit(SetRaceLapNumberMessage message) { }
 
-        void IMessageVisitor.Visit(SetSessionStatusMessage message) {}
+        void IMessageVisitor.Visit(SetSessionStatusMessage message) { }
 
-        void IMessageVisitor.Visit(SetPingIntervalMessage message) {}
+        void IMessageVisitor.Visit(SetPingIntervalMessage message) { }
 
-        void IMessageVisitor.Visit(SetSystemMessageMessage message) {}
+        void IMessageVisitor.Visit(SetSystemMessageMessage message) { }
 
-        void IMessageVisitor.Visit(SetSessionTypeMessage message) {}
+        void IMessageVisitor.Visit(SetSessionTypeMessage message) { }
 
-        void IMessageVisitor.Visit(SetStreamValidityMessage message) {}
+        void IMessageVisitor.Visit(SetStreamValidityMessage message) { }
 
-        void IMessageVisitor.Visit(SetTrackTemperatureMessage message) {}
+        void IMessageVisitor.Visit(SetTrackTemperatureMessage message) { }
 
-        void IMessageVisitor.Visit(SetIsWetMessage message) {}
+        void IMessageVisitor.Visit(SetIsWetMessage message) { }
 
-        void IMessageVisitor.Visit(SetWindAngleMessage message) {}
+        void IMessageVisitor.Visit(SetWindAngleMessage message) { }
 
-        void IMessageVisitor.Visit(SetWindSpeedMessage message) {}
+        void IMessageVisitor.Visit(SetWindSpeedMessage message) { }
 
-        void IMessageVisitor.Visit(SetNextMessageDelayMessage message) {}
+        void IMessageVisitor.Visit(SetNextMessageDelayMessage message) { }
+
+        void IMessageVisitor.Visit(SetMinRequiredQuallyTimeMessage message) { }
 
         #endregion
 

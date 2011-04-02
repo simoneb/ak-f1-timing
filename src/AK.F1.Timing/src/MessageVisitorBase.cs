@@ -30,121 +30,124 @@ namespace AK.F1.Timing
         #region Public Interface.
 
         /// <inheritdoc/>
-        public virtual void Visit(EndOfSessionMessage message) {}
+        public virtual void Visit(EndOfSessionMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(StartSessionTimeCountdownMessage message) {}
+        public virtual void Visit(StartSessionTimeCountdownMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(StopSessionTimeCountdownMessage message) {}
+        public virtual void Visit(StopSessionTimeCountdownMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(ClearGridRowMessage message) {}
+        public virtual void Visit(ClearGridRowMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetGridColumnColourMessage message) {}
+        public virtual void Visit(SetGridColumnColourMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetGridColumnValueMessage message) {}
+        public virtual void Visit(SetGridColumnValueMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(ReplaceDriverLapTimeMessage message) {}
+        public virtual void Visit(ReplaceDriverLapTimeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(ReplaceDriverSectorTimeMessage message) {}
+        public virtual void Visit(ReplaceDriverSectorTimeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetElapsedSessionTimeMessage message) {}
+        public virtual void Visit(SetElapsedSessionTimeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetAirTemperatureMessage message) {}
+        public virtual void Visit(SetAirTemperatureMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetAtmosphericPressureMessage message) {}
+        public virtual void Visit(SetAtmosphericPressureMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(AddCommentaryMessage message) {}
+        public virtual void Visit(AddCommentaryMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetCopyrightMessage message) {}
+        public virtual void Visit(SetCopyrightMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverLapTimeMessage message) {}
+        public virtual void Visit(SetDriverLapTimeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverLapNumberMessage message) {}
+        public virtual void Visit(SetDriverLapNumberMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverGapMessage message) {}
+        public virtual void Visit(SetDriverGapMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverCarNumberMessage message) {}
+        public virtual void Visit(SetDriverCarNumberMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverIntervalMessage message) {}
+        public virtual void Visit(SetDriverIntervalMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverNameMessage message) {}
+        public virtual void Visit(SetDriverNameMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverPitCountMessage message) {}
+        public virtual void Visit(SetDriverPitCountMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverPositionMessage message) {}
+        public virtual void Visit(SetDriverPositionMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverQuallyTimeMessage message) {}
+        public virtual void Visit(SetDriverQuallyTimeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverSectorTimeMessage message) {}
+        public virtual void Visit(SetDriverSectorTimeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverStatusMessage message) {}
+        public virtual void Visit(SetDriverStatusMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetKeyframeMessage message) {}
+        public virtual void Visit(SetKeyframeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetHumidityMessage message) {}
+        public virtual void Visit(SetHumidityMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetRaceLapNumberMessage message) {}
+        public virtual void Visit(SetRaceLapNumberMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetSessionStatusMessage message) {}
+        public virtual void Visit(SetSessionStatusMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetPingIntervalMessage message) {}
+        public virtual void Visit(SetPingIntervalMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetSystemMessageMessage message) {}
+        public virtual void Visit(SetSystemMessageMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetSessionTypeMessage message) {}
+        public virtual void Visit(SetSessionTypeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetStreamValidityMessage message) {}
+        public virtual void Visit(SetStreamValidityMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetTrackTemperatureMessage message) {}
+        public virtual void Visit(SetTrackTemperatureMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetIsWetMessage message) {}
+        public virtual void Visit(SetIsWetMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetWindAngleMessage message) {}
+        public virtual void Visit(SetWindAngleMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetWindSpeedMessage message) {}
+        public virtual void Visit(SetWindSpeedMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetRemainingSessionTimeMessage message) {}
+        public virtual void Visit(SetRemainingSessionTimeMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetNextMessageDelayMessage message) {}
+        public virtual void Visit(SetNextMessageDelayMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(SetDriverPitTimeMessage message) {}
+        public virtual void Visit(SetDriverPitTimeMessage message) { }
+
+        /// <inheritdoc/>
+        public virtual void Visit(SetMinRequiredQuallyTimeMessage message) { }
 
         #endregion
     }
