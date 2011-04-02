@@ -425,6 +425,13 @@ namespace AK.F1.Timing.Live
             // normally.
             if(driver.IsPreviousSectorNumber(sectorNumber))
             {
+                if(driver.GetLastSector(sectorNumber) == null)
+                {
+                    Log.WarnFormat("received value update to a previous sector but we have no" +
+                        " previous sector times for the driver, cannot translate this message: {0}",
+                        message);
+                    return null;
+                }
                 return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
                     new PostedTime(newTime, newTimeType, driver.GetLastSector(sectorNumber).LapNumber));
             }
