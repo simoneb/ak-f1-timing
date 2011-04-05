@@ -20,18 +20,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverPitTimeMessageTest : MessageTestBase<SetDriverPitTimeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Same(PostedTime, message.PitTime);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -45,7 +36,13 @@ namespace AK.F1.Timing.Messages.Driver
             Assert.Throws<ArgumentNullException>(() => { new SetDriverPitTimeMessage(1, null); });
         }
 
-        protected override SetDriverPitTimeMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetDriverPitTimeMessage message)
+        {
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(PostedTime, message.PitTime);
+        }
+
+        protected override SetDriverPitTimeMessage CreateTestMessage()
         {
             return new SetDriverPitTimeMessage(1, PostedTime);
         }

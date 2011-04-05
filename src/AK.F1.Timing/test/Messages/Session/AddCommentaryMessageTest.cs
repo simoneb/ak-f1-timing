@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Session
     public class AddCommentaryMessageTest : MessageTestBase<AddCommentaryMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal("Commentary", message.Commentary);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -50,7 +42,12 @@ namespace AK.F1.Timing.Messages.Session
             Assert.Throws<ArgumentNullException>(() => { new AddCommentaryMessage(null); });
         }
 
-        protected override AddCommentaryMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(AddCommentaryMessage message)
+        {
+            Assert.Equal("Commentary", message.Commentary);
+        }
+
+        protected override AddCommentaryMessage CreateTestMessage()
         {
             return new AddCommentaryMessage("Commentary");
         }

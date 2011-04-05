@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Weather
     public class SetWindAngleMessageTest : MessageTestBase<SetWindAngleMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.Angle);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -57,7 +49,12 @@ namespace AK.F1.Timing.Messages.Weather
             Assert.False(SetWindAngleMessage.IsValidAngle(361));
         }
 
-        protected override SetWindAngleMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetWindAngleMessage message)
+        {
+            Assert.Equal(1, message.Angle);
+        }
+
+        protected override SetWindAngleMessage CreateTestMessage()
         {
             return new SetWindAngleMessage(1);
         }

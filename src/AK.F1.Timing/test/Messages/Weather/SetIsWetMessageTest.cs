@@ -19,16 +19,9 @@ namespace AK.F1.Timing.Messages.Weather
     public class SetIsWetMessageTest : MessageTestBase<SetIsWetMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            Assert.True(new SetIsWetMessage(true).IsWet);
-            Assert.False(new SetIsWetMessage(false).IsWet);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -36,7 +29,12 @@ namespace AK.F1.Timing.Messages.Weather
             visitor.VerifyAll();
         }
 
-        protected override SetIsWetMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetIsWetMessage message)
+        {
+            Assert.True(message.IsWet);
+        }
+
+        protected override SetIsWetMessage CreateTestMessage()
         {
             return new SetIsWetMessage(true);
         }

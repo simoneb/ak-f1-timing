@@ -20,18 +20,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverGapMessageTest : MessageTestBase<SetDriverGapMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(Gap, message.Gap);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -45,7 +36,13 @@ namespace AK.F1.Timing.Messages.Driver
             Assert.Throws<ArgumentNullException>(() => { new SetDriverGapMessage(1, null); });
         }
 
-        protected override SetDriverGapMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetDriverGapMessage message)
+        {
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(Gap, message.Gap);
+        }
+
+        protected override SetDriverGapMessage CreateTestMessage()
         {
             return new SetDriverGapMessage(1, Gap);
         }

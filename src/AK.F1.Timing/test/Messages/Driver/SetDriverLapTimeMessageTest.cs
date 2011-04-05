@@ -20,18 +20,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverLapTimeMessageTest : MessageTestBase<SetDriverLapTimeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(PostedTime, message.LapTime);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -45,7 +36,13 @@ namespace AK.F1.Timing.Messages.Driver
             Assert.Throws<ArgumentNullException>(() => { new SetDriverLapTimeMessage(1, null); });
         }
 
-        protected override SetDriverLapTimeMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetDriverLapTimeMessage message)
+        {
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(PostedTime, message.LapTime);
+        }
+
+        protected override SetDriverLapTimeMessage CreateTestMessage()
         {
             return new SetDriverLapTimeMessage(1, PostedTime);
         }

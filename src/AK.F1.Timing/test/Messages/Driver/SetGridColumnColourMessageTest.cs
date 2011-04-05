@@ -19,19 +19,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetGridColumnColourMessageTest : MessageTestBase<SetGridColumnColourMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(GridColumnColour.Blue, message.Colour);
-            Assert.Equal(GridColumn.DriverName, message.Column);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -39,7 +29,14 @@ namespace AK.F1.Timing.Messages.Driver
             visitor.VerifyAll();
         }
 
-        protected override SetGridColumnColourMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetGridColumnColourMessage message)
+        {
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(GridColumnColour.Blue, message.Colour);
+            Assert.Equal(GridColumn.DriverName, message.Column);
+        }
+
+        protected override SetGridColumnColourMessage CreateTestMessage()
         {
             return new SetGridColumnColourMessage(1, GridColumn.DriverName, GridColumnColour.Blue);
         }

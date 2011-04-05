@@ -20,17 +20,6 @@ namespace AK.F1.Timing.Messages
     public class CompositeMessageTest : MessageTestBase<CompositeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.NotNull(message.Messages);
-            Assert.Equal(2, message.Messages.Count);
-            Assert.Same(Message.Empty, message.Messages[0]);
-            Assert.Same(Message.Empty, message.Messages[1]);
-        }
-
-        [Fact]
         public override void can_visit()
         {
             var visitor = CreateMockMessageVisitor();
@@ -44,7 +33,20 @@ namespace AK.F1.Timing.Messages
             visitor.VerifyAll();
         }
 
-        protected override CompositeMessage CreateMessage()
+        public override void can_serialize()
+        {
+            // This message should be be serializable.
+        }
+
+        protected override void AssertEqualsTestMessage(CompositeMessage message)
+        {
+            Assert.NotNull(message.Messages);
+            Assert.Equal(2, message.Messages.Count);
+            Assert.Same(Message.Empty, message.Messages[0]);
+            Assert.Same(Message.Empty, message.Messages[1]);
+        }
+
+        protected override CompositeMessage CreateTestMessage()
         {
             return new CompositeMessage(Message.Empty, Message.Empty);
         }

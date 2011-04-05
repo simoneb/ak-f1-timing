@@ -19,16 +19,9 @@ namespace AK.F1.Timing.Messages.Feed
     public class SetStreamValidityMessageTest : MessageTestBase<SetStreamValidityMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            Assert.True(new SetStreamValidityMessage(true).IsValid);
-            Assert.False(new SetStreamValidityMessage(false).IsValid);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -36,7 +29,12 @@ namespace AK.F1.Timing.Messages.Feed
             visitor.VerifyAll();
         }
 
-        protected override SetStreamValidityMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetStreamValidityMessage message)
+        {
+            Assert.True(message.IsValid);
+        }
+
+        protected override SetStreamValidityMessage CreateTestMessage()
         {
             return new SetStreamValidityMessage(true);
         }

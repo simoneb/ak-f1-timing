@@ -20,19 +20,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverQuallyTimeMessageTest : MessageTestBase<SetDriverQuallyTimeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(1, message.QuallyNumber);
-            Assert.Equal(PostedTime.Time, message.QuallyTime);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -54,7 +44,14 @@ namespace AK.F1.Timing.Messages.Driver
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverQuallyTimeMessage(1, -1, PostedTime.Time); });
         }
 
-        protected override SetDriverQuallyTimeMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetDriverQuallyTimeMessage message)
+        {
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(1, message.QuallyNumber);
+            Assert.Equal(PostedTime.Time, message.QuallyTime);
+        }
+
+        protected override SetDriverQuallyTimeMessage CreateTestMessage()
         {
             return new SetDriverQuallyTimeMessage(1, 1, PostedTime.Time);
         }

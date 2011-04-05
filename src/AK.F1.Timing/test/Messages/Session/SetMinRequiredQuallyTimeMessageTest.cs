@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Session
     public class SetMinRequiredQuallyTimeMessageTest : MessageTestBase<SetMinRequiredQuallyTimeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(TimeSpan.FromMilliseconds(1D), message.Time);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -45,7 +37,12 @@ namespace AK.F1.Timing.Messages.Session
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetMinRequiredQuallyTimeMessage(TimeSpan.FromMilliseconds(-1)); });
         }
 
-        protected override SetMinRequiredQuallyTimeMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetMinRequiredQuallyTimeMessage message)
+        {
+            Assert.Equal(TimeSpan.FromMilliseconds(1D), message.Time);
+        }
+
+        protected override SetMinRequiredQuallyTimeMessage CreateTestMessage()
         {
             return new SetMinRequiredQuallyTimeMessage(TimeSpan.FromMilliseconds(1D));
         }

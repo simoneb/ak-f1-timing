@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Session
     public class SetRaceLapNumberMessageTest : MessageTestBase<SetRaceLapNumberMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.LapNumber);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -45,7 +37,12 @@ namespace AK.F1.Timing.Messages.Session
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetRaceLapNumberMessage(-1); });
         }
 
-        protected override SetRaceLapNumberMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetRaceLapNumberMessage message)
+        {
+            Assert.Equal(1, message.LapNumber);
+        }
+
+        protected override SetRaceLapNumberMessage CreateTestMessage()
         {
             return new SetRaceLapNumberMessage(1);
         }

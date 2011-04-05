@@ -20,18 +20,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverCarNumberMessageTest : MessageTestBase<SetDriverCarNumberMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.CarNumber);
-            Assert.Equal(1, message.DriverId);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -46,7 +37,13 @@ namespace AK.F1.Timing.Messages.Driver
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverCarNumberMessage(1, -1); });
         }
 
-        protected override SetDriverCarNumberMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetDriverCarNumberMessage message)
+        {
+            Assert.Equal(1, message.CarNumber);
+            Assert.Equal(1, message.DriverId);
+        }
+
+        protected override SetDriverCarNumberMessage CreateTestMessage()
         {
             return new SetDriverCarNumberMessage(1, 1);
         }

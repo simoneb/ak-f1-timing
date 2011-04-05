@@ -13,7 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.IO;
 using AK.F1.Timing.Messages.Driver;
+using AK.F1.Timing.Serialization;
 using Moq;
 using Xunit;
 
@@ -29,20 +31,42 @@ namespace AK.F1.Timing.Messages
         public static readonly Gap Gap = new LapGap(1);
 
         [Fact]
-        public abstract void can_create();
-
-        [Fact]
         public abstract void can_visit();
 
         [Fact]
         public void accept_throws_if_visitor_is_null()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
 
             Assert.Throws<ArgumentNullException>(() => { message.Accept(null); });
         }
 
-        protected abstract TMessage CreateMessage();
+        [Fact]
+        public void can_create()
+        {
+            AssertEqualsTestMessage(CreateTestMessage());
+        }
+
+        [Fact]
+        public virtual void can_serialize()
+        {
+            using(var stream = new MemoryStream())
+            {
+                using(var writer = new DecoratedObjectWriter(stream))
+                {
+                    writer.Write(CreateTestMessage());
+                }
+                stream.Position = 0L;
+                using(var reader = new DecoratedObjectReader(stream))
+                {
+                    AssertEqualsTestMessage(reader.Read<TMessage>());
+                }
+            }
+        }
+
+        protected abstract TMessage CreateTestMessage();
+
+        protected abstract void AssertEqualsTestMessage(TMessage message);
 
         protected Mock<IMessageVisitor> CreateMockMessageVisitor()
         {

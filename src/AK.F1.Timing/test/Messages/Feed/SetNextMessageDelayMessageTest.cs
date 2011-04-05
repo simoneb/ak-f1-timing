@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Feed
     public class SetNextMessageDelayMessageTest : MessageTestBase<SetNextMessageDelayMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(TimeSpan.FromMilliseconds(1), message.Delay);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -45,7 +37,12 @@ namespace AK.F1.Timing.Messages.Feed
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetNextMessageDelayMessage(TimeSpan.FromMilliseconds(-1)); });
         }
 
-        protected override SetNextMessageDelayMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetNextMessageDelayMessage message)
+        {
+            Assert.Equal(TimeSpan.FromMilliseconds(1), message.Delay);
+        }
+
+        protected override SetNextMessageDelayMessage CreateTestMessage()
         {
             return new SetNextMessageDelayMessage(TimeSpan.FromMilliseconds(1));
         }

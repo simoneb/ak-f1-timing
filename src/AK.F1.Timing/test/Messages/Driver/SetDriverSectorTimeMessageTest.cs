@@ -20,19 +20,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetDriverSectorTimeMessageTest : MessageTestBase<SetDriverSectorTimeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(1, message.SectorNumber);
-            Assert.Equal(PostedTime, message.SectorTime);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -53,7 +43,14 @@ namespace AK.F1.Timing.Messages.Driver
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetDriverSectorTimeMessage(1, -1, PostedTime); });
         }
 
-        protected override SetDriverSectorTimeMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetDriverSectorTimeMessage message)
+        {
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(1, message.SectorNumber);
+            Assert.Equal(PostedTime, message.SectorTime);
+        }
+
+        protected override SetDriverSectorTimeMessage CreateTestMessage()
         {
             return new SetDriverSectorTimeMessage(1, 1, PostedTime);
         }

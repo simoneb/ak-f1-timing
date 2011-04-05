@@ -19,20 +19,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class SetGridColumnValueMessageTest : MessageTestBase<SetGridColumnValueMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.DriverId);
-            Assert.Equal(GridColumnColour.Blue, message.Colour);
-            Assert.Equal(GridColumn.DriverName, message.Column);
-            Assert.Equal("Value", message.Value);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -52,7 +41,15 @@ namespace AK.F1.Timing.Messages.Driver
             Assert.False(message.ClearColumn);
         }
 
-        protected override SetGridColumnValueMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetGridColumnValueMessage message)
+        {
+            Assert.Equal(1, message.DriverId);
+            Assert.Equal(GridColumnColour.Blue, message.Colour);
+            Assert.Equal(GridColumn.DriverName, message.Column);
+            Assert.Equal("Value", message.Value);
+        }
+
+        protected override SetGridColumnValueMessage CreateTestMessage()
         {
             return new SetGridColumnValueMessage(1, GridColumn.DriverName, GridColumnColour.Blue, "Value");
         }

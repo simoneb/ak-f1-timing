@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Session
     public class SetElapsedSessionTimeMessageTest : MessageTestBase<SetElapsedSessionTimeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(TimeSpan.FromMilliseconds(1D), message.Elapsed);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -45,7 +37,12 @@ namespace AK.F1.Timing.Messages.Session
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetElapsedSessionTimeMessage(TimeSpan.FromMilliseconds(-1)); });
         }
 
-        protected override SetElapsedSessionTimeMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetElapsedSessionTimeMessage message)
+        {
+            Assert.Equal(TimeSpan.FromMilliseconds(1D), message.Elapsed);
+        }
+
+        protected override SetElapsedSessionTimeMessage CreateTestMessage()
         {
             return new SetElapsedSessionTimeMessage(TimeSpan.FromMilliseconds(1D));
         }

@@ -19,12 +19,6 @@ namespace AK.F1.Timing.Messages.Session
     public class EndOfSessionMessageTest : MessageTestBase<EndOfSessionMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            Assert.NotNull(EndOfSessionMessage.Instance);
-        }
-
-        [Fact]
         public void maintains_identity_when_serialized()
         {
             Assert.Same(EndOfSessionMessage.Instance, EndOfSessionMessage.Instance.DeepClone());
@@ -33,7 +27,7 @@ namespace AK.F1.Timing.Messages.Session
         [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -41,7 +35,12 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
-        protected override EndOfSessionMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(EndOfSessionMessage message)
+        {
+            Assert.Same(EndOfSessionMessage.Instance, message);
+        }
+
+        protected override EndOfSessionMessage CreateTestMessage()
         {
             return EndOfSessionMessage.Instance;
         }

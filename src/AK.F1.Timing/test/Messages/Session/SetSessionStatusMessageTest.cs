@@ -19,17 +19,9 @@ namespace AK.F1.Timing.Messages.Session
     public class SetSessionStatusMessageTest : MessageTestBase<SetSessionStatusMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(SessionStatus.SafetyCarDeployed, message.SessionStatus);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -37,7 +29,12 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
-        protected override SetSessionStatusMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetSessionStatusMessage message)
+        {
+            Assert.Equal(SessionStatus.SafetyCarDeployed, message.SessionStatus);
+        }
+
+        protected override SetSessionStatusMessage CreateTestMessage()
         {
             return new SetSessionStatusMessage(SessionStatus.SafetyCarDeployed);
         }

@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Weather
     public class SetHumidityMessageTest : MessageTestBase<SetHumidityMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1D, message.Humidity);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -46,7 +38,12 @@ namespace AK.F1.Timing.Messages.Weather
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetHumidityMessage(100 + Double.Epsilon); });
         }
 
-        protected override SetHumidityMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetHumidityMessage message)
+        {
+            Assert.Equal(1D, message.Humidity);
+        }
+
+        protected override SetHumidityMessage CreateTestMessage()
         {
             return new SetHumidityMessage(1D);
         }

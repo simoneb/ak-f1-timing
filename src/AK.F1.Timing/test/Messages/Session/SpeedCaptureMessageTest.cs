@@ -14,20 +14,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using AK.F1.Timing.Serialization;
 using Xunit;
 
 namespace AK.F1.Timing.Messages.Session
 {
     public class SpeedCaptureMessageTest : MessageTestBase<SpeedCaptureMessage>
     {
-        [Fact]
-        public override void can_create()
-        {
-            AssertEqualsTestMessage(CreateMessage());
-        }
-
         [Fact]
         public void ctor_throws_if_speeds_is_null()
         {
@@ -37,7 +29,7 @@ namespace AK.F1.Timing.Messages.Session
         [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -48,27 +40,10 @@ namespace AK.F1.Timing.Messages.Session
         [Fact]
         public void speeds_is_readonly()
         {
-            Assert.True(CreateMessage().Speeds.IsReadOnly);
+            Assert.True(CreateTestMessage().Speeds.IsReadOnly);
         }
 
-        [Fact]
-        public void can_serialize()
-        {
-            using(var stream = new MemoryStream())
-            {
-                using(var writer = new DecoratedObjectWriter(stream))
-                {
-                    writer.Write(CreateMessage());
-                }
-                stream.Position = 0L;
-                using(var reader = new DecoratedObjectReader(stream))
-                {
-                    AssertEqualsTestMessage(reader.Read<SpeedCaptureMessage>());
-                }
-            }
-        }
-
-        private void AssertEqualsTestMessage(SpeedCaptureMessage message)
+        protected override void AssertEqualsTestMessage(SpeedCaptureMessage message)
         {
             Assert.Equal(SpeedCaptureLocation.S2, message.Location);
             Assert.Equal(1, message.Speeds.Count);
@@ -76,7 +51,7 @@ namespace AK.F1.Timing.Messages.Session
             Assert.Equal(123, message.Speeds[0].Value);
         }
 
-        protected override SpeedCaptureMessage CreateMessage()
+        protected override SpeedCaptureMessage CreateTestMessage()
         {
             return new SpeedCaptureMessage(SpeedCaptureLocation.S2, new[] { new KeyValuePair<string, int>("VET", 123) });
         }

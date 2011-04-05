@@ -19,17 +19,9 @@ namespace AK.F1.Timing.Messages.Weather
     public class SetTrackTemperatureMessageTest : MessageTestBase<SetTrackTemperatureMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1D, message.Temperature);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -37,7 +29,12 @@ namespace AK.F1.Timing.Messages.Weather
             visitor.VerifyAll();
         }
 
-        protected override SetTrackTemperatureMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetTrackTemperatureMessage message)
+        {
+            Assert.Equal(1D, message.Temperature);
+        }
+
+        protected override SetTrackTemperatureMessage CreateTestMessage()
         {
             return new SetTrackTemperatureMessage(1D);
         }

@@ -19,17 +19,9 @@ namespace AK.F1.Timing.Messages.Driver
     public class ClearGridRowMessageTest : MessageTestBase<ClearGridRowMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(1, message.DriverId);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -37,7 +29,12 @@ namespace AK.F1.Timing.Messages.Driver
             visitor.VerifyAll();
         }
 
-        protected override ClearGridRowMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(ClearGridRowMessage message)
+        {
+            Assert.Equal(1, message.DriverId);
+        }
+
+        protected override ClearGridRowMessage CreateTestMessage()
         {
             return new ClearGridRowMessage(1);
         }

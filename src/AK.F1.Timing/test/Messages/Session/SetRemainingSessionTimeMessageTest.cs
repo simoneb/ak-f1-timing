@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Session
     public class SetRemainingSessionTimeMessageTest : MessageTestBase<SetRemainingSessionTimeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal(TimeSpan.FromMilliseconds(1D), message.Remaining);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -45,7 +37,12 @@ namespace AK.F1.Timing.Messages.Session
             Assert.Throws<ArgumentOutOfRangeException>(() => { new SetRemainingSessionTimeMessage(TimeSpan.FromMilliseconds(-1)); });
         }
 
-        protected override SetRemainingSessionTimeMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetRemainingSessionTimeMessage message)
+        {
+            Assert.Equal(TimeSpan.FromMilliseconds(1D), message.Remaining);
+        }
+
+        protected override SetRemainingSessionTimeMessage CreateTestMessage()
         {
             return new SetRemainingSessionTimeMessage(TimeSpan.FromMilliseconds(1D));
         }

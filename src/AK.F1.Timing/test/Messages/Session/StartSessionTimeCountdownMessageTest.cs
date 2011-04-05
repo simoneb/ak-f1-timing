@@ -19,12 +19,6 @@ namespace AK.F1.Timing.Messages.Session
     public class StartSessionTimeCountdownMessageTest : MessageTestBase<StartSessionTimeCountdownMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            Assert.NotNull(StartSessionTimeCountdownMessage.Instance);
-        }
-
-        [Fact]
         public void maintains_identity_when_serialized()
         {
             Assert.Same(StartSessionTimeCountdownMessage.Instance,
@@ -34,7 +28,7 @@ namespace AK.F1.Timing.Messages.Session
         [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -42,7 +36,12 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
-        protected override StartSessionTimeCountdownMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(StartSessionTimeCountdownMessage message)
+        {
+            Assert.Same(StartSessionTimeCountdownMessage.Instance, message);
+        }
+
+        protected override StartSessionTimeCountdownMessage CreateTestMessage()
         {
             return StartSessionTimeCountdownMessage.Instance;
         }

@@ -20,17 +20,9 @@ namespace AK.F1.Timing.Messages.Feed
     public class SetSystemMessageMessageTest : MessageTestBase<SetSystemMessageMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal("Message", message.Message);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -50,7 +42,12 @@ namespace AK.F1.Timing.Messages.Feed
             Assert.Throws<ArgumentNullException>(() => { new SetSystemMessageMessage(null); });
         }
 
-        protected override SetSystemMessageMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetSystemMessageMessage message)
+        {
+            Assert.Equal("Message", message.Message);
+        }
+
+        protected override SetSystemMessageMessage CreateTestMessage()
         {
             return new SetSystemMessageMessage("Message");
         }

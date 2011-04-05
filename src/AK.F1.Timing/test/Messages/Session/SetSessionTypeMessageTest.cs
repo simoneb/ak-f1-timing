@@ -19,18 +19,9 @@ namespace AK.F1.Timing.Messages.Session
     public class SetSessionTypeMessageTest : MessageTestBase<SetSessionTypeMessage>
     {
         [Fact]
-        public override void can_create()
-        {
-            var message = CreateMessage();
-
-            Assert.Equal("SessionId", message.SessionId);
-            Assert.Equal(SessionType.Qually, message.SessionType);
-        }
-
-        [Fact]
         public override void can_visit()
         {
-            var message = CreateMessage();
+            var message = CreateTestMessage();
             var visitor = CreateMockMessageVisitor();
 
             visitor.Setup(x => x.Visit(message));
@@ -38,7 +29,13 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
-        protected override SetSessionTypeMessage CreateMessage()
+        protected override void AssertEqualsTestMessage(SetSessionTypeMessage message)
+        {
+            Assert.Equal("SessionId", message.SessionId);
+            Assert.Equal(SessionType.Qually, message.SessionType);
+        }
+
+        protected override SetSessionTypeMessage CreateTestMessage()
         {
             return new SetSessionTypeMessage(SessionType.Qually, "SessionId");
         }
