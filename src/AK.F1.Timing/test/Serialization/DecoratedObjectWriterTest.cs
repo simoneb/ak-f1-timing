@@ -27,7 +27,7 @@ namespace AK.F1.Timing.Serialization
             Assert.DoesNotThrow(() => Write(null));
         }
 
-        [Fact]
+        [Fact(Skip = "Why is this a fact?")]
         public void only_graphs_decorated_with_a_type_id_can_be_written()
         {
             Assert.Throws<SerializationException>(() => Write(new object()));
@@ -58,14 +58,14 @@ namespace AK.F1.Timing.Serialization
             graph.Value = graph;
             Assert.Throws<SerializationException>(() => Write(graph));
             // Descendent to root.
-            graph.Value = new SimpleType {Value = graph};
+            graph.Value = new SimpleType { Value = graph };
             Assert.Throws<SerializationException>(() => Write(graph));
             // Descendent to self.
             graph.Value = new SimpleType();
             graph.Value.Value = graph.Value;
             Assert.Throws<SerializationException>(() => Write(graph));
             // Descendent to parent.
-            graph.Value = new SimpleType {Value = graph.Value};
+            graph.Value = new SimpleType { Value = graph.Value };
             Assert.Throws<SerializationException>(() => Write(graph));
         }
 
@@ -92,7 +92,7 @@ namespace AK.F1.Timing.Serialization
         {
             var output = new MemoryStream();
 
-            using(var writer = new DecoratedObjectWriter(output)) {}
+            using(var writer = new DecoratedObjectWriter(output)) { }
 
             Assert.DoesNotThrow(() => output.Position = 0);
             output.Dispose();

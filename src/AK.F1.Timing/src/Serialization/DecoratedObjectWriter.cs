@@ -89,7 +89,8 @@ namespace AK.F1.Timing.Serialization
 
             try
             {
-                WriteRoot(graph);
+                var context = CreateContext(graph);
+                WriteGraph(ref context);
             }
             finally
             {
@@ -107,25 +108,6 @@ namespace AK.F1.Timing.Serialization
         #endregion
 
         #region Private Impl.
-
-        private void WriteRoot(object root)
-        {
-            var context = CreateContext(root);
-
-            if(context.TypeCode != ObjectTypeCode.Empty &&
-                context.TypeCode != ObjectTypeCode.Object)
-            {
-                throw Guard.DecoratedObjectWriter_RootGraphMustBeAnObject(root);
-            }
-            WriteGraph(ref context);
-        }
-
-        private void WriteDescendant(object descendant)
-        {
-            var context = CreateContext(descendant);
-
-            WriteGraph(ref context);
-        }
 
         private void WriteGraph(ref GraphContext context)
         {
@@ -163,7 +145,7 @@ namespace AK.F1.Timing.Serialization
                 foreach(var property in context.Descriptor.Properties)
                 {
                     Output.Write(property.PropertyId);
-                    WriteDescendant(property.GetValue(context.Graph));
+                    Write(property.GetValue(context.Graph));
                 }
             }
         }
