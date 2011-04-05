@@ -13,39 +13,39 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Messages.Session
 {
     /// <summary>
-    /// A message which contains the unprocessed speeds captured at a specific location
-    /// on the track. This class cannot be inherited.
+    /// A message which contains the speeds captured at a specific location on the track.
+    /// This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(63694251)]
-    public sealed class SpeedCaptureMessage : Message
+    [TypeId(63644251)]
+    public sealed class SpeedCaptureMessage : Message, ICustomSerializable
     {
         #region Public Interface.
 
         /// <summary>
         /// Initialises a new instance of the <see cref="SpeedCaptureMessage"/> class
-        /// and specifies the apex location <paramref name="location"/> and the raw apex
+        /// and specifies the capture location <paramref name="location"/> and the captured
         /// <paramref name="speeds"/>.
         /// </summary>
         /// <param name="location">The capture location.</param>
-        /// <param name="speeds">The raw speeds captured.</param>
+        /// <param name="speeds">The captured speeds.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="speeds"/> is <see langword="null"/>.
         /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// Thrown when <paramref name="speeds"/> is of zero length.
-        /// </exception>
-        public SpeedCaptureMessage(SpeedCaptureLocation location, string speeds)
+        public SpeedCaptureMessage(SpeedCaptureLocation location, KeyValuePair<string, int>[] speeds)
         {
-            Guard.NotNullOrEmpty(speeds, "speeds");
+            Guard.NotNull(speeds, "speeds");
 
             Location = location;
-            Speeds = speeds;
+            Speeds = Array.AsReadOnly(speeds);
         }
 
         /// <inheritdoc/>
@@ -59,7 +59,21 @@ namespace AK.F1.Timing.Messages.Session
         /// <inheritdoc/>        
         public override string ToString()
         {
-            return Repr("Location='{0}', Speeds='{1}'", Location, EscapeSpeeds(Speeds));
+            var sb = new StringBuilder();
+            var culture = CultureInfo.InvariantCulture;
+            sb.AppendFormat(culture, "Location='{0}', Speeds=[", Location);
+            var appendComma = false;
+            foreach(var speed in Speeds)
+            {
+                if(appendComma)
+                {
+                    sb.Append(", ");
+                }
+                sb.AppendFormat(culture, "(DriverName='{0}', Speed={1})", speed.Key, speed.Value);
+                appendComma = true;
+            }
+            sb.Append(']');
+            return Repr(sb.ToString());
         }
 
         /// <summary>
@@ -69,18 +83,39 @@ namespace AK.F1.Timing.Messages.Session
         public SpeedCaptureLocation Location { get; private set; }
 
         /// <summary>
-        /// Gets raw speeds captured.
+        /// Gets captured speeds.
         /// </summary>
         [PropertyId(1)]
-        public string Speeds { get; private set; }
+        public IList<KeyValuePair<string, int>> Speeds { get; private set; }
 
         #endregion
 
-        #region Private Impl.
+        #region Explicit Interface.
 
-        private static string EscapeSpeeds(string speeds)
+        void ICustomSerializable.Write(IObjectWriter writer)
         {
-            return speeds.Replace("\r", "\\r");
+            Guard.NotNull(writer, "writer");
+
+            writer.Write(Location);
+            writer.Write(Speeds.Count);
+            foreach(var speed in Speeds)
+            {
+                writer.Write(speed.Key);
+                writer.Write(speed.Value);
+            }
+        }
+
+        void ICustomSerializable.Read(IObjectReader reader)
+        {
+            Guard.NotNull(reader, "reader");
+
+            Location = reader.Read<SpeedCaptureLocation>();
+            var speeds = new KeyValuePair<string, int>[reader.Read<int>()];
+            for(int i = 0; i < speeds.Length; ++i)
+            {
+                speeds[i] = new KeyValuePair<string, int>(reader.Read<string>(), reader.Read<int>());
+            }
+            Speeds = Array.AsReadOnly(speeds);
         }
 
         #endregion

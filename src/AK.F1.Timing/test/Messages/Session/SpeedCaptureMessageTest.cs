@@ -13,6 +13,9 @@
 // limitations under the License.
 
 using System;
+using System.Collections.Generic;
+using System.IO;
+using AK.F1.Timing.Serialization;
 using Xunit;
 
 namespace AK.F1.Timing.Messages.Session
@@ -22,22 +25,13 @@ namespace AK.F1.Timing.Messages.Session
         [Fact]
         public override void can_create()
         {
-            var message = CreateMessage();
-
-            Assert.Equal(SpeedCaptureLocation.S1, message.Location);
-            Assert.Equal("VET\r123\r", message.Speeds);
+            AssertEqualsTestMessage(CreateMessage());
         }
 
         [Fact]
         public void ctor_throws_if_speeds_is_null()
         {
             Assert.Throws<ArgumentNullException>(() => new SpeedCaptureMessage(SpeedCaptureLocation.S1, null));
-        }
-
-        [Fact]
-        public void ctor_throws_if_speeds_is_empty()
-        {
-            Assert.Throws<ArgumentException>(() => new SpeedCaptureMessage(SpeedCaptureLocation.S1, string.Empty));
         }
 
         [Fact]
@@ -51,9 +45,40 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
+        [Fact]
+        public void speeds_is_readonly()
+        {
+            Assert.True(CreateMessage().Speeds.IsReadOnly);
+        }
+
+        [Fact]
+        public void can_serialize()
+        {
+            using(var stream = new MemoryStream())
+            {
+                using(var writer = new DecoratedObjectWriter(stream))
+                {
+                    writer.Write(CreateMessage());
+                }
+                stream.Position = 0L;
+                using(var reader = new DecoratedObjectReader(stream))
+                {
+                    AssertEqualsTestMessage(reader.Read<SpeedCaptureMessage>());
+                }
+            }
+        }
+
+        private void AssertEqualsTestMessage(SpeedCaptureMessage message)
+        {
+            Assert.Equal(SpeedCaptureLocation.S2, message.Location);
+            Assert.Equal(1, message.Speeds.Count);
+            Assert.Equal("VET", message.Speeds[0].Key);
+            Assert.Equal(123, message.Speeds[0].Value);
+        }
+
         protected override SpeedCaptureMessage CreateMessage()
         {
-            return new SpeedCaptureMessage(SpeedCaptureLocation.S1, "VET\r123\r");
+            return new SpeedCaptureMessage(SpeedCaptureLocation.S2, new[] { new KeyValuePair<string, int>("VET", 123) });
         }
     }
 }

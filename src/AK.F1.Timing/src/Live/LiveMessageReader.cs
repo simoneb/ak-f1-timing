@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using AK.F1.Timing.Live.Encryption;
 using AK.F1.Timing.Live.IO;
 using AK.F1.Timing.Messages;
@@ -267,7 +268,7 @@ namespace AK.F1.Timing.Live
                     }
                     break;
                 case 10:
-                    return ReadApexSpeedMessage(header);
+                    return ReadSpeedCaptureMessage(header);
                 case 11:
                     if(header.Colour == 1)
                     {
@@ -436,7 +437,7 @@ namespace AK.F1.Timing.Live
             return new AddCommentaryMessage(DecodeUtf8(2, header.Value - 2));
         }
 
-        private Message ReadApexSpeedMessage(LiveMessageHeader header)
+        private Message ReadSpeedCaptureMessage(LiveMessageHeader header)
         {
             ReadAndDecryptBytes(header.Value);
             var location = Buffer[0] - 1;
@@ -446,7 +447,12 @@ namespace AK.F1.Timing.Live
                 // can easily be computed by a model.
                 return Message.Empty;
             }
-            return new SpeedCaptureMessage((SpeedCaptureLocation)location, DecodeLatin1(1, header.Value - 1));
+            var speeds = new List<KeyValuePair<string, int>>(6);
+            foreach(Match match in Regex.Matches(DecodeLatin1(1, header.Value - 1), "([^\r]+)(?:\r)([^\r]+)(?:\r)?"))
+            {
+                speeds.Add(new KeyValuePair<string, int>(match.Groups[1].Value, LiveData.ParseInt32(match.Groups[2].Value)));
+            }
+            return new SpeedCaptureMessage((SpeedCaptureLocation)location, speeds.ToArray());
         }
 
         private Message ReadSetSessionTypeMessage(LiveMessageHeader header)
