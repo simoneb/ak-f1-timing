@@ -149,6 +149,9 @@ namespace AK.F1.Timing
         /// <inheritdoc/>
         public virtual void Visit(SetMinRequiredQuallyTimeMessage message) { }
 
+        /// <inheritdoc/>
+        public virtual void Visit(RawSpeedCaptureMessage message) { }
+
         #endregion
     }
 }

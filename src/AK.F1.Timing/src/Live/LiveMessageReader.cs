@@ -205,7 +205,7 @@ namespace AK.F1.Timing.Live
                     {
                         Log.InfoFormat("keyframe contained a set keyframe message " +
                             "with a higher keyframe number ({0}) than the one currently " +
-                                "being read ({1}), reloading.", keyframeMessage.Keyframe, keyframe);
+                            "being read ({1}), reloading.", keyframeMessage.Keyframe, keyframe);
                         // All queued messages will be superceeded in the new keyframe.
                         QueuedMessages.Clear();
                         MessageTranslator.Reset();
@@ -439,9 +439,14 @@ namespace AK.F1.Timing.Live
         private Message ReadApexSpeedMessage(LiveMessageHeader header)
         {
             ReadAndDecryptBytes(header.Value);
-            // TODO parse these out.
-            //string s = GetLatin1(1, header.Value - 1);
-            return Message.Empty;
+            var location = Buffer[0] - 1;
+            if(location < 0 || location > 3)
+            {
+                // The fastest lap is also published as an apex speed but we ignore them as they
+                // can easily be computed by a model.
+                return Message.Empty;
+            }
+            return new RawSpeedCaptureMessage((SpeedCaptureLocation)location, DecodeLatin1(1, header.Value - 1));
         }
 
         private Message ReadSetSessionTypeMessage(LiveMessageHeader header)

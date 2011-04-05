@@ -162,6 +162,8 @@ namespace AK.F1.Timing.Utility.Tms.Operations
 
         public void Visit(SetMinRequiredQuallyTimeMessage message) { }
 
+        public void Visit(RawSpeedCaptureMessage message) { }
+
         #endregion
 
         #region Private Impl.
