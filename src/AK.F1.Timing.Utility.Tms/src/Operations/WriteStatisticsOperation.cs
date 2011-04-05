@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             using(var input = File.OpenRead(_path))
             using(var reader = new DecoratedObjectReader(input))
             {
-                while((obj = reader.Read()) != null)
+                while((obj = reader.Read<object>()) != null)
                 {
                     ++numberOfObjects;
                     if(numberOfObjectByType.ContainsKey(obj.GetType()))

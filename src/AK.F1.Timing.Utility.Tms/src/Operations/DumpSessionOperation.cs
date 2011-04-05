@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             using(var input = File.OpenRead(_path))
             using(var reader = new DecoratedObjectReader(input))
             {
-                while((message = (Message)reader.Read()) != null)
+                while((message = reader.Read<Message>()) != null)
                 {
                     session.Process(message);
                 }

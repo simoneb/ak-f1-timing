@@ -24,10 +24,11 @@ namespace AK.F1.Timing.Serialization
         /// <summary>
         /// Reads a serialized object from the underlying stream.
         /// </summary>
+        /// <typeparam name="T">The expected type of the next object.</typeparam>
         /// <returns>The serialized object from the underlying stream.</returns>        
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when an error occurs during deserialization.
         /// </exception>
-        object Read();
+        T Read<T>();
     }
 }

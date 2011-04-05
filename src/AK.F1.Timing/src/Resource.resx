@@ -239,4 +239,7 @@ Message Classification: '{1}'</value>
   <data name="DecoratedObjectWriter_RootGraphMustBeAnObject" xml:space="preserve">
     <value>Unable to serialize type '{0}' as a root graph as it is primtive and not an object.</value>
   </data>
+  <data name="DecoratedObjectReader_InvalidCastInRead" xml:space="preserve">
+    <value>Unable to deserialize the next object as type '{0}' cannot be cast to type '{1}'.</value>
+  </data>
 </root>

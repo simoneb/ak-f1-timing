@@ -101,7 +101,7 @@ namespace AK.F1.Timing.Serialization
                 {
                     foreach(var graph in graphs)
                     {
-                        Assert.Equal(graph, reader.Read());
+                        Assert.Equal(graph, reader.Read<object>());
                     }
                 }
             }
@@ -122,7 +122,7 @@ namespace AK.F1.Timing.Serialization
                 stream.Position = 0L;
                 using(var reader = new DecoratedObjectReader(stream))
                 {
-                    serializable = (CustomSerializableType)reader.Read();
+                    serializable = reader.Read<CustomSerializableType>();
                     Assert.Equal(1, serializable.ReadCallCount);
                     Assert.Same(reader, serializable.Reader);
                 }
@@ -131,7 +131,7 @@ namespace AK.F1.Timing.Serialization
 
         private static T RoundTrip<T>(T graph)
         {
-            object actual;
+            T actual;
 
             using(var stream = new MemoryStream())
             {
@@ -142,7 +142,7 @@ namespace AK.F1.Timing.Serialization
                 stream.Position = 0L;
                 using(var reader = new DecoratedObjectReader(stream))
                 {
-                    actual = reader.Read();
+                    actual = reader.Read<T>();
                 }
             }
 
@@ -156,7 +156,7 @@ namespace AK.F1.Timing.Serialization
                 Assert.Null(actual);
             }
 
-            return (T)actual;
+            return actual;
         }
 
         [TypeId(23409283)]

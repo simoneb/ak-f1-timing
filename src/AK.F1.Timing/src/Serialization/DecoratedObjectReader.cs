@@ -43,8 +43,32 @@ namespace AK.F1.Timing.Serialization
             Input = DecoratedObjectWriter.CreateBinaryReader(input);
         }
 
-        /// <inheritcdoc/>        
-        public object Read()
+        /// <inheritcdoc/>
+        public T Read<T>()
+        {
+            var obj = Read();
+            try
+            {
+                return (T)obj;
+            }
+            catch(InvalidCastException exc)
+            {
+                throw Guard.DecoratedObjectReader_UnableToCastToExpectedType(obj, typeof(T), exc);
+            }
+        }
+
+        #endregion
+
+        #region Protected Interface.
+
+        /// <inheritdoc/>        
+        protected override void DisposeOfManagedResources() { }
+
+        #endregion
+
+        #region Private Impl.
+
+        private object Read()
         {
             CheckDisposed();
             try
@@ -61,17 +85,6 @@ namespace AK.F1.Timing.Serialization
                 throw Guard.DecoratedObjectReader_UnexpectedEndOfStream(exc);
             }
         }
-
-        #endregion
-
-        #region Protected Interface.
-
-        /// <inheritdoc/>        
-        protected override void DisposeOfManagedResources() { }
-
-        #endregion
-
-        #region Private Impl.
 
         private ObjectTypeCode ReadObjectTypeCode()
         {

@@ -79,6 +79,15 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to deserialize the next object as type &apos;{0}&apos; cannot be cast to type &apos;{1}&apos;..
+        /// </summary>
+        internal static string DecoratedObjectReader_InvalidCastInRead {
+            get {
+                return ResourceManager.GetString("DecoratedObjectReader_InvalidCastInRead", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to deserialize the next object as the object type code is invalid (&apos;{0}&apos;)..
         /// </summary>
         internal static string DecoratedObjectReader_InvalidObjectTypeCode {

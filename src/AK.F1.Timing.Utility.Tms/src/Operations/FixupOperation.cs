@@ -52,7 +52,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             {
                 while(true)
                 {
-                    if((message = (Message)reader.Read()) == null)
+                    if((message = reader.Read<Message>()) == null)
                     {
                         break;
                     }

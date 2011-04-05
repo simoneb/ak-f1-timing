@@ -82,7 +82,7 @@ namespace AK.F1.Timing.Recording
         {
             Message message;
 
-            if((message = (Message)Reader.Read()) != null)
+            if((message = Reader.Read<Message>()) != null)
             {
                 if(DelayEngine.Process(message))
                 {

@@ -301,6 +301,11 @@ namespace AK.F1.Timing
             return new SerializationException(Format(Resource.DecoratedObjectWriter_RootGraphMustBeAnObject, root.GetType()));
         }
 
+        internal static SerializationException DecoratedObjectReader_UnableToCastToExpectedType(object obj, Type expectedType, InvalidCastException exc)
+        {
+            return new SerializationException(Format(Resource.DecoratedObjectReader_InvalidCastInRead, obj != null ? obj.GetType().ToString() : "null", expectedType), exc);
+        }
+
         internal static SerializationException DecoratedObjectWriter_CirularReferencesAreNotSupported(object graph)
         {
             return new SerializationException(Format(Resource.DecoratedObjectWriter_CirularReferencesAreNotSupported, graph, graph.GetType()));

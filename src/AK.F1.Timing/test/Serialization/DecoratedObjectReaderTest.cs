@@ -32,7 +32,7 @@ namespace AK.F1.Timing.Serialization
         {
             var input = new MemoryStream();
 
-            using(var reader = new DecoratedObjectReader(input)) {}
+            using(var reader = new DecoratedObjectReader(input)) { }
 
             Assert.DoesNotThrow(() => input.Position = 0);
             input.Dispose();
@@ -46,7 +46,7 @@ namespace AK.F1.Timing.Serialization
 
             ((IDisposable)reader).Dispose();
 
-            Assert.Throws<ObjectDisposedException>(() => reader.Read());
+            Assert.Throws<ObjectDisposedException>(() => reader.Read<object>());
         }
 
         [Fact]
@@ -56,7 +56,7 @@ namespace AK.F1.Timing.Serialization
             {
                 using(var reader = new DecoratedObjectReader(input))
                 {
-                    Assert.Throws<SerializationException>(() => reader.Read());
+                    Assert.Throws<SerializationException>(() => reader.Read<object>());
                 }
             }
         }
