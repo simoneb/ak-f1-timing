@@ -446,7 +446,7 @@ namespace AK.F1.Timing.Live
                 // can easily be computed by a model.
                 return Message.Empty;
             }
-            return new RawSpeedCaptureMessage((SpeedCaptureLocation)location, DecodeLatin1(1, header.Value - 1));
+            return new SpeedCaptureMessage((SpeedCaptureLocation)location, DecodeLatin1(1, header.Value - 1));
         }
 
         private Message ReadSetSessionTypeMessage(LiveMessageHeader header)

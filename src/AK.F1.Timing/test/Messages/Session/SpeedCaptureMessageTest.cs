@@ -17,7 +17,7 @@ using Xunit;
 
 namespace AK.F1.Timing.Messages.Session
 {
-    public class RawSpeedCaptureMessageTest : MessageTestBase<RawSpeedCaptureMessage>
+    public class SpeedCaptureMessageTest : MessageTestBase<SpeedCaptureMessage>
     {
         [Fact]
         public override void can_create()
@@ -31,13 +31,13 @@ namespace AK.F1.Timing.Messages.Session
         [Fact]
         public void ctor_throws_if_speeds_is_null()
         {
-            Assert.Throws<ArgumentNullException>(() => new RawSpeedCaptureMessage(SpeedCaptureLocation.S1, null));
+            Assert.Throws<ArgumentNullException>(() => new SpeedCaptureMessage(SpeedCaptureLocation.S1, null));
         }
 
         [Fact]
         public void ctor_throws_if_speeds_is_empty()
         {
-            Assert.Throws<ArgumentException>(() => new RawSpeedCaptureMessage(SpeedCaptureLocation.S1, string.Empty));
+            Assert.Throws<ArgumentException>(() => new SpeedCaptureMessage(SpeedCaptureLocation.S1, string.Empty));
         }
 
         [Fact]
@@ -51,9 +51,9 @@ namespace AK.F1.Timing.Messages.Session
             visitor.VerifyAll();
         }
 
-        protected override RawSpeedCaptureMessage CreateMessage()
+        protected override SpeedCaptureMessage CreateMessage()
         {
-            return new RawSpeedCaptureMessage(SpeedCaptureLocation.S1, "VET\r123\r");
+            return new SpeedCaptureMessage(SpeedCaptureLocation.S1, "VET\r123\r");
         }
     }
 }

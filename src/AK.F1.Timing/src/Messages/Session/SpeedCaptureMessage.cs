@@ -23,12 +23,12 @@ namespace AK.F1.Timing.Messages.Session
     /// </summary>
     [Serializable]
     [TypeId(63694251)]
-    public sealed class RawSpeedCaptureMessage : Message
+    public sealed class SpeedCaptureMessage : Message
     {
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="RawSpeedCaptureMessage"/> class
+        /// Initialises a new instance of the <see cref="SpeedCaptureMessage"/> class
         /// and specifies the apex location <paramref name="location"/> and the raw apex
         /// <paramref name="speeds"/>.
         /// </summary>
@@ -40,7 +40,7 @@ namespace AK.F1.Timing.Messages.Session
         /// <exception cref="System.ArgumentException">
         /// Thrown when <paramref name="speeds"/> is of zero length.
         /// </exception>
-        public RawSpeedCaptureMessage(SpeedCaptureLocation location, string speeds)
+        public SpeedCaptureMessage(SpeedCaptureLocation location, string speeds)
         {
             Guard.NotNullOrEmpty(speeds, "speeds");
 

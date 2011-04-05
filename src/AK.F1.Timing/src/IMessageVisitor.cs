@@ -391,6 +391,6 @@ namespace AK.F1.Timing
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="message"/> is <see langword="null"/>.
         /// </exception>
-        void Visit(RawSpeedCaptureMessage message);
+        void Visit(SpeedCaptureMessage message);
     }
 }

@@ -183,7 +183,7 @@ namespace AK.F1.Timing.Model.Session
 
         void IMessageVisitor.Visit(SetMinRequiredQuallyTimeMessage message) { }
 
-        void IMessageVisitor.Visit(RawSpeedCaptureMessage message) { }
+        void IMessageVisitor.Visit(SpeedCaptureMessage message) { }
 
         #endregion
 
