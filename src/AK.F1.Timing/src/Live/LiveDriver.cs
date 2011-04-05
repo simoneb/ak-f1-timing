@@ -296,6 +296,11 @@ namespace AK.F1.Timing.Live
             return 1 << (int)column;
         }
 
+        private static bool IsValidSectorNumber(int sectorNumber)
+        {
+            return sectorNumber > 0 && sectorNumber < 4;
+        }
+
         private PostedTime[] LastSectors { get; set; }
 
         private bool HaveCurrentSectorNumber
@@ -314,10 +319,5 @@ namespace AK.F1.Timing.Live
         }
 
         #endregion
-
-        private static bool IsValidSectorNumber(int sectorNumber)
-        {
-            return sectorNumber > 0 && sectorNumber < 4;
-        }
     }
 }
