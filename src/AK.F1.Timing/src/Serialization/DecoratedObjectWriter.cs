@@ -90,6 +90,7 @@ namespace AK.F1.Timing.Serialization
             try
             {
                 var context = CreateContext(graph);
+                IsCompressionEnabled = context.TypeCode == ObjectTypeCode.Object;
                 WriteGraph(ref context);
             }
             finally
@@ -108,6 +109,12 @@ namespace AK.F1.Timing.Serialization
         #endregion
 
         #region Private Impl.
+
+        private void WriteDescendant(object graph)
+        {
+            var context = CreateContext(graph);
+            WriteGraph(ref context);
+        }
 
         private void WriteGraph(ref GraphContext context)
         {
@@ -145,7 +152,7 @@ namespace AK.F1.Timing.Serialization
                 foreach(var property in context.Descriptor.Properties)
                 {
                     Output.Write(property.PropertyId);
-                    Write(property.GetValue(context.Graph));
+                    WriteDescendant(property.GetValue(context.Graph));
                 }
             }
         }
@@ -293,15 +300,44 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteInt16(short value)
         {
-            WriteInt64(value);
+            if(IsCompressionEnabled)
+            {
+                WriteInt64WithComression(value);
+            }
+            else
+            {
+                WriteObjectTypeCode(ObjectTypeCode.Int16);
+                Output.Write(value);
+            }
         }
 
         private void WriteInt32(int value)
         {
-            WriteInt64(value);
+            if(IsCompressionEnabled)
+            {
+                WriteInt64WithComression(value);
+            }
+            else
+            {
+                WriteObjectTypeCode(ObjectTypeCode.Int32);
+                Output.Write(value);
+            }
         }
 
         private void WriteInt64(long value)
+        {
+            if(IsCompressionEnabled)
+            {
+                WriteInt64WithComression(value);
+            }
+            else
+            {
+                WriteObjectTypeCode(ObjectTypeCode.Int64);
+                Output.Write(value);
+            }
+        }
+
+        private void WriteInt64WithComression(long value)
         {
 #if DEBUG
             checked
@@ -334,15 +370,44 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteUInt16(ushort value)
         {
-            WriteUInt64(value);
+            if(IsCompressionEnabled)
+            {
+                WriteUInt64WithCompression(value);
+            }
+            else
+            {
+                WriteObjectTypeCode(ObjectTypeCode.UInt16);
+                Output.Write(value);
+            }
         }
 
         private void WriteUInt32(uint value)
         {
-            WriteUInt64(value);
+            if(IsCompressionEnabled)
+            {
+                WriteUInt64WithCompression(value);
+            }
+            else
+            {
+                WriteObjectTypeCode(ObjectTypeCode.UInt32);
+                Output.Write(value);
+            }
         }
 
         private void WriteUInt64(ulong value)
+        {
+            if(IsCompressionEnabled)
+            {
+                WriteUInt64WithCompression(value);
+            }
+            else
+            {
+                WriteObjectTypeCode(ObjectTypeCode.UInt64);
+                Output.Write(value);
+            }
+        }
+
+        private void WriteUInt64WithCompression(ulong value)
         {
 #if DEBUG
             checked
@@ -402,6 +467,8 @@ namespace AK.F1.Timing.Serialization
         private BinaryWriter Output { get; set; }
 
         private HashSet<int> SeenHashCodes { get; set; }
+
+        private bool IsCompressionEnabled { get; set; }
 
         [StructLayout(LayoutKind.Auto)]
         private struct GraphContext

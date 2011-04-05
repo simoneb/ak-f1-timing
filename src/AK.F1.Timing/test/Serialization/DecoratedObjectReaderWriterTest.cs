@@ -66,6 +66,22 @@ namespace AK.F1.Timing.Serialization
 
         [Theory]
         [ClassData(typeof(PrimitiveDataProvider))]
+        public void can_round_trip_primitive_types(object graph)
+        {
+            var actual = RoundTrip(graph);
+
+            if(graph != null && graph.GetType().IsEnum)
+            {
+                Assert.Equal(graph, Enum.ToObject(graph.GetType(), actual));
+            }
+            else
+            {
+                Assert.Equal(graph, actual);
+            }
+        }
+
+        [Theory]
+        [ClassData(typeof(PrimitiveHolderDataProvider))]
         public void can_round_trip_types_with_primitive_properties(object graph)
         {
             var actual = RoundTrip(graph);
@@ -85,7 +101,7 @@ namespace AK.F1.Timing.Serialization
         [Fact]
         public void can_round_trip_multiple_types_on_one_stream()
         {
-            var graphs = PrimitiveDataProvider.GetData().ToList();
+            var graphs = PrimitiveHolderDataProvider.GetData().ToList();
 
             using(var stream = new MemoryStream())
             {
@@ -149,7 +165,14 @@ namespace AK.F1.Timing.Serialization
             if(graph != null)
             {
                 Assert.NotNull(actual);
-                Assert.IsType(graph.GetType(), actual);
+                if(graph.GetType().IsEnum)
+                {
+                    Assert.IsType(Enum.GetUnderlyingType(graph.GetType()), actual);
+                }
+                else
+                {
+                    Assert.IsType(graph.GetType(), actual);
+                }
             }
             else
             {
@@ -483,8 +506,13 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
+        private abstract class PrimitiveHolder
+        {
+            public abstract IEnumerable<object> GetValues();
+        }
+
         [TypeId(19310090)]
-        private abstract class PrimitiveHolder<T>
+        private abstract class PrimitiveHolder<T> : PrimitiveHolder
         {
             [PropertyId(0)]
             public T Min { get; set; }
@@ -500,6 +528,13 @@ namespace AK.F1.Timing.Serialization
                 Default = default(T);
             }
 
+            public override IEnumerable<object> GetValues()
+            {
+                yield return Default;
+                yield return Min;
+                yield return Max;
+            }
+
             public override bool Equals(object obj)
             {
                 if(obj == null || obj.GetType() != GetType())
@@ -511,10 +546,8 @@ namespace AK.F1.Timing.Serialization
                     return true;
                 }
                 var other = (PrimitiveHolder<T>)obj;
-                return
-                    Equals(Default, other.Default) &&
-                        Equals(Min, other.Min) &&
-                            Equals(Max, other.Max);
+                return Equals(Default, other.Default) &&
+                    Equals(Min, other.Min) && Equals(Max, other.Max);
             }
 
             public override int GetHashCode()
@@ -571,7 +604,7 @@ namespace AK.F1.Timing.Serialization
             Max = UInt64.MaxValue
         }
 
-        public class PrimitiveDataProvider : IEnumerable<object[]>
+        public class PrimitiveHolderDataProvider : IEnumerable<object[]>
         {
             public IEnumerator<object[]> GetEnumerator()
             {
@@ -603,7 +636,31 @@ namespace AK.F1.Timing.Serialization
 
             public static IEnumerable<object> GetData()
             {
-                return new PrimitiveDataProvider().Select(x => x[0]);
+                return new PrimitiveHolderDataProvider().Select(x => x[0]);
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+            private static object[] A(object value)
+            {
+                return new[] { value };
+            }
+        }
+
+        public class PrimitiveDataProvider : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                foreach(PrimitiveHolder holder in PrimitiveHolderDataProvider.GetData())
+                {
+                    foreach(var value in holder.GetValues())
+                    {
+                        yield return A(value);
+                    }
+                }
             }
 
             IEnumerator IEnumerable.GetEnumerator()
@@ -659,11 +716,6 @@ namespace AK.F1.Timing.Serialization
             public IEnumerator<object[]> GetEnumerator()
             {
                 yield return A(new TypeWithComplexProperties());
-            }
-
-            public static IEnumerable<object> GetData()
-            {
-                return new PrimitiveDataProvider().Select(x => x[0]);
             }
 
             IEnumerator IEnumerable.GetEnumerator()
