@@ -47,12 +47,9 @@ namespace AK.F1.Timing.Serialization
         public object Read()
         {
             CheckDisposed();
-
-            ObjectTypeCode typeCode;
-
             try
             {
-                typeCode = ReadObjectTypeCode();
+                var typeCode = ReadObjectTypeCode();
                 if(typeCode == ObjectTypeCode.Object)
                 {
                     return ReadObject();
@@ -83,29 +80,33 @@ namespace AK.F1.Timing.Serialization
 
         private object ReadObject()
         {
-            byte propertyId;
-            PropertyDescriptor property;
-            TypeDescriptor descriptor = TypeDescriptor.For(Input.ReadInt32());
-            object component = descriptor.Type.GetUninitializedInstance();
-            byte propertyCount = Input.ReadByte();
-
-            while(propertyCount-- > 0)
+            var descriptor = TypeDescriptor.For(Input.ReadInt32());
+            var component = descriptor.Type.GetUninitializedInstance();
+            var serializable = component as ICustomSerializable;
+            if(serializable != null)
             {
-                propertyId = Input.ReadByte();
-                if((property = descriptor.Properties.GetById(propertyId)) == null)
-                {
-                    throw Guard.DecoratedObjectReader_PropertyMissing(propertyId, descriptor);
-                }
-                property.SetValue(component, Read());
+                serializable.Read(this);
             }
-
+            else
+            {
+                var propertyCount = Input.ReadByte();
+                while(propertyCount-- > 0)
+                {
+                    var propertyId = Input.ReadByte();
+                    var property = descriptor.Properties.GetById(propertyId);
+                    if(property == null)
+                    {
+                        throw Guard.DecoratedObjectReader_PropertyMissing(propertyId, descriptor);
+                    }
+                    property.SetValue(component, Read());
+                }
+            }
             return GetRealObject(component);
         }
 
         private object GetRealObject(object instance)
         {
-            IObjectReference reference = instance as IObjectReference;
-
+            var reference = instance as IObjectReference;
             return reference != null ? reference.GetRealObject(Context) : instance;
         }
 

@@ -152,11 +152,19 @@ namespace AK.F1.Timing.Serialization
         {
             WriteObjectTypeCode(context.TypeCode);
             Output.Write(context.Descriptor.TypeId);
-            Output.Write((byte)context.Descriptor.Properties.Count);
-            foreach(var property in context.Descriptor.Properties)
+            var serializable = context.Graph as ICustomSerializable;
+            if(serializable != null)
             {
-                Output.Write(property.PropertyId);
-                WriteDescendant(property.GetValue(context.Graph));
+                serializable.Write(this);
+            }
+            else
+            {
+                Output.Write((byte)context.Descriptor.Properties.Count);
+                foreach(var property in context.Descriptor.Properties)
+                {
+                    Output.Write(property.PropertyId);
+                    WriteDescendant(property.GetValue(context.Graph));
+                }
             }
         }
 

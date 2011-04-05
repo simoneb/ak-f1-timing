@@ -80,6 +80,7 @@
     <Compile Include="Serialization\IObjectReader.cs" />
     <Compile Include="Serialization\IgnorePropertyAttribute.cs" />
     <Compile Include="Serialization\DecoratedObjectReader.cs" />
+    <Compile Include="Serialization\ICustomSerializable.cs" />
     <Compile Include="Serialization\ObjectTypeCode.cs" />
     <Compile Include="Serialization\DecoratedObjectWriter.cs" />
     <Compile Include="Serialization\PropertyDescriptor.cs" />

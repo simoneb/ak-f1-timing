@@ -34,7 +34,7 @@ namespace AK.F1.Timing.Serialization
         [Fact]
         public void ignored_properties_are_not_serialized()
         {
-            var expected = new TypeWithIgnoredProperty {IgnoredProperty = "Ignored"};
+            var expected = new TypeWithIgnoredProperty { IgnoredProperty = "Ignored" };
             var actual = RoundTrip(expected);
 
             Assert.Null(actual.IgnoredProperty);
@@ -107,6 +107,28 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
+        [Fact]
+        public void supports_custom_serializable_types()
+        {
+            using(var stream = new MemoryStream())
+            {
+                var serializable = new CustomSerializableType();
+                using(var writer = new DecoratedObjectWriter(stream))
+                {
+                    writer.Write(serializable);
+                    Assert.Equal(1, serializable.WriteCallCount);
+                    Assert.Same(writer, serializable.Writer);
+                }
+                stream.Position = 0L;
+                using(var reader = new DecoratedObjectReader(stream))
+                {
+                    serializable = (CustomSerializableType)reader.Read();
+                    Assert.Equal(1, serializable.ReadCallCount);
+                    Assert.Same(reader, serializable.Reader);
+                }
+            }
+        }
+
         private static T RoundTrip<T>(T graph)
         {
             object actual;
@@ -154,7 +176,7 @@ namespace AK.F1.Timing.Serialization
         [TypeId(654645645)]
         public class TypeWithPrivateCtor : EmptyType
         {
-            private TypeWithPrivateCtor() {}
+            private TypeWithPrivateCtor() { }
 
             public static TypeWithPrivateCtor New()
             {
@@ -165,7 +187,7 @@ namespace AK.F1.Timing.Serialization
         [TypeId(4431976)]
         public class TypeWithProtectedCtor : EmptyType
         {
-            protected TypeWithProtectedCtor() {}
+            protected TypeWithProtectedCtor() { }
 
             public static TypeWithProtectedCtor New()
             {
@@ -198,6 +220,26 @@ namespace AK.F1.Timing.Serialization
             public override int GetHashCode()
             {
                 throw new NotImplementedException();
+            }
+        }
+
+        [TypeId(46713346)]
+        public class CustomSerializableType : ICustomSerializable
+        {
+            public int WriteCallCount;
+            public IObjectWriter Writer;
+            void ICustomSerializable.Write(IObjectWriter writer)
+            {
+                ++WriteCallCount;
+                Writer = writer;
+            }
+
+            public int ReadCallCount;
+            public IObjectReader Reader;
+            void ICustomSerializable.Read(IObjectReader reader)
+            {
+                ++ReadCallCount;
+                Reader = reader;
             }
         }
 
@@ -571,7 +613,7 @@ namespace AK.F1.Timing.Serialization
 
             private static object[] A(object value)
             {
-                return new[] {value};
+                return new[] { value };
             }
         }
 
@@ -631,7 +673,7 @@ namespace AK.F1.Timing.Serialization
 
             private static object[] A(object value)
             {
-                return new[] {value};
+                return new[] { value };
             }
         }
     }
