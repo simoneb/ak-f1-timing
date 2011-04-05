@@ -27,29 +27,6 @@ namespace AK.F1.Timing.Serialization
             Assert.DoesNotThrow(() => Write(null));
         }
 
-        [Fact(Skip = "Why is this a fact?")]
-        public void only_graphs_decorated_with_a_type_id_can_be_written()
-        {
-            Assert.Throws<SerializationException>(() => Write(new object()));
-            Assert.Throws<SerializationException>(() => Write('s'));
-            Assert.Throws<SerializationException>(() => Write("s"));
-            Assert.Throws<SerializationException>(() => Write(true));
-            Assert.Throws<SerializationException>(() => Write((Byte)0));
-            Assert.Throws<SerializationException>(() => Write((SByte)0));
-            Assert.Throws<SerializationException>(() => Write((Int16)0));
-            Assert.Throws<SerializationException>(() => Write((UInt16)0));
-            Assert.Throws<SerializationException>(() => Write(0));
-            Assert.Throws<SerializationException>(() => Write((UInt32)0));
-            Assert.Throws<SerializationException>(() => Write((Int64)0));
-            Assert.Throws<SerializationException>(() => Write((UInt64)0));
-            Assert.Throws<SerializationException>(() => Write((Single)0));
-            Assert.Throws<SerializationException>(() => Write((Double)0));
-            Assert.Throws<SerializationException>(() => Write((Decimal)0));
-            Assert.Throws<SerializationException>(() => Write(DBNull.Value));
-            Assert.Throws<SerializationException>(() => Write(TimeSpan.Zero));
-            Assert.Throws<SerializationException>(() => Write(DateTime.MinValue));
-        }
-
         [Fact]
         public void graphs_which_contain_circular_references_are_not_supported()
         {
