@@ -41,7 +41,7 @@ namespace AK.F1.Timing.Serialization
         /// </summary>
         static TypeDescriptor()
         {
-            LoadFrom(Assembly.GetExecutingAssembly());
+            AddFrom(Assembly.GetExecutingAssembly());
         }
 
         /// <summary>
@@ -59,13 +59,11 @@ namespace AK.F1.Timing.Serialization
         /// although doing so will not have any adverse effects, it is not recommended in the
         /// interest of performance.
         /// </remarks>
-        public static void LoadFrom(Assembly assembly)
+        public static void AddFrom(Assembly assembly)
         {
-            // TODO is this method named correctly?
-
             Guard.NotNull(assembly, "assembly");
 
-            foreach(var type in assembly.GetExportedTypes())
+            foreach(var type in assembly.GetTypes())
             {
                 if(type.HasAttribute<TypeIdAttribute>())
                 {
