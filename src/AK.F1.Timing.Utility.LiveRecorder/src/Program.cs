@@ -29,6 +29,7 @@ namespace AK.F1.Timing.Utility.LiveRecorder
     {
         #region Fields.
 
+        private const string TmsExtension = ".tms";
         private static readonly ILog Log = LogManager.GetLogger(typeof(Program));
 
         #endregion
@@ -84,7 +85,12 @@ namespace AK.F1.Timing.Utility.LiveRecorder
 
         private bool ValidateRecordPath(out string path)
         {
-            path = Path.Combine(Environment.CurrentDirectory, Options.Session + ".tms");
+            var filename = Options.Session;
+            if(!filename.EndsWith(TmsExtension, StringComparison.OrdinalIgnoreCase))
+            {
+                filename += TmsExtension;
+            }
+            path = Path.Combine(Environment.CurrentDirectory, filename);
             try
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
