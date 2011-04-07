@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Messages;
 using AK.F1.Timing.Messages.Driver;
@@ -107,6 +108,12 @@ namespace AK.F1.Timing.Live
             Translated = TranslateSetGridColumnValueMessage(message);
         }
 
+        /// <inheritdoc/>
+        public override void Visit(SpeedCaptureMessage message)
+        {
+            Translated = TranslateSpeedCaptureMessage(message);
+        }
+
         #endregion
 
         #region Internal Interface.
@@ -137,6 +144,30 @@ namespace AK.F1.Timing.Live
             }
 
             return driver;
+        }
+
+        /// <summary>
+        /// Returns the driver with the specified <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">The driver name, or prefix.</param>
+        /// <returns>The driver with the specified <paramref name="name"/>.</returns>
+        internal LiveDriver GetDriver(string name)
+        {
+            LiveDriver foundDriver = null;
+            foreach(var driver in Drivers.Where(x => x.Value.MatchesName(name)))
+            {
+                if(foundDriver != null)
+                {
+                    Log.WarnFormat("found multiple drivers by name: {0}", name);
+                    return null;
+                }
+                foundDriver = driver.Value;
+            }
+            if(foundDriver == null)
+            {
+                Log.WarnFormat("failed to find driver by name: {0}", name);
+            }
+            return foundDriver;
         }
 
         /// <summary>
@@ -184,6 +215,20 @@ namespace AK.F1.Timing.Live
 
         #region Private Impl.
 
+        private Message TranslateSpeedCaptureMessage(SpeedCaptureMessage message)
+        {
+            var messages = new List<Message>(message.Speeds.Count);
+            foreach(var speed in message.Speeds)
+            {
+                var driver = GetDriver(speed.Key);
+                if(driver != null)
+                {
+                    messages.Add(new SetDriverSpeedMessage(driver.Id, message.Location, speed.Value));
+                }
+            }
+            return messages.Count > 0 ? new CompositeMessage(messages.ToArray()) : null;
+        }
+
         private static Message TranslateSetPingIntervalMessage(SetPingIntervalMessage message)
         {
             if(message.PingInterval == TimeSpan.Zero || message.PingInterval >= MaxPingInterval)
@@ -191,7 +236,6 @@ namespace AK.F1.Timing.Live
                 Log.InfoFormat("read terminal message: {0}", message);
                 return new CompositeMessage(new SetSessionStatusMessage(SessionStatus.Finished), EndOfSessionMessage.Instance);
             }
-
             return null;
         }
 

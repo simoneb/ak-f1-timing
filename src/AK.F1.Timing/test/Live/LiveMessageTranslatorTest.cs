@@ -15,9 +15,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using AK.F1.Timing.Messages;
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
 using Xunit;
@@ -104,7 +102,7 @@ namespace AK.F1.Timing.Live
         }
 
         [Fact]
-        public void can_get_a_driver()
+        public void can_get_a_driver_by_id()
         {
             var translator = new LiveMessageTranslator();
 
@@ -121,6 +119,34 @@ namespace AK.F1.Timing.Live
             Assert.Same(translator.GetDriver(1), translator.GetDriver(1));
             Assert.Same(translator.GetDriver(message), translator.GetDriver(message));
             Assert.Same(translator.GetDriver(1), translator.GetDriver(message));
+        }
+
+        [Theory]
+        [InlineData("J. D'AMBROSIO", "J. D'AMBROSIO")]
+        [InlineData("J. D'AMBROSIO", "DAM")]
+        [InlineData("J. D'AMBROSIO", "JDA")]
+        public void can_get_a_driver_by_name(string driverName, string searchName)
+        {
+            var translator = new LiveMessageTranslator();
+            var expected = translator.GetDriver(1);
+
+            expected.Name = driverName;
+            Assert.Same(expected, translator.GetDriver(searchName));
+        }
+
+        [Fact]
+        public void cannot_get_a_driver_by_an_ambiguous_name()
+        {
+            var translator = new LiveMessageTranslator();
+
+            translator.GetDriver(1).Name = "M. SCHUMACHER";
+            translator.GetDriver(2).Name = "R. SCHUMACHER";
+
+            Assert.Null(translator.GetDriver("SCHUMACHER"));
+            Assert.Null(translator.GetDriver("SCH"));
+
+            Assert.NotNull(translator.GetDriver("MSC"));
+            Assert.NotNull(translator.GetDriver("RSC"));
         }
 
         [Fact]
@@ -147,7 +173,7 @@ namespace AK.F1.Timing.Live
         {
             var combinations = from column in Enum.GetValues(typeof(GridColumn)).Cast<GridColumn>()
                                from colour in Enum.GetValues(typeof(GridColumnColour)).Cast<GridColumnColour>()
-                               select new {Column = column, Colour = colour};
+                               select new { Column = column, Colour = colour };
 
             foreach(var combination in combinations)
             {
@@ -197,7 +223,7 @@ namespace AK.F1.Timing.Live
         public void position_column_values_are_not_translated_as_positions_are_provided_by_the_feed(SessionType session)
         {
             In(session).Assert(translator => { Assert.Null(translator.Translate(new SetGridColumnValueMessage(1, GridColumn.Position, GridColumnColour.White, "10"))); });
-        }        
+        }
 
         private static PostedTime PT(double seconds, PostedTimeType type, int lapNumber)
         {
@@ -238,7 +264,7 @@ namespace AK.F1.Timing.Live
             {
                 foreach(SessionType type in Enum.GetValues(typeof(SessionType)))
                 {
-                    yield return new object[] {type};
+                    yield return new object[] { type };
                 }
             }
 
@@ -256,7 +282,7 @@ namespace AK.F1.Timing.Live
                 {
                     if(type != SessionType.Race)
                     {
-                        yield return new object[] {type};
+                        yield return new object[] { type };
                     }
                 }
             }

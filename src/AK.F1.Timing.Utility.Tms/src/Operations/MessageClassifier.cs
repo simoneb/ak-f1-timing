@@ -114,6 +114,11 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             Result = true;
         }
 
+        public void Visit(SetDriverSpeedMessage message)
+        {
+            Result = true;
+        }
+
         public void Visit(SetDriverPositionMessage message) { }
 
         public void Visit(StartSessionTimeCountdownMessage message) { }

@@ -392,5 +392,14 @@ namespace AK.F1.Timing
         /// Thrown when <paramref name="message"/> is <see langword="null"/>.
         /// </exception>
         void Visit(SpeedCaptureMessage message);
+
+        /// <summary>
+        /// Visits the specified <paramref name="message"/>.
+        /// </summary>
+        /// <param name="message">The message to visit.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="message"/> is <see langword="null"/>.
+        /// </exception>
+        void Visit(SetDriverSpeedMessage message);
     }
 }

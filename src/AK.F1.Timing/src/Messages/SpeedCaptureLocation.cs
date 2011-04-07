@@ -14,7 +14,7 @@
 
 using System;
 
-namespace AK.F1.Timing.Messages.Session
+namespace AK.F1.Timing.Messages
 {
     /// <summary>
     /// Specifies the location of a speed capture.

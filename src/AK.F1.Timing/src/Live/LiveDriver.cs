@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Specialized;
+using System.Text;
 using AK.F1.Timing.Messages.Driver;
 
 namespace AK.F1.Timing.Live
@@ -29,6 +30,8 @@ namespace AK.F1.Timing.Live
     {
         #region Private Fields.
 
+        private string _name;
+        private string _normalisedName;
         private BitVector32 _columnsWithValue;
 
         #endregion
@@ -187,6 +190,25 @@ namespace AK.F1.Timing.Live
         }
 
         /// <summary>
+        /// Returns a value indicating if the specified string matches this driver's name.
+        /// </summary>
+        /// <param name="s">The string to test.</param>
+        /// <returns></returns>
+        public bool MatchesName(string s)
+        {
+            if(String.Equals(s, Name, StringComparison.Ordinal))
+            {
+                return true;
+            }
+            if(s == null || Name == null)
+            {
+                return false;
+            }
+            var index = NormalisedName.IndexOf(s, StringComparison.Ordinal);
+            return index == 0 || index == 1;
+        }
+
+        /// <summary>
         /// Gets the Id of this driver.
         /// </summary>
         public int Id { get; private set; }
@@ -285,7 +307,30 @@ namespace AK.F1.Timing.Live
         /// <summary>
         /// Gets or sets the driver's name.
         /// </summary>
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                if(String.IsNullOrEmpty(_name))
+                {
+                    NormalisedName = _name;
+                }
+                else
+                {
+                    var sb = new StringBuilder(_name.Length);
+                    for(int i = 0; i < _name.Length; ++i)
+                    {
+                        if(Char.IsLetter(_name[i]))
+                        {
+                            sb.Append(_name[i]);
+                        }
+                    }
+                    NormalisedName = sb.ToString();
+                }
+            }
+        }
 
         #endregion
 
@@ -317,6 +362,8 @@ namespace AK.F1.Timing.Live
         {
             get { return LastGapMessage != null ? LastGapMessage.Gap : null; }
         }
+
+        private string NormalisedName { get; set; }
 
         #endregion
     }

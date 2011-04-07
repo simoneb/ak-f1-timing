@@ -15,6 +15,7 @@
 using System;
 using AK.F1.Timing.Messages.Driver;
 using Xunit;
+using Xunit.Extensions;
 
 namespace AK.F1.Timing.Live
 {
@@ -301,6 +302,25 @@ namespace AK.F1.Timing.Live
             Assert.Equal(1, driver.Id);
 
             assert_properties_have_default_values(driver);
+        }
+
+        [Theory]
+        [InlineData(null, null, true)]
+        [InlineData("", "", true)]
+        [InlineData("J. D'AMBROSIO", "J. D'AMBROSIO", true)]
+        [InlineData("J. D'AMBROSIO", "DAM", true)]
+        [InlineData("J. D'AMBROSIO", "JDA", true)]
+        [InlineData(null, "", false)]
+        [InlineData("", null, false)]
+        [InlineData("J. D'AMBROSIO", "D'AMBROSIO", false)]
+        [InlineData("J. D'AMBROSIO", "AMB", false)]
+        [InlineData("J. D'AMBROSIO", "JAM", false)]
+        public void can_determine_if_matches_drivers_name(string name, string s, bool matches)
+        {
+            var driver = new LiveDriver(1);
+
+            driver.Name = name;
+            Assert.Equal(matches, driver.MatchesName(s));
         }
 
         private void assert_properties_have_default_values(LiveDriver driver)

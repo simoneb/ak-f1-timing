@@ -83,6 +83,7 @@
     <Compile Include="ComparableContractAssertionExtensions.cs" />
     <Compile Include="EqualityContractAssertionExtensions.cs" />
     <Compile Include="AuthenticationTokenTest.cs" />
+    <Compile Include="Live\LiveMessageTranslatorTest.SpeedCapture.cs" />
     <Compile Include="Live\LiveMessageTranslatorTest.Issues.cs" />
     <Compile Include="Live\LiveMessageTranslatorTest.PitCount.cs" />
     <Compile Include="Live\LiveMessageTranslatorTest.QuallyTime.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Live\LiveMessageTranslatorTest.cs" />
     <Compile Include="Live\LiveAuthenticationServiceTest.cs" />
     <Compile Include="Live\LiveMessageHeaderTest.cs" />
+    <Compile Include="Messages\Driver\SetDriverSpeedMessageTest.cs" />
     <Compile Include="Messages\Driver\GapTest.cs" />
     <Compile Include="Messages\MessageTestBase.cs" />
     <Compile Include="Messages\Session\SpeedCaptureMessageTest.cs" />

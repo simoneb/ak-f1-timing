@@ -137,6 +137,11 @@ namespace AK.F1.Timing.Model.Session
             Dispatch(message);
         }
 
+        void IMessageVisitor.Visit(SetDriverSpeedMessage message)
+        {
+            Dispatch(message);
+        }
+
         void IMessageVisitor.Visit(StartSessionTimeCountdownMessage message) { }
 
         void IMessageVisitor.Visit(EndOfSessionMessage message) { }
