@@ -31,7 +31,6 @@ namespace AK.F1.Timing.Live
         #region Private Fields.
 
         private string _name;
-        private string _normalisedName;
         private BitVector32 _columnsWithValue;
 
         #endregion
