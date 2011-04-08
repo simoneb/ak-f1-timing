@@ -281,6 +281,16 @@ namespace AK.F1.Timing
             return new SerializationException(Format(Resource.TypeDescriptor_DuplicateTypeId, existingDescriptor.TypeId, existingDescriptor.Type, duplicateType));
         }
 
+        internal static SerializationException PropertyDescriptor_GetValueFailed(PropertyDescriptor property, Exception exc)
+        {
+            return new SerializationException(Format(Resource.PropertyDescriptor_GetValueFailed, property.Property.Name, property.Property.DeclaringType, exc.Message), exc);
+        }
+
+        internal static SerializationException PropertyDescriptor_SetValueFailed(PropertyDescriptor property, Exception exc)
+        {
+            return new SerializationException(Format(Resource.PropertyDescriptor_SetValueFailed, property.Property.Name, property.Property.DeclaringType, exc.Message), exc);
+        }
+
         internal static SerializationException DecoratedObjectReader_UnexpectedEndOfStream(EndOfStreamException exc)
         {
             return new SerializationException(Resource.DecoratedObjectReader_UnexpectedEndOfStream, exc);

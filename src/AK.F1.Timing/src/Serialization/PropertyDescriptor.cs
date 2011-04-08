@@ -14,6 +14,7 @@
 
 using System;
 using System.Reflection;
+using System.Security;
 using AK.F1.Timing.Extensions;
 using AK.F1.Timing.Utility;
 
@@ -59,11 +60,25 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="component"/> is <see langword="null"/>.
         /// </exception>
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
+        /// Thrown when the property could not be returned on the specifeid <paramref name="component"/>.
+        /// </exception>
         public object GetValue(object component)
         {
             Guard.NotNull(component, "component");
 
-            return Property.GetGetMethod().Invoke(component, null);
+            try
+            {
+                return Property.GetGetMethod().Invoke(component, null);
+            }
+            catch(Exception exc)
+            {
+                if(!IsExpectedPropertyInvocationException(exc))
+                {
+                    throw;
+                }
+                throw Guard.PropertyDescriptor_GetValueFailed(this, exc);
+            }
         }
 
         /// <summary>
@@ -75,11 +90,25 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="component"/> is <see langword="null"/>.
         /// </exception>
+        /// <exception cref="System.Runtime.Serialization.SerializationException">
+        /// Thrown when the property could not be set on the specified <paramref name="component"/>.
+        /// </exception>
         public void SetValue(object component, object value)
         {
             Guard.NotNull(component, "component");
 
-            Property.GetSetMethod(true).Invoke(component, new[] {value});
+            try
+            {
+                Property.GetSetMethod(true).Invoke(component, new[] { value });
+            }
+            catch(Exception exc)
+            {
+                if(!IsExpectedPropertyInvocationException(exc))
+                {
+                    throw;
+                }
+                throw Guard.PropertyDescriptor_SetValueFailed(this, exc);
+            }
         }
 
         /// <inheritdoc/>
@@ -97,7 +126,7 @@ namespace AK.F1.Timing.Serialization
         {
             return other != null &&
                 other.PropertyId == PropertyId &&
-                    other.Property.DeclaringType.Equals(Property.DeclaringType);
+                other.Property.DeclaringType.Equals(Property.DeclaringType);
         }
 
         /// <inheritdoc/>
@@ -177,6 +206,17 @@ namespace AK.F1.Timing.Serialization
             }
 
             return attribute.Id;
+        }
+
+        private static bool IsExpectedPropertyInvocationException(Exception exc)
+        {
+            return exc is SecurityException ||
+                exc is TargetException ||
+                exc is ArgumentException ||
+                exc is TargetInvocationException ||
+                exc is TargetParameterCountException ||
+                exc is MethodAccessException ||
+                exc is InvalidOperationException;
         }
 
         #endregion

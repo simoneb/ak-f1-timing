@@ -242,4 +242,10 @@ Message Classification: '{1}'</value>
   <data name="DecoratedObjectReader_InvalidCastInRead" xml:space="preserve">
     <value>Unable to deserialize the next object as type '{0}' cannot be cast to type '{1}'.</value>
   </data>
+  <data name="PropertyDescriptor_SetValueFailed" xml:space="preserve">
+    <value>Failed to set the value of property '{0}' on type '{1}': '{2}'</value>
+  </data>
+  <data name="PropertyDescriptor_GetValueFailed" xml:space="preserve">
+    <value>Failed to get the value of property '{0}' on type '{1}': '{2}'</value>
+  </data>
 </root>

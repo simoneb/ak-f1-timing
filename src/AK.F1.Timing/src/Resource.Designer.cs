@@ -369,6 +369,15 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to get the value of property &apos;{0}&apos; on type &apos;{1}&apos;: &apos;{2}&apos;.
+        /// </summary>
+        internal static string PropertyDescriptor_GetValueFailed {
+            get {
+                return ResourceManager.GetString("PropertyDescriptor_GetValueFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The &apos;{0}&apos; type cannot be serialized as the &apos;{1}&apos; property does not have both a get and set method. Note that either method can be private but they must be defined..
         /// </summary>
         internal static string PropertyDescriptor_PropertyHaveGetAndSetMethod {
@@ -383,6 +392,15 @@ namespace AK.F1.Timing {
         internal static string PropertyDescriptor_PropertyIsNotDecorated {
             get {
                 return ResourceManager.GetString("PropertyDescriptor_PropertyIsNotDecorated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to set the value of property &apos;{0}&apos; on type &apos;{1}&apos;: &apos;{2}&apos;.
+        /// </summary>
+        internal static string PropertyDescriptor_SetValueFailed {
+            get {
+                return ResourceManager.GetString("PropertyDescriptor_SetValueFailed", resourceCulture);
             }
         }
         

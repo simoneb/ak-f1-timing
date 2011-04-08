@@ -14,7 +14,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Runtime.Serialization;
+using System.Security;
 using Xunit;
 using Xunit.Extensions;
 
@@ -72,6 +74,24 @@ namespace AK.F1.Timing.Serialization
             var descriptor = PropertyDescriptor.For(property);
 
             Assert.Throws<ArgumentNullException>(() => descriptor.SetValue(null, 1));
+        }
+
+        [Theory]
+        [InlineData(typeof(SecurityException))]
+        [InlineData(typeof(TargetException))]
+        [InlineData(typeof(TargetException))]
+        [InlineData(typeof(ArgumentException))]
+        [InlineData(typeof(TargetInvocationException))]
+        [InlineData(typeof(TargetParameterCountException))]
+        [InlineData(typeof(MethodAccessException))]
+        [InlineData(typeof(InvalidOperationException))]
+        public void get_and_set_value_wraps_expected_exceptions(Type exceptionType)
+        {
+            var property = PropertyDescriptor.For(typeof(TypeWithThrowingProperty).GetProperty("Property"));
+            var component = new TypeWithThrowingProperty((Exception)FormatterServices.GetUninitializedObject(exceptionType));
+
+            Assert.Throws<SerializationException>(() => property.SetValue(component, null));
+            Assert.Throws<SerializationException>(() => property.GetValue(component));
         }
 
         [Fact]
@@ -249,6 +269,23 @@ namespace AK.F1.Timing.Serialization
         }
 
         [TypeId(-98367102)]
-        private class ChildType : TypeWithProperty {}
+        private class ChildType : TypeWithProperty { }
+
+        [TypeId(152582013)]
+        private class TypeWithThrowingProperty
+        {
+            private readonly Exception _exception;
+            public TypeWithThrowingProperty(Exception exception)
+            {
+                _exception = exception;
+            }
+
+            [PropertyId(0)]
+            public int Property
+            {
+                get { throw _exception; }
+                set { throw _exception; }
+            }
+        }
     }
 }
