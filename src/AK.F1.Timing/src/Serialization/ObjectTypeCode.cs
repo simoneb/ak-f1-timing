@@ -22,6 +22,8 @@ namespace AK.F1.Timing.Serialization
     [Serializable]
     public enum ObjectTypeCode
     {
+        #region TypeCode Members.
+
         /// <summary>
         /// A null reference.
         /// </summary>
@@ -94,9 +96,68 @@ namespace AK.F1.Timing.Serialization
         /// A <see cref="System.String"/>.
         /// </summary>
         String = 18,
+
+        #endregion
+
+        #region Extended Members.
+
         /// <summary>
         /// A <see cref="System.TimeSpan"/>.
         /// </summary>
-        TimeSpan = 19
+        TimeSpan = 19,
+        /// <summary>
+        /// A zero <see cref="System.TimeSpan"/>.
+        /// </summary>
+        TimeSpanZero = 20,
+        /// <summary>
+        /// A <see cref="System.TimeSpan"/> compressed to an <see cref="System.Int16"/>.
+        /// </summary>
+        TimeSpanInt16 = 21,
+        /// <summary>
+        /// A <see cref="System.TimeSpan"/> compressed to an <see cref="System.Int32"/>.
+        /// </summary>
+        TimeSpanInt32 = 22,
+        /// <summary>
+        /// A zero <see cref="System.SByte"/>.
+        /// </summary>
+        SByteZero = 23,
+        /// <summary>
+        /// A zero <see cref="System.Byte"/>.
+        /// </summary>
+        ByteZero = 24,
+        /// <summary>
+        /// A zero <see cref="System.Int16"/>.
+        /// </summary>
+        Int16Zero = 25,
+        /// <summary>
+        /// A zero <see cref="System.UInt16"/>.
+        /// </summary>
+        UInt16Zero = 26,
+        /// <summary>
+        /// A zero <see cref="System.Int32"/>.
+        /// </summary>
+        Int32Zero = 27,
+        /// <summary>
+        /// A zero <see cref="System.UInt32"/>.
+        /// </summary>
+        UInt32Zero = 28,
+        /// <summary>
+        /// A zero <see cref="System.Int64"/>.
+        /// </summary>
+        Int64Zero = 29,
+        /// <summary>
+        /// A zero <see cref="System.UInt64"/>.
+        /// </summary>
+        UInt64Zero = 30,
+        /// <summary>
+        /// A <see cref="System.Boolean"/> true.
+        /// </summary>
+        BooleanTrue = 31,
+        /// <summary>
+        /// A <see cref="System.Boolean"/> false.
+        /// </summary>
+        BooleanFalse = 32,
+
+        #endregion
     }
 }

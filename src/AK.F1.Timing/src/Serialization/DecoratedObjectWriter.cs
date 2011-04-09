@@ -240,8 +240,7 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteBoolean(bool value)
         {
-            WriteObjectTypeCode(ObjectTypeCode.Boolean);
-            Output.Write(value);
+            WriteObjectTypeCode(value ? ObjectTypeCode.BooleanTrue : ObjectTypeCode.BooleanFalse);
         }
 
         private void WriteChar(char value)
@@ -252,14 +251,28 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteSByte(sbyte value)
         {
-            WriteObjectTypeCode(ObjectTypeCode.SByte);
-            Output.Write(value);
+            if(value == 0)
+            {
+                WriteObjectTypeCode(ObjectTypeCode.SByteZero);
+            }
+            else
+            {
+                WriteObjectTypeCode(ObjectTypeCode.SByte);
+                Output.Write(value);
+            }
         }
 
         private void WriteByte(byte value)
         {
-            WriteObjectTypeCode(ObjectTypeCode.Byte);
-            Output.Write(value);
+            if(value == 0)
+            {
+                WriteObjectTypeCode(ObjectTypeCode.ByteZero);
+            }
+            else
+            {
+                WriteObjectTypeCode(ObjectTypeCode.Byte);
+                Output.Write(value);
+            }
         }
 
         private void WriteSingle(float value)
@@ -270,8 +283,33 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteTimeSpan(TimeSpan value)
         {
-            WriteObjectTypeCode(ObjectTypeCode.TimeSpan);
-            Output.Write(value.Ticks);
+#if DEBUG
+            checked
+            {
+#endif
+                var ticks = value.Ticks;
+                if(ticks == 0L)
+                {
+                    WriteObjectTypeCode(ObjectTypeCode.TimeSpanZero);
+                }
+                else if(ticks >= short.MinValue && ticks <= short.MaxValue)
+                {
+                    WriteObjectTypeCode(ObjectTypeCode.TimeSpanInt16);
+                    Output.Write((short)ticks);
+                }
+                else if(ticks >= int.MinValue && ticks <= int.MaxValue)
+                {
+                    WriteObjectTypeCode(ObjectTypeCode.TimeSpanInt32);
+                    Output.Write((int)ticks);
+                }
+                else
+                {
+                    WriteObjectTypeCode(ObjectTypeCode.TimeSpan);
+                    Output.Write(ticks);
+                }
+#if DEBUG
+            }
+#endif
         }
 
         private void WriteString(string value)
@@ -300,7 +338,11 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteInt16(short value)
         {
-            if(IsCompressionEnabled)
+            if(value == 0)
+            {
+                WriteObjectTypeCode(ObjectTypeCode.Int16Zero);
+            }
+            else if(IsCompressionEnabled)
             {
                 WriteInt64WithComression(value);
             }
@@ -313,7 +355,11 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteInt32(int value)
         {
-            if(IsCompressionEnabled)
+            if(value == 0)
+            {
+                WriteObjectTypeCode(ObjectTypeCode.Int32Zero);
+            }
+            else if(IsCompressionEnabled)
             {
                 WriteInt64WithComression(value);
             }
@@ -326,7 +372,11 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteInt64(long value)
         {
-            if(IsCompressionEnabled)
+            if(value == 0)
+            {
+                WriteObjectTypeCode(ObjectTypeCode.Int64Zero);
+            }
+            else if(IsCompressionEnabled)
             {
                 WriteInt64WithComression(value);
             }
@@ -370,7 +420,11 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteUInt16(ushort value)
         {
-            if(IsCompressionEnabled)
+            if(value == 0)
+            {
+                WriteObjectTypeCode(ObjectTypeCode.UInt16Zero);
+            }
+            else if(IsCompressionEnabled)
             {
                 WriteUInt64WithCompression(value);
             }
@@ -383,7 +437,11 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteUInt32(uint value)
         {
-            if(IsCompressionEnabled)
+            if(value == 0)
+            {
+                WriteObjectTypeCode(ObjectTypeCode.UInt32Zero);
+            }
+            else if(IsCompressionEnabled)
             {
                 WriteUInt64WithCompression(value);
             }
@@ -396,7 +454,11 @@ namespace AK.F1.Timing.Serialization
 
         private void WriteUInt64(ulong value)
         {
-            if(IsCompressionEnabled)
+            if(value == 0)
+            {
+                WriteObjectTypeCode(ObjectTypeCode.UInt64Zero);
+            }
+            else if(IsCompressionEnabled)
             {
                 WriteUInt64WithCompression(value);
             }

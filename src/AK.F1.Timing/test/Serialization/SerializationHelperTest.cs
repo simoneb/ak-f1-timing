@@ -13,7 +13,6 @@
 // limitations under the License.
 
 using System;
-using System.Linq;
 using Xunit;
 
 namespace AK.F1.Timing.Serialization
@@ -46,28 +45,28 @@ namespace AK.F1.Timing.Serialization
             Assert.Throws<ArgumentNullException>(() => { SerializationHelper.GetObjectTypeCode(null); });
         }
 
-        [Fact]
-        public void get_object_type_code_returns_correct_code_for_all_defined_values()
-        {
-            Type type;
-            var names = Enum.GetNames(typeof(ObjectTypeCode))
-                .Except(new[] {"Empty"})
-                .ToList();
-            var values = Enum.GetValues(typeof(ObjectTypeCode))
-                .Cast<ObjectTypeCode>()
-                .Except(new[] {ObjectTypeCode.Empty})
-                .ToList();
+        //[Fact]
+        //public void get_object_type_code_returns_correct_code_for_all_defined_values()
+        //{
+        //    Type type;
+        //    var names = Enum.GetNames(typeof(ObjectTypeCode))
+        //        .Except(new[] {"Empty"})
+        //        .ToList();
+        //    var values = Enum.GetValues(typeof(ObjectTypeCode))
+        //        .Cast<ObjectTypeCode>()
+        //        .Except(new[] {ObjectTypeCode.Empty})
+        //        .ToList();
 
-            foreach(var i in Enumerable.Range(0, names.Count()))
-            {
-                type = Type.GetType(string.Format("System.{0}", names[i]), true);
-                Assert.Equal(values[i], type.GetObjectTypeCode());
-            }
-        }
+        //    foreach(var i in Enumerable.Range(0, names.Count()))
+        //    {
+        //        type = Type.GetType(string.Format("System.{0}", names[i]), true);
+        //        Assert.Equal(values[i], type.GetObjectTypeCode());
+        //    }
+        //}
 
         private sealed class ClassWithPrivateCtor
         {
-            private ClassWithPrivateCtor() {}
+            private ClassWithPrivateCtor() { }
         }
 
         private sealed class ClassWithPublicCtor

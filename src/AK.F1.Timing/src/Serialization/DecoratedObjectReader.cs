@@ -136,24 +136,44 @@ namespace AK.F1.Timing.Serialization
                     return DBNull.Value;
                 case ObjectTypeCode.Boolean:
                     return Input.ReadBoolean();
+                case ObjectTypeCode.BooleanTrue:
+                    return Boxed.BooleanTrue;
+                case ObjectTypeCode.BooleanFalse:
+                    return Boxed.BooleanFalse;
                 case ObjectTypeCode.Char:
                     return Input.ReadChar();
                 case ObjectTypeCode.SByte:
                     return Input.ReadSByte();
+                case ObjectTypeCode.SByteZero:
+                    return Boxed.SByteZero;
                 case ObjectTypeCode.Byte:
                     return Input.ReadByte();
+                case ObjectTypeCode.ByteZero:
+                    return Boxed.ByteZero;
                 case ObjectTypeCode.Int16:
                     return Input.ReadInt16();
+                case ObjectTypeCode.Int16Zero:
+                    return Boxed.Int16Zero;
                 case ObjectTypeCode.UInt16:
                     return Input.ReadUInt16();
+                case ObjectTypeCode.UInt16Zero:
+                    return Boxed.UInt16Zero;
                 case ObjectTypeCode.Int32:
                     return Input.ReadInt32();
+                case ObjectTypeCode.Int32Zero:
+                    return Boxed.Int32Zero;
                 case ObjectTypeCode.UInt32:
                     return Input.ReadUInt32();
+                case ObjectTypeCode.UInt32Zero:
+                    return Boxed.UInt32Zero;
                 case ObjectTypeCode.Int64:
                     return Input.ReadInt64();
+                case ObjectTypeCode.Int64Zero:
+                    return Boxed.Int64Zero;
                 case ObjectTypeCode.UInt64:
                     return Input.ReadUInt64();
+                case ObjectTypeCode.UInt64Zero:
+                    return Boxed.UInt64Zero;
                 case ObjectTypeCode.Single:
                     return Input.ReadSingle();
                 case ObjectTypeCode.Double:
@@ -166,6 +186,12 @@ namespace AK.F1.Timing.Serialization
                     return Input.ReadString();
                 case ObjectTypeCode.TimeSpan:
                     return TimeSpan.FromTicks(Input.ReadInt64());
+                case ObjectTypeCode.TimeSpanZero:
+                    return Boxed.TimeSpanZero;
+                case ObjectTypeCode.TimeSpanInt16:
+                    return TimeSpan.FromTicks(Input.ReadInt16());
+                case ObjectTypeCode.TimeSpanInt32:
+                    return TimeSpan.FromTicks(Input.ReadInt32());
                 default:
                     throw Guard.DecoratedObjectReader_InvalidObjectTypeCode(typeCode);
             }
@@ -174,6 +200,21 @@ namespace AK.F1.Timing.Serialization
         private BinaryReader Input { get; set; }
 
         private StreamingContext Context { get; set; }
+
+        private static class Boxed
+        {
+            public static readonly object ByteZero = (byte)0;
+            public static readonly object SByteZero = (sbyte)0;
+            public static readonly object Int16Zero = (short)0;
+            public static readonly object UInt16Zero = (ushort)0;
+            public static readonly object Int32Zero = (int)0;
+            public static readonly object UInt32Zero = (uint)0;
+            public static readonly object Int64Zero = (long)0;
+            public static readonly object UInt64Zero = (ulong)0;
+            public static readonly object BooleanTrue = true;
+            public static readonly object BooleanFalse = false;
+            public static readonly object TimeSpanZero = TimeSpan.Zero;
+        }
 
         #endregion
     }
