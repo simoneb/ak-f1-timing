@@ -469,6 +469,10 @@ namespace AK.F1.Timing.Live
 
         private Message ReadSetMinRequiredQuallyTimeMessage(LiveMessageHeader header)
         {
+            if(header.DataLength == 0)
+            {
+                return Message.Empty;
+            }
             ReadAndDecryptBytes(header.DataLength);
             return new SetMinRequiredQuallyTimeMessage(LiveData.ParseTime(DecodeLatin1(header.DataLength)));
         }
