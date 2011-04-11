@@ -19,9 +19,10 @@ namespace AK.F1.Timing.Messages.Driver
 {
     /// <summary>
     /// A message which clears a driver's grid row. This class cannot be inherited.
-    /// </summary>
+    /// </summary>    
     [Serializable]
     [TypeId(96429822)]
+    [Obsolete("This message is no longer supported and will be removed.", error: false)]
     public sealed class ClearGridRowMessage : DriverMessageBase
     {
         #region Public Interface.
@@ -35,7 +36,7 @@ namespace AK.F1.Timing.Messages.Driver
         /// Thrown when <paramref name="driverId"/> is not positive.
         /// </exception>
         public ClearGridRowMessage(int driverId)
-            : base(driverId) {}
+            : base(driverId) { }
 
         /// <inheritdoc/>
         public override void Accept(IMessageVisitor visitor)

@@ -354,15 +354,14 @@ namespace AK.F1.Timing.Live
                 null);
         }
 
-        private static Message ReadSetDriverPositionMessage(LiveMessageHeader header)
+        private Message ReadSetDriverPositionMessage(LiveMessageHeader header)
         {
-            int position = header.Value;
-            // A position of zero instructs the UI to clear the driver's row.
-            if(position == 0)
+            if(header.Value == 0)
             {
-                return new ClearGridRowMessage(header.DriverId);
+                Log.DebugFormat("ignoring clear row for driver: {0}", header.DriverId);
+                return Message.Empty;
             }
-            return new SetDriverPositionMessage(header.DriverId, position);
+            return new SetDriverPositionMessage(header.DriverId, header.Value);
         }
 
         private Message ReadHistoricalPositionMessage(LiveMessageHeader header)
