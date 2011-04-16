@@ -278,7 +278,11 @@ namespace AK.F1.Timing.Live
                     {
                         return ReadSetMinRequiredQuallyTimeMessage(header);
                     }
-                    break;
+                    // TODO mvoe this out to an UnsupportedTextMessage.
+                    ReadAndDecryptBytes(header.DataLength);
+                    Log.WarnFormat("soft-fail on unsupported type 11 system message: {0}, {1}",
+                        header, DecodeLatin1(header.DataLength));
+                    return Message.Empty;
                 case 12:
                     return ReadSetCopyrightMessage(header);
                 default:
