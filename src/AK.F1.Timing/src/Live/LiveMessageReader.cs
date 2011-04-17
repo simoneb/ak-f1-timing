@@ -362,7 +362,7 @@ namespace AK.F1.Timing.Live
         {
             if(header.Value == 0)
             {
-                Log.DebugFormat("ignoring clear row for driver: {0}", header.DriverId);
+                Log.DebugFormat("ignoring clear grid row: {0}", header);
                 return Message.Empty;
             }
             return new SetDriverPositionMessage(header.DriverId, header.Value);
