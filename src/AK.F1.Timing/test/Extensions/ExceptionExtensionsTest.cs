@@ -42,6 +42,40 @@ namespace AK.F1.Timing.Extensions
             }
         }
 
+        [Fact]
+        public void can_preserve_an_exceptions_stack_trace()
+        {
+            Exception caught = null;
+            try
+            {
+                ThrowException();
+            }
+            catch(Exception exc)
+            {
+                caught = exc;
+            }
+            caught.PreserveStackTrace();
+            try
+            {
+                throw caught;
+            }
+            catch(Exception exc)
+            {
+                Assert.Contains("ExceptionExtensionsTest.ThrowException", exc.StackTrace);
+            }
+        }
+
+        [Fact]
+        public void preserve_stack_trace_throws_if_exc_is_null()
+        {
+            Assert.Throws<ArgumentNullException>(() => ExceptionExtensions.PreserveStackTrace(null));
+        }
+
+        private static void ThrowException()
+        {
+            throw new Exception();
+        }
+
         private IEnumerable<Exception> GetFatalExceptions()
         {
             yield return (Exception)FormatterServices.GetUninitializedObject(typeof(ThreadAbortException));

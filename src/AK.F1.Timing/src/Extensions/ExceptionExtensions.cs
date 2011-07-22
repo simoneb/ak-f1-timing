@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Reflection;
 using System.Threading;
 
 namespace AK.F1.Timing.Extensions
@@ -22,7 +23,20 @@ namespace AK.F1.Timing.Extensions
     /// </summary>
     public static class ExceptionExtensions
     {
+        #region Fields.
+
+        private static readonly Action<Exception> _preserveStackTrace;
+
+        #endregion
+
         #region Public Interface.
+
+        static ExceptionExtensions()
+        {
+            _preserveStackTrace = (Action<Exception>)Delegate.CreateDelegate(
+                typeof(Action<Exception>), typeof(Exception).GetMethod("InternalPreserveStackTrace",
+                    BindingFlags.Instance | BindingFlags.NonPublic));
+        }
 
         /// <summary>
         /// Returns a value indicating if the specified <see cref="System.Exception"/> is classed
@@ -39,6 +53,20 @@ namespace AK.F1.Timing.Extensions
                 exc is OutOfMemoryException ||
                 exc is ExecutionEngineException ||
                 exc is ArgumentException);
+        }
+
+        /// <summary>
+        /// Preserves the stack trace of the specified <see cref="System.Exception"/>.
+        /// </summary>
+        /// <param name="exc">The exception.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="exc"/> is <see langword="null"/>.
+        /// </exception>
+        public static void PreserveStackTrace(this Exception exc)
+        {
+            Guard.NotNull(exc, "exc");
+
+            _preserveStackTrace(exc);
         }
 
         #endregion

@@ -99,7 +99,7 @@ namespace AK.F1.Timing
                 return _log;
             }
         }
-        
+
         #endregion
 
         #region Private Impl.
@@ -118,6 +118,7 @@ namespace AK.F1.Timing
 
             Log.Error(exc);
             ReadException = exc;
+            ReadException.PreserveStackTrace();
         }
 
         private bool EndOfStreamReached { get; set; }

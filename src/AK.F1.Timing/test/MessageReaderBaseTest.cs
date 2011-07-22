@@ -25,10 +25,46 @@ namespace AK.F1.Timing
         [Fact]
         public void read_impl_should_not_be_invoked_again_having_previously_thrown_an_exception_and_same_exception_should_be_re_thrown()
         {
+            Exception caught = null;
             var reader = new ThrowingMessageReader();
 
-            Assert.Throws<IOException>(() => reader.Read());
-            Assert.Throws<IOException>(() => reader.Read());
+            try
+            {
+                reader.Read();
+                Assert.True(false, "Read should have thrown.");
+            }
+            catch(Exception exc)
+            {
+                caught = exc;
+            }
+            try
+            {
+                reader.Read();
+                Assert.True(false, "Read should have thrown.");
+            }
+            catch(Exception exc)
+            {
+                Assert.Same(caught, exc);
+            }
+        }
+
+        [Fact]
+        public void the_stack_trace_trace_of_a_previously_throw_exception_is_preserved()
+        {
+            var reader = new ThrowingMessageReader();
+
+            for(int i = 0; i < 2; ++i)
+            {
+                try
+                {
+                    reader.Read();
+                    Assert.True(false, "Read should have thrown.");
+                }
+                catch(Exception exc)
+                {
+                    Assert.Contains("ThrowingMessageReader.ThrowException", exc.StackTrace);
+                }
+            }
         }
 
         [Fact]
@@ -101,6 +137,13 @@ namespace AK.F1.Timing
 
                 _readImplCalled = true;
 
+                ThrowException();
+
+                return null;
+            }
+
+            private void ThrowException()
+            {
                 throw new IOException();
             }
 
