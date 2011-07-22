@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Threading;
 using Xunit;
@@ -71,6 +72,7 @@ namespace AK.F1.Timing.Extensions
             Assert.Throws<ArgumentNullException>(() => ExceptionExtensions.PreserveStackTrace(null));
         }
 
+        [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowException()
         {
             throw new Exception();

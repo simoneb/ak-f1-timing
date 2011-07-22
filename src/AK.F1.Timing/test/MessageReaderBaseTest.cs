@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 using AK.F1.Timing.Messages.Weather;
 using Xunit;
 
@@ -142,6 +143,7 @@ namespace AK.F1.Timing
                 return null;
             }
 
+            [MethodImpl(MethodImplOptions.NoInlining)]
             private void ThrowException()
             {
                 throw new IOException();
