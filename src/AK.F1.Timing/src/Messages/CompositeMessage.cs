@@ -59,20 +59,22 @@ namespace AK.F1.Timing.Messages
         /// <inheritdoc/>
         public override string ToString()
         {
+            var appendComma = false;
             var sb = new StringBuilder();
 
-            sb.Append("[");
+            sb.AppendFormat("{0}(", GetType().Name);
             foreach(var message in Messages)
             {
-                if(sb.Length > 1)
+                if(appendComma)
                 {
                     sb.Append(", ");
                 }
                 sb.Append(message);
+                appendComma = true;
             }
-            sb.Append("]");
+            sb.Append("])");
 
-            return Repr(sb.ToString());
+            return sb.ToString();
         }
 
         /// <summary>
