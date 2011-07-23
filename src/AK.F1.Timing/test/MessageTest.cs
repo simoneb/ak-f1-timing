@@ -94,7 +94,7 @@ namespace AK.F1.Timing
         {
             var message = new TestMessage();
             var expected = String.Format(CultureInfo.InvariantCulture,
-                "TestMessage(Timestamp='{0:o}', 0=0, 1=1)", message.Timestamp);
+                "TestMessage(0=0, 1=1, Timestamp='{0:o}')", message.Timestamp);
 
             Assert.Equal(expected, message.ToString(), StringComparer.Ordinal);
         }

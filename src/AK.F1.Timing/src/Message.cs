@@ -86,12 +86,12 @@ namespace AK.F1.Timing
 
             sb.Append(GetType().Name);
             sb.Append("(");
-            sb.AppendFormat(CultureInfo.InvariantCulture, "Timestamp='{0:o}'", Timestamp);
             if(args != null && args.Length > 0)
             {
-                sb.Append(", ");
                 sb.AppendFormat(CultureInfo.InvariantCulture, format, args);
+                sb.Append(", ");
             }
+            sb.AppendFormat(CultureInfo.InvariantCulture, "Timestamp='{0:o}'", Timestamp);
             sb.Append(")");
 
             return sb.ToString();
