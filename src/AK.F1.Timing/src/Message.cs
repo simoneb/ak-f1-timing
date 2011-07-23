@@ -86,7 +86,7 @@ namespace AK.F1.Timing
 
             sb.Append(GetType().Name);
             sb.Append("(");
-            if(args != null && args.Length > 0)
+            if(!String.IsNullOrEmpty(format))
             {
                 sb.AppendFormat(CultureInfo.InvariantCulture, format, args);
                 sb.Append(", ");
