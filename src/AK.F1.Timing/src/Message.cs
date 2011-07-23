@@ -16,6 +16,7 @@ using System;
 using System.Globalization;
 using System.Runtime.Serialization;
 using System.Text;
+using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing
 {
@@ -41,9 +42,23 @@ namespace AK.F1.Timing
         /// </exception>
         public abstract void Accept(IMessageVisitor visitor);
 
+        /// <summary>
+        /// Gets UTC timestamp at which this message was created.
+        /// </summary>
+        [PropertyId(128)]
+        public DateTime Timestamp { get; private set; }
+
         #endregion
 
         #region Protected Interface.
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="AK.F1.Timing.Message"/> class.
+        /// </summary>
+        protected Message()
+        {
+            Timestamp = DateTime.UtcNow;
+        }
 
         /// <summary>
         /// Returns a <see cref="System.String"/> representation of this instance using the
@@ -82,7 +97,7 @@ namespace AK.F1.Timing
         [Serializable]
         private sealed class EmptyMessage : Message, IObjectReference
         {
-            public override void Accept(IMessageVisitor visitor) {}
+            public override void Accept(IMessageVisitor visitor) { }
 
             public override string ToString()
             {

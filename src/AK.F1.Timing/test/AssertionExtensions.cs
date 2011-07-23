@@ -26,7 +26,7 @@ namespace AK.F1.Timing
             assert.Equal(0, value);
         }
 
-        public static void MessagesAreEqual(this Assertions assert, Message expected, Message actual)
+        public static void MessagesAreEqual(this Assertions assert, Message expected, Message actual, bool ignoreTimestamp = true)
         {
             if(expected == null)
             {
@@ -37,7 +37,10 @@ namespace AK.F1.Timing
             assert.IsType(expected.GetType(), actual);
             foreach(var method in GetPublicPropertyGetMethods(expected.GetType()))
             {
-                assert.Equal(method.Invoke(expected, null), method.Invoke(actual, null));
+                if(!ignoreTimestamp || !method.Name.Equals("get_Timestamp"))
+                {
+                    assert.Equal(method.Invoke(expected, null), method.Invoke(actual, null));
+                }
             }
         }
 

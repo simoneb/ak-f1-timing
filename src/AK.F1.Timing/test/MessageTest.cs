@@ -73,6 +73,16 @@ namespace AK.F1.Timing
         }
 
         [Fact]
+        public void timestamp_property_is_set_to_utc_now()
+        {
+            var actual = new TestMessage().Timestamp;
+            var expected = DateTime.UtcNow;
+
+            Assert.Equal(expected.Kind, actual.Kind);
+            Assert.InRange(actual, expected.AddMilliseconds(-1), expected);
+        }
+
+        [Fact]
         public void empty_message_type_should_maintain_identity_when_deserialised()
         {
             Assert.Same(Message.Empty, Message.Empty.DeepClone());
@@ -103,14 +113,14 @@ namespace AK.F1.Timing
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] {Message.Empty.GetType()};
+                yield return new object[] { Message.Empty.GetType() };
 
                 var types = typeof(Message).Assembly.GetExportedTypes()
                     .Where(x => typeof(Message).IsAssignableFrom(x));
 
                 foreach(var type in types)
                 {
-                    yield return new object[] {type};
+                    yield return new object[] { type };
                 }
             }
 
