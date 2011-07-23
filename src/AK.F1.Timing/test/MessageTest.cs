@@ -15,6 +15,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Xunit;
@@ -92,8 +93,10 @@ namespace AK.F1.Timing
         public void repr_returns_formatted_arguments_enclosed_in_parens_prefixed_with_the_type_name()
         {
             var message = new TestMessage();
+            var expected = String.Format(CultureInfo.InvariantCulture,
+                "TestMessage(Timestamp='{0:o}', 0=0, 1=1)", message.Timestamp);
 
-            Assert.Equal("TestMessage(0=0, 1=1)", message.ToString(), StringComparer.Ordinal);
+            Assert.Equal(expected, message.ToString(), StringComparer.Ordinal);
         }
 
         private sealed class TestMessage : Message

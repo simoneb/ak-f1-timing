@@ -82,10 +82,17 @@ namespace AK.F1.Timing
         {
             Guard.NotNull(format, "format");
 
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
 
             sb.Append(GetType().Name);
-            sb.Append("(").AppendFormat(CultureInfo.InvariantCulture, format, args).Append(")");
+            sb.Append("(");
+            sb.AppendFormat(CultureInfo.InvariantCulture, "Timestamp='{0:o}'", Timestamp);
+            if(args != null && args.Length > 0)
+            {
+                sb.Append(", ");
+                sb.AppendFormat(CultureInfo.InvariantCulture, format, args);
+            }
+            sb.Append(")");
 
             return sb.ToString();
         }
