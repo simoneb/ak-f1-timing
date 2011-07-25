@@ -15,7 +15,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Xunit;
@@ -74,16 +73,6 @@ namespace AK.F1.Timing
         }
 
         [Fact]
-        public void timestamp_property_is_set_to_utc_now()
-        {
-            var actual = new TestMessage().Timestamp;
-            var expected = DateTime.UtcNow;
-
-            Assert.Equal(expected.Kind, actual.Kind);
-            Assert.InRange(actual, expected.AddMilliseconds(-1), expected);
-        }
-
-        [Fact]
         public void empty_message_type_should_maintain_identity_when_deserialised()
         {
             Assert.Same(Message.Empty, Message.Empty.DeepClone());
@@ -93,10 +82,8 @@ namespace AK.F1.Timing
         public void repr_returns_formatted_arguments_enclosed_in_parens_prefixed_with_the_type_name()
         {
             var message = new TestMessage();
-            var expected = String.Format(CultureInfo.InvariantCulture,
-                "TestMessage(0=0, 1=1, Timestamp='{0:o}')", message.Timestamp);
 
-            Assert.Equal(expected, message.ToString(), StringComparer.Ordinal);
+            Assert.Equal("TestMessage(0=0, 1=1)", message.ToString(), StringComparer.Ordinal);
         }
 
         private sealed class TestMessage : Message
@@ -116,14 +103,14 @@ namespace AK.F1.Timing
         {
             public IEnumerator<object[]> GetEnumerator()
             {
-                yield return new object[] { Message.Empty.GetType() };
+                yield return new object[] {Message.Empty.GetType()};
 
                 var types = typeof(Message).Assembly.GetExportedTypes()
                     .Where(x => typeof(Message).IsAssignableFrom(x));
 
                 foreach(var type in types)
                 {
-                    yield return new object[] { type };
+                    yield return new object[] {type};
                 }
             }
 
