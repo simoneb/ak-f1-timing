@@ -169,6 +169,8 @@ namespace AK.F1.Timing.Utility.Tms.Operations
 
         public void Visit(SpeedCaptureMessage message) { }
 
+        public void Visit(SetStreamTimestampMessage message) { }
+
         #endregion
 
         #region Private Impl.

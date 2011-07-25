@@ -96,6 +96,7 @@
     <Compile Include="Live\LiveMessageHeaderTest.cs" />
     <Compile Include="Messages\Driver\SetDriverSpeedMessageTest.cs" />
     <Compile Include="Messages\Driver\GapTest.cs" />
+    <Compile Include="Messages\Feed\SetStreamTimestampMessageTest.cs" />
     <Compile Include="Messages\MessageTestBase.cs" />
     <Compile Include="Messages\Session\SpeedCaptureMessageTest.cs" />
     <Compile Include="Messages\Session\SetMinRequiredQuallyTimeMessageTest.cs" />

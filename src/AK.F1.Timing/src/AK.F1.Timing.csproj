@@ -66,6 +66,7 @@
     <Compile Include="Live\IO\MessageStreamDelegate.cs" />
     <Compile Include="Messages\Driver\SetDriverSpeedMessage.cs" />
     <Compile Include="Messages\Driver\SetDriverPitTimeMessage.cs" />
+    <Compile Include="Messages\Feed\SetStreamTimestampMessage.cs" />
     <Compile Include="Messages\SpeedCaptureLocation.cs" />
     <Compile Include="Messages\Session\SpeedCaptureMessage.cs" />
     <Compile Include="Messages\Session\SetMinRequiredQuallyTimeMessage.cs" />

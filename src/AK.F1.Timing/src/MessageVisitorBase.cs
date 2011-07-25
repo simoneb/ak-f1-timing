@@ -155,6 +155,9 @@ namespace AK.F1.Timing
         /// <inheritdoc/>
         public virtual void Visit(SetDriverSpeedMessage message) { }
 
+        /// <inheritdoc/>
+        public virtual void Visit(SetStreamTimestampMessage message) { }
+
         #endregion
     }
 }

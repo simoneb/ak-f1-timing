@@ -190,6 +190,8 @@ namespace AK.F1.Timing.Model.Session
 
         void IMessageVisitor.Visit(SpeedCaptureMessage message) { }
 
+        void IMessageVisitor.Visit(SetStreamTimestampMessage message) { }
+
         #endregion
 
         #region Private Impl.

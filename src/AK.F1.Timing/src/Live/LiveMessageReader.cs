@@ -192,6 +192,7 @@ namespace AK.F1.Timing.Live
             {
                 Decrypter.Reset();
                 MessageStream = MessageStreamEndpoint.OpenKeyframe(keyframe);
+                QueuedMessages.Enqueue(new SetStreamTimestampMessage());
                 try
                 {
                     do
