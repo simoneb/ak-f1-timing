@@ -19,7 +19,7 @@ using AK.F1.Timing.Messages;
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Serialization;
 
-namespace AK.F1.Timing.Recording
+namespace AK.F1.Timing.Playback
 {
     /// <summary>
     /// Provides a <see cref="AK.F1.Timing.IMessageReader"/> decorator which records

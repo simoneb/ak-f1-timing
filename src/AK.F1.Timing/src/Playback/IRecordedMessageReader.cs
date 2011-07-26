@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-namespace AK.F1.Timing.Recording
+namespace AK.F1.Timing.Playback
 {
     /// <summary>
     /// Allows recorded <see cref="AK.F1.Timing.Message"/>s to be read from an underlying

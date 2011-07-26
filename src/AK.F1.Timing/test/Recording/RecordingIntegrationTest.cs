@@ -19,7 +19,7 @@ using System.Threading;
 using AK.F1.Timing.Messages.Session;
 using Xunit;
 
-namespace AK.F1.Timing.Recording
+namespace AK.F1.Timing.Playback
 {
     public class RecordingIntegrationTest : TestBase
     {

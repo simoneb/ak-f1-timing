@@ -16,7 +16,7 @@ using System;
 using System.Threading;
 using AK.F1.Timing.Messages.Feed;
 
-namespace AK.F1.Timing.Recording
+namespace AK.F1.Timing.Playback
 {
     /// <summary>
     /// Provides an engine which causes the current thread to sleep by the amount specified in a

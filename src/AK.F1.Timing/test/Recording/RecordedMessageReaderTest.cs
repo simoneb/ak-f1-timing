@@ -16,7 +16,7 @@ using System;
 using System.IO;
 using Xunit;
 
-namespace AK.F1.Timing.Recording
+namespace AK.F1.Timing.Playback
 {
     public class RecordedMessageReaderTest
     {
@@ -31,7 +31,7 @@ namespace AK.F1.Timing.Recording
         {
             var path = Path.GetTempFileName();
 
-            using(var reader = new RecordedMessageReader(path)) {}
+            using(var reader = new RecordedMessageReader(path)) { }
 
             Assert.DoesNotThrow(() => File.Delete(path));
         }
@@ -68,7 +68,7 @@ namespace AK.F1.Timing.Recording
         {
             using(var input = new MemoryStream())
             {
-                using(var reader = new RecordedMessageReader(input, true)) {}
+                using(var reader = new RecordedMessageReader(input, true)) { }
                 Assert.Throws<ObjectDisposedException>(() => input.WriteByte(0));
             }
         }
@@ -78,7 +78,7 @@ namespace AK.F1.Timing.Recording
         {
             using(var input = new MemoryStream())
             {
-                using(var reader = new RecordedMessageReader(input, false)) {}
+                using(var reader = new RecordedMessageReader(input, false)) { }
                 Assert.DoesNotThrow(() => input.WriteByte(0));
             }
         }

@@ -19,7 +19,7 @@ using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Messages.Session;
 using Xunit;
 
-namespace AK.F1.Timing.Recording
+namespace AK.F1.Timing.Playback
 {
     public class RecordingMessageReaderTest
     {
@@ -46,7 +46,7 @@ namespace AK.F1.Timing.Recording
 
             using(var reader = new RecordingMessageReader(CreatePopulatedInnerReader(), path))
             {
-                while(reader.Read() != null) {}
+                while(reader.Read() != null) { }
             }
 
             Assert.NotEqual(0L, new FileInfo(path).Length);
@@ -61,7 +61,7 @@ namespace AK.F1.Timing.Recording
             {
                 using(var reader = new RecordingMessageReader(CreatePopulatedInnerReader(), output, true))
                 {
-                    while(reader.Read() != null) {}
+                    while(reader.Read() != null) { }
                     Assert.NotEqual(0L, output.Length);
                 }
             }
@@ -122,7 +122,7 @@ namespace AK.F1.Timing.Recording
         {
             var path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
 
-            using(new RecordingMessageReader(CreateEmptyInnerReader(), path)) {}
+            using(new RecordingMessageReader(CreateEmptyInnerReader(), path)) { }
 
             Assert.True(File.Exists(path));
 
@@ -139,7 +139,7 @@ namespace AK.F1.Timing.Recording
                 output.WriteByte(0);
             }
 
-            Assert.DoesNotThrow(() => { using(new RecordingMessageReader(CreateEmptyInnerReader(), path)) {} });
+            Assert.DoesNotThrow(() => { using(new RecordingMessageReader(CreateEmptyInnerReader(), path)) { } });
 
             Assert.Equal(0L, new FileInfo(path).Length);
 
@@ -166,7 +166,7 @@ namespace AK.F1.Timing.Recording
         {
             var path = Path.GetTempFileName();
 
-            using(new RecordingMessageReader(CreateEmptyInnerReader(), path)) {}
+            using(new RecordingMessageReader(CreateEmptyInnerReader(), path)) { }
 
             Assert.DoesNotThrow(() => File.Delete(path));
         }
@@ -176,7 +176,7 @@ namespace AK.F1.Timing.Recording
         {
             var inner = CreateEmptyInnerReader();
 
-            using(new RecordingMessageReader(inner, Stream.Null, false)) {}
+            using(new RecordingMessageReader(inner, Stream.Null, false)) { }
 
             Assert.True(inner.IsDisposed);
         }
@@ -186,7 +186,7 @@ namespace AK.F1.Timing.Recording
         {
             using(var input = new MemoryStream())
             {
-                using(new RecordingMessageReader(CreateEmptyInnerReader(), input, true)) {}
+                using(new RecordingMessageReader(CreateEmptyInnerReader(), input, true)) { }
                 Assert.Throws<ObjectDisposedException>(() => input.WriteByte(0));
             }
         }
@@ -196,7 +196,7 @@ namespace AK.F1.Timing.Recording
         {
             using(var input = new MemoryStream())
             {
-                using(new RecordingMessageReader(CreateEmptyInnerReader(), input, false)) {}
+                using(new RecordingMessageReader(CreateEmptyInnerReader(), input, false)) { }
                 Assert.DoesNotThrow(() => input.WriteByte(0));
             }
         }

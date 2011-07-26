@@ -18,7 +18,7 @@ using AK.F1.Timing.Messages.Feed;
 using Moq;
 using Xunit;
 
-namespace AK.F1.Timing.Recording
+namespace AK.F1.Timing.Playback
 {
     public class RecordedMessageDelayEngineTest : TestBase
     {

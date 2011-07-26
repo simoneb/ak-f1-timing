@@ -73,10 +73,10 @@
     <Compile Include="Messages\Session\EndOfSessionMessage.cs" />
     <Compile Include="Messages\Session\StopSessionTimeCountdownMessage.cs" />
     <Compile Include="Messages\Session\StartSessionTimeCountdownMessage.cs" />
-    <Compile Include="Recording\IRecordedMessageReader.cs" />
-    <Compile Include="Recording\RecordedMessageDelayEngine.cs" />
-    <Compile Include="Recording\RecordedMessageReader.cs" />
-    <Compile Include="Recording\RecordingMessageReader.cs" />
+    <Compile Include="Playback\IRecordedMessageReader.cs" />
+    <Compile Include="Playback\RecordedMessageDelayEngine.cs" />
+    <Compile Include="Playback\RecordedMessageReader.cs" />
+    <Compile Include="Playback\RecordingMessageReader.cs" />
     <Compile Include="Messages\Feed\SetNextMessageDelayMessage.cs" />
     <Compile Include="Serialization\IObjectWriter.cs" />
     <Compile Include="Serialization\IObjectReader.cs" />
