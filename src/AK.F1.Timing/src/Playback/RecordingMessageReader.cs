@@ -34,7 +34,7 @@ namespace AK.F1.Timing.Playback
         /// The minimum delay to insert between messages. Delays smaller than this value are
         /// ignored. This field is <see langword="readonly"/>.
         /// </summary>
-        private static readonly TimeSpan MinMessageDelay = TimeSpan.FromMilliseconds(5);
+        private static readonly TimeSpan MinMessageDelay = TimeSpan.FromMilliseconds(1);
 
         #endregion
 
