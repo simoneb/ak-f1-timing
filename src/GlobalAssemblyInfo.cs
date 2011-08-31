@@ -15,7 +15,6 @@
 using System.Reflection;
 using System.Resources;
 using System.Runtime.InteropServices;
-using System.Security.Permissions;
 
 [assembly: AssemblyCompany("Andy Kernahan")]
 [assembly: AssemblyCopyright("Copyright \u00A9 Andy Kernahan 2010")]
@@ -23,7 +22,6 @@ using System.Security.Permissions;
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en-GB")]
 [assembly: ComVisible(false)]
-[assembly: SecurityPermission(SecurityAction.RequestMinimum)]
 [assembly: AssemblyVersion("0.8.0.0")]
 [assembly: AssemblyFileVersion("0.8.0.0")]
 #if DEBUG
