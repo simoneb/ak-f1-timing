@@ -30,6 +30,24 @@ namespace AK.F1.Timing
 
         #region Public Interface.
 
+        /// <summary>
+        /// Initialises a new instance of the <see cref="AuthenticationToken"/> class and
+        /// specifies the authentication <paramref name="token"/>.
+        /// </summary>
+        /// <param name="token">The authentication token.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="token"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="System.ArgumentException">
+        /// Thrown when <paramref name="token"/> is of zero length.
+        /// </exception>
+        public AuthenticationToken(string token)
+        {
+            Guard.NotNullOrEmpty(token, "token");
+
+            _token = token;
+        }
+
         /// <inheritdoc/>
         public override bool Equals(object obj)
         {
@@ -56,32 +74,10 @@ namespace AK.F1.Timing
             return Comparer.GetHashCode(Token);
         }
 
-        #endregion
-
-        #region Internal Interface.
-
-        /// <summary>
-        /// Initialises a new instance of the <see cref="AuthenticationToken"/> class and
-        /// specifies the authentication <paramref name="token"/>.
-        /// </summary>
-        /// <param name="token">The authentication token.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="token"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// Thrown when <paramref name="token"/> is of zero length.
-        /// </exception>
-        internal AuthenticationToken(string token)
-        {
-            Guard.NotNullOrEmpty(token, "token");
-
-            _token = token;
-        }
-
         /// <summary>
         /// Gets the authentication token.
         /// </summary>
-        internal string Token
+        public string Token
         {
             get { return _token; }
         }
