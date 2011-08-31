@@ -77,7 +77,7 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
-        public void dispose_of_managed_resources_is_not_called_only_once_under_exceptional_circumstances_when_implicity_disposed()
+        public void dispose_of_managed_resources_is_not_called_when_implicity_disposed()
         {
             var obj = new DisposableObject();
 
