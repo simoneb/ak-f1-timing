@@ -46,6 +46,41 @@ namespace AK.F1.Timing.Utility
         }
 
         [Fact]
+        public void is_disposing_is_false_when_not_disposing()
+        {
+            var obj = new DisposableObject();
+
+            Assert.False(obj.IsDisposingAccessor);
+        }
+
+        [Fact]
+        public void is_disposing_is_false_when_disposed()
+        {
+            var obj = new DisposableObject();
+
+            obj.Dispose();
+            Assert.False(obj.IsDisposingAccessor);
+        }
+
+        [Fact]
+        public void is_disposing_is_false_when_dispose_of_managed_resources_throws()
+        {
+            var obj = new ThrowingDisposableObject();
+
+            Assert.Throws<Exception>(() => obj.Dispose());
+            Assert.False(obj.IsDisposingAccessor);
+        }
+
+        [Fact]
+        public void is_disposing_is_true_when_explicitly_disposed()
+        {
+            var obj = new DisposableObject();
+
+            obj.Dispose();
+            Assert.True(obj.DisposeOfManagedResourcesIsDisposingValue);
+        }
+
+        [Fact]
         public void dispose_of_managed_resources_is_called_when_explicitly_disposed()
         {
             var obj = new DisposableObject();
@@ -116,9 +151,17 @@ namespace AK.F1.Timing.Utility
             protected override void DisposeOfManagedResources()
             {
                 ++DisposeOfManagedResourcesCount;
+                DisposeOfManagedResourcesIsDisposingValue = IsDisposing;
             }
 
             public int DisposeOfManagedResourcesCount { get; private set; }
+
+            public bool DisposeOfManagedResourcesIsDisposingValue { get; private set; }
+
+            public bool IsDisposingAccessor
+            {
+                get { return IsDisposing; }
+            }
         }
 
         private class ThrowingDisposableObject : DisposableObject

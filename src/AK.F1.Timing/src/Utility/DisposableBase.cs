@@ -14,6 +14,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading;
 using AK.F1.Timing.Extensions;
 
 namespace AK.F1.Timing.Utility
@@ -24,6 +25,13 @@ namespace AK.F1.Timing.Utility
     /// </summary>    
     public abstract class DisposableBase : IDisposable
     {
+        #region Fields.
+
+        private int _isDisposed;
+        private bool _isDisposing;
+
+        #endregion
+
         #region Public Interface.
 
         /// <summary>
@@ -52,7 +60,10 @@ namespace AK.F1.Timing.Utility
         /// <summary>
         /// Gets a value indicating if this instance has been disposed of.
         /// </summary>
-        public bool IsDisposed { get; private set; }
+        public bool IsDisposed
+        {
+            get { return _isDisposed == 1; }
+        }
 
         #endregion
 
@@ -65,13 +76,20 @@ namespace AK.F1.Timing.Utility
         /// <see langword="false"/> to indicate being called implicitly by the GC.</param>
         protected void Dispose(bool disposing)
         {
-            if(!IsDisposed)
+            if(Interlocked.CompareExchange(ref _isDisposed, 1, 0) == 0)
             {
-                IsDisposed = true;
-                if(disposing)
+                _isDisposing = true;
+                try
                 {
-                    GC.SuppressFinalize(this);
-                    DisposeOfManagedResources();
+                    if(disposing)
+                    {
+                        GC.SuppressFinalize(this);
+                        DisposeOfManagedResources();
+                    }
+                }
+                finally
+                {
+                    _isDisposing = false;
                 }
             }
         }
@@ -96,6 +114,14 @@ namespace AK.F1.Timing.Utility
             {
                 throw Guard.ObjectDisposed(this);
             }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if this instance is currently being disposed of.
+        /// </summary>
+        protected bool IsDisposing
+        {
+            get { return _isDisposing; }
         }
 
         #endregion
