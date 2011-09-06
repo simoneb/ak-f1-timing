@@ -172,6 +172,7 @@ namespace AK.F1.Timing.Server
             try
             {
                 handler.Handle(e.AcceptSocket);
+                e.AcceptSocket = null;
                 AcceptAsync();
             }
             catch(Exception exc)
