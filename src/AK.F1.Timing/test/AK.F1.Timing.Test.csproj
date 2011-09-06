@@ -103,6 +103,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Recording\RecordingIntegrationTest.cs" />
     <Compile Include="Serialization\DecoratedObjectReaderWriterTest.cs" />
+    <Compile Include="Serialization\ObjectWriterExtensionTest.cs" />
     <Compile Include="StubMessageReader.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestExtensions.cs" />

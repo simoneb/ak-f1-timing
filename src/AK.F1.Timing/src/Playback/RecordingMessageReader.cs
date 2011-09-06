@@ -15,7 +15,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using AK.F1.Timing.Messages;
 using AK.F1.Timing.Messages.Feed;
 using AK.F1.Timing.Serialization;
 
@@ -146,19 +145,7 @@ namespace AK.F1.Timing.Playback
 
         private void Write(Message message)
         {
-            var composite = message as CompositeMessage;
-
-            if(composite != null)
-            {
-                foreach(var component in composite.Messages)
-                {
-                    Write(component);
-                }
-            }
-            else
-            {
-                Writer.Write(message);
-            }
+            Writer.WriteMessage(message);
         }
 
         private IMessageReader Inner { get; set; }
