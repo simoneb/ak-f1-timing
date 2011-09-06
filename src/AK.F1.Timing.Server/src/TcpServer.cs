@@ -123,9 +123,12 @@ namespace AK.F1.Timing.Server
 
         private void DisposeOfAcceptEvent()
         {
-            _acceptEvent.Completed -= OnAcceptEventCompleted;
-            DisposeOf(_acceptEvent);
-            _acceptEvent = null;
+            if(_acceptEvent != null)
+            {
+                _acceptEvent.Completed -= OnAcceptEventCompleted;
+                DisposeOf(_acceptEvent);
+                _acceptEvent = null;
+            }
         }
 
         private void InitialiseListener()
