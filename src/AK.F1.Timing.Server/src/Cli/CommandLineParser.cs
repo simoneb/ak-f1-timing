@@ -125,6 +125,8 @@
 
 #endregion
 
+#pragma warning disable
+
 using System;
 using System.Collections;
 using System.Collections.Specialized;
@@ -1493,3 +1495,5 @@ namespace Genghis
         public bool version;
     }
 }
+
+#pragma warning restore
