@@ -130,7 +130,7 @@ namespace AK.F1.Timing.Server.Proxy
 
         private bool TryReadAuthenticationToken(out AuthenticationToken token)
         {
-            using(var input = new NetworkStream(_client))
+            using(var input = new NetworkStream(_client, ownsSocket: false))
             using(var reader = new BinaryReader(input))
             {
                 int length = reader.ReadInt32();

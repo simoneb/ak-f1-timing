@@ -116,7 +116,7 @@ namespace AK.F1.Timing.Live
         private void WriteAuthenticationToken()
         {
             Log.InfoFormat("writing authentication token: {0}", _authenticationToken.Token);
-            using(var stream = new NetworkStream(_socket, false))
+            using(var stream = new NetworkStream(_socket, ownsSocket: false))
             using(var writer = new BinaryWriter(stream))
             {
                 // We do not use WriteString as the server validates the string length is sane.
