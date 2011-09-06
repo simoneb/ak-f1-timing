@@ -9,5 +9,9 @@
     <assembly filename="AK.F1.Timing.Model\test\bin\Release\AK.F1.Timing.Model.Test.dll" shadow-copy="true">
       <output type="xml" filename="AK.F1.Timing.Model.Test.Results.xml" />
     </assembly>
+    <!-- AK.F1.Timing.Server.Test.dll -->
+    <assembly filename="AK.F1.Timing.Server\test\bin\Release\AK.F1.Timing.Server.Test.dll" shadow-copy="true">
+      <output type="xml" filename="AK.F1.Timing.Server.Test.Results.xml" />
+    </assembly>
   </assemblies>
 </xunit>

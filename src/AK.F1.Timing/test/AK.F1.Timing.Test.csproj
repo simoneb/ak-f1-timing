@@ -94,6 +94,7 @@
     <Compile Include="Live\LiveMessageTranslatorTest.cs" />
     <Compile Include="Live\LiveAuthenticationServiceTest.cs" />
     <Compile Include="Live\LiveMessageHeaderTest.cs" />
+    <Compile Include="Live\LiveProxyMessageReaderTest.cs" />
     <Compile Include="Messages\Driver\SetDriverSpeedMessageTest.cs" />
     <Compile Include="Messages\Driver\GapTest.cs" />
     <Compile Include="Messages\Feed\SetStreamTimestampMessageTest.cs" />
