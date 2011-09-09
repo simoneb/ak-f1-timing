@@ -37,7 +37,6 @@ namespace AK.F1.Timing.Server.Proxy
         private readonly Socket _client;
         private readonly CancellationToken _cancellationToken;
 
-        private const int MaxAuthenticationTokenLength = 4096;
         private static readonly ILog Log = LogManager.GetLogger(typeof(ProxySession));
 
         #endregion
