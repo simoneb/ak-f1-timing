@@ -351,15 +351,6 @@ namespace AK.F1.Timing {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to open a connection with the proxied live-timing service: &apos;{0}&apos;.
-        /// </summary>
-        internal static string LiveProxyMessageReader_FailedToConnect {
-            get {
-                return ResourceManager.GetString("LiveProxyMessageReader_FailedToConnect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The format of the next timing message is invalid..
         /// </summary>
         internal static string MessageReader_InvalidMessage {
@@ -410,6 +401,15 @@ namespace AK.F1.Timing {
         internal static string PropertyDescriptor_SetValueFailed {
             get {
                 return ResourceManager.GetString("PropertyDescriptor_SetValueFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to open a connection with the proxied live-timing service: &apos;{0}&apos;.
+        /// </summary>
+        internal static string ProxyMessageReader_FailedToConnect {
+            get {
+                return ResourceManager.GetString("ProxyMessageReader_FailedToConnect", resourceCulture);
             }
         }
         

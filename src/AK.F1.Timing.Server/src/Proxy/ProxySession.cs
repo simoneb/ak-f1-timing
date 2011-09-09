@@ -15,8 +15,11 @@
 using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Runtime.Serialization;
+using System.Security.Authentication;
 using System.Threading;
 using AK.F1.Timing.Extensions;
+using AK.F1.Timing.Proxy.Messages;
 using AK.F1.Timing.Serialization;
 using AK.F1.Timing.Utility;
 using log4net;
@@ -46,7 +49,8 @@ namespace AK.F1.Timing.Server.Proxy
         /// the <paramref name="client"/> and the session cancellation token.
         /// </summary>
         /// <param name="client">The client <see cref="System.Net.Sockets.Socket"/>.</param>
-        /// <param name="cancellationToken">The session <see cref="System.Threading.CancellationToken"/>.</param>
+        /// <param name="cancellationToken">The session
+        /// <see cref="System.Threading.CancellationToken"/>.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="client"/> is <see langword="null"/>.
         /// </exception>
@@ -69,7 +73,8 @@ namespace AK.F1.Timing.Server.Proxy
             CheckDisposed();
             try
             {
-                RunCore();
+                var login = ReadLogin();
+                Proxy(login.Username, login.Password);
             }
             catch(Exception exc)
             {
@@ -77,7 +82,7 @@ namespace AK.F1.Timing.Server.Proxy
                 {
                     throw;
                 }
-                if(!(exc is IOException))
+                if(!IsExpectedException(exc))
                 {
                     Log.Error(exc);
                 }
@@ -102,48 +107,69 @@ namespace AK.F1.Timing.Server.Proxy
 
         #region Private Impl.
 
-        private void RunCore()
+        private ServerLoginMessage ReadLogin()
         {
-            AuthenticationToken token;
-            if(!TryReadAuthenticationToken(out token))
+            using(var stream = CreateBufferedStream(128))
+            using(var reader = new DecoratedObjectReader(stream))
             {
-                return;
-            }
-            using(var messageReader = F1Timing.Live.Read(token))
-            using(var networkStream = new NetworkStream(_client))
-            using(var bufferedStream = new BufferedStream(networkStream))
-            using(var messageWriter = new DecoratedObjectWriter(bufferedStream))
-            {
-                Message message;
-                while((message = messageReader.Read()) != null)
-                {
-                    if(IsCancellationRequested)
-                    {
-                        return;
-                    }
-                    messageWriter.WriteMessage(message);
-                    bufferedStream.Flush();
-                }
-                messageWriter.Write(null);
+                return reader.Read<ServerLoginMessage>();
             }
         }
 
-        private bool TryReadAuthenticationToken(out AuthenticationToken token)
+        private void Proxy(string username, string password)
         {
-            using(var input = new NetworkStream(_client, ownsSocket: false))
-            using(var reader = new BinaryReader(input))
+            Log.InfoFormat("username={0}", username);
+            using(var stream = CreateBufferedStream())
+            using(var writer = new DecoratedObjectWriter(stream))
             {
-                int length = reader.ReadInt32();
-                if(length > MaxAuthenticationTokenLength)
+                using(var reader = WriteExceptions(writer, () =>
+                    F1Timing.Live.Read(F1Timing.Live.Login(username, password))))
                 {
-                    Log.WarnFormat("max authentication token length exceeded, max={0}, received={1}",
-                        MaxAuthenticationTokenLength, length);
-                    token = null;
-                    return false;
+                    while(!IsCancellationRequested)
+                    {
+                        var message = WriteExceptions(writer, () => reader.Read());
+                        writer.WriteMessage(message);
+                        stream.Flush();
+                        if(message == null)
+                        {
+                            break;
+                        }
+                    }
                 }
-                token = new AuthenticationToken(new string(reader.ReadChars(length)));
-                return true;
             }
+        }
+
+        private static T WriteExceptions<T>(DecoratedObjectWriter writer, Func<T> body)
+        {
+            try
+            {
+                return body();
+            }
+            catch(IOException exc)
+            {
+                writer.WriteMessage(new ServerExceptionMessage(exc));
+                throw;
+            }
+            catch(SerializationException exc)
+            {
+                writer.WriteMessage(new ServerExceptionMessage(exc));
+                throw;
+            }
+            catch(AuthenticationException exc)
+            {
+                writer.WriteMessage(new ServerExceptionMessage(exc));
+                throw;
+            }
+        }
+
+        private BufferedStream CreateBufferedStream(int bufferSize = 4096)
+        {
+            return new BufferedStream(new NetworkStream(_client, ownsSocket: false), bufferSize);
+        }
+
+        private static bool IsExpectedException(Exception exc)
+        {
+            return exc is IOException || exc is SerializationException || exc is AuthenticationException;
         }
 
         private bool IsCancellationRequested

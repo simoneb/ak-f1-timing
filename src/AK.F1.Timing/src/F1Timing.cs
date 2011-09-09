@@ -12,10 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System.Net;
 using AK.F1.Timing.Live;
 using AK.F1.Timing.Live.Encryption;
 using AK.F1.Timing.Live.IO;
 using AK.F1.Timing.Playback;
+using AK.F1.Timing.Proxy;
 
 namespace AK.F1.Timing
 {
@@ -96,6 +98,54 @@ namespace AK.F1.Timing
             public static IMessageReader ReadAndRecord(AuthenticationToken token, string path)
             {
                 return new RecordingMessageReader(Read(token), path);
+            }
+        }
+
+        /// <summary>
+        /// Provides methods for creating <see cref="AK.F1.Timing.IMessageReader"/>s which
+        /// read from proxied message streams.
+        /// </summary>
+        public static class Proxy
+        {
+            /// <summary>
+            /// Creates a message reader which reads from the proxy at the specified
+            /// <paramref name="address"/>.
+            /// </summary>
+            /// <param name="address">The proxy address.</param>
+            /// <param name="username">The user's F1 live-timing username.</param>
+            /// <param name="password">The user's F1 live-timing password.</param>
+            /// <exception cref="System.ArgumentNullException">
+            /// Thrown when <paramref name="address"/>, <paramref name="username"/> or
+            /// <paramref name="password"/> is <see langword="null"/>.
+            /// </exception>
+            /// <exception cref="System.ArgumentException">
+            /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
+            /// </exception>
+            public static IMessageReader Read(IPAddress address, string username, string password)
+            {
+                Guard.NotNull(address, "address");
+
+                return new ProxyMessageReader(new IPEndPoint(address, ProxyMessageReader.DefaultPort),
+                    username, password);
+            }
+
+            /// <summary>
+            /// Creates a message reader which reads from the proxy at the specified
+            /// <paramref name="endpoint"/>.
+            /// </summary>
+            /// <param name="endpoint">The proxy endpoint.</param>
+            /// <param name="username">The user's F1 live-timing username.</param>
+            /// <param name="password">The user's F1 live-timing password.</param>
+            /// <exception cref="System.ArgumentNullException">
+            /// Thrown when <paramref name="endpoint"/>, <paramref name="username"/> or
+            /// <paramref name="password"/> is <see langword="null"/>.
+            /// </exception>
+            /// <exception cref="System.ArgumentException">
+            /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
+            /// </exception>
+            public static IMessageReader Read(IPEndPoint endpoint, string username, string password)
+            {
+                return new ProxyMessageReader(endpoint, username, password);
             }
         }
 

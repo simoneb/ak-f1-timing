@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System.Net;
-using AK.F1.Timing.Live;
+using AK.F1.Timing.Proxy;
 using Genghis;
 
 // Disable warning indicating fields are never assigned.
@@ -33,7 +33,7 @@ namespace AK.F1.Timing.Server.Cli
         [ValueUsage("The port to bind to.",
             Name = "port",
             Optional = true)]
-        public int BindPort = LiveProxyMessageReader.DefaultPort;
+        public int BindPort = ProxyMessageReader.DefaultPort;
 
         [ValueUsage("The maximum incoming connection backlog.",
             Name = "connectionBacklog",
