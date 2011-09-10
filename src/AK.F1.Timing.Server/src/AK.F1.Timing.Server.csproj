@@ -8,7 +8,7 @@
     <ProjectGuid>{95760A33-3D26-4FE3-B9D0-C248420350C5}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AK.F1.Timing.Proxy.Server</RootNamespace>
+    <RootNamespace>AK.F1.Timing.Server</RootNamespace>
     <AssemblyName>f1server</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -38,6 +38,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\f1server.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
@@ -54,13 +55,13 @@
     <Compile Include="Cli\CommandLineParser.cs" />
     <Compile Include="IO\ByteBuffer.cs" />
     <Compile Include="IO\ByteBufferSnapshot.cs" />
-    <Compile Include="Threading\AutoResetEventSlim.cs" />
-    <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="Resource.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
+    <Compile Include="Threading\AutoResetEventSlim.cs" />
+    <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="TcpServer.cs" />
     <Compile Include="Proxy\ProxySession.cs" />
     <Compile Include="Proxy\ProxySessionManager.cs" />

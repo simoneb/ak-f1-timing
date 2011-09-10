@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AK.F1.Timing.Proxy.Server {
+namespace AK.F1.Timing.Server {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Proxy.Server {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AK.F1.Timing.Proxy.Server.Resource", typeof(Resource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("AK.F1.Timing.Server.Resource", typeof(Resource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
