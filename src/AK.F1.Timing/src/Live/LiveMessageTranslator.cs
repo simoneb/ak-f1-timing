@@ -510,7 +510,7 @@ namespace AK.F1.Timing.Live
                 return new ReplaceDriverSectorTimeMessage(driver.Id, sectorNumber,
                     new PostedTime(lastSectorTime.Time, newTimeType, lastSectorTime.LapNumber));
             }
-            Log.WarnFormat("received completely out of order S{0} update when an S{1} update" +
+            Log.DebugFormat("received completely out of order S{0} update when an S{1} update" +
                 " was expected, cannot translate this message: {2}", sectorNumber,
                 driver.CurrentSectorNumber, message);
             return null;

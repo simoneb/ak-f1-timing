@@ -280,7 +280,7 @@ namespace AK.F1.Timing.Live
                         return ReadSetMinRequiredQuallyTimeMessage(header);
                     }
                     ReadAndDecryptBytes(header.DataLength);
-                    Log.InfoFormat("soft-fail on unsupported type 11 system message: {0}, {1}",
+                    Log.DebugFormat("soft-fail on unsupported type 11 system message: {0}, {1}",
                         header, DecodeLatin1(header.DataLength));
                     return Message.Empty;
                 case 12:
