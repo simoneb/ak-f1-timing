@@ -44,6 +44,7 @@ namespace AK.F1.Timing.Server.Proxy
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         private Task _dispatchMessagesTask;
+        private readonly ManualResetEventSlim _dispatchTaskDrainedQueueEvent = new ManualResetEventSlim();
         // One MiB should be sufficient for most sessions.
         private readonly ByteBuffer _messageHistory = new ByteBuffer(1024 * 1024);
         private readonly ReaderWriterLockSlim _messageHistoryLock = new ReaderWriterLockSlim();
@@ -171,6 +172,7 @@ namespace AK.F1.Timing.Server.Proxy
                         ForEachSession(session => session.SendAsync(buffer));
                     });
                 }
+                _dispatchTaskDrainedQueueEvent.Set();
                 ForEachSession(session => session.CompleteAsync());
             }
             catch(OperationCanceledException) { }
@@ -194,7 +196,7 @@ namespace AK.F1.Timing.Server.Proxy
                 {
                     _sessions.Add(session.Id, session);
                     session.SendAsync(_messageHistory.CreateSnapshot());
-                    if(_readMessageQueue.IsCompleted)
+                    if(_dispatchTaskDrainedQueueEvent.IsSet)
                     {
                         session.CompleteAsync();
                     }
