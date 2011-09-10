@@ -192,22 +192,15 @@ namespace AK.F1.Timing.Server.Proxy
             {
                 _sessionsLock.InWriteLock(() =>
                 {
-                    try
+                    _sessions.Add(session.Id, session);
+                    session.SendAsync(_messageHistory.CreateSnapshot());
+                    if(_readMessageQueue.IsCompleted)
                     {
-                        _sessions.Add(session.Id, session);
-                        session.SendAsync(_messageHistory.CreateSnapshot());
-                        if(_readMessageQueue.IsCompleted)
-                        {
-                            session.CompleteAsync();
-                        }
-                        Log.InfoFormat("started, id={0}, endpoint={1}, open={2}",
-                            session.Id, client.RemoteEndPoint, _sessions.Count);
-                        _sessionsEmptiedEvent.Reset();
+                        session.CompleteAsync();
                     }
-                    catch(ObjectDisposedException)
-                    {
-                        // The session (or this) may have been disposed if we are shutting down.
-                    }
+                    Log.InfoFormat("started, id={0}, endpoint={1}, open={2}",
+                        session.Id, client.RemoteEndPoint, _sessions.Count);
+                    _sessionsEmptiedEvent.Reset();
                 });
             });
         }
