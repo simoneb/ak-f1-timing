@@ -250,7 +250,7 @@ namespace AK.F1.Timing.Server.Proxy
         {
             _sessionsLock.InReadLock(() =>
             {
-                foreach(var session in _sessions)
+                foreach(var session in _sessions.Values)
                 {
                     if(throwIfCancellationRequested)
                     {
@@ -258,7 +258,7 @@ namespace AK.F1.Timing.Server.Proxy
                     }
                     try
                     {
-                        action(session.Value);
+                        action(session);
                     }
                     catch(ObjectDisposedException)
                     {
