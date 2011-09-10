@@ -35,7 +35,8 @@ namespace AK.F1.Timing.Server.Proxy
 
         private readonly int _id;
         private readonly Socket _client;
-        // 1 KiB is sufficient as the average message length is approximately 20 bytes
+        // 1 KiB is sufficient as the average message length is approximately 20 bytes and message
+        // bursts (including composite speed captures) are still relatively small.
         private readonly byte[] _outputBuffer = new byte[1024];
         private readonly SocketAsyncEventArgs _socketOperation = new SocketAsyncEventArgs();
         private readonly AutoResetEventSlim _idleEvent = new AutoResetEventSlim();
@@ -114,8 +115,12 @@ namespace AK.F1.Timing.Server.Proxy
         /// <summary>
         /// Signals that the session should complete when all pending buffers have been sent.
         /// </summary>
+        /// <exception cref="System.ObjectDisposedException">
+        /// Thrown when the this instance has been disposed of.
+        /// </exception>
         public void CompleteAsync()
         {
+            CheckDisposed();
             _completedEvent.Set();
             if(TrySetBusy())
             {
