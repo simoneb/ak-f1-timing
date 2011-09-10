@@ -14,6 +14,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
 using AK.F1.Timing.Extensions;
@@ -34,6 +35,7 @@ namespace AK.F1.Timing.Server.Proxy
 
         private readonly int _id;
         private readonly Socket _client;
+        // 1 KiB is sufficient as the average message length is approximately 20 bytes
         private readonly byte[] _outputBuffer = new byte[1024];
         private readonly SocketAsyncEventArgs _socketOperation = new SocketAsyncEventArgs();
         private readonly AutoResetEventSlim _idleEvent = new AutoResetEventSlim();
@@ -55,8 +57,8 @@ namespace AK.F1.Timing.Server.Proxy
         public event EventHandler Disposed;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ProxySession"/> class and specifies
-        /// the session identifier and  <paramref name="client"/> socket.
+        /// Initialises a new instance of the <see cref="AK.F1.Timing.Server.Proxy.ProxySession"/>
+        /// class and specifies the session identifier and  <paramref name="client"/> socket.
         /// </summary>
         /// <param name="id">The session identifier.</param>
         /// <param name="client">The client <see cref="System.Net.Sockets.Socket"/>.</param>
@@ -74,27 +76,31 @@ namespace AK.F1.Timing.Server.Proxy
         }
 
         /// <summary>
-        /// Begins an asynchronous operation to send the specified <paramref name="buffer"/>.
+        /// Begins an asynchronous operation to send the specified <paramref name="buffers"/>.
         /// </summary>
-        /// <param name="buffer">The buffer to enqueue.</param>
+        /// <param name="buffers">The buffers to send.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="buffer"/> is <see langword="null"/>.
+        /// Thrown when <paramref name="buffers"/> is <see langword="null"/>.
         /// </exception>
         /// <exception cref="System.ObjectDisposedException">
         /// Thrown when the this instance has been disposed of.
         /// </exception>
-        public void SendAsync(byte[] buffer)
+        public void SendAsync(IEnumerable<byte[]> buffers)
         {
-            SendAsync(new ByteBufferSnapshot(buffer, 0, buffer.Length));
+            CheckDisposed();
+            Guard.NotNull(buffers, "buffers");
+
+            foreach(var buffer in buffers)
+            {
+                _bufferQueue.Enqueue(new ByteBufferSnapshot(buffer, 0, buffer.Length));
+            }
+            SendNextBufferIfNotBusy();
         }
 
         /// <summary>
         /// Begins an asynchronous operation to send the specified <paramref name="buffer"/>.
         /// </summary>
-        /// <param name="buffer">The buffer to enqueue.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="buffer"/> is <see langword="null"/>.
-        /// </exception>
+        /// <param name="buffer">The buffer to send.</param>
         /// <exception cref="System.ObjectDisposedException">
         /// Thrown when the this instance has been disposed of.
         /// </exception>
@@ -102,10 +108,7 @@ namespace AK.F1.Timing.Server.Proxy
         {
             CheckDisposed();
             _bufferQueue.Enqueue(buffer);
-            if(TrySetBusy())
-            {
-                SendNextBuffers();
-            }
+            SendNextBufferIfNotBusy();
         }
 
         /// <summary>
@@ -169,11 +172,19 @@ namespace AK.F1.Timing.Server.Proxy
             }
             else
             {
-                SendNextBuffers();
+                SendNextBuffer();
             }
         }
 
-        private void SendNextBuffers()
+        private void SendNextBufferIfNotBusy()
+        {
+            if(TrySetBusy())
+            {
+                SendNextBuffer();
+            }
+        }
+
+        private void SendNextBuffer()
         {
             Guard.Assert(_partiallySentBuffer == null);
 
@@ -199,7 +210,7 @@ namespace AK.F1.Timing.Server.Proxy
             {
                 SendOutputBuffer(count);
             }
-            else if(_completedEvent.Wait(0))
+            else if(_completedEvent.IsSet)
             {
                 Disconnect();
             }

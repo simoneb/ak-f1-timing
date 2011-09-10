@@ -30,7 +30,8 @@ namespace AK.F1.Timing.Server.Proxy
     /// <summary>
     /// A <see cref="AK.F1.Timing.Server.ISocketHandler"/> which creates and manages a
     /// <see cref="AK.F1.Timing.Server.Proxy.ProxySession"/> for each connected client.
-    /// This class cannot be inherited.
+    /// Connected client are first sent all historial mesages from current active session
+    /// and then go onto receive instantaneous updates. This class cannot be inherited.
     /// </summary>
     /// <threadsafety static="true" instance="true"/>
     public sealed class ProxySessionManager : DisposableBase, ISocketHandler
@@ -44,8 +45,8 @@ namespace AK.F1.Timing.Server.Proxy
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         private Task _dispatchMessagesTask;
-        private readonly ManualResetEventSlim _dispatchTaskDrainedQueueEvent = new ManualResetEventSlim();
-        // One MiB should be sufficient for most sessions.
+        private readonly ManualResetEventSlim _dispatchMessagesCompleteEvent = new ManualResetEventSlim();
+        // 1 MiB is sufficient; the largest TMS, as of 2011-09-11, is 1073989 bytes (2011\07-canada).
         private readonly ByteBuffer _messageHistory = new ByteBuffer(1024 * 1024);
         private readonly ReaderWriterLockSlim _messageHistoryLock = new ReaderWriterLockSlim();
 
@@ -55,8 +56,8 @@ namespace AK.F1.Timing.Server.Proxy
 
         private int _nextSessionId;
         private readonly IDictionary<int, ProxySession> _sessions = new Dictionary<int, ProxySession>();
-        private readonly ManualResetEventSlim _sessionsEmptiedEvent = new ManualResetEventSlim(true);
         private readonly ReaderWriterLockSlim _sessionsLock = new ReaderWriterLockSlim();
+        private readonly ManualResetEventSlim _sessionsEmptyEvent = new ManualResetEventSlim(true);
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(ProxySessionManager));
 
@@ -65,10 +66,12 @@ namespace AK.F1.Timing.Server.Proxy
         #region Public Interface.
 
         /// <summary>
-        /// 
+        /// Initilises a new instance of the <see cref="AK.F1.Timing.Server.Proxy.ProxySessionManager"/>
+        /// class and specifies the <paramref name="username"/> and <paramref name="password"/> of the
+        /// user to autenticate as.
         /// </summary>
-        /// <param name="username">The user's F1 live-timing username.</param>
-        /// <param name="password">The user's F1 live-timing password.</param>
+        /// <param name="username">The user's live-timing username.</param>
+        /// <param name="password">The user's live-timing password.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="username"/> or <paramref name="password"/> is <see langword="null"/>.
         /// </exception>
@@ -108,16 +111,20 @@ namespace AK.F1.Timing.Server.Proxy
             Log.Info("stopping");
             _cancellationTokenSource.Cancel();
             Task.WaitAll(_dispatchMessagesTask, _readMessagesTask);
+            if(!_sessionsEmptyEvent.IsSet)
+            {
+                Log.Info("stopping sessions");
+                ForEachSession(DisposeOf, throwIfCancellationRequested: false);
+                _sessionsEmptyEvent.Wait();
+            }
             DisposeOf(_cancellationTokenSource);
+            DisposeOf(_dispatchMessagesCompleteEvent);
             DisposeOf(_dispatchMessagesTask);
-            DisposeOf(_readMessagesTask);
-            Log.Info("stopping sessions");
-            ForEachSession(DisposeOf, throwIfCancellationRequested: false);
-            _sessionsEmptiedEvent.Wait();
-            DisposeOf(_sessionsEmptiedEvent);
-            DisposeOf(_sessionsLock);
-            DisposeOf(_readMessageQueue);
             DisposeOf(_messageHistoryLock);
+            DisposeOf(_readMessagesTask);
+            DisposeOf(_readMessageQueue);
+            DisposeOf(_sessionsEmptyEvent);
+            DisposeOf(_sessionsLock);
             Log.Info("stopped");
         }
 
@@ -132,7 +139,7 @@ namespace AK.F1.Timing.Server.Proxy
             {
                 using(var reader = F1Timing.Live.Read(F1Timing.Live.Login(_username, _password)))
                 //using(var reader = F1Timing.Playback.Read(@"D:\dev\.net\src\ak-f1-timing\tms\2011\11-hungary\race.tms"))
-                using(var buffer = new MemoryStream(1024))
+                using(var buffer = new MemoryStream(4096))
                 using(var writer = new DecoratedObjectWriter(buffer))
                 {
                     Message message;
@@ -163,16 +170,26 @@ namespace AK.F1.Timing.Server.Proxy
             Log.Info("dispatch task started");
             try
             {
-                byte[] buffer;
-                while(_readMessageQueue.TryTake(out buffer, Timeout.Infinite, _cancellationToken))
+                byte[] readMessage;
+                // Prevent the session queues from growing unwieldy by an placing arbitrary upper bound
+                // on the capacity of the dispatch queue.
+                const int dispatchQueueCapacity = 32;
+                var dispatchQueue = new Queue<byte[]>(dispatchQueueCapacity);
+                while(_readMessageQueue.TryTake(out readMessage, Timeout.Infinite, _cancellationToken))
                 {
+                    dispatchQueue.Clear();
                     _messageHistoryLock.InWriteLock(() =>
                     {
-                        _messageHistory.Append(buffer);
-                        ForEachSession(session => session.SendAsync(buffer));
+                        do
+                        {
+                            dispatchQueue.Enqueue(readMessage);
+                            _messageHistory.Append(readMessage);
+                        } while(dispatchQueue.Count < dispatchQueueCapacity &&
+                            _readMessageQueue.TryTake(out readMessage, 0, _cancellationToken));
+                        ForEachSession(session => session.SendAsync(dispatchQueue));
                     });
                 }
-                _dispatchTaskDrainedQueueEvent.Set();
+                _dispatchMessagesCompleteEvent.Set();
                 ForEachSession(session => session.CompleteAsync());
             }
             catch(OperationCanceledException) { }
@@ -196,13 +213,13 @@ namespace AK.F1.Timing.Server.Proxy
                 {
                     _sessions.Add(session.Id, session);
                     session.SendAsync(_messageHistory.CreateSnapshot());
-                    if(_dispatchTaskDrainedQueueEvent.IsSet)
+                    if(_dispatchMessagesCompleteEvent.IsSet)
                     {
                         session.CompleteAsync();
                     }
                     Log.InfoFormat("started, id={0}, endpoint={1}, open={2}",
                         session.Id, client.RemoteEndPoint, _sessions.Count);
-                    _sessionsEmptiedEvent.Reset();
+                    _sessionsEmptyEvent.Reset();
                 });
             });
         }
@@ -224,7 +241,7 @@ namespace AK.F1.Timing.Server.Proxy
                 Log.InfoFormat("removed, id={0}, open={1}", session.Id, _sessions.Count);
                 if(_sessions.Count == 0)
                 {
-                    _sessionsEmptiedEvent.Set();
+                    _sessionsEmptyEvent.Set();
                 }
             });
         }
