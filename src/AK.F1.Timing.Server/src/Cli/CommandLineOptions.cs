@@ -25,6 +25,14 @@ namespace AK.F1.Timing.Server.Cli
     {
         #region Public Interface.
 
+        [ValueUsage("A valid www.formula1.com username.",
+            Name = "username")]
+        public string Username;
+
+        [ValueUsage("The corresponding password.",
+            Name = "password")]
+        public string Password;
+
         [ValueUsage("The IP to bind to.",
             Name = "ip",
             Optional = true)]

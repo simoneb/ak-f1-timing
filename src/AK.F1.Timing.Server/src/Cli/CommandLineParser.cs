@@ -109,13 +109,13 @@
 
 #endregion
 
-#region TODO
+#region
 
-//TODO ?default delimiter set in attrib / decide on best default (currently default=all)?
-//TODO reading from environ variable: need to pass param to Parse(string[]) to indicate that required variables are not required
-//TODO what is a PairValue?
-//TODO debug code to check if a) variables are declared more than one, b) var names contain invalid chars (e.g. ":\= )
-//TODO fix (rewrite) help generation
+// ?default delimiter set in attrib / decide on best default (currently default=all)?
+// reading from environ variable: need to pass param to Parse(string[]) to indicate that required variables are not required
+// what is a PairValue?
+// debug code to check if a) variables are declared more than one, b) var names contain invalid chars (e.g. ":\= )
+// fix (rewrite) help generation
 //  -Single method to return info (name, usage, description, default value, alternate names, enum values) - can use for Short/Long info 
 //  -Help gen method formats output for all, no need for co-operative formatting
 //  -One of the /? /help /h to generate extended/short help help (e.g. show/hide defaults)
@@ -202,7 +202,7 @@ namespace Genghis
                         (string.Compare(name, AlternateName2, IgnoreCase) == 0);
             }
 
-            // HACK :
+            //  :
             protected internal virtual bool IsFound
             {
                 get { return found; }
@@ -219,8 +219,8 @@ namespace Genghis
 
             protected void ConsumeValueHelper(string s, object container, MemberInfo info)
             {
-                // TODO: Read value from string into array (efficiently?)
-                // TODO: Indexed properties?
+                // Read value from string into array (efficiently?)
+                // Indexed properties?
                 try
                 {
                     PropertyInfo prop = info as PropertyInfo;
@@ -484,7 +484,7 @@ namespace Genghis
 
             protected internal override string GetLongUsage(string prefix, string defaultName, object container, MemberInfo info)
             {
-                // TODO: If we're filling an array or collection, append "..." to ValueName
+                // If we're filling an array or collection, append "..." to ValueName
                 // return UsageHelper(sPrefix, true, bFlag ? __T("value") : __T("")) + __T("...");
                 string usage = GetLongUsageHelper(prefix, defaultName, Flag ? ValueName : "", container, info);
 
@@ -505,7 +505,7 @@ namespace Genghis
 
                 usage = Regex.Replace(usage, " \\<value\\>\t", delimiter + "<value>\t");
 
-                // HACK :
+                //  :
                 if(Optional)
                 {
                     // Get the default value - only display for primitive types and strings
@@ -598,7 +598,7 @@ namespace Genghis
             // Cache members
             ArrayList memberList = new ArrayList();
 
-            // TODO: Parse base class first to get /v and /h shown first
+            // Parse base class first to get /v and /h shown first
             BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
             foreach(MemberInfo info in GetType().GetMembers(flags))
             {
@@ -754,7 +754,7 @@ namespace Genghis
             // Long (name and description only)
             StringBuilder longUsage = new StringBuilder();
 
-            // TODO there must be a better way of doing this than looping through the MemberInfo...
+            //  there must be a better way of doing this than looping through the MemberInfo...
             // Find the right-most tab char. 
             int maxTabPos = 0;
             foreach(MemberInfoUsage member in GetMembers())
@@ -773,7 +773,7 @@ namespace Genghis
             if(allowArgFile)
             {
                 shortUsage.Append("[@argfile]");
-                //TODO format line using FormatSingleLineMaxChars
+                // format line using FormatSingleLineMaxChars
                 longUsage.AppendFormat("{0,-" + maxTabPos + ":S}{1}", "@argfile", "Read arguments from a file.").Append(Environment.NewLine);
             }
 
@@ -879,7 +879,7 @@ namespace Genghis
         {
             foreach(MemberInfoUsage info in GetMembers())
             {
-                // HACK :
+                //  :
                 if(!info.usage.IsFound && info.usage.MatchPosition)
                 {
                     return info;
@@ -900,7 +900,7 @@ namespace Genghis
             Parse(commandLine, false);
         }
 
-        //TODO: this needs to be fixed -- it's broken -- for now, GetCommandLineArgs() subverts the problem 
+        //this needs to be fixed -- it's broken -- for now, GetCommandLineArgs() subverts the problem 
         public void Parse(string commandLine, bool ignoreFirstArg)
         {
             ArrayList args = new ArrayList();
@@ -985,7 +985,7 @@ namespace Genghis
             bool allowArgFile = (parser != null ? parser.AllowArgumentFile : true);
             MemberInfoUsage[] members = GetMembers();
 
-            // HACK :
+            //  :
             MemberInfoUsage member = null;
 
             //FIX: Ethan J. Brown -- used to crash with 0 arguments
@@ -999,7 +999,7 @@ namespace Genghis
                 // It's a flag
                 if((arg.Length > 1) && ((arg[0] == '/') || (arg[0] == '-')))
                 {
-                    // HACK :
+                    //  :
                     member = null;
                     bool hasOnOff;
                     string flagName;
@@ -1091,7 +1091,7 @@ namespace Genghis
                 // It's a file name to process parameters from
                 else if((arg.Length > 1) && (arg[0] == '@') && allowArgFile)
                 {
-                    // HACK :
+                    //  :
                     member = null;
                     ParseFromFile(arg.Substring(1));
                     continue;
@@ -1099,7 +1099,7 @@ namespace Genghis
                 // It's a parameter
                 else
                 {
-                    // HACK :
+                    //  :
                     if(member != null)
                     {
                         FieldInfo field = member.info as FieldInfo;
@@ -1132,7 +1132,7 @@ namespace Genghis
 
                     // If the arg has an inline delimiter (e.g. "/flag:myValue") 
                     // then read the value from the current arg else get the value from the next arg
-                    // HACK : only search delimiters when we have a beginning slash
+                    //  : only search delimiters when we have a beginning slash
                     if(arg[0] == '/')
                     {
                         int delimiterPos = FindValueInlineDeliminter(arg);
@@ -1189,7 +1189,7 @@ namespace Genghis
                 }
             }
 
-            // HACK :
+            //  :
             // Check for missing required arguments
             foreach(MemberInfoUsage mbr in members)
             {
@@ -1210,7 +1210,7 @@ namespace Genghis
         // since command lines are typically processed before threads are
         // fired off, we should be safe. It saves us from having to pass
         // a virtual cwd to all values as they're parsed.
-        // TODO: This doesn't really work if the file/directory names
+        // This doesn't really work if the file/directory names
         // are just strings, since but the time they're turned into
         // full path names, the CWD has already been reset...
         protected class CurrentDir : IDisposable
@@ -1254,7 +1254,7 @@ namespace Genghis
 
         protected virtual string GetLogo()
         {
-            // TODO: Refactor this ugly code!
+            // Refactor this ugly code!
             StringBuilder logo = new StringBuilder();
             string nl = Environment.NewLine;
             object[] attribs = null;
@@ -1463,7 +1463,7 @@ namespace Genghis
                 object[] attribs = GetType().GetCustomAttributes(typeof(ParserUsageAttribute), true);
                 ParserUsageAttribute parser = (ParserUsageAttribute)(attribs.Length != 0 ? attribs[0] : null);
 
-                //TODO relying on exception being generated last (i.e. after values have been read and assigned) should pass param  
+                // relying on exception being generated last (i.e. after values have been read and assigned) should pass param  
                 //Load defaults from the environmental variable
                 if(parser != null)
                 {

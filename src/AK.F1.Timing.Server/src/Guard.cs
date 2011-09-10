@@ -38,6 +38,16 @@ namespace AK.F1.Timing.Server
         }
 
         [DebuggerStepThrough]
+        internal static void NotNullOrEmpty(string s, string paramName)
+        {
+            NotNull(s, paramName);
+            if(s.Length == 0)
+            {
+                throw new ArgumentException(Resource.ArgEmptyString, paramName);
+            }
+        }
+
+        [DebuggerStepThrough]
         internal static void InRange(bool condition, string paramName)
         {
             if(!condition)

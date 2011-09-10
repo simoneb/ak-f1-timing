@@ -112,21 +112,14 @@ namespace AK.F1.Timing
             /// <paramref name="address"/>.
             /// </summary>
             /// <param name="address">The proxy address.</param>
-            /// <param name="username">The user's F1 live-timing username.</param>
-            /// <param name="password">The user's F1 live-timing password.</param>
             /// <exception cref="System.ArgumentNullException">
-            /// Thrown when <paramref name="address"/>, <paramref name="username"/> or
-            /// <paramref name="password"/> is <see langword="null"/>.
+            /// Thrown when <paramref name="address"/> is <see langword="null"/>.
             /// </exception>
-            /// <exception cref="System.ArgumentException">
-            /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
-            /// </exception>
-            public static IMessageReader Read(IPAddress address, string username, string password)
+            public static IMessageReader Read(IPAddress address)
             {
                 Guard.NotNull(address, "address");
 
-                return new ProxyMessageReader(new IPEndPoint(address, ProxyMessageReader.DefaultPort),
-                    username, password);
+                return new ProxyMessageReader(new IPEndPoint(address, ProxyMessageReader.DefaultPort));
             }
 
             /// <summary>
@@ -134,18 +127,12 @@ namespace AK.F1.Timing
             /// <paramref name="endpoint"/>.
             /// </summary>
             /// <param name="endpoint">The proxy endpoint.</param>
-            /// <param name="username">The user's F1 live-timing username.</param>
-            /// <param name="password">The user's F1 live-timing password.</param>
             /// <exception cref="System.ArgumentNullException">
-            /// Thrown when <paramref name="endpoint"/>, <paramref name="username"/> or
-            /// <paramref name="password"/> is <see langword="null"/>.
+            /// Thrown when <paramref name="endpoint"/> is <see langword="null"/>.
             /// </exception>
-            /// <exception cref="System.ArgumentException">
-            /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
-            /// </exception>
-            public static IMessageReader Read(IPEndPoint endpoint, string username, string password)
+            public static IMessageReader Read(IPEndPoint endpoint)
             {
-                return new ProxyMessageReader(endpoint, username, password);
+                return new ProxyMessageReader(endpoint);
             }
         }
 

@@ -52,6 +52,15 @@
     </Compile>
     <Compile Include="Cli\CommandLineOptions.cs" />
     <Compile Include="Cli\CommandLineParser.cs" />
+    <Compile Include="IO\ByteBuffer.cs" />
+    <Compile Include="IO\ByteBufferSnapshot.cs" />
+    <Compile Include="Threading\AutoResetEventSlim.cs" />
+    <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="TcpServer.cs" />
     <Compile Include="Proxy\ProxySession.cs" />
     <Compile Include="Proxy\ProxySessionManager.cs" />
@@ -69,6 +78,12 @@
       <Project>{52334AE8-7F11-404B-AD45-4519F9229F4A}</Project>
       <Name>AK.F1.Timing</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

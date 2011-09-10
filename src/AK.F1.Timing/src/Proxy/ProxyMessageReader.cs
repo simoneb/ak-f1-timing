@@ -15,7 +15,6 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using AK.F1.Timing.Proxy.Messages;
 using AK.F1.Timing.Serialization;
 
 namespace AK.F1.Timing.Proxy
@@ -32,8 +31,6 @@ namespace AK.F1.Timing.Proxy
         private Socket _socket;
         private IObjectReader _reader;
         private readonly IPEndPoint _endpoint;
-        private readonly string _username;
-        private readonly string _password;
 
         /// <summary>
         /// Defines the default proxy port. This field is constant.
@@ -46,27 +43,17 @@ namespace AK.F1.Timing.Proxy
 
         /// <summary>
         /// Initialises a new instance of the <see cref="ProxyMessageReader"/> class and specifies
-        /// the proxy <paramref name="endpoint"/> and the user's authentication token.
+        /// the proxy <paramref name="endpoint"/>.
         /// </summary>
         /// <param name="endpoint">The proxy endpoint.</param>
-        /// <param name="username">The user's F1 live-timing username.</param>
-        /// <param name="password">The user's F1 live-timing password.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="endpoint"/>, <paramref name="username"/> or
-        /// <paramref name="password"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
-        /// </exception>
-        public ProxyMessageReader(IPEndPoint endpoint, string username, string password)
+        /// Thrown when <paramref name="endpoint"/> is <see langword="null"/>.
+        /// </exception>        
+        public ProxyMessageReader(IPEndPoint endpoint)
         {
             Guard.NotNull(endpoint, "endpoint");
-            Guard.NotNullOrEmpty(username, "username");
-            Guard.NotNullOrEmpty(password, "password");
 
             _endpoint = endpoint;
-            _username = username;
-            _password = password;
         }
 
         #endregion
@@ -80,13 +67,7 @@ namespace AK.F1.Timing.Proxy
             {
                 Initialise();
             }
-            var message = _reader.Read<Message>();
-            var exceptionMessage = message as ServerExceptionMessage;
-            if(exceptionMessage != null)
-            {
-                exceptionMessage.ThrowException();
-            }
-            return message;
+            return _reader.Read<Message>();
         }
 
         /// <inheritdoc/>
@@ -103,7 +84,6 @@ namespace AK.F1.Timing.Proxy
         private void Initialise()
         {
             InitialiseSocket();
-            WriterServerLoginMessage();
             InitialiseMessageReader();
         }
 
@@ -124,22 +104,7 @@ namespace AK.F1.Timing.Proxy
 
         private void InitialiseMessageReader()
         {
-            _reader = new DecoratedObjectReader(CreateBufferedStream());
-        }
-
-        private void WriterServerLoginMessage()
-        {
-            Log.InfoFormat("authenticating: {0}", _username);
-            using(var buffer = CreateBufferedStream(128))
-            using(var writer = new DecoratedObjectWriter(buffer))
-            {
-                writer.WriteMessage(new ServerLoginMessage(_username, _password));
-            }
-        }
-
-        private BufferedStream CreateBufferedStream(int bufferSize = 4096)
-        {
-            return new BufferedStream(new NetworkStream(_socket, ownsSocket: false), bufferSize);
+            _reader = new DecoratedObjectReader(new BufferedStream(new NetworkStream(_socket, ownsSocket: false)));
         }
 
         #endregion

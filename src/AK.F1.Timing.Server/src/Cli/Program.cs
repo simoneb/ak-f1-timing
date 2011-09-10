@@ -14,6 +14,7 @@
 
 using System;
 using System.Threading;
+using AK.F1.Timing.Server.Proxy;
 using log4net;
 using log4net.Config;
 
@@ -91,9 +92,9 @@ namespace AK.F1.Timing.Server.Cli
             }
         }
 
-        private static ISocketHandler CreateSocketHandler()
+        private ISocketHandler CreateSocketHandler()
         {
-            return new Proxy.ProxySessionManager();
+            return new ProxySessionManager(_options.Username, _options.Password);
         }
 
         #endregion

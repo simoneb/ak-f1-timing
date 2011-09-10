@@ -13,29 +13,35 @@
 // limitations under the License.
 
 using System;
-using System.IO;
+using System.Collections.Concurrent;
 using System.Net.Sockets;
-using System.Runtime.Serialization;
-using System.Security.Authentication;
 using System.Threading;
 using AK.F1.Timing.Extensions;
-using AK.F1.Timing.Proxy.Messages;
-using AK.F1.Timing.Serialization;
+using AK.F1.Timing.Server.IO;
+using AK.F1.Timing.Server.Threading;
 using AK.F1.Timing.Utility;
 using log4net;
 
 namespace AK.F1.Timing.Server.Proxy
 {
     /// <summary>
-    /// Proxies the <see cref="AK.F1.Timing.Message"/>s read from the live-timing service to the
-    /// connected client. This class cannot be inherited.
+    /// This class cannot be inherited.
     /// </summary>
+    /// <threadsafety static="true" instance="true"/>
     public sealed class ProxySession : DisposableBase
     {
         #region Fields.
 
+        private readonly int _id;
         private readonly Socket _client;
-        private readonly CancellationToken _cancellationToken;
+        private readonly byte[] _outputBuffer = new byte[1024];
+        private readonly SocketAsyncEventArgs _socketOperation = new SocketAsyncEventArgs();
+        private readonly AutoResetEventSlim _idleEvent = new AutoResetEventSlim();
+        private readonly ManualResetEventSlim _completedEvent = new ManualResetEventSlim();
+        private readonly ConcurrentQueue<ByteBufferSnapshot> _bufferQueue = new ConcurrentQueue<ByteBufferSnapshot>();
+
+        private int _partiallySentBufferOffset;
+        private ByteBufferSnapshot? _partiallySentBuffer;
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(ProxySession));
 
@@ -44,52 +50,82 @@ namespace AK.F1.Timing.Server.Proxy
         #region Public Interface.
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="ProxySession"/> class and specifies
-        /// the <paramref name="client"/> and the session cancellation token.
+        /// Occurs when this instance has been disposed of.
         /// </summary>
+        public event EventHandler Disposed;
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="ProxySession"/> class and specifies
+        /// the session identifier and  <paramref name="client"/> socket.
+        /// </summary>
+        /// <param name="id">The session identifier.</param>
         /// <param name="client">The client <see cref="System.Net.Sockets.Socket"/>.</param>
-        /// <param name="cancellationToken">The session
-        /// <see cref="System.Threading.CancellationToken"/>.</param>
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="client"/> is <see langword="null"/>.
         /// </exception>
-        public ProxySession(Socket client, CancellationToken cancellationToken)
+        public ProxySession(int id, Socket client)
         {
             Guard.NotNull(client, "client");
 
+            _id = id;
             _client = client;
-            _cancellationToken = cancellationToken;
+            _socketOperation.Completed += OnSocketOperationCompleted;
+            _socketOperation.SetBuffer(_outputBuffer, 0, 0);
         }
 
         /// <summary>
-        /// Runs the session.
+        /// Begins an asynchronous operation to send the specified <paramref name="buffer"/>.
         /// </summary>
-        /// <exception cref="System.ObjectDisposedException">
-        /// Thrown when the handler has been disposed of.
+        /// <param name="buffer">The buffer to enqueue.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="buffer"/> is <see langword="null"/>.
         /// </exception>
-        public void Run()
+        /// <exception cref="System.ObjectDisposedException">
+        /// Thrown when the this instance has been disposed of.
+        /// </exception>
+        public void SendAsync(byte[] buffer)
+        {
+            SendAsync(new ByteBufferSnapshot(buffer, 0, buffer.Length));
+        }
+
+        /// <summary>
+        /// Begins an asynchronous operation to send the specified <paramref name="buffer"/>.
+        /// </summary>
+        /// <param name="buffer">The buffer to enqueue.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="buffer"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="System.ObjectDisposedException">
+        /// Thrown when the this instance has been disposed of.
+        /// </exception>
+        public void SendAsync(ByteBufferSnapshot buffer)
         {
             CheckDisposed();
-            try
+            _bufferQueue.Enqueue(buffer);
+            if(TrySetBusy())
             {
-                var login = ReadLogin();
-                Proxy(login.Username, login.Password);
+                SendNextBuffers();
             }
-            catch(Exception exc)
+        }
+
+        /// <summary>
+        /// Signals that the session should complete when all pending buffers have been sent.
+        /// </summary>
+        public void CompleteAsync()
+        {
+            _completedEvent.Set();
+            if(TrySetBusy())
             {
-                if(exc.IsFatal())
-                {
-                    throw;
-                }
-                if(!IsExpectedException(exc))
-                {
-                    Log.Error(exc);
-                }
+                Disconnect();
             }
-            finally
-            {
-                ((IDisposable)this).Dispose();
-            }
+        }
+
+        /// <summary>
+        /// Gets the session identifier.
+        /// </summary>
+        public int Id
+        {
+            get { return _id; }
         }
 
         #endregion
@@ -99,81 +135,133 @@ namespace AK.F1.Timing.Server.Proxy
         /// <inheritdoc/>
         protected override void DisposeOfManagedResources()
         {
+            _socketOperation.Completed -= OnSocketOperationCompleted;
+            DisposeOf(_socketOperation);
             DisposeOf(_client);
+            DisposeOf(_completedEvent);
+            DisposeOf(_idleEvent);
+            Disposed.RaiseAsync(this);
         }
 
         #endregion
 
         #region Private Impl.
 
-        private ServerLoginMessage ReadLogin()
+        private void SendOutputBuffer(int count)
         {
-            using(var stream = CreateBufferedStream(128))
-            using(var reader = new DecoratedObjectReader(stream))
+            Guard.Assert(count > 0);
+            _socketOperation.SetBuffer(0, count);
+            if(!_client.SendAsync(_socketOperation))
             {
-                return reader.Read<ServerLoginMessage>();
+                SendOutputBufferCallback();
             }
         }
 
-        private void Proxy(string username, string password)
+        private void SendOutputBufferCallback()
         {
-            Log.InfoFormat("username={0}", username);
-            using(var stream = CreateBufferedStream())
-            using(var writer = new DecoratedObjectWriter(stream))
+            if(_socketOperation.BytesTransferred == 0 || _socketOperation.SocketError != SocketError.Success)
             {
-                using(var reader = WriteExceptions(writer, () =>
-                    F1Timing.Live.Read(F1Timing.Live.Login(username, password))))
+                Dispose();
+            }
+            else if(_partiallySentBuffer != null)
+            {
+                SendNextPartialBufferSegment();
+            }
+            else
+            {
+                SendNextBuffers();
+            }
+        }
+
+        private void SendNextBuffers()
+        {
+            Guard.Assert(_partiallySentBuffer == null);
+
+            int count = 0;
+            ByteBufferSnapshot buffer;
+            while(count < _outputBuffer.Length && _bufferQueue.TryDequeue(out buffer))
+            {
+                int available = _outputBuffer.Length - count;
+                if(available >= buffer.Length)
                 {
-                    while(!IsCancellationRequested)
-                    {
-                        var message = WriteExceptions(writer, () => reader.Read());
-                        writer.WriteMessage(message);
-                        stream.Flush();
-                        if(message == null)
-                        {
-                            break;
-                        }
-                    }
+                    buffer.CopyTo(0, _outputBuffer, count, buffer.Length);
+                    count += buffer.Length;
+                }
+                else
+                {
+                    buffer.CopyTo(0, _outputBuffer, count, available);
+                    count += available;
+                    _partiallySentBuffer = buffer;
+                    _partiallySentBufferOffset = available;
                 }
             }
-        }
-
-        private static T WriteExceptions<T>(DecoratedObjectWriter writer, Func<T> body)
-        {
-            try
+            if(count > 0)
             {
-                return body();
+                SendOutputBuffer(count);
             }
-            catch(IOException exc)
+            else if(_completedEvent.Wait(0))
             {
-                writer.WriteMessage(new ServerExceptionMessage(exc));
-                throw;
+                Disconnect();
             }
-            catch(SerializationException exc)
+            else
             {
-                writer.WriteMessage(new ServerExceptionMessage(exc));
-                throw;
-            }
-            catch(AuthenticationException exc)
-            {
-                writer.WriteMessage(new ServerExceptionMessage(exc));
-                throw;
+                _idleEvent.Set();
             }
         }
 
-        private BufferedStream CreateBufferedStream(int bufferSize = 4096)
+        private void SendNextPartialBufferSegment()
         {
-            return new BufferedStream(new NetworkStream(_client, ownsSocket: false), bufferSize);
+            Guard.Assert(_partiallySentBuffer != null);
+
+            var buffer = _partiallySentBuffer.Value;
+            int remaining = buffer.Length - _partiallySentBufferOffset;
+            int count = Math.Min(remaining, _outputBuffer.Length);
+            buffer.CopyTo(_partiallySentBufferOffset, _outputBuffer, 0, count);
+            _partiallySentBufferOffset += count;
+            if(_partiallySentBufferOffset == buffer.Length)
+            {
+                _partiallySentBuffer = null;
+            }
+            SendOutputBuffer(count);
         }
 
-        private static bool IsExpectedException(Exception exc)
+        private void Disconnect()
         {
-            return exc is IOException || exc is SerializationException || exc is AuthenticationException;
+            if(!_client.DisconnectAsync(_socketOperation))
+            {
+                DisconnectCallback();
+            }
         }
 
-        private bool IsCancellationRequested
+        private void DisconnectCallback()
         {
-            get { return _cancellationToken.IsCancellationRequested; }
+            Dispose();
+        }
+
+        private void OnSocketOperationCompleted(object sender, SocketAsyncEventArgs e)
+        {
+            switch(e.LastOperation)
+            {
+                case SocketAsyncOperation.Disconnect:
+                    DisconnectCallback();
+                    break;
+                case SocketAsyncOperation.Send:
+                    SendOutputBufferCallback();
+                    break;
+                default:
+                    Guard.Fail("Invalid LastOperation: " + e.LastOperation);
+                    break;
+            }
+        }
+
+        private bool TrySetBusy()
+        {
+            return _idleEvent.Wait(0);
+        }
+
+        private void Dispose()
+        {
+            ((IDisposable)this).Dispose();
         }
 
         #endregion

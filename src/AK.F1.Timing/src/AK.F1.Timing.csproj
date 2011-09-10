@@ -56,9 +56,6 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Proxy\Messages\ServerExceptionMessage.cs" />
-    <Compile Include="Proxy\Messages\ServerExceptionType.cs" />
-    <Compile Include="Proxy\Messages\ServerLoginMessage.cs" />
     <Compile Include="Serialization\ObjectWriterExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
