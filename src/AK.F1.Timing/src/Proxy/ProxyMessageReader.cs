@@ -65,7 +65,7 @@ namespace AK.F1.Timing.Proxy
         {
             if(_reader == null)
             {
-                Initialise();
+                Connect();
             }
             return _reader.Read<Message>();
         }
@@ -75,36 +75,29 @@ namespace AK.F1.Timing.Proxy
         {
             DisposeOf(_socket);
             DisposeOf(_reader);
+            Log.Info("disconnected");
         }
 
         #endregion
 
         #region Private Impl.
 
-        private void Initialise()
-        {
-            InitialiseSocket();
-            InitialiseMessageReader();
-        }
-
-        private void InitialiseSocket()
+        private void Connect()
         {
             try
             {
-                Log.Info("connecting");
+                Log.InfoFormat("connecting: {0}", _endpoint);
                 _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 _socket.Connect(_endpoint);
+                _reader = new DecoratedObjectReader(new BufferedStream(new NetworkStream(_socket)));
+                Log.Info("connected");
             }
             catch(SocketException exc)
             {
                 DisposeOf(_socket);
+                Log.Error(exc);
                 throw Guard.ProxyMessageReader_FailedToConnect(exc);
             }
-        }
-
-        private void InitialiseMessageReader()
-        {
-            _reader = new DecoratedObjectReader(new BufferedStream(new NetworkStream(_socket, ownsSocket: false)));
         }
 
         #endregion
