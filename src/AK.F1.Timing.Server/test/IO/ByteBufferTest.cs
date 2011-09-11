@@ -39,17 +39,17 @@ namespace AK.F1.Timing.Server.IO
         {
             var buffer = new ByteBuffer(1);
 
-            buffer.Append(CreateArray(0));
+            buffer.Append(new byte[0]);
             Assert.Equal(buffer.Count, 0);
-            AssertDataIsContinuous(buffer);
+            AssertBufferEqual(new byte[0], buffer);
 
-            buffer.Append(CreateArray(1));
+            buffer.Append(new byte[] { 1 });
             Assert.Equal(buffer.Count, 1);
-            AssertDataIsContinuous(buffer);
+            AssertBufferEqual(new byte[] { 1 }, buffer);
 
-            buffer.Append(CreateArray(16, dataStart: buffer.Count));
-            Assert.Equal(buffer.Count, 17);
-            AssertDataIsContinuous(buffer);
+            buffer.Append(new byte[] { 2, 3, 4, 5, 6, 7, 8, 9, 10 });
+            Assert.Equal(buffer.Count, 10);
+            AssertBufferEqual(new byte[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }, buffer);
         }
 
         [Fact]
@@ -57,13 +57,13 @@ namespace AK.F1.Timing.Server.IO
         {
             var buffer = new ByteBuffer(1);
 
-            buffer.Append(CreateArray(1));
+            buffer.Append(new byte[1]);
             Assert.Equal(1, buffer.Capacity);
 
-            buffer.Append(CreateArray(1));
+            buffer.Append(new byte[1]);
             Assert.Equal(2, buffer.Capacity);
 
-            buffer.Append(CreateArray(10));
+            buffer.Append(new byte[10]);
             Assert.Equal(16, buffer.Capacity);
         }
 
@@ -75,10 +75,10 @@ namespace AK.F1.Timing.Server.IO
             var snapshot = buffer.CreateSnapshot();
             Assert.Equal(0, snapshot.Count);
 
-            buffer.Append(CreateArray(1));
+            buffer.Append(new byte[] { 1 });
             snapshot = buffer.CreateSnapshot();
             Assert.Equal(1, snapshot.Count);
-            AssertDataIsContinuous(buffer);
+            AssertBufferEqual(new byte[] { 1 }, buffer);
         }
 
         [Fact]
@@ -89,7 +89,7 @@ namespace AK.F1.Timing.Server.IO
             var snapshot = buffer.CreateSnapshot();
             Assert.Equal(0, snapshot.Count);
 
-            buffer.Append(CreateArray(1));
+            buffer.Append(new byte[1]);
             Assert.Equal(0, snapshot.Count);
         }
 
@@ -99,7 +99,7 @@ namespace AK.F1.Timing.Server.IO
             var buffer = new ByteBuffer(1);
             Assert.Equal(0, buffer.Count);
 
-            buffer.Append(CreateArray(10));
+            buffer.Append(new byte[10]);
             Assert.Equal(10, buffer.Count);
         }
 
@@ -110,24 +110,14 @@ namespace AK.F1.Timing.Server.IO
             Assert.Equal(8, buffer.Capacity);
         }
 
-        private void AssertDataIsContinuous(ByteBuffer buffer)
+        private void AssertBufferEqual(byte[] expected, ByteBuffer buffer)
         {
             var snapshot = buffer.CreateSnapshot();
             Assert.Equal(buffer.Count, snapshot.Count);
 
             var actual = new byte[snapshot.Count];
             snapshot.CopyTo(0, actual, 0, actual.Length);
-            Assert.Equal(CreateArray(snapshot.Count), actual);
-        }
-
-        private static byte[] CreateArray(int size, int dataStart = 0)
-        {
-            var array = new byte[size];
-            for(int i = 0; i < size; ++i)
-            {
-                array[i] = checked((byte)(dataStart + i));
-            }
-            return array;
+            Assert.Equal(expected, actual);
         }
     }
 }

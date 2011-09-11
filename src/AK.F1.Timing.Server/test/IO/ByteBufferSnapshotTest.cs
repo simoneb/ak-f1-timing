@@ -98,17 +98,12 @@ namespace AK.F1.Timing.Server.IO
 
         private static ByteBufferSnapshot Create(int bufferSize, int offset, int count)
         {
-            return new ByteBufferSnapshot(CreateArray(bufferSize), offset, count);
-        }
-
-        private static byte[] CreateArray(int size, int dataStart = 1)
-        {
-            var buffer = new byte[size];
-            for(int i = 0; i < size; ++i)
+            var buffer = new byte[bufferSize];
+            for(int i = 0; i < bufferSize; ++i)
             {
-                buffer[i] = checked((byte)(dataStart + i));
+                buffer[i] = checked((byte)(i + 1));
             }
-            return buffer;
+            return new ByteBufferSnapshot(buffer, offset, count);
         }
     }
 }

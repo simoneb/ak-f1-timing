@@ -116,7 +116,7 @@ namespace AK.F1.Timing.Server.IO
             // Even though Array.Resize allocates, copies then assigns we require this behaviour
             // to support snapshots and therefore cannot rely on a private implementation detail.
             var newArray = new byte[newSize];
-            //Buffer.BlockCopy(_buffer, 0, newArray, 0, _count);
+            Buffer.BlockCopy(_buffer, 0, newArray, 0, _count);
             _buffer = newArray;
         }
 
