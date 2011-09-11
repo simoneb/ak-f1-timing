@@ -71,16 +71,16 @@ namespace AK.F1.Timing.Model.Session
             model.Process(new SetStreamValidityMessage(false));
             Assert.True(observer.HasChanged(x => x.MessageCount));
         }
-        
+
         [Fact]
         public void processing_a_message_updates_the_last_message_received_on_property()
         {
             var model = new FeedModel();
 
             model.Process(new SetStreamValidityMessage(false));
-            Assert.InRange(model.LastMessageReceivedOn, SysClock.Now().AddMilliseconds(-5), SysClock.Now());
+            Assert.InRange(model.LastMessageReceivedOn.Value, SysClock.Now().AddMilliseconds(-5), SysClock.Now());
         }
-        
+
         [Fact]
         public void changes_to_the_last_message_received_on_property_raise_the_property_changed_event()
         {
