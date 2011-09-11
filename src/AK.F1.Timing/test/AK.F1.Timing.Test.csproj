@@ -101,6 +101,7 @@
     <Compile Include="Messages\Session\SpeedCaptureMessageTest.cs" />
     <Compile Include="Messages\Session\SetMinRequiredQuallyTimeMessageTest.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Proxy\ProxyMessageReaderTest.cs" />
     <Compile Include="Recording\RecordingIntegrationTest.cs" />
     <Compile Include="Serialization\DecoratedObjectReaderWriterTest.cs" />
     <Compile Include="Serialization\ObjectWriterExtensionTest.cs" />
