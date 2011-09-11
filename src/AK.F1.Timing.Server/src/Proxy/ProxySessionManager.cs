@@ -170,22 +170,22 @@ namespace AK.F1.Timing.Server.Proxy
             Log.Info("dispatch task started");
             try
             {
-                byte[] readMessage;
+                byte[] message;
                 // Prevent the session queues from growing unwieldy by an placing arbitrary upper bound
                 // on the capacity of the dispatch queue.
                 const int dispatchQueueCapacity = 32;
                 var dispatchQueue = new Queue<byte[]>(dispatchQueueCapacity);
-                while(_readMessageQueue.TryTake(out readMessage, Timeout.Infinite, _cancellationToken))
+                while(_readMessageQueue.TryTake(out message, Timeout.Infinite, _cancellationToken))
                 {
                     dispatchQueue.Clear();
                     _messageHistoryLock.InWriteLock(() =>
                     {
                         do
                         {
-                            dispatchQueue.Enqueue(readMessage);
-                            _messageHistory.Append(readMessage);
+                            dispatchQueue.Enqueue(message);
+                            _messageHistory.Append(message);
                         } while(dispatchQueue.Count < dispatchQueueCapacity &&
-                            _readMessageQueue.TryTake(out readMessage, 0, _cancellationToken));
+                            _readMessageQueue.TryTake(out message, 0, _cancellationToken));
                         ForEachSession(session => session.SendAsync(dispatchQueue));
                     });
                 }
@@ -199,6 +199,7 @@ namespace AK.F1.Timing.Server.Proxy
             }
             finally
             {
+                _dispatchMessagesCompleteEvent.Set();
                 Log.Info("dispatch task stopped");
             }
         }
