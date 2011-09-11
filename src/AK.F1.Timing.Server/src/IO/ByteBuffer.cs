@@ -33,7 +33,7 @@ namespace AK.F1.Timing.Server.IO
 
         /// <summary>
         /// Initialises new instance of the <see cref="AK.F1.Timing.Server.IO.ByteBuffer"/> class
-        /// and specified the initial buffer capacity.
+        /// and specifies the initial buffer capacity.
         /// </summary>
         /// <param name="initialCapacity">The initial buffer cpacity.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">
@@ -74,6 +74,22 @@ namespace AK.F1.Timing.Server.IO
             return new ByteBufferSnapshot(_buffer, 0, _count);
         }
 
+        /// <summary>
+        /// Gets the number of bytes in this buffer.
+        /// </summary>
+        public int Count
+        {
+            get { return _count; }
+        }
+
+        /// <summary>
+        /// Gets the capacity this buffer.
+        /// </summary>
+        public int Capacity
+        {
+            get { return _buffer.Length; }
+        }
+
         #endregion
 
         #region Private Impl.
@@ -83,7 +99,7 @@ namespace AK.F1.Timing.Server.IO
             checked
             {
                 int requiredCapacity = _count + count;
-                if(requiredCapacity >= _buffer.Length)
+                if(requiredCapacity > _buffer.Length)
                 {
                     int newSize = _buffer.Length * 2;
                     while(newSize < requiredCapacity)
@@ -100,7 +116,7 @@ namespace AK.F1.Timing.Server.IO
             // Even though Array.Resize allocates, copies then assigns we require this behaviour
             // to support snapshots and therefore cannot rely on a private implementation detail.
             var newArray = new byte[newSize];
-            Buffer.BlockCopy(_buffer, 0, newArray, 0, _count);
+            //Buffer.BlockCopy(_buffer, 0, newArray, 0, _count);
             _buffer = newArray;
         }
 

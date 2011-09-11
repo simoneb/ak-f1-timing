@@ -17,14 +17,32 @@ using System.Threading;
 
 namespace AK.F1.Timing.Server.Extensions
 {
-    internal static class ReaderWriterLockSlimExtensions
+    /// <summary>
+    /// <see cref="System.Threading.ReaderWriterLockSlim"/> extension class. This class is
+    /// <see langword="static"/>.
+    /// </summary>
+    public static class ReaderWriterLockSlimExtensions
     {
-        public static void InReadLock(this ReaderWriterLockSlim locker, Action body)
+        #region Public Interface.
+
+        /// <summary>
+        /// Executes the specifed <paramref name="action"/> from within a read lock.
+        /// </summary>
+        /// <param name="locker">The locker.</param>
+        /// <param name="action">The action to execute.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="locker"/> or <paramref name="action"/> is
+        /// <see langword="null"/>.
+        /// </exception>
+        public static void InReadLock(this ReaderWriterLockSlim locker, Action action)
         {
+            Guard.NotNull(locker, "locker");
+            Guard.NotNull(action, "action");
+
             locker.EnterReadLock();
             try
             {
-                body();
+                action();
             }
             finally
             {
@@ -32,17 +50,31 @@ namespace AK.F1.Timing.Server.Extensions
             }
         }
 
-        public static void InWriteLock(this ReaderWriterLockSlim locker, Action body)
+        /// <summary>
+        /// Executes the specifed <paramref name="action"/> from within a write lock.
+        /// </summary>
+        /// <param name="locker">The locker.</param>
+        /// <param name="action">The action to execute.</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="locker"/> or <paramref name="action"/> is
+        /// <see langword="null"/>.
+        /// </exception>
+        public static void InWriteLock(this ReaderWriterLockSlim locker, Action action)
         {
+            Guard.NotNull(locker, "locker");
+            Guard.NotNull(action, "action");
+
             locker.EnterWriteLock();
             try
             {
-                body();
+                action();
             }
             finally
             {
                 locker.ExitWriteLock();
             }
         }
+
+        #endregion
     }
 }

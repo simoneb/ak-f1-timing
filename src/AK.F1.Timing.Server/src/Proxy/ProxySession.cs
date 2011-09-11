@@ -198,10 +198,10 @@ namespace AK.F1.Timing.Server.Proxy
             while(count < _outputBuffer.Length && _bufferQueue.TryDequeue(out buffer))
             {
                 int available = _outputBuffer.Length - count;
-                if(available >= buffer.Length)
+                if(available >= buffer.Count)
                 {
-                    buffer.CopyTo(0, _outputBuffer, count, buffer.Length);
-                    count += buffer.Length;
+                    buffer.CopyTo(0, _outputBuffer, count, buffer.Count);
+                    count += buffer.Count;
                 }
                 else
                 {
@@ -230,11 +230,11 @@ namespace AK.F1.Timing.Server.Proxy
             Guard.Assert(_partiallySentBuffer != null);
 
             var buffer = _partiallySentBuffer.Value;
-            int remaining = buffer.Length - _partiallySentBufferOffset;
+            int remaining = buffer.Count - _partiallySentBufferOffset;
             int count = Math.Min(remaining, _outputBuffer.Length);
             buffer.CopyTo(_partiallySentBufferOffset, _outputBuffer, 0, count);
             _partiallySentBufferOffset += count;
-            if(_partiallySentBufferOffset == buffer.Length)
+            if(_partiallySentBufferOffset == buffer.Count)
             {
                 _partiallySentBuffer = null;
             }

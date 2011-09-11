@@ -75,20 +75,9 @@ namespace AK.F1.Timing.Server.IO
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="dst"/> is <see langword="null"/>.
         /// </exception>
-        /// <exception cref="System.ArgumentOutOfRangeException">
-        /// Thrown when
-        /// <list type="bullet">
-        /// <item>
-        /// <paramref name="srcOffset"/> is negative or greater than the length of this snapshot
-        /// </item>
-        /// <item>
-        /// <paramref name="dstOffset"/> is negative or greater than the length of <paramref name="dst"/>
-        /// </item>
-        /// <item>
-        /// <paramref name="count"/> is negative or greater than the length of <paramref name="dst"/> given
-        /// <paramref name="dstOffset"/>
-        /// </item>
-        /// </list>
+        /// <exception cref="System.ArgumentException">
+        /// Thrown when <paramref name="srcOffset"/>, <paramref name="dstOffset"/> or <paramref name="count"/>
+        /// is not valid.        
         /// </exception>
         public void CopyTo(int srcOffset, byte[] dst, int dstOffset, int count)
         {
@@ -96,9 +85,9 @@ namespace AK.F1.Timing.Server.IO
         }
 
         /// <summary>
-        /// Gets the buffer length.
+        /// Gets the number of bytes in this snapshot.
         /// </summary>
-        public int Length
+        public int Count
         {
             get { return _count; }
         }

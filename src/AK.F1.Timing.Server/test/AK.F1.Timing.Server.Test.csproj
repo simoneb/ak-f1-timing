@@ -8,7 +8,7 @@
     <ProjectGuid>{D976D750-54A2-4913-B6A7-BB17C7725C9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AK.F1.Timing.Server.Test</RootNamespace>
+    <RootNamespace>AK.F1.Timing.Server</RootNamespace>
     <AssemblyName>AK.F1.Timing.Server.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -31,6 +31,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>AK.F1.Timing.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Moq">
       <HintPath>..\..\..\lib\Moq.dll</HintPath>
@@ -48,7 +57,12 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Extensions\ReaderWriterLockSlimExtensionsTest.cs" />
+    <Compile Include="IO\ByteBufferSnapshotTest.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="IO\ByteBufferTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Threading\AutoResetEventSlimTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AK.F1.Timing\src\AK.F1.Timing.csproj">
@@ -56,9 +70,12 @@
       <Name>AK.F1.Timing</Name>
     </ProjectReference>
     <ProjectReference Include="..\src\AK.F1.Timing.Server.csproj">
-      <Project>{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}</Project>
+      <Project>{95760A33-3D26-4FE3-B9D0-C248420350C5}</Project>
       <Name>AK.F1.Timing.Server</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AK.F1.Timing.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
