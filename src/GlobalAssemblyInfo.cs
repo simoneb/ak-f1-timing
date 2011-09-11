@@ -17,7 +17,7 @@ using System.Resources;
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("Andy Kernahan")]
-[assembly: AssemblyCopyright("Copyright \u00A9 Andy Kernahan 2010")]
+[assembly: AssemblyCopyright("Copyright \u00A9 Andy Kernahan 2010-2011")]
 [assembly: AssemblyTrademark("Andy Kernahan")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en-GB")]
