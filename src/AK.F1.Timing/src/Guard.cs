@@ -356,6 +356,11 @@ namespace AK.F1.Timing
             return new IOException(Format(Resource.LiveDecrypterFactory_FailedToFetchSessionSeed, exc.Message), exc);
         }
 
+        internal static IOException ProxyMessageReader_FailedToConnect(SocketException exc)
+        {
+            return new IOException(Format(Resource.ProxyMessageReader_FailedToConnect, exc.Message), exc);
+        }
+
         #endregion
     }
 }

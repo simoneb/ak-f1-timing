@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Utility.Tms", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Utility.LiveRecorder", "AK.F1.Timing.Utility.LiveRecorder\src\AK.F1.Timing.Utility.LiveRecorder.csproj", "{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Server.Test", "AK.F1.Timing.Server\test\AK.F1.Timing.Server.Test.csproj", "{D976D750-54A2-4913-B6A7-BB17C7725C9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Server", "AK.F1.Timing.Server\src\AK.F1.Timing.Server.csproj", "{95760A33-3D26-4FE3-B9D0-C248420350C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,6 +70,14 @@ Global
 		{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D976D750-54A2-4913-B6A7-BB17C7725C9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D976D750-54A2-4913-B6A7-BB17C7725C9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D976D750-54A2-4913-B6A7-BB17C7725C9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D976D750-54A2-4913-B6A7-BB17C7725C9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95760A33-3D26-4FE3-B9D0-C248420350C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95760A33-3D26-4FE3-B9D0-C248420350C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95760A33-3D26-4FE3-B9D0-C248420350C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95760A33-3D26-4FE3-B9D0-C248420350C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

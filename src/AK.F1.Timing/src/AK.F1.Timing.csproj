@@ -56,6 +56,7 @@
     <Compile Include="..\..\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Serialization\ObjectWriterExtensions.cs" />
     <Compile Include="Extensions\ReflectionExtensions.cs" />
     <Compile Include="Extensions\ExceptionExtensions.cs" />
     <Compile Include="F1Timing.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="Live\LiveAuthenticationService.cs" />
     <Compile Include="Live\IO\LiveSocketMessageStream.cs" />
     <Compile Include="Live\IO\MessageStreamDelegate.cs" />
+    <Compile Include="Proxy\ProxyMessageReader.cs" />
     <Compile Include="Messages\Driver\SetDriverSpeedMessage.cs" />
     <Compile Include="Messages\Driver\SetDriverPitTimeMessage.cs" />
     <Compile Include="Messages\Feed\SetStreamTimestampMessage.cs" />

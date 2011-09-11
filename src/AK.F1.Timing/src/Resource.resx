@@ -248,4 +248,7 @@ Message Classification: '{1}'</value>
   <data name="PropertyDescriptor_GetValueFailed" xml:space="preserve">
     <value>Failed to get the value of property '{0}' on type '{1}': '{2}'</value>
   </data>
+  <data name="ProxyMessageReader_FailedToConnect" xml:space="preserve">
+    <value>Failed to open a connection with the proxied live-timing service: '{0}'</value>
+  </data>
 </root>
