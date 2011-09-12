@@ -109,7 +109,6 @@
     <Compile Include="Messages\Driver\ReplaceDriverLapTimeMessage.cs" />
     <Compile Include="Messages\Driver\ReplaceDriverSectorTimeMessage.cs" />
     <Compile Include="Messages\Driver\PostedTime.cs" />
-    <Compile Include="Messages\Driver\ClearGridRowMessage.cs" />
     <Compile Include="Messages\Driver\SetGridColumnColourMessage.cs" />
     <Compile Include="Messages\Driver\SetGridColumnValueMessage.cs" />
     <Compile Include="Messages\Driver\TimeGap.cs" />

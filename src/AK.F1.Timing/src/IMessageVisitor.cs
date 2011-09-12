@@ -67,15 +67,6 @@ namespace AK.F1.Timing
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="message"/> is <see langword="null"/>.
         /// </exception>
-        void Visit(ClearGridRowMessage message);
-
-        /// <summary>
-        /// Visits the specified <paramref name="message"/>.
-        /// </summary>
-        /// <param name="message">The message to visit.</param>
-        /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="message"/> is <see langword="null"/>.
-        /// </exception>
         void Visit(SetGridColumnColourMessage message);
 
         /// <summary>

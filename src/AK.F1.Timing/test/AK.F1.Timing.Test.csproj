@@ -156,7 +156,6 @@
     <Compile Include="Messages\Feed\SetPingIntervalMessageTest.cs" />
     <Compile Include="Messages\Feed\SetStreamValidityMessageTest.cs" />
     <Compile Include="Messages\Feed\SetSystemMessageMessageTest.cs" />
-    <Compile Include="Messages\Driver\ClearGridRowMessageTest.cs" />
     <Compile Include="Messages\Driver\DriverMessageBaseTest.cs" />
     <Compile Include="Messages\Driver\LapGapTest.cs" />
     <Compile Include="Messages\Driver\PostedTimeTest.cs" />

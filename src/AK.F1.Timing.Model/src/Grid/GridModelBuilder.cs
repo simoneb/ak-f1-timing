@@ -75,15 +75,6 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         /// <summary>
-        /// Clears the row specified by the message.
-        /// </summary>
-        /// <inheritdoc/>
-        public override void Visit(ClearGridRowMessage message)
-        {
-            Grid.GetRow(message.DriverId).Reset();
-        }
-
-        /// <summary>
         /// Sets the colour of the column for the row specified by the message.
         /// </summary>
         /// <inheritdoc/>

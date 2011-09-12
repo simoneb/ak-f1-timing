@@ -125,8 +125,6 @@ namespace AK.F1.Timing.Utility.Tms.Operations
 
         public void Visit(StopSessionTimeCountdownMessage message) { }
 
-        public void Visit(ClearGridRowMessage message) { }
-
         public void Visit(SetGridColumnColourMessage message) { }
 
         public void Visit(SetGridColumnValueMessage message) { }

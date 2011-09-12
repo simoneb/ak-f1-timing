@@ -57,11 +57,6 @@ namespace AK.F1.Timing.Model.Session
             Dispatch(message);
         }
 
-        void IMessageVisitor.Visit(ClearGridRowMessage message)
-        {
-            Dispatch(message);
-        }
-
         void IMessageVisitor.Visit(SetGridColumnColourMessage message)
         {
             Dispatch(message);

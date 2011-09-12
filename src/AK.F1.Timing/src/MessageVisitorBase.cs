@@ -39,9 +39,6 @@ namespace AK.F1.Timing
         public virtual void Visit(StopSessionTimeCountdownMessage message) { }
 
         /// <inheritdoc/>
-        public virtual void Visit(ClearGridRowMessage message) { }
-
-        /// <inheritdoc/>
         public virtual void Visit(SetGridColumnColourMessage message) { }
 
         /// <inheritdoc/>

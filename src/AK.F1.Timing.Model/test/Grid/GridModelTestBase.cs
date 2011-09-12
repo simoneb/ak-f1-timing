@@ -115,32 +115,6 @@ namespace AK.F1.Timing.Model.Grid
         }
 
         [Fact]
-        public void a_clear_row_message_creates_the_corresponding_driver_row()
-        {
-            var grid = CreateGrid();
-
-            grid.Process(new ClearGridRowMessage(1));
-
-            Assert.NotNull(grid.GetRow(1));
-        }
-
-        [Fact]
-        public void when_a_clear_row_message_is_processed_the_corresponding_driver_row_is_reset()
-        {
-            var grid = CreateGrid();
-
-            grid.Process(new SetGridColumnValueMessage(1, GridColumn.S1, GridColumnColour.Magenta, "32.2"));
-            grid.Process(new ClearGridRowMessage(1));
-
-            var row = grid.GetRow(1);
-
-            Assert.NotNull(row);
-            Assert.Equal(1, row.Id);
-            Assert.Equal(GridColumnColour.Black, row.S1.TextColour);
-            Assert.Null(row.S1.Text);
-        }
-
-        [Fact]
         public void can_sort()
         {
             var grid = CreateGrid();
