@@ -34,7 +34,8 @@ namespace AK.F1.Timing.Server.IO
 
         /// <summary>
         /// Initialsies a new instance of the <see cref="AK.F1.Timing.Server.IO.ByteBufferSnapshot"/>
-        /// class and specifies the buffer <paramref name="buffer"/> and <paramref name="count"/>.
+        /// class and specifies the <paramref name="buffer"/>, <paramref name="offset"/> and
+        /// <paramref name="count"/>.
         /// </summary>
         /// <param name="buffer">The buffer.</param>
         /// <param name="offset">The buffer offset.</param>
