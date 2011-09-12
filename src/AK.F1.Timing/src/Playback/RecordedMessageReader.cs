@@ -20,7 +20,7 @@ namespace AK.F1.Timing.Playback
     /// <summary>
     /// Provides An <see cref="AK.F1.Timing.Playback.IRecordedMessageReader"/> which reads
     /// <see cref="AK.F1.Timing.Message"/>s which have been recorded by a
-    /// <see cref="AK.F1.Timing.Playback.PlaybackMessageReader"/>.
+    /// <see cref="AK.F1.Timing.Playback.RecordingMessageReader"/>.
     /// </summary>
     public class RecordedMessageReader : MessageReaderBase, IRecordedMessageReader
     {
