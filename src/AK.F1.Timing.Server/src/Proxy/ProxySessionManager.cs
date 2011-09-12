@@ -137,12 +137,11 @@ namespace AK.F1.Timing.Server.Proxy
             Log.Info("read task started");
             try
             {
-                //using(var reader = F1Timing.Live.Read(F1Timing.Live.Login(_username, _password)))
-                using(var reader = F1Timing.Playback.Read(@"proxy.tms"))
+                using(var reader = F1Timing.Live.Read(F1Timing.Live.Login(_username, _password)))
+                //using(var reader = F1Timing.Playback.Read(@"D:\dev\.net\src\ak-f1-timing\tms\2011\11-hungary\race.tms"))
                 using(var buffer = new MemoryStream(4096))
                 using(var writer = new DecoratedObjectWriter(buffer))
                 {
-                    reader.PlaybackSpeed = 5.0;
                     Message message;
                     do
                     {
