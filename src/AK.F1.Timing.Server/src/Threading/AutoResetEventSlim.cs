@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Server.Threading
     {
         #region Fields.
 
-        private readonly SemaphoreSlim _lock = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _event = new SemaphoreSlim(1);
 
         #endregion
 
@@ -29,12 +29,17 @@ namespace AK.F1.Timing.Server.Threading
 
         public bool Wait(int millisecondsTimeout)
         {
-            return _lock.Wait(millisecondsTimeout);
+            return _event.Wait(millisecondsTimeout);
+        }
+
+        public void Wait(CancellationToken cancellationToken)
+        {
+            _event.Wait(cancellationToken);
         }
 
         public void Set()
         {
-            _lock.Release();
+            _event.Release();
         }
 
         #endregion
@@ -43,7 +48,7 @@ namespace AK.F1.Timing.Server.Threading
 
         protected override void DisposeOfManagedResources()
         {
-            DisposeOf(_lock);
+            DisposeOf(_event);
         }
 
         #endregion

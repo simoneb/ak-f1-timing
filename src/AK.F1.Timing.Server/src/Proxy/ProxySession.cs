@@ -15,6 +15,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Threading;
 using AK.F1.Timing.Extensions;
@@ -34,17 +35,21 @@ namespace AK.F1.Timing.Server.Proxy
         #region Fields.
 
         private readonly int _id;
+
         private readonly Socket _client;
-        // 1 KiB is sufficient as the average message length is approximately 20 bytes and message
-        // bursts (including composite speed captures) are still relatively small.
-        private readonly byte[] _outputBuffer = new byte[1024];
         private readonly SocketAsyncEventArgs _socketOperation = new SocketAsyncEventArgs();
+
+        // 4 KiB is sufficient as the average message length is approximately 20 bytes and message
+        // bursts (including composite speed captures) are still relatively small.
+        internal const int OutputBufferSize = 1024 * 4;
+        private readonly byte[] _outputBuffer = new byte[OutputBufferSize];
+
         private readonly AutoResetEventSlim _idleEvent = new AutoResetEventSlim();
         private readonly ManualResetEventSlim _completedEvent = new ManualResetEventSlim();
-        private readonly ConcurrentQueue<ByteBufferSnapshot> _bufferQueue = new ConcurrentQueue<ByteBufferSnapshot>();
 
         private int _partiallySentBufferOffset;
         private ByteBufferSnapshot? _partiallySentBuffer;
+        private readonly ConcurrentQueue<ByteBufferSnapshot> _bufferQueue = new ConcurrentQueue<ByteBufferSnapshot>();
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(ProxySession));
 
@@ -121,10 +126,13 @@ namespace AK.F1.Timing.Server.Proxy
         public void CompleteAsync()
         {
             CheckDisposed();
-            _completedEvent.Set();
-            if(TrySetBusy())
+            if(!_completedEvent.IsSet)
             {
-                Disconnect();
+                _completedEvent.Set();
+                if(TrySetBusy())
+                {
+                    Disconnect();
+                }
             }
         }
 
@@ -148,7 +156,7 @@ namespace AK.F1.Timing.Server.Proxy
             DisposeOf(_client);
             DisposeOf(_completedEvent);
             DisposeOf(_idleEvent);
-            Disposed.RaiseAsync(this);
+            Disposed.Raise(this);
         }
 
         #endregion
@@ -157,7 +165,7 @@ namespace AK.F1.Timing.Server.Proxy
 
         private void SendOutputBuffer(int count)
         {
-            Guard.Assert(count > 0);
+            Debug.Assert(count > 0);
             _socketOperation.SetBuffer(0, count);
             if(!_client.SendAsync(_socketOperation))
             {
@@ -191,7 +199,7 @@ namespace AK.F1.Timing.Server.Proxy
 
         private void SendNextBuffer()
         {
-            Guard.Assert(_partiallySentBuffer == null);
+            Debug.Assert(_partiallySentBuffer == null);
 
             int count = 0;
             ByteBufferSnapshot buffer;
@@ -227,7 +235,7 @@ namespace AK.F1.Timing.Server.Proxy
 
         private void SendNextPartialBufferSegment()
         {
-            Guard.Assert(_partiallySentBuffer != null);
+            Debug.Assert(_partiallySentBuffer != null);
 
             var buffer = _partiallySentBuffer.Value;
             int remaining = buffer.Count - _partiallySentBufferOffset;
@@ -265,7 +273,7 @@ namespace AK.F1.Timing.Server.Proxy
                     SendOutputBufferCallback();
                     break;
                 default:
-                    Guard.Fail("Invalid LastOperation: " + e.LastOperation);
+                    Debug.Fail("Invalid LastOperation: " + e.LastOperation);
                     break;
             }
         }
@@ -277,7 +285,7 @@ namespace AK.F1.Timing.Server.Proxy
 
         private void Dispose()
         {
-            ((IDisposable)this).Dispose();
+            Dispose(true);
         }
 
         #endregion

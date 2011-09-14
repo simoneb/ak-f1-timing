@@ -53,6 +53,8 @@
     </Compile>
     <Compile Include="Cli\CommandLineOptions.cs" />
     <Compile Include="Cli\CommandLineParser.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="IO\ByteBuffer.cs" />
     <Compile Include="IO\ByteBufferSnapshot.cs" />
     <Compile Include="Resource.Designer.cs">
@@ -61,7 +63,6 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="Threading\AutoResetEventSlim.cs" />
-    <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="TcpServer.cs" />
     <Compile Include="Proxy\ProxySession.cs" />
     <Compile Include="Proxy\ProxySessionManager.cs" />
@@ -96,7 +97,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
+      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_AssemblyInfoFilename="Properties\AssemblyInfo.cs" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

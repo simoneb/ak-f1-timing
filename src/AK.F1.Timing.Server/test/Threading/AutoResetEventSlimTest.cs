@@ -14,6 +14,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Threading;
 using Xunit;
 
 namespace AK.F1.Timing.Server.Threading
@@ -23,37 +24,53 @@ namespace AK.F1.Timing.Server.Threading
         [Fact]
         public void initial_state_is_signaled()
         {
-            var e = new AutoResetEventSlim();
-
-            Assert.True(e.Wait(0));
+            using(var e = new AutoResetEventSlim())
+            {
+                Assert.True(e.Wait(0));
+            }
         }
 
         [Fact]
         public void subsequent_waits_are_automatially_blocked_until_set()
         {
-            var e = new AutoResetEventSlim();
+            using(var e = new AutoResetEventSlim())
+            {
+                Assert.True(e.Wait(0));
 
-            Assert.True(e.Wait(0));
-            Assert.False(e.Wait(0));
+                Assert.False(e.Wait(0));
+                Assert.False(e.Wait(0));
 
-            e.Set();
-            Assert.True(e.Wait(0));
+                e.Set();
+                Assert.True(e.Wait(0));
+            }
         }
 
         [Fact]
         public void wait_blocks_thread_for_specified_timeout_if_not_released()
         {
-            var e = new AutoResetEventSlim();
+            using(var e = new AutoResetEventSlim())
+            {
+                var sw = Stopwatch.StartNew();
+                e.Wait(0);
+                sw.Stop();
+                Assert.InRange(sw.Elapsed, TimeSpan.Zero, TimeSpan.FromMilliseconds(2));
 
-            var sw = Stopwatch.StartNew();
-            e.Wait(0);
-            sw.Stop();
-            Assert.InRange(sw.Elapsed, TimeSpan.Zero, TimeSpan.FromMilliseconds(1));
+                sw.Restart();
+                e.Wait(100);
+                sw.Stop();
+                Assert.InRange(sw.Elapsed, TimeSpan.FromMilliseconds(90), TimeSpan.FromMilliseconds(110));
+            }
+        }
 
-            sw.Restart();
-            e.Wait(100);
-            sw.Stop();
-            Assert.InRange(sw.Elapsed, TimeSpan.FromMilliseconds(90), TimeSpan.FromMilliseconds(110));
+        [Fact]
+        public void wait_observes_cancellation_token()
+        {
+            using(var source = new CancellationTokenSource())
+            using(var e = new AutoResetEventSlim())
+            {
+                source.Cancel();
+                Assert.Throws<OperationCanceledException>(() => e.Wait(source.Token));
+            }
         }
     }
 }
