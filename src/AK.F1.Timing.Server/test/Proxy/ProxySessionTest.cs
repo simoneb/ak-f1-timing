@@ -182,7 +182,7 @@ namespace AK.F1.Timing.Server.Proxy
 
         private sealed class TestContext : IDisposable
         {
-            private static readonly IPEndPoint TestEndpoint = new IPEndPoint(IPAddress.Loopback, 32000);
+            private static readonly IPEndPoint TestEndpoint = new IPEndPoint(IPAddress.Loopback, 50192);
 
             public TestContext()
             {
