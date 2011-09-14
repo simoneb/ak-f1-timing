@@ -53,14 +53,13 @@ namespace AK.F1.Timing.Server.Proxy
         // number of messages processsed per cycle when there are active sessions.
         private const int DispatchMessagesCapacity = 32;
         private readonly Queue<byte[]> _dispatchMessages = new Queue<byte[]>(DispatchMessagesCapacity);
+        // 1 MiB is sufficient; largest TMS, as of 2011-09-11, is 1073989 bytes (2011\07-canada\race.tms).
+        private readonly ByteBuffer _dispatchedMessageHistory = new ByteBuffer(1024 * 1024);
 
         private int _nextSessionId;
         private readonly IDictionary<int, ProxySession> _sessions = new Dictionary<int, ProxySession>();
         private readonly BlockingCollection<ProxySession> _sessionsPendingStart = new BlockingCollection<ProxySession>();
         private readonly BlockingCollection<ProxySession> _sessionsPendingRemove = new BlockingCollection<ProxySession>();
-
-        // 1 MiB is sufficient; the largest TMS, as of 2011-09-11, is 1073989 bytes (2011\07-canada).
-        private readonly ByteBuffer _messageHistory = new ByteBuffer(1024 * 1024);
 
         private Task _readMessagesTask;
         private readonly BlockingCollection<byte[]> _pendingMessages = new BlockingCollection<byte[]>();
@@ -164,7 +163,7 @@ namespace AK.F1.Timing.Server.Proxy
                     _pendingMessages.CompleteAdding();
                     _wakeUpMainTask.Set();
                 }
-                Log.InfoFormat("completed reading messages, buffer={0}B", _messageHistory.Count);
+                Log.InfoFormat("completed reading messages, buffer={0}B", _dispatchedMessageHistory.Count);
             }
             catch(OperationCanceledException) { }
             catch(Exception exc)
@@ -222,7 +221,7 @@ namespace AK.F1.Timing.Server.Proxy
                 {
                     _dispatchMessages.Enqueue(message);
                 }
-                _messageHistory.Append(message);
+                _dispatchedMessageHistory.Append(message);
             }
             if(_dispatchMessages.Count > 0)
             {
@@ -258,7 +257,7 @@ namespace AK.F1.Timing.Server.Proxy
                 }
                 try
                 {
-                    session.SendAsync(_messageHistory.CreateSnapshot());
+                    session.SendAsync(_dispatchedMessageHistory.CreateSnapshot());
                     if(completeSessions)
                     {
                         session.CompleteAsync();
