@@ -181,13 +181,14 @@ namespace AK.F1.Timing.Server
             catch(Exception exc)
             {
                 Log.Fatal(exc);
+                DisposeOf(e.AcceptSocket);
                 Dispose();
             }
         }
 
         private void Dispose()
         {
-            ((IDisposable)this).Dispose();
+            Dispose(true);
         }
 
         #endregion
