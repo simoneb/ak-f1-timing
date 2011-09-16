@@ -31,8 +31,11 @@ namespace AK.F1.Timing.Server.Extensions
 
                 task.Start();
                 continuationTask.Wait(1000);
-
                 Assert.Equal(1, invocationCount);
+
+                // To prevent the exception from being thrown on the finalizer you must wait on the 
+                // faulted task or access the Exception property.
+                Assert.Throws<AggregateException>(() => task.Wait());
             }
         }
 
