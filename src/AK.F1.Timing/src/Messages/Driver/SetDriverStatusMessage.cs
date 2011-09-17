@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-36845206)]
+    [TypeId(16)]
     public sealed class SetDriverStatusMessage : DriverMessageBase
     {
         #region Public Interface.

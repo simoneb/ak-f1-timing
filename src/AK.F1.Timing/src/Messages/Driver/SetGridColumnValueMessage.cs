@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// inherited.
     /// </summary>
     [Serializable]
-    [TypeId(9626017)]
+    [TypeId(18)]
     public sealed class SetGridColumnValueMessage : DriverMessageBase
     {
         #region Public Interface.

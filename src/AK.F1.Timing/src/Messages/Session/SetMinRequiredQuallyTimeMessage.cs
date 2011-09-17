@@ -24,7 +24,7 @@ namespace AK.F1.Timing.Messages.Session
     /// <remarks>As of the 2011 season the minimum required qualificaion time is computed as 107%
     /// of the fastest time set in Q1.</remarks>
     [Serializable]
-    [TypeId(63565184)]
+    [TypeId(30)]
     public sealed class SetMinRequiredQuallyTimeMessage : Message
     {
         #region Public Interface.

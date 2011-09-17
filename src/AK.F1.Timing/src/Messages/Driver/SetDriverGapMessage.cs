@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which sets a driver's gap. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(81073023)]
+    [TypeId(5)]
     public sealed class SetDriverGapMessage : DriverMessageBase
     {
         #region Public Interface.

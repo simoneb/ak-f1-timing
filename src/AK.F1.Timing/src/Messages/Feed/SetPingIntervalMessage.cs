@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// magic packet. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(91507218)]
+    [TypeId(23)]
     public class SetPingIntervalMessage : Message
     {
         #region Public Interface.

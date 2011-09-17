@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(40380621)]
+    [TypeId(20)]
     public sealed class SetCopyrightMessage : Message
     {
         #region Public Interface.

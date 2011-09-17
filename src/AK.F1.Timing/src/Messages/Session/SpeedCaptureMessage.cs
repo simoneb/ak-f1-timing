@@ -1,4 +1,4 @@
-﻿// Copyright 2011 Andy Kernahan
+// Copyright 2011 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Messages.Session
     /// This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(63644251)]
+    [TypeId(35)]
     public sealed class SpeedCaptureMessage : Message, ICustomSerializable
     {
         #region Public Interface.

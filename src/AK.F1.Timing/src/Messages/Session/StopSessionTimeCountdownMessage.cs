@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Session
     /// A message which stops the remaining session time countdown. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-22765526)]
+    [TypeId(37)]
     public sealed class StopSessionTimeCountdownMessage : Message, IObjectReference
     {
         #region Public Interface.

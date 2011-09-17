@@ -99,7 +99,7 @@ namespace AK.F1.Timing.Serialization
             return new DecoratedObjectWriter(new MemoryStream());
         }
 
-        [TypeId(42871340)]
+        [TypeId(254)]
         private class SimpleType
         {
             [PropertyId(0)]

@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Serialization
         [Fact]
         public void ctor_should_set_the_id_property()
         {
-            int id = 10;
+            byte id = 10;
             var attribute = new TypeIdAttribute(id);
 
             Assert.Equal(id, attribute.Id);
@@ -31,8 +31,8 @@ namespace AK.F1.Timing.Serialization
         [Fact]
         public void ctor_should_allow_entire_id_range()
         {
-            Assert.DoesNotThrow(() => { new TypeIdAttribute(Int32.MinValue); });
-            Assert.DoesNotThrow(() => { new TypeIdAttribute(Int32.MaxValue); });
+            Assert.DoesNotThrow(() => { new TypeIdAttribute(Byte.MinValue); });
+            Assert.DoesNotThrow(() => { new TypeIdAttribute(Byte.MaxValue); });
         }
     }
 }

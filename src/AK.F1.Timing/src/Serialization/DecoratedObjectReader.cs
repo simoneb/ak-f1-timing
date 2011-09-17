@@ -93,7 +93,7 @@ namespace AK.F1.Timing.Serialization
 
         private object ReadObject()
         {
-            var descriptor = TypeDescriptor.For(Input.ReadInt32());
+            var descriptor = TypeDescriptor.For(Input.ReadByte());
             var component = descriptor.Type.GetUninitializedInstance();
             var serializable = component as ICustomSerializable;
             if(serializable != null)

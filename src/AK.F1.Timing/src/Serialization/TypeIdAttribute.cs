@@ -30,7 +30,7 @@ namespace AK.F1.Timing.Serialization
         /// the identifier of the decorated type.
         /// </summary>
         /// <param name="id">The identifier of the decorated type.</param>
-        public TypeIdAttribute(int id)
+        public TypeIdAttribute(byte id)
         {
             Id = id;
         }
@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Serialization
         /// <summary>
         /// Gets identifier of the decorated type.
         /// </summary>
-        public int Id { get; private set; }
+        public byte Id { get; private set; }
 
         #endregion
     }

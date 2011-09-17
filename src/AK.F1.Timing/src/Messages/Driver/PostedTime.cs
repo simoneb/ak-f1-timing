@@ -23,7 +23,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(71532444)]
+    [TypeId(1)]
     public sealed class PostedTime : IEquatable<PostedTime>, IComparable<PostedTime>, IComparable
     {
         #region Public Interface.

@@ -30,7 +30,7 @@ namespace AK.F1.Timing.Serialization
     {
         #region Private Impl.
 
-        private static readonly IDictionary<int, TypeDescriptor> Cache = new Dictionary<int, TypeDescriptor>();
+        private static readonly IDictionary<byte, TypeDescriptor> Cache = new Dictionary<byte, TypeDescriptor>();
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace AK.F1.Timing.Serialization
         /// <exception cref="System.Runtime.Serialization.SerializationException">
         /// Thrown when the <see cref="TypeDescriptor"/> could not be located.
         /// </exception>
-        public static TypeDescriptor For(int typeId)
+        public static TypeDescriptor For(byte typeId)
         {
             TypeDescriptor descriptor;
 
@@ -110,7 +110,7 @@ namespace AK.F1.Timing.Serialization
             Guard.NotNull(type, "type");
 
             TypeDescriptor descriptor;
-            int typeId = GetTypeId(type);
+            byte typeId = GetTypeId(type);
 
             if(!Cache.TryGetValue(typeId, out descriptor))
             {
@@ -167,7 +167,7 @@ namespace AK.F1.Timing.Serialization
         /// <summary>
         /// Gets the type identifier.
         /// </summary>
-        public int TypeId { get; private set; }
+        public byte TypeId { get; private set; }
 
         /// <summary>
         /// Gets the collection of properties defined by the type.
@@ -178,7 +178,7 @@ namespace AK.F1.Timing.Serialization
 
         #region Private Impl.
 
-        private TypeDescriptor(Type type, int typeId, PropertyDescriptorCollection properties)
+        private TypeDescriptor(Type type, byte typeId, PropertyDescriptorCollection properties)
         {
             Type = type;
             TypeId = typeId;
@@ -224,7 +224,7 @@ namespace AK.F1.Timing.Serialization
             } while(!(type = type.BaseType).Equals(typeof(object)));
         }
 
-        private static int GetTypeId(Type type)
+        private static byte GetTypeId(Type type)
         {
             TypeIdAttribute attribute = type.GetAttribute<TypeIdAttribute>(false);
 

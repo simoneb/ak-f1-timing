@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Session
     /// be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-90763615)]
+    [TypeId(27)]
     public sealed class AddCommentaryMessage : Message
     {
         #region Public Interface.

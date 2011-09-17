@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Session
     /// A message which sets the elapsed session session time. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-68585684)]
+    [TypeId(29)]
     public sealed class SetElapsedSessionTimeMessage : Message
     {
         #region Public Interface.

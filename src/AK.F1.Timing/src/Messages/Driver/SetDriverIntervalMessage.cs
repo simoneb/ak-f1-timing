@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which sets a driver's interval. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(39149510)]
+    [TypeId(6)]
     public sealed class SetDriverIntervalMessage : DriverMessageBase
     {
         #region Public Interface.

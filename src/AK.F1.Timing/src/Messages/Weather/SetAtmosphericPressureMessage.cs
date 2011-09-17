@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Weather
     /// inherited.
     /// </summary>
     [Serializable]
-    [TypeId(23925750)]
+    [TypeId(39)]
     public sealed class SetAtmosphericPressureMessage : Message
     {
         #region Public Interface.

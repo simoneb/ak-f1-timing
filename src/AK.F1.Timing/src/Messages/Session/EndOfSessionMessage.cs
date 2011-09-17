@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Session
     /// A message which indicates that the session has ended. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-873216)]
+    [TypeId(28)]
     public sealed class EndOfSessionMessage : Message, IObjectReference
     {
         #region Public Interface.

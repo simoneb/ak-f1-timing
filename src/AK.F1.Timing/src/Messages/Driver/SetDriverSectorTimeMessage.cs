@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which sets a driver's sector time. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(48127573)]
+    [TypeId(14)]
     public sealed class SetDriverSectorTimeMessage : DriverMessageBase
     {
         #region Public Interface.

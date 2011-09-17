@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which sets a driver's name. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-9752615)]
+    [TypeId(9)]
     public sealed class SetDriverNameMessage : DriverMessageBase
     {
         #region Public Interface.

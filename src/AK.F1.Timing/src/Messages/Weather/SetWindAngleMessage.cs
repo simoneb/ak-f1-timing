@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Weather
     /// A message which sets the current wind direction, in degrees.  This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(91304368)]
+    [TypeId(43)]
     public sealed class SetWindAngleMessage : Message
     {
         #region Public Interface.

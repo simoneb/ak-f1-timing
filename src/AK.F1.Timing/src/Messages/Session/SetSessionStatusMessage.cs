@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Session
     /// of the current session. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(58867632)]
+    [TypeId(33)]
     public sealed class SetSessionStatusMessage : Message
     {
         #region Public Interface.

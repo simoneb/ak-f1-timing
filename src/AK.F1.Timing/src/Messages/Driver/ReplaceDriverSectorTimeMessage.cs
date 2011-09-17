@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which replaces a driver's previous sector time. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-91873925)]
+    [TypeId(3)]
     public sealed class ReplaceDriverSectorTimeMessage : DriverMessageBase
     {
         #region Public Interface.

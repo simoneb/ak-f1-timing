@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(10146908)]
+    [TypeId(25)]
     public sealed class SetStreamValidityMessage : Message
     {
         #region Public Interface.

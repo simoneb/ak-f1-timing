@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Weather
     /// A message which specifies whether the track is dry or wet. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(72954222)]
+    [TypeId(41)]
     public sealed class SetIsWetMessage : Message
     {
         #region Public Interface.

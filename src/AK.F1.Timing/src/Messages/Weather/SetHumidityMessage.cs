@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Weather
     /// A message which sets the current humidity, as a percentage. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-81152176)]
+    [TypeId(40)]
     public sealed class SetHumidityMessage : Message
     {
         #region Public Interface.

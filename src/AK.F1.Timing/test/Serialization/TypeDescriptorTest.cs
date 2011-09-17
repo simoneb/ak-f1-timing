@@ -24,8 +24,8 @@ namespace AK.F1.Timing.Serialization
         public void implements_equality_contract()
         {
             Assert.EqualityContract(
-                new[] {TypeDescriptor.For(typeof(TypeWithTwoProperties)), TypeDescriptor.For(typeof(TypeWithTwoProperties))},
-                new[] {TypeDescriptor.For(typeof(TypeWithProperty)), TypeDescriptor.For(typeof(TypeWithTwoProperties))}
+                new[] { TypeDescriptor.For(typeof(TypeWithTwoProperties)), TypeDescriptor.For(typeof(TypeWithTwoProperties)) },
+                new[] { TypeDescriptor.For(typeof(TypeWithProperty)), TypeDescriptor.For(typeof(TypeWithTwoProperties)) }
                 );
         }
 
@@ -38,7 +38,7 @@ namespace AK.F1.Timing.Serialization
             Assert.NotNull(descriptor);
             Assert.Equal(2, descriptor.Properties.Count);
             Assert.Equal(type, descriptor.Type);
-            Assert.Equal(57287559, descriptor.TypeId);
+            Assert.Equal(249, descriptor.TypeId);
         }
 
         [Fact]
@@ -108,13 +108,13 @@ namespace AK.F1.Timing.Serialization
             public int Property0 { get; set; }
         }
 
-        [TypeId(-2694475)]
+        [TypeId(253)]
         private sealed class TypeWithAnUndecoratedProperty
         {
             public int Property0 { get; set; }
         }
 
-        [TypeId(-9215470)]
+        [TypeId(252)]
         private sealed class TypeWithAnUndecoratedAndDecoratedProperty
         {
             [PropertyId(0)]
@@ -123,7 +123,7 @@ namespace AK.F1.Timing.Serialization
             public int Property1 { get; set; }
         }
 
-        [TypeId(-7507244)]
+        [TypeId(251)]
         private sealed class TypeWithDuplicateProperties
         {
             [PropertyId(0)]
@@ -133,14 +133,14 @@ namespace AK.F1.Timing.Serialization
             public int Property1 { get; set; }
         }
 
-        [TypeId(1685648)]
+        [TypeId(250)]
         private class TypeWithProperty
         {
             [PropertyId(0)]
             public int Property0 { get; set; }
         }
 
-        [TypeId(57287559)]
+        [TypeId(249)]
         private class TypeWithTwoProperties
         {
             [PropertyId(0)]
@@ -150,27 +150,27 @@ namespace AK.F1.Timing.Serialization
             public int Property1 { get; set; }
         }
 
-        [TypeId(-75030885)]
+        [TypeId(248)]
         private class TypeWithIgnoredProperty
         {
             [IgnoreProperty]
             public int Property1 { get; set; }
         }
 
-        [TypeId(1685648)]
+        [TypeId(250)]
         private class TypeWithDuplicateTypeId
         {
             [PropertyId(0)]
             public int Property0 { get; set; }
         }
 
-        [TypeId(-7211818)]
+        [TypeId(246)]
         private class ChildTypeWithSamePropertyAsParent : TypeWithProperty
         {
             [PropertyId(0)]
             public int Property1 { get; set; }
         }
 
-        private sealed class UndecoratedChildOfDecoratedType : TypeWithProperty {}
+        private sealed class UndecoratedChildOfDecoratedType : TypeWithProperty { }
     }
 }

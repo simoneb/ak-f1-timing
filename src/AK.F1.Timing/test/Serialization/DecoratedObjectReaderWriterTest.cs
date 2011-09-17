@@ -182,7 +182,7 @@ namespace AK.F1.Timing.Serialization
             return actual;
         }
 
-        [TypeId(23409283)]
+        [TypeId(234)]
         public class EmptyType
         {
             public override bool Equals(object obj)
@@ -196,7 +196,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(654645645)]
+        [TypeId(233)]
         public class TypeWithPrivateCtor : EmptyType
         {
             private TypeWithPrivateCtor() { }
@@ -207,7 +207,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(4431976)]
+        [TypeId(232)]
         public class TypeWithProtectedCtor : EmptyType
         {
             protected TypeWithProtectedCtor() { }
@@ -218,7 +218,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(123456789)]
+        [TypeId(231)]
         private sealed class ObjectReference : IObjectReference
         {
             public static readonly ObjectReference Instance = new ObjectReference();
@@ -229,7 +229,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(36551276)]
+        [TypeId(230)]
         public class TypeWithIgnoredProperty
         {
             [IgnoreProperty]
@@ -246,7 +246,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(46713346)]
+        [TypeId(229)]
         public class CustomSerializableType : ICustomSerializable
         {
             public int WriteCallCount;
@@ -266,7 +266,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(48247595)]
+        [TypeId(228)]
         private class BooleanHolder : PrimitiveHolder<Boolean>
         {
             public BooleanHolder()
@@ -276,7 +276,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(68102379)]
+        [TypeId(227)]
         private class CharHolder : PrimitiveHolder<Char>
         {
             public CharHolder()
@@ -286,7 +286,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(58738455)]
+        [TypeId(226)]
         private class StringHolder : PrimitiveHolder<String>
         {
             public StringHolder()
@@ -296,7 +296,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(84504291)]
+        [TypeId(225)]
         private class DateTimeHolder : PrimitiveHolder<DateTime>
         {
             public DateTimeHolder()
@@ -306,7 +306,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(88324618)]
+        [TypeId(224)]
         private class TimeSpanHolder : PrimitiveHolder<TimeSpan>
         {
             public TimeSpanHolder()
@@ -316,7 +316,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(56716748)]
+        [TypeId(223)]
         private class ByteHolder : PrimitiveHolder<Byte>
         {
             public ByteHolder()
@@ -326,7 +326,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(83053711)]
+        [TypeId(222)]
         private class SByteHolder : PrimitiveHolder<SByte>
         {
             public SByteHolder()
@@ -336,7 +336,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(37755692)]
+        [TypeId(221)]
         private class Int16Holder : PrimitiveHolder<Int16>
         {
             public Int16Holder()
@@ -346,7 +346,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(28095204)]
+        [TypeId(220)]
         private class UInt16Holder : PrimitiveHolder<UInt16>
         {
             public UInt16Holder()
@@ -356,7 +356,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(80020408)]
+        [TypeId(219)]
         private class Int32Holder : PrimitiveHolder<Int32>
         {
             public Int32Holder()
@@ -366,7 +366,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(73188542)]
+        [TypeId(218)]
         private class UInt32Holder : PrimitiveHolder<UInt32>
         {
             public UInt32Holder()
@@ -376,7 +376,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(48194370)]
+        [TypeId(217)]
         private class Int64Holder : PrimitiveHolder<Int64>
         {
             public Int64Holder()
@@ -386,7 +386,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(95896724)]
+        [TypeId(216)]
         private class UInt64Holder : PrimitiveHolder<UInt64>
         {
             public UInt64Holder()
@@ -396,7 +396,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(52151731)]
+        [TypeId(215)]
         private class DoubleHolder : PrimitiveHolder<Double>
         {
             public DoubleHolder()
@@ -406,7 +406,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(29802692)]
+        [TypeId(214)]
         private class SingleHolder : PrimitiveHolder<Single>
         {
             public SingleHolder()
@@ -416,7 +416,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(62803598)]
+        [TypeId(213)]
         private class DecimalHolder : PrimitiveHolder<Decimal>
         {
             public DecimalHolder()
@@ -426,7 +426,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(26740644)]
+        [TypeId(212)]
         private class ByteEnumHolder : PrimitiveHolder<ByteEnum>
         {
             public ByteEnumHolder()
@@ -436,7 +436,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(29618117)]
+        [TypeId(211)]
         private class SByteEnumHolder : PrimitiveHolder<SByteEnum>
         {
             public SByteEnumHolder()
@@ -446,7 +446,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(49263960)]
+        [TypeId(210)]
         private class Int16EnumHolder : PrimitiveHolder<Int16Enum>
         {
             public Int16EnumHolder()
@@ -456,7 +456,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(10754466)]
+        [TypeId(209)]
         private class UInt16EnumHolder : PrimitiveHolder<UInt16Enum>
         {
             public UInt16EnumHolder()
@@ -466,7 +466,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(67571400)]
+        [TypeId(208)]
         private class Int32EnumHolder : PrimitiveHolder<Int32Enum>
         {
             public Int32EnumHolder()
@@ -476,7 +476,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(59285730)]
+        [TypeId(207)]
         private class UInt32EnumHolder : PrimitiveHolder<UInt32Enum>
         {
             public UInt32EnumHolder()
@@ -486,7 +486,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(70098681)]
+        [TypeId(206)]
         private class Int64EnumHolder : PrimitiveHolder<Int64Enum>
         {
             public Int64EnumHolder()
@@ -496,7 +496,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(58969482)]
+        [TypeId(205)]
         private class UInt64EnumHolder : PrimitiveHolder<UInt64Enum>
         {
             public UInt64EnumHolder()
@@ -511,7 +511,7 @@ namespace AK.F1.Timing.Serialization
             public abstract IEnumerable<object> GetValues();
         }
 
-        [TypeId(19310090)]
+        [TypeId(204)]
         private abstract class PrimitiveHolder<T> : PrimitiveHolder
         {
             [PropertyId(0)]
@@ -674,7 +674,7 @@ namespace AK.F1.Timing.Serialization
             }
         }
 
-        [TypeId(35928738)]
+        [TypeId(203)]
         private class TypeWithComplexProperties
         {
             public TypeWithComplexProperties()

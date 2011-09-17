@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-49554865)]
+    [TypeId(22)]
     public sealed class SetNextMessageDelayMessage : Message
     {
         #region Public Interface.

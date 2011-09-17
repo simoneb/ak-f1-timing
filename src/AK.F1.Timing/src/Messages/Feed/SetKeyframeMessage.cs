@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(98099362)]
+    [TypeId(21)]
     public sealed class SetKeyframeMessage : Message
     {
         #region Public Interface.

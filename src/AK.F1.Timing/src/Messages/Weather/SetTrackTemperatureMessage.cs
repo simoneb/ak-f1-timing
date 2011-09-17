@@ -22,7 +22,7 @@ namespace AK.F1.Timing.Messages.Weather
     /// be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(40181265)]
+    [TypeId(42)]
     public sealed class SetTrackTemperatureMessage : Message
     {
         #region Public Interface.

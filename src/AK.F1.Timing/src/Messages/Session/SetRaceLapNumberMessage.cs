@@ -21,7 +21,7 @@ namespace AK.F1.Timing.Messages.Session
     /// A message which sets the current race lap number. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    [TypeId(-57818482)]
+    [TypeId(31)]
     public sealed class SetRaceLapNumberMessage : Message
     {
         #region Public Interface.

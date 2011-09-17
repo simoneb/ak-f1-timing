@@ -25,7 +25,7 @@ namespace AK.F1.Timing.Serialization
         {
             var property0 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property0"));
             var property1 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property1"));
-            var collection = new PropertyDescriptorCollection(new[] {property0, property1});
+            var collection = new PropertyDescriptorCollection(new[] { property0, property1 });
 
             Assert.True(collection.Contains(property0));
             Assert.True(collection.Contains(property1));
@@ -39,7 +39,7 @@ namespace AK.F1.Timing.Serialization
         {
             var property0 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property0"));
             var property1 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property1"));
-            var collection = new PropertyDescriptorCollection(new[] {property0, property1});
+            var collection = new PropertyDescriptorCollection(new[] { property0, property1 });
 
             Assert.Equal(property0, collection.GetById(0));
             Assert.Equal(property1, collection.GetById(1));
@@ -58,7 +58,7 @@ namespace AK.F1.Timing.Serialization
         {
             var property0 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property0"));
             var property1 = PropertyDescriptor.For(typeof(DecoratedType).GetProperty("Property1"));
-            IList<PropertyDescriptor> collection = new PropertyDescriptorCollection(new[] {property0, property1});
+            IList<PropertyDescriptor> collection = new PropertyDescriptorCollection(new[] { property0, property1 });
 
             Assert.Throws<NotSupportedException>(() => collection.Add(property1));
             Assert.Throws<NotSupportedException>(() => collection.Clear());
@@ -67,7 +67,7 @@ namespace AK.F1.Timing.Serialization
             Assert.Throws<NotSupportedException>(() => collection.RemoveAt(0));
         }
 
-        [TypeId(7013143)]
+        [TypeId(255)]
         private sealed class DecoratedType
         {
             [PropertyId(0)]
