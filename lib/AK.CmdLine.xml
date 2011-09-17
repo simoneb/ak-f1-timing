@@ -1,0 +1,1386 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AK.CmdLine</name>
+    </assembly>
+    <members>
+        <member name="T:AK.CmdLine.CmdLineDriver">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.CmdLineDriver.#ctor(System.Object,AK.CmdLine.Impl.IUsageWriter,AK.CmdLine.Impl.IValueConverter)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.CmdLineDriver"/> class.
+            </summary>
+            <param name="component">The component.</param>
+            <param name="usageWriter">The <see cref="T:AK.CmdLine.Impl.IUsageWriter"/>.</param>
+            <param name="valueConverter">The <see cref="T:AK.CmdLine.Impl.IValueConverter"/>.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="component"/>, <paramref name="usageWriter"/> or 
+            <paramref name="valueConverter"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.CmdLineDriver.#ctor(System.Object,System.IO.TextWriter)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.CmdLineDriver"/> class.
+            </summary>
+            <param name="component">The component.</param>
+            <param name="err">The error <see cref="T:System.IO.TextWriter"/>.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="component"/> or <paramref name="err"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.CmdLineDriver.TryProcess(System.String[])">
+            <summary>
+            Processes the specified command line arguments and invokes the corresponding method on
+            the component. A return value indicates if the arguments were parsed and the method
+            successfully invoked.
+            </summary>
+            <param name="args">The command line arguments.</param>
+            <returns><see langword="true"/> if the arguments were sucessfuly processed, otherwise;
+            <see langword="false"/>.</returns>
+        </member>
+        <member name="P:AK.CmdLine.CmdLineDriver.Descriptor">
+            <summary>
+            Gets the <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/>.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.ComponentDescriptor">
+            <summary>
+            Describes a <see cref="T:System.Type"/>. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.DescriptorBase">
+            <summary>
+            Defines the base descriptor class. This class is <see langword="abstract"/>.
+            </summary>
+        </member>
+        <member name="F:AK.CmdLine.Impl.DescriptorBase.NameComparer">
+            <summary>
+            Gets the <see cref="T:System.StringComparer"/> used to comparer names. This field is
+            <see langword="readonly"/>.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DescriptorBase.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns> <see langword="true"/> if the specified <see cref="T:System.Object"/> is equal
+            to this instance; otherwise, <see langword="false"/>.
+            </returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DescriptorBase.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>
+            A hash code for this instance, suitable for use in hashing algorithms and data structures
+            like a hash table. 
+            </returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DescriptorBase.IsNamed(System.String)">
+            <summary>
+            Returns a value indicating if the specified name matches the name of this descriptor.
+            </summary>
+            <param name="name">The name.</param>
+            <returns><see langword="true"/> if <paramref name="name"/> matches the name of this
+            descriptor, otherwise; <see langword="false"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DescriptorBase.ToString">
+            <summary>
+            When overriden in a derived class; returns a <see cref="T:System.String"/> that represents
+            this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DescriptorBase.GetAttribute``1">
+            <summary>
+            When overriden in a derived class; gets the attribute of type
+            <typeparamref name="TAttribute"/> from the underlying member info.
+            </summary>
+            <typeparam name="TAttribute">The attribute <see cref="T:System.Type"/>.</typeparam>
+            <returns>The attribute if founds, otherwise; <see langword="null"/>.</returns>
+        </member>
+        <member name="P:AK.CmdLine.Impl.DescriptorBase.Name">
+            <summary>
+            When overriden in a derived class; gets the name of this descriptor.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.DescriptorBase.ShortName">
+            <summary>
+            Gets the short name of this descriptor.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.DescriptorBase.Description">
+            <summary>
+            Gets a description of this descriptor.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.ComponentDescriptor.#ctor(System.Type)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/> class.
+            </summary>
+            <param name="componentType">The <see cref="T:System.Type"/> to describe.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="componentType"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            Thrown when <paramref name="componentType"/> could not be described.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.ComponentDescriptor.GetMethod(System.String)">
+            <summary>
+            Gets the <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/> with the specified <paramref name="name"/>.
+            </summary>
+            <param name="name">The name of the method to get.</param>
+            <returns>The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/> with the specified
+            <paramref name="name"/> if one exists, otherwise; <see langword="null"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.ComponentDescriptor.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/> that represents this instance.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.ComponentDescriptor.GetAttribute``1">
+            <summary>
+            When overriden in a derived class; gets the attribute of type
+            <typeparamref name="TAttribute"/> from the underlying member info.
+            </summary>
+            <typeparam name="TAttribute">The attribute <see cref="T:System.Type"/>.</typeparam>
+            <returns>
+            The attribute if founds, otherwise; <see langword="null"/>.
+            </returns>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ComponentDescriptor.Name">
+            <summary>
+            Gets the name of this descriptor.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ComponentDescriptor.Methods">
+            <summary>
+            Gets the collection of <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>s for this type.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ComponentDescriptor.ComponentType">
+            <summary>
+            Gets the <see cref="T:System.Type"/> of the component.
+            </summary>
+            <value>The <see cref="T:System.Type"/> of the component.</value>
+        </member>
+        <member name="T:AK.CmdLine.Impl.DefaultValueConverter">
+            <summary>
+            A default <see cref="T:AK.CmdLine.Impl.IValueConverter"/> implementation.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.IValueConverter">
+            <summary>
+            Provides support for converting strings to other types.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.IValueConverter.TryConvert(System.String,System.Type,System.Object@)">
+            <summary>
+            Attemps to convert the specified <paramref name="value"/> to the specified
+            <paramref name="target"/> <see cref="T:System.Type"/> and returns a value indicating
+            success.
+            </summary>
+            <param name="value">The String.</param>
+            <param name="target">The target <see cref="T:System.Type"/>.</param>
+            <param name="result">When this methods returns, contains the parsed value on success,
+            otherwise; <see langword="null"/>.</param>
+            <returns><see langword="true"/> when the conversion was successful, otherwise;
+            <see langword="false"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultValueConverter.#cctor">
+            <summary>
+            Initialises the <see cref="T:AK.CmdLine.Impl.DefaultValueConverter"/> class.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultValueConverter.TryConvert(System.String,System.Type,System.Object@)">
+            <summary>
+            Attemps to convert the specified <paramref name="value"/> to the specified
+            <paramref name="target"/> <see cref="T:System.Type"/> and returns a value indicating
+            success.
+            </summary>
+            <param name="value">The String.</param>
+            <param name="target">The target <see cref="T:System.Type"/>.</param>
+            <param name="result">When this methods returns, contains the parsed value on success,
+            otherwise; <see langword="null"/>.</param>
+            <returns><see langword="true"/> when the conversion was successful, otherwise;
+            <see langword="false"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultValueConverter.Register``1(System.Func{System.String,``0})">
+            <summary>
+            Registers a conversion method for <see cref="T:System.String"/> to
+            <typeparamref name="TDestination"/>.
+            </summary>
+            <typeparam name="TDestination">The destination <see cref="T:System.Type"/>.</typeparam>
+            <param name="converter">The conversion method.</param>        
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="converter"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="T:AK.CmdLine.Impl.DefaultUsageWriter">
+            <summary>
+            A default <see cref="T:AK.CmdLine.Impl.IUsageWriter"/> implementation.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.IUsageWriter">
+            <summary>
+            Writes usage information about a <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/>.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.IUsageWriter.Usage">
+            <summary>
+            Writes usage information about the component.
+            </summary>        
+        </member>
+        <member name="M:AK.CmdLine.Impl.IUsageWriter.Usage(AK.CmdLine.Impl.MethodDescriptor,System.Exception)">
+            <summary>
+            Writes usage information about the specifed exception thrown by the specified
+            <paramref name="method"/> during invocation.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/> that threw the
+            exception.</param>
+            <param name="e">The <see cref="T:System.Exception"/>.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="method"/> or <paramref name="e"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.IUsageWriter.CommandNameRequired">
+            <summary>
+            Writes usuage information indicating that a command name is required.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.IUsageWriter.InvalidCommandName(System.String)">
+            <summary>
+            Writes usuage information indicating that the specified command <paramref name="name"/>
+            is invalid.
+            </summary>
+            <param name="name">The invalid command name.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="name"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="name"/> is empty.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.IUsageWriter.InvalidNumberOfArguments(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Writes usuage information indicating that an invalid number of arguments have provided
+            for the specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="method"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.IUsageWriter.InvalidSwitchFormat(System.String)">
+            <summary>
+            Writes usuage information indicating that the format specified
+            <paramref name="switch"/> is invalid.
+            </summary>
+            <param name="switch">The switch.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="switch"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="switch"/> is empty.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.IUsageWriter.InvalidArgumentName(AK.CmdLine.Impl.MethodDescriptor,System.String)">
+            <summary>
+            Writes usuage information indicating that the specified argument
+            <paramref name="name"/> is invalid for the specfied <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+            <param name="name">The switch name.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="method"/> or <paramref name="name"/> is
+            <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="name"/> is empty.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.IUsageWriter.InvalidArgumentValue(AK.CmdLine.Impl.ParameterDescriptor,System.String)">
+            <summary>
+            Writes usuage information indicating that the <paramref name="value"/> provided
+            for the specified <paramref name="parameter"/> is invalid.
+            </summary>
+            <param name="parameter">The <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.</param>
+            <param name="value">The attempted value.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="parameter"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.#ctor(AK.CmdLine.Impl.ComponentDescriptor,System.IO.TextWriter)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.Impl.DefaultUsageWriter"/> class.
+            </summary>
+            <param name="component">The <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/> help is
+            provided for.</param>
+            <param name="output">The output <see cref="T:System.IO.TextWriter"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.Usage">
+            <summary>
+            Writes usage information about the component.
+            </summary>        
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.Usage(AK.CmdLine.Impl.MethodDescriptor,System.Exception)">
+            <summary>
+            Writes usage information about the specifed exception thrown by the specified
+            <paramref name="method"/> during invocation.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/> that threw the
+            exception.</param>
+            <param name="e">The <see cref="T:System.Exception"/>.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="method"/> or <paramref name="e"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.CommandNameRequired">
+            <summary>
+            Writes usuage information indicating that a command name is required.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.InvalidCommandName(System.String)">
+            <summary>
+            Writes usuage information indicating that the specified command <paramref name="name"/>
+            is invalid.
+            </summary>
+            <param name="name">The invalid command name.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="name"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="name"/> is empty.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.InvalidNumberOfArguments(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Writes usuage information indicating that an invalid number of arguments have provided
+            for the specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="method"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.InvalidSwitchFormat(System.String)">
+            <summary>
+            Writes usuage information indicating that the format specified
+            <paramref name="switch"/> is invalid.
+            </summary>
+            <param name="switch">The switch.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="switch"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="switch"/> is empty.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.InvalidArgumentName(AK.CmdLine.Impl.MethodDescriptor,System.String)">
+            <summary>
+            Writes usuage information indicating that the specified argument
+            <paramref name="name"/> is invalid for the specfied <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+            <param name="name">The switch name.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="method"/> or <paramref name="name"/> is
+            <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="name"/> is empty.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.InvalidArgumentValue(AK.CmdLine.Impl.ParameterDescriptor,System.String)">
+            <summary>
+            Writes usuage information indicating that the <paramref name="value"/> provided
+            for the specified <paramref name="parameter"/> is invalid.
+            </summary>
+            <param name="parameter">The <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.</param>
+            <param name="value">The attempted value.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="parameter"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteUsage(System.String,System.Object[])">
+            <summary>
+            Writes usage information about the component.
+            </summary>
+            <param name="message">The optional message to print.</param>
+            <param name="args">The optional message arguments.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteUsage(AK.CmdLine.Impl.MethodDescriptor,System.String,System.Object[])">
+            <summary>
+            Writes usage information about the specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+            <param name="message">The optional message to print.</param>     
+            <param name="args">The optional message arguments.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.GetComponentDescription">
+            <summary>
+            Gets a descripton of the specified component.
+            </summary>
+            <returns>A descripton of the component.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteComponentHeader">
+            <summary>
+            Writes the component's information.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteMethodList">
+            <summary>
+            Writes the component method list.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteMethod(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Writes the specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteMethodSignature(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Writes the signature of the specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteParameterSignature(AK.CmdLine.Impl.ParameterDescriptor)">
+            <summary>
+            Writes the signature of the specified <paramref name="parameter"/>.
+            </summary>
+            <param name="parameter">The <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteParameterDefaultValue(AK.CmdLine.Impl.ParameterDescriptor)">
+            <summary>
+            Writes the default value of the specified <paramref name="parameter"/>.
+            </summary>
+            <param name="parameter">The <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteMethodDescription(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Writes the description of the specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.GetDescription(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Gets a descripton of the specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+            <returns>A descripton of the specified <paramref name="method"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteParameterList(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Writes the <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/> list of the specified
+            <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.GetDescription(AK.CmdLine.Impl.ParameterDescriptor)">
+            <summary>
+            Gets a descripton of the specified <paramref name="parameter"/>.
+            </summary>
+            <param name="parameter">The <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.</param>
+            <returns>A descripton of the specified <paramref name="parameter"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteName(AK.CmdLine.Impl.ParameterDescriptor)">
+            <summary>
+            Writes the name specified <paramref name="parameter"/>.
+            </summary>
+            <param name="parameter">The <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteName(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Writes the name specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+        </member>
+        <member name="P:AK.CmdLine.Impl.DefaultUsageWriter.Component">
+            <summary>
+            Gets the <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/>.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.DefaultUsageWriter.Output">
+            <summary>
+            Gets the output <see cref="T:AK.CmdLine.Impl.Utility.IndentedTextWriter"/>.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.DefaultUsageWriter.AssemblyInfo">
+            <summary>
+            Gets the component's <see cref="T:AK.CmdLine.Impl.Utility.AssemblyInfo"/>.
+            </summary>
+            <value>The <see cref="T:AK.CmdLine.Impl.Utility.AssemblyInfo"/>.</value>
+        </member>
+        <member name="T:AK.CmdLine.Impl.Switch">
+            <summary>
+            Defines a command line switch and provides parsing support. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Switch.TryParse(System.String,AK.CmdLine.Impl.Switch@)">
+            <summary>
+            Attemps to parse a <see cref="T:AK.CmdLine.Impl.Switch"/> from the specified input string
+            and returns a value indicating success.
+            </summary>
+            <param name="s">The String.</param>
+            <param name="result">When this methods returns, contains the parsed switch on success,
+            otherwise; <see langword="null"/>.</param>
+            <returns><see langword="true"/> when parsing was successful, otherwide;
+            <see langword="false"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Switch.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns> A <see cref="T:System.String"/> that represents this instance.</returns>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Switch.Name">
+            <summary>
+            Gets the switch's name.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Switch.Value">
+            <summary>
+            Gets the switch's value.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Switch.HasValue">
+            <summary>
+            Gets a value indicating if this switch has a value.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.MethodDescriptor">
+            <summary>
+            Describes a <see cref="T:System.Reflection.MethodInfo"/>. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.MethodDescriptor.#ctor(AK.CmdLine.Impl.ComponentDescriptor,System.Reflection.MethodInfo)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/> class.
+            </summary>
+            <param name="component">The <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/> which defines
+            the method.</param>
+            <param name="method">The <see cref="T:System.Reflection.MethodInfo"/> to describe.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="method"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            Thrown when <paramref name="method"/> could not be described.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.MethodDescriptor.GetParameter(System.String)">
+            <summary>
+            Gets the <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/> with the specified <paramref name="name"/>.
+            </summary>
+            <param name="name">The name of the parameter to get.</param>
+            <returns>The <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/> with the specified
+            <paramref name="name"/> if one exists, otherwise; <see langword="null"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.MethodDescriptor.Invoke(System.Object,System.Object[])">
+            <summary>
+            Invokes the underlying method.
+            </summary>
+            <param name="component">The component instance.</param>
+            <param name="parameters">The parameters.</param>
+            <returns>The result of the underlying methods invocation.</returns>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="component"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.Reflection.TargetInvocationException">
+            Thrown when underlying methods throws an exception.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.MethodDescriptor.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/> that represents this instance.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.MethodDescriptor.GetAttribute``1">
+            <summary>
+            When overriden in a derived class; gets the attribute of type
+            <typeparamref name="TAttribute"/> from the underlying member info.
+            </summary>
+            <typeparam name="TAttribute">The attribute <see cref="T:System.Type"/>.</typeparam>
+            <returns>
+            The attribute if founds, otherwise; <see langword="null"/>.
+            </returns>
+        </member>
+        <member name="P:AK.CmdLine.Impl.MethodDescriptor.Name">
+            <summary>
+            Gets the name of this descriptor.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.MethodDescriptor.Component">
+            <summary>
+            Gets the <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/> which defines this
+            <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.MethodDescriptor.Parameters">
+            <summary>
+            Gets the collection of <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>s for this method.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.MethodDescriptor.Method">
+            <summary>
+            Gets the underlying <see cref="T:System.Reflection.MethodInfo"/>.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.XmlDocUsageProvider">
+            <summary>
+            An <see cref="T:AK.CmdLine.Impl.IUsageWriter"/> implementation which uses the component's XML
+            documentation to provide usage information. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.XmlDocUsageProvider.#ctor(AK.CmdLine.Impl.ComponentDescriptor,System.IO.TextWriter)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.Impl.DefaultUsageWriter"/> class.
+            </summary>
+            <param name="component">The <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/> help is
+            provided for.</param>
+            <param name="output">The output <see cref="T:System.IO.TextWriter"/>.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.XmlDocUsageProvider.GetDescription(AK.CmdLine.Impl.MethodDescriptor)">
+            <summary>
+            Gets a descripton of the specified <paramref name="method"/>.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
+            <returns>
+            A descripton of the specified <paramref name="method"/>.
+            </returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.XmlDocUsageProvider.GetDescription(AK.CmdLine.Impl.ParameterDescriptor)">
+            <summary>
+            Gets a descripton of the specified <paramref name="parameter"/>.
+            </summary>
+            <param name="parameter">The <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.</param>
+            <returns>
+            A descripton of the specified <paramref name="parameter"/>.
+            </returns>
+        </member>
+        <member name="T:AK.CmdLine.ShortNameAttribute">
+            <summary>
+            Specifies the short name of the decorated member. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.ShortNameAttribute.#ctor(System.String)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.ShortNameAttribute"/>.
+            </summary>
+            <param name="shortName">The short name.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="shortName"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="shortName"/> is empty.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.ShortNameAttribute.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="P:AK.CmdLine.ShortNameAttribute.ShortName">
+            <summary>
+            Gets the short name.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Guard">
+            <summary>
+            Library guard. This class is <see langword="static"/>.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.ParameterDescriptor">
+            <summary>
+            Describes a <see cref="T:System.Reflection.ParameterInfo"/>. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.ParameterDescriptor.#ctor(AK.CmdLine.Impl.MethodDescriptor,System.Reflection.ParameterInfo)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/> class.
+            </summary>
+            <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/> which defines
+            the parameter.</param>
+            <param name="parameter">The <see cref="T:System.Reflection.ParameterInfo"/> to describe.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="method"/> or <paramref name="parameter"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.ParameterDescriptor.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>A <see cref="T:System.String"/> that represents this instance.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.ParameterDescriptor.GetAttribute``1">
+            <summary>
+            When overriden in a derived class; gets the attribute of type
+            <typeparamref name="TAttribute"/> from the underlying member info.
+            </summary>
+            <typeparam name="TAttribute">The attribute <see cref="T:System.Type"/>.</typeparam>
+            <returns>
+            The attribute if founds, otherwise; <see langword="null"/>.
+            </returns>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ParameterDescriptor.Name">
+            <summary>
+            Gets the name of this descriptor.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ParameterDescriptor.Method">
+            <summary>
+            Gets the <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/> which defines this
+            <see cref="T:AK.CmdLine.Impl.ParameterDescriptor"/>.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ParameterDescriptor.ParameterType">
+            <summary>
+            Gets the <see cref="T:System.Type"/> of this parameter.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ParameterDescriptor.IsOptional">
+            <summary>
+            Gets a value indicating whether this parameter is optional.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ParameterDescriptor.IsParams">
+            <summary>
+            Gets a value indicating if this parameter is decorated with the
+            <see cref="T:System.ParamArrayAttribute"/>.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ParameterDescriptor.DefaultValue">
+            <summary>
+            Gets the default value of this parameter.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.ParameterDescriptor.IsBoolean">
+            <summary>
+            Gets a value indicating if this parameter is a boolean parameter.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.Utility.IndentedTextWriter">
+            <summary>
+            Provides support for indenting output.
+            </summary>
+        </member>
+        <member name="F:AK.CmdLine.Impl.Utility.IndentedTextWriter.DefaultIndentString">
+            <summary>
+            Defines the default indent String. This field is constant.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.#ctor(System.IO.TextWriter)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.Impl.Utility.IndentedTextWriter"/>
+            class.
+            </summary>
+            <param name="inner">The inner <see cref="T:System.IO.TextWriter"/></param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="inner"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.PushIndent(System.Int32)">
+            <summary>
+            Pushes the specified <paramref name="indent"/>.
+            </summary>
+            <param name="indent">The indent.</param>
+            <returns>An <see cref="T:System.IDisposable"/> which, when disposed of, pops the specified
+            <paramref name="indent"/>.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="indent"/> is negative.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Close">
+            <summary>
+            Closes the current writer and releases any system resources associated with the writer.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Flush">
+            <summary>
+            Clears all buffers for the current writer and causes any buffered data to be written to the underlying device.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Boolean)">
+            <summary>
+            Writes the text representation of a Boolean value to the text stream.
+            </summary>
+            <param name="value">The Boolean to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Char)">
+            <summary>
+            Writes a character to the text stream.
+            </summary>
+            <param name="value">The character to write to the text stream.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Char[])">
+            <summary>
+            Writes a character array to the text stream.
+            </summary>
+            <param name="buffer">The character array to write to the text stream.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Writes a subarray of characters to the text stream.
+            </summary>
+            <param name="buffer">The character array to write data from.</param>
+            <param name="index">Starting index in the buffer.</param>
+            <param name="count">The number of characters to write.</param>
+            <exception cref="T:System.ArgumentException">The buffer length minus <paramref name="index"/> is less than <paramref name="count"/>. </exception>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="buffer"/> parameter is null. </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> or <paramref name="count"/> is negative. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Decimal)">
+            <summary>
+            Writes the text representation of a decimal value to the text stream.
+            </summary>
+            <param name="value">The decimal value to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Double)">
+            <summary>
+            Writes the text representation of an 8-byte floating-point value to the text stream.
+            </summary>
+            <param name="value">The 8-byte floating-point value to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Single)">
+            <summary>
+            Writes the text representation of a 4-byte floating-point value to the text stream.
+            </summary>
+            <param name="value">The 4-byte floating-point value to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Int32)">
+            <summary>
+            Writes the text representation of a 4-byte signed integer to the text stream.
+            </summary>
+            <param name="value">The 4-byte signed integer to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Int64)">
+            <summary>
+            Writes the text representation of an 8-byte signed integer to the text stream.
+            </summary>
+            <param name="value">The 8-byte signed integer to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.Object)">
+            <summary>
+            Writes the text representation of an object to the text stream by calling ToString on that object.
+            </summary>
+            <param name="value">The object to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.String,System.Object)">
+            <summary>
+            Writes out a formatted string, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"/>.
+            </summary>
+            <param name="format">The formatting String.</param>
+            <param name="arg0">An object to write into the formatted String.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="format"/> is null. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to the number of provided objects to be formatted. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.String,System.Object,System.Object)">
+            <summary>
+            Writes out a formatted string, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"/>.
+            </summary>
+            <param name="format">The formatting String.</param>
+            <param name="arg0">An object to write into the formatted String.</param>
+            <param name="arg1">An object to write into the formatted String.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="format"/> is null. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to the number of provided objects to be formatted. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.String,System.Object,System.Object,System.Object)">
+            <summary>
+            Writes out a formatted string, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"/>.
+            </summary>
+            <param name="format">The formatting String.</param>
+            <param name="arg0">An object to write into the formatted String.</param>
+            <param name="arg1">An object to write into the formatted String.</param>
+            <param name="arg2">An object to write into the formatted String.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="format"/> is null. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to the number of provided objects to be formatted. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.String,System.Object[])">
+            <summary>
+            Writes out a formatted string, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"/>.
+            </summary>
+            <param name="format">The formatting String.</param>
+            <param name="arg">The object array to write into the formatted String.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="format"/> or <paramref name="arg"/> is null. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to <paramref name="arg"/>. Length. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.String)">
+            <summary>
+            Writes a string to the text stream.
+            </summary>
+            <param name="value">The string to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.UInt32)">
+            <summary>
+            Writes the text representation of a 4-byte unsigned integer to the text stream.
+            </summary>
+            <param name="value">The 4-byte unsigned integer to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Write(System.UInt64)">
+            <summary>
+            Writes the text representation of an 8-byte unsigned integer to the text stream.
+            </summary>
+            <param name="value">The 8-byte unsigned integer to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine">
+            <summary>
+            Writes a line terminator to the text stream.
+            </summary>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Boolean)">
+            <summary>
+            Writes the text representation of a Boolean followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The Boolean to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Char)">
+            <summary>
+            Writes a character followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The character to write to the text stream.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Char[])">
+            <summary>
+            Writes an array of characters followed by a line terminator to the text stream.
+            </summary>
+            <param name="buffer">The character array from which data is read.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Char[],System.Int32,System.Int32)">
+            <summary>
+            Writes a subarray of characters followed by a line terminator to the text stream.
+            </summary>
+            <param name="buffer">The character array from which data is read.</param>
+            <param name="index">The index into <paramref name="buffer"/> at which to begin reading.</param>
+            <param name="count">The maximum number of characters to write.</param>
+            <exception cref="T:System.ArgumentException">The buffer length minus <paramref name="index"/> is less than <paramref name="count"/>. </exception>
+            <exception cref="T:System.ArgumentNullException">The <paramref name="buffer"/> parameter is null. </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            	<paramref name="index"/> or <paramref name="count"/> is negative. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Decimal)">
+            <summary>
+            Writes the text representation of a decimal value followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The decimal value to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Double)">
+            <summary>
+            Writes the text representation of a 8-byte floating-point value followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The 8-byte floating-point value to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Single)">
+            <summary>
+            Writes the text representation of a 4-byte floating-point value followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The 4-byte floating-point value to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Int32)">
+            <summary>
+            Writes the text representation of a 4-byte signed integer followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The 4-byte signed integer to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Int64)">
+            <summary>
+            Writes the text representation of an 8-byte signed integer followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The 8-byte signed integer to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.Object)">
+            <summary>
+            Writes the text representation of an object by calling ToString on this object, followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The object to write. If <paramref name="value"/> is null, only the line termination characters are written.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.String,System.Object)">
+            <summary>
+            Writes out a formatted string and a new line, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"/>.
+            </summary>
+            <param name="format">The formatted String.</param>
+            <param name="arg0">The object to write into the formatted String.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="format"/> is null. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to the number of provided objects to be formatted. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.String,System.Object,System.Object)">
+            <summary>
+            Writes out a formatted string and a new line, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"/>.
+            </summary>
+            <param name="format">The formatting String.</param>
+            <param name="arg0">The object to write into the format String.</param>
+            <param name="arg1">The object to write into the format String.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="format"/> is null. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to the number of provided objects to be formatted. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.String,System.Object,System.Object,System.Object)">
+            <summary>
+            Writes out a formatted string and a new line, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"/>.
+            </summary>
+            <param name="format">The formatting String.</param>
+            <param name="arg0">The object to write into the format String.</param>
+            <param name="arg1">The object to write into the format String.</param>
+            <param name="arg2">The object to write into the format String.</param>
+            <exception cref="T:System.ArgumentNullException">
+            	<paramref name="format"/> is null. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to the number of provided objects to be formatted. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.String,System.Object[])">
+            <summary>
+            Writes out a formatted string and a new line, using the same semantics as <see cref="M:System.String.Format(System.String,System.Object)"/>.
+            </summary>
+            <param name="format">The formatting String.</param>
+            <param name="arg">The object array to write into format String.</param>
+            <exception cref="T:System.ArgumentNullException">A string or object is passed in as null. </exception>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+            <exception cref="T:System.FormatException">The format specification in format is invalid.-or- The number indicating an argument to be formatted is less than zero, or larger than or equal to arg.Length. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.String)">
+            <summary>
+            Writes a string followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The string to write. If <paramref name="value"/> is null, only the line termination characters are written.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.UInt32)">
+            <summary>
+            Writes the text representation of a 4-byte unsigned integer followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The 4-byte unsigned integer to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteLine(System.UInt64)">
+            <summary>
+            Writes the text representation of an 8-byte unsigned integer followed by a line terminator to the text stream.
+            </summary>
+            <param name="value">The 8-byte unsigned integer to write.</param>
+            <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.IO.TextWriter"/> is closed. </exception>
+            <exception cref="T:System.IO.IOException">An I/O error occurs. </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.Dispose(System.Boolean)">
+            <summary>
+            Releases the unmanaged resources used by the <see cref="T:System.IO.TextWriter"/> and optionally releases the managed resources.
+            </summary>
+            <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.WriteIndent">
+            <summary>
+            Writes the indent, if one is pending.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.IndentedTextWriter.PostLineWritten">
+            <summary>
+            Peforms any actions required after a line is written.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.Encoding">
+            <summary>
+            When overridden in a derived class, returns the <see cref="T:System.Text.Encoding"/> in which the output is written.
+            </summary>
+            <value></value>
+            <returns>The Encoding in which the output is written.</returns>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.FormatProvider">
+            <summary>
+            Gets an object that controls formatting.
+            </summary>
+            <value></value>
+            <returns>An <see cref="T:System.IFormatProvider"/> object for a specific culture, or the formatting of the current culture if no other culture is specified.</returns>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.IndentLevel">
+            <summary>
+            Gets the current indent level.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.IndentString">
+            <summary>
+            Gets or sets the indent String.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.NewLine">
+            <summary>
+            Gets or sets the line terminator string used by the current TextWriter.
+            </summary>
+            <value></value>
+            <returns>The line terminator string for the current TextWriter.</returns>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.Inner">
+            <summary>
+            Gets the inner <see cref="T:System.IO.TextWriter"/>.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.IsIndentPending">
+            <summary>
+            Gets or sets a value indicating if an indent is pending.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.Utility.HashCodeBuilder">
+            <summary>
+            Provides a handy hash code builder.
+            </summary>
+            <remarks>
+            The hash codes generated by this helper are based upon the recommendations made by
+            Joshua Bloch in Effective Java.
+            </remarks>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.New">
+            <summary>
+            Creates and initialises a new <see cref="T:AK.CmdLine.Impl.Utility.HashCodeBuilder"/>.
+            </summary>
+            <returns>A a new <see cref="T:AK.CmdLine.Impl.Utility.HashCodeBuilder"/></returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.Add``1(``0)">
+            <summary>
+            Adds the hash code of the specified object to the builder.
+            </summary>
+            <param name="obj">The object whose hash code will be added to the builder. Can be
+            <see langword="null"/>.</param>
+            <returns>This builder.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.Equals(System.Object)">
+            <summary>
+            Determines whether the specified <see cref="T:System.Object"/> is equal to this instance.
+            </summary>
+            <param name="obj">The <see cref="T:System.Object"/> to compare with this instance.</param>
+            <returns><see langword="true"/> if the specified <see cref="T:System.Object"/> is equal to
+            this instance; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.Equals(AK.CmdLine.Impl.Utility.HashCodeBuilder)">
+            <inhetitdoc/>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.GetHashCode">
+            <summary>
+            Returns a hash code for this instance.
+            </summary>
+            <returns>A hash code for this instance, suitable for use in hashing algorithms and
+            data structures like a hash table. 
+            </returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.ToString">
+            <inhetitdoc/>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.op_Equality(AK.CmdLine.Impl.Utility.HashCodeBuilder,AK.CmdLine.Impl.Utility.HashCodeBuilder)">
+            <summary>
+            Equality operation.
+            </summary>
+            <param name="x">The left hand side.</param>
+            <param name="y">The right hand side.</param>
+            <returns><see langword="true"/> if <paramref name="x"/> is equal to <paramref name="y"/>,
+            otherwise; <see langword="false"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.op_Inequality(AK.CmdLine.Impl.Utility.HashCodeBuilder,AK.CmdLine.Impl.Utility.HashCodeBuilder)">
+            <summary>
+            Inequality operation.
+            </summary>
+            <param name="x">The left hand side.</param>
+            <param name="y">The right hand side.</param>
+            <returns><see langword="true"/> if <paramref name="x"/> is not equal to <paramref name="y"/>,
+            otherwise; <see langword="false"/>.</returns>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.HashCodeBuilder.op_Implicit(AK.CmdLine.Impl.Utility.HashCodeBuilder)~System.Int32">
+            <summary>
+            Converts the specified <paramref name="builder"/> to an <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="builder">The builder to convert.</param>
+            <returns>The specified <paramref name="builder"/> to an <see cref="T:System.Int32"/>.</returns>
+        </member>
+        <member name="T:AK.CmdLine.Impl.Utility.AssemblyInfo">
+            <summary>
+            Provides easy access to an assembly's metadata. This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.AssemblyInfo.#ctor(System.Reflection.Assembly)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.Impl.Utility.AssemblyInfo"/>.
+            </summary>
+            <param name="assembly">The assembly to describe.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="assembly"/> is <see langword="null"/>.
+            </exception>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.AssemblyInfo.VersionedTitle">
+            <summary>
+            Gets the version title of the assembly.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.AssemblyInfo.Title">
+            <summary>
+            Gets the assembly title
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.AssemblyInfo.Product">
+            <summary>
+            Gets the assembly product.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.AssemblyInfo.Description">
+            <summary>
+            Gets the assembly description.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.AssemblyInfo.Copyright">
+            <summary>
+            Gets the assembly copyright information.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.AssemblyInfo.Company">
+            <summary>
+            Gets the assembly copyright information.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.AssemblyInfo.Version">
+            <summary>
+            Gets the assembly version.
+            </summary>
+        </member>
+        <member name="T:AK.CmdLine.Messages">
+            <summary>
+              A strongly-typed resource class, for looking up localized strings, etc.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.ResourceManager">
+            <summary>
+              Returns the cached ResourceManager instance used by this class.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.Culture">
+            <summary>
+              Overrides the current thread's CurrentUICulture property for all
+              resource lookups using this strongly typed resource class.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.ComponentDescriptor_DuplicateMethod">
+            <summary>
+              Looks up a localized string similar to A duplicate method named &apos;{0}&apos; is declared by type &apos;{1}&apos;. Note that method names and short names are treated case insensitively and overloads are not supported; use default values instead..
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.DefaultUsageWriter_CommandRequired">
+            <summary>
+              Looks up a localized string similar to usage: a command name is required.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.DefaultUsageWriter_InvalidArgumentName">
+            <summary>
+              Looks up a localized string similar to usage: unrecognised argument &apos;{0}&apos; for &apos;{1}&apos; command.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.DefaultUsageWriter_InvalidArgumentValue">
+            <summary>
+              Looks up a localized string similar to usage: unable to convert &apos;{1}&apos; to &apos;{2}&apos; expected by &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.DefaultUsageWriter_InvalidCommand">
+            <summary>
+              Looks up a localized string similar to usage: unrecognised command name &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.DefaultUsageWriter_InvalidNumberOfArguments">
+            <summary>
+              Looks up a localized string similar to usage: invalid number of arguments provided for &apos;{0}&apos; command.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.DefaultUsageWriter_InvalidSwitchFormat">
+            <summary>
+              Looks up a localized string similar to usage: unrecognised switch format &apos;{0}&apos;.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.Guard_NonEmptyCollection">
+            <summary>
+              Looks up a localized string similar to Expected non-empty collection..
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.Guard_NonEmptyString">
+            <summary>
+              Looks up a localized string similar to Expected non-empty String..
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.MethodDescriptor_DuplicateParameter">
+            <summary>
+              Looks up a localized string similar to A duplicate parameter named &apos;{0}&apos; is declared in the signature method &apos;{1}&apos; declared by type &apos;{2}&apos;. Note that parameter names and short names are treated case insensitively..
+            </summary>
+        </member>
+    </members>
+</doc>

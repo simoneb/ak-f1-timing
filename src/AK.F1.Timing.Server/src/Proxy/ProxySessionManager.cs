@@ -39,9 +39,6 @@ namespace AK.F1.Timing.Server.Proxy
     {
         #region Fields.
 
-        private readonly string _username;
-        private readonly string _password;
-
         private readonly CancellationToken _cancellationToken;
         private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
@@ -62,6 +59,7 @@ namespace AK.F1.Timing.Server.Proxy
         private readonly BlockingCollection<ProxySession> _sessionsPendingRemove = new BlockingCollection<ProxySession>();
 
         private Task _readMessagesTask;
+        private readonly IMessageReader _messageReader;
         private readonly BlockingCollection<byte[]> _pendingMessages = new BlockingCollection<byte[]>();
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(ProxySessionManager));
@@ -72,24 +70,17 @@ namespace AK.F1.Timing.Server.Proxy
 
         /// <summary>
         /// Initilises a new instance of the <see cref="AK.F1.Timing.Server.Proxy.ProxySessionManager"/>
-        /// class and specifies the <paramref name="username"/> and <paramref name="password"/> of the
-        /// user to autenticate as.
+        /// class and specified the source <see cref="AK.F1.Timing.IMessageReader"/>.
         /// </summary>
-        /// <param name="username">The user's live-timing username.</param>
-        /// <param name="password">The user's live-timing password.</param>
+        /// <param name="reader">The source <see cref="AK.F1.Timing.IMessageReader"/>.</param>
         /// <exception cref="System.ArgumentNullException">
-        /// Thrown when <paramref name="username"/> or <paramref name="password"/> is <see langword="null"/>.
-        /// </exception>
-        /// <exception cref="System.ArgumentException">
-        /// Thrown when <paramref name="username"/> or <paramref name="password"/> is empty.
-        /// </exception>
-        public ProxySessionManager(string username, string password)
+        /// Thrown when <paramref name="reader"/> is <see langword="null"/>.
+        /// </exception>        
+        public ProxySessionManager(IMessageReader reader)
         {
-            Guard.NotNullOrEmpty(username, "username");
-            Guard.NotNullOrEmpty(password, "password");
+            Guard.NotNull(reader, "reader");
 
-            _username = username;
-            _password = password;
+            _messageReader = reader;
             _cancellationToken = _cancellationTokenSource.Token;
             _readMessagesTask = new Task(ReadMessagesTask, _cancellationToken);
             _readMessagesTask.ContinueFaultWith(_ => Dispose());
@@ -128,6 +119,7 @@ namespace AK.F1.Timing.Server.Proxy
             ProcessPendingRemoves();
             DisposeOf(_cancellationTokenSource);
             DisposeOf(_mainTask);
+            DisposeOf(_messageReader);
             DisposeOf(_readMessagesTask);
             DisposeOf(_pendingMessages);
             DisposeOf(_sessionsPendingStart);
@@ -145,8 +137,6 @@ namespace AK.F1.Timing.Server.Proxy
             Log.Info("read task started");
             try
             {
-                using(var reader = F1Timing.Live.Read(F1Timing.Live.Login(_username, _password)))
-                //using(var reader = F1Timing.Playback.Read(@"D:\dev\.net\src\ak-f1-timing\tms\2011\11-hungary\practice1.tms"))
                 using(var buffer = new MemoryStream(4096))
                 using(var writer = new DecoratedObjectWriter(buffer))
                 {
@@ -154,7 +144,7 @@ namespace AK.F1.Timing.Server.Proxy
                     do
                     {
                         ThrowIfCancellationRequested();
-                        message = reader.Read();
+                        message = _messageReader.Read();
                         buffer.SetLength(0L);
                         writer.WriteMessage(message);
                         _pendingMessages.Add(buffer.ToArray());
@@ -163,7 +153,7 @@ namespace AK.F1.Timing.Server.Proxy
                     _pendingMessages.CompleteAdding();
                     _wakeUpMainTask.Set();
                 }
-                Log.InfoFormat("completed reading messages, buffer={0}B", _dispatchedMessageHistory.Count);
+                Log.InfoFormat("completed reading messages");
             }
             catch(OperationCanceledException) { }
             catch(Exception exc)
@@ -213,6 +203,10 @@ namespace AK.F1.Timing.Server.Proxy
 
         private void ProcessPendingMessages()
         {
+            if(_pendingMessages.Count == 0)
+            {
+                return;
+            }
             byte[] message;
             while(_dispatchMessages.Count < DispatchMessagesCapacity &&
                 _pendingMessages.TryTake(out message, 0, _cancellationToken))
@@ -241,13 +235,16 @@ namespace AK.F1.Timing.Server.Proxy
         {
             var session = new ProxySession(NextSessionId(), client);
             session.Disposed += OnSessionDisposed;
-            Log.InfoFormat("add pending, id={0}, endpoint={1}", session.Id, client.RemoteEndPoint);
             _sessionsPendingStart.Add(session);
             _wakeUpMainTask.Set();
         }
 
         private void ProcessPendingStarts(bool completeSessions)
         {
+            if(_sessionsPendingStart.Count == 0)
+            {
+                return;
+            }
             ProxySession session;
             while(_sessionsPendingStart.TryTake(out session, 0, _cancellationToken))
             {
@@ -263,7 +260,7 @@ namespace AK.F1.Timing.Server.Proxy
                         session.CompleteAsync();
                     }
                     _sessions.Add(session.Id, session);
-                    Log.InfoFormat("added, id={0}, open={1}", session.Id, _sessions.Count);
+                    Log.InfoFormat("started, id={0}, open={1}", session.Id, _sessions.Count);
                 }
                 catch(ObjectDisposedException) { }
             }
@@ -273,13 +270,16 @@ namespace AK.F1.Timing.Server.Proxy
         {
             var session = (ProxySession)sender;
             session.Disposed -= OnSessionDisposed;
-            Log.InfoFormat("remove pending, id={0}", session.Id);
             _sessionsPendingRemove.Add(session);
             _wakeUpMainTask.Set();
         }
 
         private void ProcessPendingRemoves()
         {
+            if(_sessionsPendingRemove.Count == 0)
+            {
+                return;
+            }
             ProxySession session;
             while(_sessionsPendingRemove.TryTake(out session, 0))
             {
