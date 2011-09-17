@@ -13,7 +13,7 @@
 // limitations under the License.
 
 using System;
-using System.Diagnostics;
+using AK.CmdLine;
 using AK.F1.Timing.Utility.Tms.Operations;
 using log4net;
 using log4net.Config;
@@ -23,7 +23,7 @@ namespace AK.F1.Timing.Utility.Tms
     /// <summary>
     /// Application entry point container.
     /// </summary>
-    public static class Program
+    public class Program
     {
         #region Fields.
 
@@ -39,20 +39,45 @@ namespace AK.F1.Timing.Utility.Tms
         /// <param name="args">The application arguments.</param>
         public static void Main(string[] args)
         {
-            var options = new CommandLineOptions();
+            var program = new Program();
+            var driver = new CmdLineDriver(program, Console.Error);
+            driver.TryProcess(args);
+        }
 
-            if(options.ParseAndContinue(args))
-            {
-                try
-                {
-                    Run(options);
-                }
-                catch(Exception exc)
-                {
-                    Log.Error(exc);
-                    Console.WriteLine("{0} - {1}", exc.GetType().Name, exc.Message);
-                }
-            }
+        /// <summary>
+        /// Prints statistical information regarding the contents of the TMS.
+        /// </summary>
+        /// <param name="path">The path of the TMS.</param>
+        public void Stats(string path)
+        {
+            Run(new WriteStatisticsOperation(path));
+        }
+
+        /// <summary>
+        /// Prints the contents of the TMS to the standard out.
+        /// </summary>
+        /// <param name="path">The path of the TMS.</param>
+        public void Dump(string path)
+        {
+            Run(new DumpOperation(path));
+        }
+
+        /// <summary>
+        /// Prints the result of the session contained by the TMS.
+        /// </summary>
+        /// <param name="path">The path of the TMS.</param>
+        public void DumpSession(string path)
+        {
+            Run(new DumpSessionOperation(path));
+        }
+
+        /// <summary>
+        /// Fixup the TMS by filtering out translated messages and replaying the session.
+        /// </summary>
+        /// <param name="path">The path of the TMS.</param>
+        public void Fixup(string path)
+        {
+            Run(new FixupOperation(path));
         }
 
         #endregion
@@ -64,27 +89,17 @@ namespace AK.F1.Timing.Utility.Tms
             XmlConfigurator.Configure();
         }
 
-        private static void Run(CommandLineOptions options)
+        private Program() { }
+
+        private static void Run(Operation operation)
         {
-            if(options.Stats)
+            try
             {
-                new WriteStatisticsOperation(options.Path).Run();
+                operation.Run();
             }
-            else if(options.Dump)
+            catch(Exception exc)
             {
-                new DumpOperation(options.Path).Run();
-            }
-            else if(options.DumpSession)
-            {
-                new DumpSessionOperation(options.Path).Run();
-            }
-            else if(options.Fixup)
-            {
-                new FixupOperation(options.Path).Run();
-            }
-            else
-            {
-                Debug.Fail("no operation has been specified");
+                Log.Error(exc);
             }
         }
 

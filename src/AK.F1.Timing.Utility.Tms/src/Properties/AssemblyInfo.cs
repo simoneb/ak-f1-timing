@@ -14,6 +14,6 @@
 
 using System.Reflection;
 
-[assembly: AssemblyTitle("F1 Live-Timing TMS Utility for .NET 3.5")]
-[assembly: AssemblyDescription("F1 Live-Timing TMSUtility for .NET 3.5")]
+[assembly: AssemblyTitle("F1 Live-Timing TMS Utility for .NET 4")]
+[assembly: AssemblyDescription("F1 Live-Timing TMSUtility for .NET 4")]
 [assembly: AssemblyProduct("AK.F1.Timing.Utility.Tms")]
