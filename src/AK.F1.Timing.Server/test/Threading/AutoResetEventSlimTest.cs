@@ -58,7 +58,7 @@ namespace AK.F1.Timing.Server.Threading
                 sw.Restart();
                 e.Wait(100);
                 sw.Stop();
-                Assert.InRange(sw.Elapsed, TimeSpan.FromMilliseconds(90), TimeSpan.FromMilliseconds(110));
+                Assert.InRange(sw.Elapsed, TimeSpan.FromMilliseconds(80), TimeSpan.FromMilliseconds(120));
             }
         }
 
