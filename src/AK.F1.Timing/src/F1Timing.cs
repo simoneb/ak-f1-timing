@@ -134,6 +134,50 @@ namespace AK.F1.Timing
             {
                 return new ProxyMessageReader(endpoint);
             }
+
+            /// <summary>
+            /// Creates a message reader which reads from the proxy at the specified
+            /// <paramref name="address"/> and records the messages to the specified
+            /// <paramref name="path"/>.
+            /// </summary>
+            /// <param name="address">The proxy address.</param>
+            /// <param name="path">The path to save the messages to.</param>
+            /// <exception cref="System.ArgumentNullException">
+            /// Thrown when <paramref name="address"/> or <paramref name="path"/> is
+            /// <see langword="null"/>.
+            /// </exception>
+            /// <exception cref="System.ArgumentException">
+            /// Thrown when <paramref name="path"/> is of zero length.
+            /// </exception>
+            /// <exception cref="System.IO.IOException">
+            /// Thrown when an IO error occurs whilst creating the output file.
+            /// </exception>
+            public static IMessageReader ReadAndRecord(IPAddress address, string path)
+            {
+                return new RecordingMessageReader(Read(address), path);
+            }
+
+            /// <summary>
+            /// Creates a message reader which reads from the proxy at the specified
+            /// <paramref name="endpoint"/> and records the messages to the specified
+            /// <paramref name="path"/>.
+            /// </summary>
+            /// <param name="endpoint">The proxy endpoint.</param>
+            /// <param name="path">The path to save the messages to.</param>
+            /// <exception cref="System.ArgumentNullException">
+            /// Thrown when <paramref name="endpoint"/> or <paramref name="path"/> is
+            /// <see langword="null"/>.
+            /// </exception>
+            /// <exception cref="System.ArgumentException">
+            /// Thrown when <paramref name="path"/> is of zero length.
+            /// </exception>
+            /// <exception cref="System.IO.IOException">
+            /// Thrown when an IO error occurs whilst creating the output file.
+            /// </exception>
+            public static IMessageReader ReadAndRecord(IPEndPoint endpoint, string path)
+            {
+                return new RecordingMessageReader(Read(endpoint), path);
+            }
         }
 
         /// <summary>
