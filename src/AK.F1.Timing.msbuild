@@ -27,7 +27,7 @@
     <CoreBinPath>$(SrcPath)\AK.F1.Timing\src\bin\$(BuildType)</CoreBinPath>
     <ModelBinPath>$(SrcPath)\AK.F1.Timing.Model\src\bin\$(BuildType)</ModelBinPath>
     <UIBinPath>$(SrcPath)\AK.F1.Timing.UI\src\bin\$(BuildType)</UIBinPath>
-    <RecorderBinPath>$(SrcPath)\AK.F1.Timing.Utility.LiveRecorder\src\bin\$(BuildType)</RecorderBinPath>    
+    <RecorderBinPath>$(SrcPath)\AK.F1.Timing.Utility.Recorder\src\bin\$(BuildType)</RecorderBinPath>    
     <TmsUtilityBinPath>$(SrcPath)\AK.F1.Timing.Utility.Tms\src\bin\$(BuildType)</TmsUtilityBinPath>
     <ServerBinPath>$(SrcPath)\AK.F1.Timing.Server\src\bin\$(BuildType)</ServerBinPath>
   </PropertyGroup>

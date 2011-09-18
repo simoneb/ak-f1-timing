@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.UI", "AK.F1.Ti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Utility.Tms", "AK.F1.Timing.Utility.Tms\src\AK.F1.Timing.Utility.Tms.csproj", "{C68A5CD3-7FD2-4FF7-8E7F-F3A7D11B6177}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Utility.LiveRecorder", "AK.F1.Timing.Utility.LiveRecorder\src\AK.F1.Timing.Utility.LiveRecorder.csproj", "{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Utility.Recorder", "AK.F1.Timing.Utility.Recorder\src\AK.F1.Timing.Utility.Recorder.csproj", "{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Server.Test", "AK.F1.Timing.Server\test\AK.F1.Timing.Server.Test.csproj", "{D976D750-54A2-4913-B6A7-BB17C7725C9F}"
 EndProject

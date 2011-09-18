@@ -14,6 +14,6 @@
 
 using System.Reflection;
 
-[assembly: AssemblyTitle("F1 Live-Timing Recorder for .NET 3.5")]
-[assembly: AssemblyDescription("F1 Live-Timing Recorder for .NET 3.5.")]
-[assembly: AssemblyProduct("AK.F1.Timing.Utility.LiveRecorder")]
+[assembly: AssemblyTitle("F1 Live-Timing Recorder for .NET 4")]
+[assembly: AssemblyDescription("F1 Live-Timing Recorder for .NET 4")]
+[assembly: AssemblyProduct("AK.F1.Timing.Utility.Recorder")]

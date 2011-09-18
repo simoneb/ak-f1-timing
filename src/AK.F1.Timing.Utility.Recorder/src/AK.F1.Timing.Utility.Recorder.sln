@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing", "..\..\AK.F1.Timing\src\AK.F1.Timing.csproj", "{52334AE8-7F11-404B-AD45-4519F9229F4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Utility.LiveRecorder", "AK.F1.Timing.Utility.LiveRecorder.csproj", "{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AK.F1.Timing.Utility.Recorder", "AK.F1.Timing.Utility.Recorder.csproj", "{2EFF2D0F-D97A-445A-8CE5-4CB073872FCE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
