@@ -175,9 +175,9 @@ namespace AK.F1.Timing.Server.Proxy
             }
         }
 
-        private static Socket CreateSocket()
+        private static Socket CreateSocket(AddressFamily addressFamily = AddressFamily.InterNetwork)
         {
-            return new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            return new Socket(addressFamily, SocketType.Stream, ProtocolType.Tcp);
         }
 
         private sealed class TestContext : IDisposable
@@ -186,11 +186,11 @@ namespace AK.F1.Timing.Server.Proxy
 
             public TestContext()
             {
-                using(var server = CreateSocket())
+                using(var server = CreateSocket(TestEndpoint.AddressFamily))
                 {
                     server.Bind(TestEndpoint);
                     server.Listen(1);
-                    Output = CreateSocket();
+                    Output = CreateSocket(TestEndpoint.AddressFamily);
                     Output.BeginConnect(TestEndpoint, delegate { }, null);
                     Input = server.Accept();
                 }

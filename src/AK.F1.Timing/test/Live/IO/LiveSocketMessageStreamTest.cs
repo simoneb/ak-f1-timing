@@ -198,10 +198,10 @@ namespace AK.F1.Timing.Live.IO
         private static TestContext CreateTestContext()
         {
             var endpoint = new IPEndPoint(IPAddress.Loopback, 50192);
-            var server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            var server = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             var context = new TestContext
             {
-                Local = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)
+                Local = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp)
             };
 
             server.Bind(endpoint);

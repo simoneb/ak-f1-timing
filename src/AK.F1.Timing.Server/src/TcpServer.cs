@@ -133,7 +133,7 @@ namespace AK.F1.Timing.Server
 
         private void InitialiseListener()
         {
-            _listener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            _listener = new Socket(_endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             _listener.Bind(_endpoint);
             _listener.Listen(_connectionBacklog);
         }

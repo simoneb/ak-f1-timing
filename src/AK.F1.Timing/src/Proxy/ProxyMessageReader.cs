@@ -87,7 +87,7 @@ namespace AK.F1.Timing.Proxy
             try
             {
                 Log.InfoFormat("connecting: {0}", _endpoint);
-                _socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                _socket = new Socket(_endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
                 _socket.Connect(_endpoint);
                 _reader = new DecoratedObjectReader(new BufferedStream(new NetworkStream(_socket)));
                 Log.Info("connected");

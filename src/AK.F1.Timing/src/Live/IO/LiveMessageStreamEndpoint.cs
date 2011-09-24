@@ -46,7 +46,7 @@ namespace AK.F1.Timing.Live.IO
         public IMessageStream OpenStream()
         {
             var endpoint = ResolveStreamEndpoint();
-            var socket = CreateStreamingSocket();
+            var socket = new Socket(endpoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
             Log.InfoFormat("connecting: {0}", endpoint);
 
@@ -88,11 +88,6 @@ namespace AK.F1.Timing.Live.IO
         #endregion
 
         #region Private Impl.
-
-        private static Socket CreateStreamingSocket()
-        {
-            return new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-        }
 
         private static IPEndPoint ResolveStreamEndpoint()
         {
