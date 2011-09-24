@@ -72,6 +72,12 @@ namespace AK.F1.Timing.Model.Session
                 Model.PingInterval = message.PingInterval;
             }
 
+            /// <inheritdoc/>
+            public override void Visit(SetStreamTimestampMessage message)
+            {
+                Model.Timestamp = message.Timestamp;
+            }
+
             #endregion
 
             #region Private Impl.

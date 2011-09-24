@@ -28,6 +28,7 @@ namespace AK.F1.Timing.Model.Session
         private int _keyframeNumber;
         private TimeSpan _pingInterval;
         private DateTime? _lastMessageReceivedOn;
+        private DateTime? _timestamp;
 
         #endregion
 
@@ -86,6 +87,15 @@ namespace AK.F1.Timing.Model.Session
         {
             get { return _lastMessageReceivedOn; }
             private set { SetProperty("LastMessageReceivedOn", ref _lastMessageReceivedOn, value); }
+        }
+
+        /// <summary>
+        /// Gets stream timestamp.
+        /// </summary>
+        public DateTime? Timestamp
+        {
+            get { return _timestamp; }
+            private set { SetProperty("Timestamp", ref _timestamp, value); }
         }
 
         /// <summary>

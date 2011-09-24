@@ -17,6 +17,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Column="0" Grid.Row="0" Text="Type:"/>
             <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding SessionType}"/>
@@ -32,6 +33,8 @@
             <TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding Feed.MessageCount}"/>
             <TextBlock Grid.Column="0" Grid.Row="6" Text="Last Message Received:"/>
             <TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding Feed.LastMessageReceivedOn, StringFormat='{}{0:HH:mm:ss.fff}'}" />
+            <TextBlock Grid.Column="0" Grid.Row="7" Text="Stream Timestamp:"/>
+            <TextBlock Grid.Column="1" Grid.Row="7" Text="{Binding Feed.Timestamp, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss.fff}'}" />
         </Grid>
     </GroupBox>
 </UserControl>

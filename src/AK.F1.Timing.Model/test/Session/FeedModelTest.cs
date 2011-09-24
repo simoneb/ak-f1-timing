@@ -148,6 +148,25 @@ namespace AK.F1.Timing.Model.Session
             Assert.True(observer.HasChanged(x => x.PingInterval));
         }
 
+        [Fact]
+        public void processing_a_set_timestamp_message_updates_the_timestamp_property()
+        {
+            var message = new SetStreamTimestampMessage();
+            var model = CreateModel(message);
+
+            Assert.Equal(message.Timestamp, model.Timestamp);
+        }
+
+        [Fact]
+        public void changes_to_the_timestamp_property_raise_the_property_changed_event()
+        {
+            var model = new FeedModel();
+            var observer = model.CreateObserver();
+
+            model.Process(new SetStreamTimestampMessage());
+            Assert.True(observer.HasChanged(x => x.Timestamp));
+        }
+
         private static FeedModel CreateModel(params Message[] messagesToProcess)
         {
             var model = new FeedModel();
@@ -167,6 +186,7 @@ namespace AK.F1.Timing.Model.Session
             Assert.Equal(0, model.MessageCount);
             Assert.Equal(TimeSpan.Zero, model.PingInterval);
             Assert.Null(model.LastMessageReceivedOn);
+            Assert.Null(model.Timestamp);
         }
     }
 }
