@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// A message which sets the length of a driver's pit stop. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(11)]
+    [Serializable, TypeId(11)]
     public sealed class SetDriverPitTimeMessage : DriverMessageBase
     {
         #region Public Interface.

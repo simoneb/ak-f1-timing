@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// A message which sets the interval at which the live message stream should be pinged with a
     /// magic packet. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(23)]
+    [Serializable, TypeId(23)]
     public class SetPingIntervalMessage : Message
     {
         #region Public Interface.

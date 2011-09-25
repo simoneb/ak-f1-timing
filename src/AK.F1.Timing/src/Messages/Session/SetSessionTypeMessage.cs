@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Session
     /// A message which updates the <see cref="AK.F1.Timing.Messages.Session.SessionType"/>
     /// and session identifier. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(34)]
+    [Serializable, TypeId(34)]
     public sealed class SetSessionTypeMessage : Message
     {
         #region Public Interface.

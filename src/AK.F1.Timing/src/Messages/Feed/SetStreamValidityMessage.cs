@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// A message which sets a value indicating whether the message stream is valid. This class
     /// cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(25)]
+    [Serializable, TypeId(25)]
     public sealed class SetStreamValidityMessage : Message
     {
         #region Public Interface.

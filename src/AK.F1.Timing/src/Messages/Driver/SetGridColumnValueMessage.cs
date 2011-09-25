@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which sets the colour and value of a driver's grid row. This class cannot be
     /// inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(18)]
+    [Serializable, TypeId(18)]
     public sealed class SetGridColumnValueMessage : DriverMessageBase
     {
         #region Public Interface.

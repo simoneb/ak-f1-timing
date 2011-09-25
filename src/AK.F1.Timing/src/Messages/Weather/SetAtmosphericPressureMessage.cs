@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Weather
     /// A message which sets the current atmospheric pressure, in millibars. This class cannot be
     /// inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(39)]
+    [Serializable, TypeId(39)]
     public sealed class SetAtmosphericPressureMessage : Message
     {
         #region Public Interface.

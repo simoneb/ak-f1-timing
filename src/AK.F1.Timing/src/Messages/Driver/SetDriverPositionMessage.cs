@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// A message which sets a driver's track position. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(12)]
+    [Serializable, TypeId(12)]
     public sealed class SetDriverPositionMessage : DriverMessageBase
     {
         #region Public Interface.

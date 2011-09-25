@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// A message which replaces a driver's previous lap time. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(2)]
+    [Serializable, TypeId(2)]
     public sealed class ReplaceDriverLapTimeMessage : DriverMessageBase
     {
         #region Public Interface.

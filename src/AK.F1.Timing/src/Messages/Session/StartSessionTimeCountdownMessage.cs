@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Session
     /// <summary>
     /// A message which starts the remaining session time countdown. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(36)]
+    [Serializable, TypeId(36)]
     public sealed class StartSessionTimeCountdownMessage : Message, IObjectReference
     {
         #region Public Interface.

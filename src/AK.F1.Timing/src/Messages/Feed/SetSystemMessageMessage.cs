@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// A message which contains a message related to the state of the message stream. This class
     /// cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(26)]
+    [Serializable, TypeId(26)]
     public sealed class SetSystemMessageMessage : Message
     {
         #region Public Interface.

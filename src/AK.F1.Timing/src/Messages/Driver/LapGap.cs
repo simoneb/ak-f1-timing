@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// Represents a gap expressed as a number of laps. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(0)]
+    [Serializable, TypeId(0)]
     public sealed class LapGap : Gap, IEquatable<LapGap>
     {
         #region Public Interface.

@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// A message which sets a driver's current lap number. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(7)]
+    [Serializable, TypeId(7)]
     public sealed class SetDriverLapNumberMessage : DriverMessageBase
     {
         #region Public Interface.

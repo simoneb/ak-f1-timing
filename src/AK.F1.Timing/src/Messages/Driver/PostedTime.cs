@@ -22,8 +22,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// Contains the time, type and lap number of a time posted during a timing session. This class
     /// cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(1)]
+    [Serializable, TypeId(1)]
     public sealed class PostedTime : IEquatable<PostedTime>, IComparable<PostedTime>, IComparable
     {
         #region Public Interface.

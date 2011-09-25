@@ -24,8 +24,7 @@ namespace AK.F1.Timing.Messages.Session
     /// A message which contains the speeds captured at a specific location on the track.
     /// This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(35)]
+    [Serializable, TypeId(35)]
     public sealed class SpeedCaptureMessage : Message, ICustomSerializable
     {
         #region Public Interface.

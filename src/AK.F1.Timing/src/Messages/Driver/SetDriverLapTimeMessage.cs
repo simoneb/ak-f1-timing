@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// A message which sets a driver's lap time. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(8)]
+    [Serializable, TypeId(8)]
     public sealed class SetDriverLapTimeMessage : DriverMessageBase
     {
         #region Public Interface.

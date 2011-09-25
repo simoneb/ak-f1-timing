@@ -22,8 +22,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// A message which sets a driver's speed at a particualr location on the track.
     /// This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(15)]
+    [Serializable, TypeId(15)]
     public sealed class SetDriverSpeedMessage : DriverMessageBase
     {
         #region Public Interface.

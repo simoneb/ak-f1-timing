@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// A message which sets a driver's qually time. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(13)]
+    [Serializable, TypeId(13)]
     public sealed class SetDriverQuallyTimeMessage : DriverMessageBase
     {
         #region Public Interface.

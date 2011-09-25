@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Session
     /// <summary>
     /// A message which sets the remaining session session time. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(32)]
+    [Serializable, TypeId(32)]
     public sealed class SetRemainingSessionTimeMessage : Message
     {
         #region Public Interface.

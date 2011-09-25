@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Weather
     /// A message which sets the current track temperature, in degrees celsius. This class cannot
     /// be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(42)]
+    [Serializable, TypeId(42)]
     public sealed class SetTrackTemperatureMessage : Message
     {
         #region Public Interface.

@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// A message which sets the lastest ketframe number associated with the message stream. This
     /// class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(21)]
+    [Serializable, TypeId(21)]
     public sealed class SetKeyframeMessage : Message
     {
         #region Public Interface.

@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// Represents a gap expressed as a unit of time. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(19)]
+    [Serializable, TypeId(19)]
     public sealed class TimeGap : Gap, IEquatable<TimeGap>
     {
         #region Public Interface.

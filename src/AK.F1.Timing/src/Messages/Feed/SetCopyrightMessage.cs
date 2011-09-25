@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// A message which contains the copyright text associated with the message stream. This class
     /// cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(20)]
+    [Serializable, TypeId(20)]
     public sealed class SetCopyrightMessage : Message
     {
         #region Public Interface.

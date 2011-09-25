@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// <summary>
     /// A message which sets the feed timestamp. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(24)]
+    [Serializable, TypeId(24)]
     public sealed class SetStreamTimestampMessage : Message
     {
         #region Public Interface.

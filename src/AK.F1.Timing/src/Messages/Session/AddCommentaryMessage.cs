@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Session
     /// A message which adds a block commentary related to the current session. This class cannot
     /// be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(27)]
+    [Serializable, TypeId(27)]
     public sealed class AddCommentaryMessage : Message
     {
         #region Public Interface.

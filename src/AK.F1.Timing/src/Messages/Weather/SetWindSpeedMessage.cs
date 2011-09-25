@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Weather
     /// A message which sets the current wind speed, in metres per second. This class cannot be
     /// inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(44)]
+    [Serializable, TypeId(44)]
     public sealed class SetWindSpeedMessage : Message
     {
         #region Public Interface.

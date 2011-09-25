@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Session
     /// A message which sets the <see cref="AK.F1.Timing.Messages.Session.SessionStatus"/>
     /// of the current session. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(33)]
+    [Serializable, TypeId(33)]
     public sealed class SetSessionStatusMessage : Message
     {
         #region Public Interface.

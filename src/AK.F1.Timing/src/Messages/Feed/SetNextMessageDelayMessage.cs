@@ -21,8 +21,7 @@ namespace AK.F1.Timing.Messages.Feed
     /// A message which specifies the delay that should be inserted between the next message. This
     /// class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(22)]
+    [Serializable, TypeId(22)]
     public sealed class SetNextMessageDelayMessage : Message
     {
         #region Public Interface.

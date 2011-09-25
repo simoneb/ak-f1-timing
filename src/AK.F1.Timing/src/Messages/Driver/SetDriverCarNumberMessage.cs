@@ -20,8 +20,7 @@ namespace AK.F1.Timing.Messages.Driver
     /// <summary>
     /// A message which sets a driver's car number. This class cannot be inherited.
     /// </summary>
-    [Serializable]
-    [TypeId(4)]
+    [Serializable, TypeId(4)]
     public sealed class SetDriverCarNumberMessage : DriverMessageBase
     {
         #region Public Interface.
