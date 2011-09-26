@@ -53,7 +53,7 @@ namespace AK.F1.Timing.Server
         /// </summary>
         /// <param name="username">A valid www.formula1.com username.</param>
         /// <param name="password">The corresponding password.</param>
-        /// <param name="endpoint">The endpoint to bind to. The default is any address on 50192.</param>
+        /// <param name="endpoint">The endpoint to bind to. The default is any on 4532.</param>
         /// <param name="connectionBacklog">The accept connection backlog.</param>     
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="username"/> or <paramref name="password"/> is 
@@ -87,7 +87,7 @@ namespace AK.F1.Timing.Server
         /// </summary>
         /// <param name="path">The path of the recorded live-timing message stream.</param>
         /// <param name="speed">The playback speed.</param>
-        /// <param name="endpoint">The endpoint to bind to. The default is any address on 50192.</param>
+        /// <param name="endpoint">The endpoint to bind to. The default is any on 4532.</param>
         /// <param name="connectionBacklog">The accept connection backlog.</param>  
         /// <exception cref="System.ArgumentNullException">
         /// Thrown when <paramref name="path"/> is  <see langword="null"/>.

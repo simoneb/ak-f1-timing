@@ -35,7 +35,7 @@ namespace AK.F1.Timing.Proxy
         /// <summary>
         /// Defines the default proxy port. This field is constant.
         /// </summary>
-        public const int DefaultPort = 50192;
+        public const int DefaultPort = 4532;
 
         #endregion
 
