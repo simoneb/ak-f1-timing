@@ -14,6 +14,6 @@
 
 using System.Reflection;
 
-[assembly: AssemblyTitle("F1 Live-Timing Server Core Test")]
-[assembly: AssemblyDescription("F1 Live-Timing Server Core Test.")]
-[assembly: AssemblyProduct("AK.F1.Timing.Server.Test")]
+[assembly: AssemblyTitle("F1 Live-Timing Server for .NET 4")]
+[assembly: AssemblyDescription("F1 Live-Timing Server for .NET 4.")]
+[assembly: AssemblyProduct("AK.F1.Timing.Utility.Server")]

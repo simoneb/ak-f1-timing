@@ -1,4 +1,4 @@
-// Copyright 2011 Andy Kernahan
+﻿// Copyright 2011 Andy Kernahan
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,11 +18,12 @@ using System.Threading;
 using AK.CmdLine;
 using AK.CmdLine.Impl;
 using AK.F1.Timing.Proxy;
+using AK.F1.Timing.Server;
 using AK.F1.Timing.Server.Proxy;
 using log4net;
 using log4net.Config;
 
-namespace AK.F1.Timing.Server
+namespace AK.F1.Timing.Utility.Server
 {
     /// <summary>
     /// Application entry point container. This class is <see langword="static"/>.
@@ -43,9 +44,7 @@ namespace AK.F1.Timing.Server
         [STAThread]
         public static void Main(string[] args)
         {
-            var program = new Program();
-            var driver = new CmdLineDriver(program, Console.Error);
-            driver.TryProcess(args);
+            new CmdLineDriver(new Program(), Console.Error).TryProcess(args);
         }
 
         /// <summary>

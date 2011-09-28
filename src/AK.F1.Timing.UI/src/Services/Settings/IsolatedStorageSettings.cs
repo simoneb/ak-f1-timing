@@ -27,6 +27,7 @@ namespace AK.F1.Timing.UI.Services.Settings
 
         private const string EmailProperty = "Email";
         private const string PasswordProperty = "Password";
+        private const string ProxyHostNameProperty = "ProxyHostName";
         private const string FileName = "settings.xml";
 
         #endregion
@@ -60,6 +61,17 @@ namespace AK.F1.Timing.UI.Services.Settings
             {
                 InsertOrUpdate(PasswordProperty, value);
                 NotifyOfPropertyChange(PasswordProperty);
+            }
+        }
+
+        /// <inheritdoc/>
+        public string ProxyHostName
+        {
+            get { return Get(ProxyHostNameProperty); }
+            set
+            {
+                InsertOrUpdate(ProxyHostNameProperty, value);
+                NotifyOfPropertyChange(ProxyHostNameProperty);
             }
         }
 

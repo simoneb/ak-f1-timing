@@ -209,6 +209,8 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Converters\ObjectTypeToResourceConverter.cs" />
+    <Compile Include="Results\ResolveHostNameResult.cs" />
+    <Compile Include="Results\PlayProxiedSessionResult.cs" />
     <Compile Include="Results\PlayRecordedSessionResult.cs" />
     <Compile Include="Results\PlaySessionResultBase.cs" />
     <Compile Include="App.xaml.cs">

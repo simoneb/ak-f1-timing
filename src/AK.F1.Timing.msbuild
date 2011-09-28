@@ -29,7 +29,7 @@
     <UIBinPath>$(SrcPath)\AK.F1.Timing.UI\src\bin\$(BuildType)</UIBinPath>
     <RecorderBinPath>$(SrcPath)\AK.F1.Timing.Utility.Recorder\src\bin\$(BuildType)</RecorderBinPath>    
     <TmsUtilityBinPath>$(SrcPath)\AK.F1.Timing.Utility.Tms\src\bin\$(BuildType)</TmsUtilityBinPath>
-    <ServerBinPath>$(SrcPath)\AK.F1.Timing.Server\src\bin\$(BuildType)</ServerBinPath>
+    <ServerBinPath>$(SrcPath)\AK.F1.Timing.Utility.Server\src\bin\$(BuildType)</ServerBinPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildTasksPath)\MSBuild.Community.tasks"/>
@@ -95,7 +95,7 @@
 
   <Target
     Name="PackageAll"
-    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageUtilities;PackageUI;PackageServer"/>
+    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageUtilities;PackageUI"/>
     
   <Target Name="PackageLibs" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
@@ -132,6 +132,8 @@
       <RecorderPackageBinPath>$(RecorderPackagePath)\bin</RecorderPackageBinPath>
       <TmsUtilityPackageName>f1tmsutil</TmsUtilityPackageName>      
       <TmsUtilityPackageBinPath>$(TmsUtilityPackagePath)\bin</TmsUtilityPackageBinPath>
+      <ServerPackageName>f1server</ServerPackageName>
+      <ServerPackageBinPath>$(ServerPackagePath)\bin</ServerPackageBinPath>
     </PropertyGroup>
     <ItemGroup>
       <RecorderPackageRootFiles
@@ -146,14 +148,20 @@
       <TmsUtilityPackageBinFiles
         Include="$(TmsUtilityBinPath)\*.*"
         Exclude="@(TmsUtilityPackageRootFiles);$(TmsUtilityBinPath)\*.xml;$(TmsUtilityBinPath)\*.pdb"/>
+      <ServerPackageRootFiles
+        Include="$(ServerBinPath)\$(ServerPackageName).*"
+        Exclude="$(ServerBinPath)\*.pdb"/>
+      <ServerPackageBinFiles
+        Include="$(ServerBinPath)\*.*"
+        Exclude="@(ServerPackageRootFiles);$(ServerBinPath)\*.xml;$(ServerBinPath)\*.pdb"/>
     </ItemGroup>
     <MakeDir
       Directories="$(UtilitiesPackageBinPath)"/>
     <Copy
-      SourceFiles="@(RecorderPackageRootFiles);@(TmsUtilityPackageRootFiles)"
+      SourceFiles="@(RecorderPackageRootFiles);@(TmsUtilityPackageRootFiles);@(ServerPackageRootFiles)"
       DestinationFolder="$(UtilitiesPackagePath)"/>
     <Copy
-      SourceFiles="@(RecorderPackageBinFiles);@(TmsUtilityPackageBinFiles)"
+      SourceFiles="@(RecorderPackageBinFiles);@(TmsUtilityPackageBinFiles);@(ServerPackageBinFiles)"
       DestinationFolder="$(UtilitiesPackageBinPath)"/>
     <ItemGroup>
       <UtilitiesPackageFiles
@@ -197,40 +205,6 @@
       Files="@(UIPackageFiles)"
       ZipFileName="$(BinPath)\$(UIPackageName)-v$(GlobalAssemblyVersion).zip"
       WorkingDirectory="$(UIPackagePath)"
-      Flatten="false"
-      ZipLevel="10"/>
-  </Target>
-
-  <Target Name="PackageServer" DependsOnTargets="$(CorePackageDependsOn)">
-    <PropertyGroup>
-      <ServerPackageName>f1server</ServerPackageName>
-      <ServerPackagePath>$(BinPath)\latest-$(ServerPackageName)</ServerPackagePath>
-      <ServerPackageBinPath>$(ServerPackagePath)\bin</ServerPackageBinPath>
-    </PropertyGroup>
-    <ItemGroup>
-      <ServerPackageRootFiles
-        Include="$(ServerBinPath)\$(ServerPackageName).*"
-        Exclude="$(ServerBinPath)\*.pdb"/>
-      <ServerPackageBinFiles
-        Include="$(ServerBinPath)\*.*"
-        Exclude="@(ServerPackageRootFiles);$(ServerBinPath)\*.xml;$(ServerBinPath)\*.pdb"/>
-    </ItemGroup>
-    <MakeDir
-      Directories="$(ServerPackageBinPath)"/>
-    <Copy
-      SourceFiles="@(ServerPackageRootFiles)"
-      DestinationFolder="$(ServerPackagePath)"/>
-    <Copy
-      SourceFiles="@(ServerPackageBinFiles)"
-      DestinationFolder="$(ServerPackageBinPath)"/>
-    <ItemGroup>
-      <ServerPackageFiles
-        Include="$(ServerPackagePath)\**\*.*"/>
-    </ItemGroup>
-    <Zip
-      Files="@(ServerPackageFiles)"
-      ZipFileName="$(BinPath)\$(ServerPackageName)-v$(GlobalAssemblyVersion).zip"
-      WorkingDirectory="$(ServerPackagePath)"
       Flatten="false"
       ZipLevel="10"/>
   </Target>

@@ -22,6 +22,8 @@ namespace AK.F1.Timing.UI.Services.Settings
 
         string Password { get; set; }
 
+        string ProxyHostName { get; set; }
+
         void Save();
     }
 }

@@ -35,7 +35,8 @@ namespace AK.F1.Timing.UI.Screens
 
         private string _username;
         private string _password;
-        private string _loginErrorMessage;
+        private string _proxyHostName;
+        private string _errorMessage;
         private readonly ISettings _settings;
         private readonly IShellScreen _shellScreen;
 
@@ -78,12 +79,73 @@ namespace AK.F1.Timing.UI.Screens
         }
 
         /// <summary>
+        /// Reads the live-timing proxy.
+        /// </summary>
+        [AsyncAction(BlockInteraction = true)]
+        public IEnumerable<IResult> ReadProxy()
+        {
+            ErrorMessage = null;
+
+            var resolveResult = new ResolveHostNameResult(ProxyHostName);
+
+            yield return resolveResult;
+
+            if(!resolveResult.Success)
+            {
+                ErrorMessage = resolveResult.Exception.Message;
+                yield break;
+            }
+
+            SaveProxyHostName();
+
+            yield return new PlayProxiedSessionResult(resolveResult.Address);
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the proxy can be read.
+        /// </summary>
+        public bool CanReadProxy
+        {
+            get { return IsProxyEnabled && IsProxyHostNameValid; }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the proxy functionality is enabled.
+        /// </summary>
+        public bool IsProxyEnabled
+        {
+            get { return true; }
+        }
+
+        /// <summary>
+        /// Gets or sets the proxy host name.
+        /// </summary>
+        public string ProxyHostName
+        {
+            get { return _proxyHostName; }
+            set
+            {
+                _proxyHostName = value;
+                NotifyOfPropertyChange(() => IsProxyHostNameValid);
+                NotifyOfPropertyChange(() => CanReadProxy);
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating if the proxy host name is valid.
+        /// </summary>
+        public bool IsProxyHostNameValid
+        {
+            get { return !string.IsNullOrEmpty(_proxyHostName); }
+        }
+
+        /// <summary>
         /// Logs into the live-timing feed.
         /// </summary>
         [AsyncAction(BlockInteraction = true)]
         public IEnumerable<IResult> Login()
         {
-            LoginErrorMessage = null;
+            ErrorMessage = null;
 
             var login = new LiveLoginResult(Username, Password);
 
@@ -91,7 +153,7 @@ namespace AK.F1.Timing.UI.Screens
 
             if(!login.Success)
             {
-                LoginErrorMessage = login.Exception.Message;
+                ErrorMessage = login.Exception.Message;
                 yield break;
             }
 
@@ -155,25 +217,25 @@ namespace AK.F1.Timing.UI.Screens
         }
 
         /// <summary>
-        /// Gets the current login error message.
+        /// Gets the current error message.
         /// </summary>
-        public string LoginErrorMessage
+        public string ErrorMessage
         {
-            get { return _loginErrorMessage; }
+            get { return _errorMessage; }
             private set
             {
-                _loginErrorMessage = value;
-                NotifyOfPropertyChange(() => LoginErrorMessage);
-                NotifyOfPropertyChange(() => HasLoginErrorMessage);
+                _errorMessage = value;
+                NotifyOfPropertyChange(() => ErrorMessage);
+                NotifyOfPropertyChange(() => HasErrorMessage);
             }
         }
 
         /// <summary>
-        /// Gets a value indicating if there is a login message.
+        /// Gets a value indicating if there is an message.
         /// </summary>
-        public bool HasLoginErrorMessage
+        public bool HasErrorMessage
         {
-            get { return !string.IsNullOrEmpty(_loginErrorMessage); }
+            get { return !string.IsNullOrEmpty(_errorMessage); }
         }
 
         #endregion
@@ -185,6 +247,7 @@ namespace AK.F1.Timing.UI.Screens
         {
             Username = _settings.Username;
             Password = _settings.Password;
+            ProxyHostName = _settings.ProxyHostName;
 
             base.OnActivate();
         }
@@ -197,6 +260,12 @@ namespace AK.F1.Timing.UI.Screens
         {
             _settings.Username = Username;
             _settings.Password = Password;
+            _settings.Save();
+        }
+
+        private void SaveProxyHostName()
+        {
+            _settings.ProxyHostName = ProxyHostName;
             _settings.Save();
         }
 

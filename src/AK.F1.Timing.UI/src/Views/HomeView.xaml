@@ -6,29 +6,41 @@
     xmlns:Components="clr-namespace:AK.F1.Timing.UI.Views.Components">
     <UserControl.Resources>
         <SolidColorBrush x:Key="ErrorBrush" Color="Red"/>
-        <Style x:Key="LoginUsernameStyle" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
+        <Style x:Key="UsernameStyle" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsUsernameValid}" Value="False">
                     <Setter Property="TextBox.BorderBrush" Value="{StaticResource ErrorBrush}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="LoginPasswordStyle" BasedOn="{StaticResource {x:Type PasswordBox}}" TargetType="{x:Type PasswordBox}">
+        <Style x:Key="PasswordStyle" BasedOn="{StaticResource {x:Type PasswordBox}}" TargetType="{x:Type PasswordBox}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsPasswordValid}" Value="False">
                     <Setter Property="PasswordBox.BorderBrush" Value="{StaticResource ErrorBrush}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="LoginButtonStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+
+        <Style x:Key="ButtonStyle" BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="0,2,2,0"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>            
         </Style>
-        <Style x:Key="LoginErrorMessageStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
+        <Style x:Key="ErrorMessageStyle" BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="{x:Type TextBlock}">
             <Setter Property="Margin" Value="0,5,0,0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="Foreground" Value="{StaticResource ErrorBrush}"/>
-            <Setter Property="Visibility" Value="{Binding HasLoginErrorMessage, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource HiddenWhenFalseConverter}}"/>
+            <Setter Property="Visibility" Value="{Binding HasErrorMessage, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource HiddenWhenFalseConverter}}"/>
+        </Style>
+        <Style x:Key="ProxyGroupBoxStyle" BasedOn="{StaticResource {x:Type GroupBox}}" TargetType="{x:Type GroupBox}">
+            <Setter Property="Margin" Value="0,4,0,0"/>            
+            <Setter Property="Visibility" Value="{Binding IsProxyEnabled, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource CollapsedWhenFalseConverter}}"/>
+        </Style>
+        <Style x:Key="ProxyHostNameStyle" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsProxyHostNameValid}" Value="False">
+                    <Setter Property="TextBox.BorderBrush" Value="{StaticResource ErrorBrush}"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
     </UserControl.Resources>
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-52.5,0,0">
@@ -48,14 +60,33 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="Email" Text="Email" Style="{StaticResource FieldLabel}"/>
-                <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource LoginUsernameStyle}"/>
+                <TextBox Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource UsernameStyle}"/>
                 <TextBlock Text="Password" Grid.Row="1" Style="{StaticResource FieldLabel}"/>
                 <!-- Not sure why, but I have to explicity pass the data context. -->
-                <PasswordBox x:Name="Password" DataContext="{Binding}" PasswordChanged="OnPasswordChanged" Grid.Row="1" Grid.Column="1" Style="{StaticResource LoginPasswordStyle}"/>
-                <Button Content="Login" x:Name="Login" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource LoginButtonStyle}"/>
+                <PasswordBox x:Name="Password" DataContext="{Binding}" PasswordChanged="OnPasswordChanged" Grid.Row="1" Grid.Column="1" Style="{StaticResource PasswordStyle}"/>
+                <Button Content="Login" x:Name="Login" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}"/>
             </Grid>
         </GroupBox>
-        <TextBlock Text="{Binding LoginErrorMessage}" Style="{StaticResource LoginErrorMessageStyle}"/>
+        <GroupBox Width="285" Style="{StaticResource ProxyGroupBoxStyle}">
+            <GroupBox.Header>
+                <Label>Live-Timing Proxy</Label>
+            </GroupBox.Header>
+            <Grid Margin="2,4,0,2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Server" Style="{StaticResource FieldLabel}"/>
+                <TextBox Text="{Binding ProxyHostName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource ProxyHostNameStyle}"/>                
+                <Button Content="Read" x:Name="ReadProxy" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource ButtonStyle}"/>
+            </Grid>
+        </GroupBox>
+        <TextBlock Text="{Binding ErrorMessage}" Style="{StaticResource ErrorMessageStyle}"/>
         <!-- <Button Content="Playback" x:Name="Playback"/> -->
     </StackPanel>
 </UserControl>
