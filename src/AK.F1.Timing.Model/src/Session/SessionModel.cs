@@ -60,6 +60,7 @@ namespace AK.F1.Timing.Model.Session
             OneSecondTimer.Interval = OneSecond;
             OneSecondTimer.Tick += (s, e) => OnOneSecondElapsed();
             SessionStatus = SessionStatus.Finished;
+            SpeedCaptures = new SpeedCapturesModel(this);
             Weather = new WeatherModel();
             Builder = new SessionModelBuilder(this);
         }
@@ -94,6 +95,7 @@ namespace AK.F1.Timing.Model.Session
             RemainingSessionTime = TimeSpan.Zero;
             SessionStatus = SessionStatus.Finished;
             SessionType = SessionType.None;
+            SpeedCaptures.Reset();
             Weather.Reset();
         }
 
@@ -118,6 +120,11 @@ namespace AK.F1.Timing.Model.Session
         /// Gets the collection of drivers participating in this session.
         /// </summary>
         public ReadOnlyObservableCollection<DriverModel> Drivers { get; private set; }
+
+        /// <summary>
+        /// Gets the speed captures model.
+        /// </summary>
+        public SpeedCapturesModel SpeedCaptures { get; private set; }
 
         /// <summary>
         /// Gets the weather model.

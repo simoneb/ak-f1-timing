@@ -69,6 +69,8 @@
     <Compile Include="Collections\DoubleCollectionModel.cs" />
     <Compile Include="Grid\NullGridModel.cs" />
     <Compile Include="Grid\NullGridRowModel.cs" />
+    <Compile Include="Session\SpeedCapturesModelBuilder.cs" />
+    <Compile Include="Session\SpeedCapturesModel.cs" />
     <Compile Include="Session\IDriverModelLocator.cs" />
     <Compile Include="Session\FastestTimesModelBuilder.cs" />
     <Compile Include="Session\MessageModelBuilder.cs" />
@@ -76,6 +78,7 @@
     <Compile Include="Session\FastestTimeModel.cs" />
     <Compile Include="Session\FeedModel.cs" />
     <Compile Include="Session\MessageModel.cs" />
+    <Compile Include="Session\SpeedCaptureModel.cs" />
     <Compile Include="Session\WeatherModel.cs" />
     <Compile Include="Session\FastestTimesModel.cs" />
     <Compile Include="Grid\GridModelBase.cs" />
@@ -131,7 +134,7 @@
   -->
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" BuildVersion_ConfigurationName="Release" BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" />
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.Increment.DeltaBaseYearDayOfYear" BuildVersion_ConfigurationName="Release" BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

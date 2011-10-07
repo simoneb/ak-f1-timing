@@ -75,6 +75,8 @@
     <Compile Include="Collections\DelegateComparerTest.cs" />
     <Compile Include="Collections\SortableObservableCollectionTest.cs" />
     <Compile Include="PropertyChangeObserver.cs" />
+    <Compile Include="Session\SpeedCapturesModelTest.cs" />
+    <Compile Include="Session\SpeedCaptureModelTest.cs" />
     <Compile Include="Session\MessageModelTest.cs" />
     <Compile Include="Session\FeedModelTest.cs" />
     <Compile Include="Grid\RaceGridModelTest.cs" />

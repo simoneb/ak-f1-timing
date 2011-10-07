@@ -55,6 +55,7 @@ namespace AK.F1.Timing.Model.Session
                 Model.FastestTimes.Process(message);
                 Model.Grid.Process(message);
                 Model.Messages.Process(message);
+                Model.SpeedCaptures.Process(message);
                 Model.Weather.Process(message);
             }
 

@@ -12,8 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using System;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
-using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Model.Session;
 
 namespace AK.F1.Timing.Model
@@ -22,22 +23,33 @@ namespace AK.F1.Timing.Model
     {
         public static void Main(string[] args)
         {
-            Message message;
-            SessionModel session = new SessionModel();
-            string path = @"..\..\..\..\..\tms\2010\04-china\race.tms";
 
+            new SpeedCapturesModelTest().only_the_fastest_six_speeds_are_maintained();
+
+            Message message;
+            var session = new SessionModel();
+            var path = @"D:\dev\.net\src\ak-f1-timing\tms\2011\14-singapore\race.tms";
             using(var reader = F1Timing.Playback.Read(path))
             {
                 reader.PlaybackSpeed = 5000000d;
                 while((message = reader.Read()) != null)
                 {
-                    if(message is DriverMessageBase && !(message is SetGridColumnValueMessage))
-                    {
-                        //System.Diagnostics.Debugger.Break();
-                    }
                     session.Process(message);
                 }
+                Print(session.SpeedCaptures.S1);
+                Print(session.SpeedCaptures.S2);
+                Print(session.SpeedCaptures.S3);
+                Print(session.SpeedCaptures.Straight);
                 Debugger.Break();
+            }
+        }
+
+        private static void Print(ReadOnlyObservableCollection<SpeedCaptureModel> collection)
+        {
+            Console.WriteLine(collection[0].Location);
+            foreach(var model in collection)
+            {
+                Console.WriteLine("{0,-20} - {1}", model.Driver, model.Speed);
             }
         }
     }
