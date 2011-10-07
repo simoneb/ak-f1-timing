@@ -13,5 +13,9 @@
     <assembly filename="AK.F1.Timing.Server\test\bin\Debug\AK.F1.Timing.Server.Test.dll" shadow-copy="true">
       <output type="xml" filename="AK.F1.Timing.Server.Test.Results.xml" />
     </assembly>
+    <!-- AK.F1.Timing.Service.Test.dll -->
+    <assembly filename="AK.F1.Timing.Service\test\bin\Debug\AK.F1.Timing.Service.Test.dll" shadow-copy="true">
+      <output type="xml" filename="AK.F1.Timing.Service.Test.Results.xml" />
+    </assembly>
   </assemblies>
 </xunit>

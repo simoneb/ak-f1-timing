@@ -154,7 +154,7 @@ namespace AK.F1.Timing.Utility.Server
                 backlog: connectionBacklog))
             {
                 server.Start();
-                exitEvent.Wait();
+                CmdLineCancelKey.WaitFor().Dispose();
             }
         }
 

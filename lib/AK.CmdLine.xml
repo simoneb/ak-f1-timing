@@ -6,7 +6,7 @@
     <members>
         <member name="T:AK.CmdLine.CmdLineDriver">
             <summary>
-            
+            A command line driver which invokes methods on a component.
             </summary>
         </member>
         <member name="M:AK.CmdLine.CmdLineDriver.#ctor(System.Object,AK.CmdLine.Impl.IUsageWriter,AK.CmdLine.Impl.IValueConverter)">
@@ -45,6 +45,22 @@
             <summary>
             Gets the <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/>.
             </summary>
+        </member>
+        <member name="T:AK.CmdLine.CmdLineCancelKey">
+            <summary>
+            A utility class which blocks the current thread until the console cancel keys (ctrl+c) are pressed.
+            This class cannot be inherited.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.CmdLineCancelKey.WaitFor">
+            <summary>
+            Blocks the current thread until the console cancel keys (ctrl+c) are pressed.
+            </summary>
+            <returns>An <see cref="T:System.IDisposable"/> which blocks the current thread until the console
+            cancel keys (ctrl+c) are pressed.</returns>
+        </member>
+        <member name="M:AK.CmdLine.CmdLineCancelKey.Dispose">
+            <inheritdoc/>        
         </member>
         <member name="T:AK.CmdLine.Impl.ComponentDescriptor">
             <summary>
@@ -649,6 +665,12 @@
             provided for.</param>
             <param name="output">The output <see cref="T:System.IO.TextWriter"/>.</param>
         </member>
+        <member name="M:AK.CmdLine.Impl.XmlDocUsageProvider.GetComponentDescription">
+            <summary>
+            Gets a descripton of the specified component.
+            </summary>
+            <returns>A descripton of the component.</returns>
+        </member>
         <member name="M:AK.CmdLine.Impl.XmlDocUsageProvider.GetDescription(AK.CmdLine.Impl.MethodDescriptor)">
             <summary>
             Gets a descripton of the specified <paramref name="method"/>.
@@ -716,6 +738,9 @@
             <param name="parameter">The <see cref="T:System.Reflection.ParameterInfo"/> to describe.</param>
             <exception cref="T:System.ArgumentNullException">
             Thrown when <paramref name="method"/> or <paramref name="parameter"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.NotSupportedException">
+            Thrown when <paramref name="parameter"/> could not be described.
             </exception>
         </member>
         <member name="M:AK.CmdLine.Impl.ParameterDescriptor.ToString">
@@ -1380,6 +1405,11 @@
         <member name="P:AK.CmdLine.Messages.MethodDescriptor_DuplicateParameter">
             <summary>
               Looks up a localized string similar to A duplicate parameter named &apos;{0}&apos; is declared in the signature method &apos;{1}&apos; declared by type &apos;{2}&apos;. Note that parameter names and short names are treated case insensitively..
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Messages.ParameterDescriptor_OnlyParamArraysAreSupported">
+            <summary>
+              Looks up a localized string similar to An array type parameter named &apos;{0}&apos; is declared in the signature method &apos;{1}&apos; declared by type &apos;{2}&apos;. Note that only array type parameters decorated with param array attribute are supported..
             </summary>
         </member>
     </members>

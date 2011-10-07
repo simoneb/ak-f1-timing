@@ -30,6 +30,7 @@
     <RecorderBinPath>$(SrcPath)\AK.F1.Timing.Utility.Recorder\src\bin\$(BuildType)</RecorderBinPath>    
     <TmsUtilityBinPath>$(SrcPath)\AK.F1.Timing.Utility.Tms\src\bin\$(BuildType)</TmsUtilityBinPath>
     <ServerBinPath>$(SrcPath)\AK.F1.Timing.Utility.Server\src\bin\$(BuildType)</ServerBinPath>
+    <ServiceBinPath>$(SrcPath)\AK.F1.Timing.Service\src\bin\$(BuildType)</ServiceBinPath>
   </PropertyGroup>
 
   <Import Project="$(MSBuildTasksPath)\MSBuild.Community.tasks"/>
@@ -95,7 +96,7 @@
 
   <Target
     Name="PackageAll"
-    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageUtilities;PackageUI"/>
+    DependsOnTargets="$(CorePackageDependsOn);PackageLibs;PackageUtilities;PackageUI;PackageService"/>
     
   <Target Name="PackageLibs" DependsOnTargets="$(CorePackageDependsOn)">
     <PropertyGroup>
@@ -205,6 +206,40 @@
       Files="@(UIPackageFiles)"
       ZipFileName="$(BinPath)\$(UIPackageName)-v$(GlobalAssemblyVersion).zip"
       WorkingDirectory="$(UIPackagePath)"
+      Flatten="false"
+      ZipLevel="10"/>
+  </Target>
+
+  <Target Name="PackageService" DependsOnTargets="$(CorePackageDependsOn)">
+    <PropertyGroup>
+      <ServicePackageName>f1service</ServicePackageName>
+      <ServicePackagePath>$(BinPath)\latest-$(ServicePackageName)</ServicePackagePath>
+      <ServicePackageBinPath>$(ServicePackagePath)\bin</ServicePackageBinPath>
+    </PropertyGroup>
+    <ItemGroup>
+      <ServicePackageRootFiles
+        Include="$(ServiceBinPath)\$(ServicePackageName).*"
+        Exclude="$(ServiceBinPath)\*.pdb"/>
+      <ServicePackageBinFiles
+        Include="$(ServiceBinPath)\*.*"
+        Exclude="@(ServicePackageRootFiles);$(ServiceBinPath)\*.xml;$(ServiceBinPath)\*.pdb"/>
+    </ItemGroup>
+    <MakeDir
+      Directories="$(ServicePackageBinPath)"/>
+    <Copy
+      SourceFiles="@(ServicePackageRootFiles)"
+      DestinationFolder="$(ServicePackagePath)"/>
+    <Copy
+      SourceFiles="@(ServicePackageBinFiles)"
+      DestinationFolder="$(ServicePackageBinPath)"/>
+    <ItemGroup>
+      <ServicePackageFiles
+        Include="$(ServicePackagePath)\**\*.*"/>
+    </ItemGroup>
+    <Zip
+      Files="@(ServicePackageFiles)"
+      ZipFileName="$(BinPath)\$(ServicePackageName)-v$(GlobalAssemblyVersion).zip"
+      WorkingDirectory="$(ServicePackagePath)"
       Flatten="false"
       ZipLevel="10"/>
   </Target>
