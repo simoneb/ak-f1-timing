@@ -17,6 +17,7 @@ using AK.CmdLine;
 using AK.F1.Timing.Service.Configuration;
 using AK.F1.Timing.Service.Configuration.Impl;
 using AK.F1.Timing.Service.Jobs;
+using AK.F1.Timing.Service.Utility;
 using log4net;
 using log4net.Config;
 using Quartz;
@@ -51,22 +52,6 @@ namespace AK.F1.Timing.Service
         }
 
         /// <summary>
-        /// Validates the configuration and reports any errors.
-        /// </summary>        
-        public void Validate()
-        {
-            try
-            {
-                GetConfiguration();
-                Log.Info("configuration is valid");
-            }
-            catch(Exception exc)
-            {
-                Log.Error(exc.Message);
-            }
-        }
-
-        /// <summary>
         /// Reads the schedule as specified by the configuration and starts the scheduler.
         /// </summary>
         public void Start()
@@ -87,6 +72,45 @@ namespace AK.F1.Timing.Service
             finally
             {
                 Log.Info("stopped");
+            }
+        }
+
+        /// <summary>
+        /// Validates the configuration and reports any errors.
+        /// </summary>        
+        public void Validate()
+        {
+            try
+            {
+                GetConfiguration();
+                Log.Info("configuration is valid");
+            }
+            catch(Exception exc)
+            {
+                Log.Error(exc.Message);
+            }
+        }
+
+        /// <summary>
+        /// Converts the specified BBC ICS file to a race XML document expected by the service.
+        /// </summary>
+        /// <param name="path">The path of the ICS file.</param>
+        /// <param name="startTimeOffset">The start time offset (in minutes).</param>
+        /// <exception cref="System.ArgumentNullException">
+        /// Thrown when <paramref name="path"/> is <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="System.ArgumentException">
+        /// Thrown when <paramref name="path"/> is of zero length.
+        /// </exception>
+        public void ConvertIcs(string path, int startTimeOffset = -2)
+        {
+            try
+            {
+                BbcIcsConverter.ToXDocument(path, startTimeOffset).Save(Console.Out);
+            }
+            catch(Exception exc)
+            {
+                Log.Error(exc);
             }
         }
 

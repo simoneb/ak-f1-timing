@@ -1,0 +1,1150 @@
+BEGIN:VCALENDAR
+CALSCALE:GREGORIAN
+VERSION:2.0
+PRODID:-//BBC Sport//Formula 1//EN
+METHOD:PUBLISH
+X-WR-CALNAME;VALUE=TEXT:Formula 1 Race Calendar
+X-WR-CALDESC;VALUE=TEXT:Practice, Qualifying and Race sessions
+X-WR-TIMEZONE;VALUE=TEXT:UTC
+
+BEGIN:VEVENT
+UID:20110325T013000Z@news.bbc.co.uk
+DTSTART:20110325T013000Z
+DTEND:20110325T030000Z
+SUMMARY:Australian Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Albert Park, Melbourne, Australia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110325T053000Z@news.bbc.co.uk
+DTSTART:20110325T053000Z
+DTEND:20110325T070000Z
+SUMMARY:Australian Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Albert Park, Melbourne, Australia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110326T030000Z@news.bbc.co.uk
+DTSTART:20110326T030000Z
+DTEND:20110326T040000Z
+SUMMARY:Australian Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Albert Park, Melbourne, Australia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110326T060000Z@news.bbc.co.uk
+DTSTART:20110326T060000Z
+DTEND:20110326T070000Z
+SUMMARY:Australian Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Albert Park, Melbourne, Australia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110327T060000Z@news.bbc.co.uk
+DTSTART:20110327T060000Z
+DTEND:20110327T090000Z
+SUMMARY:Australian Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Albert Park, Melbourne, Australia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110408T020000Z@news.bbc.co.uk
+DTSTART:20110408T020000Z
+DTEND:20110408T033000Z
+SUMMARY:Malaysian Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Sepang International Circuit, Kuala Lumpur, Malaysia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110408T060000Z@news.bbc.co.uk
+DTSTART:20110408T060000Z
+DTEND:20110408T073000Z
+SUMMARY:Malaysian Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Sepang International Circuit, Kuala Lumpur, Malaysia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110409T050000Z@news.bbc.co.uk
+DTSTART:20110409T050000Z
+DTEND:20110409T060000Z
+SUMMARY:Malaysian Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Sepang International Circuit, Kuala Lumpur, Malaysia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110409T080000Z@news.bbc.co.uk
+DTSTART:20110409T080000Z
+DTEND:20110409T090000Z
+SUMMARY:Malaysian Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Sepang International Circuit, Kuala Lumpur, Malaysia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110410T080000Z@news.bbc.co.uk
+DTSTART:20110410T080000Z
+DTEND:20110410T110000Z
+SUMMARY:Malaysian Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Sepang International Circuit, Kuala Lumpur, Malaysia
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110415T020000Z@news.bbc.co.uk
+DTSTART:20110415T020000Z
+DTEND:20110415T033000Z
+SUMMARY:Chinese Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Shanghai International Circuit, Shanghai, China
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110415T060000Z@news.bbc.co.uk
+DTSTART:20110415T060000Z
+DTEND:20110415T073000Z
+SUMMARY:Chinese Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Shanghai International Circuit, Shanghai, China
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110416T030000Z@news.bbc.co.uk
+DTSTART:20110416T030000Z
+DTEND:20110416T040000Z
+SUMMARY:Chinese Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Shanghai International Circuit, Shanghai, China
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110416T060000Z@news.bbc.co.uk
+DTSTART:20110416T060000Z
+DTEND:20110416T070000Z
+SUMMARY:Chinese Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Shanghai International Circuit, Shanghai, China
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110417T070000Z@news.bbc.co.uk
+DTSTART:20110417T070000Z
+DTEND:20110417T100000Z
+SUMMARY:Chinese Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Shanghai International Circuit, Shanghai, China
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110506T070000Z@news.bbc.co.uk
+DTSTART:20110506T070000Z
+DTEND:20110506T083000Z
+SUMMARY:Turkish Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Istanbul Park, Istanbul, Turkey
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110506T110000Z@news.bbc.co.uk
+DTSTART:20110506T110000Z
+DTEND:20110506T123000Z
+SUMMARY:Turkish Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Istanbul Park, Istanbul, Turkey
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110507T080000Z@news.bbc.co.uk
+DTSTART:20110507T080000Z
+DTEND:20110507T090000Z
+SUMMARY:Turkish Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Istanbul Park, Istanbul, Turkey
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110507T110000Z@news.bbc.co.uk
+DTSTART:20110507T110000Z
+DTEND:20110507T120000Z
+SUMMARY:Turkish Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Istanbul Park, Istanbul, Turkey
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110508T120000Z@news.bbc.co.uk
+DTSTART:20110508T120000Z
+DTEND:20110508T150000Z
+SUMMARY:Turkish Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Istanbul Park, Istanbul, Turkey
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110520T080000Z@news.bbc.co.uk
+DTSTART:20110520T080000Z
+DTEND:20110520T093000Z
+SUMMARY:Spanish Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit de Catalunya, Barcelona, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110520T120000Z@news.bbc.co.uk
+DTSTART:20110520T120000Z
+DTEND:20110520T133000Z
+SUMMARY:Spanish Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit de Catalunya, Barcelona, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110521T090000Z@news.bbc.co.uk
+DTSTART:20110521T090000Z
+DTEND:20110521T100000Z
+SUMMARY:Spanish Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit de Catalunya, Barcelona, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110521T120000Z@news.bbc.co.uk
+DTSTART:20110521T120000Z
+DTEND:20110521T130000Z
+SUMMARY:Spanish Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit de Catalunya, Barcelona, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110522T120000Z@news.bbc.co.uk
+DTSTART:20110522T120000Z
+DTEND:20110522T150000Z
+SUMMARY:Spanish Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit de Catalunya, Barcelona, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110526T080000Z@news.bbc.co.uk
+DTSTART:20110526T080000Z
+DTEND:20110526T093000Z
+SUMMARY:Monaco Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monte Carlo Circuit, Monaco
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110526T120000Z@news.bbc.co.uk
+DTSTART:20110526T120000Z
+DTEND:20110526T133000Z
+SUMMARY:Monaco Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monte Carlo Circuit, Monaco
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110528T090000Z@news.bbc.co.uk
+DTSTART:20110528T090000Z
+DTEND:20110528T100000Z
+SUMMARY:Monaco Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monte Carlo Circuit, Monaco
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110528T120000Z@news.bbc.co.uk
+DTSTART:20110528T120000Z
+DTEND:20110528T130000Z
+SUMMARY:Monaco Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monte Carlo Circuit, Monaco
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110529T120000Z@news.bbc.co.uk
+DTSTART:20110529T120000Z
+DTEND:20110529T150000Z
+SUMMARY:Monaco Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monte Carlo Circuit, Monaco
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110610T140000Z@news.bbc.co.uk
+DTSTART:20110610T140000Z
+DTEND:20110610T153000Z
+SUMMARY:Canada Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit Gilles Villeneuve, Montreal, Canada
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110610T180000Z@news.bbc.co.uk
+DTSTART:20110610T180000Z
+DTEND:20110610T193000Z
+SUMMARY:Canada Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit Gilles Villeneuve, Montreal, Canada
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110611T140000Z@news.bbc.co.uk
+DTSTART:20110611T140000Z
+DTEND:20110611T150000Z
+SUMMARY:Canada Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit Gilles Villeneuve, Montreal, Canada
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110611T170000Z@news.bbc.co.uk
+DTSTART:20110611T170000Z
+DTEND:20110611T180000Z
+SUMMARY:Canada Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit Gilles Villeneuve, Montreal, Canada
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110612T170000Z@news.bbc.co.uk
+DTSTART:20110612T170000Z
+DTEND:20110612T200000Z
+SUMMARY:Canada Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Circuit Gilles Villeneuve, Montreal, Canada
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110624T080000Z@news.bbc.co.uk
+DTSTART:20110624T080000Z
+DTEND:20110624T093000Z
+SUMMARY:European Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Valencia, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110624T120000Z@news.bbc.co.uk
+DTSTART:20110624T120000Z
+DTEND:20110624T133000Z
+SUMMARY:European Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Valencia, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110625T090000Z@news.bbc.co.uk
+DTSTART:20110625T090000Z
+DTEND:20110625T100000Z
+SUMMARY:European Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Valencia, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110625T120000Z@news.bbc.co.uk
+DTSTART:20110625T120000Z
+DTEND:20110625T130000Z
+SUMMARY:European Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Valencia, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110626T120000Z@news.bbc.co.uk
+DTSTART:20110626T120000Z
+DTEND:20110626T150000Z
+SUMMARY:European Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Valencia, Spain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110708T090000Z@news.bbc.co.uk
+DTSTART:20110708T090000Z
+DTEND:20110708T103000Z
+SUMMARY:British Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Silverstone Circuit, Northamptonshire, Great Britain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110708T130000Z@news.bbc.co.uk
+DTSTART:20110708T130000Z
+DTEND:20110708T143000Z
+SUMMARY:British Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Silverstone Circuit, Northamptonshire, Great Britain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110709T090000Z@news.bbc.co.uk
+DTSTART:20110709T090000Z
+DTEND:20110709T100000Z
+SUMMARY:British Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Silverstone Circuit, Northamptonshire, Great Britain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110709T120000Z@news.bbc.co.uk
+DTSTART:20110709T120000Z
+DTEND:20110709T130000Z
+SUMMARY:British Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Silverstone Circuit, Northamptonshire, Great Britain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110710T120000Z@news.bbc.co.uk
+DTSTART:20110710T120000Z
+DTEND:20110710T150000Z
+SUMMARY:British Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Silverstone Circuit, Northamptonshire, Great Britain
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110722T080000Z@news.bbc.co.uk
+DTSTART:20110722T080000Z
+DTEND:20110722T093000Z
+SUMMARY:German Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Nurburgring, Germany
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110722T120000Z@news.bbc.co.uk
+DTSTART:20110722T120000Z
+DTEND:20110722T133000Z
+SUMMARY:German Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Nurburgring, Germany
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110723T090000Z@news.bbc.co.uk
+DTSTART:20110723T090000Z
+DTEND:20110723T100000Z
+SUMMARY:German Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Nurburgring, Germany
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110723T120000Z@news.bbc.co.uk
+DTSTART:20110723T120000Z
+DTEND:20110723T130000Z
+SUMMARY:German Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Nurburgring, Germany
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110724T120000Z@news.bbc.co.uk
+DTSTART:20110724T120000Z
+DTEND:20110724T150000Z
+SUMMARY:German Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Nurburgring, Germany
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110729T080000Z@news.bbc.co.uk
+DTSTART:20110729T080000Z
+DTEND:20110729T093000Z
+SUMMARY:Hungarian Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Hungaroring, Budapest, Hungary
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110729T120000Z@news.bbc.co.uk
+DTSTART:20110729T120000Z
+DTEND:20110729T133000Z
+SUMMARY:Hungarian Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Hungaroring, Budapest, Hungary
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110730T090000Z@news.bbc.co.uk
+DTSTART:20110730T090000Z
+DTEND:20110730T100000Z
+SUMMARY:Hungarian Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Hungaroring, Budapest, Hungary
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110730T120000Z@news.bbc.co.uk
+DTSTART:20110730T120000Z
+DTEND:20110730T130000Z
+SUMMARY:Hungarian Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Hungaroring, Budapest, Hungary
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110731T120000Z@news.bbc.co.uk
+DTSTART:20110731T120000Z
+DTEND:20110731T150000Z
+SUMMARY:Hungarian Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Hungaroring, Budapest, Hungary
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110826T080000Z@news.bbc.co.uk
+DTSTART:20110826T080000Z
+DTEND:20110826T093000Z
+SUMMARY:Belgian Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Spa-Francorchamps Circuit, Belgium
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110826T120000Z@news.bbc.co.uk
+DTSTART:20110826T120000Z
+DTEND:20110826T133000Z
+SUMMARY:Belgian Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Spa-Francorchamps Circuit, Belgium
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110827T090000Z@news.bbc.co.uk
+DTSTART:20110827T090000Z
+DTEND:20110827T100000Z
+SUMMARY:Belgian Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Spa-Francorchamps Circuit, Belgium
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110827T120000Z@news.bbc.co.uk
+DTSTART:20110827T120000Z
+DTEND:20110827T130000Z
+SUMMARY:Belgian Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Spa-Francorchamps Circuit, Belgium
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110828T120000Z@news.bbc.co.uk
+DTSTART:20110828T120000Z
+DTEND:20110828T150000Z
+SUMMARY:Belgian Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Spa-Francorchamps Circuit, Belgium
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110909T080000Z@news.bbc.co.uk
+DTSTART:20110909T080000Z
+DTEND:20110909T093000Z
+SUMMARY:Italian Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monza, Italy
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110909T120000Z@news.bbc.co.uk
+DTSTART:20110909T120000Z
+DTEND:20110909T133000Z
+SUMMARY:Italian Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monza, Italy
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110910T090000Z@news.bbc.co.uk
+DTSTART:20110910T090000Z
+DTEND:20110910T100000Z
+SUMMARY:Italian Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monza, Italy
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110910T120000Z@news.bbc.co.uk
+DTSTART:20110910T120000Z
+DTEND:20110910T130000Z
+SUMMARY:Italian Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monza, Italy
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110911T120000Z@news.bbc.co.uk
+DTSTART:20110911T120000Z
+DTEND:20110911T150000Z
+SUMMARY:Italian Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Monza, Italy
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110923T100000Z@news.bbc.co.uk
+DTSTART:20110923T100000Z
+DTEND:20110923T113000Z
+SUMMARY:Singaporean Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Marina Bay, Singapore
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110923T133000Z@news.bbc.co.uk
+DTSTART:20110923T133000Z
+DTEND:20110923T150000Z
+SUMMARY:Singaporean Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Marina Bay, Singapore
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110924T110000Z@news.bbc.co.uk
+DTSTART:20110924T110000Z
+DTEND:20110924T120000Z
+SUMMARY:Singaporean Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Marina Bay, Singapore
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110924T140000Z@news.bbc.co.uk
+DTSTART:20110924T140000Z
+DTEND:20110924T150000Z
+SUMMARY:Singaporean Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Marina Bay, Singapore
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20110925T120000Z@news.bbc.co.uk
+DTSTART:20110925T120000Z
+DTEND:20110925T150000Z
+SUMMARY:Singaporean Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Marina Bay, Singapore
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111007T010000Z@news.bbc.co.uk
+DTSTART:20111007T010000Z
+DTEND:20111007T023000Z
+SUMMARY:Japanese Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Suzuka Circuit, Japan
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111007T050000Z@news.bbc.co.uk
+DTSTART:20111007T050000Z
+DTEND:20111007T063000Z
+SUMMARY:Japanese Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Suzuka Circuit, Japan
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111008T020000Z@news.bbc.co.uk
+DTSTART:20111008T020000Z
+DTEND:20111008T030000Z
+SUMMARY:Japanese Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Suzuka Circuit, Japan
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111008T050000Z@news.bbc.co.uk
+DTSTART:20111008T050000Z
+DTEND:20111008T060000Z
+SUMMARY:Japanese Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Suzuka Circuit, Japan
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111009T060000Z@news.bbc.co.uk
+DTSTART:20111009T060000Z
+DTEND:20111009T090000Z
+SUMMARY:Japanese Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Suzuka Circuit, Japan
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111014T010000Z@news.bbc.co.uk
+DTSTART:20111014T010000Z
+DTEND:20111014T023000Z
+SUMMARY:Korea Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Korean International Circuit, Yeongam, Korea
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111014T050000Z@news.bbc.co.uk
+DTSTART:20111014T050000Z
+DTEND:20111014T063000Z
+SUMMARY:Korea Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Korean International Circuit, Yeongam, Korea
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111015T020000Z@news.bbc.co.uk
+DTSTART:20111015T020000Z
+DTEND:20111015T030000Z
+SUMMARY:Korea Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Korean International Circuit, Yeongam, Korea
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111015T050000Z@news.bbc.co.uk
+DTSTART:20111015T050000Z
+DTEND:20111015T060000Z
+SUMMARY:Korea Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Korean International Circuit, Yeongam, Korea
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111016T060000Z@news.bbc.co.uk
+DTSTART:20111016T060000Z
+DTEND:20111016T090000Z
+SUMMARY:Korea Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Korean International Circuit, Yeongam, Korea
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111029T063000Z@news.bbc.co.uk
+DTSTART:20111029T063000Z
+DTEND:20111029T073000Z
+SUMMARY:Indian Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Jaypee International Race Circuit, Greater Noida, India
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111028T093000Z@news.bbc.co.uk
+DTSTART:20111028T093000Z
+DTEND:20111028T110000Z
+SUMMARY:Indian Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Jaypee International Race Circuit, Greater Noida, India
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111028T053000Z@news.bbc.co.uk
+DTSTART:20111028T053000Z
+DTEND:20111028T070000Z
+SUMMARY:Indian Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Jaypee International Race Circuit, Greater Noida, India
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111111T090000Z@news.bbc.co.uk
+DTSTART:20111111T090000Z
+DTEND:20111111T103000Z
+SUMMARY:Abu Dhabi Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Yas Marina, Abu Dhabi
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111111T130000Z@news.bbc.co.uk
+DTSTART:20111111T130000Z
+DTEND:20111111T143000Z
+SUMMARY:Abu Dhabi Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Yas Marina, Abu Dhabi
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111112T100000Z@news.bbc.co.uk
+DTSTART:20111112T100000Z
+DTEND:20111112T110000Z
+SUMMARY:Abu Dhabi Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Yas Marina, Abu Dhabi
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111112T130000Z@news.bbc.co.uk
+DTSTART:20111112T130000Z
+DTEND:20111112T140000Z
+SUMMARY:Abu Dhabi Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Yas Marina, Abu Dhabi
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111113T130000Z@news.bbc.co.uk
+DTSTART:20111113T130000Z
+DTEND:20111113T160000Z
+SUMMARY:Abu Dhabi Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Yas Marina, Abu Dhabi
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111125T120000Z@news.bbc.co.uk
+DTSTART:20111125T120000Z
+DTEND:20111125T133000Z
+SUMMARY:Brazilian Grand Prix Practice Session 1
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Interlagos, Sao Paulo, Brazil
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111125T160000Z@news.bbc.co.uk
+DTSTART:20111125T160000Z
+DTEND:20111125T173000Z
+SUMMARY:Brazilian Grand Prix Practice Session 2
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Interlagos, Sao Paulo, Brazil
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111126T130000Z@news.bbc.co.uk
+DTSTART:20111126T130000Z
+DTEND:20111126T140000Z
+SUMMARY:Brazilian Grand Prix Practice Session 3
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Interlagos, Sao Paulo, Brazil
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111126T160000Z@news.bbc.co.uk
+DTSTART:20111126T160000Z
+DTEND:20111126T170000Z
+SUMMARY:Brazilian Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Interlagos, Sao Paulo, Brazil
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111127T160000Z@news.bbc.co.uk
+DTSTART:20111127T160000Z
+DTEND:20111127T190000Z
+SUMMARY:Brazilian Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Interlagos, Sao Paulo, Brazil
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111029T093000Z@news.bbc.co.uk
+DTSTART:20111029T093000Z
+DTEND:20111029T103000Z
+SUMMARY:Indian Grand Prix Qualification
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Jaypee International Race Circuit, Greater Noida, India
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+BEGIN:VEVENT
+UID:20111030T093000Z@news.bbc.co.uk
+DTSTART:20111030T093000Z
+DTEND:20111030T123000Z
+SUMMARY:Indian Grand Prix Race
+DTSTAMP:20110613T101453Z
+DESCRIPTION:BBC coverage (*UK): Online, BBC1, 5live\nGrand Prix Broadcast Information:for more details go to:\nwww.bbc.co.uk/f1
+LOCATION:Jaypee International Race Circuit, Greater Noida, India
+URL:http://www.bbc.co.uk/formula1
+CATEGORIES:SPORT, FORMULA ONE
+END:VEVENT
+
+END:VCALENDAR
