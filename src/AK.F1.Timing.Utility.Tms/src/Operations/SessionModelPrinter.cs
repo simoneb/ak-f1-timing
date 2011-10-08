@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using AK.F1.Timing.Messages.Driver;
 using AK.F1.Timing.Messages.Session;
@@ -40,8 +41,11 @@ namespace AK.F1.Timing.Utility.Tms.Operations
                     throw new ArgumentOutOfRangeException();
             }
 
-            WriteTrackStatistics(session);
+            WriteSpeedCaptures(session);
+            WriteBestLapAndSectorTimes(session);
+            WriteWeatherStatistics(session);
             WriteSessionStatistics(session);
+            WriteTotalSectorLapTimeAndPitCounts(session);
         }
 
         private static void WriteQually(SessionModel session)
@@ -114,63 +118,6 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+-----------------------------------------------------------------------------------------+");
         }
 
-        private static void Write(string s)
-        {
-            Console.Write(s);
-        }
-
-        private static void Write(string format, object arg0)
-        {
-            Console.Write(format, arg0);
-        }
-
-        private static void Write(string format, GridColumnModel column)
-        {
-            Write(format, column.Text, column.TextColour);
-        }
-
-        private static void Write(string format, object arg0, GridColumnColour colour)
-        {
-            switch(colour)
-            {
-                case GridColumnColour.White:
-                    Console.ForegroundColor = ConsoleColor.White;
-                    break;
-                case GridColumnColour.Red:
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    break;
-                case GridColumnColour.Green:
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    break;
-                case GridColumnColour.Magenta:
-                    Console.ForegroundColor = ConsoleColor.Magenta;
-                    break;
-                case GridColumnColour.Blue:
-                    Console.ForegroundColor = ConsoleColor.Blue;
-                    break;
-                case GridColumnColour.Yellow:
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    break;
-                case GridColumnColour.Grey:
-                    Console.ForegroundColor = ConsoleColor.Gray;
-                    break;
-                default:
-                    break;
-            }
-            Console.Write(format, arg0);
-            Console.ResetColor();
-        }
-
-        private static void WriteLine()
-        {
-            Console.WriteLine();
-        }
-
-        private static void WriteLine(string format, params object[] args)
-        {
-            Console.WriteLine(format, args);
-        }
-
         private static void WritePractice(SessionModel session)
         {
             WriteLine("+---+---+---+---------------------+-----------+--------+-------+-------+-------+----+");
@@ -204,7 +151,7 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("+-----------------------------------------------------------------------------------+");
         }
 
-        private static void WriteTrackStatistics(SessionModel session)
+        private static void WriteWeatherStatistics(SessionModel session)
         {
             WriteLine();
             WriteLine("+------------------------------------------------------------------------------------------+");
@@ -271,7 +218,11 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             WriteLine("|Drivers           |{0,20}|", session.Drivers.Count);
             WriteLine("|Message Count     |{0,20}|", session.Feed.MessageCount);
             WriteLine("+------------------+--------------------+");
+        }
 
+        private static void WriteBestLapAndSectorTimes(SessionModel session)
+        {
+            WriteLine();
             WriteLine("+--------------------------------------------------------------------+");
             WriteLine("|                       BEST LAP AND SECTOR TIMES                    |");
             WriteLine("+--------------------+-----------+-------+-------+-------+-----------+");
@@ -294,7 +245,36 @@ namespace AK.F1.Timing.Utility.Tms.Operations
                 WriteLine();
             }
             WriteLine("+--------------------------------------------------------------------+");
+        }
 
+        private static void WriteSpeedCaptures(SessionModel session)
+        {
+            WriteLine();
+            WriteLine("+---------------------------------------------------------------------------------------------------------------+");
+            WriteLine("|                                                 SPEED CAPTURES                                                |");
+            WriteLine("+---------------------------+---------------------------+---------------------------+---------------------------+");
+            WriteLine("|            S1             |            S2             |            S3             |            TRAP           |");
+            WriteLine("+---------------------------+---------------------------+---------------------------+---------------------------+");
+            Action<ReadOnlyObservableCollection<SpeedCaptureModel>, int> writeCapture = (captures, i) =>
+            {
+                Write("{0,-20}", i < captures.Count ? captures[i].Driver.Name : string.Empty);
+                Write("{0,7}|", i < captures.Count ? Format.Speed(captures[i].Speed) : string.Empty);
+            };
+            var model = session.SpeedCaptures;
+            for(int i = 0, l = new[] { model.S1.Count, model.S2.Count, model.S3.Count, model.Straight.Count }.Max(); i < l; ++i)
+            {
+                Write("|");
+                writeCapture(session.SpeedCaptures.S1, i);
+                writeCapture(session.SpeedCaptures.S2, i);
+                writeCapture(session.SpeedCaptures.S3, i);
+                writeCapture(session.SpeedCaptures.Straight, i);
+                WriteLine();
+            }
+            WriteLine("+---------------------------+---------------------------+---------------------------+---------------------------+");
+        }
+
+        private static void WriteTotalSectorLapTimeAndPitCounts(SessionModel session)
+        {
             WriteLine();
             WriteLine("+---------------------------------------------+");
             WriteLine("|   TOTAL SECTOR / LAP TIME / PIT COUNTS      |");
@@ -311,6 +291,63 @@ namespace AK.F1.Timing.Utility.Tms.Operations
                 WriteLine("{0,4}|", driver.PitTimes.Count);
             }
             WriteLine("+--------------------+----+----+----+----+----+");
+        }
+
+        private static void Write(string s)
+        {
+            Console.Write(s);
+        }
+
+        private static void Write(string format, object arg0)
+        {
+            Console.Write(format, arg0);
+        }
+
+        private static void Write(string format, GridColumnModel column)
+        {
+            Write(format, column.Text, column.TextColour);
+        }
+
+        private static void Write(string format, object arg0, GridColumnColour colour)
+        {
+            switch(colour)
+            {
+                case GridColumnColour.White:
+                    Console.ForegroundColor = ConsoleColor.White;
+                    break;
+                case GridColumnColour.Red:
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    break;
+                case GridColumnColour.Green:
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    break;
+                case GridColumnColour.Magenta:
+                    Console.ForegroundColor = ConsoleColor.Magenta;
+                    break;
+                case GridColumnColour.Blue:
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    break;
+                case GridColumnColour.Yellow:
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    break;
+                case GridColumnColour.Grey:
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    break;
+                default:
+                    break;
+            }
+            Console.Write(format, arg0);
+            Console.ResetColor();
+        }
+
+        private static void WriteLine()
+        {
+            Console.WriteLine();
+        }
+
+        private static void WriteLine(string format, params object[] args)
+        {
+            Console.WriteLine(format, args);
         }
     }
 }

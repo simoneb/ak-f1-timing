@@ -99,6 +99,11 @@ namespace AK.F1.Timing.Utility.Tms.Operations
             return value.ToString(CultureInfo.InvariantCulture);
         }
 
+        public static string Speed(int value)
+        {
+            return value.ToString(CultureInfo.InvariantCulture) + "KPH";
+        }
+
         public static string PitCount(int value)
         {
             return value.ToString(CultureInfo.InvariantCulture);
