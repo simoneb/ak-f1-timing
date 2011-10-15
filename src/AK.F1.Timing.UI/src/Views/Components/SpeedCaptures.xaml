@@ -1,0 +1,87 @@
+﻿<!-- DataContext: AK.F1.Timing.Model.Session.SpeedCapturesModel -->
+<UserControl x:Class="AK.F1.Timing.UI.Views.Components.SpeedCaptures"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:vc="clr-namespace:Visifire.Charts;assembly=WPFVisifire.Charts"
+    xmlns:vcc="clr-namespace:Visifire.Commons.Controls;assembly=WPFVisifire.Charts">
+    <GroupBox Width="200">
+        <GroupBox.Header>Speed Captures</GroupBox.Header>
+        <Grid>
+            <StackPanel Visibility="{Binding IsEmpty, Converter={StaticResource CollapsedWhenTrueConverter}}">
+                <StackPanel.Resources>
+                    <Style BasedOn="{StaticResource {x:Type ListBox}}" TargetType="{x:Type ListBox}">
+                        <Setter Property="ItemTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" HorizontalAlignment="Left" Text="{Binding Path=Driver.Name}"/>
+                                        <TextBlock Grid.Column="1" HorizontalAlignment="Right" Text="{Binding Path=Speed}"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="ItemContainerStyle">
+                            <Setter.Value>
+                                <Style/>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="IsHitTestVisible" Value="False"/>
+                        <Setter Property="BorderThickness" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </StackPanel.Resources>
+                <StackPanel MinHeight="125">
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Sector 1" HorizontalAlignment="Left" Grid.Column="0"/>
+                        <TextBlock Text="KPH" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>                    
+                    <ListBox ItemsSource="{Binding S1}"/>
+                </StackPanel>
+                <StackPanel MinHeight="125">
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Sector 2" HorizontalAlignment="Left" Grid.Column="0"/>
+                        <TextBlock Text="KPH" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    <ListBox ItemsSource="{Binding S2}"/>
+                </StackPanel>
+                <StackPanel MinHeight="125">
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Sector 3" HorizontalAlignment="Left" Grid.Column="0"/>
+                        <TextBlock Text="KPH" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    <ListBox ItemsSource="{Binding S3}"/>
+                </StackPanel>
+                <StackPanel MinHeight="125">
+                    <Grid Margin="0,4,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Trap" HorizontalAlignment="Left" Grid.Column="0"/>
+                        <TextBlock Text="KPH" HorizontalAlignment="Right" Grid.Column="1"/>
+                    </Grid>
+                    <ListBox ItemsSource="{Binding Straight}"/>
+                </StackPanel>                
+            </StackPanel>
+            <Grid Visibility="{Binding IsEmpty, Converter={StaticResource CollapsedWhenFalseConverter}}">
+                <TextBlock Text="Waiting for data..." HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+    </GroupBox>
+</UserControl>

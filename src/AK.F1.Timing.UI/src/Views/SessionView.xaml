@@ -12,8 +12,9 @@
                     <DockPanel LastChildFill="True">
                         <Components:MiniWeather DataContext="{Binding Session.Weather}" DockPanel.Dock="Top" Margin="4,0,0,0"/>
                         <Components:FastestTimes DataContext="{Binding Session.FastestTimes}" DockPanel.Dock="Top" Margin="4,4,0,0"/>
-                        <Components:DriverTiming DataContext="{Binding SelectedDriver}" Margin="4,4,0,0"/>
+                        <Components:DriverTiming DataContext="{Binding SelectedDriver}" Margin="4,4,0,0"/>                        
                     </DockPanel>
+                    <Components:SpeedCaptures DataContext="{Binding Session.SpeedCaptures}" Margin="4,0,0,0"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Weather">

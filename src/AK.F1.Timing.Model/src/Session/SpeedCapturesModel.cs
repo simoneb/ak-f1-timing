@@ -77,6 +77,7 @@ namespace AK.F1.Timing.Model.Session
             InnerS2.Clear();
             InnerS3.Clear();
             InnerStraight.Clear();
+            NotifyIsEmptyChanged();
         }
 
         /// <summary>
@@ -179,6 +180,7 @@ namespace AK.F1.Timing.Model.Session
                     }
                 }
             }
+            NotifyIsEmptyChanged();
         }
 
         private SpeedCaptureModel CreateSpeedCaptureModel(SpeedCaptureLocation location, int driverId, int speed)

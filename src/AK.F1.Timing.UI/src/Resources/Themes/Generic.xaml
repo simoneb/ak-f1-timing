@@ -12,7 +12,7 @@
     <Converters:CollapsedWhenTrueConverter x:Key="CollapsedWhenTrueConverter"/>
     <Converters:CollapsedWhenFalseConverter x:Key="CollapsedWhenFalseConverter"/>
     <Converters:CollapsedWhenNullConverter x:Key="CollapsedWhenNullConverter"/>
-    <Converters:CollapsedWhenNotNullConverter x:Key="CollapsedWhenNotNullConverter"/>
+    <Converters:CollapsedWhenNotNullConverter x:Key="CollapsedWhenNotNullConverter"/>    
     
     <Converters:HiddenWhenTrueConverter x:Key="HiddenWhenTrueConverter"/>
     <Converters:HiddenWhenFalseConverter x:Key="HiddenWhenFalseConverter"/>
