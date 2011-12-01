@@ -25,7 +25,7 @@ using log4net.Config;
 namespace AK.F1.Timing.Utility.Recorder
 {
     /// <summary>
-    /// Application entry point container. This class is <see langword="sealed"/>.
+    /// F1 Live-Timing Recorder for .NET 4.
     /// </summary>
     public class Program
     {

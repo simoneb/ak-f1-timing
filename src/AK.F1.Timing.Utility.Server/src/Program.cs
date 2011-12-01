@@ -26,7 +26,7 @@ using log4net.Config;
 namespace AK.F1.Timing.Utility.Server
 {
     /// <summary>
-    /// Application entry point container. This class is <see langword="static"/>.
+    /// F1 Live-Timing Server for .NET 4.
     /// </summary>
     public class Program
     {

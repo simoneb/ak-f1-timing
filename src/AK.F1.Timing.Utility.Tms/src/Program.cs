@@ -21,7 +21,7 @@ using log4net.Config;
 namespace AK.F1.Timing.Utility.Tms
 {
     /// <summary>
-    /// Application entry point container.
+    /// F1 Live-Timing TMS Utility for .NET 4.
     /// </summary>
     public class Program
     {
