@@ -520,6 +520,13 @@
             </summary>
             <param name="method">The <see cref="T:AK.CmdLine.Impl.MethodDescriptor"/>.</param>
         </member>
+        <member name="M:AK.CmdLine.Impl.DefaultUsageWriter.WriteBrokenString(System.Int32,System.String)">
+            <summary>
+            Writes a broken string.
+            </summary>
+            <param name="currentLineLength">The length of the current line.</param>
+            <param name="s">The string to write.</param>
+        </member>
         <member name="P:AK.CmdLine.Impl.DefaultUsageWriter.Component">
             <summary>
             Gets the <see cref="T:AK.CmdLine.Impl.ComponentDescriptor"/>.
@@ -650,6 +657,27 @@
             <summary>
             Gets the underlying <see cref="T:System.Reflection.MethodInfo"/>.
             </summary>
+        </member>
+        <member name="T:AK.CmdLine.Impl.Utility.StringBreaker">
+            <summary>
+            Provides supporting for breakings strings on whitespace and punctuation into segments of a maximum length.
+            </summary>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.StringBreaker.#ctor(System.String,System.Int32)">
+            <summary>
+            Initialises a new instance of the <see cref="T:AK.CmdLine.Impl.Utility.StringBreaker"/> structure.
+            </summary>
+            <param name="input">The input string to break.</param>
+            <param name="length">The maximum segment length.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when <paramref name="input"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            Thrown when <paramref name="length"/> is less than or equal to one.
+            </exception>
+        </member>
+        <member name="M:AK.CmdLine.Impl.Utility.StringBreaker.GetEnumerator">
+            <inheritdoc/>        
         </member>
         <member name="T:AK.CmdLine.Impl.XmlDocUsageProvider">
             <summary>
@@ -1203,6 +1231,11 @@
         <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.IndentString">
             <summary>
             Gets or sets the indent String.
+            </summary>
+        </member>
+        <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.IndentLength">
+            <summary>
+            Gets the length of the indent string given the current indent level.
             </summary>
         </member>
         <member name="P:AK.CmdLine.Impl.Utility.IndentedTextWriter.NewLine">
