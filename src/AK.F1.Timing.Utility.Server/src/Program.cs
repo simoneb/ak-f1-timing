@@ -14,7 +14,6 @@
 
 using System;
 using System.Net;
-using System.Threading;
 using AK.CmdLine;
 using AK.CmdLine.Impl;
 using AK.F1.Timing.Proxy;
@@ -142,12 +141,6 @@ namespace AK.F1.Timing.Utility.Server
 
         private void RunCore(IMessageReader reader, IPEndPoint endpoint, int connectionBacklog)
         {
-            var exitEvent = new ManualResetEventSlim();
-            Console.CancelKeyPress += (sender, e) =>
-            {
-                e.Cancel = true;
-                exitEvent.Set();
-            };
             using(var server = new TcpServer(
                 endpoint: endpoint ?? new IPEndPoint(IPAddress.Any, ProxyMessageReader.DefaultPort),
                 handler: new ProxySessionManager(reader),
