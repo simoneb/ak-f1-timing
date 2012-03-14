@@ -30,7 +30,8 @@ namespace AK.F1.Timing.Live
 
         private const string AuthCookieName = "USER";
         private const string AuthContentType = "application/x-www-form-urlencoded; charset=utf-8";
-        private static readonly Uri LoginUri = new Uri("https://secure.formula1.com/reg/login");
+        private static readonly Uri LoginUri = new Uri("http://www.formula1.com/reg/login?redirect_url=%2flive_timing%2f");
+        private const string LoginRequestReferer = "http://www.formula1.com/live_timing/"; 
 
         private static readonly ILog Log = LogManager.GetLogger(typeof(LiveAuthenticationService));
 
@@ -94,6 +95,7 @@ namespace AK.F1.Timing.Live
                     byte[] content = GetLoginRequestContent(username, password);
                     request.ContentType = AuthContentType;
                     request.ContentLength = content.Length;
+                    request.Referer = LoginRequestReferer;
                     using(var stream = request.GetRequestStream())
                     {
                         stream.Write(content, 0, content.Length);
