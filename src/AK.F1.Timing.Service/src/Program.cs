@@ -65,7 +65,7 @@ namespace AK.F1.Timing.Service
                 scheduler.Shutdown();
                 SessionServerJob.Stop();
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 Log.Error(exc);
             }
@@ -85,7 +85,7 @@ namespace AK.F1.Timing.Service
                 GetConfiguration();
                 Log.Info("configuration is valid");
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 Log.Error(exc.Message);
             }
@@ -106,9 +106,9 @@ namespace AK.F1.Timing.Service
         {
             try
             {
-                BbcIcsConverter.ToXDocument(path, startTimeOffset).Save(Console.Out);
+                IcsConverter.ToXDocument(path, startTimeOffset).Save(Console.Out);
             }
-            catch(Exception exc)
+            catch (Exception exc)
             {
                 Log.Error(exc);
             }

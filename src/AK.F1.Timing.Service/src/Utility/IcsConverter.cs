@@ -21,15 +21,16 @@ using DDay.iCal;
 namespace AK.F1.Timing.Service.Utility
 {
     /// <summary>
-    /// Converts BBC ICS files to the race XML document schema as expected by the service. This class is
-    /// <see langword="static"/>.
+    /// Converts http://www.f1calendar.com/ ICS files to the race XML document schema as expected by the service. This
+    /// class is <see langword="static"/>.
     /// </summary>
-    internal static class BbcIcsConverter
+    internal static class IcsConverter
     {
         #region Public Interface.
 
         /// <summary>
-        /// Converts the specified BBC ICS file to a race XML document schema expected by the service.
+        /// Converts the specified http://www.f1calendar.com/ ICS file to a race XML document schema expected by the
+        /// service.
         /// </summary>
         /// <param name="path">The path of the ICS file.</param>
         /// <param name="startTimeOffset">The start time offset (in minutes).</param>
@@ -45,9 +46,10 @@ namespace AK.F1.Timing.Service.Utility
             Guard.NotNullOrEmpty(path, "path");
 
             int i = 0;
+            var calendar = iCalendar.LoadFromFile(path);
             return new XDocument(
                 new XElement("races",
-                    from e in iCalendar.LoadFromFile(path).First().Events
+                    from e in calendar.First().Events
                     group e by GetRaceId(e) into race
                     orderby race.Min(session => session.Start)
                     select new XElement("race",
@@ -68,21 +70,63 @@ namespace AK.F1.Timing.Service.Utility
 
         private static string GetRaceId(IEvent e)
         {
-            if(e.Summary.StartsWith("European", StringComparison.Ordinal))
+            switch (e.Location)
             {
-                return "europe";
+                case "Melbourne":
+                    return "australia";
+                case "Kuala Lumpur":
+                    return "malaysia";
+                case "Shanghai":
+                    return "china";
+                case "Sakhir":
+                    return "bahrain";
+                case "Catalunya":
+                    return "spain";
+                case "Monte Carlo":
+                    return "monaco";
+                case "Montreal":
+                    return "canada";
+                case "Valencia, Spain":
+                    return "europe";
+                case "Silverstone, England":
+                    return "great-britain";
+                case "Hockenheim":
+                    return "german";
+                case "Budapest":
+                    return "hungary";
+                case "Spa-Francorchamps":
+                    return "belguim";
+                case "Monza":
+                    return "italy";
+                case "Singapore":
+                    return "singapore";
+                case "Suzuka":
+                    return "japan";
+                case "Yeongam":
+                    return "korea";
+                case "New Delhi":
+                    return "india";
+                case "Yas Marina":
+                    return "abu-dhabi";
+                case "Austin":
+                    return "usa";
+                case "Sao Paulo":
+                    return "brazil";
+                default:
+                    throw new FormatException("Failed to parse a location from '" + e.Location + "'.");
             }
-            return e.Location.Substring(e.Location.LastIndexOf(", ", StringComparison.Ordinal) + 2).Replace(' ', '-').ToLowerInvariant();
         }
 
         private static string GetRaceName(IEvent e)
         {
-            return e.Summary.Substring(0, e.Summary.IndexOf("Prix", StringComparison.Ordinal) + 4);
+            var s = e.Summary;
+            var i = s.IndexOf('(') + 1;
+            return s.Substring(i, s.Length - i - 1);
         }
 
         private static string GetSessionId(IEvent e)
         {
-            switch(GetSessionType(e))
+            switch (GetSessionType(e))
             {
                 case SessionType.P1:
                     return "practice1";
@@ -101,7 +145,7 @@ namespace AK.F1.Timing.Service.Utility
 
         private static string GetSessionName(IEvent e)
         {
-            switch(GetSessionType(e))
+            switch (GetSessionType(e))
             {
                 case SessionType.P1:
                     return "Practice 1";
@@ -120,21 +164,28 @@ namespace AK.F1.Timing.Service.Utility
 
         private static SessionType GetSessionType(IEvent e)
         {
-            switch(e.Summary.Last())
+            var s = e.Summary;
+            if (s.StartsWith("First"))
             {
-                case '1':
-                    return SessionType.P1;
-                case '2':
-                    return SessionType.P2;
-                case '3':
-                    return SessionType.P3;
-                case 'n':
-                    return SessionType.Qually;
-                case 'e':
-                    return SessionType.Race;
-                default:
-                    throw new FormatException();
+                return SessionType.P1;
             }
+            if (s.StartsWith("Second"))
+            {
+                return SessionType.P2;
+            }
+            if (s.StartsWith("Third"))
+            {
+                return SessionType.P3;
+            }
+            if (s.StartsWith("Qualifying"))
+            {
+                return SessionType.Qually;
+            }
+            if (s.EndsWith("Prix"))
+            {
+                return SessionType.Race;
+            }
+            throw new FormatException("Failed to parse the session type from '" + s + "'.");
         }
 
         private enum SessionType

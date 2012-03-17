@@ -106,7 +106,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utility\BbcIcsConverter.cs" />
+    <Compile Include="Utility\IcsConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
